@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    
+    /* Brand Colors - Dark Mode */
+    --brand-dark: 220 30% 8%;
+    --brand-dark-foreground: 0 0% 98%;
+    --brand-accent: 142 76% 36%;
+    --brand-accent-foreground: 0 0% 98%;
+    --page-bg: 240 10% 3.9%;
+  }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    
+    /* Brand Colors - Light Mode */
+    --brand-dark: 220 30% 8%;
+    --brand-dark-foreground: 0 0% 98%;
+    --brand-accent: 142 76% 36%;
+    --brand-accent-foreground: 0 0% 98%;
+    --page-bg: 0 0% 97%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-page-bg text-slate-600 dark:text-slate-400 font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* 全局字体规则 */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-wide;
+  }
+  
+  p, span, li, td, th, label, input, textarea, select, 
+  a:not([class*="font-heading"]):not([class*="text-brand"]):not([class*="text-foreground"]) {
+    @apply font-body text-slate-600 dark:text-slate-400;
+  }
+  
+  button, code, .number, .amount, .stat, .count, .price, .currency {
+    @apply font-heading;
+  }
+  
+  [class*="CardTitle"] {
+    @apply font-heading tracking-wide;
+  }
+  
+  [class*="CardDescription"] {
+    @apply font-body text-slate-600 dark:text-slate-400;
+  }
+  
+  [class*="Badge"] {
+    @apply font-body;
+  }
+}
+
+@layer utilities {
+  .prose {
+    @apply text-foreground;
+  }
+  .prose h1 {
+    @apply text-3xl font-bold tracking-tight mt-8 mb-4;
+  }
+  .prose h2 {
+    @apply text-2xl font-semibold tracking-tight mt-6 mb-3;
+  }
+  .prose h3 {
+    @apply text-xl font-semibold mt-4 mb-2;
+  }
+  .prose p {
+    @apply mb-4 text-muted-foreground leading-7;
+  }
+  .prose ul, .prose ol {
+    @apply mb-4 ml-6;
+  }
+  .prose li {
+    @apply mb-2 text-muted-foreground;
+  }
+  .prose a {
+    @apply text-foreground underline underline-offset-4 hover:text-muted-foreground;
+  }
+  .prose code {
+    @apply bg-zinc-800 px-1.5 py-0.5 rounded text-sm;
+  }
+  .prose pre {
+    @apply bg-zinc-900 p-4 rounded-lg overflow-x-auto mb-4;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-border pl-4 italic text-slate-600 dark:text-slate-400 font-body;
+  }
+  .prose-lg {
+    @apply text-lg;
+  }
+  .prose-lg p {
+    @apply leading-8 font-body;
+  }
+  .prose-serif {
+    font-family: 'Georgia', 'Times New Roman', serif;
+  }
+  
+  /* 数字和统计信息使用 Nunito */
+  .number, .amount, .stat, .count, .price, .currency {
+    @apply font-heading;
+  }
+}
+
+@keyframes themeSlide {
+  0% {
+    clip-path: polygon(0 0, 0% 0, 0% 0, 0 0);
+    opacity: 1;
+  }
+  15% {
+    clip-path: polygon(0 0, 15% 0, 15% 15%, 0 15%);
+    opacity: 1;
+  }
+  30% {
+    clip-path: polygon(0 0, 30% 0, 30% 30%, 0 30%);
+    opacity: 1;
+  }
+  50% {
+    clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
+    opacity: 0.9;
+  }
+  70% {
+    clip-path: polygon(0 0, 70% 0, 70% 70%, 0 70%);
+    opacity: 0.7;
+  }
+  85% {
+    clip-path: polygon(0 0, 85% 0, 85% 85%, 0 85%);
+    opacity: 0.5;
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 0;
+  }
+}
