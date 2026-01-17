@@ -81,7 +81,7 @@ const FALLBACK_PRICES: Record<string, number> = {
 // ==================== 网络请求 ====================
 
 class NetworkRequest {
-  private static async fetchWithProxy(url: string): Promise<any> {
+  static async fetchWithProxy(url: string): Promise<any> {
     const CORS_PROXIES = [
       'https://api.allorigins.win/get?url=',
       'https://api.codetabs.com/v1/proxy?quest=',

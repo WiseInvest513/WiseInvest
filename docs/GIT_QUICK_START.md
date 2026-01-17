@@ -1,5 +1,17 @@
 # Git 快速开始指南
 
+## ⚙️ 首次使用 Git（可选但推荐）
+
+如果看到 Git 提示配置用户信息，可以设置：
+
+```bash
+# 设置用户名和邮箱（只需设置一次）
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+```
+
+**注意**: 即使不设置，Git 也会自动配置，提交仍然可以正常进行。
+
 ## 🚀 最常用的 3 个命令
 
 ```bash
