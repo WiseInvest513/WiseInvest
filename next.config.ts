@@ -37,6 +37,16 @@ const nextConfig: NextConfig = {
   // 优化页面加载性能
   compress: true,
   poweredByHeader: false,
+  // 生产环境配置
+  ...(process.env.NODE_ENV === 'production' && {
+    // 生产环境：严格检查类型和 ESLint
+    typescript: {
+      ignoreBuildErrors: false,
+    },
+    eslint: {
+      ignoreDuringBuilds: false,
+    },
+  }),
   // 开发模式优化：加快启动速度
   ...(process.env.NODE_ENV === 'development' && {
     // 减少开发时的类型检查（加快启动）

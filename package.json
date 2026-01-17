@@ -13,7 +13,12 @@
     "download-favicons": "node scripts/download-favicons-simple.js",
     "clean": "rm -rf .next node_modules/.cache",
     "fix": "./fix-startup.sh",
-    "kill-ports": "lsof -ti:3000,3010 | xargs kill -9 2>/dev/null || true"
+    "kill-ports": "lsof -ti:3000,3010 | xargs kill -9 2>/dev/null || true",
+    "postinstall": "echo 'Dependencies installed successfully'"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
