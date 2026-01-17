@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Gift, BookOpen, Scissors, X } from "lucide-react";
+import { Gift, BookOpen, Scissors } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,45 +23,13 @@ interface RecommendationItem {
 
 interface RecommendationLog {
   lastShownTime: number;
-  suppress24h: boolean;
 }
 
 const STORAGE_KEY = "wise_invest_recommendation_log";
-const DEFAULT_INTERVAL = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
-const SUPPRESS_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-// 硬编码的推荐数据（临时用于测试）
-const HARDCODED_RECOMMENDATIONS: RecommendationItem[] = [
-  {
-    type: "welfare",
-    title: "Wise Invest 专属会员福利",
-    desc: "加入社群，获取每日独家研报与宏观策略。",
-    link: "https://x.com/WiseInvest513",
-    tag: "长期福利",
-  },
-  {
-    type: "article",
-    title: "2026 宏观经济展望：降息周期的资产配置",
-    desc: "深度解析美联储最新动向，万字长文。",
-    link: "https://x.com/WiseInvest513",
-    tag: "深度好文",
-  },
-  {
-    type: "wool",
-    title: "某交易所新户注册送 50U",
-    desc: "限时活动，截止到本月底，手慢无。",
-    link: "https://x.com/WiseInvest513",
-    tag: "限时羊毛",
-  },
-];
+const DEFAULT_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 
 // 安全解析 JSON 环境变量
 function parseRecommendations(): RecommendationItem[] | null {
-  // 临时：优先使用硬编码数据
-  if (HARDCODED_RECOMMENDATIONS.length > 0) {
-    return HARDCODED_RECOMMENDATIONS;
-  }
-
   if (typeof window === "undefined") return null;
 
   try {
@@ -93,21 +61,20 @@ function parseRecommendations(): RecommendationItem[] | null {
 // 读取 localStorage 日志
 function getRecommendationLog(): RecommendationLog {
   if (typeof window === "undefined") {
-    return { lastShownTime: 0, suppress24h: false };
+    return { lastShownTime: 0 };
   }
 
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return { lastShownTime: 0, suppress24h: false };
+    if (!stored) return { lastShownTime: 0 };
 
     const parsed = JSON.parse(stored);
     return {
       lastShownTime: parsed.lastShownTime || 0,
-      suppress24h: parsed.suppress24h || false,
     };
   } catch (error) {
     console.warn("[DailyRecommendation] Failed to read log:", error);
-    return { lastShownTime: 0, suppress24h: false };
+    return { lastShownTime: 0 };
   }
 }
 
@@ -128,28 +95,36 @@ function shouldShowModal(): boolean {
   const now = Date.now();
   const timeSinceLastShown = now - log.lastShownTime;
 
-  // 如果设置了24小时不再提醒
-  if (log.suppress24h) {
-    return timeSinceLastShown >= SUPPRESS_INTERVAL;
-  }
-
-  // 默认3小时规则
+  // 12小时规则
   return timeSinceLastShown >= DEFAULT_INTERVAL;
 }
 
-export function DailyRecommendation() {
-  const [open, setOpen] = useState(false);
-  const [suppress24h, setSuppress24h] = useState(false);
+interface DailyRecommendationProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export function DailyRecommendation({ open: controlledOpen, onOpenChange: controlledOnOpenChange }: DailyRecommendationProps = {}) {
+  const [internalOpen, setInternalOpen] = useState(false);
 
   const recommendations = useMemo(() => parseRecommendations(), []);
 
+  // 使用受控或非受控模式
+  const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setOpen = controlledOnOpenChange || setInternalOpen;
+
   useEffect(() => {
+    // 如果是受控模式（手动触发），不自动显示
+    if (controlledOpen !== undefined) {
+      return;
+    }
+
     // 如果没有推荐内容，不显示
     if (!recommendations || recommendations.length === 0) return;
 
-    // 检查是否应该显示
+    // 检查是否应该显示（12小时规则）
     if (shouldShowModal()) {
-      setOpen(true);
+      setInternalOpen(true);
       // 更新显示时间
       const log = getRecommendationLog();
       saveRecommendationLog({
@@ -157,7 +132,7 @@ export function DailyRecommendation() {
         lastShownTime: Date.now(),
       });
     }
-  }, [recommendations]);
+  }, [recommendations, controlledOpen]);
 
   const handleClose = () => {
     setOpen(false);
@@ -165,7 +140,6 @@ export function DailyRecommendation() {
     saveRecommendationLog({
       ...log,
       lastShownTime: Date.now(),
-      suppress24h: suppress24h,
     });
   };
 
