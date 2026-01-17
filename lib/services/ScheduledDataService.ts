@@ -135,7 +135,7 @@ class DataFetcher {
       await this.sleep(REQUEST_INTERVAL);
       
       // 2. 获取每个时间段的历史价格
-      const changes: Record<string, number> = {
+      const changes: { m3: number; m6: number; y1: number; y3: number; y5: number } = {
         m3: 0,
         m6: 0,
         y1: 0,
@@ -155,7 +155,7 @@ class DataFetcher {
           if (historicalResult && historicalResult.exists && historicalResult.price > 0 && currentPrice > 0) {
             const historicalPrice = historicalResult.price;
             const yieldPercent = ((currentPrice - historicalPrice) / historicalPrice) * 100;
-            changes[timeframe.key] = Math.round(yieldPercent * 100) / 100;
+            (changes as Record<string, number>)[timeframe.key] = Math.round(yieldPercent * 100) / 100;
             
             console.log(`[DataFetcher] ✅ ${symbol} ${timeframe.label}: $${historicalPrice.toFixed(2)} → $${currentPrice.toFixed(2)} = ${yieldPercent >= 0 ? '+' : ''}${yieldPercent.toFixed(2)}%`);
           } else {

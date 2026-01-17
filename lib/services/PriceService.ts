@@ -13,7 +13,7 @@ export { HistoricalPriceService, type HistoricalPriceResult } from './Historical
 
 // 向后兼容的类型导出
 export type { CurrentPriceResult as PriceResult } from './CurrentPriceService';
-export type { HistoricalPriceResult } from './HistoricalPriceService';
+// HistoricalPriceResult 已在上面导出，不需要重复导出
 
 // 向后兼容的类（简化版，内部调用新的服务）
 import { CurrentPriceService as NewCurrentPriceService } from './CurrentPriceService';
