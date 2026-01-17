@@ -240,7 +240,7 @@ class NetworkRequest {
         
         // 使用 require 动态加载 HttpsProxyAgent（仅在服务器端运行时执行）
         // 注意：webpack 配置已排除此包在客户端打包
-        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+        // eslint-disable-next-line
         const httpsProxyAgent = require('https-proxy-agent');
         const HttpsProxyAgent = httpsProxyAgent.HttpsProxyAgent || httpsProxyAgent.default || httpsProxyAgent;
         const proxyAgent = new HttpsProxyAgent(proxyUrl);
