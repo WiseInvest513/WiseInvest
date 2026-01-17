@@ -144,7 +144,16 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
   };
 
   const handleCardClick = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
+    // 处理链接：如果是相对路径，转换为绝对路径
+    let targetUrl = link;
+    
+    // 如果是相对路径（以 / 开头），转换为完整的 URL
+    if (link.startsWith("/")) {
+      targetUrl = `${window.location.origin}${link}`;
+    }
+    
+    // 在新标签页打开链接
+    window.open(targetUrl, "_blank", "noopener,noreferrer");
   };
 
   const getTypeConfig = (type: RecommendationItem["type"]) => {
