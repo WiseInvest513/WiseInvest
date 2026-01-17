@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gift, Sparkles, TrendingUp, Calendar as CalendarIcon } from "lucide-react";
+import { Gift, Sparkles, TrendingUp, Calendar as CalendarIcon, Star } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { PriceTesterPasswordDialog } from "@/components/PriceTesterPasswordDialog";
 import { EventCalendar } from "@/components/EventCalendar";
+import { DailyRecommendation } from "@/components/business/DailyRecommendation";
 import { type Tool } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import {
@@ -33,6 +34,7 @@ const navItems = [
 export function Navbar() {
   const [priceTesterOpen, setPriceTesterOpen] = useState(false);
   const [eventCalendarOpen, setEventCalendarOpen] = useState(false);
+  const [recommendationOpen, setRecommendationOpen] = useState(false);
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const pathname = usePathname();
 
@@ -53,8 +55,9 @@ export function Navbar() {
       <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           {/* Logo */}
-          <Link href="/" prefetch={true} className="font-heading text-xl font-bold">
-            Wise Invest
+          <Link href="/" prefetch={true} className="font-heading text-xl font-bold flex items-center gap-2">
+            <span>Wise Invest</span>
+            <span className="text-yellow-600 dark:text-yellow-400 font-normal">哒哒哒</span>
           </Link>
 
           {/* Navigation Items */}
@@ -101,6 +104,16 @@ export function Navbar() {
               <CalendarIcon className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
             </button>
 
+            {/* Daily Recommendation Button - 今日精选 */}
+            <button
+              onClick={() => setRecommendationOpen(true)}
+              className="p-2 rounded-md hover:bg-muted transition-colors relative group"
+              aria-label="今日精选"
+              title="今日精选"
+            >
+              <Gift className="h-5 w-5 text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform" />
+            </button>
+
             {/* Price Tester Button */}
             <button
               onClick={() => setPriceTesterOpen(true)}
@@ -119,6 +132,9 @@ export function Navbar() {
 
       {/* Event Calendar */}
       <EventCalendar open={eventCalendarOpen} onOpenChange={setEventCalendarOpen} />
+
+      {/* Daily Recommendation */}
+      <DailyRecommendation open={recommendationOpen} onOpenChange={setRecommendationOpen} />
 
       {/* Price Tester Password Dialog */}
       <PriceTesterPasswordDialog
