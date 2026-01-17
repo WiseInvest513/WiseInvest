@@ -3,6 +3,9 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import https from 'https';
 import http from 'http';
 
+// Force dynamic to prevent Vercel from caching stale data at build time
+export const dynamic = 'force-dynamic';
+
 // 创建一个不使用代理的 https Agent
 const noProxyAgent = new https.Agent({
   keepAlive: true,

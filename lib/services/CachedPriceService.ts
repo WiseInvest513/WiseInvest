@@ -205,5 +205,6 @@ export class CachedPriceService {
 }
 
 // 导出类型
-export type { CurrentPriceResult, HistoricalPriceResult, AssetType } from './CurrentPriceService';
+export type { CurrentPriceResult, AssetType } from './CurrentPriceService';
+export type { HistoricalPriceResult } from './HistoricalPriceService';
 export type { HistoricalPriceResult as HistoricalPriceResultType } from './HistoricalPriceService';

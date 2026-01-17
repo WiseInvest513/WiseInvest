@@ -10,6 +10,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ScheduledDataService } from '@/lib/services/ScheduledDataService';
 
+// Force dynamic to prevent Vercel from caching stale data at build time
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     return NextResponse.json({

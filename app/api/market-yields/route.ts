@@ -3,6 +3,9 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 import https from 'https';
 import http from 'http';
 
+// Force dynamic to prevent Vercel from caching stale data at build time
+export const dynamic = 'force-dynamic';
+
 /**
  * Market Yields API Route
  * 资产收益率 API 路由
