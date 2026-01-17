@@ -1,0 +1,165 @@
+// ========== Perks Data ==========
+
+export interface Perk {
+  id: string;
+  platform: string;
+  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard";
+  description: string;
+  benefit: string;
+  code: string | null;
+  link: string; // 邀请链接
+  iconUrl?: string; // 官方网站 URL，用于获取图标（可选，如果没有则使用 link）
+  tutorialLink: string | null;
+  color: string;
+}
+
+export const perks: Perk[] = [
+  // 加密货币
+  {
+    id: "binance",
+    platform: "Binance",
+    category: "Crypto",
+    description: "全球领先的加密货币交易所",
+    benefit: "20% 永久交易&钱包手续费减免",
+    code: "WISE555",
+    link: "https://web3.binance.com/m/referral?ref=WISE555",
+    iconUrl: "https://www.binance.com",
+    tutorialLink: "https://x.com/WiseInvest513/status/1970757919500120451",
+    color: "#F3BA2F",
+  },
+  {
+    id: "okx",
+    platform: "OKX",
+    category: "Crypto",
+    description: "全球知名数字资产交易平台",
+    benefit: "20% 永久交易&钱包手续费减免",
+    code: "WISE6666",
+    link: "https://www.firgrouxywebb.com/join/WISE6666",
+    iconUrl: "https://www.okx.com",
+    tutorialLink: "https://x.com/WiseInvest513/status/1953466482576556465",
+    color: "#000000",
+  },
+  {
+    id: "bitget",
+    platform: "Bitget",
+    category: "Crypto",
+    description: "全球领先的加密货币衍生品交易平台",
+    benefit: "20% 手续费减免&新用户注册专享福利",
+    code: "WISE8899",
+    link: "https://partner.hdmune.cn/bg/bhy9vywp",
+    iconUrl: "https://www.bitget.com",
+    tutorialLink: "https://x.com/WiseInvest513/status/1980140049267343697",
+    color: "#03C87C",
+  },
+  {
+    id: "bybit",
+    platform: "Bybit",
+    category: "Crypto",
+    description: "全球知名加密货币衍生品交易所",
+    benefit: "20% 手续费减免&注册即享交易优惠",
+    code: "WISE5130",
+    link: "https://partner.bybit.com/b/WISE5130",
+    iconUrl: "https://www.bybit.com",
+    tutorialLink: "https://x.com/WiseInvest513/status/1980641416243212480",
+    color: "#F8A33C",
+  },
+  // 银行服务
+  {
+    id: "wise",
+    platform: "Wise",
+    category: "Banking",
+    description: "全球汇款和货币兑换服务",
+    benefit: "600美元汇款免手续费",
+    code: "ewke85g",
+    link: "https://wise.com/invite/ihpc/ewke85g",
+    iconUrl: "https://wise.com",
+    tutorialLink: "https://x.com/WiseInvest513/status/1996859457494737003",
+    color: "#00B9FF",
+  },
+  {
+    id: "zhongan-bank",
+    platform: "众安银行",
+    category: "Banking",
+    description: "香港虚拟银行",
+    benefit: "开户即享专属优惠",
+    code: "T659B7",
+    link: "https://l.za.group/o4xdY",
+    iconUrl: "https://www.za.group",
+    tutorialLink: "https://x.com/WiseInvest513/status/1979423189169246371",
+    color: "#00A0E9",
+  },
+  // 股票交易
+  {
+    id: "longbridge",
+    platform: "LongBridge (长桥)",
+    category: "Stocks",
+    description: "新一代港美股券商",
+    benefit: "入金送港美股终生免佣",
+    code: "J8S4WK",
+    link: "https://app.lbmkt.ing/session/login?account_channel=lb&channel=HB100031&invite-code=J8S4WK",
+    iconUrl: "https://longbridgeapp.com",
+    tutorialLink: "https://x.com/WiseInvest513",
+    color: "#1E88E5",
+  },
+  {
+    id: "interactive-brokers",
+    platform: "盈透证券",
+    category: "Stocks",
+    description: "全球领先的在线券商",
+    benefit: "低佣金交易，全球市场覆盖",
+    code: null,
+    link: "https://ibkr.com/referral/fengyang247",
+    iconUrl: "https://www.interactivebrokers.com",
+    tutorialLink: "https://x.com/WiseInvest513",
+    color: "#003366",
+  },
+  {
+    id: "usmart",
+    platform: "盈立证券",
+    category: "Stocks",
+    description: "智能港美股交易平台",
+    benefit: "新用户注册专享福利",
+    code: "ckxq",
+    link: "https://www.usmart.com/",
+    iconUrl: "https://www.usmart.com",
+    tutorialLink: "https://x.com/WiseInvest513/status/1970789148605948258",
+    color: "#FF6B35",
+  },
+  {
+    id: "futu",
+    platform: "复星证券",
+    category: "Stocks",
+    description: "一站式港美股交易平台",
+    benefit: "开户即享交易优惠",
+    code: "020633",
+    link: "https://h5.fotechwealth.com/pages/startAccount.html#/index?channel=020633&aeCode=B2&langType=zhCn",
+    iconUrl: "https://www.futuhk.com",
+    tutorialLink: "https://x.com/WiseInvest513",
+    color: "#1A1A1A",
+  },
+  // 虚拟 U 卡
+  {
+    id: "bitget-virtual-card",
+    platform: "Bitget 虚拟 U 卡",
+    category: "VirtualCard",
+    description: "Bitget 平台虚拟 U 卡服务",
+    benefit: "便捷的数字资产支付解决方案",
+    code: "89zQdt",
+    link: "https://web3.bitget.com/invite/card/89zQdt?channel=Copylink&utm_source=newInviteRebate&inviteCode=89zQdt",
+    iconUrl: "https://www.bitget.com",
+    tutorialLink: "https://youtu.be/ZxElS0gVpY4",
+    color: "#03C87C",
+  },
+  {
+    id: "safepal-virtual-card",
+    platform: "SafePal 虚拟 U 卡",
+    category: "VirtualCard",
+    description: "SafePal 钱包虚拟 U 卡服务",
+    benefit: "安全便捷的加密货币支付卡",
+    code: "884823",
+    link: "https://www.safepal.com/bank/register?referral=884823",
+    iconUrl: "https://www.safepal.com",
+    tutorialLink: "https://youtu.be/1Lw8VssYFNE",
+    color: "#4F46E5",
+  },
+];

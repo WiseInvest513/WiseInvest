@@ -1,335 +1,568 @@
-import Link from 'next/link'
-import { 
-  Database, 
-  Calculator, 
-  BookOpen, 
-  FileText, 
-  TrendingUp,
-  Twitter,
-  Mail,
-  ArrowRight,
-  Github,
-  MessageCircle
-} from 'lucide-react'
-import { ScrollIndicator } from '@/components/ScrollIndicator'
-import { siteConfig } from '@/config/site'
-import { Button } from '@/components/ui/button'
-import { allPosts } from '.contentlayer/generated'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+"use client";
 
-export default function HomePage() {
-  // 获取最新文章
-  const latestPost = allPosts
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
+import { useEffect, useState, useRef } from "react";
+// import Link from "next/link"; // 未使用，已注释
+// import { toast } from "sonner"; // 周刊订阅功能暂时隐藏
+import { CardDescription, CardTitle } from "@/components/ui/card";
+import { ToolsSection } from "@/components/sections/ToolsSection";
+import { CEXSection } from "@/components/sections/CEXSection";
+import { TweetsSection } from "@/components/sections/TweetsSection";
+import { AnthologySection } from "@/components/sections/AnthologySection";
+// import { NewsletterToast } from "@/components/newsletter-toast"; // 周刊订阅功能暂时隐藏
+import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles } from "lucide-react";
+import { ResourceIcon } from "@/components/ui/resource-icon";
+import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation } from "@/components/motion/SectionWrapper";
+import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
+import { ParallaxBackground } from "@/components/motion/ParallaxBackground";
+
+// Hero Section uses its own ParallaxBackground component
+
+// Section A: Hero Section - Asymmetric Editorial Layout with Motion
+function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+  
+  return (
+    <section 
+      ref={sectionRef}
+      id="hero"
+      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transition: 'opacity 0.8s ease-out',
+      }}
+    >
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+      
+      {/* Mesh gradient overlay */}
+      <div className="absolute inset-0 opacity-30 dark:opacity-15" style={{
+        background: `
+          radial-gradient(at 20% 30%, rgba(251, 191, 36, 0.25) 0px, transparent 50%),
+          radial-gradient(at 80% 70%, rgba(234, 179, 8, 0.2) 0px, transparent 50%),
+          radial-gradient(at 50% 50%, rgba(251, 191, 36, 0.12) 0px, transparent 50%)
+        `
+      }} />
+      
+      {/* Enhanced Parallax Background */}
+      <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.2} />
+      
+      {/* Asymmetric Content Layout */}
+      <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          {/* Offset Title to Left with Animation */}
+          <div 
+            className="ml-0 md:ml-8 mb-8"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(-50px)',
+              transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
+            }}
+          >
+            <h1 
+              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold mb-8 tracking-tight leading-[0.9]"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'scale(1)' : 'scale(0.95)',
+                transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s',
+              }}
+            >
+              <span 
+                className="block bg-gradient-to-r from-slate-900 via-amber-700 to-slate-900 dark:from-white dark:via-amber-300 dark:to-white bg-clip-text text-transparent"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s',
+                }}
+              >
+                Wise
+              </span>
+              <span 
+                className="block mt-2 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 dark:from-amber-400 dark:via-yellow-400 dark:to-amber-400 bg-clip-text text-transparent"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s',
+                }}
+              >
+                Invest
+              </span>
+            </h1>
+          </div>
+          
+          {/* Right-aligned Description with Animation */}
+          <div 
+            className="ml-auto max-w-xl text-right md:mr-12"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? 'translateX(0)' : 'translateX(50px)',
+              transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s',
+            }}
+          >
+            <p 
+              className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-6 leading-relaxed font-light tracking-wide"
+              style={{
+                opacity: isVisible ? 1 : 0,
+                transition: 'opacity 0.6s ease-out 0.7s',
+              }}
+            >
+              专业的投资内容平台，为您提供投资工具、深度分析和优质资源
+            </p>
+            <div 
+              className="h-px bg-gradient-to-r from-transparent via-amber-400 to-amber-400 ml-auto"
+              style={{
+                width: isVisible ? 96 : 0,
+                transition: 'width 0.6s ease-out 0.8s',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Section B: Features Showcase - Enhanced Bento Grid with Light Refraction
+const features = [
+  {
+    name: "推文",
+    href: "/tweets",
+    icon: MessageSquare,
+    description: "分享投资见解、市场分析和实用技巧",
+  },
+  {
+    name: "工具",
+    href: "/tools",
+    icon: Wrench,
+    description: "专业的投资计算器和实用工具集合",
+  },
+  {
+    name: "学习路线",
+    href: "/roadmap",
+    icon: Map,
+    description: "系统化的投资学习路径和知识体系",
+  },
+  {
+    name: "福利",
+    href: "/perks",
+    icon: Gift,
+    description: "社区福利和会员专属权益",
+  },
+  {
+    name: "文集",
+    href: "/anthology",
+    icon: BookOpen,
+    description: "深度文章和投资知识库",
+  },
+  {
+    name: "常用导航",
+    href: "/resources",
+    icon: Navigation,
+    description: "精选的投资资源和导航链接",
+  },
+  {
+    name: "实践",
+    href: "/practice",
+    icon: Sparkles,
+    description: "社会性实践实验室",
+  },
+];
+
+function FeaturesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  // Asymmetric Bento Grid Layout - 7 features
+  // Layout: 
+  // Row 1: 推文(3) | 工具(1)
+  // Row 2: 学习路线(1) | 福利(2, spans 2 rows) | 文集(1)
+  // Row 3: 常用导航(1) | 实践(1)
+  const bentoLayout = [
+    { ...features[0], span: "col-span-2 md:col-span-3", rowSpan: "row-span-1", isPrimary: false, hasBg: true, priority: "high", delay: 0 },
+    { ...features[1], span: "col-span-2 md:col-span-1", rowSpan: "row-span-1", isPrimary: false, hasBg: false, priority: "normal", delay: 100 },
+    { ...features[2], span: "col-span-2 md:col-span-1", rowSpan: "row-span-1", isPrimary: false, hasBg: false, priority: "normal", delay: 200 },
+    { ...features[3], span: "col-span-2 md:col-span-2", rowSpan: "row-span-2", isPrimary: true, hasBg: true, priority: "high", delay: 300 },
+    { ...features[4], span: "col-span-2 md:col-span-1", rowSpan: "row-span-1", isPrimary: false, hasBg: false, priority: "normal", delay: 400 },
+    { ...features[5], span: "col-span-2 md:col-span-1", rowSpan: "row-span-1", isPrimary: false, hasBg: false, priority: "normal", delay: 500 },
+    { ...features[6], span: "col-span-2 md:col-span-1", rowSpan: "row-span-1", isPrimary: false, hasBg: false, priority: "normal", delay: 600 },
+  ];
 
   return (
-    <div>
-      {/* Section 1: The Hero (Impact) */}
-      <section className="relative py-20 md:py-32 flex items-center justify-center bg-slate-50 dark:bg-slate-900 overflow-hidden">
-        {/* 背景径向渐变（聚光灯效果） */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.03)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05)_0%,_transparent_70%)]" />
+    <SectionWrapper parallaxSpeed={0.3}>
+      <section id="features" ref={sectionRef} className="container mx-auto px-4 py-16 md:py-20 relative">
+        <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.25} />
         
-        {/* 内容 */}
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h1 className="text-6xl md:text-8xl font-semibold tracking-wide text-slate-900 dark:text-white mb-6 font-heading">
-            {siteConfig.name}
-          </h1>
-          <p className="text-lg md:text-xl text-slate-700 dark:text-gray-200 mb-12 max-w-2xl mx-auto font-body">
-            Decoding Wealth in the Age of AI & Crypto
+        <div className="text-center mb-12 relative z-10">
+          <TitleAnimation className="font-serif text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white tracking-tight">
+            <span className="relative inline-block">
+              平台功能
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+            </span>
+          </TitleAnimation>
+          <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 text-center max-w-2xl mx-auto font-light tracking-wide">
+            探索 Wise Invest 提供的七大核心功能，助力您的投资之旅
           </p>
-          
-          {/* CTA Group */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Button
-              asChild
-              size="lg"
-              className="px-8 py-6 text-base font-semibold"
-            >
-              <Link href="/resources">
-                探索核心资源
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="bg-white dark:bg-transparent border border-slate-300 dark:border-white/30 text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 hover:border-slate-400 dark:hover:border-white/50 px-8 py-6 text-base font-semibold"
-            >
-              <Link href="/tools">使用投资工具</Link>
-            </Button>
-          </div>
-          
-          {/* Social Bar */}
-          <div className="mt-12 mb-16">
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4 font-body">关注我的动态</p>
-            <div className="flex items-center justify-center gap-6">
-              <a href="https://twitter.com/investwise" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-accent transition-colors" aria-label="Twitter">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="https://www.xiaohongshu.com/user/investwise" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-accent transition-colors" aria-label="小红书">
-                <BookOpen className="h-5 w-5" />
-              </a>
-              <a href="https://github.com/investwise" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-accent transition-colors" aria-label="GitHub">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="mailto:hello@investwise.com" className="text-slate-400 hover:text-brand-accent transition-colors" aria-label="Email">
-                <Mail className="h-5 w-5" />
-              </a>
-              <a href="https://t.me/investwise" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-accent transition-colors" aria-label="Telegram">
-                <MessageCircle className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-          
-          {/* Trust Badges */}
-          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-700">
-            <p className="text-xs text-slate-400 dark:text-slate-500 mb-4 font-body">Supported by</p>
-            <div className="flex items-center justify-center gap-8 opacity-50">
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <TrendingUp className="h-4 w-4" />
-                <span className="text-xs font-heading font-semibold">Bitcoin</span>
-              </div>
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <TrendingUp className="h-4 w-4" />
-                <span className="text-xs font-heading font-semibold">Ethereum</span>
-              </div>
-              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <Database className="h-4 w-4" />
-                <span className="text-xs font-heading font-semibold">Web3</span>
-              </div>
-            </div>
-          </div>
         </div>
-        <ScrollIndicator />
-      </section>
-
-      {/* Section 2: Core Features */}
-      <section className="py-32 bg-page-bg">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-wide text-foreground mb-4 font-heading">
-              核心功能
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-body">
-              为理性投资者提供系统化的投资工具与资源
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="border-border bg-white dark:bg-card hover:shadow-lg transition-all hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center mb-4">
-                  <Database className="h-6 w-6 text-brand-accent" />
-                </div>
-                <CardTitle className="text-xl tracking-wide font-heading">资源索引</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed">收录全网高价值推文与研报，拒绝信息噪音。</p>
-              </CardContent>
-            </Card>
-            <Card className="border-border bg-white dark:bg-card hover:shadow-lg transition-all hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center mb-4">
-                  <Calculator className="h-6 w-6 text-brand-accent" />
-                </div>
-                <CardTitle className="text-xl tracking-wide font-heading">投资工具</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed">复利计算、定投回测，用数据辅助理性决策。</p>
-              </CardContent>
-            </Card>
-            <Card className="border-border bg-white dark:bg-card hover:shadow-lg transition-all hover:-translate-y-1">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center mb-4">
-                  <BookOpen className="h-6 w-6 text-brand-accent" />
-                </div>
-                <CardTitle className="text-xl tracking-wide font-heading">经典文集</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm leading-relaxed">巴菲特致股东信与大师语录，回归投资第一性原理。</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 3: Bento Grid */}
-      <section className="py-32 bg-page-bg">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6">
-            <Link href={latestPost ? `/blog/${latestPost.slug}` : '/blog'} className="group md:col-span-2 p-10 rounded-xl border border-border bg-white dark:bg-card backdrop-blur-sm transition-all hover:shadow-lg hover:-translate-y-1 relative overflow-hidden">
-              <div className="flex items-center gap-3 mb-6">
-                <FileText className="h-6 w-6 text-brand-accent" />
-                <h3 className="text-2xl font-bold tracking-wide text-foreground font-heading">最新研报</h3>
-              </div>
-              {latestPost && (
-                <>
-                  <h4 className="text-xl font-semibold text-foreground mb-3 group-hover:text-brand-accent transition-colors font-heading tracking-wide">
-                    {latestPost.title}
-                  </h4>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3 font-body">
-                    {latestPost.desc}
-                  </p>
-                  <div className="mt-6 flex items-center gap-2 text-sm text-brand-accent group-hover:gap-3 transition-all">
-                    <span>阅读全文</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </div>
-                </>
-              )}
-            </Link>
-            <Link href="/benefits" className="group md:row-span-2 p-10 rounded-xl border border-border bg-white dark:bg-card backdrop-blur-sm transition-all hover:shadow-lg hover:-translate-y-1 flex flex-col">
-              <div className="mb-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 mb-4">
-                  <span className="text-xs font-semibold text-amber-500">推荐</span>
-                </div>
-                <h3 className="text-2xl font-bold tracking-wide text-foreground mb-2 font-heading">福利专区</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 font-body">精选邀请码，最高返佣</p>
-              </div>
-              <div className="flex-1 flex flex-col justify-end">
-                <div className="p-6 rounded-lg bg-page-bg border border-border">
-                  <div className="text-lg font-semibold text-foreground mb-2">Binance</div>
-                  <div className="text-sm text-brand-accent font-medium mb-3">最高返佣 20%</div>
-                  <div className="text-xs text-slate-600 dark:text-slate-400 font-mono bg-secondary px-3 py-2 rounded border border-border font-heading">BINANCE2024</div>
-                </div>
-                <div className="mt-6 flex items-center gap-2 text-sm text-brand-accent group-hover:gap-3 transition-all">
-                  <span>查看全部</span>
-                  <ArrowRight className="h-4 w-4" />
-                </div>
-              </div>
-            </Link>
-            <div className="md:col-span-2 p-10 rounded-xl border border-border bg-white dark:bg-card backdrop-blur-sm relative overflow-hidden">
-              <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="h-6 w-6 text-brand-accent" />
-                <h3 className="text-2xl font-bold tracking-wide text-foreground font-heading">数据监控</h3>
-              </div>
-              <p className="text-slate-600 dark:text-slate-400 mb-6 font-body">实时市场数据与趋势分析</p>
-              <div className="h-32 rounded-lg bg-page-bg border border-border flex items-center justify-center">
-                <p className="text-sm text-slate-600 dark:text-slate-400 font-body">图表占位符 - Coming Soon</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4: About & Social Proof (Trust) */}
-      <section className="py-32 bg-page-bg">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* 外层悬浮容器 - 增强悬浮感 */}
-          <div className="relative">
-            {/* 外层阴影光晕 */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-brand-accent/10 via-transparent to-brand-accent/10 rounded-[2rem] blur-2xl opacity-50 dark:opacity-30" />
-            <div className="absolute -inset-2 bg-slate-200/50 dark:bg-slate-800/30 rounded-[2rem] blur-xl" />
+        
+        {/* Enhanced Bento Grid with Staggered Animation */}
+        <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6 max-w-7xl mx-auto auto-rows-fr relative z-10" staggerDelay={0.1}>
+          {bentoLayout.map((feature, index) => {
+            const Icon = feature.icon;
+            const isPrimary = feature.isPrimary;
+            const hasBg = feature.hasBg;
             
-            {/* 深色卡片容器 */}
-            <div className="relative rounded-3xl shadow-2xl overflow-hidden bg-slate-200 dark:bg-slate-800 p-8 md:p-12 border border-slate-300/50 dark:border-white/5">
-              {/* 装饰性光斑 - 右上角 */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-brand-accent/20 rounded-full blur-3xl pointer-events-none" />
-              
-              {/* 装饰性光斑 - 左下角 */}
-              <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none" />
-              
-              {/* 噪点纹理 */}
-              <div
-                className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                }}
-              />
-              
-              {/* 渐变光晕 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-accent/5 via-transparent to-transparent pointer-events-none" />
-
-              {/* 内容区域 */}
-              <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-                {/* 左侧：头像区域 */}
-                <div className="flex-shrink-0 flex flex-col items-center">
-                  <div className="relative mb-4">
-                    {/* 光环效果 */}
-                    <div className="absolute inset-0 rounded-full ring-4 ring-slate-400/30 dark:ring-white/20 animate-pulse" />
-                    {/* 头像容器 */}
-                    <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 dark:from-slate-700 dark:to-slate-900 border-4 border-slate-300/50 dark:border-white/10 flex items-center justify-center shadow-xl">
-                      <span className="text-5xl md:text-6xl text-white/90 font-heading">智</span>
+            return (
+              <StaggerItem key={feature.name} className={`${feature.span} ${feature.rowSpan}`} index={index}>
+                <InteractiveCard href={feature.href} className="h-full">
+                  <div className={`group relative h-full ${isPrimary ? 'min-h-[200px] md:min-h-[400px]' : 'min-h-[180px] md:min-h-[190px]'}`}>
+                    {/* Multi-layered Shadow System */}
+                    <div className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-yellow-500/15 to-amber-400/20 rounded-2xl blur-xl" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-600/8 to-amber-500/10 rounded-2xl blur-2xl" />
+                    </div>
+                    
+                    {/* Advanced Glassmorphism Card */}
+                    <div className={`h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl rounded-2xl p-5 md:p-6 relative overflow-hidden
+                      ${isPrimary ? 'md:p-8' : ''}
+                      ${hasBg ? 'bg-gradient-to-br from-amber-50/60 via-yellow-50/40 to-transparent dark:from-amber-950/30 dark:via-yellow-950/20' : ''}`}
+                      style={{
+                        boxShadow: `
+                          0 1px 3px rgba(0, 0, 0, 0.05),
+                          0 4px 12px rgba(0, 0, 0, 0.08),
+                          0 8px 24px rgba(0, 0, 0, 0.06),
+                          inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                        `,
+                      }}
+                    >
+                      {/* Light Refraction Effect on Hover */}
+                      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                        style={{
+                          background: `
+                            linear-gradient(135deg, 
+                              rgba(251, 191, 36, 0.15) 0%, 
+                              transparent 25%,
+                              rgba(234, 179, 8, 0.1) 50%,
+                              transparent 75%,
+                              rgba(251, 191, 36, 0.15) 100%
+                            )
+                          `,
+                          filter: 'blur(20px)',
+                          transform: 'rotate(45deg) scale(1.5)',
+                          transition: 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        }}
+                      />
+                      
+                      {/* Gradient Border with Inner Glow */}
+                      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(234, 179, 8, 0.3), rgba(251, 191, 36, 0.4))',
+                          padding: '1.5px',
+                          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                          WebkitMaskComposite: 'xor',
+                          maskComposite: 'exclude',
+                          filter: 'drop-shadow(0 0 8px rgba(251, 191, 36, 0.3))',
+                        }} />
+                      
+                      {/* Inner Glow Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-yellow-500/0 to-amber-500/0 group-hover:from-amber-500/8 group-hover:via-yellow-500/5 group-hover:to-amber-500/8 rounded-2xl transition-all duration-700 pointer-events-none" />
+                      
+                      <div className={`relative z-10 flex flex-col ${isPrimary ? 'justify-between h-full' : 'items-center text-center gap-3'}`}>
+                        {/* Icon with Enhanced Glow */}
+                        <div className={`relative ${isPrimary ? 'mb-5' : 'mb-0'}`}>
+                          {/* Multi-layer Glow */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-amber-400/50 via-yellow-500/40 to-amber-400/50 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
+                          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/30 via-yellow-600/25 to-amber-500/30 rounded-xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
+                          
+                          {/* Icon container with Motion */}
+                          <IconContainer className={`relative ${isPrimary ? 'mb-5' : 'mb-0'} ${isPrimary ? 'w-fit' : 'mx-auto'}`}>
+                            <div className={`relative ${isPrimary ? 'p-4' : 'p-3'} rounded-xl bg-gradient-to-br from-amber-100/60 via-yellow-50/40 to-amber-100/60 dark:from-amber-900/40 dark:via-yellow-900/30 dark:to-amber-900/40 border border-amber-200/40 dark:border-amber-800/40`}
+                              style={{
+                                boxShadow: '0 4px 12px rgba(251, 191, 36, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+                              }}
+                            >
+                              <Icon className={`${isPrimary ? 'h-8 w-8' : 'h-6 w-6'} text-amber-700 dark:text-amber-400 relative z-10`} 
+                                style={{ 
+                                  filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.6))',
+                                }} 
+                              />
+                            </div>
+                          </IconContainer>
+                        </div>
+                        
+                        <div className={`space-y-2 ${isPrimary ? 'text-left' : 'text-center'}`}>
+                          <CardTitle className={`${isPrimary ? 'text-xl md:text-2xl' : 'text-base md:text-lg'} font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 tracking-tight`}>
+                            {feature.name}
+                          </CardTitle>
+                          <CardDescription className={`${isPrimary ? 'text-sm md:text-base' : 'text-xs md:text-sm'} text-slate-600 dark:text-slate-400 leading-relaxed font-light`}>
+                            {feature.description}
+                          </CardDescription>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  
-                  {/* 头像下方标签 */}
-                  <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-slate-700/20 dark:bg-white/10 border border-slate-500/30 dark:border-white/20 text-xs text-slate-700 dark:text-slate-300 font-medium backdrop-blur-sm">
-                      投资者
-                    </span>
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-slate-700/20 dark:bg-white/10 border border-slate-500/30 dark:border-white/20 text-xs text-slate-700 dark:text-slate-300 font-medium backdrop-blur-sm">
-                      内容创作者
-                    </span>
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-slate-700/20 dark:bg-white/10 border border-slate-500/30 dark:border-white/20 text-xs text-slate-700 dark:text-slate-300 font-medium backdrop-blur-sm">
-                      Web3 探索者
-                    </span>
-                  </div>
-                </div>
+                </InteractiveCard>
+              </StaggerItem>
+          );
+        })}
+        </StaggerContainer>
+      </section>
+    </SectionWrapper>
+  );
+}
 
-                {/* 右侧：文案区域 */}
-                <div className="flex-1 text-center md:text-left">
-                  {/* 标题 */}
-                  <h2 className="text-3xl md:text-4xl font-bold tracking-wide text-slate-900 dark:text-white mb-4">
-                    关于作者
-                  </h2>
-                  
-                  {/* 正文 */}
-                  <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6 max-w-2xl mx-auto md:mx-0">
-                    我是一名崇尚长期主义的投资者。我建立这个网站是为了整理和分享高价值的投资资源，
-                    帮助更多人在快速变化的市场中找到理性的投资路径。我相信通过系统化的学习和工具，
-                    每个人都能成为更聪明的投资者。
-                  </p>
+// Section F: Recommended Resources
+const resources = [
+  { name: "Investopedia", url: "https://www.investopedia.com", description: "投资教育平台" },
+  { name: "Bloomberg", url: "https://www.bloomberg.com", description: "财经新闻" },
+  { name: "Seeking Alpha", url: "https://seekingalpha.com", description: "投资分析" },
+  { name: "CoinMarketCap", url: "https://coinmarketcap.com", description: "加密货币数据" },
+];
 
-                  {/* 社会认同标签 */}
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-8">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-700/10 dark:bg-white/5 border border-slate-500/20 dark:border-white/10 text-sm text-slate-700 dark:text-slate-300">
-                      <span>🚀</span>
-                      <span>全网粉丝 10W+</span>
-                    </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-700/10 dark:bg-white/5 border border-slate-500/20 dark:border-white/10 text-sm text-slate-700 dark:text-slate-300">
-                      <span>☕️</span>
-                      <span>长期主义践行者</span>
-                    </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-700/10 dark:bg-white/5 border border-slate-500/20 dark:border-white/10 text-sm text-slate-700 dark:text-slate-300">
-                      <span>📊</span>
-                      <span>10+ 年投资经验</span>
-                    </span>
-                  </div>
-
-                  {/* 社交链接按钮组 */}
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                    <a
-                      href="https://twitter.com/investwise"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-700/20 dark:bg-white/10 hover:bg-slate-700/30 dark:hover:bg-white/20 text-slate-800 dark:text-white backdrop-blur-sm border border-slate-500/30 dark:border-white/10 hover:border-slate-600/40 dark:hover:border-white/20 transition-all hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <Twitter className="h-5 w-5 text-slate-700 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors" />
-                      <span className="font-medium">Twitter (X)</span>
-                    </a>
-                    <a
-                      href="https://www.xiaohongshu.com/user/investwise"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-700/20 dark:bg-white/10 hover:bg-slate-700/30 dark:hover:bg-white/20 text-slate-800 dark:text-white backdrop-blur-sm border border-slate-500/30 dark:border-white/10 hover:border-slate-600/40 dark:hover:border-white/20 transition-all hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <BookOpen className="h-5 w-5 text-slate-700 dark:text-white group-hover:text-red-500 dark:group-hover:text-red-300 transition-colors" />
-                      <span className="font-medium">小红书</span>
-                    </a>
-                    <a
-                      href="mailto:hello@investwise.com"
-                      className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-700/20 dark:bg-white/10 hover:bg-slate-700/30 dark:hover:bg-white/20 text-slate-800 dark:text-white backdrop-blur-sm border border-slate-500/30 dark:border-white/10 hover:border-slate-600/40 dark:hover:border-white/20 transition-all hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <Mail className="h-5 w-5 text-slate-700 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-300 transition-colors" />
-                      <span className="font-medium">Email</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+function ResourceCard({ resource, index }: { resource: typeof resources[0]; index: number }) {
+  return (
+    <InteractiveCard
+      href={resource.url}
+      className="group relative"
+    >
+      {/* Enhanced Radial Glow */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      
+      <div className="relative h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl border border-white/30 dark:border-slate-800/50 rounded-2xl p-4 md:p-5 overflow-hidden"
+        style={{
+          boxShadow: `
+            0 1px 3px rgba(0, 0, 0, 0.05),
+            0 4px 12px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1)
+          `,
+        }}
+      >
+        
+        {/* Gradient Border */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          style={{
+            background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(234, 179, 8, 0.3), rgba(251, 191, 36, 0.4))',
+            padding: '1.5px',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+          }} />
+        
+        <div className="flex items-start gap-4 relative z-10">
+          {/* Icon Container - 使用通用图标组件 */}
+          <ResourceIcon 
+            url={resource.url}
+            name={resource.name}
+            size={48}
+            className="shrink-0"
+          />
+          
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            <CardTitle className="text-base md:text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 mb-1.5">
+              {resource.name}
+            </CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400 text-xs md:text-sm font-light">
+              {resource.description}
+            </CardDescription>
           </div>
         </div>
-      </section>
+      </div>
+    </InteractiveCard>
+  );
+}
+
+function ResourcesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  return (
+    <section id="resources" ref={sectionRef} className="container mx-auto px-4 py-4 md:py-6 relative isolate">
+      <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.15} />
+      
+      <div className="relative z-10">
+        <TitleAnimation className="font-serif text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
+          <span className="relative inline-block">
+            常用导航
+            <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+          </span>
+        </TitleAnimation>
+        
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 max-w-6xl mx-auto" staggerDelay={0.08}>
+          {resources.map((resource, index) => (
+            <StaggerItem key={index} index={index}>
+              <ResourceCard resource={resource} index={index} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </div>
+    </section>
+  );
+}
+
+// Section G: Friendly Sites
+const friendlySites = [
+  { name: "投资伙伴 A", url: "#", description: "专业的投资分析平台" },
+  { name: "投资伙伴 B", url: "#", description: "量化交易工具" },
+  { name: "投资伙伴 C", url: "#", description: "投资社区" },
+];
+
+function FriendlySitesSection() {
+  return (
+    <section className="container mx-auto px-4 py-4 md:py-6">
+      <h2 className="font-serif text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
+        <span className="relative inline-block">
+          友站板块
+          <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+        </span>
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 max-w-5xl mx-auto">
+        {friendlySites.map((site, index) => (
+          <a
+            key={index}
+            href={site.url}
+            className="group relative animate-spring"
+            style={{
+              animationDelay: `${index * 100}ms`,
+            }}
+          >
+            {/* Enhanced Radial Glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            
+            <div className="relative h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl border border-white/30 dark:border-slate-800/50 rounded-2xl p-3 md:p-4 transition-all duration-700 overflow-hidden
+              hover:bg-white/95 dark:hover:bg-slate-900/95"
+              style={{
+                boxShadow: `
+                  0 1px 3px rgba(0, 0, 0, 0.05),
+                  0 4px 12px rgba(0, 0, 0, 0.08),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                `,
+                transform: 'translateY(0)',
+                transition: 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-6px)';
+                e.currentTarget.style.boxShadow = `
+                  0 8px 24px rgba(0, 0, 0, 0.12),
+                  0 4px 12px rgba(251, 191, 36, 0.15),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                `;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = `
+                  0 1px 3px rgba(0, 0, 0, 0.05),
+                  0 4px 12px rgba(0, 0, 0, 0.08),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                `;
+              }}
+            >
+              
+              {/* Gradient Border */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(234, 179, 8, 0.3), rgba(251, 191, 36, 0.4))',
+                  padding: '1.5px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }} />
+              
+              <CardTitle className="text-base md:text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 mb-1.5 relative z-10">
+                  {site.name}
+              </CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400 text-xs md:text-sm relative z-10 font-light">
+                {site.description}
+              </CardDescription>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// Main Page Component
+export default function Home() {
+  // 周刊订阅功能暂时隐藏，目前还用不到
+  // useEffect(() => {
+  //   // Check if user has closed the toast or subscribed within 24 hours
+  //   const checkNewsletterStatus = () => {
+  //     if (typeof window === 'undefined') {
+  //       return false;
+  //     }
+
+  //     try {
+  //     const dismissed = localStorage.getItem("newsletter-dismissed");
+  //     const subscribed = localStorage.getItem("newsletter-subscribed");
+      
+  //     if (subscribed === "true") {
+  //         return false;
+  //     }
+
+  //     if (dismissed) {
+  //       const dismissedTime = parseInt(dismissed, 10);
+  //       const now = Date.now();
+  //       const twentyFourHours = 24 * 60 * 60 * 1000;
+      
+  //       if (now - dismissedTime < twentyFourHours) {
+  //           return false;
+  //         }
+  //       }
+
+  //       return true;
+  //     } catch (error) {
+  //       console.error('Error accessing localStorage:', error);
+  //       return false;
+  //     }
+  //   };
+
+  //   const timer = setTimeout(() => {
+  //     if (checkNewsletterStatus()) {
+  //       toast.custom(
+  //         (t) => (
+  //           <NewsletterToast
+  //             toastId={t}
+  //             onClose={() => {
+  //               toast.dismiss(t);
+  //               try {
+  //                 if (typeof window !== 'undefined') {
+  //               localStorage.setItem("newsletter-dismissed", Date.now().toString());
+  //                 }
+  //               } catch (error) {
+  //                 console.error('Error saving to localStorage:', error);
+  //               }
+  //             }}
+  //           />
+  //         ),
+  //         {
+  //           duration: Infinity,
+  //         }
+  //       );
+  //     }
+  //   }, 5000);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
+
+  return (
+    <div className="flex flex-col relative">
+      <HeroSection />
+      <div className="py-3 md:py-4" />
+      <FeaturesSection />
+      <div className="py-3 md:py-4" />
+      <CEXSection />
+      <div className="py-3 md:py-4" />
+      <ToolsSection />
+      <div className="py-3 md:py-4" />
+      <TweetsSection />
+      <div className="py-3 md:py-4" />
+      <AnthologySection />
+      <div className="py-3 md:py-4" />
+      <ResourcesSection />
+      <div className="py-1 md:py-2" />
+      <FriendlySitesSection />
     </div>
-  )
+  );
 }

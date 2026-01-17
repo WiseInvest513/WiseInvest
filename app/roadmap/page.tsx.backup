@@ -1,0 +1,200 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { ArrowRight, Clock, BookOpen, X } from "lucide-react";
+import { roadmaps, type RoadmapCategory } from "@/lib/roadmaps-data";
+import { cn } from "@/lib/utils";
+
+type FilterCategory = "all" | RoadmapCategory;
+
+// Category definitions
+const categoryConfig: Record<
+  RoadmapCategory,
+  { label: string; icon: string }
+> = {
+  investment: {
+    label: "投资理财",
+    icon: "💰",
+  },
+  us_stocks: {
+    label: "美股市场",
+    icon: "📈",
+  },
+  web3: {
+    label: "Web3 探索",
+    icon: "🌐",
+  },
+};
+
+// Filter categories
+const filterCategories: Array<{ id: FilterCategory; label: string; icon?: string }> = [
+  { id: "all", label: "全部路线" },
+  { id: "investment", label: "投资理财", icon: "💰" },
+  { id: "us_stocks", label: "美股市场", icon: "📈" },
+  { id: "web3", label: "Web3 探索", icon: "🌐" },
+];
+
+// Roadmap Card Component
+function RoadmapCard({ roadmap }: { roadmap: (typeof roadmaps)[0] }) {
+  const config = categoryConfig[roadmap.category];
+
+  return (
+    <Link
+      href={`/roadmap/${roadmap.id}`}
+      className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-yellow-400 dark:hover:border-yellow-600 hover:shadow-lg transition-all duration-200 flex flex-col h-full"
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className="text-4xl">{roadmap.icon}</div>
+        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+          {config.label}
+        </span>
+      </div>
+
+      <h2 className="font-bold text-xl text-slate-900 dark:text-slate-50 mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
+        {roadmap.title}
+      </h2>
+      <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 flex-1 line-clamp-2">
+        {roadmap.description}
+      </p>
+
+      <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-1">
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>{roadmap.steps.length} 个步骤</span>
+          </div>
+          {roadmap.estimatedTotalTime && (
+            <div className="flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5" />
+              <span>{roadmap.estimatedTotalTime}</span>
+            </div>
+          )}
+        </div>
+        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" />
+      </div>
+    </Link>
+  );
+}
+
+export default function RoadmapPage() {
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>("all");
+
+  const filteredRoadmaps = roadmaps.filter((roadmap) => {
+    if (activeCategory === "all") {
+      return true;
+    }
+    return roadmap.category === activeCategory;
+  });
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-slate-950">
+      {/* Main Container - No top padding here. We handle spacing inside sticky elements. */}
+      <div className="max-w-[1600px] mx-auto flex items-start relative pt-0">
+        
+        {/* --- LEFT SIDEBAR --- */}
+        <aside className="w-48 shrink-0 sticky top-16 pt-6 self-start h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent hidden md:block scrollbar-hide">
+          {/* Inner padding for buttons */}
+          <div className="px-2">
+            <div className="space-y-6">
+              <div>
+                <h3 className="px-2 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">
+                  路线分类
+                </h3>
+              <div className="space-y-1">
+                {filterCategories.map((category) => {
+                  const isActive = activeCategory === category.id;
+                  return (
+                    <button
+                      key={category.id}
+                      onClick={() => setActiveCategory(category.id)}
+                      className={cn(
+                        "w-full text-left px-4 py-2 text-sm font-medium transition-all rounded-lg border-l-4",
+                        isActive
+                          ? "border-yellow-400 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400"
+                          : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
+                      )}
+                    >
+                      {category.icon && <span className="mr-2">{category.icon}</span>}
+                      {category.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          </div>
+        </aside>
+
+        {/* --- RIGHT CONTENT AREA --- */}
+        <main className="flex-1 min-w-0 flex flex-col">
+          
+          {/* 2. RIGHT HEADER (Sticky) */}
+          <div className="sticky top-16 z-20 bg-white/95 dark:bg-slate-950/95 backdrop-blur pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 transition-all">
+            <div className="px-8">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-baseline gap-4">
+                  <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+                    学习路线
+                  </h1>
+                  <div className="flex items-center gap-3">
+                    <span className="text-slate-500 dark:text-slate-400 text-sm">
+                      找到 <span className="font-semibold text-slate-900 dark:text-slate-50">{filteredRoadmaps.length}</span> 个路线图
+                    </span>
+                    {activeCategory !== "all" && (
+                      <button
+                        onClick={() => setActiveCategory("all")}
+                        className="flex items-center gap-1 text-sm text-yellow-600 dark:text-yellow-500 hover:text-yellow-700 dark:hover:text-yellow-400 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                        清空筛选
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <p className="text-base text-slate-600 dark:text-slate-400">
+                  系统化的学习路径，从零基础到进阶，一步步掌握投资和 Web3 的核心技能
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. SCROLLABLE LIST */}
+          <div className="px-8 pb-20 pt-6">
+            {/* Grid Content */}
+            {filteredRoadmaps.length === 0 ? (
+              <div className="py-32 px-8 text-center">
+                <div className="flex flex-col items-center justify-center max-w-md mx-auto">
+                  <div className="w-20 h-20 bg-yellow-50 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mb-6">
+                    <BookOpen className="w-10 h-10 text-yellow-500 dark:text-yellow-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+                    暂无路线图
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 mb-4">
+                    该分类下暂时没有可用的学习路线
+                  </p>
+                  <button
+                    onClick={() => setActiveCategory("all")}
+                    className="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors"
+                  >
+                    查看全部路线
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+                {filteredRoadmaps.map((roadmap) => (
+                  <RoadmapCard key={roadmap.id} roadmap={roadmap} />
+                ))}
+              </div>
+            )}
+          </div>
+
+        </main>
+
+      </div>
+    </div>
+  );
+}
+

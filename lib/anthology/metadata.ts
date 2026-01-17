@@ -1,0 +1,41 @@
+import type { Author } from "./types";
+
+/**
+ * 文集元数据（轻量级，用于列表显示和搜索）
+ * 不包含文章内容，只包含 id 和 title
+ * 这个文件会被预先加载，用于快速显示文章列表
+ */
+export const knowledgeBaseMetadata: Author[] = [
+  {
+    name: "段永平 (Duan Yongping)",
+    categories: [
+      {
+        name: "商业逻辑",
+        articles: [
+          { id: "duan-business-1", title: "不做错事是最大的事情" },
+          { id: "duan-business-2", title: "本分是核心价值观" },
+        ],
+      },
+      {
+        name: "投资语录",
+        articles: [
+          { id: "duan-invest-1", title: "买股票就是买公司" },
+          { id: "duan-invest-2", title: "不懂不碰" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "巴菲特 (Buffett)",
+    categories: [
+      {
+        name: "致股东信",
+        articles: [
+          { id: "buffett-letter-1980", title: "1980年致股东信" },
+          { id: "buffett-letter-2024", title: "2024年致股东信" },
+        ],
+      },
+    ],
+  },
+];
+
