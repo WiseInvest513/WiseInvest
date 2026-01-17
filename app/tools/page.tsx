@@ -58,6 +58,12 @@ const toolCategories: ToolCategory[] = [
     items: tools.filter((t) => t.category === "Calculators"),
   },
   {
+    id: "contract-management",
+    label: "合约管理",
+    emoji: "📈",
+    items: tools.filter((t) => t.category === "Contract Management"),
+  },
+  {
     id: "market-data",
     label: "市场数据",
     emoji: "📊",

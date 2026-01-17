@@ -2,6 +2,7 @@
 export const toolRouteMap: Record<string, string> = {
   "compound-calc": "compound-calculator",
   "fear-greed": "fear-greed",
+  "fomc-calendar": "fomc-calendar",
   "airdrop-checker": "airdrop-tracker",
   "exchange-airdrop": "exchange-airdrop",
   "impermanent-loss": "impermanent-loss",
@@ -14,15 +15,11 @@ export const toolRouteMap: Record<string, string> = {
   "gas-tracker": "gas-tracker",
   "token-scanner": "token-scanner",
   "portfolio-tracker": "portfolio-tracker",
-  "macro-dashboard": "macro-dashboard",
-  "market-yields": "market-yields",
   "stock-ranker": "god-mode/stock-ranker",
   "index-yields": "god-mode/index-yields",
-  "commodity-yields": "god-mode/commodity-yields",
   "crypto-yields": "god-mode/crypto-yields",
   "price-tester": "price-tester",
   "average-down": "average-down",
-  "panic-simulator": "panic-simulator",
   "contract-calculator": "contract-calculator",
 };
 

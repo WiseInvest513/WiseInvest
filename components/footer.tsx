@@ -1,42 +1,62 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Twitter, Mail } from "lucide-react";
+import { Twitter, Mail, MessageCircle } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function Footer() {
+  const [wechatDialogOpen, setWechatDialogOpen] = useState(false);
+
   return (
-    <footer className="w-full bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6">
-      <div className="max-w-[1600px] mx-auto px-6">
-        {/* Top Section: Multi-column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
-          {/* Column 1: Brand */}
-          <div className="space-y-2">
-            <div>
-              <h2 className="font-heading text-xl font-bold text-slate-900 dark:text-slate-50 mb-1">
-                Wise Invest
-              </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                用数据和洞察赋能您的财富之旅。
-              </p>
+    <>
+      <footer className="w-full bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6">
+        <div className="max-w-[1600px] mx-auto px-6">
+          {/* Top Section: Multi-column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+            {/* Column 1: Brand */}
+            <div className="space-y-2">
+              <div>
+                <h2 className="font-heading text-xl font-bold text-slate-900 dark:text-slate-50 mb-1">
+                  Wise Invest
+                </h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  用数据和洞察赋能您的财富之旅。
+                </p>
+              </div>
+              {/* Social Icons */}
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://x.com/WiseInvest513"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+                <a
+                  href="mailto:wiseinvest513@gmail.com"
+                  className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                  aria-label="Email"
+                >
+                  <Mail className="h-5 w-5" />
+                </a>
+                <button
+                  onClick={() => setWechatDialogOpen(true)}
+                  className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                  aria-label="微信"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                </button>
+              </div>
             </div>
-            {/* Social Icons */}
-            <div className="flex items-center gap-4">
-              <a
-                href="https://x.com/WiseInvest513"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="mailto:wiseinvest513@gmail.com"
-                className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                aria-label="Email"
-              >
-                <Mail className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
 
           {/* Column 2: Tools Links */}
           <div>
@@ -137,6 +157,28 @@ export function Footer() {
         </div>
       </div>
     </footer>
+
+    {/* WeChat QR Code Dialog */}
+    <Dialog open={wechatDialogOpen} onOpenChange={setWechatDialogOpen}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-center">关注公众号，获取博主个人微信</DialogTitle>
+          <DialogDescription className="text-center">
+            扫描下方二维码关注公众号，即可获取博主个人微信联系方式
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col items-center justify-center py-4">
+          <div className="relative w-full max-w-xs aspect-square">
+            <img
+              src="/images/wechat-qrcode.jpg"
+              alt="关注公众号，获取博主个人微信"
+              className="w-full h-full object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
 

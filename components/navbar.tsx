@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, Gift, Sparkles, Calendar, TrendingUp } from "lucide-react";
+import { Gift, Sparkles, TrendingUp, Calendar as CalendarIcon } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { SearchCommand } from "@/components/search-command";
 import { PriceTesterPasswordDialog } from "@/components/PriceTesterPasswordDialog";
-// DEBUG: Commented out for isolation test
-// import { FOMCCalendar } from "@/components/fomc-calendar";
+import { EventCalendar } from "@/components/EventCalendar";
 import { type Tool } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import {
@@ -33,28 +31,10 @@ const navItems = [
 ];
 
 export function Navbar() {
-  const [searchOpen, setSearchOpen] = useState(false);
   const [priceTesterOpen, setPriceTesterOpen] = useState(false);
-  // DEBUG: Commented out for isolation test
-  // const [calendarOpen, setCalendarOpen] = useState(false);
+  const [eventCalendarOpen, setEventCalendarOpen] = useState(false);
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const pathname = usePathname();
-
-  // Keyboard shortcut listener
-  useEffect(() => {
-    // Only add event listener in browser
-    if (typeof window === 'undefined') return;
-    
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setSearchOpen((open) => !open);
-      }
-    };
-
-    window.addEventListener("keydown", down);
-    return () => window.removeEventListener("keydown", down);
-  }, []);
 
   // Helper function to check if a link is active
   const isActive = (href: string) => {
@@ -111,54 +91,22 @@ export function Navbar() {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-2">
-            {/* DEBUG: FOMC Calendar Button - Commented out for isolation test */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground">
-              Debug Mode
-            </div>
-            {/* <button
-              onClick={() => setCalendarOpen(true)}
-              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background hover:bg-muted transition-colors text-sm font-medium"
-              aria-label="FOMC 会议日程"
-            >
-              <Calendar className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-              <span className="text-muted-foreground">FOMC</span>
-            </button>
-
+            {/* Event Calendar Button */}
             <button
-              onClick={() => setCalendarOpen(true)}
-              className="sm:hidden p-2 rounded-md hover:bg-muted transition-colors"
-              aria-label="FOMC 会议日程"
+              onClick={() => setEventCalendarOpen(true)}
+              className="p-2 rounded-md hover:bg-muted transition-colors"
+              aria-label="重要事件日历"
+              title="重要事件日历"
             >
-              <Calendar className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-            </button> */}
-
-            {/* Search Button */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background hover:bg-muted transition-colors text-sm font-medium"
-            >
-              <Search className="h-4 w-4" />
-              <span className="text-muted-foreground">搜索</span>
-              <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                <span className="text-xs">⌘</span>K
-              </kbd>
-            </button>
-
-            {/* Mobile Search Button */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="sm:hidden p-2 rounded-md hover:bg-muted transition-colors"
-              aria-label="搜索"
-            >
-              <Search className="h-5 w-5" />
+              <CalendarIcon className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
             </button>
 
             {/* Price Tester Button */}
             <button
               onClick={() => setPriceTesterOpen(true)}
               className="p-2 rounded-md hover:bg-muted transition-colors"
-              aria-label="价格服务测试"
-              title="价格服务测试"
+              aria-label="后台测试入口"
+              title="后台测试入口"
             >
               <TrendingUp className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
             </button>
@@ -169,21 +117,13 @@ export function Navbar() {
         </div>
       </nav>
 
+      {/* Event Calendar */}
+      <EventCalendar open={eventCalendarOpen} onOpenChange={setEventCalendarOpen} />
+
       {/* Price Tester Password Dialog */}
       <PriceTesterPasswordDialog
         open={priceTesterOpen}
         onOpenChange={setPriceTesterOpen}
-      />
-
-      {/* DEBUG: FOMC Calendar - Commented out for isolation test */}
-      {/* <FOMCCalendar open={calendarOpen} onOpenChange={setCalendarOpen} /> */}
-      <div style={{ display: 'none' }}>Debug Mode: Calendar Disabled</div>
-
-      {/* Search Command */}
-      <SearchCommand
-        open={searchOpen}
-        onOpenChange={setSearchOpen}
-        onToolSelect={handleToolSelect}
       />
 
       {/* Tool Modal */}

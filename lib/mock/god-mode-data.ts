@@ -87,9 +87,6 @@ export const INDEX_YIELDS: AssetYieldData[] = [
   },
 ];
 
-// Tool 3: Commodity Yields
-// 原始数据已清空，等待重新填入真实数据
-export const COMMODITY_YIELDS: AssetYieldData[] = [];
 
 // Tool 4: Crypto Yields
 // 原始数据已清空，等待重新填入真实数据

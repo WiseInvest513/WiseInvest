@@ -55,10 +55,10 @@ export function PriceTesterPasswordDialog({
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <Lock className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
-            <DialogTitle>价格服务测试</DialogTitle>
+            <DialogTitle>后台测试入口</DialogTitle>
           </div>
           <DialogDescription>
-            请输入密码以访问价格服务测试工具
+            请输入密码访问后台测试界面
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
