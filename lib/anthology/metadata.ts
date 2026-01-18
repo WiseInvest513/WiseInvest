@@ -35,6 +35,13 @@ export const knowledgeBaseMetadata: Author[] = [
           { id: "buffett-letter-2024", title: "2024年致股东信" },
         ],
       },
+      {
+        name: "股东大会",
+        articles: [
+          { id: "1957-1967股东大会", title: "1957-1967股东大会" },
+          { id: "1968-1978 股东大会", title: "1968-1978股东大会" },
+        ],
+      },
     ],
   },
 ];

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Copy, Share2, ChevronRight, ChevronLeft, Search, Loader2 } from "lucide-react";
+import { Copy, Share2, ChevronRight, ChevronLeft, Search, Loader2, Maximize2, Minimize2 } from "lucide-react";
 import {
   getKnowledgeBaseMetadata,
   getAllArticleMetadata,
@@ -90,7 +90,14 @@ function ArticleContent({
     let headerIndex = 0;
     content.split("\n").forEach((line) => {
       const trimmed = line.trim();
-      if (trimmed.startsWith("### ")) {
+      // 支持 1-6 级标题
+      if (trimmed.startsWith("###### ")) {
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(7), level: 6 });
+      } else if (trimmed.startsWith("##### ")) {
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(6), level: 5 });
+      } else if (trimmed.startsWith("#### ")) {
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(5), level: 4 });
+      } else if (trimmed.startsWith("### ")) {
         extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(4), level: 3 });
       } else if (trimmed.startsWith("## ")) {
         extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(3), level: 2 });
@@ -127,28 +134,81 @@ function ArticleContent({
 
   const renderInlineMarkdown = (text: string): React.JSX.Element => {
     const parts: (string | React.JSX.Element)[] = [];
-    let lastIndex = 0;
+    let processedText = text;
     let key = 0;
-    const boldRegex = /\*\*(.*?)\*\*/g;
-    let match;
-    const matches: Array<{ index: number; length: number; text: string }> = [];
-
-    while ((match = boldRegex.exec(text)) !== null) {
-      matches.push({ index: match.index, length: match[0].length, text: match[1] });
-    }
-
-    matches.forEach((m) => {
-      if (m.index > lastIndex) parts.push(text.substring(lastIndex, m.index));
-      parts.push(<strong key={key++} className="font-semibold text-text-primary">{m.text}</strong>);
-      lastIndex = m.index + m.length;
+    
+    // 先处理粗体 **text**，替换为占位符
+    const boldMatches: Array<{ placeholder: string; element: React.JSX.Element }> = [];
+    processedText = processedText.replace(/\*\*([^*]+)\*\*/g, (match, content) => {
+      const placeholder = `__BOLD_${key}__`;
+      boldMatches.push({
+        placeholder,
+        element: <strong key={`bold-${key++}`} className="font-semibold text-text-primary">{content}</strong>
+      });
+      return placeholder;
     });
-
-    if (lastIndex < text.length) parts.push(text.substring(lastIndex));
-    return <>{parts.length > 0 ? parts : text}</>;
+    
+    // 再处理斜体 *text*（不匹配 **text** 中的 *）
+    const italicMatches: Array<{ placeholder: string; element: React.JSX.Element }> = [];
+    processedText = processedText.replace(/\*([^*]+)\*/g, (match, content) => {
+      // 跳过已经是粗体占位符的内容
+      if (match.includes('__BOLD_')) return match;
+      const placeholder = `__ITALIC_${key}__`;
+      italicMatches.push({
+        placeholder,
+        element: <em key={`italic-${key++}`} className="italic text-text-primary">{content}</em>
+      });
+      return placeholder;
+    });
+    
+    // 合并所有匹配
+    const allMatches = [...boldMatches, ...italicMatches];
+    
+    // 按位置找到所有占位符并替换
+    const segments = processedText.split(/(__(?:BOLD|ITALIC)_\d+__)/g);
+    
+    return (
+      <>
+        {segments.map((segment, idx) => {
+          const boldMatch = boldMatches.find(m => m.placeholder === segment);
+          if (boldMatch) return <React.Fragment key={idx}>{boldMatch.element}</React.Fragment>;
+          
+          const italicMatch = italicMatches.find(m => m.placeholder === segment);
+          if (italicMatch) return <React.Fragment key={idx}>{italicMatch.element}</React.Fragment>;
+          
+          return <React.Fragment key={idx}>{segment}</React.Fragment>;
+        })}
+      </>
+    );
   };
 
   lines.forEach((line, index) => {
     const trimmed = line.trim();
+    // 支持 1-6 级标题（从高级别到低级别，避免误匹配）
+    if (trimmed.startsWith("###### ")) {
+      flushList();
+      const headerText = trimmed.substring(7);
+      const header = headers.find((h) => h.text === headerText && h.level === 6);
+      const headerId = header?.id || `header-${headerIndex++}`;
+      elements.push(<h6 key={index} id={headerId} className="text-base font-heading font-bold text-text-primary mt-6 mb-2 scroll-mt-24">{headerText}</h6>);
+      return;
+    }
+    if (trimmed.startsWith("##### ")) {
+      flushList();
+      const headerText = trimmed.substring(6);
+      const header = headers.find((h) => h.text === headerText && h.level === 5);
+      const headerId = header?.id || `header-${headerIndex++}`;
+      elements.push(<h5 key={index} id={headerId} className="text-lg font-heading font-bold text-text-primary mt-7 mb-2.5 scroll-mt-24">{headerText}</h5>);
+      return;
+    }
+    if (trimmed.startsWith("#### ")) {
+      flushList();
+      const headerText = trimmed.substring(5);
+      const header = headers.find((h) => h.text === headerText && h.level === 4);
+      const headerId = header?.id || `header-${headerIndex++}`;
+      elements.push(<h4 key={index} id={headerId} className="text-xl font-heading font-bold text-text-primary mt-8 mb-3 scroll-mt-24">{headerText}</h4>);
+      return;
+    }
     if (trimmed.startsWith("### ")) {
       flushList();
       const headerText = trimmed.substring(4);
@@ -171,6 +231,27 @@ function ArticleContent({
       const header = headers.find((h) => h.text === headerText && h.level === 1);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h1 key={index} id={headerId} className="text-3xl font-heading font-bold text-text-primary mt-12 mb-5 scroll-mt-24">{headerText}</h1>);
+      return;
+    }
+    // 处理图片：![alt](src) 或 ![图片](data:image/png;base64,...)
+    const imageMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imageMatch) {
+      flushList();
+      const [, alt, src] = imageMatch;
+      elements.push(
+        <div key={index} className="my-6 flex justify-center">
+          <img 
+            src={src} 
+            alt={alt || "图片"} 
+            className="max-w-full h-auto rounded-lg shadow-md"
+            style={{ maxWidth: "100%", height: "auto" }}
+            onError={(e) => {
+              console.error("[ArticleContent] 图片加载失败:", src?.substring(0, 50));
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        </div>
+      );
       return;
     }
     if (trimmed.startsWith("> ")) {
@@ -223,6 +304,7 @@ export default function AnthologyPage() {
   
   const [filteredAuthor, setFilteredAuthor] = useState<string | null>(authorParam);
   const [filteredCategory, setFilteredCategory] = useState<string | null>(categoryParam);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   const leftSidebarRef = useRef<HTMLDivElement>(null);
   const rightSidebarRef = useRef<HTMLDivElement>(null);
@@ -297,7 +379,24 @@ export default function AnthologyPage() {
     const loadArticle = async () => {
       setIsLoadingArticle(true);
       try {
-        const article = await getArticleById(selectedArticleId);
+        // 优先尝试通过 API 加载（支持 Word 文档）
+        // 如果失败，回退到直接调用 getArticleById（适用于 data.ts 中的文章）
+        let article = null;
+        
+        try {
+          const response = await fetch(`/api/anthology/article?id=${encodeURIComponent(selectedArticleId)}`);
+          if (response.ok) {
+            article = await response.json();
+          }
+        } catch (apiError) {
+          console.warn("[Anthology] API 加载失败，尝试直接加载:", apiError);
+        }
+        
+        // 如果 API 加载失败，尝试直接加载（适用于 data.ts 中的文章）
+        if (!article) {
+          article = await getArticleById(selectedArticleId);
+        }
+        
         if (!cancelled && article) {
           setSelectedArticle(article);
           if (typeof window !== "undefined") {
@@ -374,6 +473,29 @@ export default function AnthologyPage() {
     }
   };
 
+  const handleToggleFullscreen = () => {
+    const newFullscreen = !isFullscreen;
+    setIsFullscreen(newFullscreen);
+    
+    // 全屏模式下禁用 body 滚动，退出全屏时恢复
+    if (typeof window !== "undefined") {
+      if (newFullscreen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    }
+  };
+
+  // 组件卸载时恢复 body 滚动
+  useEffect(() => {
+    return () => {
+      if (typeof window !== "undefined") {
+        document.body.style.overflow = "";
+      }
+    };
+  }, []);
+
   const handleHeaderClick = (headerId: string) => {
     const element = document.getElementById(headerId);
     if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -396,10 +518,11 @@ export default function AnthologyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
-      <div className="max-w-[1600px] mx-auto flex items-start relative pt-0">
+    <div className={cn("min-h-screen bg-white dark:bg-slate-950", isFullscreen && "fixed inset-0 z-50")}>
+      <div className={cn("mx-auto flex items-start relative", isFullscreen ? "h-full w-full" : "max-w-[1600px] pt-0")}>
         
-        {/* --- LEFT SIDEBAR (SEPARATED: FIXED SEARCH + SCROLLABLE LIST) --- */}
+        {/* --- LEFT SIDEBAR (隐藏于全屏模式) --- */}
+        {!isFullscreen && (
         <div ref={leftSidebarRef} className="w-72 shrink-0 sticky top-16 self-start h-[calc(100vh-64px)] flex flex-col overflow-hidden border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 z-10">
           
           {/* 1. FIXED SEARCH HEADER - Fixed at viewport top, absolutely positioned */}
@@ -489,10 +612,12 @@ export default function AnthologyPage() {
             </div>
           </div>
         </div>
+        )}
 
         {/* --- CENTER CONTENT --- */}
-        <main className="flex-1 min-w-0 flex flex-col">
-          {/* HEADER (Sticky) */}
+        <main className={cn("flex-1 min-w-0 flex flex-col", isFullscreen && "h-full")}>
+          {/* HEADER (全屏模式隐藏) */}
+          {!isFullscreen && (
           <div className="sticky top-16 z-20 bg-white/95 dark:bg-slate-950/95 backdrop-blur pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 transition-all">
             <div className="px-6 md:px-8 max-w-4xl mx-auto">
             <nav className="mb-4 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
@@ -510,13 +635,30 @@ export default function AnthologyPage() {
               <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm" onClick={handleCopyLink} className="flex items-center gap-2"><Copy className="h-4 w-4" /> 复制链接</Button>
                 <Button variant="outline" size="sm" onClick={handleShare} className="flex items-center gap-2"><Share2 className="h-4 w-4" /> 分享</Button>
+                <Button variant="outline" size="sm" onClick={handleToggleFullscreen} className="flex items-center gap-2"><Maximize2 className="h-4 w-4" /> 全屏</Button>
               </div>
             </div>
             </div>
           </div>
+          )}
+
+          {/* 全屏模式下的简洁标题栏 */}
+          {isFullscreen && (
+          <div className="sticky top-0 z-30 bg-white/95 dark:bg-slate-950/95 backdrop-blur border-b border-slate-100 dark:border-slate-800 px-6 py-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-bold text-slate-900 dark:text-white">{selectedArticle.title}</h1>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{selectedArticle.author} · {selectedArticle.category}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={handleToggleFullscreen} className="flex items-center gap-2">
+                <Minimize2 className="h-4 w-4" /> 退出全屏
+              </Button>
+            </div>
+          </div>
+          )}
 
           {/* SCROLLABLE ARTICLE BODY */}
-          <div className="px-12 pb-20 pt-6">
+          <div className={cn("px-12 pb-20", isFullscreen ? "pt-6 h-full overflow-y-auto" : "pt-6")}>
             <article className="prose prose-slate max-w-none pt-6">
               <ArticleContent content={selectedArticle.content} onHeadersExtracted={setArticleHeaders} />
             </article>
@@ -540,12 +682,14 @@ export default function AnthologyPage() {
         </main>
 
         {/* --- RIGHT SIDEBAR (SEPARATED: FIXED TITLE + SCROLLABLE TOC) --- */}
-        <div ref={rightSidebarRef} className="w-64 hidden xl:block shrink-0 sticky top-16 self-start h-[calc(100vh-64px)] flex flex-col overflow-hidden border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 z-10">
+        <div ref={rightSidebarRef} className={cn("w-64 hidden xl:block shrink-0 sticky self-start flex flex-col overflow-hidden border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 z-10", 
+          isFullscreen ? "top-0 h-screen" : "top-16 h-[calc(100vh-64px)]"
+        )}>
           {/* Fixed Header - Fixed at viewport top, absolutely positioned */}
           <div 
             className="fixed border-b border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 z-30"
             style={{ 
-              top: '64px', 
+              top: isFullscreen ? '0' : '64px', 
               right: `${rightSidebarRight}px`, 
               width: '256px',
               padding: '1rem 1.5rem'
@@ -568,17 +712,34 @@ export default function AnthologyPage() {
                 <nav className="space-y-1">
                   {articleHeaders.map((header, index) => {
                     const isActive = activeHeaderId === header.id;
+                    // 根据标题级别设置不同的缩进和样式
+                    const getHeaderStyle = () => {
+                      const baseClasses = "w-full text-left px-3 py-2 rounded-md text-sm transition-colors border-l-2 border-transparent hover:border-yellow-400 dark:hover:border-yellow-500 hover:bg-slate-50 dark:hover:bg-slate-800";
+                      
+                      switch (header.level) {
+                        case 1:
+                          return `${baseClasses} pl-3 text-slate-900 dark:text-white font-medium`;
+                        case 2:
+                          return `${baseClasses} pl-5 text-slate-700 dark:text-slate-300`;
+                        case 3:
+                          return `${baseClasses} pl-7 text-slate-600 dark:text-slate-400`;
+                        case 4:
+                          return `${baseClasses} pl-9 text-slate-600 dark:text-slate-400 text-xs`;
+                        case 5:
+                          return `${baseClasses} pl-11 text-slate-500 dark:text-slate-500 text-xs`;
+                        case 6:
+                          return `${baseClasses} pl-[52px] text-slate-500 dark:text-slate-500 text-xs`;
+                        default:
+                          return `${baseClasses} pl-7 text-slate-600 dark:text-slate-400`;
+                      }
+                    };
+                    
                     return (
                       <button
                         key={header.id}
                         onClick={() => handleHeaderClick(header.id)}
                         className={cn(
-                          "w-full text-left px-3 py-2 rounded-md text-sm transition-colors border-l-2",
-                          header.level === 1
-                            ? "pl-3 border-transparent hover:border-yellow-400 dark:hover:border-yellow-500 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-900 dark:text-white font-medium"
-                            : header.level === 2
-                            ? "pl-5 border-transparent hover:border-yellow-400 dark:hover:border-yellow-500 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
-                            : "pl-7 border-transparent hover:border-yellow-400 dark:hover:border-yellow-500 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400",
+                          getHeaderStyle(),
                           // Smart highlight: Active heading turns yellow
                           isActive && "text-yellow-500 dark:text-yellow-400 border-yellow-400 dark:border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 font-semibold"
                         )}

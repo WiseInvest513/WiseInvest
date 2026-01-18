@@ -4,6 +4,9 @@ import type { Author, Article, ArticleMetadata, ArticleWithMeta } from "./types"
 /**
  * 文集数据懒加载管理器
  * 实现按需加载文章内容，优化首屏加载性能
+ * 支持两种内容来源：
+ * 1. data.ts 中的硬编码内容（优先级高）
+ * 2. Word 文档文件（.docx，存储在 lib/anthology/documents/）
  */
 
 // 文章内容缓存（避免重复加载）
@@ -48,7 +51,7 @@ export function getArticleMetadataById(id: string): (ArticleMetadata & { author:
 
 /**
  * 懒加载文章内容
- * 使用动态导入实现代码分割，只在需要时才加载文章内容数据
+ * 优先从 data.ts 加载，如果找不到则尝试从 Word 文档加载
  */
 export async function loadArticleContent(id: string): Promise<Article | null> {
   // 先检查缓存
@@ -56,23 +59,57 @@ export async function loadArticleContent(id: string): Promise<Article | null> {
     return contentCache.get(id)!;
   }
 
+  // 方法 1: 尝试从 data.ts 加载（原有方式）
   try {
-    // 动态导入文章内容数据（代码分割）
     const { articleContentMap } = await import("./data");
-    
     const article = articleContentMap.get(id);
     
     if (article) {
-      // 缓存文章内容
       contentCache.set(id, article);
       return article;
     }
-    
-    return null;
   } catch (error) {
-    console.error(`[Anthology] Failed to load article content for ${id}:`, error);
-    return null;
+    console.warn(`[Anthology] 从 data.ts 加载失败: ${id}`, error);
   }
+
+  // 方法 2: 尝试从 Word 文档加载（新增方式）
+  // 注意：只在服务器端执行，客户端不执行
+  if (typeof window === "undefined") {
+    try {
+      const { loadArticleFromWord } = await import("./word-loader");
+      
+      // 先获取元数据以获取标题
+      const metadata = getArticleMetadataById(id);
+      if (!metadata) {
+        console.warn(`[Anthology] 无法获取文章元数据: ${id}`);
+        return null;
+      }
+      
+      const content = await loadArticleFromWord(id);
+      
+      if (content) {
+        const article: Article = {
+          id,
+          title: metadata.title,
+          content,
+        };
+        
+        // 缓存文章内容
+        contentCache.set(id, article);
+        console.log(`[Anthology] ✅ 从 Word 文档加载文章: ${id}`);
+        return article;
+      }
+    } catch (error: any) {
+      // 如果是库未安装的错误，只警告不报错
+      if (error.message?.includes("mammoth") || error.message?.includes("未安装")) {
+        console.warn(`[Anthology] Word 文档解析功能未启用（需要安装 mammoth 库）: ${id}`);
+      } else {
+        console.error(`[Anthology] 从 Word 文档加载失败: ${id}`, error);
+      }
+    }
+  }
+  
+  return null;
 }
 
 /**
