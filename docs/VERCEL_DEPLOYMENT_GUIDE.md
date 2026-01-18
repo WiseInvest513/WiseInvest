@@ -109,7 +109,7 @@ vercel login
 
 ```bash
 # 在项目根目录执行
-cd /Users/balala/个人资料/Blog/MyBlog
+cd /Users/balala/Persona/Blog/MyBlog
 
 # 首次部署
 vercel

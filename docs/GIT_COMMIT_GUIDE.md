@@ -40,7 +40,7 @@ git config --global --list
 
 ```bash
 # 进入项目目录
-cd /Users/balala/个人资料/Blog/MyBlog
+cd /Users/balala/Persona/Blog/MyBlog
 
 # 查看 Git 状态
 git status

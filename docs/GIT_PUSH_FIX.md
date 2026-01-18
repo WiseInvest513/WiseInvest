@@ -112,7 +112,7 @@ ssh -T git@github.com
 
 ```bash
 # 进入项目目录
-cd "/Users/balala/个人资料/Blog/MyBlog"
+cd "/Users/balala/Persona/Blog/MyBlog"
 
 # 运行一键修复脚本（自动配置代理并推送）
 ./fix-git-remote-and-push.sh

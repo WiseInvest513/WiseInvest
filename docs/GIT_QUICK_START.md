@@ -33,7 +33,7 @@ git push
 ### 步骤 1: 检查 Git 状态
 
 ```bash
-cd /Users/balala/个人资料/Blog/MyBlog
+cd /Users/balala/Persona/Blog/MyBlog
 git status
 ```
 

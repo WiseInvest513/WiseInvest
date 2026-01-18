@@ -11,7 +11,7 @@
 
 ### 步骤 2: 进入项目目录
 ```bash
-cd "/Users/balala/个人资料/Blog/MyBlog"
+cd "/Users/balala/Persona/Blog/MyBlog"
 ```
 
 ### 步骤 3: 启动项目
@@ -49,10 +49,10 @@ npm run dev
 # 检查当前目录
 pwd
 
-# 应该显示: /Users/balala/个人资料/Blog/MyBlog
+# 应该显示: /Users/balala/Persona/Blog/MyBlog
 
 # 如果不在正确目录，使用完整路径
-cd "/Users/balala/个人资料/Blog/MyBlog"
+cd "/Users/balala/Persona/Blog/MyBlog"
 ```
 
 ## ✅ 文件完整性检查
@@ -60,7 +60,7 @@ cd "/Users/balala/个人资料/Blog/MyBlog"
 运行以下命令确认所有文件都在：
 
 ```bash
-cd "/Users/balala/个人资料/Blog/MyBlog"
+cd "/Users/balala/Persona/Blog/MyBlog"
 
 # 检查关键文件
 ls app/page.tsx          # ✅ 应该显示文件
@@ -73,7 +73,7 @@ ls package.json          # ✅ 应该显示文件
 
 ## 📦 项目文件位置
 
-**项目路径**: `/Users/balala/个人资料/Blog/MyBlog`
+**项目路径**: `/Users/balala/Persona/Blog/MyBlog`
 
 **关键目录**:
 - `app/` - 所有页面文件
@@ -86,7 +86,7 @@ ls package.json          # ✅ 应该显示文件
 运行这个命令查看项目状态：
 
 ```bash
-cd "/Users/balala/个人资料/Blog/MyBlog"
+cd "/Users/balala/Persona/Blog/MyBlog"
 echo "📁 项目文件检查:"
 echo "页面文件: $(find app -name '*.tsx' | wc -l | tr -d ' ') 个"
 echo "组件文件: $(find components -name '*.tsx' | wc -l | tr -d ' ') 个"
