@@ -24,6 +24,9 @@ export default function TweetsPage() {
 
   const topics = ["web3", "美股", "定投", "思考", "基金指数", "AI", "工具分享"];
   const formats = ["干货", "教程", "日常", "资讯"];
+  const authors = ["巴菲特", "段永平"]; // 作者分类
+  
+  const [selectedAuthor, setSelectedAuthor] = useState<string | null>(null);
 
   const toggleTopic = (topic: string) => {
     setSelectedTopics((prev) =>
@@ -44,10 +47,11 @@ export default function TweetsPage() {
   const clearFilters = () => {
     setSelectedTopics([]);
     setSelectedFormats([]);
+    setSelectedAuthor(null);
     setCurrentPage(1);
   };
 
-  const hasActiveFilters = selectedTopics.length > 0 || selectedFormats.length > 0;
+  const hasActiveFilters = selectedTopics.length > 0 || selectedFormats.length > 0 || selectedAuthor !== null;
 
   const getFilteredTweets = (): Tweet[] => {
     return tweets.filter((tweet) => {
@@ -63,11 +67,16 @@ export default function TweetsPage() {
         selectedFormats.length === 0 ||
         selectedFormats.some((format) => tweetTypes.includes(format));
       
-      return topicMatch && formatMatch;
+      // 作者筛选
+      const authorMatch =
+        selectedAuthor === null ||
+        (tweet.author && tweet.author === selectedAuthor);
+      
+      return topicMatch && formatMatch && authorMatch;
     });
   };
 
-  const filteredTweets = useMemo(() => getFilteredTweets(), [selectedTopics, selectedFormats]);
+  const filteredTweets = useMemo(() => getFilteredTweets(), [selectedTopics, selectedFormats, selectedAuthor]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredTweets.length / pageSize);
@@ -156,6 +165,47 @@ export default function TweetsPage() {
                           }`}
                         >
                           {format}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+            {/* Group 3: 作者分类 */}
+            <div className="mb-6">
+              <h3 className="px-2 text-base font-bold text-slate-900 dark:text-white mb-2 text-center">
+                    作者分类
+                  </h3>
+              <div className="grid grid-cols-1 gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedAuthor(null);
+                        setCurrentPage(1);
+                      }}
+                      className={`w-full text-center py-2 text-xs rounded-md transition-all ${
+                        selectedAuthor === null
+                          ? "bg-yellow-400 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
+                      }`}
+                    >
+                      全部
+                    </button>
+                    {authors.map((author) => {
+                      const isSelected = selectedAuthor === author;
+                      return (
+                        <button
+                          key={author}
+                          onClick={() => {
+                            setSelectedAuthor(author);
+                            setCurrentPage(1);
+                          }}
+                          className={`w-full text-center py-2 text-xs rounded-md transition-all ${
+                            isSelected
+                              ? "bg-yellow-400 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-sm"
+                              : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100"
+                          }`}
+                        >
+                          {author}
                         </button>
                       );
                     })}

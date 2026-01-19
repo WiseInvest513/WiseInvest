@@ -6,6 +6,7 @@ export interface Tweet {
   date: string; // 格式: YYYY-MM-DD
   link: string;
   views: number;
+  author?: string; // 作者分类（可选），如 "巴菲特", "段永平"
 }
 
 export const tweets: Tweet[] = [
