@@ -57,7 +57,6 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" prefetch={true} className="font-heading text-xl font-bold flex items-center gap-2">
             <span>Wise Invest</span>
-            <span className="text-yellow-600 dark:text-yellow-400 font-normal">哒哒哒</span>
           </Link>
 
           {/* Navigation Items */}
