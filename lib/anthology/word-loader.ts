@@ -147,34 +147,89 @@ export function getDocumentsDirectory(): string {
 
 /**
  * 检查文档文件是否存在
+ * @param filePath 文件路径（相对于 documents 目录）
  */
-export function documentExists(filename: string): boolean {
-  const docPath = path.join(getDocumentsDirectory(), filename);
+export function documentExists(filePath: string): boolean {
+  const docPath = path.join(getDocumentsDirectory(), filePath);
   return fs.existsSync(docPath);
 }
 
 /**
- * 根据文章 ID 获取对应的 Word 文档文件名
- * 约定：文章 ID 对应文件名，例如 "buffett-letter-1980" -> "buffett-letter-1980.docx"
+ * 根据文章 ID 和路径获取对应的 Word 文档文件路径
+ * 
+ * 优先级：
+ * 1. 如果提供了 path，直接使用 path
+ * 2. 否则，根据 ID 自动推断路径（向后兼容）
+ * 3. 如果推断失败，使用 ID 作为文件名（旧方式）
+ * 
+ * @param articleId 文章ID
+ * @param path 可选的相对路径（相对于 documents 目录）
+ * @returns 文件路径（相对于 documents 目录）
  */
-export function getDocumentFileName(articleId: string): string {
+export function getDocumentFilePath(articleId: string, path?: string): string {
+  // 如果提供了 path，直接使用
+  if (path) {
+    return path;
+  }
+  
+  // 尝试根据 ID 自动推断路径
+  // 格式1: 股东大会文档 -> buffett/meetings/{id}.docx
+  if (articleId.includes("股东大会")) {
+    return `buffett/meetings/${articleId}.docx`;
+  }
+  
+  // 格式2: 演讲合集 -> buffett/speeches/{id}.docx
+  if (articleId.startsWith("buffett-speech-")) {
+    const filename = articleId.replace("buffett-speech-", "");
+    return `buffett/speeches/${filename}.docx`;
+  }
+  
+  // 格式3: 名言合集 -> buffett/quotes/{id}.docx
+  if (articleId.startsWith("buffett-quote-")) {
+    const filename = articleId.replace("buffett-quote-", "");
+    return `buffett/quotes/${filename}.docx`;
+  }
+  
+  // 格式3: duan-business-* -> duan/business/{id}.docx
+  if (articleId.startsWith("duan-business-")) {
+    return `duan/business/${articleId}.docx`;
+  }
+  
+  // 格式4: duan-invest-* -> duan/investment/{id}.docx
+  if (articleId.startsWith("duan-invest-")) {
+    return `duan/investment/${articleId}.docx`;
+  }
+  
+  // 默认：使用 ID 作为文件名（向后兼容旧文件）
   return `${articleId}.docx`;
 }
 
 /**
  * 从 Word 文档加载文章内容
+ * @param articleId 文章ID
+ * @param articlePath 可选的文档路径（如果元数据中提供了path）
  */
-export async function loadArticleFromWord(articleId: string): Promise<string | null> {
+export async function loadArticleFromWord(articleId: string, articlePath?: string): Promise<string | null> {
   try {
-    const fileName = getDocumentFileName(articleId);
-    const filePath = path.join(getDocumentsDirectory(), fileName);
+    // 获取文档路径（支持子文件夹）
+    const relativePath = getDocumentFilePath(articleId, articlePath);
+    const fullPath = path.join(getDocumentsDirectory(), relativePath);
     
-    if (!documentExists(fileName)) {
-      console.log(`[WordLoader] 文档不存在: ${fileName}`);
+    // 检查文件是否存在
+    if (!documentExists(relativePath)) {
+      console.log(`[WordLoader] 文档不存在: ${relativePath}`);
+      // 尝试旧路径（向后兼容）
+      const oldPath = `${articleId}.docx`;
+      const oldFullPath = path.join(getDocumentsDirectory(), oldPath);
+      if (fs.existsSync(oldFullPath)) {
+        console.log(`[WordLoader] 使用旧路径: ${oldPath}`);
+        const content = await loadWordDocument(oldFullPath);
+        return content;
+      }
       return null;
     }
     
-    const content = await loadWordDocument(filePath);
+    const content = await loadWordDocument(fullPath);
     return content;
   } catch (error) {
     console.error(`[WordLoader] 加载文章失败: ${articleId}`, error);

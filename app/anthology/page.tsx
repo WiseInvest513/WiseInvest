@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Copy, Share2, ChevronRight, ChevronLeft, Search, Loader2, Maximize2, Minimize2 } from "lucide-react";
+import { Copy, Share2, ChevronRight, ChevronLeft, Search, Loader2, Maximize2, Minimize2, ChevronDown, ChevronUp } from "lucide-react";
 import {
   getKnowledgeBaseMetadata,
   getAllArticleMetadata,
@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/lib/config";
 
 // --- Hook: Track Active Heading ---
 // This hook uses IntersectionObserver to detect which heading is currently visible in the viewport
@@ -305,6 +306,7 @@ export default function AnthologyPage() {
   const [filteredAuthor, setFilteredAuthor] = useState<string | null>(authorParam);
   const [filteredCategory, setFilteredCategory] = useState<string | null>(categoryParam);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
   const leftSidebarRef = useRef<HTMLDivElement>(null);
   const rightSidebarRef = useRef<HTMLDivElement>(null);
@@ -427,7 +429,12 @@ export default function AnthologyPage() {
       if (window.location.hash) {
         const hashId = window.location.hash.substring(1);
         const article = getArticleMetadataById(hashId);
-        if (article) setSelectedArticleId(hashId);
+        if (article) {
+          setSelectedArticleId(hashId);
+          // 自动展开对应的分类
+          const categoryKey = `${article.author}-${article.category}`;
+          setExpandedCategories(new Set([categoryKey]));
+        }
       }
       if (articleIdParam) {
         const article = getArticleMetadataById(articleIdParam);
@@ -435,6 +442,9 @@ export default function AnthologyPage() {
           setSelectedArticleId(articleIdParam);
           setFilteredAuthor(article.author);
           setFilteredCategory(article.category);
+          // 自动展开对应的分类
+          const categoryKey = `${article.author}-${article.category}`;
+          setExpandedCategories(new Set([categoryKey]));
           return;
         }
       }
@@ -551,7 +561,12 @@ export default function AnthologyPage() {
           {/* 2. SCROLLABLE LIST BODY - Takes remaining space and scrolls independently */}
           <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hide overflow-x-hidden">
             <div className="p-6">
-              <h2 className="font-heading text-xl font-bold text-slate-900 dark:text-white mb-8">知识库</h2>
+              <Link 
+                href="/anthology"
+                className="font-heading text-xl font-bold text-slate-900 dark:text-white mb-8 block hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors"
+              >
+                知识库
+              </Link>
               <nav className="space-y-8">
                 {filteredKnowledgeBase.length === 0 ? (
                   <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">未找到匹配的内容</p>
@@ -560,7 +575,7 @@ export default function AnthologyPage() {
                     <div key={author.name} className="space-y-3">
                       <h3
                         className={cn(
-                          "text-xs uppercase tracking-wider cursor-pointer transition-colors font-semibold",
+                          "text-base font-bold uppercase tracking-wider cursor-pointer transition-colors",
                           filteredAuthor === author.name
                             ? "text-yellow-600 dark:text-yellow-500"
                             : "text-slate-900 dark:text-white hover:text-yellow-600 dark:hover:text-yellow-500"
@@ -569,44 +584,76 @@ export default function AnthologyPage() {
                       >
                         {author.name}
                       </h3>
-                      <div className="space-y-4">
-                        {author.categories.map((category) => (
-                          <div key={category.name} className="space-y-2">
-                            <h4
-                              className={cn(
-                                "text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors",
-                                filteredAuthor === author.name && filteredCategory === category.name
-                                  ? "text-yellow-600 dark:text-yellow-500"
-                                  : "text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500"
-                              )}
-                              onClick={() => { setFilteredAuthor(author.name); setFilteredCategory(category.name); updateUrlFromFilters(author.name, category.name); }}
-                            >
-                              {category.name}
-                            </h4>
-                            <ul className="space-y-0.5">
-                              {category.articles.map((article) => {
-                                const isActive = article.id === selectedArticleId;
-                                return (
-                                  <li key={article.id} className="flex justify-center">
-                                    <button
-                                      onClick={() => setSelectedArticleId(article.id)}
-                                      className={`w-fit text-center px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 ${
-                                        isActive
-                                          ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
-                                          : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
-                                      }`}
-                                    >
-                                      {article.title}
-                                    </button>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        ))}
+                      <div className="space-y-4 pl-4">
+                        {author.categories.map((category) => {
+                          const categoryKey = `${author.name}-${category.name}`;
+                          const isExpanded = expandedCategories.has(categoryKey);
+                            return (
+                              <div key={category.name} className="space-y-2">
+                                <div
+                                  className="flex items-center gap-1 cursor-pointer group"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const newExpanded = new Set(expandedCategories);
+                                    if (isExpanded) {
+                                      newExpanded.delete(categoryKey);
+                                    } else {
+                                      newExpanded.add(categoryKey);
+                                    }
+                                    setExpandedCategories(newExpanded);
+                                    // 只展开/折叠，不改变筛选状态和URL
+                                  }}
+                                >
+                                  {isExpanded ? (
+                                    <ChevronDown className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                                  ) : (
+                                    <ChevronRight className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                                  )}
+                                  <h4
+                                    className={cn(
+                                      "text-sm font-semibold uppercase tracking-wider transition-colors flex-1",
+                                      filteredAuthor === author.name && filteredCategory === category.name
+                                        ? "text-yellow-600 dark:text-yellow-500"
+                                        : "text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500"
+                                    )}
+                                  >
+                                    {category.name}
+                                  </h4>
+                                </div>
+                                {isExpanded && (
+                                  <ul className="space-y-0.5 pl-4">
+                                    {category.articles.map((article) => {
+                                      const isActive = article.id === selectedArticleId;
+                                      return (
+                                        <li key={article.id} className="flex justify-center">
+                                          <button
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setSelectedArticleId(article.id);
+                                              // 点击文章时，设置筛选状态
+                                              setFilteredAuthor(author.name);
+                                              setFilteredCategory(category.name);
+                                              updateUrlFromFilters(author.name, category.name);
+                                            }}
+                                            className={`w-fit text-center px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 ${
+                                              isActive
+                                                ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
+                                                : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
+                                            }`}
+                                          >
+                                            {article.title}
+                                          </button>
+                                        </li>
+                                      );
+                                    })}
+                                  </ul>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    ))
                 )}
               </nav>
             </div>

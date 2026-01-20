@@ -29,21 +29,27 @@ export const knowledgeBaseMetadata: Author[] = [
     name: "巴菲特 (Buffett)",
     categories: [
       {
-        name: "致股东信",
-        articles: [
-          { id: "buffett-letter-1980", title: "1980年致股东信" },
-          { id: "buffett-letter-2024", title: "2024年致股东信" },
-        ],
-      },
-      {
-        name: "股东大会",
+        name: "1、股东大会",
         articles: [
           { id: "1957-1967股东大会", title: "1957-1967股东大会" },
           { id: "1968-1978 股东大会", title: "1968-1978股东大会" },
           { id: "1979-1989 股东大会", title: "1979-1989股东大会" },
           { id: "1990-2000 股东大会", title: "1990-2000股东大会" },
+          { id: "2001-2010 股东大会", title: "2001-2010股东大会" },
           { id: "2011-2021 股东大会", title: "2011-2021股东大会" },
           { id: "2022-2025股东大会", title: "2022-2025股东大会" },
+        ],
+      },
+      {
+        name: "2、演讲合集",
+        articles: [
+          { id: "buffett-speech-test2", title: "测试2", path: "buffett/speeches/测试2.docx" },
+        ],
+      },
+      {
+        name: "3、名言合集",
+        articles: [
+          { id: "buffett-quote-test1", title: "测试1", path: "buffett/quotes/测试 1.docx" },
         ],
       },
     ],
