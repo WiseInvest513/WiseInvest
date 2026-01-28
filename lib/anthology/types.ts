@@ -21,8 +21,14 @@ export interface Author {
   categories: Category[];
 }
 
+export interface Section {
+  name: string;
+  authors: Author[];
+}
+
 export interface ArticleWithMeta extends Article {
   author: string;
   category: string;
+  section?: string; // 新增：所属分类（名人文章、投资思想等）
 }
 

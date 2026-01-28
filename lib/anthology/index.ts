@@ -1,5 +1,5 @@
 import { knowledgeBaseMetadata } from "./metadata";
-import type { Author, Article, ArticleMetadata, ArticleWithMeta } from "./types";
+import type { Author, Article, ArticleMetadata, ArticleWithMeta, Section } from "./types";
 
 /**
  * 文集数据懒加载管理器
@@ -14,25 +14,40 @@ const contentCache = new Map<string, Article>();
 
 /**
  * 获取文集元数据（轻量级，立即返回）
- * 用于显示文章列表、搜索、导航等
+ * 返回 Section[] 结构，用于显示文章列表、搜索、导航等
  */
-export function getKnowledgeBaseMetadata(): Author[] {
+export function getKnowledgeBaseMetadata(): Section[] {
   return knowledgeBaseMetadata;
+}
+
+/**
+ * 获取扁平化的作者列表（向后兼容）
+ * 用于需要 Author[] 格式的旧代码
+ */
+export function getFlattenedAuthors(): Author[] {
+  const authors: Author[] = [];
+  knowledgeBaseMetadata.forEach((section) => {
+    authors.push(...section.authors);
+  });
+  return authors;
 }
 
 /**
  * 获取所有文章的元数据（扁平化）
  */
-export function getAllArticleMetadata(): Array<ArticleMetadata & { author: string; category: string }> {
-  const allArticles: Array<ArticleMetadata & { author: string; category: string }> = [];
+export function getAllArticleMetadata(): Array<ArticleMetadata & { author: string; category: string; section?: string }> {
+  const allArticles: Array<ArticleMetadata & { author: string; category: string; section?: string }> = [];
   
-  knowledgeBaseMetadata.forEach((author) => {
-    author.categories.forEach((category) => {
-      category.articles.forEach((article) => {
-        allArticles.push({
-          ...article,
-          author: author.name,
-          category: category.name,
+  knowledgeBaseMetadata.forEach((section) => {
+    section.authors.forEach((author) => {
+      author.categories.forEach((category) => {
+        category.articles.forEach((article) => {
+          allArticles.push({
+            ...article,
+            author: author.name,
+            category: category.name,
+            section: section.name,
+          });
         });
       });
     });
@@ -44,7 +59,7 @@ export function getAllArticleMetadata(): Array<ArticleMetadata & { author: strin
 /**
  * 根据 ID 获取文章元数据（不包含内容）
  */
-export function getArticleMetadataById(id: string): (ArticleMetadata & { author: string; category: string }) | null {
+export function getArticleMetadataById(id: string): (ArticleMetadata & { author: string; category: string; section?: string }) | null {
   const allArticles = getAllArticleMetadata();
   return allArticles.find((article) => article.id === id) || null;
 }
@@ -134,6 +149,7 @@ export async function getArticleById(id: string): Promise<ArticleWithMeta | null
     ...content,
     author: metadata.author,
     category: metadata.category,
+    section: metadata.section,
   };
 }
 
@@ -147,5 +163,5 @@ export async function preloadArticles(ids: string[]): Promise<void> {
 }
 
 // 导出类型供外部使用
-export type { Author, Article, ArticleMetadata, ArticleWithMeta } from "./types";
+export type { Author, Article, ArticleMetadata, ArticleWithMeta, Section } from "./types";
 

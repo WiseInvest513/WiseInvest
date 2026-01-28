@@ -1,13 +1,16 @@
-import type { Author } from "./types";
+import type { Section } from "./types";
 
 /**
  * 文集元数据（轻量级，用于列表显示和搜索）
  * 不包含文章内容，只包含 id 和 title
  * 这个文件会被预先加载，用于快速显示文章列表
  */
-export const knowledgeBaseMetadata: Author[] = [
+export const knowledgeBaseMetadata: Section[] = [
   {
-    name: "段永平",
+    name: "名人文章",
+    authors: [
+      {
+        name: "段永平",
     categories: [
       {
         name: "1、商业逻辑",
@@ -30,9 +33,9 @@ export const knowledgeBaseMetadata: Author[] = [
         ],
       },
     ],
-  },
-  {
-    name: "巴菲特",
+      },
+      {
+        name: "巴菲特",
     categories: [
       {
         name: "1、股东大会",
@@ -84,6 +87,14 @@ export const knowledgeBaseMetadata: Author[] = [
           { id: "buffett-quote-股神巴菲特名言合集", title: "股神巴菲特名言合集", path: "buffett/quotes/股神巴菲特名言合集.md" },
         ],
       },
+    ],
+      },
+    ],
+  },
+  {
+    name: "投资思想",
+    authors: [
+      // 可以在这里添加投资思想相关的作者和文章
     ],
   },
 ];

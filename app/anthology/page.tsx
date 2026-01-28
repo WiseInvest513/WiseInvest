@@ -11,12 +11,19 @@ import {
   getArticleMetadataById,
   type Author,
   type ArticleWithMeta,
+  type Section,
 } from "@/lib/anthology";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/config";
+
+// Section emoji 符号映射
+const sectionEmojis: Record<string, string> = {
+  "名人文章": "📚",
+  "投资思想": "💡",
+};
 
 // --- Hook: Track Active Heading ---
 // This hook uses IntersectionObserver to detect which heading is currently visible in the viewport
@@ -285,16 +292,27 @@ export default function AnthologyPage() {
 
   // 获取文集元数据（同步，轻量级）
   const knowledgeBase = useMemo(() => getKnowledgeBaseMetadata(), []);
-  const firstAuthor = knowledgeBase[0];
-  const firstCategory = firstAuthor.categories[0];
-  const firstArticle = firstCategory.articles[0];
+  // 获取第一个可用的文章
+  const getFirstArticle = () => {
+    for (const section of knowledgeBase) {
+      for (const author of section.authors) {
+        for (const category of author.categories) {
+          if (category.articles.length > 0) {
+            return category.articles[0];
+          }
+        }
+      }
+    }
+    return null;
+  };
+  const firstArticle = getFirstArticle();
 
   const getInitialArticleId = () => {
     if (articleIdParam) {
       const article = getArticleMetadataById(articleIdParam);
       if (article) return articleIdParam;
     }
-    return firstArticle.id;
+    return firstArticle?.id || "";
   };
 
   const [selectedArticleId, setSelectedArticleId] = useState<string>(getInitialArticleId());
@@ -306,7 +324,34 @@ export default function AnthologyPage() {
   const [filteredAuthor, setFilteredAuthor] = useState<string | null>(authorParam);
   const [filteredCategory, setFilteredCategory] = useState<string | null>(categoryParam);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  // 初始化展开状态：默认展开第一个 Section 和第一个 Author
+  const getInitialExpandedState = () => {
+    const sections = new Set<string>();
+    const authors = new Set<string>();
+    const categories = new Set<string>();
+    
+    if (knowledgeBase.length > 0) {
+      const firstSection = knowledgeBase[0];
+      sections.add(firstSection.name);
+      
+      if (firstSection.authors.length > 0) {
+        const firstAuthor = firstSection.authors[0];
+        authors.add(`${firstSection.name}-${firstAuthor.name}`);
+        
+        if (firstAuthor.categories.length > 0) {
+          const firstCategory = firstAuthor.categories[0];
+          categories.add(`${firstAuthor.name}-${firstCategory.name}`);
+        }
+      }
+    }
+    
+    return { sections, authors, categories };
+  };
+  
+  const initialExpanded = useMemo(() => getInitialExpandedState(), [knowledgeBase]);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(initialExpanded.categories);
+  const [expandedAuthors, setExpandedAuthors] = useState<Set<string>>(initialExpanded.authors);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(initialExpanded.sections);
 
   const leftSidebarRef = useRef<HTMLDivElement>(null);
   const rightSidebarRef = useRef<HTMLDivElement>(null);
@@ -342,33 +387,32 @@ export default function AnthologyPage() {
   const allArticles = useMemo(() => getAllArticleMetadata(), []);
 
   // 过滤文集元数据（只搜索标题，不搜索内容，提高性能）
+  // 注意：不再根据 filteredAuthor 和 filteredCategory 过滤，保持所有目录可见
   const filteredKnowledgeBase = useMemo(() => {
     let base = knowledgeBase;
-    if (filteredAuthor) base = base.filter((author) => author.name === filteredAuthor);
-    if (filteredCategory && filteredAuthor) {
-      base = base.map((author) => {
-        if (author.name === filteredAuthor) {
-          return { ...author, categories: author.categories.filter((cat) => cat.name === filteredCategory) };
-        }
-        return author;
-      });
-    }
+    
+    // 只根据搜索查询过滤，不根据选中状态过滤
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      base = base.map((author) => {
+      base = base.map((section) => {
+        const filteredAuthors = section.authors.map((author) => {
           const filteredCategories = author.categories.map((category) => {
-              const filteredArticles = category.articles.filter((article) =>
-                  article.title.toLowerCase().includes(query) ||
-                  author.name.toLowerCase().includes(query) ||
-                  category.name.toLowerCase().includes(query)
-              );
-              return filteredArticles.length > 0 ? { ...category, articles: filteredArticles } : null;
-            }).filter((cat) => cat !== null);
+            const filteredArticles = category.articles.filter((article) =>
+              article.title.toLowerCase().includes(query) ||
+              author.name.toLowerCase().includes(query) ||
+              category.name.toLowerCase().includes(query) ||
+              section.name.toLowerCase().includes(query)
+            );
+            return filteredArticles.length > 0 ? { ...category, articles: filteredArticles } : null;
+          }).filter((cat) => cat !== null);
           return filteredCategories.length > 0 ? { ...author, categories: filteredCategories } : null;
         }).filter((author) => author !== null);
+        return filteredAuthors.length > 0 ? { ...section, authors: filteredAuthors } : null;
+      }).filter((section) => section !== null);
     }
+    
     return base;
-  }, [searchQuery, filteredAuthor, filteredCategory, knowledgeBase]);
+  }, [searchQuery, knowledgeBase]);
 
   const currentArticleIndex = useMemo(() => allArticles.findIndex((article) => article.id === selectedArticleId), [selectedArticleId, allArticles]);
   const previousArticle = currentArticleIndex > 0 ? allArticles[currentArticleIndex - 1] : null;
@@ -431,8 +475,12 @@ export default function AnthologyPage() {
         const article = getArticleMetadataById(hashId);
         if (article) {
           setSelectedArticleId(hashId);
-          // 自动展开对应的分类
+          // 自动展开对应的层级
+          const sectionKey = article.section || knowledgeBase[0]?.name || "";
+          const authorKey = `${sectionKey}-${article.author}`;
           const categoryKey = `${article.author}-${article.category}`;
+          setExpandedSections(new Set([sectionKey]));
+          setExpandedAuthors(new Set([authorKey]));
           setExpandedCategories(new Set([categoryKey]));
         }
       }
@@ -442,8 +490,12 @@ export default function AnthologyPage() {
           setSelectedArticleId(articleIdParam);
           setFilteredAuthor(article.author);
           setFilteredCategory(article.category);
-          // 自动展开对应的分类
+          // 自动展开对应的层级
+          const sectionKey = article.section || knowledgeBase[0]?.name || "";
+          const authorKey = `${sectionKey}-${article.author}`;
           const categoryKey = `${article.author}-${article.category}`;
+          setExpandedSections(new Set([sectionKey]));
+          setExpandedAuthors(new Set([authorKey]));
           setExpandedCategories(new Set([categoryKey]));
           return;
         }
@@ -451,7 +503,7 @@ export default function AnthologyPage() {
       setFilteredAuthor(authorParam || null);
       setFilteredCategory(categoryParam || null);
     }
-  }, [authorParam, categoryParam, articleIdParam]);
+  }, [authorParam, categoryParam, articleIdParam, knowledgeBase]);
   
   const updateUrlFromFilters = (author: string | null, category: string | null) => {
     if (typeof window === "undefined") return;
@@ -567,99 +619,164 @@ export default function AnthologyPage() {
               >
                 知识库
               </Link>
-              <nav className="space-y-8">
+              <nav className="space-y-6">
                 {filteredKnowledgeBase.length === 0 ? (
                   <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">未找到匹配的内容</p>
                 ) : (
-                  filteredKnowledgeBase.map((author) => (
-                    <div key={author.name} className="space-y-3">
-                      <h3
-                        className={cn(
-                          "text-base font-bold uppercase tracking-wider cursor-pointer transition-colors",
-                          filteredAuthor === author.name
-                            ? "text-yellow-600 dark:text-yellow-500"
-                            : "text-slate-900 dark:text-white hover:text-yellow-600 dark:hover:text-yellow-500"
-                        )}
-                        onClick={() => { setFilteredAuthor(author.name); setFilteredCategory(null); updateUrlFromFilters(author.name, null); }}
-                      >
-                        {author.name}
-                      </h3>
-                      <div className="space-y-4 pl-4">
-                        {author.categories.map((category) => {
-                          const categoryKey = `${author.name}-${category.name}`;
-                          const isExpanded = expandedCategories.has(categoryKey);
-                            return (
-                          <div key={category.name} className="space-y-2">
-                                <div
-                                  className="flex items-center gap-1 cursor-pointer group"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    const newExpanded = new Set(expandedCategories);
-                                    if (isExpanded) {
-                                      newExpanded.delete(categoryKey);
-                                    } else {
-                                      newExpanded.add(categoryKey);
-                                    }
-                                    setExpandedCategories(newExpanded);
-                                    // 只展开/折叠，不改变筛选状态和URL
-                                  }}
-                                >
-                                  {isExpanded ? (
-                                    <ChevronDown className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
-                                  ) : (
-                                    <ChevronRight className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
-                                  )}
-                            <h4
-                              className={cn(
-                                      "text-sm font-semibold uppercase tracking-wider transition-colors flex-1",
-                                filteredAuthor === author.name && filteredCategory === category.name
-                                  ? "text-yellow-600 dark:text-yellow-500"
-                                        : "text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500"
-                              )}
-                            >
-                              {category.name}
-                            </h4>
-                                </div>
-                                {isExpanded && (
-                                  <ul className="space-y-0.5 pl-4">
-                              {category.articles.map((article) => {
-                                const isActive = article.id === selectedArticleId;
-                                      // 限制标题显示长度，参考"1985年巴菲特电视采访"的长度（约15个字符）
-                                      const maxLength = 15;
-                                      const displayTitle = article.title.length > maxLength 
-                                        ? article.title.substring(0, maxLength) + '...' 
-                                        : article.title;
-                                return (
-                                        <li key={article.id} className="flex">
-                                    <button
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              setSelectedArticleId(article.id);
-                                              // 点击文章时，设置筛选状态
-                                              setFilteredAuthor(author.name);
-                                              setFilteredCategory(category.name);
-                                              updateUrlFromFilters(author.name, category.name);
-                                            }}
-                                            className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 whitespace-nowrap overflow-hidden text-ellipsis ${
-                                        isActive
-                                          ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
-                                          : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
-                                      }`}
-                                            title={article.title}
+                  filteredKnowledgeBase.map((section) => {
+                    const sectionKey = section.name;
+                    const isSectionExpanded = expandedSections.has(sectionKey);
+                    return (
+                      <div key={section.name} className="space-y-2">
+                        {/* Section 标题（名人文章、投资思想） */}
+                        <div
+                          className="flex items-center gap-2 cursor-pointer group"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const newExpanded = new Set(expandedSections);
+                            if (isSectionExpanded) {
+                              newExpanded.delete(sectionKey);
+                            } else {
+                              newExpanded.add(sectionKey);
+                            }
+                            setExpandedSections(newExpanded);
+                          }}
+                        >
+                          {isSectionExpanded ? (
+                            <ChevronDown className="h-4 w-4 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                          ) : (
+                            <ChevronRight className="h-4 w-4 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                          )}
+                          {sectionEmojis[section.name] && (
+                            <span className="text-xl flex-shrink-0">{sectionEmojis[section.name]}</span>
+                          )}
+                          <h2 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
+                            {section.name}
+                          </h2>
+                        </div>
+                        
+                        {/* Authors（段永平、巴菲特） */}
+                        {isSectionExpanded && (
+                          <div className="space-y-4 pl-5">
+                            {section.authors.map((author) => {
+                              const authorKey = `${section.name}-${author.name}`;
+                              const isAuthorExpanded = expandedAuthors.has(authorKey);
+                              return (
+                                <div key={author.name} className="space-y-3">
+                                  <div
+                                    className="flex items-center gap-1 cursor-pointer group"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const newExpanded = new Set(expandedAuthors);
+                                      if (isAuthorExpanded) {
+                                        newExpanded.delete(authorKey);
+                                      } else {
+                                        newExpanded.add(authorKey);
+                                      }
+                                      setExpandedAuthors(newExpanded);
+                                    }}
+                                  >
+                                    {isAuthorExpanded ? (
+                                      <ChevronDown className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                                    ) : (
+                                      <ChevronRight className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                                    )}
+                                    <h3
+                                      className={cn(
+                                        "text-base font-bold uppercase tracking-wider transition-colors",
+                                        filteredAuthor === author.name
+                                          ? "text-yellow-600 dark:text-yellow-500"
+                                          : "text-slate-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-500"
+                                      )}
                                     >
-                                            {displayTitle}
-                                    </button>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                                )}
+                                      {author.name}
+                                    </h3>
+                                  </div>
+                                  
+                                  {/* Categories */}
+                                  {isAuthorExpanded && (
+                                    <div className="space-y-4 pl-4">
+                                      {author.categories.map((category) => {
+                                        const categoryKey = `${author.name}-${category.name}`;
+                                        const isCategoryExpanded = expandedCategories.has(categoryKey);
+                                        return (
+                                          <div key={category.name} className="space-y-2">
+                                            <div
+                                              className="flex items-center gap-1 cursor-pointer group"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                const newExpanded = new Set(expandedCategories);
+                                                if (isCategoryExpanded) {
+                                                  newExpanded.delete(categoryKey);
+                                                } else {
+                                                  newExpanded.add(categoryKey);
+                                                }
+                                                setExpandedCategories(newExpanded);
+                                              }}
+                                            >
+                                              {isCategoryExpanded ? (
+                                                <ChevronDown className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                                              ) : (
+                                                <ChevronRight className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
+                                              )}
+                                              <h4
+                                                className={cn(
+                                                  "text-sm font-semibold uppercase tracking-wider transition-colors flex-1",
+                                                  filteredAuthor === author.name && filteredCategory === category.name
+                                                    ? "text-yellow-600 dark:text-yellow-500"
+                                                    : "text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500"
+                                                )}
+                                              >
+                                                {category.name}
+                                              </h4>
+                                            </div>
+                                            
+                                            {/* Articles */}
+                                            {isCategoryExpanded && (
+                                              <ul className="space-y-0.5 pl-4">
+                                                {category.articles.map((article) => {
+                                                  const isActive = article.id === selectedArticleId;
+                                                  const maxLength = 15;
+                                                  const displayTitle = article.title.length > maxLength 
+                                                    ? article.title.substring(0, maxLength) + '...' 
+                                                    : article.title;
+                                                  return (
+                                                    <li key={article.id} className="flex">
+                                                      <button
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          setSelectedArticleId(article.id);
+                                                          setFilteredAuthor(author.name);
+                                                          setFilteredCategory(category.name);
+                                                          updateUrlFromFilters(author.name, category.name);
+                                                        }}
+                                                        className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 whitespace-nowrap overflow-hidden text-ellipsis ${
+                                                          isActive
+                                                            ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
+                                                            : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
+                                                        }`}
+                                                        title={article.title}
+                                                      >
+                                                        {displayTitle}
+                                                      </button>
+                                                    </li>
+                                                  );
+                                                })}
+                                              </ul>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
-                            );
-                          })}
+                        )}
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 )}
               </nav>
             </div>
