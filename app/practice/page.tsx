@@ -33,13 +33,6 @@ const practiceCategories = [
     description: "Bitget 新用户活动记录与介绍",
     href: "/practice/bitget-corner",
   },
-  {
-    id: "twitter-giveaway",
-    label: "推特创作者激励抽奖",
-    iconUrl: "https://cdn.simpleicons.org/x/000000",
-    description: "记录每次抽奖的公布贴和结果贴",
-    href: "/practice/twitter-giveaway",
-  },
 ];
 
 export default function PracticePage() {

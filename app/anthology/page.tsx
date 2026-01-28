@@ -589,7 +589,7 @@ export default function AnthologyPage() {
                           const categoryKey = `${author.name}-${category.name}`;
                           const isExpanded = expandedCategories.has(categoryKey);
                             return (
-                              <div key={category.name} className="space-y-2">
+                          <div key={category.name} className="space-y-2">
                                 <div
                                   className="flex items-center gap-1 cursor-pointer group"
                                   onClick={(e) => {
@@ -609,24 +609,29 @@ export default function AnthologyPage() {
                                   ) : (
                                     <ChevronRight className="h-3 w-3 text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors" />
                                   )}
-                                  <h4
-                                    className={cn(
+                            <h4
+                              className={cn(
                                       "text-sm font-semibold uppercase tracking-wider transition-colors flex-1",
-                                      filteredAuthor === author.name && filteredCategory === category.name
-                                        ? "text-yellow-600 dark:text-yellow-500"
+                                filteredAuthor === author.name && filteredCategory === category.name
+                                  ? "text-yellow-600 dark:text-yellow-500"
                                         : "text-slate-500 dark:text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500"
-                                    )}
-                                  >
-                                    {category.name}
-                                  </h4>
+                              )}
+                            >
+                              {category.name}
+                            </h4>
                                 </div>
                                 {isExpanded && (
                                   <ul className="space-y-0.5 pl-4">
-                                    {category.articles.map((article) => {
-                                      const isActive = article.id === selectedArticleId;
-                                      return (
-                                        <li key={article.id} className="flex justify-center">
-                                          <button
+                              {category.articles.map((article) => {
+                                const isActive = article.id === selectedArticleId;
+                                      // 限制标题显示长度，参考"1985年巴菲特电视采访"的长度（约15个字符）
+                                      const maxLength = 15;
+                                      const displayTitle = article.title.length > maxLength 
+                                        ? article.title.substring(0, maxLength) + '...' 
+                                        : article.title;
+                                return (
+                                        <li key={article.id} className="flex">
+                                    <button
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               setSelectedArticleId(article.id);
@@ -635,25 +640,26 @@ export default function AnthologyPage() {
                                               setFilteredCategory(category.name);
                                               updateUrlFromFilters(author.name, category.name);
                                             }}
-                                            className={`w-fit text-center px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 ${
-                                              isActive
-                                                ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
-                                                : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
-                                            }`}
-                                          >
-                                            {article.title}
-                                          </button>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
+                                            className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 whitespace-nowrap overflow-hidden text-ellipsis ${
+                                        isActive
+                                          ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
+                                          : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
+                                      }`}
+                                            title={article.title}
+                                    >
+                                            {displayTitle}
+                                    </button>
+                                  </li>
+                                );
+                              })}
+                            </ul>
                                 )}
-                              </div>
+                          </div>
                             );
                           })}
-                        </div>
                       </div>
-                    ))
+                    </div>
+                  ))
                 )}
               </nav>
             </div>

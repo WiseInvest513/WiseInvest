@@ -1,6 +1,6 @@
 /**
- * Word 文档加载器
- * 用于从 .docx 文件读取文章内容
+ * Word 文档和 Markdown 文件加载器
+ * 用于从 .docx 和 .md 文件读取文章内容
  */
 
 import fs from "fs";
@@ -178,26 +178,56 @@ export function getDocumentFilePath(articleId: string, path?: string): string {
     return `buffett/meetings/${articleId}.docx`;
   }
   
-  // 格式2: 演讲合集 -> buffett/speeches/{id}.docx
+  // 格式2: 演讲合集 -> buffett/speeches/{id}.md 或 {id}.docx
   if (articleId.startsWith("buffett-speech-")) {
     const filename = articleId.replace("buffett-speech-", "");
-    return `buffett/speeches/${filename}.docx`;
+    // 先尝试 .md，如果不存在再尝试 .docx
+    const mdPath = `buffett/speeches/${filename}.md`;
+    const docxPath = `buffett/speeches/${filename}.docx`;
+    const documentsDir = getDocumentsDirectory();
+    if (fs.existsSync(path.join(documentsDir, mdPath))) {
+      return mdPath;
+    }
+    return docxPath;
   }
   
-  // 格式3: 名言合集 -> buffett/quotes/{id}.docx
+  // 格式3: 名言合集 -> buffett/quotes/{id}.docx 或 {id}.md
   if (articleId.startsWith("buffett-quote-")) {
     const filename = articleId.replace("buffett-quote-", "");
-    return `buffett/quotes/${filename}.docx`;
+    // 先尝试 .md，如果不存在再尝试 .docx
+    const mdPath = `buffett/quotes/${filename}.md`;
+    const docxPath = `buffett/quotes/${filename}.docx`;
+    const documentsDir = getDocumentsDirectory();
+    if (fs.existsSync(path.join(documentsDir, mdPath))) {
+      return mdPath;
+    }
+    return docxPath;
   }
   
-  // 格式3: duan-business-* -> duan/business/{id}.docx
+  // 格式4: 段永平商业逻辑 -> duan/business/{filename}.md 或 {filename}.docx
   if (articleId.startsWith("duan-business-")) {
-    return `duan/business/${articleId}.docx`;
+    const filename = articleId.replace("duan-business-", "");
+    // 先尝试 .md，如果不存在再尝试 .docx
+    const mdPath = `duan/business/${filename}.md`;
+    const docxPath = `duan/business/${filename}.docx`;
+    const documentsDir = getDocumentsDirectory();
+    if (fs.existsSync(path.join(documentsDir, mdPath))) {
+      return mdPath;
+    }
+    return docxPath;
   }
   
-  // 格式4: duan-invest-* -> duan/investment/{id}.docx
+  // 格式5: 段永平投资语录 -> duan/investment/{filename}.md 或 {filename}.docx
   if (articleId.startsWith("duan-invest-")) {
-    return `duan/investment/${articleId}.docx`;
+    const filename = articleId.replace("duan-invest-", "");
+    // 先尝试 .md，如果不存在再尝试 .docx
+    const mdPath = `duan/investment/${filename}.md`;
+    const docxPath = `duan/investment/${filename}.docx`;
+    const documentsDir = getDocumentsDirectory();
+    if (fs.existsSync(path.join(documentsDir, mdPath))) {
+      return mdPath;
+    }
+    return docxPath;
   }
   
   // 默认：使用 ID 作为文件名（向后兼容旧文件）
@@ -205,7 +235,21 @@ export function getDocumentFilePath(articleId: string, path?: string): string {
 }
 
 /**
- * 从 Word 文档加载文章内容
+ * 加载 Markdown 文件内容
+ * @param filePath Markdown 文件完整路径
+ */
+export async function loadMarkdownDocument(filePath: string): Promise<string> {
+  try {
+    const content = fs.readFileSync(filePath, "utf-8");
+    return content;
+  } catch (error) {
+    console.error(`[WordLoader] 读取 Markdown 文件失败: ${filePath}`, error);
+    throw error;
+  }
+}
+
+/**
+ * 从 Word 文档或 Markdown 文件加载文章内容
  * @param articleId 文章ID
  * @param articlePath 可选的文档路径（如果元数据中提供了path）
  */
@@ -229,8 +273,17 @@ export async function loadArticleFromWord(articleId: string, articlePath?: strin
       return null;
     }
     
-    const content = await loadWordDocument(fullPath);
-    return content;
+    // 检查文件扩展名，支持 .docx 和 .md
+    const ext = path.extname(fullPath).toLowerCase();
+    if (ext === ".md") {
+      // 加载 Markdown 文件
+      const content = await loadMarkdownDocument(fullPath);
+      return content;
+    } else {
+      // 加载 Word 文档
+      const content = await loadWordDocument(fullPath);
+      return content;
+    }
   } catch (error) {
     console.error(`[WordLoader] 加载文章失败: ${articleId}`, error);
     return null;

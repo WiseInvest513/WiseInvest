@@ -81,6 +81,19 @@ export function CompoundInterestCalc() {
     }).format(value);
   };
 
+  // 根据数字长度计算合适的字体大小
+  const getFontSize = (value: number) => {
+    const formatted = formatCurrency(value);
+    const length = formatted.length;
+    
+    // 根据字符长度返回合适的字体大小类
+    if (length <= 8) return "text-4xl md:text-5xl";      // ¥100,000 以内
+    if (length <= 10) return "text-3xl md:text-4xl";     // ¥1,000,000 以内
+    if (length <= 12) return "text-2xl md:text-3xl";     // ¥10,000,000 以内
+    if (length <= 14) return "text-xl md:text-2xl";      // ¥100,000,000 以内
+    return "text-lg md:text-xl";                         // 更大的数字
+  };
+
   // 计算财富倍数
   const wealthMultiplier = useMemo(() => {
     if (calculations.totalContributed > 0) {
@@ -237,12 +250,14 @@ export function CompoundInterestCalc() {
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent"></div>
                 <div className="relative">
                   <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="w-5 h-5 text-amber-400" />
+                    <DollarSign className="w-5 h-5 text-amber-400 flex-shrink-0" />
                     <p className="text-slate-300 text-base font-medium">未来价值</p>
                   </div>
-                  <p className="text-amber-400 font-bold text-4xl md:text-5xl mb-1 drop-shadow-[0_0_8px_rgba(255,159,10,0.5)]">
+                  <div className="min-h-[3rem] flex items-center mb-1 overflow-hidden">
+                    <p className={`text-amber-400 font-bold ${getFontSize(calculations.futureValue)} drop-shadow-[0_0_8px_rgba(255,159,10,0.5)] break-words leading-tight`}>
                     {formatCurrency(calculations.futureValue)}
                   </p>
+                  </div>
                   <p className="text-slate-400 text-sm">最终资产总额</p>
                 </div>
               </div>
@@ -250,24 +265,28 @@ export function CompoundInterestCalc() {
               {/* Total Contributed */}
               <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/50 rounded-xl p-5 shadow-xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-5 h-5 text-slate-400" />
+                  <TrendingUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   <p className="text-slate-300 text-base font-medium">总投入本金</p>
                 </div>
-                <p className="text-slate-100 font-bold text-3xl md:text-4xl mb-1">
+                <div className="min-h-[3rem] flex items-center mb-1 overflow-hidden">
+                  <p className={`text-slate-100 font-bold ${getFontSize(calculations.totalContributed)} break-words leading-tight`}>
                   {formatCurrency(calculations.totalContributed)}
                 </p>
+                </div>
                 <p className="text-slate-400 text-sm">累计投入</p>
               </div>
 
               {/* Interest Earned */}
               <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/50 rounded-xl p-5 shadow-xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="w-5 h-5 text-amber-400" />
+                  <TrendingUp className="w-5 h-5 text-amber-400 flex-shrink-0" />
                   <p className="text-slate-300 text-base font-medium">复利收益</p>
                 </div>
-                <p className="text-amber-400 font-bold text-3xl md:text-4xl mb-1">
+                <div className="min-h-[3rem] flex items-center mb-1 overflow-hidden">
+                  <p className={`text-amber-400 font-bold ${getFontSize(calculations.interestEarned)} break-words leading-tight`}>
                   {formatCurrency(calculations.interestEarned)}
                 </p>
+                </div>
                 <p className="text-slate-400 text-sm">纯收益</p>
               </div>
             </div>

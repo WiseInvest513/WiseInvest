@@ -69,12 +69,7 @@ const toolCategories: ToolCategory[] = [
     emoji: "📊",
     items: tools.filter((t) => t.category === "Market Data"),
   },
-  {
-    id: "god-mode",
-    label: "上帝视角",
-    emoji: "👁️",
-    items: tools.filter((t) => t.category === "God Mode"),
-  },
+  // 上帝视角分类已删除，加密货币收益率矩阵已移动到市场数据
   // Web3 追踪分类暂时隐藏，代码保留
   // {
   //   id: "web3-tracking",

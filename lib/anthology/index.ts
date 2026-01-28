@@ -82,8 +82,8 @@ export async function loadArticleContent(id: string): Promise<Article | null> {
       const metadata = getArticleMetadataById(id);
       if (!metadata) {
         console.warn(`[Anthology] 无法获取文章元数据: ${id}`);
-        return null;
-      }
+    return null;
+  }
       
       // 传递路径信息（如果元数据中提供了）
       const content = await loadArticleFromWord(id, metadata.path);
