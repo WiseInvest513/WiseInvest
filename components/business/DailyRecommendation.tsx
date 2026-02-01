@@ -119,7 +119,7 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
       return;
     }
 
-    // 如果没有推荐内容，不显示
+    // 如果没有推荐内容，不自动显示（但手动点击仍可显示）
     if (!recommendations || recommendations.length === 0) return;
 
     // 检查是否应该显示（12小时规则）
@@ -185,11 +185,6 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
     }
   };
 
-  // 如果没有推荐内容，不渲染
-  if (!recommendations || recommendations.length === 0) {
-    return null;
-  }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
@@ -211,7 +206,16 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
         </DialogHeader>
 
         <div className="space-y-3 py-6">
-          {recommendations.map((item, index) => {
+          {(!recommendations || recommendations.length === 0) ? (
+            <div className="text-center py-12">
+              <Gift className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+              <p className="text-gray-500 text-lg mb-2">暂无推荐内容</p>
+              <p className="text-gray-400 text-sm">
+                请配置 NEXT_PUBLIC_RECOMMENDATIONS_JSON 环境变量以显示推荐内容
+              </p>
+            </div>
+          ) : (
+            recommendations.map((item, index) => {
             const config = getTypeConfig(item.type);
             const Icon = config.icon;
 
@@ -262,7 +266,8 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                 </div>
               </div>
             );
-          })}
+          })
+          )}
         </div>
 
         <DialogFooter className="flex justify-end pt-4 border-t border-gray-100">

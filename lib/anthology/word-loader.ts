@@ -273,9 +273,13 @@ export async function loadArticleFromWord(articleId: string, articlePath?: strin
       return null;
     }
     
-    // 检查文件扩展名，支持 .docx 和 .md
+    // 检查文件扩展名，支持 .docx、.md 和 .pdf
     const ext = path.extname(fullPath).toLowerCase();
-    if (ext === ".md") {
+    if (ext === ".pdf") {
+      // PDF 文件：返回特殊标记，表示这是一个 PDF 文件
+      // 格式：__PDF__:相对路径
+      return `__PDF__:${relativePath}`;
+    } else if (ext === ".md") {
       // 加载 Markdown 文件
       const content = await loadMarkdownDocument(fullPath);
       return content;

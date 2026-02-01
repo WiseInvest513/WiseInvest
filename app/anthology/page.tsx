@@ -18,6 +18,20 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/config";
+import dynamic from "next/dynamic";
+
+// 动态导入 PdfViewer，禁用 SSR（PDF 查看器只在客户端运行）
+const PdfViewer = dynamic(() => import("@/components/anthology/PdfViewer").then(mod => ({ default: mod.PdfViewer })), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center py-12">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500 mx-auto mb-2"></div>
+        <p className="text-sm text-slate-500 dark:text-slate-400">正在加载 PDF 查看器...</p>
+      </div>
+    </div>
+  ),
+});
 
 // Section emoji 符号映射
 const sectionEmojis: Record<string, string> = {
@@ -89,28 +103,41 @@ function useActiveHeading(headers: Array<{ id: string }>) {
 function ArticleContent({
   content,
   onHeadersExtracted,
+  title,
 }: {
   content: string;
   onHeadersExtracted?: (headers: Array<{ id: string; text: string; level: number }>) => void;
+  title?: string;
 }) {
+  // 检查是否是 PDF 文件标记
+  if (content.startsWith("__PDF__:")) {
+    const pdfPath = content.replace("__PDF__:", "");
+    return <PdfViewer pdfPath={pdfPath} title={title} />;
+  }
   const headers = useMemo(() => {
     const extractedHeaders: Array<{ id: string; text: string; level: number }> = [];
     let headerIndex = 0;
     content.split("\n").forEach((line) => {
       const trimmed = line.trim();
-      // 支持 1-6 级标题
+      // 支持 1-6 级标题，清理加粗标记
       if (trimmed.startsWith("###### ")) {
-        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(7), level: 6 });
+        const headerText = trimmed.substring(7).replace(/\*\*/g, '').trim();
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: headerText, level: 6 });
       } else if (trimmed.startsWith("##### ")) {
-        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(6), level: 5 });
+        const headerText = trimmed.substring(6).replace(/\*\*/g, '').trim();
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: headerText, level: 5 });
       } else if (trimmed.startsWith("#### ")) {
-        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(5), level: 4 });
+        const headerText = trimmed.substring(5).replace(/\*\*/g, '').trim();
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: headerText, level: 4 });
       } else if (trimmed.startsWith("### ")) {
-        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(4), level: 3 });
+        const headerText = trimmed.substring(4).replace(/\*\*/g, '').trim();
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: headerText, level: 3 });
       } else if (trimmed.startsWith("## ")) {
-        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(3), level: 2 });
+        const headerText = trimmed.substring(3).replace(/\*\*/g, '').trim();
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: headerText, level: 2 });
       } else if (trimmed.startsWith("# ")) {
-        extractedHeaders.push({ id: `header-${headerIndex++}`, text: trimmed.substring(2), level: 1 });
+        const headerText = trimmed.substring(2).replace(/\*\*/g, '').trim();
+        extractedHeaders.push({ id: `header-${headerIndex++}`, text: headerText, level: 1 });
       }
     });
     return extractedHeaders;
@@ -122,21 +149,37 @@ function ArticleContent({
 
   const lines = content.split("\n");
   const elements: React.JSX.Element[] = [];
-  let currentList: string[] = [];
+  let currentList: Array<{ text: string; number?: number }> = [];
   let inList = false;
+  let isOrderedList = false;
+  let listStartNumber = 1;
   let headerIndex = 0;
 
   const flushList = () => {
     if (currentList.length > 0) {
-      elements.push(
-        <ul key={`list-${elements.length}`} className="list-disc list-inside my-4 space-y-2 text-text-primary">
-          {currentList.map((item, idx) => (
-            <li key={idx} className="leading-relaxed">{renderInlineMarkdown(item)}</li>
-          ))}
-        </ul>
-      );
+      if (isOrderedList) {
+        // 有序列表
+        elements.push(
+          <ol key={`list-${elements.length}`} start={listStartNumber} className="list-decimal list-inside my-4 space-y-2 text-text-primary">
+            {currentList.map((item, idx) => (
+              <li key={idx} className="leading-relaxed">{renderInlineMarkdown(item.text)}</li>
+            ))}
+          </ol>
+        );
+      } else {
+        // 无序列表
+        elements.push(
+          <ul key={`list-${elements.length}`} className="list-disc list-inside my-4 space-y-2 text-text-primary">
+            {currentList.map((item, idx) => (
+              <li key={idx} className="leading-relaxed">{renderInlineMarkdown(item.text)}</li>
+            ))}
+          </ul>
+        );
+      }
       currentList = [];
       inList = false;
+      isOrderedList = false;
+      listStartNumber = 1;
     }
   };
 
@@ -195,48 +238,56 @@ function ArticleContent({
     // 支持 1-6 级标题（从高级别到低级别，避免误匹配）
     if (trimmed.startsWith("###### ")) {
       flushList();
-      const headerText = trimmed.substring(7);
-      const header = headers.find((h) => h.text === headerText && h.level === 6);
+      let headerText = trimmed.substring(7);
+      headerText = headerText.replace(/\*\*/g, '');
+      const header = headers.find((h) => h.text === headerText.trim() && h.level === 6);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h6 key={index} id={headerId} className="text-base font-heading font-bold text-text-primary mt-6 mb-2 scroll-mt-24">{headerText}</h6>);
       return;
     }
     if (trimmed.startsWith("##### ")) {
       flushList();
-      const headerText = trimmed.substring(6);
-      const header = headers.find((h) => h.text === headerText && h.level === 5);
+      let headerText = trimmed.substring(6);
+      headerText = headerText.replace(/\*\*/g, '');
+      const header = headers.find((h) => h.text === headerText.trim() && h.level === 5);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h5 key={index} id={headerId} className="text-lg font-heading font-bold text-text-primary mt-7 mb-2.5 scroll-mt-24">{headerText}</h5>);
       return;
     }
     if (trimmed.startsWith("#### ")) {
       flushList();
-      const headerText = trimmed.substring(5);
-      const header = headers.find((h) => h.text === headerText && h.level === 4);
+      let headerText = trimmed.substring(5);
+      headerText = headerText.replace(/\*\*/g, '');
+      const header = headers.find((h) => h.text === headerText.trim() && h.level === 4);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h4 key={index} id={headerId} className="text-xl font-heading font-bold text-text-primary mt-8 mb-3 scroll-mt-24">{headerText}</h4>);
       return;
     }
     if (trimmed.startsWith("### ")) {
       flushList();
-      const headerText = trimmed.substring(4);
-      const header = headers.find((h) => h.text === headerText && h.level === 3);
+      let headerText = trimmed.substring(4);
+      headerText = headerText.replace(/\*\*/g, '');
+      const header = headers.find((h) => h.text === headerText.trim() && h.level === 3);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h3 key={index} id={headerId} className="text-xl font-heading font-bold text-text-primary mt-8 mb-3 scroll-mt-24">{headerText}</h3>);
       return;
     }
     if (trimmed.startsWith("## ")) {
       flushList();
-      const headerText = trimmed.substring(3);
-      const header = headers.find((h) => h.text === headerText && h.level === 2);
+      let headerText = trimmed.substring(3);
+      // 处理标题中的加粗标记
+      headerText = headerText.replace(/\*\*/g, '');
+      const header = headers.find((h) => h.text === headerText.trim() && h.level === 2);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h2 key={index} id={headerId} className="text-2xl font-heading font-bold text-text-primary mt-10 mb-4 scroll-mt-24">{headerText}</h2>);
       return;
     }
     if (trimmed.startsWith("# ")) {
       flushList();
-      const headerText = trimmed.substring(2);
-      const header = headers.find((h) => h.text === headerText && h.level === 1);
+      let headerText = trimmed.substring(2);
+      // 处理标题中的加粗标记
+      headerText = headerText.replace(/\*\*/g, '');
+      const header = headers.find((h) => h.text === headerText.trim() && h.level === 1);
       const headerId = header?.id || `header-${headerIndex++}`;
       elements.push(<h1 key={index} id={headerId} className="text-3xl font-heading font-bold text-text-primary mt-12 mb-5 scroll-mt-24">{headerText}</h1>);
       return;
@@ -247,12 +298,12 @@ function ArticleContent({
       flushList();
       const [, alt, src] = imageMatch;
       elements.push(
-        <div key={index} className="my-6 flex justify-center">
+        <div key={index} className="my-6 flex justify-center w-full">
           <img 
             src={src} 
             alt={alt || "图片"} 
-            className="max-w-full h-auto rounded-lg shadow-md"
-            style={{ maxWidth: "100%", height: "auto" }}
+            className="w-full h-auto rounded-lg shadow-md"
+            style={{ maxWidth: "100%", height: "auto", width: "100%" }}
             onError={(e) => {
               console.error("[ArticleContent] 图片加载失败:", src?.substring(0, 50));
               (e.target as HTMLImageElement).style.display = "none";
@@ -267,19 +318,62 @@ function ArticleContent({
       elements.push(<blockquote key={index} className="border-l-4 border-yellow-400 dark:border-yellow-500 bg-bg-secondary py-3 px-5 rounded-r-md my-4 text-text-primary italic">{renderInlineMarkdown(trimmed.substring(2))}</blockquote>);
       return;
     }
-    if (trimmed.startsWith("- ") || trimmed.match(/^\d+\.\s/)) {
-      if (!inList) { flushList(); inList = true; }
-      const itemText = trimmed.replace(/^[-•]\s*/, "").replace(/^\d+\.\s*/, "");
-      currentList.push(itemText);
+    // 处理有序列表（数字开头，如 "1. "、"2. "）
+    const orderedListMatch = trimmed.match(/^(\d+)\.\s+(.+)$/);
+    if (orderedListMatch) {
+      const [, numberStr, itemText] = orderedListMatch;
+      const number = parseInt(numberStr, 10);
+      if (!inList) {
+        flushList();
+        inList = true;
+        isOrderedList = true;
+        listStartNumber = number;
+      } else if (!isOrderedList) {
+        // 如果之前是无序列表，先刷新
+        flushList();
+        inList = true;
+        isOrderedList = true;
+        listStartNumber = number;
+      }
+      currentList.push({ text: itemText, number });
+      return;
+    }
+    // 处理无序列表（"- " 或 "• "）
+    if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
+      if (!inList) {
+        flushList();
+        inList = true;
+        isOrderedList = false;
+      } else if (isOrderedList) {
+        // 如果之前是有序列表，先刷新
+        flushList();
+        inList = true;
+        isOrderedList = false;
+      }
+      const itemText = trimmed.replace(/^[-•]\s*/, "");
+      currentList.push({ text: itemText });
       return;
     }
     flushList();
-    if (trimmed) elements.push(<p key={index} className="mb-4 leading-relaxed text-text-primary">{renderInlineMarkdown(trimmed)}</p>);
-    else elements.push(<div key={index} className="h-2" />);
+    if (trimmed) {
+      // 检查是否有首行缩进（两个空格）
+      const hasIndent = trimmed.startsWith('  ');
+      const content = hasIndent ? trimmed.substring(2) : trimmed;
+      elements.push(
+        <p 
+          key={index} 
+          className={`mb-4 leading-relaxed text-text-primary ${hasIndent ? 'indent-8' : ''}`}
+        >
+          {renderInlineMarkdown(content)}
+        </p>
+      );
+    } else {
+      elements.push(<div key={index} className="h-2" />);
+    }
   });
   flushList();
 
-  return <div className="max-w-3xl mx-auto">{elements}</div>;
+  return <div className="w-full max-w-none">{elements}</div>;
 }
 
 export default function AnthologyPage() {
@@ -340,7 +434,12 @@ export default function AnthologyPage() {
         
         if (firstAuthor.categories.length > 0) {
           const firstCategory = firstAuthor.categories[0];
-          categories.add(`${firstAuthor.name}-${firstCategory.name}`);
+          // 如果分类名称为空，也添加到展开列表（这样文章会直接显示）
+          if (!firstCategory.name || firstCategory.name.trim() === "") {
+            categories.add(`${firstAuthor.name}-`);
+          } else {
+            categories.add(`${firstAuthor.name}-${firstCategory.name}`);
+          }
         }
       }
     }
@@ -352,6 +451,24 @@ export default function AnthologyPage() {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(initialExpanded.categories);
   const [expandedAuthors, setExpandedAuthors] = useState<Set<string>>(initialExpanded.authors);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(initialExpanded.sections);
+  
+  // 确保空分类的文章默认展开
+  useEffect(() => {
+    const newExpanded = new Set(expandedCategories);
+    knowledgeBase.forEach((section) => {
+      section.authors.forEach((author) => {
+        author.categories.forEach((category) => {
+          if (!category.name || category.name.trim() === "") {
+            const emptyCategoryKey = `${author.name}-`;
+            newExpanded.add(emptyCategoryKey);
+          }
+        });
+      });
+    });
+    if (newExpanded.size !== expandedCategories.size) {
+      setExpandedCategories(newExpanded);
+    }
+  }, [knowledgeBase]);
 
   const leftSidebarRef = useRef<HTMLDivElement>(null);
   const rightSidebarRef = useRef<HTMLDivElement>(null);
@@ -697,8 +814,49 @@ export default function AnthologyPage() {
                                   {isAuthorExpanded && (
                                     <div className="space-y-4 pl-4">
                                       {author.categories.map((category) => {
-                                        const categoryKey = `${author.name}-${category.name}`;
+                                        const categoryKey = category.name ? `${author.name}-${category.name}` : `${author.name}-`;
                                         const isCategoryExpanded = expandedCategories.has(categoryKey);
+                                        const hasCategoryName = category.name && category.name.trim() !== "";
+                                        
+                                        // 如果没有分类名称，直接显示文章（不显示分类层级）
+                                        if (!hasCategoryName) {
+                                          return (
+                                            <div key="no-category" className="space-y-2">
+                                              <ul className="space-y-0.5 pl-0">
+                                                {category.articles.map((article) => {
+                                                  const isActive = article.id === selectedArticleId;
+                                                  const maxLength = 15;
+                                                  const displayTitle = article.title.length > maxLength 
+                                                    ? article.title.substring(0, maxLength) + '...' 
+                                                    : article.title;
+                                                  return (
+                                                    <li key={article.id} className="flex">
+                                                      <button
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          setSelectedArticleId(article.id);
+                                                          setFilteredAuthor(author.name);
+                                                          setFilteredCategory("");
+                                                          updateUrlFromFilters(author.name, "");
+                                                        }}
+                                                        className={`w-full text-left px-3 py-1.5 rounded-lg text-sm transition-all duration-200 border-x-2 whitespace-nowrap overflow-hidden text-ellipsis ${
+                                                          isActive
+                                                            ? "bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold border-yellow-400 dark:border-yellow-500"
+                                                            : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100"
+                                                        }`}
+                                                        title={article.title}
+                                                      >
+                                                        {displayTitle}
+                                                      </button>
+                                                    </li>
+                                                  );
+                                                })}
+                                              </ul>
+                                            </div>
+                                          );
+                                        }
+                                        
+                                        // 有分类名称的情况，正常显示分类层级
                                         return (
                                           <div key={category.name} className="space-y-2">
                                             <div
@@ -828,9 +986,9 @@ export default function AnthologyPage() {
           )}
 
           {/* SCROLLABLE ARTICLE BODY */}
-          <div className={cn("px-12 pb-20", isFullscreen ? "pt-6 h-full overflow-y-auto" : "pt-6")}>
-            <article className="prose prose-slate max-w-none pt-6">
-              <ArticleContent content={selectedArticle.content} onHeadersExtracted={setArticleHeaders} />
+          <div className={cn("pb-20", isFullscreen ? "h-full overflow-hidden relative" : "px-6 md:px-12 pt-6")}>
+            <article className={cn("prose prose-slate max-w-none w-full", isFullscreen ? "h-full" : "pt-6")} style={{ maxWidth: '100%' }}>
+              <ArticleContent content={selectedArticle.content} onHeadersExtracted={setArticleHeaders} title={selectedArticle.title} />
             </article>
             {(previousArticle || nextArticle) && (
               <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">

@@ -35,6 +35,35 @@ export const knowledgeBaseMetadata: Section[] = [
     ],
       },
       {
+        name: "查理芒格",
+        categories: [
+          {
+            name: "1、名言合集",
+            articles: [
+              { id: "munger-quote-查理芒格50条语录", title: "查理芒格50条语录", path: "munger/quotes/查理芒格50 条语录.md" },
+            ],
+          },
+          {
+            name: "2、演讲合集",
+            articles: [
+              { id: "munger-speech-查理-芒格十大演讲", title: "查理-芒格十大演讲", path: "munger/speeches/查理-芒格十大演讲.md" },
+              { id: "munger-speech-2018喻见专访上", title: "2018年《喻见》专访芒格对话实录（上）", path: "munger/speeches/2018_《喻见》专访芒格对话实录（上）.md" },
+              { id: "munger-speech-2018喻见专访下", title: "2018年《喻见》专访芒格对话实录（下）", path: "munger/speeches/2018_《喻见》专访芒格对话实录（下）.md" },
+              { id: "munger-speech-2018红周刊", title: "2018年《红周刊》独家对话查理芒格", path: "munger/speeches/2018_《红周刊》独家对话查理芒格.md" },
+              { id: "munger-speech-2018年2月访谈", title: "2018年2月94岁查理芒格访谈", path: "munger/speeches/2018_94岁查理芒格2018年2月访谈.md" },
+              { id: "munger-speech-2019CNBC", title: "2019年CNBC专访芒格", path: "munger/speeches/2019_CNBC专访芒格.md" },
+              { id: "munger-speech-2019DailyJournal", title: "2019年Daily Journal年会文字记录", path: "munger/speeches/2019_DailyJournal年会文字记录.md" },
+              { id: "munger-speech-2019独家专访", title: "2019年独家专访查理·芒格：我是孔子思想在美国的实践者", path: "munger/speeches/2019_独家专访查理·芒格：我是孔子思想在美国的实践者.md" },
+              { id: "munger-speech-2020最新访谈", title: "2020年芒格最新访谈：对中国进行了非常大的投资", path: "munger/speeches/2020年_芒格最新访谈：对中国进行了非常大的投资，从现在开始的一年，最糟糕的情况将会彻底地被抛在后面.md" },
+              { id: "munger-speech-2020芒格对话", title: "2020年芒格对话：谈人生人性与投资", path: "munger/speeches/2020年_芒格对话：谈人生人性与投资.md" },
+              { id: "munger-speech-2022DailyJournal1-30", title: "2022年Daily Journal年会文字记录（问题1-30）", path: "munger/speeches/2022_Daily Journal 年会文字记录（问题1-30）.md" },
+              { id: "munger-speech-2022DailyJournal31-40", title: "2022年Daily Journal年会文字记录（问题31-40）", path: "munger/speeches/2022_Daily Journal 年会文字记录（问题31-40）.md" },
+              { id: "munger-speech-2022DailyJournal41-49", title: "2022年Daily Journal年会文字记录（问题41-49）", path: "munger/speeches/2022_Daily Journal 年会文字记录（问题41-49）.md" },
+            ],
+          },
+        ],
+      },
+      {
         name: "巴菲特",
     categories: [
       {
@@ -94,7 +123,22 @@ export const knowledgeBaseMetadata: Section[] = [
   {
     name: "投资思想",
     authors: [
-      // 可以在这里添加投资思想相关的作者和文章
+      {
+        name: "李录",
+        categories: [
+          {
+            name: "", // 空分类名，表示文章直接显示在作者下
+            articles: [
+              { id: "lilu-价值投资在中国的展望", title: "价值投资在中国的展望-李录2015-10-23北大演讲", path: "lilu/价值投资在中国的展望-李录2015-10-23北大演讲.pdf" },
+              { id: "lilu-全球价值投资与时代", title: "全球价值投资与时代2024年12月", path: "lilu/全球价值投资与时代2024年12月.pdf" },
+              { id: "lilu-推荐阅读书籍", title: "推荐阅读书籍", path: "lilu/推荐阅读书籍.pdf" },
+              { id: "lilu-2019年年度书评", title: "李录2019年年度书评 2019.11.19", path: "lilu/李录2019年年度书评 2019.11.19.pdf" },
+              { id: "lilu-谈现代化", title: "李录谈现代化-从人类文明史角度看当今中美关系走向", path: "lilu/李录谈现代化-从人类文明史角度看当今中美关系走向.pdf" },
+              { id: "lilu-谈现代化大字号", title: "李录谈现代化大字号", path: "lilu/李录谈现代化大字号.pdf" },
+            ],
+          },
+        ],
+      },
     ],
   },
 ];

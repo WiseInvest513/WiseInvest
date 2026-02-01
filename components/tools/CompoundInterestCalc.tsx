@@ -86,12 +86,13 @@ export function CompoundInterestCalc() {
     const formatted = formatCurrency(value);
     const length = formatted.length;
     
-    // 根据字符长度返回合适的字体大小类
-    if (length <= 8) return "text-4xl md:text-5xl";      // ¥100,000 以内
-    if (length <= 10) return "text-3xl md:text-4xl";     // ¥1,000,000 以内
-    if (length <= 12) return "text-2xl md:text-3xl";     // ¥10,000,000 以内
-    if (length <= 14) return "text-xl md:text-2xl";      // ¥100,000,000 以内
-    return "text-lg md:text-xl";                         // 更大的数字
+    // 根据字符长度返回合适的字体大小类，更激进的缩小策略
+    if (length <= 8) return "text-3xl md:text-4xl";      // ¥100,000 以内
+    if (length <= 10) return "text-2xl md:text-3xl";     // ¥1,000,000 以内
+    if (length <= 12) return "text-xl md:text-2xl";      // ¥10,000,000 以内
+    if (length <= 14) return "text-lg md:text-xl";       // ¥100,000,000 以内
+    if (length <= 16) return "text-base md:text-lg";     // ¥1,000,000,000 以内
+    return "text-sm md:text-base";                       // 更大的数字
   };
 
   // 计算财富倍数
@@ -253,8 +254,8 @@ export function CompoundInterestCalc() {
                     <DollarSign className="w-5 h-5 text-amber-400 flex-shrink-0" />
                     <p className="text-slate-300 text-base font-medium">未来价值</p>
                   </div>
-                  <div className="min-h-[3rem] flex items-center mb-1 overflow-hidden">
-                    <p className={`text-amber-400 font-bold ${getFontSize(calculations.futureValue)} drop-shadow-[0_0_8px_rgba(255,159,10,0.5)] break-words leading-tight`}>
+                  <div className="h-16 flex items-center mb-1 overflow-hidden w-full min-w-0">
+                    <p className={`text-amber-400 font-bold ${getFontSize(calculations.futureValue)} drop-shadow-[0_0_8px_rgba(255,159,10,0.5)] break-all leading-tight w-full min-w-0`} style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
                     {formatCurrency(calculations.futureValue)}
                   </p>
                   </div>
@@ -268,8 +269,8 @@ export function CompoundInterestCalc() {
                   <TrendingUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
                   <p className="text-slate-300 text-base font-medium">总投入本金</p>
                 </div>
-                <div className="min-h-[3rem] flex items-center mb-1 overflow-hidden">
-                  <p className={`text-slate-100 font-bold ${getFontSize(calculations.totalContributed)} break-words leading-tight`}>
+                <div className="h-16 flex items-center mb-1 overflow-hidden w-full min-w-0">
+                  <p className={`text-slate-100 font-bold ${getFontSize(calculations.totalContributed)} break-all leading-tight w-full min-w-0`} style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
                   {formatCurrency(calculations.totalContributed)}
                 </p>
                 </div>
@@ -282,8 +283,8 @@ export function CompoundInterestCalc() {
                   <TrendingUp className="w-5 h-5 text-amber-400 flex-shrink-0" />
                   <p className="text-slate-300 text-base font-medium">复利收益</p>
                 </div>
-                <div className="min-h-[3rem] flex items-center mb-1 overflow-hidden">
-                  <p className={`text-amber-400 font-bold ${getFontSize(calculations.interestEarned)} break-words leading-tight`}>
+                <div className="h-16 flex items-center mb-1 overflow-hidden w-full min-w-0">
+                  <p className={`text-amber-400 font-bold ${getFontSize(calculations.interestEarned)} break-all leading-tight w-full min-w-0`} style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
                   {formatCurrency(calculations.interestEarned)}
                 </p>
                 </div>
@@ -495,7 +496,7 @@ export function CompoundInterestCalc() {
 
       {/* Share Dialog */}
       <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
-        <DialogContent className="sm:max-w-2xl bg-slate-900 border-slate-800">
+        <DialogContent className="sm:max-w-xl bg-slate-900 border-slate-800 max-h-[90vh] overflow-y-auto [&>button]:text-slate-300 [&>button]:hover:text-white [&>button]:hover:bg-slate-800/80 [&>button]:rounded-md [&>button]:p-1">
           <DialogHeader>
             <DialogTitle className="text-amber-400">分享我的暴富计划</DialogTitle>
             <DialogDescription className="text-slate-400">
@@ -504,39 +505,38 @@ export function CompoundInterestCalc() {
           </DialogHeader>
           
           <div className="space-y-4 mt-4">
-            {/* 图片预览区域 */}
-            <div className="relative w-full bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
-              {isGenerating ? (
-                <div className="flex items-center justify-center h-64">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-2"></div>
-                    <p className="text-sm text-slate-400">正在生成预览...</p>
-                  </div>
+            {/* 图片预览区域 - 简化结构，直接显示图片 */}
+            {isGenerating ? (
+              <div className="flex items-center justify-center h-48 bg-slate-800/50 rounded-lg">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-2"></div>
+                  <p className="text-sm text-slate-400">正在生成预览...</p>
                 </div>
-              ) : imagePreview ? (
+              </div>
+            ) : imagePreview ? (
+              <div className="w-full flex items-center justify-center bg-transparent">
                 <img
                   src={imagePreview}
                   alt="复利计算预览"
-                  className="w-full h-auto"
+                  className="max-w-full h-auto max-h-[60vh] object-contain rounded-lg"
                 />
-              ) : (
-                <div className="flex items-center justify-center h-64">
-                  <p className="text-sm text-slate-400">预览加载失败</p>
-                </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-48 bg-slate-800/50 rounded-lg">
+                <p className="text-sm text-slate-400">预览加载失败</p>
+              </div>
+            )}
 
             {/* 操作按钮 */}
             <div className="flex gap-3">
               <Button
                 onClick={handleCopyImage}
-                variant="outline"
-                className="flex-1 border-slate-700 text-slate-200 hover:bg-slate-800"
+                className="flex-1 bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:text-white hover:border-slate-600"
                 disabled={!imagePreview || isGenerating}
               >
                 {copied ? (
                   <>
-                    <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
+                    <CheckCircle2 className="mr-2 h-4 w-4 text-green-400" />
                     已复制
                   </>
                 ) : (

@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   // 增加开发服务器的超时时间
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       // 客户端：排除 Node.js 特定的模块
       config.resolve.fallback = {
@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
         assert: false,
         os: false,
         path: false,
+        canvas: false, // react-pdf 需要
       };
       
       // 排除 https-proxy-agent（仅在服务器端使用）
@@ -28,6 +29,18 @@ const nextConfig: NextConfig = {
         'https-proxy-agent': 'commonjs https-proxy-agent',
       });
     }
+    
+    // 处理 pdfjs-dist 的 ESM 模块
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+    
+    // 确保 .mjs 文件被正确处理
+    config.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+    });
+    
     return config;
   },
   // 优化开发服务器性能
