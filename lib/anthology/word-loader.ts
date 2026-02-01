@@ -4,7 +4,7 @@
  */
 
 import fs from "fs";
-import path from "path";
+import * as path from "path";
 
 /**
  * 清理 HTML 内容，移除标签但保留文本
@@ -158,18 +158,18 @@ export function documentExists(filePath: string): boolean {
  * 根据文章 ID 和路径获取对应的 Word 文档文件路径
  * 
  * 优先级：
- * 1. 如果提供了 path，直接使用 path
+ * 1. 如果提供了 filePath，直接使用 filePath
  * 2. 否则，根据 ID 自动推断路径（向后兼容）
  * 3. 如果推断失败，使用 ID 作为文件名（旧方式）
  * 
  * @param articleId 文章ID
- * @param path 可选的相对路径（相对于 documents 目录）
+ * @param filePath 可选的相对路径（相对于 documents 目录）
  * @returns 文件路径（相对于 documents 目录）
  */
-export function getDocumentFilePath(articleId: string, path?: string): string {
-  // 如果提供了 path，直接使用
-  if (path) {
-    return path;
+export function getDocumentFilePath(articleId: string, filePath?: string): string {
+  // 如果提供了 filePath，直接使用
+  if (filePath) {
+    return filePath;
   }
   
   // 尝试根据 ID 自动推断路径
