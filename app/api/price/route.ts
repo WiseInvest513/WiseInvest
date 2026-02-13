@@ -78,14 +78,14 @@ type ApiResponsePayload = ApiError | PriceResponse | SearchResponse | Historical
 const CACHE_TTL = 30 * 1000;
 const priceCache = new Map<string, { ts: number; data: ApiResponsePayload }>();
 
-function readCache<T>(key: string): T | null {
+function readCache<T extends ApiResponsePayload>(key: string): T | null {
   const cached = priceCache.get(key);
   if (!cached) return null;
   if (Date.now() - cached.ts > CACHE_TTL) return null;
   return cached.data as T;
 }
 
-function writeCache<T>(key: string, data: T): void {
+function writeCache(key: string, data: ApiResponsePayload): void {
   priceCache.set(key, { ts: Date.now(), data });
 }
 
