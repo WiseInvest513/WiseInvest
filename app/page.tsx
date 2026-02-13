@@ -27,6 +27,7 @@ function HeroSection() {
   }, []);
   
   return (
+    <>
     <section 
       ref={sectionRef}
       id="hero"
@@ -47,6 +48,15 @@ function HeroSection() {
           radial-gradient(at 50% 50%, rgba(251, 191, 36, 0.12) 0px, transparent 50%)
         `
       }} />
+
+      {/* Hero 底部流水海岸特效 */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[9] h-[46%] overflow-hidden">
+        <div className="hero-coast-wave hero-coast-wave-back hero-wave-a" />
+        <div className="hero-coast-wave hero-coast-wave-mid hero-wave-b" />
+        <div className="hero-coast-wave hero-coast-wave-front hero-wave-c" />
+        <div className="hero-coast-foam hero-wave-d" />
+        <div className="hero-coast-glow" />
+      </div>
       
       {/* Enhanced Parallax Background */}
       <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.2} />
@@ -93,7 +103,7 @@ function HeroSection() {
               transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s",
             }}
           >
-            <div className="rounded-2xl border border-white/60 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-slate-800/70 dark:bg-slate-900/55">
+            <div className="relative overflow-hidden rounded-2xl border border-white/60 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-slate-800/70 dark:bg-slate-900/55">
               <div className="mb-4 flex justify-between items-center">
                 <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
                   一站式投资成长平台
@@ -102,10 +112,10 @@ function HeroSection() {
                   每周更新
                 </span>
               </div>
-              <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="relative z-10 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                 专业的投资内容平台，为您提供投资工具、深度分析和优质资源。
               </p>
-              <div className="mt-5 grid grid-cols-3 gap-2 text-center">
+              <div className="relative z-10 mt-5 grid grid-cols-3 gap-2 text-center">
                 <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
                   <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">7+</div>
                   <div className="text-[11px] text-slate-500 dark:text-slate-400">功能模块</div>
@@ -119,7 +129,7 @@ function HeroSection() {
                   <div className="text-[11px] text-slate-500 dark:text-slate-400">复利体系</div>
                 </div>
               </div>
-              <div className="mt-5 flex flex-wrap gap-3">
+              <div className="relative z-10 mt-5 flex flex-wrap gap-3">
                 <Link
                   href="/practice/dca-investment"
                   className="inline-flex items-center justify-center rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-amber-600 hover:shadow-md"
@@ -133,12 +143,259 @@ function HeroSection() {
                   开始学习路径
                 </Link>
               </div>
-              <div className="mt-5 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+              <div className="relative z-10 mt-5 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
             </div>
           </div>
         </div>
       </div>
     </section>
+    <style jsx>{`
+      @keyframes coastMorphA {
+        0% {
+          transform: translateX(-7%) translateY(10px) scaleX(1.03);
+          clip-path: polygon(0% 42%, 8% 36%, 19% 44%, 30% 37%, 42% 47%, 53% 39%, 64% 49%, 76% 41%, 88% 48%, 100% 44%, 100% 100%, 0% 100%);
+        }
+        19% {
+          transform: translateX(2%) translateY(2px) scaleX(1);
+          clip-path: polygon(0% 45%, 10% 39%, 22% 47%, 33% 41%, 46% 49%, 58% 42%, 70% 50%, 82% 43%, 92% 49%, 100% 46%, 100% 100%, 0% 100%);
+        }
+        37% {
+          transform: translateX(6%) translateY(-2px) scaleX(0.99);
+          clip-path: polygon(0% 47%, 9% 43%, 20% 50%, 31% 44%, 43% 53%, 55% 45%, 67% 54%, 79% 47%, 90% 55%, 100% 50%, 100% 100%, 0% 100%);
+        }
+        63% {
+          transform: translateX(-1%) translateY(5px) scaleX(1.01);
+          clip-path: polygon(0% 44%, 7% 38%, 18% 46%, 29% 39%, 41% 48%, 54% 40%, 66% 49%, 78% 41%, 90% 47%, 100% 43%, 100% 100%, 0% 100%);
+        }
+        100% {
+          transform: translateX(5%) translateY(8px) scaleX(1.02);
+          clip-path: polygon(0% 43%, 11% 37%, 23% 45%, 34% 38%, 45% 46%, 56% 39%, 69% 48%, 81% 40%, 92% 46%, 100% 42%, 100% 100%, 0% 100%);
+        }
+      }
+
+      @keyframes coastMorphB {
+        0% {
+          transform: translateX(5%) translateY(12px) scaleX(1.02);
+          clip-path: polygon(0% 52%, 9% 46%, 20% 56%, 31% 49%, 43% 59%, 55% 51%, 66% 60%, 77% 53%, 89% 61%, 100% 56%, 100% 100%, 0% 100%);
+        }
+        23% {
+          transform: translateX(-2%) translateY(4px) scaleX(0.99);
+          clip-path: polygon(0% 55%, 8% 50%, 19% 58%, 30% 52%, 42% 61%, 54% 54%, 65% 62%, 77% 55%, 88% 63%, 100% 58%, 100% 100%, 0% 100%);
+        }
+        49% {
+          transform: translateX(-6%) translateY(-1px) scaleX(1.01);
+          clip-path: polygon(0% 57%, 10% 52%, 21% 60%, 33% 54%, 44% 63%, 56% 56%, 67% 64%, 79% 57%, 91% 65%, 100% 60%, 100% 100%, 0% 100%);
+        }
+        71% {
+          transform: translateX(1%) translateY(6px) scaleX(1.03);
+          clip-path: polygon(0% 54%, 9% 48%, 20% 57%, 31% 50%, 43% 60%, 55% 52%, 67% 61%, 78% 54%, 90% 62%, 100% 57%, 100% 100%, 0% 100%);
+        }
+        100% {
+          transform: translateX(6%) translateY(10px) scaleX(1.01);
+          clip-path: polygon(0% 53%, 8% 47%, 18% 55%, 30% 49%, 42% 58%, 54% 51%, 66% 59%, 78% 52%, 89% 60%, 100% 55%, 100% 100%, 0% 100%);
+        }
+      }
+
+      @keyframes coastMorphC {
+        0% {
+          transform: translateX(-4%) translateY(14px);
+          clip-path: polygon(0% 62%, 10% 57%, 22% 65%, 34% 58%, 47% 67%, 60% 59%, 72% 68%, 84% 61%, 93% 68%, 100% 64%, 100% 100%, 0% 100%);
+        }
+        31% {
+          transform: translateX(1%) translateY(8px);
+          clip-path: polygon(0% 64%, 11% 59%, 23% 67%, 35% 60%, 48% 69%, 61% 61%, 73% 70%, 85% 63%, 94% 70%, 100% 66%, 100% 100%, 0% 100%);
+        }
+        58% {
+          transform: translateX(4%) translateY(3px);
+          clip-path: polygon(0% 66%, 9% 61%, 21% 69%, 33% 62%, 46% 71%, 58% 63%, 71% 72%, 83% 64%, 93% 72%, 100% 68%, 100% 100%, 0% 100%);
+        }
+        100% {
+          transform: translateX(-2%) translateY(11px);
+          clip-path: polygon(0% 63%, 10% 58%, 22% 66%, 34% 59%, 47% 68%, 60% 60%, 72% 69%, 84% 62%, 94% 69%, 100% 65%, 100% 100%, 0% 100%);
+        }
+      }
+
+      @keyframes coastFoamShift {
+        0% {
+          transform: translateX(-12%) translateY(0px);
+          opacity: 0.48;
+        }
+        30% {
+          transform: translateX(-3%) translateY(-3px);
+          opacity: 0.62;
+        }
+        62% {
+          transform: translateX(6%) translateY(2px);
+          opacity: 0.4;
+        }
+        100% {
+          transform: translateX(12%) translateY(0px);
+          opacity: 0.56;
+        }
+      }
+
+      @keyframes coastGlowFlow {
+        0% {
+          background-position: -45% 0%;
+        }
+        100% {
+          background-position: 145% 0%;
+        }
+      }
+
+      .hero-coast-wave,
+      .hero-coast-foam {
+        position: absolute;
+        left: -12%;
+        width: 124%;
+        border-radius: 9999px;
+        pointer-events: none;
+      }
+
+      .hero-coast-wave-back {
+        bottom: -22%;
+        height: 96%;
+        background: linear-gradient(
+          to top,
+          rgba(217, 119, 6, 0.28) 0%,
+          rgba(245, 158, 11, 0.2) 34%,
+          rgba(255, 255, 255, 0) 78%
+        );
+        filter: blur(1.4px);
+        opacity: 0.92;
+      }
+
+      .hero-coast-wave-mid {
+        bottom: -28%;
+        height: 92%;
+        background: linear-gradient(
+          to top,
+          rgba(251, 191, 36, 0.32) 0%,
+          rgba(245, 158, 11, 0.22) 30%,
+          rgba(255, 255, 255, 0) 74%
+        );
+        filter: blur(1px);
+        opacity: 0.86;
+      }
+
+      .hero-coast-wave-front {
+        bottom: -34%;
+        height: 92%;
+        background: linear-gradient(
+          to top,
+          rgba(253, 224, 71, 0.4) 0%,
+          rgba(250, 204, 21, 0.24) 26%,
+          rgba(255, 251, 235, 0.12) 46%,
+          rgba(255, 255, 255, 0) 76%
+        );
+        filter: blur(0.6px);
+        opacity: 0.9;
+      }
+
+      .hero-coast-foam {
+        bottom: -36%;
+        height: 90%;
+        background: linear-gradient(
+          to top,
+          rgba(255, 251, 235, 0.46) 0%,
+          rgba(254, 243, 199, 0.28) 14%,
+          rgba(254, 243, 199, 0.12) 24%,
+          rgba(255, 255, 255, 0) 58%
+        );
+        clip-path: polygon(0% 71%, 8% 66%, 18% 73%, 29% 67%, 40% 74%, 52% 68%, 63% 75%, 75% 69%, 86% 76%, 100% 72%, 100% 100%, 0% 100%);
+        filter: blur(0.8px);
+        opacity: 0.58;
+      }
+
+      .hero-coast-glow {
+        position: absolute;
+        inset: auto -15% 0;
+        height: 62%;
+        background: linear-gradient(
+          108deg,
+          rgba(251, 191, 36, 0) 0%,
+          rgba(251, 191, 36, 0.14) 38%,
+          rgba(255, 251, 235, 0.38) 50%,
+          rgba(251, 191, 36, 0.14) 62%,
+          rgba(251, 191, 36, 0) 100%
+        );
+        background-size: 210% 100%;
+        filter: blur(10px);
+        opacity: 0.64;
+        animation: coastGlowFlow 18s linear infinite;
+      }
+
+      .hero-wave-a {
+        animation: coastMorphA 23s ease-in-out infinite;
+      }
+
+      .hero-wave-b {
+        animation: coastMorphB 17s ease-in-out infinite reverse;
+      }
+
+      .hero-wave-c {
+        animation: coastMorphC 13s ease-in-out infinite;
+      }
+
+      .hero-wave-d {
+        animation: coastFoamShift 11s ease-in-out infinite alternate;
+      }
+
+      :global(.dark) .hero-coast-wave-back {
+        background: linear-gradient(
+          to top,
+          rgba(29, 78, 216, 0.28) 0%,
+          rgba(37, 99, 235, 0.18) 34%,
+          rgba(15, 23, 42, 0) 78%
+        );
+        opacity: 0.8;
+      }
+
+      :global(.dark) .hero-coast-wave-mid {
+        background: linear-gradient(
+          to top,
+          rgba(14, 116, 144, 0.32) 0%,
+          rgba(56, 189, 248, 0.2) 34%,
+          rgba(15, 23, 42, 0) 76%
+        );
+        opacity: 0.76;
+      }
+
+      :global(.dark) .hero-coast-wave-front {
+        background: linear-gradient(
+          to top,
+          rgba(125, 211, 252, 0.34) 0%,
+          rgba(56, 189, 248, 0.22) 28%,
+          rgba(191, 219, 254, 0.08) 44%,
+          rgba(15, 23, 42, 0) 78%
+        );
+        opacity: 0.72;
+      }
+
+      :global(.dark) .hero-coast-foam {
+        background: linear-gradient(
+          to top,
+          rgba(219, 234, 254, 0.28) 0%,
+          rgba(186, 230, 253, 0.2) 16%,
+          rgba(186, 230, 253, 0.05) 30%,
+          rgba(15, 23, 42, 0) 62%
+        );
+        opacity: 0.44;
+      }
+
+      :global(.dark) .hero-coast-glow {
+        background: linear-gradient(
+          108deg,
+          rgba(56, 189, 248, 0) 0%,
+          rgba(56, 189, 248, 0.12) 38%,
+          rgba(191, 219, 254, 0.32) 50%,
+          rgba(56, 189, 248, 0.12) 62%,
+          rgba(56, 189, 248, 0) 100%
+        );
+        opacity: 0.48;
+      }
+    `}</style>
+    </>
   );
 }
 

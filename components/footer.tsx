@@ -19,7 +19,7 @@ export function Footer() {
       <footer className="w-full bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6">
         <div className="max-w-[1600px] mx-auto px-6">
           {/* Top Section: Multi-column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+          <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
             {/* Column 1: Brand */}
             <div className="space-y-2">
               <div>
@@ -136,6 +136,12 @@ export function Footer() {
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mt-2">
               专注于理性投资与 Web3 Alpha 探索的平台。
             </p>
+            {/* Middle Coast Accent（固定在中间分割处，不增加高度） */}
+            <div className="footer-coast-overlay pointer-events-none">
+              <div className="footer-coast-wave footer-coast-wave-a" />
+              <div className="footer-coast-wave footer-coast-wave-b" />
+              <div className="footer-coast-glow" />
+            </div>
           </div>
         </div>
 
@@ -157,6 +163,126 @@ export function Footer() {
         </div>
       </div>
     </footer>
+      <style jsx>{`
+        @keyframes footerWaveA {
+          0% {
+            transform: translateX(-7%) translateY(4px);
+            clip-path: polygon(0% 58%, 12% 52%, 23% 60%, 34% 54%, 47% 62%, 60% 55%, 73% 63%, 85% 56%, 100% 61%, 100% 100%, 0% 100%);
+          }
+          50% {
+            transform: translateX(4%) translateY(1px);
+            clip-path: polygon(0% 61%, 11% 55%, 22% 63%, 35% 57%, 48% 65%, 61% 58%, 74% 66%, 86% 59%, 100% 64%, 100% 100%, 0% 100%);
+          }
+          100% {
+            transform: translateX(7%) translateY(4px);
+            clip-path: polygon(0% 59%, 10% 53%, 21% 61%, 33% 55%, 46% 63%, 59% 56%, 72% 64%, 84% 57%, 100% 62%, 100% 100%, 0% 100%);
+          }
+        }
+
+        @keyframes footerWaveB {
+          0% {
+            transform: translateX(6%) translateY(7px);
+            clip-path: polygon(0% 68%, 10% 63%, 22% 70%, 34% 64%, 46% 72%, 58% 66%, 71% 73%, 83% 67%, 100% 72%, 100% 100%, 0% 100%);
+          }
+          60% {
+            transform: translateX(-3%) translateY(4px);
+            clip-path: polygon(0% 70%, 11% 65%, 23% 73%, 35% 67%, 48% 74%, 60% 68%, 73% 75%, 85% 69%, 100% 74%, 100% 100%, 0% 100%);
+          }
+          100% {
+            transform: translateX(-6%) translateY(7px);
+            clip-path: polygon(0% 69%, 9% 64%, 21% 71%, 33% 65%, 45% 73%, 57% 67%, 70% 74%, 82% 68%, 100% 73%, 100% 100%, 0% 100%);
+          }
+        }
+
+        @keyframes footerGlowFlow {
+          0% {
+            background-position: -40% 0%;
+          }
+          100% {
+            background-position: 140% 0%;
+          }
+        }
+
+        .footer-coast-wave {
+          position: absolute;
+          left: -10%;
+          width: 120%;
+          border-radius: 9999px;
+        }
+
+        .footer-coast-overlay {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -10px;
+          height: 58px;
+          opacity: 0.96;
+          pointer-events: none;
+          z-index: 0;
+          overflow: hidden;
+        }
+
+        .footer-coast-wave-a {
+          bottom: -70%;
+          height: 150%;
+          background: linear-gradient(
+            to top,
+            rgba(245, 158, 11, 0.58) 0%,
+            rgba(251, 191, 36, 0.34) 30%,
+            rgba(255, 255, 255, 0) 76%
+          );
+          filter: blur(1px);
+          animation: footerWaveA 16s ease-in-out infinite alternate;
+        }
+
+        .footer-coast-wave-b {
+          bottom: -74%;
+          height: 150%;
+          background: linear-gradient(
+            to top,
+            rgba(217, 119, 6, 0.54) 0%,
+            rgba(245, 158, 11, 0.3) 28%,
+            rgba(255, 255, 255, 0) 74%
+          );
+          filter: blur(0.8px);
+          animation: footerWaveB 12s ease-in-out infinite alternate;
+        }
+
+        .footer-coast-glow {
+          position: absolute;
+          inset: auto -15% 0;
+          height: 80%;
+          background: linear-gradient(
+            108deg,
+            rgba(251, 191, 36, 0) 0%,
+            rgba(251, 191, 36, 0.2) 38%,
+            rgba(255, 251, 235, 0.52) 50%,
+            rgba(251, 191, 36, 0.2) 62%,
+            rgba(251, 191, 36, 0) 100%
+          );
+          background-size: 210% 100%;
+          filter: blur(6px);
+          animation: footerGlowFlow 18s linear infinite;
+        }
+
+        :global(.dark) .footer-coast-wave-a {
+          background: linear-gradient(
+            to top,
+            rgba(217, 119, 6, 0.42) 0%,
+            rgba(251, 191, 36, 0.26) 34%,
+            rgba(15, 23, 42, 0) 78%
+          );
+        }
+
+        :global(.dark) .footer-coast-wave-b {
+          background: linear-gradient(
+            to top,
+            rgba(180, 83, 9, 0.4) 0%,
+            rgba(245, 158, 11, 0.24) 30%,
+            rgba(15, 23, 42, 0) 76%
+          );
+        }
+      `}</style>
 
     {/* WeChat QR Code Dialog */}
     <Dialog open={wechatDialogOpen} onOpenChange={setWechatDialogOpen}>
