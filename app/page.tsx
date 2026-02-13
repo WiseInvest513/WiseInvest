@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-// import Link from "next/link"; // 未使用，已注释
+import Link from "next/link";
 // import { toast } from "sonner"; // 周刊订阅功能暂时隐藏
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { ToolsSection } from "@/components/sections/ToolsSection";
@@ -30,7 +30,7 @@ function HeroSection() {
     <section 
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[75vh] flex items-center justify-center overflow-hidden"
+      className="relative min-h-[68vh] md:min-h-[72vh] flex items-center justify-center overflow-hidden"
       style={{
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.8s ease-out',
@@ -51,74 +51,90 @@ function HeroSection() {
       {/* Enhanced Parallax Background */}
       <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.2} />
       
-      {/* Asymmetric Content Layout */}
-      <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Offset Title to Left with Animation */}
-          <div 
-            className="ml-0 md:ml-8 mb-8"
+      {/* Hero Layout */}
+      <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
+          <div
+            className="md:col-span-7"
             style={{
               opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateX(0)' : 'translateX(-50px)',
-              transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
+              transform: isVisible ? "translateX(0)" : "translateX(-40px)",
+              transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s",
             }}
           >
-            <h1 
-              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold mb-8 tracking-tight leading-[0.9]"
+            <div className="mb-4 inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700 dark:border-amber-700/50 dark:bg-amber-900/20 dark:text-amber-300">
+              独立投资内容平台
+            </div>
+            <h1
+              className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[0.9]"
               style={{
                 opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-                transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s',
+                transform: isVisible ? "scale(1)" : "scale(0.95)",
+                transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s",
               }}
             >
-              <span 
-                className="block bg-gradient-to-r from-slate-900 via-amber-700 to-slate-900 dark:from-white dark:via-amber-300 dark:to-white bg-clip-text text-transparent"
-                style={{
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s',
-                }}
-              >
+              <span className="block bg-gradient-to-r from-slate-900 via-amber-700 to-slate-900 dark:from-white dark:via-amber-300 dark:to-white bg-clip-text text-transparent">
                 Wise
               </span>
-              <span 
-                className="block mt-2 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 dark:from-amber-400 dark:via-yellow-400 dark:to-amber-400 bg-clip-text text-transparent"
-                style={{
-                  opacity: isVisible ? 1 : 0,
-                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-                  transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s',
-                }}
-              >
+              <span className="block mt-2 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 dark:from-amber-400 dark:via-yellow-400 dark:to-amber-400 bg-clip-text text-transparent">
                 Invest
               </span>
             </h1>
+            <p className="mt-5 max-w-xl text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+              从工具到策略、从学习到实盘，帮你建立长期可复利的投资系统。
+            </p>
           </div>
-          
-          {/* Right-aligned Description with Animation */}
-          <div 
-            className="ml-auto max-w-xl text-right md:mr-12"
+
+          <div
+            className="md:col-span-5"
             style={{
               opacity: isVisible ? 1 : 0,
-              transform: isVisible ? 'translateX(0)' : 'translateX(50px)',
-              transition: 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s',
+              transform: isVisible ? "translateX(0)" : "translateX(50px)",
+              transition: "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.45s",
             }}
           >
-            <p 
-              className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-6 leading-relaxed font-light tracking-wide"
-              style={{
-                opacity: isVisible ? 1 : 0,
-                transition: 'opacity 0.6s ease-out 0.7s',
-              }}
-            >
-              专业的投资内容平台，为您提供投资工具、深度分析和优质资源
-            </p>
-            <div 
-              className="h-px bg-gradient-to-r from-transparent via-amber-400 to-amber-400 ml-auto"
-              style={{
-                width: isVisible ? 96 : 0,
-                transition: 'width 0.6s ease-out 0.8s',
-              }}
-            />
+            <div className="rounded-2xl border border-white/60 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-slate-800/70 dark:bg-slate-900/55">
+              <div className="mb-4 flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
+                  一站式投资成长平台
+                </h2>
+                <span className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700 dark:border-amber-700/50 dark:bg-amber-900/20 dark:text-amber-300">
+                  每周更新
+                </span>
+              </div>
+              <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                专业的投资内容平台，为您提供投资工具、深度分析和优质资源。
+              </p>
+              <div className="mt-5 grid grid-cols-3 gap-2 text-center">
+                <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">7+</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">功能模块</div>
+                </div>
+                <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">周更</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">实盘追踪</div>
+                </div>
+                <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">长期</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">复利体系</div>
+                </div>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  href="/practice/dca-investment"
+                  className="inline-flex items-center justify-center rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-amber-600 hover:shadow-md"
+                >
+                  查看实盘数据
+                </Link>
+                <Link
+                  href="/roadmap"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:border-amber-400 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200 dark:hover:border-amber-500 dark:hover:text-amber-300"
+                >
+                  开始学习路径
+                </Link>
+              </div>
+              <div className="mt-5 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+            </div>
           </div>
         </div>
       </div>
@@ -219,13 +235,14 @@ function FeaturesSection() {
                 <InteractiveCard href={feature.href} className="h-full">
                   <div className={`group relative h-full ${isPrimary ? 'min-h-[200px] md:min-h-[400px]' : 'min-h-[180px] md:min-h-[190px]'}`}>
                     {/* Multi-layered Shadow System */}
-                    <div className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-yellow-500/15 to-amber-400/20 rounded-2xl blur-xl" />
                       <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-600/8 to-amber-500/10 rounded-2xl blur-2xl" />
                     </div>
                     
                     {/* Advanced Glassmorphism Card */}
                     <div className={`h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl rounded-2xl p-5 md:p-6 relative overflow-hidden
+                      transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-2xl
                       ${isPrimary ? 'md:p-8' : ''}
                       ${hasBg ? 'bg-gradient-to-br from-amber-50/60 via-yellow-50/40 to-transparent dark:from-amber-950/30 dark:via-yellow-950/20' : ''}`}
                       style={{
@@ -237,6 +254,13 @@ function FeaturesSection() {
                         `,
                       }}
                     >
+                      {/* Sweep light band for dynamic motion */}
+                      <div className="pointer-events-none absolute -left-1/3 top-0 h-full w-1/3 rotate-12 bg-gradient-to-r from-transparent via-white/35 to-transparent opacity-0 blur-md transition-all duration-1000 ease-out group-hover:left-[120%] group-hover:opacity-100 dark:via-white/15" />
+
+                      {/* Floating highlight orbs */}
+                      <div className="pointer-events-none absolute -top-8 right-10 h-20 w-20 rounded-full bg-amber-300/20 blur-2xl transition-all duration-700 group-hover:-translate-y-1 group-hover:translate-x-2 group-hover:bg-amber-300/30" />
+                      <div className="pointer-events-none absolute bottom-8 left-8 h-16 w-16 rounded-full bg-yellow-300/15 blur-2xl transition-all duration-700 group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:bg-yellow-300/25" />
+
                       {/* Light Refraction Effect on Hover */}
                       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                         style={{
@@ -268,16 +292,21 @@ function FeaturesSection() {
                       
                       {/* Inner Glow Gradient */}
                       <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-yellow-500/0 to-amber-500/0 group-hover:from-amber-500/8 group-hover:via-yellow-500/5 group-hover:to-amber-500/8 rounded-2xl transition-all duration-700 pointer-events-none" />
+
+                      {/* AboutMe 同款：背景水印图标（悬浮放大、旋转、灰度转彩色） */}
+                      <div className="absolute -bottom-12 -right-12 w-44 h-44 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0">
+                        <Icon className="w-full h-full text-slate-300 dark:text-slate-700 group-hover:text-amber-300 dark:group-hover:text-amber-500 transition-colors duration-500" />
+                      </div>
                       
                       <div className={`relative z-10 flex flex-col ${isPrimary ? 'justify-between h-full' : 'items-center text-center gap-3'}`}>
                         {/* Icon with Enhanced Glow */}
-                        <div className={`relative ${isPrimary ? 'mb-5' : 'mb-0'}`}>
+                        <div className={`relative transition-transform duration-500 group-hover:-translate-y-1 ${isPrimary ? 'mb-5' : 'mb-0'}`}>
                           {/* Multi-layer Glow */}
                           <div className="absolute inset-0 bg-gradient-to-br from-amber-400/50 via-yellow-500/40 to-amber-400/50 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
                           <div className="absolute inset-0 bg-gradient-to-br from-amber-500/30 via-yellow-600/25 to-amber-500/30 rounded-xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
                           
                           {/* Icon container with Motion */}
-                          <IconContainer className={`relative ${isPrimary ? 'mb-5' : 'mb-0'} ${isPrimary ? 'w-fit' : 'mx-auto'}`}>
+                          <IconContainer className={`relative transition-transform duration-500 group-hover:rotate-1 ${isPrimary ? 'mb-5' : 'mb-0'} ${isPrimary ? 'w-fit' : 'mx-auto'}`}>
                             <div className={`relative ${isPrimary ? 'p-4' : 'p-3'} rounded-xl bg-gradient-to-br from-amber-100/60 via-yellow-50/40 to-amber-100/60 dark:from-amber-900/40 dark:via-yellow-900/30 dark:to-amber-900/40 border border-amber-200/40 dark:border-amber-800/40`}
                               style={{
                                 boxShadow: '0 4px 12px rgba(251, 191, 36, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
@@ -292,7 +321,7 @@ function FeaturesSection() {
                           </IconContainer>
                         </div>
                         
-                        <div className={`space-y-2 ${isPrimary ? 'text-left' : 'text-center'}`}>
+                        <div className={`space-y-2 transition-transform duration-500 group-hover:-translate-y-0.5 ${isPrimary ? 'text-left' : 'text-center'}`}>
                           <CardTitle className={`${isPrimary ? 'text-xl md:text-2xl' : 'text-base md:text-lg'} font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 tracking-tight`}>
                             {feature.name}
                           </CardTitle>

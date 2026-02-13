@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { tools, type Tool } from "@/lib/data";
 import { getToolRoute } from "@/lib/tool-routes";
+import { SectionCardShell } from "@/components/sections/SectionCardShell";
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -378,12 +379,16 @@ export default function ToolsPage() {
 
                     if (!isAvailable) {
                       return (
-                        <div
+                        <SectionCardShell
                           key={tool.id}
-                          className="group relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 opacity-60 cursor-not-allowed flex flex-col h-full"
+                          className="h-full opacity-60 cursor-not-allowed"
+                          contentClassName="p-6 rounded-xl flex flex-col h-full"
+                          watermarkNode={
+                            <Icon className="w-full h-full text-slate-300 dark:text-slate-700 group-hover:text-yellow-300 transition-colors duration-500" />
+                          }
                         >
                           {ToolCardContent}
-                        </div>
+                        </SectionCardShell>
                       );
                     }
 
@@ -391,9 +396,17 @@ export default function ToolsPage() {
                       <Link
                         key={tool.id}
                         href={toolRoute}
-                        className="group relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-slate-900/50 flex flex-col h-full"
+                        className="block h-full"
                       >
-                        {ToolCardContent}
+                        <SectionCardShell
+                          className="h-full"
+                          contentClassName="p-6 rounded-xl flex flex-col h-full"
+                          watermarkNode={
+                            <Icon className="w-full h-full text-slate-300 dark:text-slate-700 group-hover:text-yellow-300 transition-colors duration-500" />
+                          }
+                        >
+                          {ToolCardContent}
+                        </SectionCardShell>
                       </Link>
                     );
                   })}

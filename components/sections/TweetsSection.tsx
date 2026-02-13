@@ -2,14 +2,43 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { ExternalLink, Eye } from "lucide-react";
-import { tweets, type Tweet } from "@/lib/data";
+import { tweets } from "@/lib/data";
+import { SectionCardShell } from "@/components/sections/SectionCardShell";
+
+const TYPE_ALIAS_MAP: Record<string, "干货" | "教程" | "日常" | "资讯"> = {
+  "干货": "干货",
+  "dry goods": "干货",
+  "教程": "教程",
+  "tutorial": "教程",
+  "日常": "日常",
+  "daily": "日常",
+  "资讯": "资讯",
+  "news": "资讯",
+};
+
+function normalizeTweetType(type: string): "干货" | "教程" | "日常" | "资讯" {
+  const candidates = type
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  for (const candidate of candidates) {
+    const key = candidate.toLowerCase();
+    if (TYPE_ALIAS_MAP[key]) {
+      return TYPE_ALIAS_MAP[key];
+    }
+  }
+
+  return "资讯";
+}
 
 export function TweetsSection() {
   // 只显示前9个推文（三排）
   const displayedTweets = tweets.slice(0, 9);
 
   const getBadgeStyle = (type: string) => {
-    if (type === "Dry Goods" || type === "Tutorial") {
+    const normalizedType = normalizeTweetType(type);
+    if (normalizedType === "干货" || normalizedType === "教程") {
       return "bg-yellow-400 text-black";
     }
     return "bg-slate-100 text-slate-600";
@@ -27,34 +56,18 @@ export function TweetsSection() {
         {displayedTweets.map((tweet) => (
                 <div
                   key={tweet.id}
-                  className="group relative cursor-pointer"
+                  className="cursor-pointer"
                   onClick={() => {
                     if (tweet.link && tweet.link !== "#" && typeof window !== 'undefined') {
                       window.open(tweet.link, "_blank", "noopener,noreferrer");
                     }
                   }}
                 >
-                  {/* Radial Glow */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/10 via-orange-500/8 to-amber-400/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative h-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 rounded-2xl p-6 transition-all duration-500 overflow-hidden
-                    hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-900/90"
-                    style={{
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                    }}>
-                    
-                    {/* Living Border */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(249, 115, 22, 0.2), rgba(251, 191, 36, 0.3))',
-                        padding: '1px',
-                        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                        WebkitMaskComposite: 'xor',
-                        maskComposite: 'exclude'
-                      }} />
-                    
-                    {/* Subtle gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-orange-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:via-orange-500/3 group-hover:to-amber-500/5 rounded-2xl transition-all duration-500 pointer-events-none" />
+                  <SectionCardShell
+                    contentClassName="p-6"
+                    watermarkSrc="https://cdn.simpleicons.org/x/000000"
+                    watermarkAlt=""
+                  >
                     <Card
                       className="border-0 shadow-none p-0 bg-transparent relative z-10"
                     >
@@ -68,13 +81,7 @@ export function TweetsSection() {
                           tweet.type
                         )}`}
                       >
-                        {tweet.type === "Dry Goods"
-                          ? "干货"
-                          : tweet.type === "Tutorial"
-                          ? "教程"
-                          : tweet.type === "Daily"
-                          ? "日常"
-                          : "新闻"}
+                        {normalizeTweetType(tweet.type)}
                       </span>
                     </div>
                     <h3 className="font-heading text-lg font-bold line-clamp-2 leading-tight">
@@ -98,7 +105,7 @@ export function TweetsSection() {
                     <ExternalLink className="h-4 w-4 text-muted-foreground" />
                   </CardFooter>
                     </Card>
-                  </div>
+                  </SectionCardShell>
                 </div>
       ))}
       </div>

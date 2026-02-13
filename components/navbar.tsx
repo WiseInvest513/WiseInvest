@@ -70,10 +70,10 @@ export function Navbar() {
                 href={item.href}
                 prefetch={true}
                 className={cn(
-                  "text-sm font-medium transition-colors relative flex items-center gap-1.5 group",
+                  "text-sm font-medium transition-all relative flex items-center gap-1.5 group px-2 py-1.5 rounded-md",
                   active
-                    ? "text-yellow-600 dark:text-yellow-500 font-bold"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
+                    ? "text-yellow-700 dark:text-yellow-400 font-semibold bg-amber-50/80 dark:bg-amber-900/20"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
                 )}
               >
                 {isPerks && (
@@ -83,9 +83,12 @@ export function Navbar() {
                 {isPerks && (
                   <span className="absolute -top-0.5 -right-1.5 h-2 w-2 bg-red-500 dark:bg-red-400 rounded-full animate-pulse" />
                 )}
-                {active && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-yellow-600 dark:bg-yellow-500 rounded-full" />
-                )}
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-2 right-2 h-0.5 rounded-full bg-yellow-600 dark:bg-yellow-500 transition-transform duration-300 origin-center",
+                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  )}
+                />
               </Link>
               );
             })}

@@ -7,6 +7,7 @@ import { perks, type Perk } from "@/lib/perks-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { IconService } from "@/lib/icon-service";
 
 import { ResourceIcon } from "@/components/ui/resource-icon";
 
@@ -138,7 +139,7 @@ export default function PerksPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Main Container - No top padding here. We handle spacing inside sticky elements. */}
-      <div className="max-w-[1600px] mx-auto flex items-start relative pt-0">
+      <div className="max-w-[1280px] mx-auto flex items-start relative pt-0">
         
         {/* --- LEFT SIDEBAR --- */}
         <aside className="w-48 shrink-0 sticky top-16 pt-6 self-start max-h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent hidden md:block scrollbar-hide">
@@ -202,7 +203,7 @@ export default function PerksPage() {
                 </div>
 
                 {/* Perk Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {category.items.map((perk) => (
                     <PerkCard
                       key={perk.id}
@@ -241,9 +242,12 @@ function PerkCard({
   getCategoryBadgeColor,
 }: PerkCardProps) {
   const isCopied = copiedCodeId === perk.id;
+  const iconSourceUrl = perk.iconUrl || perk.link;
+  const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
+  const hasWatermarkIcon = !iconInfo.isDefault;
 
   return (
-    <div className="bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-md transition-all duration-200 h-full flex flex-col relative overflow-hidden">
+    <div className="group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
       {/* Top Border Stripe - Brand Accent */}
       <div
         className="h-1 w-full"
@@ -252,8 +256,17 @@ function PerkCard({
         }}
       />
 
+      {/* Watermark background icon */}
+      {hasWatermarkIcon && (
+        <img
+          src={iconInfo.iconUrl}
+          alt=""
+          className="absolute -bottom-12 -right-10 w-44 h-44 opacity-[0.1] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.16] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0"
+        />
+      )}
+
       {/* Card Content */}
-      <div className="p-5 flex flex-col flex-1">
+      <div className="relative z-10 p-5 flex flex-col flex-1">
         {/* Header Row 1: Platform Name + Category Badge */}
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3 flex-1 min-w-0">

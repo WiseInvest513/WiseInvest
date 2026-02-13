@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { ExternalLink, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import {
@@ -17,6 +17,36 @@ import {
 
 // 定投文章数据（按时间倒序排列，最新的在最上面）
 const dcaArticles = [
+  {
+    id: 28,
+    title: "BTC/ETH 周定投 10 年致富实盘之第28周🎉🎉",
+    date: "2026-02-08",
+    tweetLink: "https://x.com/WiseInvest513/status/2020474704851779861",
+  },
+  {
+    id: 27,
+    title: "BTC/ETH 周定投 10 年致富实盘之第27周🎉🎉",
+    date: "2026-02-01",
+    tweetLink: "https://x.com/WiseInvest513/status/2018322118002532805",
+  },
+  {
+    id: 26,
+    title: "BTC/ETH 周定投 10 年致富实盘之第26周🎉🎉",
+    date: "2026-01-25",
+    tweetLink: "https://x.com/WiseInvest513/status/2016166229040566657",
+  },
+  {
+    id: 25,
+    title: "BTC/ETH 周定投 10 年致富实盘之第25周🎉🎉",
+    date: "2026-01-18",
+    tweetLink: "https://x.com/WiseInvest513/status/2012906444749000792",
+  },
+  {
+    id: 24,
+    title: "BTC/ETH 周定投 10 年致富实盘之第24周🎉🎉",
+    date: "2026-01-11",
+    tweetLink: "https://x.com/WiseInvest513/status/2010686041041293521",
+  },
   {
     id: 23,
     title: "BTC/ETH 周定投 10 年致富实盘之第23周🎉🎉",
@@ -412,6 +442,61 @@ const dcaData = [
     ethLow: 2916,
     ethYield: -14.48,
   },
+  {
+    date: "2026/1/11",
+    btcPrice: 90974,
+    btcHigh: 94452,
+    btcLow: 89775,
+    btcYield: -11.69,
+    ethPrice: 3115,
+    ethHigh: 3295,
+    ethLow: 3069,
+    ethYield: -14.50,
+  },
+  {
+    date: "2026/1/18",
+    btcPrice: 95080,
+    btcHigh: 96767,
+    btcLow: 90318,
+    btcYield: -7.39,
+    ethPrice: 3328,
+    ethHigh: 3383,
+    ethLow: 3089,
+    ethYield: -8.31,
+  },
+  {
+    date: "2026/1/25",
+    btcPrice: 87816,
+    btcHigh: 90595,
+    btcLow: 86396,
+    btcYield: -13.91,
+    ethPrice: 2913,
+    ethHigh: 2907,
+    ethLow: 2803,
+    ethYield: -18.99,
+  },
+  {
+    date: "2026/2/1",
+    btcPrice: 78854,
+    btcHigh: 90147,
+    btcLow: 75417,
+    btcYield: -21.86,
+    ethPrice: 2442,
+    ethHigh: 3035,
+    ethLow: 2195,
+    ethYield: -30.90,
+  },
+  {
+    date: "2026/2/8",
+    btcPrice: 69287,
+    btcHigh: 79335,
+    btcLow: 60000,
+    btcYield: -30.22,
+    ethPrice: 2081,
+    ethHigh: 2396,
+    ethLow: 1744,
+    ethYield: -39.64,
+  },
 ];
 
 type TabType = "articles" | "data" | "chart";
@@ -420,8 +505,8 @@ type TabType = "articles" | "data" | "chart";
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-black/80 backdrop-blur-md border border-slate-700 rounded-lg p-3 shadow-xl">
-        <p className="text-xs text-gray-400 mb-2 font-mono">
+      <div className="rounded-xl border border-slate-200/80 bg-white/95 px-3 py-2.5 shadow-xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/90">
+        <p className="mb-2 text-xs font-mono text-slate-500 dark:text-slate-400">
           {payload[0]?.payload?.date}
         </p>
         <div className="space-y-1">
@@ -431,7 +516,7 @@ const CustomTooltip = ({ active, payload }: any) => {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="text-sm text-gray-300">
+              <span className="text-sm text-slate-700 dark:text-slate-300">
                 {entry.name}:{" "}
                 <span style={{ color: entry.color }} className="font-bold">
                   {entry.value >= 0 ? "+" : ""}
@@ -487,7 +572,7 @@ export default function DCAInvestmentPage() {
   const totalInvestments = dcaData.length;
   // 每次定投：BTC 100U + ETH 100U = 200U
   const investmentPerPeriod = 200; // 美元
-  const totalInvested = totalInvestments * investmentPerPeriod; // 4600U (23次 * 200U)
+  const totalInvested = totalInvestments * investmentPerPeriod; // 动态计算总投入
   
   // 使用最后一条数据的收益率（BTC和ETH收益率平均）
   const latestData = dcaData[dcaData.length - 1];
@@ -496,11 +581,19 @@ export default function DCAInvestmentPage() {
   // 使用最后一条数据的收益率计算当前净值
   const currentValue = totalInvested * (1 + totalROI / 100);
   
-  // 计算Y轴域（添加缓冲）
+  // 计算Y轴域与刻度（统一刻度避免图形拥挤和读数混乱）
   const maxYield = Math.max(
     ...dcaData.map((item) => Math.max(Math.abs(item.btcYield), Math.abs(item.ethYield)))
   );
-  const yAxisDomain = [Math.min(-maxYield * 1.1, -35), Math.max(maxYield * 1.1, 35)];
+  const yAxisLimit = Math.max(40, Math.ceil((maxYield + 2) / 10) * 10);
+  const yAxisTicks = [
+    -yAxisLimit,
+    -Math.round(yAxisLimit / 2),
+    0,
+    Math.round(yAxisLimit / 2),
+    yAxisLimit,
+  ];
+  const yAxisDomain: [number, number] = [-yAxisLimit, yAxisLimit];
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
@@ -865,120 +958,124 @@ export default function DCAInvestmentPage() {
         )}
 
         {activeTab === "chart" && (
-          <div>
-            <div className="bg-transparent dark:bg-transparent rounded-xl p-4">
-              {/* Header with Title and Legend */}
-              <div className="flex items-start justify-between mb-4">
-                <h2 className="text-xl font-serif font-bold text-gray-100 dark:text-gray-100">
+          <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:to-slate-950 md:p-6">
+            {/* Header */}
+            <div className="mb-4 flex flex-col gap-3 md:mb-5 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-slate-100">
                   收益率趋势图
                 </h2>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#F7931A]" />
-                    <span className="text-xs text-gray-400">BTC 收益率</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#627EEA]" />
-                    <span className="text-xs text-gray-400">ETH 收益率</span>
-                  </div>
+                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                  BTC 与 ETH 每周定投收益率变化
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#F7931A]" />
+                  BTC 收益率
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#627EEA]" />
+                  ETH 收益率
                 </div>
               </div>
+            </div>
 
-              {/* The Scoreboard */}
-              <div className="flex items-center gap-6 mb-4 px-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">总投入</span>
-                  <span className="text-base font-mono text-gray-400 dark:text-gray-500">
-                    ${totalInvested.toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">当前净值</span>
-                  <span className="text-lg font-bold font-mono text-gray-900 dark:text-gray-100">
-                    ${currentValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-500 dark:text-gray-400">总收益率</span>
-                  <span
-                    className={`text-2xl font-bold font-mono ${
-                      totalROI >= 0
-                        ? "text-green-500 dark:text-green-400"
-                        : "text-red-500 dark:text-red-400"
-                    }`}
-                  >
-                    {totalROI >= 0 ? "+" : ""}
-                    {totalROI.toFixed(2)}%
-                  </span>
+            {/* Scoreboard */}
+            <div className="mb-4 grid grid-cols-2 gap-3 md:mb-5 md:grid-cols-4">
+              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
+                <div className="text-xs text-slate-500 dark:text-slate-400">总投入</div>
+                <div className="mt-1 text-base font-semibold font-mono text-slate-900 dark:text-slate-100">
+                  ${totalInvested.toLocaleString()}
                 </div>
               </div>
+              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
+                <div className="text-xs text-slate-500 dark:text-slate-400">当前净值</div>
+                <div className="mt-1 text-base font-semibold font-mono text-slate-900 dark:text-slate-100">
+                  ${currentValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                </div>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
+                <div className="text-xs text-slate-500 dark:text-slate-400">总收益率</div>
+                <div
+                  className={`mt-1 text-lg font-bold font-mono ${
+                    totalROI >= 0
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-rose-600 dark:text-rose-400"
+                  }`}
+                >
+                  {totalROI >= 0 ? "+" : ""}
+                  {totalROI.toFixed(2)}%
+                </div>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
+                <div className="text-xs text-slate-500 dark:text-slate-400">定投次数</div>
+                <div className="mt-1 text-base font-semibold font-mono text-slate-900 dark:text-slate-100">
+                  {totalInvestments} 次
+                </div>
+              </div>
+            </div>
 
-              <div className="h-[calc(100vh-360px)] min-h-[500px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData}>
-                    <defs>
-                      {/* BTC Gradient */}
-                      <linearGradient id="colorBtc" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#F7931A" stopOpacity={0.5} />
-                        <stop offset="100%" stopColor="#F7931A" stopOpacity={0} />
-                      </linearGradient>
-                      {/* ETH Gradient */}
-                      <linearGradient id="colorEth" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#627EEA" stopOpacity={0.5} />
-                        <stop offset="100%" stopColor="#627EEA" stopOpacity={0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      stroke="#333"
-                      vertical={false}
-                      horizontal={true}
-                    />
-                    <XAxis
-                      dataKey="date"
-                      stroke="#888"
-                      tick={{ fontSize: 12, fill: "#888" }}
-                      tickFormatter={formatDate}
-                      minTickGap={50}
-                      height={40}
-                    />
-                    <YAxis
-                      stroke="#888"
-                      tick={{ fontSize: 12, fill: "#888" }}
-                      tickFormatter={(value) => `${value}%`}
-                      width={60}
-                      domain={yAxisDomain}
-                    />
-                    <ReferenceLine
-                      y={0}
-                      stroke="#666"
-                      strokeWidth={2}
-                      strokeDasharray=""
-                    />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Area
-                      type="monotone"
-                      dataKey="btcYield"
-                      stroke="#F7931A"
-                      strokeWidth={2.5}
-                      fill="url(#colorBtc)"
-                      name="BTC 收益率"
-                      dot={false}
-                      activeDot={{ r: 8, fill: "#F7931A", stroke: "#fff", strokeWidth: 2 }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="ethYield"
-                      stroke="#627EEA"
-                      strokeWidth={2.5}
-                      fill="url(#colorEth)"
-                      name="ETH 收益率"
-                      dot={false}
-                      activeDot={{ r: 8, fill: "#627EEA", stroke: "#fff", strokeWidth: 2 }}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+            {/* Chart */}
+            <div className="h-[calc(100vh-360px)] min-h-[500px] rounded-xl border border-slate-200 bg-white/70 p-2 dark:border-slate-800 dark:bg-slate-900/50 md:p-3">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData} margin={{ top: 12, right: 12, left: 0, bottom: 6 }}>
+                  <defs>
+                    <linearGradient id="colorBtc" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#F7931A" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="#F7931A" stopOpacity={0.02} />
+                    </linearGradient>
+                    <linearGradient id="colorEth" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#627EEA" stopOpacity={0.22} />
+                      <stop offset="100%" stopColor="#627EEA" stopOpacity={0.02} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid
+                    strokeDasharray="4 4"
+                    stroke="#cbd5e1"
+                    vertical={false}
+                    horizontal={true}
+                  />
+                  <XAxis
+                    dataKey="date"
+                    stroke="#64748b"
+                    tick={{ fontSize: 12, fill: "#64748b" }}
+                    tickFormatter={formatDate}
+                    minTickGap={40}
+                    height={36}
+                  />
+                  <YAxis
+                    stroke="#64748b"
+                    tick={{ fontSize: 12, fill: "#64748b" }}
+                    tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
+                    width={52}
+                    domain={yAxisDomain}
+                    ticks={yAxisTicks}
+                  />
+                  <ReferenceLine y={0} stroke="#94a3b8" strokeWidth={1.5} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Area
+                    type="monotone"
+                    dataKey="btcYield"
+                    stroke="#F7931A"
+                    strokeWidth={2.5}
+                    fill="url(#colorBtc)"
+                    name="BTC 收益率"
+                    dot={false}
+                    activeDot={{ r: 6, fill: "#F7931A", stroke: "#fff", strokeWidth: 2 }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="ethYield"
+                    stroke="#627EEA"
+                    strokeWidth={2.5}
+                    fill="url(#colorEth)"
+                    name="ETH 收益率"
+                    dot={false}
+                    activeDot={{ r: 6, fill: "#627EEA", stroke: "#fff", strokeWidth: 2 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
         )}

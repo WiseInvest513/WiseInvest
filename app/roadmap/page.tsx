@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Clock, BookOpen } from "lucide-react";
 import { roadmaps, type RoadmapCategory } from "@/lib/roadmaps-data";
+import { SectionCardShell } from "@/components/sections/SectionCardShell";
 
 // Category definitions
 const categoryConfig: Record<
@@ -80,37 +81,47 @@ function RoadmapCard({ roadmap }: { roadmap: (typeof roadmaps)[0] }) {
   return (
     <Link
       href={`/roadmap/${roadmap.id}`}
-      className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:border-yellow-400 dark:hover:border-yellow-600 hover:shadow-lg transition-all duration-200 flex flex-col h-full"
+      className="block h-full"
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="text-4xl">{roadmap.icon}</div>
-        <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-          {config.label}
-        </span>
-      </div>
-
-      <h2 className="font-bold text-xl text-slate-900 dark:text-slate-50 mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
-        {roadmap.title}
-      </h2>
-      <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 flex-1 line-clamp-2">
-        {roadmap.description}
-      </p>
-
-      <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-          <div className="flex items-center gap-1">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>{roadmap.steps.length} 个步骤</span>
+      <SectionCardShell
+        className="h-full"
+        contentClassName="p-6 rounded-xl flex flex-col h-full"
+        watermarkNode={
+          <div className="w-full h-full flex items-center justify-center text-[120px] leading-none text-slate-300 dark:text-slate-700 group-hover:text-yellow-300 transition-colors duration-500">
+            {roadmap.icon}
           </div>
-          {roadmap.estimatedTotalTime && (
-            <div className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5" />
-              <span>{roadmap.estimatedTotalTime}</span>
-            </div>
-          )}
+        }
+      >
+        <div className="flex items-start justify-between mb-4">
+          <div className="text-4xl">{roadmap.icon}</div>
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+            {config.label}
+          </span>
         </div>
-        <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" />
-      </div>
+
+        <h2 className="font-bold text-xl text-slate-900 dark:text-slate-50 mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors">
+          {roadmap.title}
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 flex-1 line-clamp-2">
+          {roadmap.description}
+        </p>
+
+        <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-1">
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{roadmap.steps.length} 个步骤</span>
+            </div>
+            {roadmap.estimatedTotalTime && (
+              <div className="flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5" />
+                <span>{roadmap.estimatedTotalTime}</span>
+              </div>
+            )}
+          </div>
+          <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 group-hover:translate-x-1 transition-all" />
+        </div>
+      </SectionCardShell>
     </Link>
   );
 }

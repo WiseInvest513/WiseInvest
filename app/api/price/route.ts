@@ -2,9 +2,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import https from 'https';
 import http from 'http';
+import {
+  RATE_LIMIT_CONFIGS,
+  rateLimitedRequest,
+} from '@/lib/utils/rate-limiter';
 
 // Force dynamic to prevent Vercel from caching stale data at build time
 export const dynamic = 'force-dynamic';
+const isDev = process.env.NODE_ENV === 'development';
+const debugLog = (...args: unknown[]) => {
+  if (isDev) {
+    console.log(...args);
+  }
+};
+const debugWarn = (...args: unknown[]) => {
+  if (isDev) {
+    console.warn(...args);
+  }
+};
 
 // 创建一个不使用代理的 https Agent
 const noProxyAgent = new https.Agent({
@@ -36,10 +51,32 @@ const INDEX_CONFIG: Record<string, { symbol: string; name: string }> = {
   'SPX': { symbol: '^GSPC', name: 'S&P 500 Index' },
 };
 
+type AssetType = 'crypto' | 'stock' | 'index';
+type ActionType = 'price' | 'search' | 'historical';
+type ApiError = { error: string; [key: string]: unknown };
+type PriceResponse = {
+  price: number;
+  source: string;
+  timestamp: number;
+  change24h?: number;
+  change24hPercent?: number;
+  _isMock?: boolean;
+};
+type SearchResponse = {
+  results: Array<{ symbol: string; name?: string; id?: string; exchange?: string; type?: string }>;
+  _isMock?: boolean;
+};
+type HistoricalResponse = {
+  price: number;
+  date: string;
+  source: string;
+};
+type ApiResponsePayload = ApiError | PriceResponse | SearchResponse | HistoricalResponse;
+
 // ==================== 缓存机制 ====================
 
 const CACHE_TTL = 30 * 1000;
-const priceCache = new Map<string, { ts: number; data: any }>();
+const priceCache = new Map<string, { ts: number; data: ApiResponsePayload }>();
 
 function readCache<T>(key: string): T | null {
   const cached = priceCache.get(key);
@@ -142,7 +179,14 @@ function getProxyAgent() {
   return proxy ? new HttpsProxyAgent(proxy) : undefined;
 }
 
-async function fetchJsonWithTimeout(url: string, timeoutMs: number = 8000): Promise<Response> {
+function getRateLimitConfigByHostname(hostname: string) {
+  if (hostname.includes('coinpaprika')) return RATE_LIMIT_CONFIGS.coinpaprika;
+  if (hostname.includes('binance')) return RATE_LIMIT_CONFIGS.binance;
+  if (hostname.includes('yahoo')) return RATE_LIMIT_CONFIGS.yahoo;
+  return RATE_LIMIT_CONFIGS.proxy;
+}
+
+async function rawFetchJsonWithTimeout(url: string, timeoutMs: number = 8000): Promise<Response> {
   const urlObj = new URL(url);
   const proxyAgent = getProxyAgent();
   
@@ -207,6 +251,12 @@ async function fetchJsonWithTimeout(url: string, timeoutMs: number = 8000): Prom
   });
 }
 
+async function fetchJsonWithTimeout(url: string, timeoutMs: number = 8000): Promise<Response> {
+  const urlObj = new URL(url);
+  const limitConfig = getRateLimitConfigByHostname(urlObj.hostname);
+  return rateLimitedRequest(urlObj.hostname, () => rawFetchJsonWithTimeout(url, timeoutMs), limitConfig);
+}
+
 // ==================== 加密货币操作 ====================
 
 async function getCryptoPrice(symbol: string, useMock: boolean = false): Promise<any> {
@@ -245,7 +295,7 @@ async function getCryptoPrice(symbol: string, useMock: boolean = false): Promise
     return { error: 'Invalid price data' };
   } catch (error) {
     // 网络失败时降级到 Mock 数据
-    console.warn(`[Price API] Crypto price fetch failed for ${symbol}, using mock data`);
+    debugWarn(`[Price API] Crypto price fetch failed for ${symbol}, using mock data`);
     return generateMockPrice(symbol, 'crypto');
   }
 }
@@ -314,17 +364,17 @@ async function getCryptoHistoricalFromBinance(symbol: string, date: Date): Promi
     
     const url = `https://api.binance.com/api/v3/klines?symbol=${config.binanceSymbol}&interval=1d&startTime=${startTime}&endTime=${endTime}&limit=1`;
     
-    console.log(`[Price API] ========== 开始请求币安历史价格 ==========`);
-    console.log(`[Price API] 原始 symbol: ${symbol}`);
-    console.log(`[Price API] Binance symbol: ${config.binanceSymbol}`);
-    console.log(`[Price API] 日期: ${dateStr}`);
-    console.log(`[Price API] 时间戳: startTime=${startTime}, endTime=${endTime}`);
-    console.log(`[Price API] Binance URL: ${url}`);
-    console.log(`[Price API] 使用 noProxyAgent，直接请求 Binance，不使用代理`);
+    debugLog(`[Price API] ========== 开始请求币安历史价格 ==========`);
+    debugLog(`[Price API] 原始 symbol: ${symbol}`);
+    debugLog(`[Price API] Binance symbol: ${config.binanceSymbol}`);
+    debugLog(`[Price API] 日期: ${dateStr}`);
+    debugLog(`[Price API] 时间戳: startTime=${startTime}, endTime=${endTime}`);
+    debugLog(`[Price API] Binance URL: ${url}`);
+    debugLog(`[Price API] 使用 noProxyAgent，直接请求 Binance，不使用代理`);
     
     const urlObj = new URL(url);
-    const data = await new Promise<any>((resolve, reject) => {
-      console.log(`[Price API] 开始发起 https.request...`);
+    const data = await rateLimitedRequest('binance-history', () => new Promise<any>((resolve, reject) => {
+      debugLog(`[Price API] 开始发起 https.request...`);
       const req = https.request({
         hostname: urlObj.hostname,
         port: 443,
@@ -336,22 +386,22 @@ async function getCryptoHistoricalFromBinance(symbol: string, date: Date): Promi
         // 使用不代理的 Agent
         agent: noProxyAgent,
       }, (res) => {
-        console.log(`[Price API] Binance API 响应状态码: ${res.statusCode}`);
-        console.log(`[Price API] Binance API 响应头:`, res.headers);
+        debugLog(`[Price API] Binance API 响应状态码: ${res.statusCode}`);
+        debugLog(`[Price API] Binance API 响应头:`, res.headers);
         
         const chunks: Buffer[] = [];
         res.on('data', (chunk) => chunks.push(chunk));
         res.on('end', () => {
           const body = Buffer.concat(chunks).toString();
-          console.log(`[Price API] Binance API 响应体长度: ${body.length}`);
-          console.log(`[Price API] Binance API 响应体前500字符:`, body.substring(0, 500));
+          debugLog(`[Price API] Binance API 响应体长度: ${body.length}`);
+          debugLog(`[Price API] Binance API 响应体前500字符:`, body.substring(0, 500));
           
           if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
             try {
               const jsonData = JSON.parse(body);
-              console.log(`[Price API] ✅ Binance API 解析成功，数据类型:`, Array.isArray(jsonData) ? 'Array' : typeof jsonData);
+              debugLog(`[Price API] ✅ Binance API 解析成功，数据类型:`, Array.isArray(jsonData) ? 'Array' : typeof jsonData);
               if (Array.isArray(jsonData)) {
-                console.log(`[Price API] 数组长度: ${jsonData.length}`);
+                debugLog(`[Price API] 数组长度: ${jsonData.length}`);
               }
               resolve(jsonData);
             } catch (e) {
@@ -378,32 +428,32 @@ async function getCryptoHistoricalFromBinance(symbol: string, date: Date): Promi
         reject(new Error('Request timeout'));
       });
       
-      console.log(`[Price API] 发送请求...`);
+      debugLog(`[Price API] 发送请求...`);
       req.end();
-    });
+    }), RATE_LIMIT_CONFIGS.binance);
     
-    console.log(`[Price API] ========== Binance API 请求完成 ==========`);
+    debugLog(`[Price API] ========== Binance API 请求完成 ==========`);
     
     // 币安 klines 返回格式: [[Open time, Open, High, Low, Close, Volume, ...], ...]
     // 我们使用收盘价 (Close)，索引为 4
-    console.log(`[Price API] 开始解析 Binance 返回数据...`);
-    console.log(`[Price API] 数据类型:`, Array.isArray(data) ? 'Array' : typeof data);
+    debugLog(`[Price API] 开始解析 Binance 返回数据...`);
+    debugLog(`[Price API] 数据类型:`, Array.isArray(data) ? 'Array' : typeof data);
     
     if (Array.isArray(data)) {
-      console.log(`[Price API] 数组长度: ${data.length}`);
+      debugLog(`[Price API] 数组长度: ${data.length}`);
       if (data.length > 0) {
         const kline = data[0];
-        console.log(`[Price API] 第一个 K线数据类型:`, Array.isArray(kline) ? 'Array' : typeof kline);
+        debugLog(`[Price API] 第一个 K线数据类型:`, Array.isArray(kline) ? 'Array' : typeof kline);
         if (Array.isArray(kline)) {
-          console.log(`[Price API] K线数据长度: ${kline.length}`);
-          console.log(`[Price API] K线数据内容:`, kline);
+          debugLog(`[Price API] K线数据长度: ${kline.length}`);
+          debugLog(`[Price API] K线数据内容:`, kline);
           if (kline.length >= 5) {
             const closePriceStr = kline[4];
-            console.log(`[Price API] 收盘价字符串: ${closePriceStr}, 类型: ${typeof closePriceStr}`);
+            debugLog(`[Price API] 收盘价字符串: ${closePriceStr}, 类型: ${typeof closePriceStr}`);
             const price = parseFloat(String(closePriceStr)); // Close price
-            console.log(`[Price API] 解析后的价格: ${price}, 类型: ${typeof price}, 是否有效: ${price > 0 && isFinite(price)}`);
+            debugLog(`[Price API] 解析后的价格: ${price}, 类型: ${typeof price}, 是否有效: ${price > 0 && isFinite(price)}`);
             if (typeof price === 'number' && price > 0 && isFinite(price)) {
-              console.log(`[Price API] ✅✅✅ 币安成功获取 ${symbol} 在 ${dateStr} 的价格: $${price}`);
+              debugLog(`[Price API] ✅✅✅ 币安成功获取 ${symbol} 在 ${dateStr} 的价格: $${price}`);
               return {
                 price,
                 date: dateStr,
@@ -445,7 +495,7 @@ async function getCryptoHistorical(symbol: string, date: Date): Promise<any> {
   const dateStr = date.toISOString().split('T')[0];
   
   // 使用币安 API 获取历史价格
-  console.log(`[Price API] 使用币安 API 获取 ${symbol} 在 ${dateStr} 的历史价格...`);
+  debugLog(`[Price API] 使用币安 API 获取 ${symbol} 在 ${dateStr} 的历史价格...`);
   return await getCryptoHistoricalFromBinance(symbol, date);
 }
 
@@ -477,8 +527,8 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
     
     for (let i = 0; i < endpoints.length; i++) {
       const url = endpoints[i];
-      console.log(`[Price API] 尝试端点 ${i + 1}/${endpoints.length}: ${url}`);
-      console.log(`[Price API] 原始符号: ${symbol}, Yahoo 符号: ${yahooSymbol}`);
+      debugLog(`[Price API] 尝试端点 ${i + 1}/${endpoints.length}: ${url}`);
+      debugLog(`[Price API] 原始符号: ${symbol}, Yahoo 符号: ${yahooSymbol}`);
       
       try {
         let response: Response;
@@ -513,7 +563,7 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
         let data: any;
         try {
           const responseText = await response.text();
-          console.log(`[Price API] Yahoo Finance 原始响应 (前500字符):`, responseText.substring(0, 500));
+          debugLog(`[Price API] Yahoo Finance 原始响应 (前500字符):`, responseText.substring(0, 500));
           data = JSON.parse(responseText);
         } catch (parseError: any) {
           console.error(`[Price API] JSON 解析失败:`, parseError.message);
@@ -521,7 +571,7 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
           continue; // 尝试下一个端点
         }
         
-        console.log(`[Price API] Yahoo Finance 响应结构:`, JSON.stringify(data, null, 2).substring(0, 1000));
+        debugLog(`[Price API] Yahoo Finance 响应结构:`, JSON.stringify(data, null, 2).substring(0, 1000));
         
         // 检查响应结构
         if (!data || typeof data !== 'object') {
@@ -548,7 +598,7 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
           continue; // 尝试下一个端点
         }
         
-        console.log(`[Price API] Yahoo Finance meta 数据:`, JSON.stringify(meta, null, 2));
+        debugLog(`[Price API] Yahoo Finance meta 数据:`, JSON.stringify(meta, null, 2));
         
         // 尝试多个价格字段，按优先级
         let price: number | null = null;
@@ -557,20 +607,20 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
         // 优先级：regularMarketPrice > currentPrice > chartPreviousClose
         if (typeof meta?.regularMarketPrice === 'number' && meta.regularMarketPrice > 0) {
           price = meta.regularMarketPrice;
-          console.log(`[Price API] 使用 regularMarketPrice: ${price}`);
+          debugLog(`[Price API] 使用 regularMarketPrice: ${price}`);
         } else if (typeof meta?.currentPrice === 'number' && meta.currentPrice > 0) {
           price = meta.currentPrice;
-          console.log(`[Price API] 使用 currentPrice: ${price}`);
+          debugLog(`[Price API] 使用 currentPrice: ${price}`);
         } else if (typeof meta?.chartPreviousClose === 'number' && meta.chartPreviousClose > 0) {
           price = meta.chartPreviousClose;
-          console.log(`[Price API] 使用 chartPreviousClose: ${price}`);
+          debugLog(`[Price API] 使用 chartPreviousClose: ${price}`);
         } else {
           // 尝试其他可能的价格字段
           const possibleFields = ['regularMarketPreviousClose', 'previousClose', 'open', 'close'];
           for (const field of possibleFields) {
             if (typeof meta?.[field] === 'number' && meta[field] > 0) {
               price = meta[field];
-              console.log(`[Price API] 使用备用字段 ${field}: ${price}`);
+              debugLog(`[Price API] 使用备用字段 ${field}: ${price}`);
               break;
             }
           }
@@ -596,7 +646,7 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
         const change24h = previousClose ? price - previousClose : 0;
         const change24hPercent = previousClose ? (change24h / previousClose) * 100 : 0;
         
-        console.log(`[Price API] ✅ Yahoo Finance 成功获取 ${symbol} 价格: $${price.toFixed(2)} (前收盘: $${previousClose?.toFixed(2) || 'N/A'})`);
+        debugLog(`[Price API] ✅ Yahoo Finance 成功获取 ${symbol} 价格: $${price.toFixed(2)} (前收盘: $${previousClose?.toFixed(2) || 'N/A'})`);
         
         return {
           price: Math.round(price * 100) / 100, // 保留2位小数
@@ -613,8 +663,8 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
     }
     
     // 所有端点都失败了，降级到 Mock 数据
-    console.warn(`[Price API] ⚠️ 所有 Yahoo Finance 端点都失败，降级到 Mock 数据`);
-    console.warn(`[Price API] 最后错误:`, lastError?.message || 'Unknown error');
+    debugWarn(`[Price API] ⚠️ 所有 Yahoo Finance 端点都失败，降级到 Mock 数据`);
+    debugWarn(`[Price API] 最后错误:`, lastError?.message || 'Unknown error');
     return generateMockPrice(symbol, 'stock');
     
   } catch (error: any) {
@@ -623,7 +673,7 @@ async function getStockPrice(symbol: string, useMock: boolean = false): Promise<
     console.error(`[Price API] 错误堆栈:`, error.stack);
     
     // 如果所有端点都失败，降级到 Mock 数据
-    console.warn(`[Price API] ⚠️ 降级到 Mock 数据`);
+    debugWarn(`[Price API] ⚠️ 降级到 Mock 数据`);
     return generateMockPrice(symbol, 'stock');
   }
 }
@@ -657,7 +707,7 @@ async function searchStock(query: string, useMock: boolean = false): Promise<any
     };
   } catch (error) {
     // 网络失败时降级到 Mock 数据
-    console.warn(`[Price API] Stock search failed for "${query}", using mock data`);
+    debugWarn(`[Price API] Stock search failed for "${query}", using mock data`);
     return generateMockSearchResults(query, 'stock');
   }
 }
@@ -682,7 +732,7 @@ async function getStockHistorical(symbol: string, date: Date): Promise<any> {
     const period2 = Math.floor(endOfDay.getTime() / 1000);
     
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol.toUpperCase()}?interval=1d&period1=${period1}&period2=${period2}&includePrePost=false&events=div%7Csplit%7Cearn`;
-    console.log(`[Price API] 请求 Yahoo Finance 历史价格: ${url}`);
+    debugLog(`[Price API] 请求 Yahoo Finance 历史价格: ${url}`);
     
     const response = await fetchJsonWithTimeout(url, 10000);
     
@@ -695,7 +745,7 @@ async function getStockHistorical(symbol: string, date: Date): Promise<any> {
     let data: any;
     try {
       const responseText = await response.text();
-      console.log(`[Price API] Yahoo Finance 历史价格原始响应 (前500字符):`, responseText.substring(0, 500));
+      debugLog(`[Price API] Yahoo Finance 历史价格原始响应 (前500字符):`, responseText.substring(0, 500));
       data = JSON.parse(responseText);
     } catch (parseError: any) {
       console.error(`[Price API] JSON 解析失败:`, parseError.message);
@@ -747,7 +797,7 @@ async function getStockHistorical(symbol: string, date: Date): Promise<any> {
     }
     
     if (closestPrice && closestPrice > 0) {
-      console.log(`[Price API] ✅ Yahoo Finance 成功获取 ${symbol} 在 ${closestDate} 的历史价格: $${closestPrice.toFixed(2)}`);
+      debugLog(`[Price API] ✅ Yahoo Finance 成功获取 ${symbol} 在 ${closestDate} 的历史价格: $${closestPrice.toFixed(2)}`);
       return {
         price: Math.round(closestPrice * 100) / 100,
         date: closestDate || date.toISOString().split('T')[0],
@@ -823,13 +873,13 @@ async function getIndexPrice(symbol: string, useMock: boolean = false): Promise<
     if (symbol.toUpperCase() === 'TNX') {
       // 10年期国债收益率应该在 0-10% 之间
       if (price && (price < 0 || price > 10)) {
-        console.warn(`[Price API] TNX value ${price} is outside reasonable range (0-10%), treating as invalid`);
+        debugWarn(`[Price API] TNX value ${price} is outside reasonable range (0-10%), treating as invalid`);
         throw new Error(`Invalid TNX value: ${price}`);
       }
     } else if (symbol.toUpperCase() === 'VIX') {
       // VIX 应该在 5-100 之间（极端情况下可能更高，但 98 通常不正常）
       if (price && (price < 5 || price > 100)) {
-        console.warn(`[Price API] VIX value ${price} is outside reasonable range (5-100), treating as invalid`);
+        debugWarn(`[Price API] VIX value ${price} is outside reasonable range (5-100), treating as invalid`);
         throw new Error(`Invalid VIX value: ${price}`);
       }
     }
@@ -841,7 +891,7 @@ async function getIndexPrice(symbol: string, useMock: boolean = false): Promise<
     const change24h = previousClose ? price - previousClose : 0;
     const change24hPercent = previousClose ? (change24h / previousClose) * 100 : 0;
     
-    console.log(`[Price API] ✅ Successfully fetched ${symbol} (${yahooSymbol}) price: ${price.toFixed(2)}`);
+    debugLog(`[Price API] ✅ Successfully fetched ${symbol} (${yahooSymbol}) price: ${price.toFixed(2)}`);
     
     return {
       price: Math.round(price * 100) / 100, // 保留2位小数
@@ -909,8 +959,8 @@ async function getIndexHistorical(symbol: string, date: Date): Promise<any> {
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const type = searchParams.get('type') as 'crypto' | 'stock' | 'index' | null;
-    const action = searchParams.get('action') as 'price' | 'search' | 'historical' | null;
+    const type = searchParams.get('type') as AssetType | null;
+    const action = searchParams.get('action') as ActionType | null;
     const symbol = searchParams.get('symbol');
     const query = searchParams.get('query');
     const date = searchParams.get('date');
@@ -931,7 +981,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(cached);
       }
 
-      let result: any;
+      let result: ApiResponsePayload;
       switch (type) {
         case 'crypto':
           result = await getCryptoPrice(symbol);
@@ -946,7 +996,7 @@ export async function GET(request: NextRequest) {
           return NextResponse.json({ error: 'Unsupported type' }, { status: 400 });
       }
 
-      if (result.error) {
+      if ('error' in result) {
         return NextResponse.json(result, { status: 200 });
       }
 
@@ -960,7 +1010,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Missing query parameter' }, { status: 400 });
       }
 
-      let result: any;
+      let result: ApiResponsePayload;
       switch (type) {
         case 'crypto':
           result = await searchCrypto(query);
@@ -1005,9 +1055,9 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid date format' }, { status: 400 });
       }
       
-      console.log(`[Price API] 解析日期: ${date} -> ${targetDate.toISOString()} (UTC)`);
+      debugLog(`[Price API] 解析日期: ${date} -> ${targetDate.toISOString()} (UTC)`);
 
-      let result: any;
+      let result: ApiResponsePayload;
       switch (type) {
         case 'crypto':
           result = await getCryptoHistorical(symbol, targetDate);

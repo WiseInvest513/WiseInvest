@@ -1,35 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calculator, Coins, BarChart } from "lucide-react";
+import { CardDescription, CardTitle } from "@/components/ui/card";
+import { Calculator, Clock, TrendingUp, BarChart3, Percent } from "lucide-react";
 import { getToolRoute } from "@/lib/tool-routes";
+import { tools } from "@/lib/data";
+import { SectionCardShell } from "@/components/sections/SectionCardShell";
 
-const tools = [
-  {
-    id: "compound-calc",
-    name: "复利计算器",
-    nameEn: "Compound Interest Calc",
-    icon: Calculator,
-    description: "计算复利收益",
-  },
-  {
-    id: "roi-calculator",
-    name: "时光财富机",
-    nameEn: "Time Wealth Machine",
-    icon: Coins,
-    description: "计算投资回报率",
-  },
-  {
-    id: "fear-greed",
-    name: "贪婪恐慌指数",
-    nameEn: "Fear & Greed Index",
-    icon: BarChart,
-    description: "市场情绪指标",
-  },
-];
+const featuredToolIds = ["compound-calc", "roi-calculator", "fear-greed"];
+
+const iconMap = {
+  Calculator,
+  Clock,
+  TrendingUp,
+  BarChart3,
+  Percent,
+} as const;
 
 export function ToolsSection() {
+  const featuredTools = featuredToolIds
+    .map((id) => tools.find((tool) => tool.id === id))
+    .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+
   return (
     <section className="container mx-auto px-4 py-12 md:py-16">
       <h2 className="font-heading text-3xl md:text-4xl font-extrabold text-center mb-10 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
@@ -39,8 +31,8 @@ export function ToolsSection() {
         </span>
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-5xl mx-auto">
-        {tools.map((tool) => {
-          const Icon = tool.icon;
+        {featuredTools.map((tool) => {
+          const Icon = iconMap[tool.icon as keyof typeof iconMap] || Calculator;
           const toolRoute = getToolRoute(tool.id);
           return (
             <Link
@@ -48,28 +40,12 @@ export function ToolsSection() {
               href={toolRoute}
               className="group relative cursor-pointer"
             >
-              {/* Radial Glow */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-orange-500/10 to-amber-400/15 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div className="relative h-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 rounded-2xl p-6 md:p-7 transition-all duration-500 overflow-hidden
-                hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-900/90"
-                style={{
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                }}>
-                
-                {/* Living Border */}
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(249, 115, 22, 0.2), rgba(251, 191, 36, 0.3))',
-                    padding: '1px',
-                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                    WebkitMaskComposite: 'xor',
-                    maskComposite: 'exclude'
-                  }} />
-                
-                {/* Subtle gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-orange-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:via-orange-500/3 group-hover:to-amber-500/5 rounded-2xl transition-all duration-500 pointer-events-none" />
-                
+              <SectionCardShell
+                contentClassName="p-6 md:p-7"
+                watermarkNode={
+                  <Icon className="w-full h-full text-slate-300 dark:text-slate-700 group-hover:text-amber-400 transition-colors duration-500" />
+                }
+              >
                 <div className="relative z-10 text-center">
                   {/* Icon with Dual-Tone Glow */}
                   <div className="relative inline-block mb-6">
@@ -84,10 +60,10 @@ export function ToolsSection() {
                     {tool.name}
                   </CardTitle>
                   <CardDescription className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                    {tool.nameEn}
+                    {tool.description}
                   </CardDescription>
                 </div>
-              </div>
+              </SectionCardShell>
             </Link>
           );
         })}

@@ -89,7 +89,7 @@ const socials = [
     color: "hover:border-slate-800 hover:shadow-slate-200",
     text: "text-slate-900",
     bg: "bg-slate-100",
-    link: "#"
+    link: "https://v.douyin.com/ZMirjr_-qGc"
   },
   {
     name: "WeChat",
@@ -100,7 +100,7 @@ const socials = [
     color: "hover:border-green-500 hover:shadow-green-100",
     text: "text-green-600",
     bg: "bg-green-50",
-    link: "https://mp.weixin.qq.com/s/z9h9tyHkn42e3Iyd3MGcfA"
+    link: "https://mp.weixin.qq.com/s/uo-O5ekA9Zfe-fNY88sFig"
   }
 ];
 

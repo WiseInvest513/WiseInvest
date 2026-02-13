@@ -4,6 +4,8 @@ import { ExternalLink, BookOpen } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
 import { Button } from "@/components/ui/button";
 import { perks } from "@/lib/perks-data";
+import { SectionCardShell } from "@/components/sections/SectionCardShell";
+import { IconService } from "@/lib/icon-service";
 
 // CEX 交易所数据
 const cexExchanges = [
@@ -55,31 +57,17 @@ export function CEXSection() {
         </span>
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 max-w-7xl mx-auto">
-        {cexExchanges.map((exchange) => (
-          <div
+        {cexExchanges.map((exchange) => {
+          const iconInfo = IconService.getIconInfo(exchange.url, exchange.nameEn);
+          const watermarkSrc = iconInfo.isDefault ? undefined : iconInfo.iconUrl;
+
+          return (
+          <SectionCardShell
             key={exchange.id}
-            className="group relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 rounded-2xl p-6 transition-all duration-500 overflow-hidden
-              hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-1 hover:bg-white/90 dark:hover:bg-slate-900/90"
-            style={{
-              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-            }}
+            contentClassName="p-6"
+            watermarkSrc={watermarkSrc}
+            watermarkAlt=""
           >
-            {/* Radial Glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-orange-500/10 to-amber-400/15 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            
-            {/* Living Border */}
-            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-              style={{
-                background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(249, 115, 22, 0.2), rgba(251, 191, 36, 0.3))',
-                padding: '1px',
-                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                WebkitMaskComposite: 'xor',
-                maskComposite: 'exclude'
-              }} />
-            
-            {/* Subtle gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-orange-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:via-orange-500/3 group-hover:to-amber-500/5 rounded-2xl transition-all duration-500 pointer-events-none" />
-            
             <div className="relative z-10 flex flex-col h-full">
               {/* Icon and Name */}
               <div className="flex flex-col items-center mb-4">
@@ -126,8 +114,9 @@ export function CEXSection() {
                 </Button>
               </div>
             </div>
-          </div>
-        ))}
+          </SectionCardShell>
+          );
+        })}
       </div>
     </section>
   );

@@ -273,6 +273,18 @@ export interface HistoricalPriceResult {
   source: string;
 }
 
+type ApiAssetType = 'crypto' | 'stock' | 'index';
+
+function inferAssetType(symbol: string): ApiAssetType {
+  const upper = symbol.toUpperCase();
+  const indexSymbols = new Set(['QQQ', 'VOO', 'SPY', 'DIA', 'VGT', 'SH000001']);
+  const stockSymbols = new Set(['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'TSLA', 'NVDA']);
+
+  if (indexSymbols.has(upper)) return 'index';
+  if (stockSymbols.has(upper)) return 'stock';
+  return 'crypto';
+}
+
 // ==================== 价格获取函数 ====================
 
 export async function getCurrentPrice(symbol: string): Promise<PriceResult | null> {
@@ -283,7 +295,10 @@ export async function getCurrentPrice(symbol: string): Promise<PriceResult | nul
   }
 
   try {
-    const response = await fetch(`/api/price?symbol=${symbol}&type=current`);
+    const assetType = inferAssetType(symbol);
+    const response = await fetch(
+      `/api/price?symbol=${encodeURIComponent(symbol)}&type=${assetType}&action=price`
+    );
     if (!response.ok) {
       if (cached) return cached;
       return { price: 0, source: ['Error'], timestamp: Date.now() };
@@ -313,7 +328,10 @@ export async function getCurrentPrice(symbol: string): Promise<PriceResult | nul
 export async function getHistoricalPrice(symbol: string, date: Date): Promise<HistoricalPriceResult | null> {
   try {
     const dateStr = date.toISOString().split('T')[0];
-    const response = await fetch(`/api/price?symbol=${symbol}&type=historical&date=${dateStr}`);
+    const assetType = inferAssetType(symbol);
+    const response = await fetch(
+      `/api/price?symbol=${encodeURIComponent(symbol)}&type=${assetType}&action=historical&date=${dateStr}`
+    );
     
     if (!response.ok) {
       return { price: 0, date: dateStr, source: 'Error' };

@@ -60,6 +60,21 @@ export default function PracticePage() {
               >
                 {/* Background Glow */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* AboutMe 同款背景水印图标 */}
+                {category.id === "bitget-corner" ? (
+                  <div className="absolute -bottom-12 -right-12 w-40 h-40 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 flex items-center justify-center">
+                    <div className="w-28 h-28 rounded-3xl bg-[#03C87C] flex items-center justify-center">
+                      <span className="text-white font-bold text-5xl">B</span>
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={category.iconUrl}
+                    alt=""
+                    className="absolute -bottom-12 -right-12 w-44 h-44 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 object-contain"
+                  />
+                )}
                 
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-4">

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { resourceCategories, type ResourceCategory } from "@/lib/resources-data";
 import { ResourceIcon } from "@/components/ui/resource-icon";
+import { IconService } from "@/lib/icon-service";
 import {
   Coins,
   TrendingUp,
@@ -74,6 +75,9 @@ interface ResourceCardProps {
 function ResourceCard({ resource, rank }: ResourceCardProps) {
   // Get icon from iconMap, fallback to Coins if not found
   const Icon = resource.icon && iconMap[resource.icon] ? iconMap[resource.icon] : Coins;
+  const iconSourceUrl = resource.iconUrl || resource.url;
+  const iconInfo = IconService.getIconInfo(iconSourceUrl, resource.name);
+  const hasWatermarkIcon = !iconInfo.isDefault;
 
   const handleClick = () => {
     // 优先使用 invitationLink，如果没有则使用 url
@@ -141,12 +145,25 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
   return (
     <div
       onClick={handleClick}
-      className={`bg-white border rounded-lg p-4 hover:border-yellow-400 hover:-translate-y-1 hover:shadow-md transition-all duration-200 cursor-pointer group relative ${
+      className={`bg-white border rounded-lg p-4 hover:border-yellow-400 hover:-translate-y-1 hover:shadow-md transition-all duration-200 cursor-pointer group relative overflow-hidden ${
         isRank1
           ? "bg-yellow-50/50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-800"
           : "border-slate-100 dark:border-slate-800"
       }`}
     >
+      {/* AboutMe 同款背景水印图标 */}
+      {hasWatermarkIcon ? (
+        <img
+          src={iconInfo.iconUrl}
+          alt=""
+          className="absolute -bottom-6 -right-6 w-24 h-24 opacity-[0.06] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.10] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 object-contain"
+        />
+      ) : (
+        <div className="absolute -bottom-6 -right-6 w-24 h-24 opacity-[0.06] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.10] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 flex items-center justify-center">
+          <Icon className="w-16 h-16 text-slate-300" />
+        </div>
+      )}
+
       {/* External Link Icon - Top Right Corner */}
       <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-yellow-600" />
@@ -164,7 +181,7 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
         </div>
       )}
 
-      <div className="flex items-start">
+      <div className="relative z-10 flex items-start">
         {/* Icon - 使用通用图标组件 */}
         <div className="mr-4 shrink-0">
           <ResourceIcon 
