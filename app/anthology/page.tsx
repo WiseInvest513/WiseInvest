@@ -986,8 +986,8 @@ export default function AnthologyPage() {
           )}
 
           {/* SCROLLABLE ARTICLE BODY */}
-          <div className={cn("pb-20", isFullscreen ? "h-full overflow-hidden relative" : "px-6 md:px-12 pt-6")}>
-            <article className={cn("prose prose-slate max-w-none w-full", isFullscreen ? "h-full" : "pt-6")} style={{ maxWidth: '100%' }}>
+          <div className={cn("pb-20", isFullscreen ? "flex-1 min-h-0 overflow-y-auto px-6 md:px-12 pt-6" : "px-6 md:px-12 pt-6")}>
+            <article className="prose prose-slate max-w-none w-full pt-6" style={{ maxWidth: '100%' }}>
               <ArticleContent content={selectedArticle.content} onHeadersExtracted={setArticleHeaders} title={selectedArticle.title} />
             </article>
             {(previousArticle || nextArticle) && (

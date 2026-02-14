@@ -72,7 +72,7 @@ export function Navbar() {
                 className={cn(
                   "text-sm font-medium transition-all relative flex items-center gap-1.5 group px-2 py-1.5 rounded-md",
                   active
-                    ? "text-yellow-700 dark:text-yellow-400 font-semibold bg-amber-50/80 dark:bg-amber-900/20"
+                    ? "text-yellow-700 dark:text-yellow-400 font-semibold bg-amber-50/80 dark:bg-amber-900/20 nav-item-float"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
                 )}
               >

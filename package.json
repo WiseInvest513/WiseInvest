@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --hostname 127.0.0.1 --port 3002",
-    "dev:clean": "rm -rf .next && next dev --hostname 127.0.0.1 --port 3002",
-    "dev:fast": "TURBOPACK=1 next dev --hostname 127.0.0.1 --turbo --port 3002",
+    "dev": "NEXT_DISABLE_DEVTOOLS=1 next dev --hostname 127.0.0.1 --port 3002",
+    "dev:clean": "rm -rf .next && NEXT_DISABLE_DEVTOOLS=1 next dev --hostname 127.0.0.1 --port 3002",
+    "dev:fast": "NEXT_DISABLE_DEVTOOLS=1 TURBOPACK=1 next dev --hostname 127.0.0.1 --turbo --port 3002",
     "dev:proxy": "https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 all_proxy=socks5://127.0.0.1:7897 next dev --hostname 127.0.0.1 --port 3002",
     "build": "next build",
     "start": "next start",

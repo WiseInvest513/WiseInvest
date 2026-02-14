@@ -14,6 +14,8 @@ import { ResourceIcon } from "@/components/ui/resource-icon";
 import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation } from "@/components/motion/SectionWrapper";
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
 import { ParallaxBackground } from "@/components/motion/ParallaxBackground";
+import { tools, tweets } from "@/lib/data";
+import { resourceCategories } from "@/lib/resources-data";
 
 // Hero Section uses its own ParallaxBackground component
 
@@ -115,18 +117,44 @@ function HeroSection() {
               <p className="relative z-10 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                 专业的投资内容平台，为您提供投资工具、深度分析和优质资源。
               </p>
-              <div className="relative z-10 mt-5 grid grid-cols-3 gap-2 text-center">
-                <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">7+</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">功能模块</div>
+              <div className="relative z-10 mt-5 space-y-2">
+                {/* 第一行：数字类 */}
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">7+</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">功能模块</div>
+                  </div>
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">{tools.length}+</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">投资工具</div>
+                  </div>
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">{tweets.length}+</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">深度推文</div>
+                  </div>
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">{resourceCategories.reduce((sum, c) => sum + c.items.length, 0)}+</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">导航网站</div>
+                  </div>
                 </div>
-                <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">周更</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">实盘追踪</div>
-                </div>
-                <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                  <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">长期</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400">复利体系</div>
+                {/* 第二行：周更、长期、工具、文集 */}
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">周更</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">实盘追踪</div>
+                  </div>
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">长期</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">复利体系</div>
+                  </div>
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">工具</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">实用工具</div>
+                  </div>
+                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">思想</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">优质文集</div>
+                  </div>
                 </div>
               </div>
               <div className="relative z-10 mt-5 flex flex-wrap gap-3">

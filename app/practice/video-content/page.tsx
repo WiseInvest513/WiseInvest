@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { EmptyState } from "@/components/ui/empty-state";
 
 // 视频分类（根据实际数据提取）
 const videoCategories = ["赚钱", "投资", "虚拟 U 卡", "出金", "alpha", "港卡", "美股"];
@@ -287,27 +288,12 @@ export default function VideoContentPage() {
                 {paginatedVideos.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="p-0">
-                      <div className="bg-slate-50 dark:bg-slate-900/50 py-32 px-8">
-                        <div className="flex flex-col items-center justify-center max-w-md mx-auto">
-                          <div className="w-20 h-20 bg-yellow-50 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mb-6">
-                            <Search className="w-10 h-10 text-yellow-500 dark:text-yellow-400" />
-                          </div>
-                          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                            暂无相关内容
-                          </h3>
-                          <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-md mx-auto text-sm leading-relaxed text-center">
-                            没有找到匹配的视频，试试切换其他分类或修改搜索关键词？
-                          </p>
-                          {hasActiveFilters && (
-                            <button
-                              onClick={clearFilters}
-                              className="border border-slate-200 dark:border-slate-700 hover:border-yellow-400 dark:hover:border-yellow-500 hover:text-yellow-600 dark:hover:text-yellow-500 text-slate-600 dark:text-slate-400 px-6 py-2 rounded-full mt-6 transition-all bg-white dark:bg-slate-950 font-medium text-sm"
-                            >
-                              重置筛选
-                            </button>
-                          )}
-                        </div>
-                      </div>
+                      <EmptyState
+                        icon={Search}
+                        title="暂无相关内容"
+                        description="没有找到匹配的视频，试试切换其他分类或修改搜索关键词？"
+                        action={hasActiveFilters ? { label: "重置筛选", onClick: clearFilters } : undefined}
+                      />
                     </TableCell>
                   </TableRow>
                 ) : (

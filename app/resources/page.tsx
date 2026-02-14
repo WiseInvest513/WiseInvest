@@ -287,10 +287,10 @@ export default function ResourcesPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Main Container - No top padding here. We handle spacing inside sticky elements. */}
-      <div className="max-w-[1600px] mx-auto flex items-start relative pt-0">
+      <div className="max-w-[1520px] mx-auto flex items-start relative pt-0">
         
         {/* --- LEFT SIDEBAR --- */}
-        <aside className="w-64 shrink-0 sticky top-16 self-start max-h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent pt-6 hidden md:block scrollbar-hide">
+        <aside className="w-48 shrink-0 sticky top-16 pt-6 self-start max-h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent hidden md:block scrollbar-hide">
           {/* Inner padding for content */}
           <div className="px-2">
           <h2 className="px-2 text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">
@@ -301,10 +301,10 @@ export default function ResourcesPage() {
               <button
                 key={category.id}
                 onClick={() => handleCategoryClick(category.id)}
-                className={`w-fit text-center transition-all duration-200 rounded-lg border-x-2 ${
+                className={`directory-nav-button ${
                   activeCategory === category.id
-                    ? "border-yellow-400 dark:border-yellow-500 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 font-bold px-3 py-1.5"
-                    : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 px-3 py-1.5"
+                    ? "directory-nav-button-active directory-nav-active"
+                    : ""
                 }`}
               >
                 <span className="mr-2">{category.emoji}</span>
@@ -320,7 +320,7 @@ export default function ResourcesPage() {
           
           {/* 1. HEADER (Smart Sticky) */}
           <div className="sticky top-16 z-20 bg-white/95 dark:bg-slate-950/95 backdrop-blur pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 transition-all">
-            <div className="px-8">
+            <div className="px-6 md:px-8">
               <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                 常用导航
               </h1>
@@ -331,7 +331,7 @@ export default function ResourcesPage() {
           </div>
 
           {/* 2. SCROLLABLE CONTENT */}
-          <div className="px-8 pb-20 pt-6">
+          <div className="content-fade-in px-6 md:px-8 pb-20 pt-6">
             {resourceCategories.map((category, index) => (
               <section
                 key={category.id}
