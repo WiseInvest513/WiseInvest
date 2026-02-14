@@ -3,13 +3,14 @@
 export interface Perk {
   id: string;
   platform: string;
-  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard";
+  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard" | "Wallet";
   description: string;
   benefit: string;
   code: string | null;
   link: string; // 邀请链接
   iconUrl?: string; // 官方网站 URL，用于获取图标（可选，如果没有则使用 link）
-  tutorialLink: string | null;
+  tutorialLink: string | null; // 教程链接（新窗口打开）
+  tutorialImage?: string | null; // 教程图片路径（弹窗展示，如 /images/perks/xxx.png）
   color: string;
 }
 
@@ -21,8 +22,8 @@ export const perks: Perk[] = [
     category: "Crypto",
     description: "全球领先的加密货币交易所",
     benefit: "20% 永久交易&钱包手续费减免",
-    code: "WISE555",
-    link: "https://web3.binance.com/m/referral?ref=WISE555",
+    code: "WISE6666",
+    link: "https://www.bsmkweb.com/join?ref=WISE6666",
     iconUrl: "https://www.binance.com",
     tutorialLink: "https://x.com/WiseInvest513/status/1970757919500120451",
     color: "#F3BA2F",
@@ -34,7 +35,7 @@ export const perks: Perk[] = [
     description: "全球知名数字资产交易平台",
     benefit: "20% 永久交易&钱包手续费减免",
     code: "WISE6666",
-    link: "https://www.firgrouxywebb.com/join/WISE6666",
+    link: "https://www.vmutkhamuut.com/join/WISE6666",
     iconUrl: "https://www.okx.com",
     tutorialLink: "https://x.com/WiseInvest513/status/1953466482576556465",
     color: "#000000",
@@ -45,8 +46,8 @@ export const perks: Perk[] = [
     category: "Crypto",
     description: "全球领先的加密货币衍生品交易平台",
     benefit: "20% 手续费减免&新用户注册专享福利",
-    code: "WISE8899",
-    link: "https://partner.hdmune.cn/bg/bhy9vywp",
+    code: "wise6666",
+    link: "https://partner.hdmune.cn/bg/m53rb8lg",
     iconUrl: "https://www.bitget.com",
     tutorialLink: "https://x.com/WiseInvest513/status/1980140049267343697",
     color: "#03C87C",
@@ -57,8 +58,8 @@ export const perks: Perk[] = [
     category: "Crypto",
     description: "全球知名加密货币衍生品交易所",
     benefit: "20% 手续费减免&注册即享交易优惠",
-    code: "WISE5130",
-    link: "https://partner.bybit.com/b/WISE5130",
+    code: "WISE6666",
+    link: "https://partner.bybit.com/b/WISE6666",
     iconUrl: "https://www.bybit.com",
     tutorialLink: "https://x.com/WiseInvest513/status/1980641416243212480",
     color: "#F8A33C",
@@ -161,5 +162,32 @@ export const perks: Perk[] = [
     iconUrl: "https://www.safepal.com",
     tutorialLink: "https://youtu.be/1Lw8VssYFNE",
     color: "#4F46E5",
+  },
+  // 链上钱包
+  {
+    id: "binance-wallet",
+    platform: "币安钱包",
+    category: "Wallet",
+    description: "币安 Web3 钱包，支持多链资产管理",
+    benefit: "安全易用的多链钱包，支持 DeFi、NFT 与跨链",
+    code: "WISE555",
+    link: "https://web3.binance.com/referral?ref=WISE555",
+    iconUrl: "https://www.binance.com",
+    tutorialLink: null,
+    tutorialImage: "/images/perks/币安钱包返现.png",
+    color: "#F3BA2F",
+  },
+  {
+    id: "okx-wallet",
+    platform: "欧易钱包",
+    category: "Wallet",
+    description: "OKX Web3 钱包，一站式链上资产管理",
+    benefit: "多链钱包，支持 DeFi 交互、NFT 与跨链桥",
+    code: "WISE6666",
+    link: "https://web3.okx.com/join/WISE6666",
+    iconUrl: "https://www.okx.com",
+    tutorialLink: null,
+    tutorialImage: "/images/perks/欧易钱包返现.png",
+    color: "#000000",
   },
 ];

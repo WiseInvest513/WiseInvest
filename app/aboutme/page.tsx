@@ -45,7 +45,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 const socials = [
   {
     name: "Twitter / X",
-    count: 26770,
+    count: 31000,
     label: "Followers",
     Icon: Twitter,
     pngPath: "https://cdn.simpleicons.org/x/000000", // 在线图标测试
@@ -56,7 +56,7 @@ const socials = [
   },
   {
     name: "Bilibili",
-    count: 12113,
+    count: 12443,
     label: "Fans",
     Icon: Video,
     pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6", // 在线图标测试
@@ -67,7 +67,7 @@ const socials = [
   },
   {
     name: "YouTube",
-    count: 1530,
+    count: 1840,
     label: "Subscribers",
     Icon: Youtube,
     pngPath: "https://cdn.simpleicons.org/youtube/FF0000", // 在线图标测试
@@ -78,7 +78,7 @@ const socials = [
   },
   {
     name: "Little Red Book",
-    count: 16590,
+    count: 17801,
     label: "Followers",
     Icon: Instagram,
     pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", // 在线图标测试
@@ -89,7 +89,7 @@ const socials = [
   },
   {
     name: "Douyin",
-    count: 89500,
+    count: 20,
     label: "Fans",
     Icon: Video,
     pngPath: "https://cdn.simpleicons.org/tiktok/000000", // 在线图标测试（使用 TikTok 图标）

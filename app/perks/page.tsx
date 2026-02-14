@@ -6,6 +6,12 @@ import { cn } from "@/lib/utils";
 import { perks, type Perk } from "@/lib/perks-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { IconService } from "@/lib/icon-service";
 
@@ -43,6 +49,12 @@ const perkCategories: PerkCategory[] = [
     label: "虚拟 U 卡",
     emoji: "💳",
     items: perks.filter((p) => p.category === "VirtualCard"),
+  },
+  {
+    id: "wallet",
+    label: "链上钱包",
+    emoji: "⛓️",
+    items: perks.filter((p) => p.category === "Wallet"),
   },
 ];
 
@@ -131,6 +143,8 @@ export default function PerksPage() {
         return "text-green-600 border-green-300";
       case "VirtualCard":
         return "text-purple-600 border-purple-300";
+      case "Wallet":
+        return "text-amber-600 border-amber-300";
       default:
         return "text-slate-600 border-slate-300";
     }
@@ -241,10 +255,20 @@ function PerkCard({
   onClaimOffer,
   getCategoryBadgeColor,
 }: PerkCardProps) {
+  const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
   const isCopied = copiedCodeId === perk.id;
   const iconSourceUrl = perk.iconUrl || perk.link;
   const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
   const hasWatermarkIcon = !iconInfo.isDefault;
+  const hasTutorial = perk.tutorialImage || perk.tutorialLink;
+
+  const handleTutorialClick = () => {
+    if (perk.tutorialImage) {
+      setTutorialDialogOpen(true);
+    } else if (perk.tutorialLink) {
+      window.open(perk.tutorialLink!, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <div className="group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
@@ -292,7 +316,9 @@ function PerkCard({
               ? "银行服务"
               : perk.category === "Stocks"
               ? "股票交易"
-              : "虚拟 U 卡"}
+              : perk.category === "VirtualCard"
+              ? "虚拟 U 卡"
+              : "链上钱包"}
           </Badge>
         </div>
 
@@ -339,10 +365,10 @@ function PerkCard({
               <ExternalLink className="h-3.5 w-3.5 ml-1.5" />
             </Button>
 
-            {/* Tutorial Link Button */}
-            {perk.tutorialLink && (
+            {/* Tutorial Button - 图片弹窗 或 链接新窗口 */}
+            {hasTutorial && (
               <Button
-                onClick={() => window.open(perk.tutorialLink!, "_blank", "noopener,noreferrer")}
+                onClick={handleTutorialClick}
                 variant="outline"
                 className="h-9 px-3 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 font-medium text-sm whitespace-nowrap"
               >
@@ -353,6 +379,24 @@ function PerkCard({
           </div>
         </div>
       </div>
+
+      {/* 教程图片弹窗 */}
+      {perk.tutorialImage && (
+        <Dialog open={tutorialDialogOpen} onOpenChange={setTutorialDialogOpen}>
+          <DialogContent className="max-w-7xl w-[95vw] max-h-[95vh] overflow-auto p-0">
+            <DialogHeader className="p-4 pb-0">
+              <DialogTitle>{perk.platform} - 教程</DialogTitle>
+            </DialogHeader>
+            <div className="p-4 pt-2">
+              <img
+                src={perk.tutorialImage}
+                alt={`${perk.platform} 教程`}
+                className="w-full h-auto min-w-0 rounded-lg"
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

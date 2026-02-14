@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Calendar, ExternalLink, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 import {
@@ -14,7 +14,7 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 
 // 视频分类（根据实际数据提取）
-const videoCategories = ["赚钱", "投资", "虚拟 U 卡", "出金", "alpha", "港卡", "美股"];
+const videoCategories = ["赚钱", "投资", "虚拟 U 卡", "出入金", "alpha", "港卡", "美股"];
 
 // 视频数据
 interface Video {
@@ -26,6 +26,27 @@ interface Video {
 }
 
 const videoData: Video[] = [
+  {
+    id: 13,
+    title: "2026 年全网最全最详细 SafePal 入金盈透、众安入金盈透、入金盈透教程、虚拟 U 卡入金盈透、港卡入金盈透教程，无港卡入金最全解决方案，再不用担心无法投资美股了",
+    date: "2026-01-11",
+    youtubeLink: "https://youtu.be/6NoGmOejUsI?si=AZi1IyDsQgSHWJdi",
+    category: "出入金",
+  },
+  {
+    id: 14,
+    title: "2026 年全网最全最详细 港卡绑定微信在国内消费、港卡绑定、港卡国内消费、众安绑定微信支付、众安绑卡、出金详细教程、港卡出金详细流程、超低手续费完成港卡中资金的国内消费、港卡消费教程！",
+    date: "2026-01-20",
+    youtubeLink: "https://youtu.be/GG5qdaUgScc?si=LAKhCsdqxmh1NJ2a",
+    category: "出入金",
+  },
+  {
+    id: 15,
+    title: "2026 年全网最全最详细 Bitget 虚拟 U 卡入金盈透教程｜盈透入金教程｜虚拟 U 卡入金盈透｜券商入金教程，最快四小时即可到账、没有港卡入金盈透最佳选择、加密入金券商最佳选择！",
+    date: "2026-02-08",
+    youtubeLink: "https://youtu.be/9ji8KUh9ojs?si=VwFzDGHpX4nxMMP4",
+    category: "出入金",
+  },
   {
     id: 1,
     title: "2026 年全网最新最全领取推特创作者激励｜X 认证｜Stripe 认证｜X 开通创作收益｜推特创作者收益｜领取推特创作者收益｜推特创作者收益计划",
@@ -45,7 +66,7 @@ const videoData: Video[] = [
     title: "2025 年全网最全最详细 SafePal 出金国内银行卡教程、帮助我们打通 web2 和 web3 的不便捷性，SafaPal出金国内银行卡，SafePal出金教程！",
     date: "2026-01-05",
     youtubeLink: "https://youtu.be/WWZiufXWkqE",
-    category: "虚拟 U 卡,出金",
+    category: "虚拟 U 卡,出入金",
   },
   {
     id: 4,
@@ -117,6 +138,14 @@ export default function VideoContentPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [activeRowId, setActiveRowId] = useState<number | null>(null);
+  const activeRowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (activeRowTimerRef.current) clearTimeout(activeRowTimerRef.current);
+    };
+  }, []);
 
   // 筛选逻辑（支持多分类）
   const filteredVideos = useMemo(() => {
@@ -207,30 +236,33 @@ export default function VideoContentPage() {
                 setSelectedCategory(null);
                 setCurrentPage(1);
               }}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
                 selectedCategory === null
-                  ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                  ? "bg-yellow-400/95 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-[0_10px_18px_-12px_rgba(245,158,11,0.95)] ring-1 ring-yellow-300/90 [transform:translateY(-2px)]"
+                  : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_18px_-12px_rgba(15,23,42,0.55)]"
               }`}
             >
               全部
             </button>
-            {videoCategories.map((category) => (
-              <button
-                key={category}
-                onClick={() => {
-                  setSelectedCategory(category);
-                  setCurrentPage(1);
-                }}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  selectedCategory === category
-                    ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+            {videoCategories.map((category) => {
+              const isSelected = selectedCategory === category;
+              return (
+                <button
+                  key={category}
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setCurrentPage(1);
+                  }}
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+                    isSelected
+                      ? "bg-yellow-400/95 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-[0_10px_18px_-12px_rgba(245,158,11,0.95)] ring-1 ring-yellow-300/90 [transform:translateY(-2px)]"
+                      : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_18px_-12px_rgba(15,23,42,0.55)]"
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
@@ -299,34 +331,50 @@ export default function VideoContentPage() {
                 ) : (
                   paginatedVideos.map((video, index) => {
                     const isEven = index % 2 === 0;
+                    const isActiveRow = activeRowId === video.id;
+                    const handleRowClick = () => {
+                      if (activeRowTimerRef.current) {
+                        clearTimeout(activeRowTimerRef.current);
+                      }
+                      setActiveRowId(video.id);
+                      activeRowTimerRef.current = setTimeout(() => {
+                        setActiveRowId(null);
+                      }, 1100);
+                      window.open(video.youtubeLink, "_blank", "noopener,noreferrer");
+                    };
                     return (
                       <TableRow
                         key={video.id}
-                        className={`cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/30 transition-colors border-b border-gray-100 dark:border-slate-800 ${
-                          isEven
-                            ? "bg-white dark:bg-slate-950"
-                            : "bg-gray-50 dark:bg-white/5"
+                        onClick={handleRowClick}
+                        className={`group cursor-pointer transition-all duration-200 ${
+                          isEven ? "bg-white dark:bg-slate-900" : "bg-slate-50/80 dark:bg-slate-900/70"
+                        } ${
+                          isActiveRow
+                            ? "bg-amber-50/65 dark:bg-amber-900/15 [transform:translateY(-2px)] shadow-[0_12px_26px_-18px_rgba(245,158,11,0.9)]"
+                            : "hover:bg-amber-50/40 dark:hover:bg-slate-800/70 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_22px_-16px_rgba(15,23,42,0.45)]"
+                        } active:[transform:translateY(-1px)] ${
+                          index !== paginatedVideos.length - 1 ? "border-b border-slate-200/80 dark:border-slate-800" : ""
                         }`}
                       >
                         {/* Date Column */}
-                        <TableCell className="w-32 py-4 px-6">
+                        <TableCell className="w-32 py-3 border-r border-slate-200 dark:border-slate-700">
                           <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
-                            <span className="font-mono text-sm text-slate-500 dark:text-slate-400">
+                            <span className="font-mono text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
                               {video.date}
                             </span>
                           </div>
                         </TableCell>
 
                         {/* Title Column */}
-                        <TableCell className="w-auto py-4 px-6">
-                          <h3 className="font-semibold text-base text-slate-900 dark:text-white">
+                        <TableCell className="w-auto py-3 border-r border-slate-200 dark:border-slate-700">
+                          <h3 className="font-semibold text-[15px] text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
                             {video.title}
                           </h3>
                         </TableCell>
 
                         {/* Category Column */}
-                        <TableCell className="w-32 py-4 px-6">
+                        <TableCell className="w-32 py-3 border-r border-slate-200 dark:border-slate-700">
                           <div className="flex items-center justify-center gap-2 flex-wrap">
                             {video.category.split(",").map((cat, idx) => (
                               <span
@@ -340,13 +388,13 @@ export default function VideoContentPage() {
                         </TableCell>
 
                         {/* Action Column */}
-                        <TableCell className="w-32 py-4 px-6">
+                        <TableCell className="w-32 py-3">
                           <div className="flex items-center justify-center">
                             <a
                               href={video.youtubeLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors group-hover:text-amber-700 dark:group-hover:text-amber-300"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <ExternalLink className="w-4 h-4" />
