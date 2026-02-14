@@ -9,7 +9,7 @@ import { CEXSection } from "@/components/sections/CEXSection";
 import { TweetsSection } from "@/components/sections/TweetsSection";
 import { AnthologySection } from "@/components/sections/AnthologySection";
 // import { NewsletterToast } from "@/components/newsletter-toast"; // 周刊订阅功能暂时隐藏
-import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles } from "lucide-react";
+import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles, ArrowUpRight } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
 import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation } from "@/components/motion/SectionWrapper";
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
@@ -717,81 +717,86 @@ function ResourcesSection() {
 
 // Section G: Friendly Sites
 const friendlySites = [
-  { name: "投资伙伴 A", url: "#", description: "专业的投资分析平台" },
-  { name: "投资伙伴 B", url: "#", description: "量化交易工具" },
-  { name: "投资伙伴 C", url: "#", description: "投资社区" },
+  {
+    name: "大宇投资导航",
+    url: "https://btcdayu.gitbook.io/dayu/",
+    description: "链上工具与交易大所导航，每日更新投资备忘录，dayu.xyz",
+    watermarkEmoji: "📚" as const,
+  },
+  {
+    name: "比特币四年周期轮动图",
+    url: "https://wolfyxbt.github.io/bitcoin-four-year-cycle-map/",
+    description: "可视化比特币四年周期与价格走势",
+    watermarkEmoji: "📊" as const,
+  },
 ];
 
-function FriendlySitesSection() {
+function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; index: number }) {
   return (
-    <section className="container mx-auto px-4 py-4 md:py-6">
-      <h2 className="font-serif text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
-        <span className="relative inline-block">
-          友站板块
-          <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
-        </span>
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 max-w-5xl mx-auto">
-        {friendlySites.map((site, index) => (
-          <a
-            key={index}
-            href={site.url}
-            className="group relative animate-spring"
-            style={{
-              animationDelay: `${index * 100}ms`,
-            }}
-          >
-            {/* Enhanced Radial Glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-            
-            <div className="relative h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl border border-white/30 dark:border-slate-800/50 rounded-2xl p-3 md:p-4 transition-all duration-700 overflow-hidden
-              hover:bg-white/95 dark:hover:bg-slate-900/95"
-              style={{
-                boxShadow: `
-                  0 1px 3px rgba(0, 0, 0, 0.05),
-                  0 4px 12px rgba(0, 0, 0, 0.08),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `,
-                transform: 'translateY(0)',
-                transition: 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.boxShadow = `
-                  0 8px 24px rgba(0, 0, 0, 0.12),
-                  0 4px 12px rgba(251, 191, 36, 0.15),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                `;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = `
-                  0 1px 3px rgba(0, 0, 0, 0.05),
-                  0 4px 12px rgba(0, 0, 0, 0.08),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `;
-              }}
-            >
-              
-              {/* Gradient Border */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(234, 179, 8, 0.3), rgba(251, 191, 36, 0.4))',
-                  padding: '1.5px',
-                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                  WebkitMaskComposite: 'xor',
-                  maskComposite: 'exclude',
-                }} />
-              
-              <CardTitle className="text-base md:text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 mb-1.5 relative z-10">
-                  {site.name}
-              </CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-400 text-xs md:text-sm relative z-10 font-light">
-                {site.description}
-              </CardDescription>
-            </div>
-          </a>
-        ))}
+    <a
+      href={site.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative block animate-spring-slow h-full"
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
+      {/* 常用导航同款：悬浮渐变光晕 */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      <div className="relative overflow-hidden p-8 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-amber-400/50 dark:hover:border-amber-500/30 about-me-card h-full min-h-[160px] flex flex-col"
+        style={{
+          boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.1)",
+        }}
+      >
+        {/* 常用导航同款：悬浮渐变描边 */}
+        <div
+          className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+          style={{
+            background: "linear-gradient(135deg, rgba(251,191,36,0.4), rgba(234,179,8,0.3), rgba(251,191,36,0.4))",
+            padding: "1.5px",
+            WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            WebkitMaskComposite: "xor",
+            maskComposite: "exclude",
+          }}
+        />
+        {/* 关于我同款：背后水印 emoji + 悬浮动效 */}
+        <div className="absolute -bottom-12 -right-12 w-48 h-48 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none select-none flex items-center justify-center">
+          <span className="text-8xl">{site.watermarkEmoji}</span>
+        </div>
+        <div className="relative z-10 flex-1 min-w-0">
+          <div className="flex justify-between items-start gap-2 mb-2">
+            <CardTitle className="text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+              {site.name}
+            </CardTitle>
+            <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors shrink-0" />
+          </div>
+          <CardDescription className="text-slate-500 dark:text-slate-400 text-sm font-light">
+            {site.description}
+          </CardDescription>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function FriendlySitesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  return (
+    <section ref={sectionRef} className="container mx-auto px-4 py-4 md:py-6 relative isolate">
+      <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.12} />
+      <div className="relative z-10">
+        <TitleAnimation className="font-serif text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
+          <span className="relative inline-block">
+            友站板块
+            <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+          </span>
+        </TitleAnimation>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-4xl mx-auto items-stretch" staggerDelay={0.08}>
+          {friendlySites.map((site, index) => (
+            <StaggerItem key={index} index={index} className="min-h-[160px]">
+              <FriendlySiteCard site={site} index={index} />
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
       </div>
     </section>
   );

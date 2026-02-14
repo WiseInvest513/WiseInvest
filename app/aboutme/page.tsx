@@ -3,23 +3,30 @@
 import { useEffect, useState } from "react";
 import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Mail } from "lucide-react"; 
 
-// --- 1. 核心组件：数字滚动动画 ---
+// --- 1. 核心组件：数字滚动动画（每 8s 从零增长到目标值） ---
 const AnimatedNumber = ({ value }: { value: number }) => {
   const [count, setCount] = useState(0);
-  
+  const [trigger, setTrigger] = useState(0);
+
+  // 每 8 秒触发一次重新动画
   useEffect(() => {
-    let start = 0;
+    const interval = setInterval(() => {
+      setCount(0);
+      setTrigger((t) => t + 1);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     const end = value;
-    const duration = 2000; // 2秒动画时长
+    const duration = 2000; // 2 秒动画时长
     const startTime = performance.now();
+    setCount(0);
 
     const animate = (currentTime: number) => {
       const timeElapsed = currentTime - startTime;
       const progress = Math.min(timeElapsed / duration, 1);
-      
-      // Ease-out 指数缓动，让数字停下来的感觉很高级
       const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      
       setCount(Math.floor(easeOut * end));
 
       if (progress < 1) {
@@ -28,7 +35,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
     };
 
     requestAnimationFrame(animate);
-  }, [value]);
+  }, [value, trigger]);
 
   return <>{count.toLocaleString()}</>;
 };
