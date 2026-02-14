@@ -30,7 +30,7 @@ export function ToolsSection() {
           <span className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-30" />
         </span>
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-5xl mx-auto items-stretch">
         {featuredTools.map((tool) => {
           const Icon = iconMap[tool.icon as keyof typeof iconMap] || Calculator;
           const toolRoute = getToolRoute(tool.id);
@@ -38,9 +38,10 @@ export function ToolsSection() {
             <Link
               key={tool.id}
               href={toolRoute}
-              className="group relative cursor-pointer"
+              className="group relative cursor-pointer block h-full min-w-0"
             >
               <SectionCardShell
+                className="h-full min-h-[240px]"
                 contentClassName="p-6 md:p-7"
                 watermarkNode={
                   <Icon className="w-full h-full text-slate-300 dark:text-slate-700 group-hover:text-amber-400 transition-colors duration-500" />

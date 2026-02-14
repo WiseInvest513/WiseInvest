@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   title: `${siteConfig.name} - 专业的投资内容平台`,
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.baseUrl),
+  icons: {
+    icon: [{ url: "/favicon.ico", type: "image/x-icon", sizes: "any" }],
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   openGraph: {
     title: `${siteConfig.name} - 专业的投资内容平台`,
     description: siteConfig.description,
@@ -51,6 +56,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className={`${inter.variable} ${nunito.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col relative`}>
         {/* Grain Texture Overlay */}
         <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.015] dark:opacity-[0.03]" style={{
