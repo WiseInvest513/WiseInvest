@@ -803,6 +803,12 @@ const friendlySites = [
     description: "可视化比特币四年周期与价格走势",
     watermarkEmoji: "📊" as const,
   },
+  {
+    name: "柴宝养成计划",
+    url: "https://blog.blacknico.com/",
+    description: "聚焦效率、投资与写作的个人内容站，含教程与导航资源。",
+    watermarkEmoji: "🐕" as const,
+  },
 ];
 
 function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; index: number }) {
@@ -816,7 +822,7 @@ function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; in
     >
       {/* 常用导航同款：悬浮渐变光晕 */}
       <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      <div className="relative overflow-hidden p-8 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-amber-400/50 dark:hover:border-amber-500/30 about-me-card h-full min-h-[160px] flex flex-col"
+      <div className="relative overflow-hidden p-6 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-amber-400/50 dark:hover:border-amber-500/30 about-me-card h-full min-h-[140px] flex flex-col"
         style={{
           boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.1)",
         }}
@@ -833,8 +839,8 @@ function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; in
           }}
         />
         {/* 关于我同款：背后水印 emoji + 悬浮动效 */}
-        <div className="absolute -bottom-12 -right-12 w-48 h-48 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none select-none flex items-center justify-center">
-          <span className="text-8xl">{site.watermarkEmoji}</span>
+        <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none select-none flex items-center justify-center">
+          <span className="text-7xl">{site.watermarkEmoji}</span>
         </div>
         <div className="relative z-10 flex-1 min-w-0">
           <div className="flex justify-between items-start gap-2 mb-2">
@@ -864,9 +870,9 @@ function FriendlySitesSection() {
             <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
           </span>
         </TitleAnimation>
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-4xl mx-auto items-stretch" staggerDelay={0.08}>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 max-w-6xl mx-auto items-stretch" staggerDelay={0.08}>
           {friendlySites.map((site, index) => (
-            <StaggerItem key={index} index={index} className="min-h-[160px]">
+            <StaggerItem key={index} index={index} className="min-h-[140px]">
               <FriendlySiteCard site={site} index={index} />
             </StaggerItem>
           ))}
