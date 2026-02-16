@@ -16,53 +16,60 @@ import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external
 // Mock data - 空投系列教程
 const airdropTutorialsData = [
   {
+    id: 1,
+    title: "Boost 准备加号",
+    date: "2026-01-28",
+    tweetLink: "https://x.com/WiseInvest513/status/2016523791468498976",
+    description: "准备上一些人力开始",
+  },
+  {
+    id: 2,
+    title: "人生作弊指南2025 年回顾帖",
+    date: "2025-12-31",
+    tweetLink: "https://x.com/WiseInvest513/status/2006312197517934774",
+    description: "回顾2025 年自己刷交易量所得收益",
+  },
+  {
+    id: 3,
+    title: "欧易Boost&币安alpha领取空投详细记录贴",
+    date: "2025-12-25",
+    tweetLink: "https://x.com/WiseInvest513/status/2004193572200108495",
+    description: "领取空投记录贴",
+  },
+  {
+    id: 4,
+    title: "欧易寻找高倍率代币刷交易量",
+    date: "2025-12-23",
+    tweetLink: "https://x.com/WiseInvest513/status/2003449023223726252",
+    description: "如何寻找到高倍率去获取到最高的交易量",
+  },
+  {
+    id: 5,
+    title: "2025 年全网最详细币安 alpha 刷交易量教程",
+    date: "2025-11-09",
+    tweetLink: "https://youtu.be/bRWxDaZepJQ?si=kE-zAUU7nIng0Go1",
+    description: "详细介绍如何在三分钟内刷完所有的交易量",
+  },
+  {
+    id: 6,
+    title: "Boost 刷交易量全网最全最详细教程",
+    date: "2025-11-07",
+    tweetLink: "https://x.com/WiseInvest513/status/1986800087432106329",
+    description: "详细介绍如何刷欧易的 Boost",
+  },
+  {
     id: 7,
+    title: "人生作弊指南正式启动",
+    date: "2025-11-01",
+    tweetLink: "https://x.com/WiseInvest513/status/1984643889765212323",
+    description: "正式开始启动币安 Alpha&欧易 Boost 空投",
+  },
+  {
+    id: 8,
     title: "人生作弊指南介绍",
     date: "2025-10-13",
     tweetLink: "https://x.com/WiseInvest513/status/1977531214195290367",
     description: "如果现在你 22 岁从现在开始购买纳指和标普 ETF 是否有用",
-  },
-  {
-    id: 1,
-    title: "Wise 身份认证注册开卡完整教程",
-    date: "2025-01-10",
-    tweetLink: "https://x.com/WiseInvest513/status/1996859457494737003",
-    description: "免费获得 Wise 多币种账户，支持全球转账，详细步骤教程",
-  },
-  {
-    id: 2,
-    title: "Gemini 免费白嫖一年完整指南",
-    date: "2025-01-05",
-    tweetLink: "#",
-    description: "通过特定渠道可获得 Gemini Pro 一年免费使用权，包含注册和使用技巧",
-  },
-  {
-    id: 3,
-    title: "Bitget 新用户活动参与策略",
-    date: "2024-12-28",
-    tweetLink: "#",
-    description: "每期活动平均可获得 $50-200 等值代币奖励，分享参与技巧和注意事项",
-  },
-  {
-    id: 4,
-    title: "空投项目筛选与参与指南",
-    date: "2024-12-20",
-    tweetLink: "#",
-    description: "如何识别优质空投项目，提高获得空投的概率，包含项目评估标准",
-  },
-  {
-    id: 5,
-    title: "LayerZero 生态空投完整攻略",
-    date: "2024-12-15",
-    tweetLink: "#",
-    description: "LayerZero 生态项目空投参与指南，包含交互策略和注意事项",
-  },
-  {
-    id: 6,
-    title: "Starknet 空投领取教程",
-    date: "2024-12-10",
-    tweetLink: "#",
-    description: "Starknet 空投领取详细步骤，包含钱包设置和验证流程",
   },
 ];
 
@@ -100,6 +107,12 @@ export default function AirdropTutorialsPage() {
     };
   }, []);
 
+  const sortedAirdropTutorialsData = [...airdropTutorialsData].sort(
+    (a, b) =>
+      new Date(normalizeDate(b.date)).getTime() -
+      new Date(normalizeDate(a.date)).getTime()
+  );
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
@@ -122,7 +135,7 @@ export default function AirdropTutorialsPage() {
             </h1>
           </div>
           <p className="text-slate-600 dark:text-slate-400">
-            按照"人生作弊指南"教程，严格领取币安 Alpha/欧易Boost空投，后投入 QQQ
+            按照"人生作弊指南"教程，严格领取币安 Alpha/欧易Boost空投，收入全部在盈透投入纳指QQQ
           </p>
         </div>
 
@@ -147,7 +160,7 @@ export default function AirdropTutorialsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {airdropTutorialsData.map((tutorial, index) => {
+                {sortedAirdropTutorialsData.map((tutorial, index) => {
                   const isEven = index % 2 === 0;
                   const isActiveRow = activeRowId === tutorial.id;
 
@@ -171,7 +184,7 @@ export default function AirdropTutorialsPage() {
                           ? "bg-amber-50/65 dark:bg-amber-900/15 [transform:translateY(-2px)] shadow-[0_12px_26px_-18px_rgba(245,158,11,0.9)]"
                           : "hover:bg-amber-50/40 dark:hover:bg-slate-800/70 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_22px_-16px_rgba(15,23,42,0.45)]"
                       } active:[transform:translateY(-1px)] ${
-                        index !== airdropTutorialsData.length - 1 ? "border-b border-slate-200/80 dark:border-slate-800" : ""
+                        index !== sortedAirdropTutorialsData.length - 1 ? "border-b border-slate-200/80 dark:border-slate-800" : ""
                       }`}
                     >
                       <TableCell className="w-40 py-3 border-r border-slate-200 dark:border-slate-700">

@@ -88,9 +88,9 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
 
   const getTagStyle = (tag?: string) => {
     if (tag === "Recommended") {
-      return "bg-yellow-100 text-yellow-700 text-[10px] px-2 py-0.5 rounded-full ml-2 font-medium";
+      return "bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300 text-[10px] px-2 py-0.5 rounded-full ml-2 font-medium";
     }
-    return "bg-slate-100 text-slate-600 text-[10px] px-2 py-0.5 rounded-full ml-2 font-medium";
+    return "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full ml-2 font-medium";
   };
 
   const getTagLabel = (tag?: string) => {
@@ -132,7 +132,7 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
         );
       } else {
         stars.push(
-          <Star key={i} className="w-3 h-3 text-slate-300 fill-slate-300" />
+          <Star key={i} className="w-3 h-3 text-slate-300 fill-slate-300 dark:text-slate-600 dark:fill-slate-600" />
         );
       }
     }
@@ -144,10 +144,10 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
   return (
     <div
       onClick={handleClick}
-      className={`bg-white border rounded-lg p-4 hover:border-yellow-400 hover:-translate-y-1 hover:shadow-md transition-all duration-200 cursor-pointer group relative overflow-hidden ${
+      className={`border rounded-lg p-4 hover:border-yellow-400 hover:-translate-y-1 hover:shadow-md transition-all duration-200 cursor-pointer group relative overflow-hidden ${
         isRank1
           ? "bg-yellow-50/50 dark:bg-yellow-900/10 border-yellow-200 dark:border-yellow-800"
-          : "border-slate-100 dark:border-slate-800"
+          : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800"
       }`}
     >
       {/* AboutMe 同款背景水印图标 */}
@@ -173,7 +173,7 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
         <div className="absolute top-3 left-3 flex items-center gap-1">
           {getRankIcon()}
           {rank === 1 && (
-            <span className="text-[10px] font-bold text-yellow-600 bg-yellow-100 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-bold text-yellow-600 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-500/20 px-1.5 py-0.5 rounded">
               {getRankBadge()}
             </span>
           )}
