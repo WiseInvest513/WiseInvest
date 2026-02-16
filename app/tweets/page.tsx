@@ -4,6 +4,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Eye, FileSearch, Network, Search } from "lucide-react";
 import { tweets, type Tweet } from "@/lib/data";
 import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
+import { toast } from "sonner";
 import {
   Table,
   TableBody,
@@ -23,9 +24,9 @@ export default function TweetsPage() {
   const [pageSize, setPageSize] = useState(10);
   const activeRowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
-  // 知识图谱外部链接 - localhost 地址
-  // 外部服务可以通过 http://localhost:3002/api/tweets 获取所有推文数据
-  const knowledgeGraphUrl = "http://localhost:3001";
+  const handleKnowledgeGraphClick = () => {
+    toast.info("知识图谱功能还在开发中，敬请期待…");
+  };
 
   const topics = ["web3", "美股", "定投", "思考", "基金指数", "AI", "工具分享"];
   const formats = ["干货", "教程", "日常", "资讯"];
@@ -277,16 +278,15 @@ export default function TweetsPage() {
                       <span>清除筛选</span>
                     </button>
                   )}
-                  {/* Knowledge Graph Button - External Link */}
-                  <a
-                    href={getSafeExternalUrl(knowledgeGraphUrl)}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  {/* Knowledge Graph Button - Coming Soon */}
+                  <button
+                    type="button"
+                    onClick={handleKnowledgeGraphClick}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-md shadow-sm transition-all"
                   >
                     <Network className="w-4 h-4" />
                     <span>知识图谱</span>
-                  </a>
+                  </button>
                 </div>
                 
                 {/* Page Size Selector */}
