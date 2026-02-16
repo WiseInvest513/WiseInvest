@@ -3,16 +3,18 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
 
 /**
  * Values Corrector Page
  * 在新标签页打开外部网站
  */
 export default function ValuesCorrectorPage() {
+  const targetUrl = getSafeExternalUrl("https://www.core-wise-invest.org/");
+
   useEffect(() => {
-    // 在新标签页打开外部网站
-    window.open("https://www.core-wise-invest.org/", "_blank");
-  }, []);
+    openSafeExternalUrl(targetUrl);
+  }, [targetUrl]);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10">
@@ -41,7 +43,7 @@ export default function ValuesCorrectorPage() {
           </p>
           <div className="space-y-3">
             <a
-              href="https://www.core-wise-invest.org/"
+              href={targetUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition-colors"

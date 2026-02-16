@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { RefreshCw, ExternalLink, TrendingUp, Zap, Coins, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 interface ExchangeAirdropItem {
   id: string;
@@ -218,7 +219,7 @@ export function ExchangeAirdrop() {
 
                   {/* Action Button */}
                   <Button
-                    onClick={() => window.open(item.link, '_blank')}
+                    onClick={() => openSafeExternalUrl(item.link)}
                     className="bg-yellow-400 hover:bg-yellow-500 text-black shrink-0"
                     size="sm"
                   >

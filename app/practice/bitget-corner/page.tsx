@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ExternalLink, Calendar, Info } from "lucide-react";
 import { IconService } from "@/lib/icon-service";
 import { useState, useEffect } from "react";
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 
 // Bitget 一期一会数据（按时间倒序排列，最新的在最上面）
 const bitgetCornerData = [
@@ -168,7 +169,7 @@ export default function BitgetCornerPage() {
                   ))}
                 </ul>
                 <a
-                  href={bitgetInfo.officialLink}
+                  href={getSafeExternalUrl(bitgetInfo.officialLink)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 font-medium"
@@ -271,7 +272,7 @@ export default function BitgetCornerPage() {
                       </td>
                       <td className="py-3 px-4 text-center">
                         <a
-                          href={item.link}
+                          href={getSafeExternalUrl(item.link)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300"

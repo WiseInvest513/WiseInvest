@@ -3,6 +3,7 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Eye, FileSearch, Network, Search } from "lucide-react";
 import { tweets, type Tweet } from "@/lib/data";
+import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
 import {
   Table,
   TableBody,
@@ -278,7 +279,7 @@ export default function TweetsPage() {
                   )}
                   {/* Knowledge Graph Button - External Link */}
                   <a
-                    href={knowledgeGraphUrl}
+                    href={getSafeExternalUrl(knowledgeGraphUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-md shadow-sm transition-all"
@@ -360,9 +361,7 @@ export default function TweetsPage() {
                           activeRowTimerRef.current = setTimeout(() => {
                             setActiveRowId(null);
                           }, 1100);
-                          if (tweet.link && tweet.link !== "#") {
-                            window.open(tweet.link, "_blank", "noopener,noreferrer");
-                          }
+                          openSafeExternalUrl(tweet.link);
                         };
                         return (
                           <TableRow

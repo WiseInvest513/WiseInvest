@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { perks } from "@/lib/perks-data";
 import { SectionCardShell } from "@/components/sections/SectionCardShell";
 import { IconService } from "@/lib/icon-service";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 // CEX 交易所数据
 const cexExchanges = [
@@ -98,14 +99,14 @@ export function CEXSection() {
               {/* Action Buttons - Vertical Layout */}
               <div className="flex flex-col gap-2 mt-auto">
                 <Button
-                  onClick={() => window.open(exchange.claimLink, "_blank", "noopener,noreferrer")}
+                  onClick={() => openSafeExternalUrl(exchange.claimLink)}
                   className="w-full h-9 bg-yellow-400 dark:bg-yellow-500 text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 font-semibold text-sm"
                 >
                   立即领取
                   <ExternalLink className="h-3.5 w-3.5 ml-1.5" />
                 </Button>
                 <Button
-                  onClick={() => window.open(exchange.tutorialLink, "_blank", "noopener,noreferrer")}
+                  onClick={() => openSafeExternalUrl(exchange.tutorialLink)}
                   variant="outline"
                   className="w-full h-9 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 font-medium text-sm"
                 >

@@ -22,14 +22,14 @@ const practiceCategories = [
   {
     id: "airdrop-tutorials",
     label: "空投系列教程",
-    iconUrl: "https://cdn.simpleicons.org/ethereum/627EEA",
-    description: "空投项目教程与推文记录",
+    iconUrl: "https://cdn.simpleicons.org/gitbook/7C3AED",
+    description: "按照\"人生作弊指南\"教程，严格领取币安 Alpha/欧易Boost空投，后投入 QQQ",
     href: "/practice/airdrop-tutorials",
   },
   {
     id: "bitget-corner",
     label: "Bitget 一期一会",
-    iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2303C87C'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E",
+    iconUrl: "https://www.bitget.com/favicon.ico",
     description: "Bitget 新用户活动记录与介绍",
     href: "/practice/bitget-corner",
   },
@@ -62,51 +62,37 @@ export default function PracticePage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* AboutMe 同款背景水印图标 */}
-                {category.id === "bitget-corner" ? (
-                  <div className="absolute -bottom-12 -right-12 w-40 h-40 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 flex items-center justify-center">
-                    <div className="w-28 h-28 rounded-3xl bg-[#03C87C] flex items-center justify-center">
-                      <span className="text-white font-bold text-5xl">B</span>
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    src={category.iconUrl}
-                    alt=""
-                    className="absolute -bottom-12 -right-12 w-44 h-44 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 object-contain"
-                  />
-                )}
+                <img
+                  src={category.iconUrl}
+                  alt=""
+                  className="absolute -bottom-12 -right-12 w-44 h-44 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0 object-contain"
+                />
                 
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 border border-slate-200 dark:border-slate-700 p-2 relative">
-                      {category.id === "bitget-corner" ? (
-                        <div className="w-full h-full rounded bg-[#03C87C] flex items-center justify-center">
-                          <span className="text-white font-bold text-2xl">B</span>
-                        </div>
-                      ) : (
-                        <>
-                          {/* 默认图标：首字母 */}
-                          <span className="absolute text-slate-600 dark:text-slate-400 font-bold text-2xl opacity-100 transition-opacity duration-200" id={`fallback-${category.id}`}>
-                            {category.label.charAt(0)}
-                          </span>
-                          {/* 图标图片 */}
-                          <img
-                            src={category.iconUrl}
-                            alt={category.label}
-                            className="w-full h-full object-contain relative z-10 opacity-0 transition-opacity duration-200"
-                            onLoad={(e) => {
-                              e.currentTarget.style.opacity = '1';
-                              const fallback = document.getElementById(`fallback-${category.id}`);
-                              if (fallback) fallback.style.opacity = '0';
-                            }}
-                            onError={(e) => {
-                              e.currentTarget.style.opacity = '0';
-                              const fallback = document.getElementById(`fallback-${category.id}`);
-                              if (fallback) fallback.style.opacity = '1';
-                            }}
-                          />
-                        </>
-                      )}
+                      <>
+                        {/* 默认图标：首字母 */}
+                        <span className="absolute text-slate-600 dark:text-slate-400 font-bold text-2xl opacity-100 transition-opacity duration-200" id={`fallback-${category.id}`}>
+                          {category.label.charAt(0)}
+                        </span>
+                        {/* 图标图片 */}
+                        <img
+                          src={category.iconUrl}
+                          alt={category.label}
+                          className="w-full h-full object-contain relative z-10 opacity-0 transition-opacity duration-200"
+                          onLoad={(e) => {
+                            e.currentTarget.style.opacity = '1';
+                            const fallback = document.getElementById(`fallback-${category.id}`);
+                            if (fallback) fallback.style.opacity = '0';
+                          }}
+                          onError={(e) => {
+                            e.currentTarget.style.opacity = '0';
+                            const fallback = document.getElementById(`fallback-${category.id}`);
+                            if (fallback) fallback.style.opacity = '1';
+                          }}
+                        />
+                      </>
                     </div>
                     <div>
                       <h2 className="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-1">

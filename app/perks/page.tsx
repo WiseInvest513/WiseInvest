@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { IconService } from "@/lib/icon-service";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 import { ResourceIcon } from "@/components/ui/resource-icon";
 
@@ -24,6 +25,41 @@ interface PerkCategory {
   emoji: string;
   items: Perk[];
 }
+
+interface OtherResourceItem {
+  id: string;
+  title: string;
+  highlight?: string;
+  description: string;
+  code?: string | null;
+  link?: string;
+  iconUrl?: string;
+  tutorialLink?: string;
+}
+
+const otherResources: OtherResourceItem[] = [
+  {
+    id: "gamsgo",
+    title: "GamsGo 会员合租",
+    highlight: "连续7年提供高质量、价格可负担的数字订阅服务",
+    description:
+      "低成本共享主流订阅服务，适合控制流媒体与软件订阅开支，适合作为长期降本工具。",
+    link: "https://www.gamsgo.com/partner/GwZjT",
+    iconUrl: "https://www.gamsgo.com/",
+    tutorialLink: "https://x.com/WiseInvest513/status/2017103331576139919",
+  },
+  {
+    id: "xesim",
+    title: "Xesim eSIM 服务",
+    highlight: "一站式全球 eSIM 连接服务，出境上网更省心",
+    description:
+      "支持多国家/地区流量方案与设备适配查询，适合跨境出行、商务差旅与海外应用注册场景。",
+    code: "WISE666",
+    link: "https://xesim.cc/?DIST=RkJHFVg%3D",
+    iconUrl: "https://xesim.cc/",
+    tutorialLink: "https://x.com/WiseInvest513/status/2022688883348246699",
+  },
+];
 
 const perkCategories: PerkCategory[] = [
   {
@@ -55,6 +91,12 @@ const perkCategories: PerkCategory[] = [
     label: "链上钱包",
     emoji: "⛓️",
     items: perks.filter((p) => p.category === "Wallet"),
+  },
+  {
+    id: "other-resources",
+    label: "其他资源",
+    emoji: "🧰",
+    items: [],
   },
 ];
 
@@ -130,7 +172,7 @@ export default function PerksPage() {
   };
 
   const handleClaimOffer = (link: string) => {
-    window.open(link, "_blank", "noopener,noreferrer");
+    openSafeExternalUrl(link);
   };
 
   const getCategoryBadgeColor = (category: string) => {
@@ -199,7 +241,12 @@ export default function PerksPage() {
 
           {/* 2. SCROLLABLE CONTENT */}
           <div className="content-fade-in px-6 md:px-8 pb-20 pt-6">
-            {perkCategories.map((category, index) => (
+            {perkCategories.map((category) => {
+              const sectionCount =
+                category.id === "other-resources"
+                  ? otherResources.length
+                  : category.items.length;
+              return (
               <section
                 key={category.id}
                 id={category.id}
@@ -212,25 +259,133 @@ export default function PerksPage() {
                     {category.label}
                   </h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    {category.items.length} 个福利
+                    {sectionCount} 个福利
                   </p>
                 </div>
 
                 {/* Perk Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {category.items.map((perk) => (
-                    <PerkCard
-                      key={perk.id}
-                      perk={perk}
-                      copiedCodeId={copiedCodeId}
-                      onCopyCode={handleCopyCode}
-                      onClaimOffer={handleClaimOffer}
-                      getCategoryBadgeColor={getCategoryBadgeColor}
-                    />
-                  ))}
+                  {category.id === "other-resources"
+                    ? otherResources.map((item) => {
+                        const iconSourceUrl = item.iconUrl || item.link || "";
+                        const iconInfo = IconService.getIconInfo(iconSourceUrl, item.title);
+                        const hasWatermarkIcon = Boolean(item.link) && !iconInfo.isDefault;
+                        return item.link ? (
+                          <div
+                            key={item.id}
+                            className="group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden"
+                          >
+                            <div className="h-1 w-full bg-red-500" />
+                            {hasWatermarkIcon && (
+                              <img
+                                src={iconInfo.iconUrl}
+                                alt=""
+                                className="absolute -bottom-12 -right-10 w-44 h-44 opacity-[0.1] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.16] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0"
+                              />
+                            )}
+                            <div className="relative z-10 p-5 flex flex-col flex-1">
+                              <div className="flex items-start justify-between mb-3">
+                                <div className="flex items-center gap-3 flex-1 min-w-0">
+                                  <ResourceIcon
+                                    url={iconSourceUrl}
+                                    name={item.title}
+                                    size={40}
+                                    rounded={true}
+                                  />
+                                  <h3 className="font-bold text-text-primary text-base leading-tight">
+                                    {item.title}
+                                  </h3>
+                                </div>
+                                <Badge
+                                  variant="outline"
+                                  className="text-xs shrink-0 text-slate-600 border-slate-300 border-current"
+                                >
+                                  其他资源
+                                </Badge>
+                              </div>
+                              <div className="mb-4">
+                                {item.highlight && (
+                                  <p className="text-lg font-bold text-text-primary mb-1 leading-tight">
+                                    {item.highlight}
+                                  </p>
+                                )}
+                                <p className="text-xs text-text-secondary line-clamp-1">
+                                  {item.description}
+                                </p>
+                              </div>
+                              {item.code && (
+                                <div className="mb-2 flex items-center gap-2">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300 whitespace-nowrap shrink-0">
+                                      折扣邀请码
+                                  </span>
+                                  <div className="flex-1 min-w-0 bg-bg-secondary rounded-md flex justify-between items-center px-3 py-1.5 border border-slate-200/70 dark:border-slate-700/70">
+                                    <span className="text-sm font-mono text-text-primary truncate">
+                                      {item.code}
+                                    </span>
+                                    <button
+                                      onClick={() => handleCopyCode(item.code!, item.id)}
+                                      className="text-text-muted hover:text-text-primary transition-colors"
+                                      aria-label="复制邀请码"
+                                    >
+                                      {copiedCodeId === item.id ? (
+                                        <Check className="w-4 h-4 text-green-600" />
+                                      ) : (
+                                        <Copy className="w-4 h-4" />
+                                      )}
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                              <div className="mt-auto flex items-center gap-2">
+                                <Button
+                                  onClick={() => openSafeExternalUrl(item.link!)}
+                                  className="flex-1 h-9 bg-yellow-400 dark:bg-yellow-500 text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 font-semibold text-sm"
+                                >
+                                  立即访问
+                                  <ExternalLink className="h-3.5 w-3.5 ml-1.5" />
+                                </Button>
+                                {item.tutorialLink && (
+                                  <Button
+                                    onClick={() => openSafeExternalUrl(item.tutorialLink!)}
+                                    variant="outline"
+                                    className="h-9 px-3 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 font-medium text-sm whitespace-nowrap"
+                                  >
+                                    <BookOpen className="h-3.5 w-3.5 mr-1.5" />
+                                    查看教程
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            key={item.id}
+                            className="bg-bg-primary border border-border-color rounded-lg shadow-sm h-full min-h-[240px] flex flex-col justify-center items-center text-center p-6"
+                          >
+                            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+                              <span className="text-xl">📦</span>
+                            </div>
+                            <h3 className="font-bold text-text-primary text-lg mb-2">
+                              {item.title}
+                            </h3>
+                            <p className="text-sm text-text-secondary">{item.description}</p>
+                          </div>
+                        );
+                      })
+                    : category.items.map((perk) => (
+                        <PerkCard
+                          key={perk.id}
+                          perk={perk}
+                          copiedCodeId={copiedCodeId}
+                          onCopyCode={handleCopyCode}
+                          onClaimOffer={handleClaimOffer}
+                          getCategoryBadgeColor={getCategoryBadgeColor}
+                        />
+                      ))}
                 </div>
               </section>
-            ))}
+            );
+            })}
           </div>
 
         </main>
@@ -266,7 +421,7 @@ function PerkCard({
     if (perk.tutorialImage) {
       setTutorialDialogOpen(true);
     } else if (perk.tutorialLink) {
-      window.open(perk.tutorialLink!, "_blank", "noopener,noreferrer");
+      openSafeExternalUrl(perk.tutorialLink!);
     }
   };
 
@@ -336,21 +491,26 @@ function PerkCard({
         <div className={`mt-auto flex flex-col gap-2 ${!perk.code ? "pt-2" : ""}`}>
           {/* Code Section - Compact */}
           {perk.code && (
-            <div className="bg-bg-secondary rounded-md flex justify-between items-center px-3 py-1.5">
-              <span className="text-sm font-mono text-text-primary">
-                {perk.code}
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300 whitespace-nowrap shrink-0">
+                  折扣邀请码
               </span>
-              <button
-                onClick={() => onCopyCode(perk.code!, perk.id)}
-                className="text-text-muted hover:text-text-primary transition-colors"
-                aria-label="复制邀请码"
-              >
-                {isCopied ? (
-                  <Check className="w-4 h-4 text-green-600" />
-                ) : (
-                  <Copy className="w-4 h-4" />
-                )}
-              </button>
+              <div className="flex-1 min-w-0 bg-bg-secondary rounded-md flex justify-between items-center px-3 py-1.5 border border-slate-200/70 dark:border-slate-700/70">
+                <span className="text-sm font-mono text-text-primary truncate">
+                  {perk.code}
+                </span>
+                <button
+                  onClick={() => onCopyCode(perk.code!, perk.id)}
+                  className="text-text-muted hover:text-text-primary transition-colors"
+                  aria-label="复制邀请码"
+                >
+                  {isCopied ? (
+                    <Check className="w-4 h-4 text-green-600" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
             </div>
           )}
 

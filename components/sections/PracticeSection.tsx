@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { ExternalLink, TrendingUp, Play, BookOpen, Gift, Calendar, ArrowRight, ChevronDown } from "lucide-react";
 import { ParallaxBackground } from "@/components/motion/ParallaxBackground";
 import { TitleAnimation } from "@/components/motion/SectionWrapper";
+import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
 
 // Mock data - 投资实验数据
 const investmentLabData = [
@@ -195,7 +196,7 @@ export function PracticeSection() {
                     {investmentLabData.map((item, index) => (
                       <a
                         key={item.id}
-                        href={item.tweetLink}
+                        href={getSafeExternalUrl(item.tweetLink)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block p-3 rounded-lg bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 transition-all duration-200 hover:scale-[1.02] group/item"
@@ -245,7 +246,7 @@ export function PracticeSection() {
                           <tr
                             key={item.id}
                             className="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer"
-                            onClick={() => window.open(item.tweetLink, "_blank")}
+                            onClick={() => openSafeExternalUrl(item.tweetLink)}
                           >
                             <td className="py-3 px-2 font-mono text-xs text-slate-600 dark:text-slate-400">
                               {item.date.split("-").slice(1).join("/")}
@@ -301,7 +302,7 @@ export function PracticeSection() {
                 {videoData.map((video) => (
                   <a
                     key={video.id}
-                    href={video.youtubeLink}
+                    href={getSafeExternalUrl(video.youtubeLink)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block group/video"
@@ -389,7 +390,7 @@ export function PracticeSection() {
                     {expandedCheat === item.id && (
                       <div className="px-3 pb-3">
                         <a
-                          href={item.tweetLink}
+                          href={getSafeExternalUrl(item.tweetLink)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 font-medium"
@@ -427,7 +428,7 @@ export function PracticeSection() {
                 {bitgetData.map((item) => (
                   <a
                     key={item.id}
-                    href={item.link}
+                    href={getSafeExternalUrl(item.link)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block p-4 rounded-lg bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 transition-all duration-200 hover:scale-[1.02] group/item"

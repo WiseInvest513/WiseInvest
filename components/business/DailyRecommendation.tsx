@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 interface RecommendationItem {
   type: "welfare" | "article" | "wool";
@@ -144,16 +145,11 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
   };
 
   const handleCardClick = (link: string) => {
-    // 处理链接：如果是相对路径，转换为绝对路径
-    let targetUrl = link;
-    
-    // 如果是相对路径（以 / 开头），转换为完整的 URL
     if (link.startsWith("/")) {
-      targetUrl = `${window.location.origin}${link}`;
+      window.open(link, "_blank", "noopener,noreferrer");
+      return;
     }
-    
-    // 在新标签页打开链接
-    window.open(targetUrl, "_blank", "noopener,noreferrer");
+    openSafeExternalUrl(link);
   };
 
   const getTypeConfig = (type: RecommendationItem["type"]) => {

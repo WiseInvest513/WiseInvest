@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Mail } from "lucide-react"; 
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send } from "lucide-react"; 
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 
 // --- 1. 核心组件：数字滚动动画（每 8s 从零增长到目标值） ---
 const AnimatedNumber = ({ value }: { value: number }) => {
@@ -49,32 +50,11 @@ const socials = [
     label: "Followers",
     Icon: Twitter,
     pngPath: "https://cdn.simpleicons.org/x/000000", // 在线图标测试
-    color: "hover:border-blue-400 hover:shadow-blue-100",
-    text: "text-blue-500",
-    bg: "bg-blue-50",
+    color: "hover:border-slate-500 hover:shadow-slate-200",
+    cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",
+    text: "text-slate-900 dark:text-slate-100",
+    bg: "bg-slate-100 dark:bg-slate-800",
     link: "https://x.com/WiseInvest513"
-  },
-  {
-    name: "Bilibili",
-    count: 12443,
-    label: "Fans",
-    Icon: Video,
-    pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6", // 在线图标测试
-    color: "hover:border-pink-400 hover:shadow-pink-100",
-    text: "text-pink-500",
-    bg: "bg-pink-50",
-    link: "https://space.bilibili.com/347066091"
-  },
-  {
-    name: "YouTube",
-    count: 1840,
-    label: "Subscribers",
-    Icon: Youtube,
-    pngPath: "https://cdn.simpleicons.org/youtube/FF0000", // 在线图标测试
-    color: "hover:border-red-500 hover:shadow-red-100",
-    text: "text-red-600",
-    bg: "bg-red-50",
-    link: "https://www.youtube.com/@WiseInvest513"
   },
   {
     name: "Little Red Book",
@@ -83,20 +63,34 @@ const socials = [
     Icon: Instagram,
     pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", // 在线图标测试
     color: "hover:border-rose-500 hover:shadow-rose-100",
+    cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10",
     text: "text-rose-500",
     bg: "bg-rose-50",
     link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988"
   },
   {
-    name: "Douyin",
-    count: 20,
+    name: "YouTube",
+    count: 1840,
+    label: "Subscribers",
+    Icon: Youtube,
+    pngPath: "https://cdn.simpleicons.org/youtube/FF0000", // 在线图标测试
+    color: "hover:border-red-500 hover:shadow-red-100",
+    cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10",
+    text: "text-red-600",
+    bg: "bg-red-50",
+    link: "https://www.youtube.com/@WiseInvest513"
+  },
+  {
+    name: "Bilibili",
+    count: 12443,
     label: "Fans",
     Icon: Video,
-    pngPath: "https://cdn.simpleicons.org/tiktok/000000", // 在线图标测试（使用 TikTok 图标）
-    color: "hover:border-slate-800 hover:shadow-slate-200",
-    text: "text-slate-900",
-    bg: "bg-slate-100",
-    link: "https://v.douyin.com/ZMirjr_-qGc"
+    pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6", // 在线图标测试
+    color: "hover:border-blue-400 hover:shadow-blue-100",
+    cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10",
+    text: "text-blue-500",
+    bg: "bg-blue-50 dark:bg-blue-900/20",
+    link: "https://space.bilibili.com/347066091"
   },
   {
     name: "WeChat",
@@ -105,9 +99,23 @@ const socials = [
     Icon: MessageCircle,
     pngPath: "https://cdn.simpleicons.org/wechat/07C160", // 在线图标测试
     color: "hover:border-green-500 hover:shadow-green-100",
+    cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10",
     text: "text-green-600",
     bg: "bg-green-50",
     link: "https://mp.weixin.qq.com/s/uo-O5ekA9Zfe-fNY88sFig"
+  },
+  {
+    name: "Telegram",
+    count: 0,
+    displayValue: "Join Group",
+    label: "Official Community",
+    Icon: Send,
+    pngPath: "https://cdn.simpleicons.org/telegram/26A5E4",
+    color: "hover:border-sky-500 hover:shadow-sky-100",
+    cardTone: "border-sky-100 dark:border-sky-800/40 bg-sky-50/40 dark:bg-sky-900/10",
+    text: "text-sky-600",
+    bg: "bg-sky-50",
+    link: "https://t.me/WiseInvestChat513"
   }
 ];
 
@@ -152,11 +160,12 @@ export default function AboutMe() {
           {socials.map((item, idx) => (
             <a 
               key={idx} 
-              href={item.link}
+              href={getSafeExternalUrl(item.link)}
               target="_blank"
               rel="noopener noreferrer"
               className={`
-                group relative overflow-hidden p-8 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 
+                group relative overflow-hidden p-8 rounded-3xl border
+                ${item.cardTone ?? "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900"}
                 transition-all duration-300 hover:-translate-y-1 
                 ${item.color} shadow-sm hover:shadow-xl
               `}
@@ -167,18 +176,35 @@ export default function AboutMe() {
                   <div className={`p-3 rounded-2xl transition-colors ${item.bg} ${item.text}`}>
                     <item.Icon className="w-6 h-6" />
                   </div>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors" />
+                  <div className="flex items-center gap-2">
+                    {item.name === "Telegram" && (
+                      <span className="inline-flex items-center rounded-full bg-sky-100 dark:bg-sky-900/40 px-2 py-0.5 text-[10px] font-bold tracking-wide text-sky-700 dark:text-sky-300">
+                        LIVE
+                      </span>
+                    )}
+                    <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors" />
+                  </div>
                 </div>
                 
                 <div className="space-y-1">
                   <div className="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
-                    <AnimatedNumber value={item.count} />
+                    {"displayValue" in item && item.displayValue ? (
+                      <span className="text-2xl md:text-3xl">{item.displayValue}</span>
+                    ) : (
+                      <AnimatedNumber value={item.count} />
+                    )}
                   </div>
                   <div className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
                     {item.label}
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">
-                      {item.name}
-                    </span>
+                    {item.name === "Telegram" ? (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300 font-semibold">
+                        Join on Telegram
+                      </span>
+                    ) : (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">
+                        {item.name}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -200,7 +226,7 @@ export default function AboutMe() {
           <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-4">想要建立商务合作？</h3>
           <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-xl mx-auto">无论是项目推广、工具开发还是深度投研，欢迎随时通过推特联系我</p>
           <a
-            href="https://x.com/WiseInvest513"
+            href={getSafeExternalUrl("https://x.com/WiseInvest513")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-full font-bold hover:bg-yellow-500 hover:text-slate-900 transition-all shadow-lg hover:shadow-yellow-200"

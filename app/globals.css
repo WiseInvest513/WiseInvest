@@ -23,11 +23,26 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-2px); }
   }
+  @keyframes navItemBurst {
+    0%, 34%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    38% { transform: translate3d(1.2px, -1.8px, 0) scale(1.012); }
+    44% { transform: translate3d(-0.9px, 0.8px, 0) scale(0.998); }
+    50% { transform: translate3d(1.9px, -3.1px, 0) scale(1.018); }
+    57% { transform: translate3d(-1.3px, -0.6px, 0) scale(1.004); }
+    64% { transform: translate3d(0.8px, 1.5px, 0) scale(0.999); }
+    71% { transform: translate3d(-0.6px, -2.2px, 0) scale(1.008); }
+    79% { transform: translate3d(0.35px, 0.15px, 0) scale(1.001); }
+  }
   .nav-item-float {
     animation: navItemFloat 2s ease-in-out infinite;
   }
+  .nav-item-burst {
+    animation: navItemBurst 2.8s cubic-bezier(0.25, 0.7, 0.22, 1) infinite;
+    will-change: transform;
+  }
   @media (prefers-reduced-motion: reduce) {
-    .nav-item-float {
+    .nav-item-float,
+    .nav-item-burst {
       animation: none;
     }
   }

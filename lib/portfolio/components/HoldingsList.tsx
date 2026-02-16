@@ -9,6 +9,7 @@ import { ExternalLink, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Asset } from "../types";
 import type { PriceData } from "../types";
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 
 interface HoldingsListProps {
   assets: Asset[];
@@ -104,7 +105,7 @@ export function HoldingsList({ assets, prices, isLoading, onDelete }: HoldingsLi
                 <div className="col-span-1 flex justify-end gap-2">
                   {asset.practiceLink && (
                     <a
-                      href={asset.practiceLink}
+                      href={getSafeExternalUrl(asset.practiceLink)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 hover:bg-white/10 rounded-lg transition-colors group"

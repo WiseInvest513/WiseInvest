@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Twitter, Mail, MessageCircle } from "lucide-react";
+import { Twitter, MessageCircle, Send } from "lucide-react";
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +14,9 @@ import {
 
 export function Footer() {
   const [wechatDialogOpen, setWechatDialogOpen] = useState(false);
+  const [xIconFailed, setXIconFailed] = useState(false);
+  const [telegramIconFailed, setTelegramIconFailed] = useState(false);
+  const [wechatIconFailed, setWechatIconFailed] = useState(false);
 
   return (
     <>
@@ -33,27 +37,56 @@ export function Footer() {
               {/* Social Icons */}
               <div className="flex items-center gap-4">
                 <a
-                  href="https://x.com/WiseInvest513"
+                  href={getSafeExternalUrl("https://x.com/WiseInvest513")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                  aria-label="Twitter"
+                  aria-label="X"
                 >
-                  <Twitter className="h-5 w-5" />
+                  {xIconFailed ? (
+                    <Twitter className="h-5 w-5" />
+                  ) : (
+                    <img
+                      src="https://cdn.simpleicons.org/x/334155"
+                      alt="X"
+                      className="h-5 w-5 object-contain"
+                      onError={() => setXIconFailed(true)}
+                    />
+                  )}
                 </a>
                 <a
-                  href="mailto:wiseinvest513@gmail.com"
+                  href={getSafeExternalUrl("https://t.me/WiseInvest513")}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                  aria-label="Email"
+                  aria-label="Telegram"
                 >
-                  <Mail className="h-5 w-5" />
+                  {telegramIconFailed ? (
+                    <Send className="h-5 w-5" />
+                  ) : (
+                    <img
+                      src="https://cdn.simpleicons.org/telegram/26A5E4"
+                      alt="Telegram"
+                      className="h-5 w-5 object-contain"
+                      onError={() => setTelegramIconFailed(true)}
+                    />
+                  )}
                 </a>
                 <button
                   onClick={() => setWechatDialogOpen(true)}
                   className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                   aria-label="微信"
                 >
-                  <MessageCircle className="h-5 w-5" />
+                  {wechatIconFailed ? (
+                    <MessageCircle className="h-5 w-5" />
+                  ) : (
+                    <img
+                      src="https://cdn.simpleicons.org/wechat/07C160"
+                      alt="微信"
+                      className="h-5 w-5 object-contain"
+                      onError={() => setWechatIconFailed(true)}
+                    />
+                  )}
                 </button>
               </div>
             </div>

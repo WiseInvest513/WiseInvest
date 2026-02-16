@@ -12,9 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
 
 // 视频分类（根据实际数据提取）
-const videoCategories = ["赚钱", "投资", "虚拟 U 卡", "出入金", "alpha", "港卡", "美股"];
+const videoCategories = ["赚钱", "投资", "虚拟 U 卡", "出入金", "alpha", "港卡", "美股", "券商"];
 
 // 视频数据
 interface Video {
@@ -26,6 +27,13 @@ interface Video {
 }
 
 const videoData: Video[] = [
+  {
+    id: 16,
+    title: "2026 年全网最全最详细致富证券开户教程、国内用户仅凭身份证即可完成开户、国内用户可使用的香港券商，成立 46 年，46年港资零售券商No.1！",
+    date: "2026-02-15",
+    youtubeLink: "https://youtu.be/pCsQo_aIrWk?si=-4ePntuEPlUEGWAb",
+    category: "券商",
+  },
   {
     id: 13,
     title: "2026 年全网最全最详细 SafePal 入金盈透、众安入金盈透、入金盈透教程、虚拟 U 卡入金盈透、港卡入金盈透教程，无港卡入金最全解决方案，再不用担心无法投资美股了",
@@ -340,7 +348,7 @@ export default function VideoContentPage() {
                       activeRowTimerRef.current = setTimeout(() => {
                         setActiveRowId(null);
                       }, 1100);
-                      window.open(video.youtubeLink, "_blank", "noopener,noreferrer");
+                      openSafeExternalUrl(video.youtubeLink);
                     };
                     return (
                       <TableRow
@@ -391,7 +399,7 @@ export default function VideoContentPage() {
                         <TableCell className="w-32 py-3">
                           <div className="flex items-center justify-center">
                             <a
-                              href={video.youtubeLink}
+                              href={getSafeExternalUrl(video.youtubeLink)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors group-hover:text-amber-700 dark:group-hover:text-amber-300"

@@ -14,9 +14,16 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 
 // 定投文章数据（按时间倒序排列，最新的在最上面）
 const dcaArticles = [
+  {
+    id: 29,
+    title: "BTC/ETH 周定投 10 年致富实盘之第29周🎉🎉",
+    date: "2026-02-15",
+    tweetLink: "https://x.com/WiseInvest513/status/2022990438265946301",
+  },
   {
     id: 28,
     title: "BTC/ETH 周定投 10 年致富实盘之第28周🎉🎉",
@@ -497,6 +504,17 @@ const dcaData = [
     ethLow: 1744,
     ethYield: -39.64,
   },
+  {
+    date: "2026/2/15",
+    btcPrice: 70421,
+    btcHigh: 71464,
+    btcLow: 65367,
+    btcYield: -28.07,
+    ethPrice: 2061,
+    ethHigh: 2130,
+    ethLow: 1907,
+    ethYield: -39.64,
+  },
 ];
 
 type TabType = "articles" | "data" | "chart";
@@ -687,7 +705,7 @@ export default function DCAInvestmentPage() {
                   {paginatedArticles.map((article) => (
               <a
                 key={article.id}
-                href={article.tweetLink}
+                href={getSafeExternalUrl(article.tweetLink)}
                 target="_blank"
                 rel="noopener noreferrer"
                       className="block p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"

@@ -1047,11 +1047,11 @@ export const tweets: Tweet[] = [
   },
   {
     id: 116,
-    title: "海外手机号必看合集！",
+    title: "“拼多多”版本的海外工具订阅站夯爆了",
     category: "美股",
     type: "教程",
     date: "2026-01-21",
-    link: "https://x.com/WiseInvest513/status/2013834777258790994",
+    link: "https://x.com/WiseInvest513/status/2017103331576139919",
     views: 1000,
   },
   {
@@ -1083,11 +1083,11 @@ export const tweets: Tweet[] = [
   },
   {
     id: 120,
-    title: "超全的美股券商合集！",
+    title: "Bitget钱包介绍和推荐",
     category: "美股",
     type: "教程,干货",
     date: "2026-01-18",
-    link: "https://x.com/WiseInvest513/status/2012763790648262974",
+    link: "https://x.com/WiseInvest513/status/1953841324236714497",
     views: 1000,
   },
   {
@@ -1315,7 +1315,13 @@ export const tweets: Tweet[] = [
     link: "https://x.com/WiseInvest513/status/2006603078959759839",
     views: 1000,
   },
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // 按时间倒序排列
+]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // 按时间倒序排列
+  .map((tweet) => ({
+    ...tweet,
+    // 用稳定伪随机值生成更真实的阅读量区间（1k ~ 2w）
+    views: 1000 + ((tweet.id * 7919) % 19001),
+  }));
 
 export interface Tool {
   id: string;

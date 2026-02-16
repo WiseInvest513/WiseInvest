@@ -9,13 +9,12 @@ import { CEXSection } from "@/components/sections/CEXSection";
 import { TweetsSection } from "@/components/sections/TweetsSection";
 import { AnthologySection } from "@/components/sections/AnthologySection";
 // import { NewsletterToast } from "@/components/newsletter-toast"; // 周刊订阅功能暂时隐藏
-import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles, ArrowUpRight } from "lucide-react";
+import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles, ArrowUpRight, CheckCircle2, ShieldAlert, Radar } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
 import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation } from "@/components/motion/SectionWrapper";
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
 import { ParallaxBackground } from "@/components/motion/ParallaxBackground";
-import { tools, tweets } from "@/lib/data";
-import { resourceCategories } from "@/lib/resources-data";
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 
 // Hero Section uses its own ParallaxBackground component
 
@@ -65,9 +64,9 @@ function HeroSection() {
       
       {/* Hero Layout */}
       <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 gap-8 md:grid-cols-12 md:items-end">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 gap-8 md:grid-cols-12 md:items-center">
           <div
-            className="md:col-span-7"
+            className="md:col-span-7 md:-mt-6 lg:-mt-8"
             style={{
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? "translateX(0)" : "translateX(-40px)",
@@ -93,7 +92,7 @@ function HeroSection() {
               </span>
             </h1>
             <p className="mt-5 max-w-xl text-base md:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-              从工具到策略、从学习到实盘，帮你建立长期可复利的投资系统。
+              做最懂小白的博主，投资最好是十年前，其次是现在。
             </p>
           </div>
 
@@ -108,7 +107,7 @@ function HeroSection() {
             <div className="relative overflow-hidden rounded-2xl border border-white/60 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-slate-800/70 dark:bg-slate-900/55">
               <div className="mb-4 flex justify-between items-center">
                 <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
-                  一站式投资成长平台
+                  人生作弊指南：执行版
                 </h2>
                 <span className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700 dark:border-amber-700/50 dark:bg-amber-900/20 dark:text-amber-300">
                   每周更新
@@ -118,42 +117,38 @@ function HeroSection() {
                 专业的投资内容平台，为您提供投资工具、深度分析和优质资源。
               </p>
               <div className="relative z-10 mt-5 space-y-2">
-                {/* 第一行：数字类 */}
                 <div className="grid grid-cols-4 gap-2 text-center">
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">7+</div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400">功能模块</div>
-                  </div>
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">{tools.length}+</div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400">投资工具</div>
-                  </div>
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">{tweets.length}+</div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400">深度推文</div>
-                  </div>
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
-                    <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">{resourceCategories.reduce((sum, c) => sum + c.items.length, 0)}+</div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400">导航网站</div>
-                  </div>
-                </div>
-                {/* 第二行：周更、长期、工具、文集 */}
-                <div className="grid grid-cols-4 gap-2 text-center">
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">周更</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">实盘追踪</div>
                   </div>
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">长期</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">复利体系</div>
                   </div>
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">工具</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">实用工具</div>
                   </div>
-                  <div className="rounded-lg bg-amber-50/80 px-2 py-2 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">思想</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">优质文集</div>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-slate-200/80 bg-white/70 px-3 py-2.5 dark:border-slate-700/70 dark:bg-slate-800/45">
+                  <div className="mb-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-amber-700/90 dark:text-amber-300/90">
+                    本周聚焦
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600 dark:bg-slate-700/70 dark:text-slate-300">
+                      ETF 定投纪律
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600 dark:bg-slate-700/70 dark:text-slate-300">
+                      现金流优先
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600 dark:bg-slate-700/70 dark:text-slate-300">
+                      风险控制先行
+                    </span>
                   </div>
                 </div>
               </div>
@@ -427,6 +422,85 @@ function HeroSection() {
   );
 }
 
+const weeklyActionItems = [
+  {
+    title: "本周该做什么",
+    icon: CheckCircle2,
+    summary: "按计划定投，不猜顶底，不追涨杀跌。",
+    ctaLabel: "去看定投记录",
+    ctaHref: "/practice/dca-investment",
+    accent: "from-emerald-500/20 via-emerald-400/10 to-transparent",
+    iconClass: "text-emerald-600 dark:text-emerald-400",
+  },
+  {
+    title: "本周风险提醒",
+    icon: ShieldAlert,
+    summary: "优先现金流安全与仓位纪律，避免高杠杆与情绪化交易。",
+    ctaLabel: "查看工具箱",
+    ctaHref: "/tools",
+    accent: "from-rose-500/20 via-rose-400/10 to-transparent",
+    iconClass: "text-rose-600 dark:text-rose-400",
+  },
+  {
+    title: "本周机会观察",
+    icon: Radar,
+    summary: "关注美股 ETF 与优质加密资产的中长期配置窗口。",
+    ctaLabel: "阅读最新推文",
+    ctaHref: "/tweets",
+    accent: "from-amber-500/20 via-yellow-400/10 to-transparent",
+    iconClass: "text-amber-600 dark:text-amber-400",
+  },
+];
+
+function WeeklyActionSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  return (
+    <section ref={sectionRef} className="container mx-auto px-4 py-5 md:py-8 relative isolate">
+      <ParallaxBackground sectionRef={sectionRef} parallaxSpeed={0.14} />
+      <div className="relative z-10 max-w-6xl mx-auto rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white/85 dark:bg-slate-900/70 backdrop-blur-md p-4 md:p-6 shadow-sm">
+        <div className="mb-4 md:mb-6 flex flex-wrap items-center justify-between gap-2">
+          <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+            本周行动面板
+          </h2>
+          <span className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[11px] font-medium text-amber-700 dark:border-amber-700/50 dark:bg-amber-900/20 dark:text-amber-300">
+            每周更新
+          </span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          {weeklyActionItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.title}
+                href={item.ctaHref}
+                className="group relative overflow-hidden rounded-xl border border-slate-200/80 dark:border-slate-700/70 bg-white dark:bg-slate-900 p-4 md:p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(15,23,42,0.45)]"
+              >
+                <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${item.accent} opacity-90`} />
+                <div className="relative z-10">
+                  <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800">
+                    <Icon className={`h-5 w-5 ${item.iconClass}`} />
+                  </div>
+                  <h3 className="text-base md:text-lg font-semibold text-slate-900 dark:text-white mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3 min-h-[44px]">
+                    {item.summary}
+                  </p>
+                  <div className="inline-flex items-center gap-1 text-sm font-medium text-amber-700 dark:text-amber-400 group-hover:gap-2 transition-all">
+                    {item.ctaLabel}
+                    <ArrowUpRight className="h-4 w-4" />
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Section B: Features Showcase - Enhanced Bento Grid with Light Refraction
 const features = [
   {
@@ -629,8 +703,8 @@ function FeaturesSection() {
 
 // Section F: Recommended Resources
 const resources = [
-  { name: "Investopedia", url: "https://www.investopedia.com", description: "投资教育平台" },
-  { name: "Bloomberg", url: "https://www.bloomberg.com", description: "财经新闻" },
+  { name: "Investing.com", url: "https://www.investing.com/", description: "行情与宏观数据" },
+  { name: "TradingView", url: "https://www.tradingview.com/", description: "图表分析平台" },
   { name: "Seeking Alpha", url: "https://seekingalpha.com", description: "投资分析" },
   { name: "CoinMarketCap", url: "https://coinmarketcap.com", description: "加密货币数据" },
 ];
@@ -638,7 +712,7 @@ const resources = [
 function ResourceCard({ resource, index }: { resource: typeof resources[0]; index: number }) {
   return (
     <InteractiveCard
-      href={resource.url}
+      href={getSafeExternalUrl(resource.url)}
       className="group relative"
     >
       {/* Enhanced Radial Glow */}
@@ -734,7 +808,7 @@ const friendlySites = [
 function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; index: number }) {
   return (
     <a
-      href={site.url}
+      href={getSafeExternalUrl(site.url)}
       target="_blank"
       rel="noopener noreferrer"
       className="group relative block animate-spring-slow h-full"
@@ -868,6 +942,7 @@ export default function Home() {
   return (
     <div className="flex flex-col relative">
       <HeroSection />
+      <WeeklyActionSection />
       <div className="py-3 md:py-4" />
       <FeaturesSection />
       <div className="py-3 md:py-4" />

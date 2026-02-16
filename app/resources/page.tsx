@@ -29,6 +29,7 @@ import {
   Trophy,
   type LucideIcon,
 } from "lucide-react";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 // Icon mapping (used as fallback)
 const iconMap: Record<string, LucideIcon> = {
@@ -82,9 +83,7 @@ function ResourceCard({ resource, rank }: ResourceCardProps) {
   const handleClick = () => {
     // 优先使用 invitationLink，如果没有则使用 url
     const linkUrl = resource.invitationLink || resource.url;
-    if (linkUrl && linkUrl !== "#") {
-      window.open(linkUrl, "_blank", "noopener,noreferrer");
-    }
+    openSafeExternalUrl(linkUrl);
   };
 
   const getTagStyle = (tag?: string) => {

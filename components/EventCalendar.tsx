@@ -233,6 +233,9 @@ export function EventCalendar({ open, onOpenChange }: EventCalendarProps) {
           <div className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-yellow-600" />
             <DialogTitle className="text-2xl font-bold">重要事件日历</DialogTitle>
+            <span className="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-2.5 py-0.5 text-[11px] font-medium text-amber-700">
+              （Mock 数据，持续更新）
+            </span>
           </div>
           <DialogDescription className="text-slate-500">
             查看空投、活动等重要事件的时间安排

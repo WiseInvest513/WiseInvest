@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ExternalLink, Eye } from "lucide-react";
 import { tweets } from "@/lib/data";
 import { SectionCardShell } from "@/components/sections/SectionCardShell";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 const TYPE_ALIAS_MAP: Record<string, "干货" | "教程" | "日常" | "资讯"> = {
   "干货": "干货",
@@ -56,20 +57,19 @@ export function TweetsSection() {
         {displayedTweets.map((tweet) => (
                 <div
                   key={tweet.id}
-                  className="cursor-pointer"
+                  className="cursor-pointer h-full"
                   onClick={() => {
-                    if (tweet.link && tweet.link !== "#" && typeof window !== 'undefined') {
-                      window.open(tweet.link, "_blank", "noopener,noreferrer");
-                    }
+                    openSafeExternalUrl(tweet.link);
                   }}
                 >
                   <SectionCardShell
+                    className="h-full"
                     contentClassName="p-6"
                     watermarkSrc="https://cdn.simpleicons.org/x/000000"
                     watermarkAlt=""
                   >
                     <Card
-                      className="border-0 shadow-none p-0 bg-transparent relative z-10"
+                      className="border-0 shadow-none p-0 bg-transparent relative z-10 h-full flex flex-col"
                     >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between gap-2 mb-2">
@@ -88,7 +88,7 @@ export function TweetsSection() {
                       {tweet.title}
                     </h3>
                   </CardHeader>
-                  <CardContent className="pt-0 pb-3">
+                  <CardContent className="pt-0 pb-3 flex-1">
                     <p className="text-sm text-muted-foreground line-clamp-2">
                       点击查看完整内容...
                     </p>

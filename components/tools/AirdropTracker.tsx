@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { openSafeExternalUrl } from "@/lib/security/external-links";
 
 interface AirdropProject {
   id: string;
@@ -448,7 +449,7 @@ export function AirdropTracker() {
               <div className="pt-4 border-t border-slate-200">
                 {selectedProject.status === "Claimable" ? (
                   <Button
-                    onClick={() => window.open(selectedProject.officialCheckLink, "_blank")}
+                    onClick={() => openSafeExternalUrl(selectedProject.officialCheckLink)}
                     className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-6 text-lg"
                   >
                     <ExternalLink className="h-5 w-5 mr-2" />
@@ -457,7 +458,7 @@ export function AirdropTracker() {
                 ) : selectedProject.status === "Live" ? (
                   <div className="space-y-3">
                     <Button
-                      onClick={() => window.open(selectedProject.officialCheckLink, "_blank")}
+                      onClick={() => openSafeExternalUrl(selectedProject.officialCheckLink)}
                       className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-6 text-lg"
                     >
                       <ExternalLink className="h-5 w-5 mr-2" />
@@ -473,7 +474,7 @@ export function AirdropTracker() {
                   </div>
                 ) : (
                   <Button
-                    onClick={() => window.open(selectedProject.officialCheckLink, "_blank")}
+                    onClick={() => openSafeExternalUrl(selectedProject.officialCheckLink)}
                     className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-6 text-lg"
                   >
                     <ExternalLink className="h-5 w-5 mr-2" />
