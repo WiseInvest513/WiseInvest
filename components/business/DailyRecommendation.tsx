@@ -13,14 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { openSafeExternalUrl } from "@/lib/security/external-links";
-
-interface RecommendationItem {
-  type: "welfare" | "article" | "wool";
-  title: string;
-  desc: string;
-  link: string;
-  tag: string;
-}
+import { dailyRecommendations, type RecommendationItem } from "@/lib/daily-recommendations";
 
 interface RecommendationLog {
   lastShownTime: number;
@@ -28,36 +21,6 @@ interface RecommendationLog {
 
 const STORAGE_KEY = "wise_invest_recommendation_log";
 const DEFAULT_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
-
-// 安全解析 JSON 环境变量
-function parseRecommendations(): RecommendationItem[] | null {
-  if (typeof window === "undefined") return null;
-
-  try {
-    const jsonString = process.env.NEXT_PUBLIC_RECOMMENDATIONS_JSON;
-    if (!jsonString) return null;
-
-    const parsed = JSON.parse(jsonString);
-    if (!Array.isArray(parsed) || parsed.length === 0) return null;
-
-    // 验证数据结构
-    const validItems = parsed.filter(
-      (item): item is RecommendationItem =>
-        item &&
-        typeof item === "object" &&
-        ["welfare", "article", "wool"].includes(item.type) &&
-        typeof item.title === "string" &&
-        typeof item.desc === "string" &&
-        typeof item.link === "string" &&
-        typeof item.tag === "string"
-    );
-
-    return validItems.length > 0 ? validItems.slice(0, 3) : null; // 最多3个
-  } catch (error) {
-    console.warn("[DailyRecommendation] Failed to parse recommendations:", error);
-    return null;
-  }
-}
 
 // 读取 localStorage 日志
 function getRecommendationLog(): RecommendationLog {
@@ -107,8 +70,10 @@ interface DailyRecommendationProps {
 
 export function DailyRecommendation({ open: controlledOpen, onOpenChange: controlledOnOpenChange }: DailyRecommendationProps = {}) {
   const [internalOpen, setInternalOpen] = useState(false);
-
-  const recommendations = useMemo(() => parseRecommendations(), []);
+  const recommendations: RecommendationItem[] = useMemo(
+    () => dailyRecommendations.slice(0, 3),
+    []
+  );
 
   // 使用受控或非受控模式
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
@@ -121,7 +86,7 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
     }
 
     // 如果没有推荐内容，不自动显示（但手动点击仍可显示）
-    if (!recommendations || recommendations.length === 0) return;
+    if (recommendations.length === 0) return;
 
     // 检查是否应该显示（12小时规则）
     if (shouldShowModal()) {
@@ -202,12 +167,12 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
         </DialogHeader>
 
         <div className="space-y-3 py-6">
-          {(!recommendations || recommendations.length === 0) ? (
+          {recommendations.length === 0 ? (
             <div className="text-center py-12">
               <Gift className="h-16 w-16 mx-auto text-gray-300 mb-4" />
               <p className="text-gray-500 text-lg mb-2">暂无推荐内容</p>
               <p className="text-gray-400 text-sm">
-                请配置 NEXT_PUBLIC_RECOMMENDATIONS_JSON 环境变量以显示推荐内容
+                请在 `lib/daily-recommendations.ts` 中维护每日精选内容
               </p>
             </div>
           ) : (
