@@ -129,6 +129,7 @@ export default function RoadmapDetailPage() {
       web3: "Web3 探索",
       index_investing: "指数投资",
       overseas_earning: "出海赚钱",
+      ai_zone: "AI 学习专区",
     };
     return labels[category] || category;
   };
@@ -140,6 +141,7 @@ export default function RoadmapDetailPage() {
       web3: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
       index_investing: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
       overseas_earning: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+      ai_zone: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400",
     };
     return colors[category] || "bg-slate-100 text-slate-700";
   };

@@ -7,7 +7,7 @@ export interface RoadmapStep {
   prerequisites?: string[]; // IDs of steps that must be completed first
 }
 
-export type RoadmapCategory = "investment" | "us_stocks" | "web3" | "index_investing" | "overseas_earning";
+export type RoadmapCategory = "investment" | "us_stocks" | "web3" | "index_investing" | "overseas_earning" | "ai_zone";
 
 export interface Roadmap {
   id: string;
@@ -422,6 +422,24 @@ export const roadmaps: Roadmap[] = [
         articleLink: "https://youtu.be/h50rjDBiTIg?si=tdBYNM9UPcQocY_P",
         estimatedTime: "25分钟",
         prerequisites: ["step-2"],
+      },
+    ],
+  },
+  {
+    id: "openclaw-from-zero",
+    title: "从零到一学OpenClaw",
+    description: "从专业的视角来从零到一学OpenClaw并且落地可执行。",
+    category: "ai_zone",
+    icon: "🤖",
+    color: "purple",
+    estimatedTotalTime: "待定",
+    steps: [
+      {
+        id: "step-1",
+        title: "OpenClaw 入门",
+        description: "了解 OpenClaw 的核心概念与基础用法",
+        articleLink: null,
+        estimatedTime: "待定",
       },
     ],
   },

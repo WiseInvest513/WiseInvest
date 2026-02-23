@@ -31,6 +31,10 @@ const categoryConfig: Record<
     label: "出海赚钱",
     icon: "💸",
   },
+  ai_zone: {
+    label: "AI 学习专区",
+    icon: "🤖",
+  },
 };
 
 // Group roadmaps by category (similar to resources/perks/tools structure)
@@ -71,6 +75,12 @@ const roadmapCategories: RoadmapCategoryGroup[] = [
     label: "出海赚钱",
     emoji: "💸",
     items: roadmaps.filter((r) => r.category === "overseas_earning"),
+  },
+  {
+    id: "ai_zone",
+    label: "AI 学习专区",
+    emoji: "🤖",
+    items: roadmaps.filter((r) => r.category === "ai_zone"),
   },
 ];
 
