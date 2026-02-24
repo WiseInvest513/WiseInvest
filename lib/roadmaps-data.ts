@@ -436,9 +436,9 @@ export const roadmaps: Roadmap[] = [
     steps: [
       {
         id: "step-1",
-        title: "OpenClaw 入门",
+        title: "OpenClaw 小白安装与启动",
         description: "了解 OpenClaw 的核心概念与基础用法",
-        articleLink: null,
+        articleLink: "https://x.com/WiseInvest513/status/2026207039421337819",
         estimatedTime: "待定",
       },
     ],
