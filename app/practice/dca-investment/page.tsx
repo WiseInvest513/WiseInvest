@@ -19,6 +19,18 @@ import { getSafeExternalUrl } from "@/lib/security/external-links";
 // 定投文章数据（按时间倒序排列，最新的在最上面）
 const dcaArticles = [
   {
+    id: 31,
+    title: "BTC/ETH 周定投 10 年致富实盘之第31周🎉🎉",
+    date: "2026-03-01",
+    tweetLink: "https://x.com/WiseInvest513/status/2028362556944031976",
+  },
+  {
+    id: 30,
+    title: "BTC/ETH 周定投 10 年致富实盘之第30周🎉🎉",
+    date: "2026-02-22",
+    tweetLink: "https://x.com/WiseInvest513/status/2026297970145333610",
+  },
+  {
     id: 29,
     title: "BTC/ETH 周定投 10 年致富实盘之第29周🎉🎉",
     date: "2026-02-15",
@@ -514,6 +526,28 @@ const dcaData = [
     ethHigh: 2130,
     ethLow: 1907,
     ethYield: -39.64,
+  },
+  {
+    date: "2026/2/22",
+    btcPrice: 64725,
+    btcHigh: 68604,
+    btcLow: 62956,
+    btcYield: -32.76,
+    ethPrice: 1856,
+    ethHigh: 2019,
+    ethLow: 1817,
+    ethYield: -43.42,
+  },
+  {
+    date: "2026/3/1",
+    btcPrice: 67292,
+    btcHigh: 67274,
+    btcLow: 65141,
+    btcYield: -29.12,
+    ethPrice: 2011,
+    ethHigh: 2100,
+    ethLow: 1815,
+    ethYield: -37.45,
   },
 ];
 
