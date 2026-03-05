@@ -18,6 +18,7 @@ export const toolRouteMap: Record<string, string> = {
   "stock-ranker": "god-mode/stock-ranker",
   "index-yields": "god-mode/index-yields",
   "crypto-yields": "god-mode/crypto-yields",
+  "asset-growth": "asset-growth",
   "price-tester": "price-tester",
   "average-down": "average-down",
   "contract-calculator": "contract-calculator",

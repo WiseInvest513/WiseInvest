@@ -1726,6 +1726,15 @@ export const tools: Tool[] = [
     status: "Available",
   },
   {
+    id: "asset-growth",
+    name: "100 美元按资产类别划分的增长情况",
+    description: "100 美元自 1965 年起按资产类别划分的增长情况",
+    icon: "TrendingUp",
+    category: "Market Data",
+    type: "static",
+    status: "Available",
+  },
+  {
     id: "hourly-wage-revealer",
     name: "打工人时薪真相",
     description: "将月薪转换为时薪，揭示时间的真实价值（5个场景对比）",
