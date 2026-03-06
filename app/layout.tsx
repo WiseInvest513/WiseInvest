@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
 import { SingleFireworkOverlay } from "@/components/effects/Fireworks";
 import { siteConfig } from "@/lib/config";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -75,6 +76,7 @@ export default function RootLayout({
           <Footer />
           <DailyRecommendation />
           <Toaster position="bottom-right" richColors />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
