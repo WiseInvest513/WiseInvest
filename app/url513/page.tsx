@@ -23,8 +23,12 @@ export default function ShortUrlAdminPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [history, setHistory] = useState<ShortLinkRecord[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
+  // 使用当前访问的 origin，部署到生产后自动是 https://www.wise-invest.org
+  const [baseUrl, setBaseUrl] = useState(siteConfig.baseUrl.replace(/\/$/, ""));
 
-  const baseUrl = siteConfig.baseUrl.replace(/\/$/, "");
+  useEffect(() => {
+    if (typeof window !== "undefined") setBaseUrl(window.location.origin.replace(/\/$/, ""));
+  }, []);
 
   const fetchHistory = useCallback(async (showLoading = true) => {
     if (showLoading) setHistoryLoading(true);
@@ -81,6 +85,7 @@ export default function ShortUrlAdminPage() {
         return;
       }
 
+      // 接口已按请求 origin 返回 shortUrl，优先用接口返回值
       const shortUrlResult = data.shortUrl ?? (data.shortId ? `${baseUrl}/s/${data.shortId}` : null);
       if (shortUrlResult) {
         setShortUrl(shortUrlResult);

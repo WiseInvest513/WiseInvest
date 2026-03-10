@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createShortLink, isRedisConfigured } from "@/lib/short-url";
 import { getCreateShortLimit, getClientIp } from "@/lib/ratelimit";
-import { siteConfig } from "@/lib/config";
 
 /**
  * POST /api/short/create
@@ -52,7 +51,8 @@ export async function POST(request: NextRequest) {
     }
 
     const shortId = await createShortLink(url);
-    const baseUrl = siteConfig.baseUrl.replace(/\/$/, "");
+    // 使用当前请求的 origin，部署到任意域名都会生成对应域名的短链
+    const baseUrl = new URL(request.url).origin.replace(/\/$/, "");
     const shortUrl = `${baseUrl}/s/${shortId}`;
 
     return NextResponse.json({
