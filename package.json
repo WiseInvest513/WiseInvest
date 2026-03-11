@@ -23,6 +23,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-tabs": "^1.0.5",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/d3": "^7.4.3",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.36.4",

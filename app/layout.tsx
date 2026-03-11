@@ -6,7 +6,8 @@ import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
-import { SingleFireworkOverlay } from "@/components/effects/Fireworks";
+// 春节烟花效果，下次春节再启用
+// import { SingleFireworkOverlay } from "@/components/effects/Fireworks";
 import { siteConfig } from "@/lib/config";
 
 const inter = Inter({
@@ -69,7 +70,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <SingleFireworkOverlay />
+          {/* 春节烟花：下次春节取消注释 */}
+          {/* <SingleFireworkOverlay /> */}
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
