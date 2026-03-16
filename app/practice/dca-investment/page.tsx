@@ -561,7 +561,7 @@ const dcaData = [
     ethYield: -35.35,
   },
   {
-    date: "2026/3/10",
+    date: "2026/3/16",
     btcPrice: 71559,
     btcHigh: 73410,
     btcLow: 65793,
