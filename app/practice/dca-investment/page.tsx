@@ -549,6 +549,28 @@ const dcaData = [
     ethLow: 1815,
     ethYield: -37.45,
   },
+  {
+    date: "2026/3/10",
+    btcPrice: 70331,
+    btcHigh: 71110,
+    btcLow: 65973,
+    btcYield: -25.11,
+    ethPrice: 2042,
+    ethHigh: 2178,
+    ethLow: 1930,
+    ethYield: -35.35,
+  },
+  {
+    date: "2026/3/10",
+    btcPrice: 71559,
+    btcHigh: 73410,
+    btcLow: 65793,
+    btcYield: -23.08,
+    ethPrice: 2097,
+    ethHigh: 2100,
+    ethLow: 1815,
+    ethYield: -32.59,
+  },
 ];
 
 type TabType = "articles" | "data" | "chart";
