@@ -59,6 +59,15 @@ const otherResources: OtherResourceItem[] = [
     iconUrl: "https://xesim.cc/",
     tutorialLink: "https://x.com/WiseInvest513/status/2022688883348246699",
   },
+  {
+    id: "account-planet",
+    title: "账号星球",
+    highlight: "海外账号注册与激活的一站式解决方案",
+    description:
+      "专注解决出海必备账号注册难题，覆盖主流平台账号注册与激活流程，适合需要快速搭建海外身份基础设施的用户。",
+    link: "https://wiseinvest.acceboy.com/",
+    iconUrl: "https://wiseinvest.acceboy.com/",
+  },
 ];
 
 const perkCategories: PerkCategory[] = [
