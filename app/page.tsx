@@ -39,24 +39,152 @@ function HeroSection() {
       }}
     >
       {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
-      
-      {/* Mesh gradient overlay */}
-      <div className="absolute inset-0 opacity-30 dark:opacity-15" style={{
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50/80 via-white to-slate-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+
+      {/* Mesh gradient overlay - 极淡灰蓝，不抢戏 */}
+      <div className="absolute inset-0 opacity-20 dark:opacity-10" style={{
         background: `
-          radial-gradient(at 20% 30%, rgba(251, 191, 36, 0.25) 0px, transparent 50%),
-          radial-gradient(at 80% 70%, rgba(234, 179, 8, 0.2) 0px, transparent 50%),
-          radial-gradient(at 50% 50%, rgba(251, 191, 36, 0.12) 0px, transparent 50%)
+          radial-gradient(at 20% 30%, rgba(100, 116, 139, 0.15) 0px, transparent 50%),
+          radial-gradient(at 80% 70%, rgba(71, 85, 105, 0.1) 0px, transparent 50%),
+          radial-gradient(at 50% 50%, rgba(217, 119, 6, 0.06) 0px, transparent 50%)
         `
       }} />
 
-      {/* Hero 底部流水海岸特效 */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[9] h-[46%] overflow-hidden">
-        <div className="hero-coast-wave hero-coast-wave-back hero-wave-a" />
-        <div className="hero-coast-wave hero-coast-wave-mid hero-wave-b" />
-        <div className="hero-coast-wave hero-coast-wave-front hero-wave-c" />
-        <div className="hero-coast-foam hero-wave-d" />
-        <div className="hero-coast-glow" />
+      {/* 真实 SVG 海浪 */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[9] overflow-hidden" style={{ height: '52%' }}>
+
+        {/* Layer 1 — 深层背景涌浪：最慢、最透明、长波长 */}
+        <div className="hero-wave-layer" style={{ animation: 'waveScroll 28s linear infinite', height: '100%' }}>
+          <svg viewBox="0 0 2880 400" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+            <defs>
+              <linearGradient id="wg1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="rgba(71,85,105,0)" />
+                <stop offset="100%" stopColor="rgba(71,85,105,0.16)" />
+              </linearGradient>
+            </defs>
+            {/* 周期 1440，两个周期无缝循环 */}
+            <path d="
+              M 0 220
+              C 120 220 240 140 360 140
+              C 480 140 600 220 720 220
+              C 840 220 960 300 1080 300
+              C 1200 300 1320 220 1440 220
+              C 1560 220 1680 140 1800 140
+              C 1920 140 2040 220 2160 220
+              C 2280 220 2400 300 2520 300
+              C 2640 300 2760 220 2880 220
+              L 2880 400 L 0 400 Z
+            " fill="url(#wg1)" />
+          </svg>
+        </div>
+
+        {/* Layer 2 — 中层波：反向、中速 */}
+        <div className="hero-wave-layer" style={{ animation: 'waveScroll 17s linear infinite reverse', height: '84%' }}>
+          <svg viewBox="0 0 2880 340" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+            <defs>
+              <linearGradient id="wg2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="rgba(100,116,139,0)" />
+                <stop offset="100%" stopColor="rgba(100,116,139,0.22)" />
+              </linearGradient>
+            </defs>
+            {/* 周期 720，四个周期无缝循环 */}
+            <path d="
+              M 0 190
+              C 60 190 120 130 180 130
+              C 240 130 300 190 360 190
+              C 420 190 480 250 540 250
+              C 600 250 660 190 720 190
+              C 780 190 840 130 900 130
+              C 960 130 1020 190 1080 190
+              C 1140 190 1200 250 1260 250
+              C 1320 250 1380 190 1440 190
+              C 1500 190 1560 130 1620 130
+              C 1680 130 1740 190 1800 190
+              C 1860 190 1920 250 1980 250
+              C 2040 250 2100 190 2160 190
+              C 2220 190 2280 130 2340 130
+              C 2400 130 2460 190 2520 190
+              C 2580 190 2640 250 2700 250
+              C 2760 250 2820 190 2880 190
+              L 2880 340 L 0 340 Z
+            " fill="url(#wg2)" />
+          </svg>
+        </div>
+
+        {/* Layer 3 — 前景波：最快、Stokes 不对称、有泡沫 */}
+        <div className="hero-wave-layer" style={{ animation: 'waveScroll 11s linear infinite', height: '68%' }}>
+          <svg viewBox="0 0 2880 270" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+            <defs>
+              <linearGradient id="wg3" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="rgba(148,163,184,0)" />
+                <stop offset="28%" stopColor="rgba(148,163,184,0.08)" />
+                <stop offset="100%" stopColor="rgba(203,213,225,0.30)" />
+              </linearGradient>
+            </defs>
+            {/*
+              Stokes 不对称波：浪峰陡，浪谷缓
+              周期 480，六个周期，在 x=0 和 x=1440 处 y=140 保证无缝
+              上升控制点偏右（缓冲上升），下降控制点偏左（快速落下）
+            */}
+            <path d="
+              M 0 140
+              C 50 140 95 92 120 92
+              C 145 92 190 140 240 140
+              C 290 140 335 188 360 188
+              C 385 188 430 140 480 140
+              C 530 140 575 92 600 92
+              C 625 92 670 140 720 140
+              C 770 140 815 188 840 188
+              C 865 188 910 140 960 140
+              C 1010 140 1055 92 1080 92
+              C 1105 92 1150 140 1200 140
+              C 1250 140 1295 188 1320 188
+              C 1345 188 1390 140 1440 140
+              C 1490 140 1535 92 1560 92
+              C 1585 92 1630 140 1680 140
+              C 1730 140 1775 188 1800 188
+              C 1825 188 1870 140 1920 140
+              C 1970 140 2015 92 2040 92
+              C 2065 92 2110 140 2160 140
+              C 2210 140 2255 188 2280 188
+              C 2305 188 2350 140 2400 140
+              C 2450 140 2495 92 2520 92
+              C 2545 92 2590 140 2640 140
+              C 2690 140 2735 188 2760 188
+              C 2785 188 2830 140 2880 140
+              L 2880 270 L 0 270 Z
+            " fill="url(#wg3)" />
+
+            {/* 浪尖泡沫线 */}
+            <path d="
+              M 0 140
+              C 50 140 95 92 120 92
+              C 145 92 190 140 240 140
+              C 290 140 335 188 360 188
+              C 385 188 430 140 480 140
+              C 530 140 575 92 600 92
+              C 625 92 670 140 720 140
+              C 770 140 815 188 840 188
+              C 865 188 910 140 960 140
+              C 1010 140 1055 92 1080 92
+              C 1105 92 1150 140 1200 140
+              C 1250 140 1295 188 1320 188
+              C 1345 188 1390 140 1440 140
+              C 1490 140 1535 92 1560 92
+              C 1585 92 1630 140 1680 140
+              C 1730 140 1775 188 1800 188
+              C 1825 188 1870 140 1920 140
+              C 1970 140 2015 92 2040 92
+              C 2065 92 2110 140 2160 140
+              C 2210 140 2255 188 2280 188
+              C 2305 188 2350 140 2400 140
+              C 2450 140 2495 92 2520 92
+              C 2545 92 2590 140 2640 140
+              C 2690 140 2735 188 2760 188
+              C 2785 188 2830 140 2880 140
+            " fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </div>
       </div>
       
       {/* Enhanced Parallax Background */}
@@ -118,25 +246,25 @@ function HeroSection() {
               </p>
               <div className="relative z-10 mt-5 space-y-2">
                 <div className="grid grid-cols-4 gap-2 text-center">
-                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-slate-200/80 bg-slate-50/80 px-2 py-2 dark:border-slate-700/50 dark:bg-slate-800/40">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">周更</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">实盘追踪</div>
                   </div>
-                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-slate-200/80 bg-slate-50/80 px-2 py-2 dark:border-slate-700/50 dark:bg-slate-800/40">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">长期</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">复利体系</div>
                   </div>
-                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-slate-200/80 bg-slate-50/80 px-2 py-2 dark:border-slate-700/50 dark:bg-slate-800/40">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">工具</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">实用工具</div>
                   </div>
-                  <div className="rounded-lg border border-amber-100/70 bg-amber-50/80 px-2 py-2 dark:border-amber-800/40 dark:bg-amber-900/20">
+                  <div className="rounded-lg border border-slate-200/80 bg-slate-50/80 px-2 py-2 dark:border-slate-700/50 dark:bg-slate-800/40">
                     <div className="text-sm font-semibold text-slate-800 dark:text-slate-100">思想</div>
                     <div className="text-[11px] text-slate-500 dark:text-slate-400">优质文集</div>
                   </div>
                 </div>
                 <div className="rounded-lg border border-slate-200/80 bg-white/70 px-3 py-2.5 dark:border-slate-700/70 dark:bg-slate-800/45">
-                  <div className="mb-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-amber-700/90 dark:text-amber-300/90">
+                  <div className="mb-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
                     本周聚焦
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -173,249 +301,17 @@ function HeroSection() {
       </div>
     </section>
     <style jsx>{`
-      @keyframes coastMorphA {
-        0% {
-          transform: translateX(-7%) translateY(10px) scaleX(1.03);
-          clip-path: polygon(0% 42%, 8% 36%, 19% 44%, 30% 37%, 42% 47%, 53% 39%, 64% 49%, 76% 41%, 88% 48%, 100% 44%, 100% 100%, 0% 100%);
-        }
-        19% {
-          transform: translateX(2%) translateY(2px) scaleX(1);
-          clip-path: polygon(0% 45%, 10% 39%, 22% 47%, 33% 41%, 46% 49%, 58% 42%, 70% 50%, 82% 43%, 92% 49%, 100% 46%, 100% 100%, 0% 100%);
-        }
-        37% {
-          transform: translateX(6%) translateY(-2px) scaleX(0.99);
-          clip-path: polygon(0% 47%, 9% 43%, 20% 50%, 31% 44%, 43% 53%, 55% 45%, 67% 54%, 79% 47%, 90% 55%, 100% 50%, 100% 100%, 0% 100%);
-        }
-        63% {
-          transform: translateX(-1%) translateY(5px) scaleX(1.01);
-          clip-path: polygon(0% 44%, 7% 38%, 18% 46%, 29% 39%, 41% 48%, 54% 40%, 66% 49%, 78% 41%, 90% 47%, 100% 43%, 100% 100%, 0% 100%);
-        }
-        100% {
-          transform: translateX(5%) translateY(8px) scaleX(1.02);
-          clip-path: polygon(0% 43%, 11% 37%, 23% 45%, 34% 38%, 45% 46%, 56% 39%, 69% 48%, 81% 40%, 92% 46%, 100% 42%, 100% 100%, 0% 100%);
-        }
+      @keyframes waveScroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
       }
 
-      @keyframes coastMorphB {
-        0% {
-          transform: translateX(5%) translateY(12px) scaleX(1.02);
-          clip-path: polygon(0% 52%, 9% 46%, 20% 56%, 31% 49%, 43% 59%, 55% 51%, 66% 60%, 77% 53%, 89% 61%, 100% 56%, 100% 100%, 0% 100%);
-        }
-        23% {
-          transform: translateX(-2%) translateY(4px) scaleX(0.99);
-          clip-path: polygon(0% 55%, 8% 50%, 19% 58%, 30% 52%, 42% 61%, 54% 54%, 65% 62%, 77% 55%, 88% 63%, 100% 58%, 100% 100%, 0% 100%);
-        }
-        49% {
-          transform: translateX(-6%) translateY(-1px) scaleX(1.01);
-          clip-path: polygon(0% 57%, 10% 52%, 21% 60%, 33% 54%, 44% 63%, 56% 56%, 67% 64%, 79% 57%, 91% 65%, 100% 60%, 100% 100%, 0% 100%);
-        }
-        71% {
-          transform: translateX(1%) translateY(6px) scaleX(1.03);
-          clip-path: polygon(0% 54%, 9% 48%, 20% 57%, 31% 50%, 43% 60%, 55% 52%, 67% 61%, 78% 54%, 90% 62%, 100% 57%, 100% 100%, 0% 100%);
-        }
-        100% {
-          transform: translateX(6%) translateY(10px) scaleX(1.01);
-          clip-path: polygon(0% 53%, 8% 47%, 18% 55%, 30% 49%, 42% 58%, 54% 51%, 66% 59%, 78% 52%, 89% 60%, 100% 55%, 100% 100%, 0% 100%);
-        }
-      }
-
-      @keyframes coastMorphC {
-        0% {
-          transform: translateX(-4%) translateY(14px);
-          clip-path: polygon(0% 62%, 10% 57%, 22% 65%, 34% 58%, 47% 67%, 60% 59%, 72% 68%, 84% 61%, 93% 68%, 100% 64%, 100% 100%, 0% 100%);
-        }
-        31% {
-          transform: translateX(1%) translateY(8px);
-          clip-path: polygon(0% 64%, 11% 59%, 23% 67%, 35% 60%, 48% 69%, 61% 61%, 73% 70%, 85% 63%, 94% 70%, 100% 66%, 100% 100%, 0% 100%);
-        }
-        58% {
-          transform: translateX(4%) translateY(3px);
-          clip-path: polygon(0% 66%, 9% 61%, 21% 69%, 33% 62%, 46% 71%, 58% 63%, 71% 72%, 83% 64%, 93% 72%, 100% 68%, 100% 100%, 0% 100%);
-        }
-        100% {
-          transform: translateX(-2%) translateY(11px);
-          clip-path: polygon(0% 63%, 10% 58%, 22% 66%, 34% 59%, 47% 68%, 60% 60%, 72% 69%, 84% 62%, 94% 69%, 100% 65%, 100% 100%, 0% 100%);
-        }
-      }
-
-      @keyframes coastFoamShift {
-        0% {
-          transform: translateX(-12%) translateY(0px);
-          opacity: 0.48;
-        }
-        30% {
-          transform: translateX(-3%) translateY(-3px);
-          opacity: 0.62;
-        }
-        62% {
-          transform: translateX(6%) translateY(2px);
-          opacity: 0.4;
-        }
-        100% {
-          transform: translateX(12%) translateY(0px);
-          opacity: 0.56;
-        }
-      }
-
-      @keyframes coastGlowFlow {
-        0% {
-          background-position: -45% 0%;
-        }
-        100% {
-          background-position: 145% 0%;
-        }
-      }
-
-      .hero-coast-wave,
-      .hero-coast-foam {
+      .hero-wave-layer {
         position: absolute;
-        left: -12%;
-        width: 124%;
-        border-radius: 9999px;
+        bottom: 0;
+        left: 0;
+        width: 200%;
         pointer-events: none;
-      }
-
-      .hero-coast-wave-back {
-        bottom: -22%;
-        height: 96%;
-        background: linear-gradient(
-          to top,
-          rgba(217, 119, 6, 0.28) 0%,
-          rgba(245, 158, 11, 0.2) 34%,
-          rgba(255, 255, 255, 0) 78%
-        );
-        filter: blur(1.4px);
-        opacity: 0.92;
-      }
-
-      .hero-coast-wave-mid {
-        bottom: -28%;
-        height: 92%;
-        background: linear-gradient(
-          to top,
-          rgba(251, 191, 36, 0.32) 0%,
-          rgba(245, 158, 11, 0.22) 30%,
-          rgba(255, 255, 255, 0) 74%
-        );
-        filter: blur(1px);
-        opacity: 0.86;
-      }
-
-      .hero-coast-wave-front {
-        bottom: -34%;
-        height: 92%;
-        background: linear-gradient(
-          to top,
-          rgba(253, 224, 71, 0.4) 0%,
-          rgba(250, 204, 21, 0.24) 26%,
-          rgba(255, 251, 235, 0.12) 46%,
-          rgba(255, 255, 255, 0) 76%
-        );
-        filter: blur(0.6px);
-        opacity: 0.9;
-      }
-
-      .hero-coast-foam {
-        bottom: -36%;
-        height: 90%;
-        background: linear-gradient(
-          to top,
-          rgba(255, 251, 235, 0.46) 0%,
-          rgba(254, 243, 199, 0.28) 14%,
-          rgba(254, 243, 199, 0.12) 24%,
-          rgba(255, 255, 255, 0) 58%
-        );
-        clip-path: polygon(0% 71%, 8% 66%, 18% 73%, 29% 67%, 40% 74%, 52% 68%, 63% 75%, 75% 69%, 86% 76%, 100% 72%, 100% 100%, 0% 100%);
-        filter: blur(0.8px);
-        opacity: 0.58;
-      }
-
-      .hero-coast-glow {
-        position: absolute;
-        inset: auto -15% 0;
-        height: 62%;
-        background: linear-gradient(
-          108deg,
-          rgba(251, 191, 36, 0) 0%,
-          rgba(251, 191, 36, 0.14) 38%,
-          rgba(255, 251, 235, 0.38) 50%,
-          rgba(251, 191, 36, 0.14) 62%,
-          rgba(251, 191, 36, 0) 100%
-        );
-        background-size: 210% 100%;
-        filter: blur(10px);
-        opacity: 0.64;
-        animation: coastGlowFlow 18s linear infinite;
-      }
-
-      .hero-wave-a {
-        animation: coastMorphA 23s ease-in-out infinite;
-      }
-
-      .hero-wave-b {
-        animation: coastMorphB 17s ease-in-out infinite reverse;
-      }
-
-      .hero-wave-c {
-        animation: coastMorphC 13s ease-in-out infinite;
-      }
-
-      .hero-wave-d {
-        animation: coastFoamShift 11s ease-in-out infinite alternate;
-      }
-
-      :global(.dark) .hero-coast-wave-back {
-        background: linear-gradient(
-          to top,
-          rgba(29, 78, 216, 0.28) 0%,
-          rgba(37, 99, 235, 0.18) 34%,
-          rgba(15, 23, 42, 0) 78%
-        );
-        opacity: 0.8;
-      }
-
-      :global(.dark) .hero-coast-wave-mid {
-        background: linear-gradient(
-          to top,
-          rgba(14, 116, 144, 0.32) 0%,
-          rgba(56, 189, 248, 0.2) 34%,
-          rgba(15, 23, 42, 0) 76%
-        );
-        opacity: 0.76;
-      }
-
-      :global(.dark) .hero-coast-wave-front {
-        background: linear-gradient(
-          to top,
-          rgba(125, 211, 252, 0.34) 0%,
-          rgba(56, 189, 248, 0.22) 28%,
-          rgba(191, 219, 254, 0.08) 44%,
-          rgba(15, 23, 42, 0) 78%
-        );
-        opacity: 0.72;
-      }
-
-      :global(.dark) .hero-coast-foam {
-        background: linear-gradient(
-          to top,
-          rgba(219, 234, 254, 0.28) 0%,
-          rgba(186, 230, 253, 0.2) 16%,
-          rgba(186, 230, 253, 0.05) 30%,
-          rgba(15, 23, 42, 0) 62%
-        );
-        opacity: 0.44;
-      }
-
-      :global(.dark) .hero-coast-glow {
-        background: linear-gradient(
-          108deg,
-          rgba(56, 189, 248, 0) 0%,
-          rgba(56, 189, 248, 0.12) 38%,
-          rgba(191, 219, 254, 0.32) 50%,
-          rgba(56, 189, 248, 0.12) 62%,
-          rgba(56, 189, 248, 0) 100%
-        );
-        opacity: 0.48;
       }
     `}</style>
     </>
@@ -487,7 +383,7 @@ function WeeklyActionSection() {
                   <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3 min-h-[44px]">
                     {item.summary}
                   </p>
-                  <div className="inline-flex items-center gap-1 text-sm font-medium text-amber-700 dark:text-amber-400 group-hover:gap-2 transition-all">
+                  <div className="inline-flex items-center gap-1 text-sm font-medium text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white group-hover:gap-2 transition-all">
                     {item.ctaLabel}
                     <ArrowUpRight className="h-4 w-4" />
                   </div>
@@ -574,7 +470,7 @@ function FeaturesSection() {
           <TitleAnimation className="font-serif text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white tracking-tight">
             <span className="relative inline-block">
               平台功能
-              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+              <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-slate-400 to-transparent opacity-30" />
             </span>
           </TitleAnimation>
           <p className="text-base md:text-lg text-slate-600 dark:text-slate-400 text-center max-w-2xl mx-auto font-light tracking-wide">
@@ -603,7 +499,7 @@ function FeaturesSection() {
                     <div className={`h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl rounded-2xl p-5 md:p-6 relative overflow-hidden
                       transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-2xl
                       ${isPrimary ? 'md:p-8' : ''}
-                      ${hasBg ? 'bg-gradient-to-br from-amber-50/60 via-yellow-50/40 to-transparent dark:from-amber-950/30 dark:via-yellow-950/20' : ''}`}
+                      ${hasBg ? 'bg-gradient-to-br from-slate-50/60 to-transparent dark:from-slate-800/20' : ''}`}
                       style={{
                         boxShadow: `
                           0 1px 3px rgba(0, 0, 0, 0.05),
@@ -650,38 +546,33 @@ function FeaturesSection() {
                         }} />
                       
                       {/* Inner Glow Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/0 via-yellow-500/0 to-amber-500/0 group-hover:from-amber-500/8 group-hover:via-yellow-500/5 group-hover:to-amber-500/8 rounded-2xl transition-all duration-700 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-slate-500/0 to-slate-500/0 group-hover:from-slate-100/40 group-hover:to-slate-50/20 dark:group-hover:from-slate-700/20 dark:group-hover:to-slate-800/10 rounded-2xl transition-all duration-500 pointer-events-none" />
 
                       {/* AboutMe 同款：背景水印图标（悬浮放大、旋转、灰度转彩色） */}
                       <div className="absolute -bottom-12 -right-12 w-44 h-44 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.14] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0">
-                        <Icon className="w-full h-full text-slate-300 dark:text-slate-700 group-hover:text-amber-300 dark:group-hover:text-amber-500 transition-colors duration-500" />
+                        <Icon className="w-full h-full text-slate-200 dark:text-slate-800 group-hover:text-slate-300 dark:group-hover:text-slate-600 transition-colors duration-500" />
                       </div>
                       
                       <div className={`relative z-10 flex flex-col ${isPrimary ? 'justify-between h-full' : 'items-center text-center gap-3'}`}>
                         {/* Icon with Enhanced Glow */}
                         <div className={`relative transition-transform duration-500 group-hover:-translate-y-1 ${isPrimary ? 'mb-5' : 'mb-0'}`}>
-                          {/* Multi-layer Glow */}
-                          <div className="absolute inset-0 bg-gradient-to-br from-amber-400/50 via-yellow-500/40 to-amber-400/50 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
-                          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/30 via-yellow-600/25 to-amber-500/30 rounded-xl blur-2xl group-hover:blur-3xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
-                          
+                          {/* Subtle hover glow - 灰色，不抢主色 */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-slate-400/20 via-slate-300/15 to-slate-400/20 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-700 opacity-0 group-hover:opacity-100" />
+
                           {/* Icon container with Motion */}
                           <IconContainer className={`relative transition-transform duration-500 group-hover:rotate-1 ${isPrimary ? 'mb-5' : 'mb-0'} ${isPrimary ? 'w-fit' : 'mx-auto'}`}>
-                            <div className={`relative ${isPrimary ? 'p-4' : 'p-3'} rounded-xl bg-gradient-to-br from-amber-100/60 via-yellow-50/40 to-amber-100/60 dark:from-amber-900/40 dark:via-yellow-900/30 dark:to-amber-900/40 border border-amber-200/40 dark:border-amber-800/40`}
+                            <div className={`relative ${isPrimary ? 'p-4' : 'p-3'} rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60`}
                               style={{
-                                boxShadow: '0 4px 12px rgba(251, 191, 36, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+                                boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.5)',
                               }}
                             >
-                              <Icon className={`${isPrimary ? 'h-8 w-8' : 'h-6 w-6'} text-amber-700 dark:text-amber-400 relative z-10`} 
-                                style={{ 
-                                  filter: 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.6))',
-                                }} 
-                              />
+                              <Icon className={`${isPrimary ? 'h-8 w-8' : 'h-6 w-6'} text-slate-600 dark:text-slate-300 relative z-10 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-300`} />
                             </div>
                           </IconContainer>
                         </div>
                         
                         <div className={`space-y-2 transition-transform duration-500 group-hover:-translate-y-0.5 ${isPrimary ? 'text-left' : 'text-center'}`}>
-                          <CardTitle className={`${isPrimary ? 'text-xl md:text-2xl' : 'text-base md:text-lg'} font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 tracking-tight`}>
+                          <CardTitle className={`${isPrimary ? 'text-xl md:text-2xl' : 'text-base md:text-lg'} font-serif font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors duration-300 tracking-tight`}>
                             {feature.name}
                           </CardTitle>
                           <CardDescription className={`${isPrimary ? 'text-sm md:text-base' : 'text-xs md:text-sm'} text-slate-600 dark:text-slate-400 leading-relaxed font-light`}>
@@ -716,7 +607,7 @@ function ResourceCard({ resource, index }: { resource: typeof resources[0]; inde
       className="group relative"
     >
       {/* Enhanced Radial Glow */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      <div className="absolute -inset-1 bg-gradient-to-r from-slate-300/20 via-slate-400/10 to-slate-300/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <div className="relative h-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-2xl border border-white/30 dark:border-slate-800/50 rounded-2xl p-4 md:p-5 overflow-hidden"
         style={{
@@ -749,7 +640,7 @@ function ResourceCard({ resource, index }: { resource: typeof resources[0]; inde
           
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-base md:text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors duration-700 mb-1.5">
+            <CardTitle className="text-base md:text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors duration-300 mb-1.5">
               {resource.name}
             </CardTitle>
             <CardDescription className="text-slate-600 dark:text-slate-400 text-xs md:text-sm font-light">
@@ -773,7 +664,7 @@ function ResourcesSection() {
         <TitleAnimation className="font-serif text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
           <span className="relative inline-block">
             常用导航
-            <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+            <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-slate-400 to-transparent opacity-30" />
           </span>
         </TitleAnimation>
         
@@ -821,8 +712,8 @@ function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; in
       style={{ animationDelay: `${index * 100}ms` }}
     >
       {/* 常用导航同款：悬浮渐变光晕 */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/15 via-yellow-500/10 to-amber-400/15 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      <div className="relative overflow-hidden p-6 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-amber-400/50 dark:hover:border-amber-500/30 about-me-card h-full min-h-[140px] flex flex-col"
+      <div className="absolute -inset-1 bg-gradient-to-r from-slate-300/20 via-slate-400/10 to-slate-300/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="relative overflow-hidden p-6 rounded-3xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600 about-me-card h-full min-h-[140px] flex flex-col"
         style={{
           boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.1)",
         }}
@@ -844,7 +735,7 @@ function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; in
         </div>
         <div className="relative z-10 flex-1 min-w-0">
           <div className="flex justify-between items-start gap-2 mb-2">
-            <CardTitle className="text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+            <CardTitle className="text-lg font-serif font-bold text-slate-900 dark:text-white group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
               {site.name}
             </CardTitle>
             <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors shrink-0" />
@@ -867,7 +758,7 @@ function FriendlySitesSection() {
         <TitleAnimation className="font-serif text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-slate-900 dark:text-white tracking-tight relative inline-block w-full">
           <span className="relative inline-block">
             友站板块
-            <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50" />
+            <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-slate-400 to-transparent opacity-30" />
           </span>
         </TitleAnimation>
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 max-w-6xl mx-auto items-stretch" staggerDelay={0.08}>
