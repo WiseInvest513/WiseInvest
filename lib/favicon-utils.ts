@@ -26,22 +26,3 @@ export function getFaviconUrl(url: string): string {
   }
 }
 
-/**
- * 返回多个备选 favicon URL，供客户端按序 fallback
- * 顺序：Google S2 → DuckDuckGo → 直连 /favicon.ico
- */
-export function getFaviconCandidates(url: string): string[] {
-  try {
-    const urlObj = new URL(url);
-    const hostname = urlObj.hostname.replace(/^www\./, "");
-    const origin = `${urlObj.protocol}//${urlObj.hostname}`;
-    return [
-      `https://www.google.com/s2/favicons?domain=${hostname}&sz=128`,
-      `https://icons.duckduckgo.com/ip3/${hostname}.ico`,
-      `${origin}/favicon.ico`,
-    ];
-  } catch {
-    return [];
-  }
-}
-
