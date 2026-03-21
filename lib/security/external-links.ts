@@ -19,6 +19,7 @@ const ALLOWED_HOST_SUFFIXES = [
   "github.io",
   "gamsgo.com",
   "xesim.cc",
+  "acceboy.com",
   "binance.com",
   "web3.binance.com",
   "okx.com",
