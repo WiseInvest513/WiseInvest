@@ -275,14 +275,16 @@ export default function PerksPage() {
                 {/* Perk Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {category.id === "other-resources"
-                    ? otherResources.map((item) => {
+                    ? otherResources.map((item, idx) => {
                         const iconSourceUrl = item.iconUrl || item.link || "";
                         const iconInfo = IconService.getIconInfo(iconSourceUrl, item.title);
                         const hasWatermarkIcon = Boolean(item.link) && !iconInfo.isDefault;
+                        // 奇数总数时最后一张卡占满整行
+                        const isLastOdd = otherResources.length % 2 !== 0 && idx === otherResources.length - 1;
                         return item.link ? (
                           <div
                             key={item.id}
-                            className="group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden"
+                            className={`group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden${isLastOdd ? " md:col-span-2" : ""}`}
                           >
                             <div className="h-1 w-full bg-red-500" />
                             {hasWatermarkIcon && (
