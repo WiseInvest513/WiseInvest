@@ -9,6 +9,7 @@ import { DailyRecommendation } from "@/components/business/DailyRecommendation";
 // 春节烟花效果，下次春节再启用
 // import { SingleFireworkOverlay } from "@/components/effects/Fireworks";
 import { siteConfig } from "@/lib/config";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({
           <Footer />
           <DailyRecommendation />
           <Toaster position="bottom-right" richColors />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
