@@ -345,7 +345,7 @@ export default function PerksPage() {
                                   </div>
                                 </div>
                               )}
-                              <div className="mt-auto flex items-center gap-2">
+                              <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
                                 <Button
                                   onClick={() => openSafeExternalUrl(item.link!)}
                                   className="flex-1 h-9 bg-yellow-400 dark:bg-yellow-500 text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 font-semibold text-sm"
