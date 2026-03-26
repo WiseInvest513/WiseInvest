@@ -683,22 +683,22 @@ function ResourcesSection() {
 // Section G: Friendly Sites
 const friendlySites = [
   {
-    name: "大宇投资导航",
-    url: "https://btcdayu.gitbook.io/dayu/",
-    description: "链上工具与交易大所导航，每日更新投资备忘录，dayu.xyz",
-    watermarkEmoji: "📚" as const,
+    name: "giffgaff 手机卡购买",
+    url: "https://www.wise-sim.org/",
+    description: "全球eSIM服务，支持多国家/地区流量方案，出境上网更省心。",
+    watermarkEmoji: "📱" as const,
   },
   {
-    name: "比特币四年周期轮动图",
-    url: "https://wolfyxbt.github.io/bitcoin-four-year-cycle-map/",
-    description: "可视化比特币四年周期与价格走势",
-    watermarkEmoji: "📊" as const,
+    name: "见证开户",
+    url: "https://www.wise-witness.com/",
+    description: "足不出户也可以开立全球境外银行账户，快速完成身份认证。",
+    watermarkEmoji: "🌍" as const,
   },
   {
-    name: "柴宝养成计划",
-    url: "https://blog.blacknico.com/",
-    description: "聚焦效率、投资与写作的个人内容站，含教程与导航资源。",
-    watermarkEmoji: "🐕" as const,
+    name: "OpenClaw 入门学习教程",
+    url: "https://www.wise-claw.org/",
+    description: "专业的学习教程和资源库，助力投资者快速上手。",
+    watermarkEmoji: "⚙️" as const,
   },
 ];
 

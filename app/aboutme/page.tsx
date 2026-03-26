@@ -46,7 +46,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 const socials = [
   {
     name: "Twitter / X",
-    count: 32400,
+    count: 34020,
     label: "Followers",
     Icon: Twitter,
     pngPath: "https://cdn.simpleicons.org/x/000000", // 在线图标测试
@@ -70,7 +70,7 @@ const socials = [
   },
   {
     name: "YouTube",
-    count: 1940,
+    count: 2040,
     label: "Subscribers",
     Icon: Youtube,
     pngPath: "https://cdn.simpleicons.org/youtube/FF0000", // 在线图标测试

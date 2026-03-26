@@ -153,22 +153,41 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: About */}
+          {/* Column 4: Recommendations */}
           <div>
-            <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">关于</h3>
+            <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">推荐</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/aboutme"
+                <a
+                  href={getSafeExternalUrl("https://www.wise-sim.org/")}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
-                  关于我
-                </Link>
+                  📱 giffgaff 手机卡
+                </a>
+              </li>
+              <li>
+                <a
+                  href={getSafeExternalUrl("https://www.wise-witness.com/")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  🌍 见证开户
+                </a>
+              </li>
+              <li>
+                <a
+                  href={getSafeExternalUrl("https://www.wise-claw.org/")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  🦾 OpenClaw 教程
+                </a>
               </li>
             </ul>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mt-2">
-              专注于理性投资与 Web3 Alpha 探索的平台。
-            </p>
             {/* Middle Coast Accent（固定在中间分割处，不增加高度） */}
             <div className="footer-coast-overlay pointer-events-none">
               <div className="footer-coast-wave footer-coast-wave-a" />
