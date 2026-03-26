@@ -9,10 +9,9 @@ export interface RecommendationItem {
 }
 
 /**
- * 每日精选本地配置（最多展示前 3 条）
- * 维护位置：直接修改本文件即可，不再依赖 Vercel 环境变量
+ * 默认的每日精选配置
  */
-export const dailyRecommendations: RecommendationItem[] = [
+const defaultRecommendations: RecommendationItem[] = [
   {
     type: "welfare",
     title: "Wise Invest 专属粉丝群",
@@ -35,4 +34,49 @@ export const dailyRecommendations: RecommendationItem[] = [
     tag: "限时羊毛",
   },
 ];
+
+/**
+ * 从环境变量 NEXT_PUBLIC_RECOMMENDATIONS_JSON 读取每日精选配置
+ * 如果环境变量未设置或格式错误，使用默认配置
+ */
+function getRecommendationsFromEnv(): RecommendationItem[] {
+  if (typeof process === "undefined" || !process.env) {
+    return defaultRecommendations;
+  }
+
+  const envData = process.env.NEXT_PUBLIC_RECOMMENDATIONS_JSON;
+  if (!envData) {
+    return defaultRecommendations;
+  }
+
+  try {
+    const parsed = JSON.parse(envData);
+    if (!Array.isArray(parsed)) {
+      console.warn("[DailyRecommendations] ENV variable is not an array, using defaults");
+      return defaultRecommendations;
+    }
+
+    // 验证每个推荐项
+    const validated = parsed.filter(
+      (item): item is RecommendationItem =>
+        item &&
+        typeof item === "object" &&
+        ["welfare", "article", "wool"].includes(item.type) &&
+        typeof item.title === "string" &&
+        typeof item.desc === "string" &&
+        typeof item.link === "string" &&
+        typeof item.tag === "string"
+    );
+
+    return validated.length > 0 ? validated : defaultRecommendations;
+  } catch (error) {
+    console.warn(
+      "[DailyRecommendations] Failed to parse NEXT_PUBLIC_RECOMMENDATIONS_JSON:",
+      error
+    );
+    return defaultRecommendations;
+  }
+}
+
+export const dailyRecommendations: RecommendationItem[] = getRecommendationsFromEnv();
 
