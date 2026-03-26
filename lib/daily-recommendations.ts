@@ -6,6 +6,7 @@ export interface RecommendationItem {
   desc: string;
   link: string;
   tag: string;
+  featured?: boolean; // 是否为推荐项，显示红色 badge
 }
 
 /**
@@ -21,10 +22,11 @@ const defaultRecommendations: RecommendationItem[] = [
   },
   {
     type: "article",
-    title: "2026 年购买美股的多种策略和方式",
-    desc: "从银行 App 到券商，再到链上，分享多种购买美股的方式",
-    link: "https://x.com/WiseInvest513/status/2008529401483546953",
-    tag: "深度好文",
+    title: "2026 giftgaff 英国手机卡购买",
+    desc: "一手渠道获取资源，短时间拥有一个自己的国外手机卡",
+    link: "https://www.youtube.com/watch?v=ZxElS0gVpY4",
+    tag: "SIM卡购买",
+    featured: true,
   },
   {
     type: "wool",

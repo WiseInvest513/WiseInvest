@@ -186,12 +186,12 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                 onClick={() => handleCardClick(item.link)}
                 className={cn(
                   "group relative flex items-center gap-4 p-4 sm:p-5",
-                  "bg-white rounded-xl border border-gray-100",
-                  "cursor-pointer transition-all duration-300",
-                  "hover:scale-[1.02] hover:shadow-lg hover:border-gray-200",
-                  config.hoverBorder,
+                  "bg-white rounded-xl border-2 cursor-pointer transition-all duration-300",
+                  "hover:scale-[1.02] hover:shadow-lg",
                   "active:scale-[0.98]",
-                  "animate-in fade-in-0 slide-in-from-bottom-2"
+                  "animate-in fade-in-0 slide-in-from-bottom-2",
+                  item.featured ? "border-red-300 bg-red-50/30 hover:border-red-400" : "border-gray-100 hover:border-gray-200",
+                  config.hoverBorder
                 )}
                 style={{
                   animationDelay: `${index * 100}ms`,
@@ -219,8 +219,13 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                   </p>
                 </div>
 
-                {/* Right: Tag Pill */}
-                <div className="flex-shrink-0">
+                {/* Right: Tag Pill & Featured Badge */}
+                <div className="flex-shrink-0 flex flex-col gap-2 items-end">
+                  {item.featured && (
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-500 text-white animate-pulse">
+                      ★ 推荐
+                    </span>
+                  )}
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border border-gray-200 text-gray-600 bg-gray-50">
                     {item.tag}
                   </span>
