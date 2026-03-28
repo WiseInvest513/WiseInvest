@@ -5,6 +5,7 @@ export interface RoadmapStep {
   articleLink: string | null; // Link to article or null if no article yet
   estimatedTime?: string; // e.g., "15分钟"
   prerequisites?: string[]; // IDs of steps that must be completed first
+  stage?: number; // Group steps into the same horizontal level (same stage = same column)
 }
 
 export type RoadmapCategory = "investment" | "us_stocks" | "web3" | "index_investing" | "overseas_earning" | "ai_zone";
@@ -298,6 +299,7 @@ export const roadmaps: Roadmap[] = [
         description: "兴业寰宇人生转账免手续费，Ifast 英国数字银行不需要其他证件即可开户",
         articleLink: "https://youtu.be/2LcPWwwMSqw?si=-cRUXSPESTTRlBYOs",
         estimatedTime: "20分钟",
+        stage: 0,
       },
       {
         id: "step-2",
@@ -306,6 +308,7 @@ export const roadmaps: Roadmap[] = [
         articleLink: "https://youtu.be/BB7KtDfbXsU?si=isTGN8mzgMIn8L27",
         estimatedTime: "30分钟",
         prerequisites: ["step-1"],
+        stage: 0,
       },
       {
         id: "step-3",
@@ -314,6 +317,7 @@ export const roadmaps: Roadmap[] = [
         articleLink: "https://x.com/WiseInvest513/status/1970789148605948258",
         estimatedTime: "25分钟",
         prerequisites: ["step-2"],
+        stage: 1,
       },
       {
         id: "step-4",
@@ -322,6 +326,7 @@ export const roadmaps: Roadmap[] = [
         articleLink: "https://youtu.be/o94W7r8M2kY?si=ts_pE_aKBJ18dlYs",
         estimatedTime: "35分钟",
         prerequisites: ["step-3"],
+        stage: 2,
       },
     ],
   },

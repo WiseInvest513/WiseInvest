@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Mind-map flow animations ─────────────────────────────────── */
+@keyframes flowMove {
+  from { stroke-dashoffset: var(--dash-period, 16); }
+  to   { stroke-dashoffset: 0; }
+}
+/* Standard flow edge: medium speed */
+.flow-edge {
+  stroke-dasharray: 10 6;
+  animation: flowMove 2.2s linear infinite;
+  --dash-period: 16;
+}
+/* Bus spine: fast */
+.flow-bus-spine {
+  stroke-dasharray: 8 5;
+  animation: flowMove 1.4s linear infinite;
+  --dash-period: 13;
+}
+/* Bus connectors (bank→spine and spine→broker) */
+.flow-bus-conn {
+  stroke-dasharray: 8 4;
+  animation: flowMove 1.6s linear infinite;
+  --dash-period: 12;
+}
+/* Return / outflow channel: slow dashed */
+.flow-return {
+  stroke-dasharray: 7 5;
+  animation: flowMove 3.4s linear infinite;
+  --dash-period: 12;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
@@ -49,6 +79,58 @@
   /* 关于我 / 友站方框动画（抽离复用） */
   .about-me-card {
     @apply transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-xl;
+  }
+
+  /* Roadmap：呼吸感脉冲（替代 animate-ping） */
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    60% { transform: scale(2); opacity: 0; }
+  }
+  .animate-breathe {
+    animation: breathe 2.8s ease-out infinite;
+  }
+
+  /* Roadmap：卡片交错渐入 */
+  @keyframes cardSlideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .roadmap-card-enter {
+    opacity: 0;
+    animation: cardSlideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* Roadmap：进度条流光 */
+  .progress-shimmer {
+    background: linear-gradient(
+      90deg,
+      #D97706 0%,
+      #FCD34D 40%,
+      #D97706 60%,
+      #B45309 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.2s linear infinite;
+  }
+
+  /* Roadmap：完成打勾弹入 */
+  @keyframes checkPop {
+    0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+    60%  { transform: scale(1.25) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .animate-check-pop {
+    animation: checkPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-breathe,
+    .roadmap-card-enter,
+    .progress-shimmer,
+    .animate-check-pop {
+      animation: none;
+      opacity: 1;
+    }
   }
 }
 

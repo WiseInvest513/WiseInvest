@@ -1,13 +1,136 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Check, Lock, Clock, ExternalLink, ChevronDown, ChevronUp, Trophy, ArrowRight, Sparkles, RotateCcw } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Clock,
+  ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  Trophy,
+  ArrowRight,
+  RotateCcw,
+} from "lucide-react";
 import { roadmaps, type RoadmapStep } from "@/lib/roadmaps-data";
 import { cn } from "@/lib/utils";
 
 type StepStatus = "locked" | "active" | "completed";
+type StageStatus = "locked" | "active" | "completed";
+
+// Compact step card for horizontal timeline
+function StepCard({
+  step,
+  status,
+  isExpanded,
+  onToggle,
+  onComplete,
+}: {
+  step: RoadmapStep;
+  status: StepStatus;
+  isExpanded: boolean;
+  onToggle: (id: string) => void;
+  onComplete: (id: string) => void;
+}) {
+  const isCompleted = status === "completed";
+  const isActive = status === "active";
+  const isLocked = status === "locked";
+
+  return (
+    <div
+      className={cn(
+        "rounded-lg border p-3 transition-all duration-200",
+        isCompleted &&
+          "border-amber-200 bg-amber-50/50 dark:bg-amber-900/10 dark:border-amber-900/40",
+        isActive &&
+          "border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-900 shadow-md cursor-pointer hover:shadow-lg hover:-translate-y-0.5",
+        isLocked &&
+          "border-slate-100 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 opacity-50 cursor-not-allowed",
+        !isLocked &&
+          !isActive &&
+          isCompleted &&
+          "bg-white dark:bg-slate-900 cursor-pointer hover:shadow-md hover:-translate-y-0.5"
+      )}
+      onClick={() => !isLocked && onToggle(step.id)}
+    >
+      {/* Card header */}
+      <div className="flex items-start justify-between gap-1">
+        <div className="flex-1 min-w-0">
+          <h3
+            className={cn(
+              "text-sm font-bold leading-tight mb-1 line-clamp-2",
+              isCompleted && "text-amber-700 dark:text-amber-500",
+              isActive && "text-slate-900 dark:text-slate-50",
+              isLocked && "text-slate-400"
+            )}
+          >
+            {step.title}
+          </h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
+            {step.description}
+          </p>
+        </div>
+        <div className="flex-shrink-0 mt-0.5">
+          {isCompleted ? (
+            <div className="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center">
+              <Check className="w-3 h-3 text-white" />
+            </div>
+          ) : isLocked ? (
+            <div className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700" />
+          ) : isExpanded ? (
+            <ChevronUp className="w-4 h-4 text-slate-400" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-slate-400" />
+          )}
+        </div>
+      </div>
+
+      {/* Time */}
+      {step.estimatedTime && (
+        <div className="flex items-center gap-1 mt-1.5">
+          <Clock className="w-3 h-3 text-slate-400" />
+          <span className="text-xs text-slate-400">{step.estimatedTime}</span>
+        </div>
+      )}
+
+      {/* Expanded content */}
+      {isExpanded && !isLocked && (
+        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+          {step.articleLink && (
+            <Link
+              href={step.articleLink}
+              target={step.articleLink.startsWith("http") ? "_blank" : undefined}
+              className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-500 hover:text-amber-800 font-medium transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              阅读相关文章
+            </Link>
+          )}
+          {!isCompleted && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onComplete(step.id);
+              }}
+              className="w-full px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-md transition-colors"
+            >
+              标记为已完成
+            </button>
+          )}
+          {isCompleted && (
+            <div className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-500 font-medium">
+              <Check className="w-3.5 h-3.5" />
+              <span>已完成</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function RoadmapDetailPage() {
   const params = useParams();
@@ -19,21 +142,18 @@ export default function RoadmapDetailPage() {
   const [showCelebration, setShowCelebration] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
-  // Load progress from localStorage
   useEffect(() => {
     if (typeof window === "undefined") return;
     const saved = localStorage.getItem(`roadmap-progress-${roadmapId}`);
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        setCompletedSteps(new Set(parsed));
+        setCompletedSteps(new Set(JSON.parse(saved)));
       } catch (e) {
         console.error("Failed to load roadmap progress", e);
       }
     }
   }, [roadmapId]);
 
-  // Save progress to localStorage
   useEffect(() => {
     if (typeof window === "undefined" || completedSteps.size === 0) return;
     localStorage.setItem(
@@ -42,15 +162,13 @@ export default function RoadmapDetailPage() {
     );
   }, [completedSteps, roadmapId]);
 
-  // Check if all steps are completed and trigger celebration
-  const isFullyCompleted = roadmap ? completedSteps.size === roadmap.steps.length : false;
-  
+  const isFullyCompleted = roadmap
+    ? completedSteps.size === roadmap.steps.length
+    : false;
+
   useEffect(() => {
     if (isFullyCompleted) {
-      // Small delay to ensure smooth transition
-      const timer = setTimeout(() => {
-        setShowCelebration(true);
-      }, 300);
+      const timer = setTimeout(() => setShowCelebration(true), 300);
       return () => clearTimeout(timer);
     }
   }, [isFullyCompleted]);
@@ -59,7 +177,9 @@ export default function RoadmapDetailPage() {
     return (
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-text-primary mb-2">路线图未找到</h1>
+          <h1 className="text-2xl font-bold text-text-primary mb-2">
+            路线图未找到
+          </h1>
           <Link
             href="/roadmap"
             className="text-yellow-600 dark:text-yellow-500 hover:underline"
@@ -76,23 +196,16 @@ export default function RoadmapDetailPage() {
       return completedSteps.has(step.id) ? "completed" : "active";
     }
 
-    if (step.prerequisites && step.prerequisites.length > 0) {
-      const allPrereqsCompleted = step.prerequisites.every((prereqId) =>
-        completedSteps.has(prereqId)
+    if (step.prerequisites?.length) {
+      const allPrereqsCompleted = step.prerequisites.every((id) =>
+        completedSteps.has(id)
       );
-      if (!allPrereqsCompleted) {
-        return "locked";
-      }
+      if (!allPrereqsCompleted) return "locked";
     }
 
     const previousStep = roadmap.steps[index - 1];
-    if (!completedSteps.has(previousStep.id)) {
-      return "locked";
-    }
-
-    if (completedSteps.has(step.id)) {
-      return "completed";
-    }
+    if (!completedSteps.has(previousStep.id)) return "locked";
+    if (completedSteps.has(step.id)) return "completed";
 
     const allPreviousCompleted = roadmap.steps
       .slice(0, index)
@@ -101,11 +214,7 @@ export default function RoadmapDetailPage() {
   };
 
   const handleMarkComplete = (stepId: string) => {
-    setCompletedSteps((prev) => {
-      const next = new Set(prev);
-      next.add(stepId);
-      return next;
-    });
+    setCompletedSteps((prev) => new Set([...prev, stepId]));
   };
 
   const handleToggleExpand = (stepId: string) => {
@@ -114,9 +223,7 @@ export default function RoadmapDetailPage() {
 
   const handleResetProgress = () => {
     if (typeof window === "undefined") return;
-    // Clear localStorage
     localStorage.removeItem(`roadmap-progress-${roadmapId}`);
-    // Reset state
     setCompletedSteps(new Set());
     setShowCelebration(false);
     setShowResetConfirm(false);
@@ -136,12 +243,17 @@ export default function RoadmapDetailPage() {
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      investment: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-      us_stocks: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+      investment:
+        "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+      us_stocks:
+        "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
       web3: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
-      index_investing: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-      overseas_earning: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-      ai_zone: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400",
+      index_investing:
+        "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+      overseas_earning:
+        "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+      ai_zone:
+        "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400",
     };
     return colors[category] || "bg-slate-100 text-slate-700";
   };
@@ -149,26 +261,43 @@ export default function RoadmapDetailPage() {
   const progressPercentage =
     (completedSteps.size / roadmap.steps.length) * 100;
 
-  // Calculate which steps are completed for the active line
-  const getActiveLineHeight = (stepIndex: number) => {
-    const completedCount = roadmap.steps.slice(0, stepIndex + 1).filter(
-      (_, idx) => completedSteps.has(roadmap.steps[idx].id)
-    ).length;
-    return (completedCount / roadmap.steps.length) * 100;
+  // Group steps into horizontal stages
+  // Steps with the same `stage` number appear in the same column.
+  // Steps without a `stage` field each get their own column (auto-indexed).
+  const stages = useMemo(() => {
+    const stageMap = new Map<number, RoadmapStep[]>();
+    roadmap.steps.forEach((step, index) => {
+      const stageNum = step.stage !== undefined ? step.stage : index + 1000; // offset to avoid collision with explicit stages
+      if (!stageMap.has(stageNum)) stageMap.set(stageNum, []);
+      stageMap.get(stageNum)!.push(step);
+    });
+    return Array.from(stageMap.entries())
+      .sort(([a], [b]) => a - b)
+      .map(([, steps]) => ({ steps }));
+  }, [roadmap.steps]);
+
+  const getStageStatus = (stageSteps: RoadmapStep[]): StageStatus => {
+    const statuses = stageSteps.map((step) => {
+      const idx = roadmap.steps.findIndex((s) => s.id === step.id);
+      return getStepStatus(step, idx);
+    });
+    if (statuses.every((s) => s === "completed")) return "completed";
+    if (statuses.some((s) => s === "active" || s === "completed"))
+      return "active";
+    return "locked";
   };
 
-  // 计算上一篇和下一篇路线图（循环结构）
+  // Navigation
   const currentIndex = roadmaps.findIndex((r) => r.id === roadmapId);
-  const prevIndex = currentIndex > 0 ? currentIndex - 1 : roadmaps.length - 1; // 如果是第一个，则循环到最后一个
-  const nextIndex = currentIndex < roadmaps.length - 1 ? currentIndex + 1 : 0; // 如果是最后一个，则循环到第一个
-  
-  const prevRoadmap = roadmaps[prevIndex];
-  const nextRoadmap = roadmaps[nextIndex];
+  const prevRoadmap =
+    roadmaps[currentIndex > 0 ? currentIndex - 1 : roadmaps.length - 1];
+  const nextRoadmap =
+    roadmaps[currentIndex < roadmaps.length - 1 ? currentIndex + 1 : 0];
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* Back Button */}
+        {/* Back */}
         <Link
           href="/roadmap"
           className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 mb-8 transition-colors"
@@ -187,9 +316,7 @@ export default function RoadmapDetailPage() {
                   {roadmap.title}
                 </h1>
                 <span
-                  className={`text-xs font-medium px-3 py-1 rounded-full ${getCategoryColor(
-                    roadmap.category
-                  )}`}
+                  className={`text-xs font-medium px-3 py-1 rounded-full ${getCategoryColor(roadmap.category)}`}
                 >
                   {getCategoryLabel(roadmap.category)}
                 </span>
@@ -220,7 +347,6 @@ export default function RoadmapDetailPage() {
                   <button
                     onClick={() => setShowResetConfirm(true)}
                     className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors px-2 py-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20"
-                    title="清除学习记忆"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                     <span>清除进度</span>
@@ -230,7 +356,7 @@ export default function RoadmapDetailPage() {
             </div>
             <div className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-yellow-500 transition-all duration-500 ease-out"
+                className="h-full progress-shimmer transition-all duration-500 ease-out rounded-full"
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
@@ -265,320 +391,217 @@ export default function RoadmapDetailPage() {
           )}
         </div>
 
-        {/* Metro Timeline */}
-        <div className="relative">
-          {/* Main Vertical Line */}
-          <div className="absolute left-10 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-800" />
-          
-          {/* Active Progress Line */}
-          <div
-            className="absolute left-10 top-0 w-px bg-yellow-500 transition-all duration-700 ease-out"
-            style={{ height: `${progressPercentage}%` }}
-          />
-
-          {/* Steps */}
-          <div className="space-y-12">
-            {roadmap.steps.map((step, index) => {
-              const status = getStepStatus(step, index);
-              const isExpanded = expandedStep === step.id;
-              const isCompleted = status === "completed";
-              const isActive = status === "active";
-              const isLocked = status === "locked";
-              const stepNumber = String(index + 1).padStart(2, "0");
+        {/* ── Horizontal Timeline ── */}
+        <div className="overflow-x-auto pb-8 -mx-6 px-6">
+          <div className="flex items-start min-w-max">
+            {stages.map((stage, stageIdx) => {
+              const stageStatus = getStageStatus(stage.steps);
+              const isStageCompleted = stageStatus === "completed";
+              const isStageActive = stageStatus === "active";
 
               return (
-                <div key={step.id} className="relative">
-                  {/* Connector - L-shaped curve */}
-                  <div className="absolute left-10 top-6 w-8 h-px">
-                    <div
-                      className={cn(
-                        "absolute left-0 top-0 h-px w-6 transition-all duration-300",
-                        isCompleted && "bg-green-500",
-                        isActive && "bg-yellow-500",
-                        isLocked && "bg-slate-300 dark:bg-slate-700"
-                      )}
-                    />
-                    <div
-                      className={cn(
-                        "absolute left-6 top-0 w-2 h-6 rounded-bl-xl transition-all duration-300",
-                        isCompleted && "bg-green-500 border-l-0 border-b-0",
-                        isActive && "bg-yellow-500 border-l-0 border-b-0",
-                        isLocked && "bg-slate-300 dark:bg-slate-700 border-l-0 border-b-0"
-                      )}
-                    />
-                  </div>
-
-                  {/* Status Node on Timeline */}
-                  <div className="absolute left-10 top-6 -translate-x-1/2 -translate-y-1/2 z-10">
-                    {isCompleted ? (
-                      <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center shadow-lg shadow-green-500/50">
-                        <Check className="w-4 h-4 text-white" />
-                      </div>
-                    ) : isActive ? (
-                      <div className="relative">
-                        <div className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center shadow-lg shadow-yellow-500/50 ring-4 ring-yellow-100 dark:ring-yellow-900/30">
-                          <span className="text-xs font-bold text-white">{index + 1}</span>
+                <div key={stageIdx} className="flex items-start flex-shrink-0">
+                  {/* Stage column */}
+                  <div
+                    className="flex flex-col items-center"
+                    style={{ width: 220 }}
+                  >
+                    {/* Timeline node — fixed 40px height for alignment */}
+                    <div className="flex items-center justify-center w-full h-10 mb-4">
+                      {isStageCompleted ? (
+                        <div className="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center shadow-sm animate-check-pop z-10">
+                          <Check className="w-5 h-5 text-white" />
                         </div>
-                        <div className="absolute inset-0 rounded-full bg-yellow-500 animate-ping opacity-20" />
-                      </div>
-                    ) : (
-                      <div className="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-700" />
-                    )}
-                  </div>
-
-                  {/* Card */}
-                  <div className="ml-16">
-                    <div
-                      className={cn(
-                        "relative bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-200",
-                        isActive && "border-yellow-300 dark:border-yellow-800 shadow-md",
-                        isCompleted && "border-green-200 dark:border-green-900",
-                        isLocked && "opacity-60 cursor-not-allowed",
-                        !isLocked && "hover:shadow-md cursor-pointer"
-                      )}
-                      onClick={() => !isLocked && handleToggleExpand(step.id)}
-                    >
-                      {/* Background Number */}
-                      <div className="absolute right-6 top-6 text-6xl font-black text-slate-100 dark:text-slate-800 select-none pointer-events-none">
-                        {stepNumber}
-                      </div>
-
-                      <div className="relative p-6">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1 pr-8">
-                            <h3
-                              className={cn(
-                                "font-bold text-xl mb-2",
-                                isActive && "text-yellow-600 dark:text-yellow-500",
-                                isCompleted && "text-green-600 dark:text-green-500",
-                                isLocked && "text-slate-400"
-                              )}
-                            >
-                              {step.title}
-                            </h3>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 leading-relaxed">
-                              {step.description}
-                            </p>
-                            {step.estimatedTime && (
-                              <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-500">
-                                <Clock className="w-3.5 h-3.5" />
-                                <span>{step.estimatedTime}</span>
-                              </div>
-                            )}
+                      ) : isStageActive ? (
+                        <div className="relative z-10">
+                          <div className="w-10 h-10 rounded-full bg-gray-700 dark:bg-gray-500 flex items-center justify-center shadow-sm ring-4 ring-gray-100 dark:ring-gray-800">
+                            <span className="text-sm font-bold text-white">
+                              {stageIdx + 1}
+                            </span>
                           </div>
-                          {!isLocked && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleToggleExpand(step.id);
-                              }}
-                              className="ml-4 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors flex-shrink-0"
-                            >
-                              {isExpanded ? (
-                                <ChevronUp className="w-5 h-5 text-slate-400" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5 text-slate-400" />
-                              )}
-                            </button>
-                          )}
+                          <div className="absolute inset-0 rounded-full bg-gray-500 animate-breathe" />
                         </div>
+                      ) : (
+                        <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 z-10 flex items-center justify-center">
+                          <span className="text-xs text-slate-400">
+                            {stageIdx + 1}
+                          </span>
+                        </div>
+                      )}
+                    </div>
 
-                        {/* Expanded Content */}
-                        {isExpanded && !isLocked && (
-                          <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
-                            {step.articleLink && (
-                              <Link
-                                href={step.articleLink}
-                                target={step.articleLink.startsWith("http") ? "_blank" : undefined}
-                                className="inline-flex items-center gap-2 text-sm text-yellow-600 dark:text-yellow-500 hover:text-yellow-700 dark:hover:text-yellow-400 font-medium transition-colors"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <ExternalLink className="w-4 h-4" />
-                                阅读相关文章
-                              </Link>
-                            )}
-                            {!isCompleted && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleMarkComplete(step.id);
-                                }}
-                                className="w-full px-4 py-2.5 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors"
-                              >
-                                标记为已完成
-                              </button>
-                            )}
-                            {isCompleted && (
-                              <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-500 font-medium">
-                                <Check className="w-4 h-4" />
-                                <span>已完成</span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
+                    {/* Step cards */}
+                    <div className="w-full space-y-2 px-2">
+                      {stage.steps.map((step) => {
+                        const stepIdx = roadmap.steps.findIndex(
+                          (s) => s.id === step.id
+                        );
+                        const stepStatus = getStepStatus(step, stepIdx);
+                        return (
+                          <StepCard
+                            key={step.id}
+                            step={step}
+                            status={stepStatus}
+                            isExpanded={expandedStep === step.id}
+                            onToggle={handleToggleExpand}
+                            onComplete={handleMarkComplete}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
+
+                  {/* Connector line to next stage */}
+                  {stageIdx < stages.length - 1 && (
+                    <div
+                      className={cn(
+                        "h-0.5 w-10 flex-shrink-0 mt-5 transition-colors duration-500",
+                        isStageCompleted
+                          ? "bg-amber-500"
+                          : "bg-slate-200 dark:bg-slate-800"
+                      )}
+                    />
+                  )}
                 </div>
               );
             })}
           </div>
+        </div>
 
-          {/* Navigation: Previous and Next Roadmaps - Always visible */}
-          <div className="mt-16 ml-16">
-            <div className="mb-6">
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-2">
-                继续学习
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400">
-                探索更多路线图，继续你的学习之旅
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Previous Roadmap */}
-              <Link
-                href={`/roadmap/${prevRoadmap.id}`}
-                className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-yellow-300 dark:hover:border-yellow-700 transition-all duration-200 overflow-hidden"
-              >
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                    <ArrowLeft className="w-4 h-4" />
-                    <span>上一篇</span>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl">{prevRoadmap.icon}</div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-lg text-slate-900 dark:text-slate-50 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors mb-2">
-                        {prevRoadmap.title}
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">
-                        {prevRoadmap.description}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={cn(
-                            "text-xs font-medium px-2.5 py-1 rounded-full",
-                            getCategoryColor(prevRoadmap.category)
-                          )}
-                        >
-                          {getCategoryLabel(prevRoadmap.category)}
-                        </span>
-                        {prevRoadmap.estimatedTotalTime && (
-                          <span className="text-xs text-slate-500 dark:text-slate-400">
-                            {prevRoadmap.estimatedTotalTime}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Next Roadmap */}
-              <Link
-                href={`/roadmap/${nextRoadmap.id}`}
-                className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-yellow-300 dark:hover:border-yellow-700 transition-all duration-200 overflow-hidden"
-              >
-                <div className="p-6">
-                  <div className="flex items-center justify-end gap-2 mb-4 text-sm text-slate-500 dark:text-slate-400">
-                    <span>下一篇</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl">{nextRoadmap.icon}</div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-lg text-slate-900 dark:text-slate-50 group-hover:text-yellow-600 dark:group-hover:text-yellow-500 transition-colors mb-2">
-                        {nextRoadmap.title}
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">
-                        {nextRoadmap.description}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={cn(
-                            "text-xs font-medium px-2.5 py-1 rounded-full",
-                            getCategoryColor(nextRoadmap.category)
-                          )}
-                        >
-                          {getCategoryLabel(nextRoadmap.category)}
-                        </span>
-                        {nextRoadmap.estimatedTotalTime && (
-                          <span className="text-xs text-slate-500 dark:text-slate-400">
-                            {nextRoadmap.estimatedTotalTime}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
+        {/* Continue Learning Navigation */}
+        <div className="mt-16">
+          <div className="mb-6">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+              继续学习
+            </h3>
+            <p className="text-slate-600 dark:text-slate-400">
+              探索更多路线图，继续你的学习之旅
+            </p>
           </div>
 
-          {/* Completion Celebration Section */}
-          {isFullyCompleted && (
-            <div
-              className={cn(
-                "mt-16 transition-all duration-500 ease-out",
-                showCelebration
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Previous Roadmap */}
+            <Link
+              href={`/roadmap/${prevRoadmap.id}`}
+              className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200 overflow-hidden"
             >
-              {/* Victory Card */}
-              <div className="relative ml-16 mb-12">
-                <div className="bg-gradient-to-br from-yellow-50 via-yellow-100/50 to-yellow-50 dark:from-yellow-900/20 dark:via-yellow-800/10 dark:to-yellow-900/20 rounded-xl border-2 border-yellow-400 dark:border-yellow-600 shadow-2xl overflow-hidden">
-                  {/* Decorative Pattern */}
-                  <div className="absolute inset-0 opacity-5">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-500 rounded-full blur-3xl" />
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-yellow-400 rounded-full blur-3xl" />
-                  </div>
-
-                  <div className="relative p-8 md:p-12">
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
-                      {/* Trophy Icon */}
-                      <div className="flex-shrink-0">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg shadow-yellow-500/50">
-                          <Trophy className="w-12 h-12 text-white" />
-                        </div>
-                      </div>
-
-                      {/* Text Content */}
-                      <div className="flex-1">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-50 mb-2">
-                          恭喜！你已完成本路线
-                        </h2>
-                        <p className="text-lg text-slate-600 dark:text-slate-400 mb-1">
-                          Mission Accomplished!
-                        </p>
-                        <p className="text-base text-slate-700 dark:text-slate-300">
-                          你已经掌握了 <span className="font-semibold text-yellow-600 dark:text-yellow-500">{roadmap.title}</span> 的核心知识。准备好迎接下一个挑战了吗？
-                        </p>
-                      </div>
-
-                      {/* Sparkles Decoration */}
-                      <div className="hidden md:block">
-                        <Sparkles className="w-12 h-12 text-yellow-500 animate-pulse" />
-                      </div>
-                    </div>
-
-                    {/* Action Button */}
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <Link
-                        href="/roadmap"
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-4 text-sm text-slate-500 dark:text-slate-400">
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>上一篇</span>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">{prevRoadmap.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-lg text-slate-900 dark:text-slate-50 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors mb-2">
+                      {prevRoadmap.title}
+                    </h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">
+                      {prevRoadmap.description}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={cn(
+                          "text-xs font-medium px-2.5 py-1 rounded-full",
+                          getCategoryColor(prevRoadmap.category)
+                        )}
                       >
-                        <ArrowLeft className="w-5 h-5" />
-                        返回路线图列表
-                      </Link>
+                        {getCategoryLabel(prevRoadmap.category)}
+                      </span>
+                      {prevRoadmap.estimatedTotalTime && (
+                        <span className="text-xs text-slate-500 dark:text-slate-400">
+                          {prevRoadmap.estimatedTotalTime}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            </Link>
+
+            {/* Next Roadmap */}
+            <Link
+              href={`/roadmap/${nextRoadmap.id}`}
+              className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200 overflow-hidden"
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-end gap-2 mb-4 text-sm text-slate-500 dark:text-slate-400">
+                  <span>下一篇</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="text-4xl">{nextRoadmap.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="font-bold text-lg text-slate-900 dark:text-slate-50 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors mb-2">
+                      {nextRoadmap.title}
+                    </h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 line-clamp-2">
+                      {nextRoadmap.description}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={cn(
+                          "text-xs font-medium px-2.5 py-1 rounded-full",
+                          getCategoryColor(nextRoadmap.category)
+                        )}
+                      >
+                        {getCategoryLabel(nextRoadmap.category)}
+                      </span>
+                      {nextRoadmap.estimatedTotalTime && (
+                        <span className="text-xs text-slate-500 dark:text-slate-400">
+                          {nextRoadmap.estimatedTotalTime}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
+
+        {/* Completion Celebration */}
+        {isFullyCompleted && (
+          <div
+            className={cn(
+              "mt-16 transition-all duration-500 ease-out",
+              showCelebration
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+            )}
+          >
+            <div className="bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-200 dark:border-amber-800/50 overflow-hidden">
+              <div className="p-8 md:p-10">
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-full bg-amber-600 flex items-center justify-center animate-check-pop">
+                      <Trophy className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2">
+                      恭喜！你已完成本路线
+                    </h2>
+                    <p className="text-base text-slate-600 dark:text-slate-400">
+                      已掌握{" "}
+                      <span className="font-semibold text-amber-700 dark:text-amber-500">
+                        {roadmap.title}
+                      </span>{" "}
+                      的核心知识，准备好迎接下一个挑战了吗？
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/roadmap"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-all"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  返回路线图列表
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
