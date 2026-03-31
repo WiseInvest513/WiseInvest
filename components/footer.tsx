@@ -187,6 +187,16 @@ export function Footer() {
                   🦾 OpenClaw 教程
                 </a>
               </li>
+              <li>
+                <a
+                  href={getSafeExternalUrl("https://www.wise-etf.com/")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  📈 ETF 投资指南
+                </a>
+              </li>
             </ul>
             {/* Middle Coast Accent（固定在中间分割处，不增加高度） */}
             <div className="footer-coast-overlay pointer-events-none">

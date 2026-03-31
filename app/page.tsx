@@ -700,6 +700,12 @@ const friendlySites = [
     description: "专业的学习教程和资源库，助力投资者快速上手。",
     watermarkEmoji: "⚙️" as const,
   },
+  {
+    name: "ETF 投资指南",
+    url: "https://www.wise-etf.com/",
+    description: "专注ETF投资策略与数据分析，帮助投资者做出更明智的决策。",
+    watermarkEmoji: "📈" as const,
+  },
 ];
 
 function FriendlySiteCard({ site, index }: { site: (typeof friendlySites)[0]; index: number }) {
@@ -761,7 +767,7 @@ function FriendlySitesSection() {
             <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-slate-400 to-transparent opacity-30" />
           </span>
         </TitleAnimation>
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 max-w-6xl mx-auto items-stretch" staggerDelay={0.08}>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-6xl mx-auto items-stretch" staggerDelay={0.08}>
           {friendlySites.map((site, index) => (
             <StaggerItem key={index} index={index} className="min-h-[140px]">
               <FriendlySiteCard site={site} index={index} />
@@ -851,8 +857,6 @@ export default function Home() {
       <div className="py-3 md:py-4" />
       <AnthologySection />
       <div className="py-3 md:py-4" />
-      <ResourcesSection />
-      <div className="py-1 md:py-2" />
       <FriendlySitesSection />
     </div>
   );
