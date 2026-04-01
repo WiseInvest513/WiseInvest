@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { X, ChevronLeft, ChevronRight, Eye, FileSearch, Network, Search } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Eye, FileSearch, Network, Search, Flame } from "lucide-react";
 import { tweets, type Tweet } from "@/lib/data";
 import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ export default function TweetsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const activeRowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
+
   const handleKnowledgeGraphClick = () => {
     toast.info("知识图谱功能还在开发中，敬请期待…");
   };
@@ -59,13 +59,11 @@ export default function TweetsPage() {
 
   const getFilteredTweets = (): Tweet[] => {
     return tweets.filter((tweet) => {
-      // 支持多个分类（逗号分隔）
       const tweetCategories = tweet.category.split(",").map((c) => c.trim());
       const topicMatch =
         selectedTopics.length === 0 ||
         selectedTopics.some((topic) => tweetCategories.includes(topic));
-      
-      // 支持多个类型（逗号分隔）
+
       const tweetTypes = tweet.type.split(",").map((t) => t.trim());
       const formatMatch =
         selectedFormats.length === 0 ||
@@ -74,7 +72,7 @@ export default function TweetsPage() {
       const searchMatch =
         searchQuery.trim().length === 0 ||
         tweet.title.toLowerCase().includes(searchQuery.trim().toLowerCase());
-      
+
       return topicMatch && formatMatch && searchMatch;
     });
   };
@@ -84,7 +82,6 @@ export default function TweetsPage() {
     [selectedTopics, selectedFormats, searchQuery]
   );
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredTweets.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -97,44 +94,31 @@ export default function TweetsPage() {
   }, [currentPage, totalPages]);
 
   const getFormatBadgeStyle = (type: string) => {
-    // 如果包含多个类型，使用第一个类型判断
     const firstType = type.split(",")[0].trim();
     if (firstType === "干货") {
-      return "bg-yellow-400/95 text-black dark:bg-yellow-400 dark:text-black";
+      return "bg-amber-100 text-amber-800 dark:bg-amber-400/20 dark:text-amber-300 ring-1 ring-amber-200 dark:ring-amber-400/30";
     }
     if (firstType === "教程") {
-      return "bg-amber-300/95 text-amber-950 dark:bg-amber-300 dark:text-amber-950";
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-400/20 dark:text-yellow-300 ring-1 ring-yellow-200 dark:ring-yellow-400/30";
     }
     if (firstType === "资讯") {
-      return "bg-sky-100 text-sky-700 dark:bg-sky-900/35 dark:text-sky-300";
+      return "bg-sky-100 text-sky-700 dark:bg-sky-900/35 dark:text-sky-300 ring-1 ring-sky-200 dark:ring-sky-400/30";
     }
-    return "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300";
-  };
-
-  const getTopicLabel = (topic: string) => {
-    // 如果包含多个分类，显示第一个
-    const firstCategory = topic.split(",")[0].trim();
-    return firstCategory;
+    return "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700";
   };
 
   const getTopicBadgeStyle = (topic: string) => {
     const firstCategory = topic.split(",")[0].trim();
     if (firstCategory === "web3" || firstCategory === "基金指数") {
-      return "bg-sky-50 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300";
+      return "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300 ring-1 ring-sky-200 dark:ring-sky-400/30";
     }
     if (firstCategory === "美股") {
-      return "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300";
+      return "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 ring-1 ring-indigo-200 dark:ring-indigo-400/30";
     }
     if (firstCategory === "定投") {
-      return "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300";
+      return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 ring-1 ring-emerald-200 dark:ring-emerald-400/30";
     }
-    return "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300";
-  };
-
-  const getFormatLabel = (format: string) => {
-    // 如果包含多个类型，显示第一个
-    const firstType = format.split(",")[0].trim();
-    return firstType;
+    return "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700";
   };
 
   const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -148,9 +132,7 @@ export default function TweetsPage() {
 
     return parts.map((part, idx) => {
       const isMatch = part.toLowerCase() === keyword.toLowerCase();
-      if (!isMatch) {
-        return <span key={idx}>{part}</span>;
-      }
+      if (!isMatch) return <span key={idx}>{part}</span>;
       return (
         <mark
           key={idx}
@@ -164,9 +146,7 @@ export default function TweetsPage() {
 
   useEffect(() => {
     return () => {
-      if (activeRowTimerRef.current) {
-        clearTimeout(activeRowTimerRef.current);
-      }
+      if (activeRowTimerRef.current) clearTimeout(activeRowTimerRef.current);
     };
   }, []);
 
@@ -174,169 +154,171 @@ export default function TweetsPage() {
     setCurrentPage(1);
   }, [searchQuery]);
 
+  const maxViews = useMemo(() => Math.max(...tweets.map((t) => t.views)), []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950">
-      {/* Main Container */}
       <div className="max-w-[1520px] mx-auto flex items-start gap-4 relative px-4 md:px-6 pt-2">
-        
+
         {/* --- LEFT SIDEBAR --- */}
         <aside className="w-52 shrink-0 sticky top-20 pt-6 self-start max-h-[calc(100vh-80px)] overflow-y-auto hidden md:block scrollbar-hide">
-          <div className="px-2 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
-            
-            {/* Group 1: 推文分类 */}
-            <div className="mb-6">
-              <h3 className="px-2 text-sm font-bold tracking-wide text-slate-900 dark:text-white mb-2 text-center">
-                    推文分类
-                  </h3>
-              <div className="grid grid-cols-2 gap-2">
-                    {topics.map((topic) => {
-                      const isSelected = selectedTopics.includes(topic);
-                      return (
-                        <button
-                          key={topic}
-                          onClick={() => toggleTopic(topic)}
-                      className={`w-full text-center py-2 text-xs rounded-md transition-all duration-200 ${
-                            isSelected
-                          ? "bg-yellow-400/95 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-[0_10px_18px_-12px_rgba(245,158,11,0.95)] ring-1 ring-yellow-300/90 [transform:translateY(-2px)]"
-                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_18px_-12px_rgba(15,23,42,0.55)]"
-                          }`}
-                        >
-                          {topic}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+          <div className="px-3 py-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
 
-            {/* Group 2: 推文类型 */}
-            <div className="mb-6">
-              <h3 className="px-2 text-sm font-bold tracking-wide text-slate-900 dark:text-white mb-2 text-center">
-                    推文类型
-                  </h3>
-              <div className="grid grid-cols-2 gap-2">
-                    {formats.map((format) => {
-                      const isSelected = selectedFormats.includes(format);
-                      return (
-                        <button
-                          key={format}
-                          onClick={() => toggleFormat(format)}
-                      className={`w-full text-center py-2 text-xs rounded-md transition-all duration-200 ${
-                            isSelected
-                          ? "bg-yellow-400/95 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-[0_10px_18px_-12px_rgba(245,158,11,0.95)] ring-1 ring-yellow-300/90 [transform:translateY(-2px)]"
-                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_18px_-12px_rgba(15,23,42,0.55)]"
-                          }`}
-                        >
-                          {format}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+            {/* 推文分类 */}
+            <div className="mb-5">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-1">
+                推文分类
+              </p>
+              <div className="grid grid-cols-2 gap-1.5">
+                {topics.map((topic) => {
+                  const isSelected = selectedTopics.includes(topic);
+                  return (
+                    <button
+                      key={topic}
+                      onClick={() => toggleTopic(topic)}
+                      className={`w-full text-center py-1.5 text-xs rounded-full transition-all duration-200 font-medium ${
+                        isSelected
+                          ? "bg-amber-400 dark:bg-amber-500 text-slate-900 shadow-sm ring-1 ring-amber-300 dark:ring-amber-400"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200"
+                      }`}
+                    >
+                      {topic}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 分隔线 */}
+            <div className="border-t border-slate-100 dark:border-slate-800 mb-5" />
+
+            {/* 推文类型 */}
+            <div className="mb-4">
+              <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-1">
+                推文类型
+              </p>
+              <div className="grid grid-cols-2 gap-1.5">
+                {formats.map((format) => {
+                  const isSelected = selectedFormats.includes(format);
+                  return (
+                    <button
+                      key={format}
+                      onClick={() => toggleFormat(format)}
+                      className={`w-full text-center py-1.5 text-xs rounded-full transition-all duration-200 font-medium ${
+                        isSelected
+                          ? "bg-amber-400 dark:bg-amber-500 text-slate-900 shadow-sm ring-1 ring-amber-300 dark:ring-amber-400"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-800 dark:hover:text-slate-200"
+                      }`}
+                    >
+                      {format}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-yellow-400 transition-colors"
+                className="w-full inline-flex items-center justify-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-xs text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-800 transition-colors"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3 w-3" />
                 清除筛选
               </button>
             )}
-            </div>
-          </aside>
+          </div>
+        </aside>
 
-        {/* --- RIGHT CONTENT AREA --- */}
+        {/* --- MAIN CONTENT --- */}
         <main className="flex-1 min-w-0 flex flex-col">
-          
-          {/* 1. HEADER (Sticky) */}
-          <div className="pt-6 pb-3 transition-all">
-            <div className="px-0 md:px-2">
-              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
-              <div className="px-5 md:px-6 py-3.5 flex items-center justify-between gap-4 flex-wrap">
-                <div className="flex items-center gap-4">
-                  <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                    Investment Insights
-                  </h1>
-                  <span className="text-sm text-slate-500 dark:text-slate-400">
-                    找到 <span className="font-semibold text-slate-900 dark:text-slate-50">{filteredTweets.length}</span> 篇文章
-                  </span>
+          <div className="pt-6 pb-20">
+
+            {/* 整合卡片：header + table */}
+            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
+
+              {/* 顶部工具栏 */}
+              <div className="px-5 md:px-6 py-4 flex items-center justify-between gap-4 flex-wrap border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div>
+                    <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-none">
+                      Investment Insights
+                    </h1>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+                      共 <span className="font-semibold text-slate-600 dark:text-slate-300">{filteredTweets.length}</span> 篇文章
+                    </p>
+                  </div>
+
+                  {/* 搜索框 */}
                   <div className="relative">
-                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
                     <input
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="检索文章标题..."
-                      className="h-8 w-52 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 pl-8 pr-2 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                      className="h-8 w-52 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 pl-8 pr-3 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all"
                     />
                   </div>
-                  {/* Clear Filter Button */}
+
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}
-                      className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 px-2 py-1 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                      className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-red-500 dark:hover:text-red-400 px-2 py-1 rounded-full hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                     >
-                      <X className="h-3.5 w-3.5" />
-                      <span>清除筛选</span>
+                      <X className="h-3 w-3" />
+                      清除筛选
                     </button>
                   )}
-                  {/* Knowledge Graph Button - Coming Soon */}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  {/* 知识图谱 — ghost 样式 */}
                   <button
                     type="button"
                     onClick={handleKnowledgeGraphClick}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-md shadow-sm transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 hover:border-amber-300 dark:hover:border-amber-600 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
                   >
-                    <Network className="w-4 h-4" />
-                    <span>知识图谱</span>
+                    <Network className="w-3.5 h-3.5" />
+                    知识图谱
                   </button>
-                </div>
-                
-                {/* Page Size Selector */}
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500 dark:text-slate-400">每页显示：</span>
-                  <select
-                    value={pageSize}
-                    onChange={(e) => {
-                      setPageSize(Number(e.target.value));
-                      setCurrentPage(1);
-                    }}
-                    className="px-2 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-xs text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:border-slate-300 dark:hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-colors"
-                  >
-                    <option value={10}>10 条</option>
-                    <option value={20}>20 条</option>
-                  </select>
+
+                  {/* 每页显示 */}
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs text-slate-400 dark:text-slate-500">每页</span>
+                    <select
+                      value={pageSize}
+                      onChange={(e) => {
+                        setPageSize(Number(e.target.value));
+                        setCurrentPage(1);
+                      }}
+                      className="px-2 py-1 border border-slate-200 dark:border-slate-700 rounded-full text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
+                    >
+                      <option value={10}>10</option>
+                      <option value={20}>20</option>
+                    </select>
+                    <span className="text-xs text-slate-400 dark:text-slate-500">条</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Table Header - Static */}
-              <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+              {/* 表头 + 表体合并为一个 Table */}
+              <div className="w-full overflow-x-auto scrollbar-hide">
                 <Table>
                   <TableHeader>
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead className="w-40 font-semibold text-slate-500 dark:text-slate-400 border-r border-slate-200 dark:border-slate-700 bg-transparent">
-                        发布日期
+                    <TableRow className="hover:bg-transparent bg-slate-50/80 dark:bg-slate-900/80">
+                      <TableHead className="w-36 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-800">
+                        日期
                       </TableHead>
-                      <TableHead className="w-auto font-semibold text-slate-500 dark:text-slate-400 border-r border-slate-200 dark:border-slate-700 bg-transparent">
+                      <TableHead className="py-2.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 border-b border-slate-100 dark:border-slate-800">
                         文章标题
                       </TableHead>
-                      <TableHead className="w-56 font-semibold text-slate-500 dark:text-slate-400 border-r border-slate-200 dark:border-slate-700 text-right bg-transparent">
-                        赛道/类型
+                      <TableHead className="w-52 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right border-b border-slate-100 dark:border-slate-800">
+                        赛道 / 类型
                       </TableHead>
-                      <TableHead className="w-32 font-semibold text-slate-500 dark:text-slate-400 text-center bg-transparent">
+                      <TableHead className="w-36 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 text-right pr-6 border-b border-slate-100 dark:border-slate-800">
                         浏览量
                       </TableHead>
                     </TableRow>
                   </TableHeader>
-                </Table>
-              </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 2. SCROLLABLE LIST */}
-          <div className="px-0 md:px-2 pb-20 pt-0">
-            {/* Table Container - Body Only */}
-            <div className="w-full overflow-x-auto scrollbar-hide">
-              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden min-w-[800px]">
-                <Table>
                   <TableBody>
                     {paginatedTweets.length === 0 ? (
                       <TableRow>
@@ -351,67 +333,64 @@ export default function TweetsPage() {
                       </TableRow>
                     ) : (
                       paginatedTweets.map((tweet, index) => {
-                        const isEven = index % 2 === 0;
+                        const isHot = tweet.views > 5000;
                         const isActiveRow = activeRowId === tweet.id;
+                        const viewPercent = Math.min(100, Math.round((tweet.views / maxViews) * 100));
+
                         const handleRowClick = () => {
-                          if (activeRowTimerRef.current) {
-                            clearTimeout(activeRowTimerRef.current);
-                          }
+                          if (activeRowTimerRef.current) clearTimeout(activeRowTimerRef.current);
                           setActiveRowId(tweet.id);
-                          activeRowTimerRef.current = setTimeout(() => {
-                            setActiveRowId(null);
-                          }, 1100);
+                          activeRowTimerRef.current = setTimeout(() => setActiveRowId(null), 1100);
                           openSafeExternalUrl(tweet.link);
                         };
+
                         return (
                           <TableRow
                             key={tweet.id}
                             onClick={handleRowClick}
                             className={`group cursor-pointer transition-all duration-200 ${
-                              isEven ? "bg-white dark:bg-slate-900" : "bg-slate-50/80 dark:bg-slate-900/70"
+                              index % 2 === 0
+                                ? "bg-white dark:bg-slate-900"
+                                : "bg-slate-50/60 dark:bg-slate-900/50"
                             } ${
                               isActiveRow
-                                ? "bg-amber-50/65 dark:bg-amber-900/15 [transform:translateY(-2px)] shadow-[0_12px_26px_-18px_rgba(245,158,11,0.9)]"
-                                : "hover:bg-amber-50/40 dark:hover:bg-slate-800/70 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_22px_-16px_rgba(15,23,42,0.45)]"
-                            } active:[transform:translateY(-1px)] ${
-                              index !== paginatedTweets.length - 1 ? "border-b border-slate-200/80 dark:border-slate-800" : ""
-                            }`}
+                                ? "bg-amber-50 dark:bg-amber-900/10"
+                                : "hover:bg-amber-50/50 dark:hover:bg-slate-800/60"
+                            } ${
+                              index !== paginatedTweets.length - 1
+                                ? "border-b border-slate-100 dark:border-slate-800/80"
+                                : ""
+                            } ${isHot ? "border-l-2 border-l-amber-400" : "border-l-2 border-l-transparent"}`}
                           >
-                            {/* Date Column */}
-                            <TableCell className="w-40 py-3 border-r border-slate-200 dark:border-slate-700">
-                              <span className="font-mono text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+                            {/* 日期 */}
+                            <TableCell className="w-36 py-4 pl-4">
+                              <span className="font-mono text-xs text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
                                 {tweet.date}
                               </span>
                             </TableCell>
 
-                            {/* Title Column */}
-                            <TableCell className="w-auto py-3 border-r border-slate-200 dark:border-slate-700">
-                              <h3 className="font-semibold text-[15px] text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
+                            {/* 标题 */}
+                            <TableCell className="py-4 max-w-0">
+                              <span className="block truncate font-semibold text-[15px] text-slate-800 dark:text-slate-100 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
                                 {renderHighlightedTitle(tweet.title)}
-                              </h3>
+                              </span>
                             </TableCell>
 
-                            {/* Tags Column */}
-                            <TableCell className="w-56 py-3 border-r border-slate-200 dark:border-slate-700">
-                              <div className="flex items-center gap-2 justify-end flex-wrap">
-                                {/* Topic Badges - 支持多个分类 */}
+                            {/* 标签 */}
+                            <TableCell className="w-52 py-4">
+                              <div className="flex items-center gap-1.5 justify-end flex-wrap">
                                 {tweet.category.split(",").map((cat, idx) => (
                                   <span
                                     key={idx}
-                                    className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${getTopicBadgeStyle(
-                                      cat.trim()
-                                    )}`}
+                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium ${getTopicBadgeStyle(cat.trim())}`}
                                   >
                                     {cat.trim()}
                                   </span>
                                 ))}
-                                {/* Format Badges - 支持多个类型 */}
                                 {tweet.type.split(",").map((type, idx) => (
                                   <span
                                     key={idx}
-                                    className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${getFormatBadgeStyle(
-                                      type.trim()
-                                    )}`}
+                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium ${getFormatBadgeStyle(type.trim())}`}
                                   >
                                     {type.trim()}
                                   </span>
@@ -419,18 +398,28 @@ export default function TweetsPage() {
                               </div>
                             </TableCell>
 
-                            {/* Views Column */}
-                            <TableCell className="w-32 py-3 text-center">
-                              <div className="flex items-center justify-center gap-1.5">
-                                <Eye className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
-                                <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                                  {tweet.views >= 1000
-                                    ? `${(tweet.views / 1000).toFixed(1)}k`
-                                    : tweet.views}
-                                </span>
-                                {tweet.views > 2000 && (
-                                  <span className="text-xs">🔥</span>
-                                )}
+                            {/* 浏览量 */}
+                            <TableCell className="w-36 py-4 pr-6">
+                              <div className="flex flex-col items-end gap-1">
+                                <div className="flex items-center gap-1">
+                                  {isHot ? (
+                                    <Flame className="h-3.5 w-3.5 text-orange-400" />
+                                  ) : (
+                                    <Eye className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
+                                  )}
+                                  <span className={`text-xs font-mono font-medium ${isHot ? "text-orange-500 dark:text-orange-400" : "text-slate-500 dark:text-slate-400"}`}>
+                                    {tweet.views >= 1000
+                                      ? `${(tweet.views / 1000).toFixed(1)}k`
+                                      : tweet.views}
+                                  </span>
+                                </div>
+                                {/* 进度条 */}
+                                <div className="w-16 h-1 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full transition-all ${isHot ? "bg-gradient-to-r from-amber-400 to-orange-400" : "bg-slate-300 dark:bg-slate-600"}`}
+                                    style={{ width: `${viewPercent}%` }}
+                                  />
+                                </div>
                               </div>
                             </TableCell>
                           </TableRow>
@@ -440,38 +429,37 @@ export default function TweetsPage() {
                   </TableBody>
                 </Table>
               </div>
+
+              {/* 分页 */}
+              {totalPages > 1 && (
+                <div className="px-5 md:px-6 py-3.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <span className="text-xs text-slate-400 dark:text-slate-500">
+                    第 {startIndex + 1}–{Math.min(endIndex, filteredTweets.length)} 条，共 {filteredTweets.length} 条
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="p-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 px-3 tabular-nums">
+                      {currentPage} / {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="p-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="mt-8 flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3">
-                <div className="text-sm text-slate-500 dark:text-slate-400">
-                  显示第 {startIndex + 1} - {Math.min(endIndex, filteredTweets.length)} 条，共{" "}
-                  {filteredTweets.length} 条
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 px-4">
-                    第 {currentPage} / {totalPages} 页
-                  </span>
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
-
         </main>
 
       </div>

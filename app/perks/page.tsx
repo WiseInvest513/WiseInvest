@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Copy, ExternalLink, BookOpen, Check } from "lucide-react";
+import { Copy, ExternalLink, BookOpen, Check, Users, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { perks, type Perk } from "@/lib/perks-data";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -15,10 +14,8 @@ import {
 import { toast } from "sonner";
 import { IconService } from "@/lib/icon-service";
 import { openSafeExternalUrl } from "@/lib/security/external-links";
-
 import { ResourceIcon } from "@/components/ui/resource-icon";
 
-// Group perks by category (similar to resources structure)
 interface PerkCategory {
   id: string;
   label: string;
@@ -35,537 +32,572 @@ interface OtherResourceItem {
   link?: string;
   iconUrl?: string;
   tutorialLink?: string;
+  claimedCount?: number;
 }
 
 const otherResources: OtherResourceItem[] = [
   {
     id: "gamsgo",
     title: "GamsGo 会员合租",
-    highlight: "连续7年提供高质量、价格可负担的数字订阅服务",
-    description:
-      "低成本共享主流订阅服务，适合控制流媒体与软件订阅开支，适合作为长期降本工具。",
+    highlight: "低成本共享主流订阅",
+    description: "连续7年提供高质量、价格可负担的数字订阅服务，适合控制流媒体与软件订阅开支。",
     link: "https://www.gamsgo.com/partner/GwZjT",
     iconUrl: "https://www.gamsgo.com/",
     tutorialLink: "https://x.com/WiseInvest513/status/2017103331576139919",
+    claimedCount: 890,
   },
   {
     id: "xesim",
     title: "Xesim eSIM 服务",
-    highlight: "一站式全球 eSIM 连接服务，出境上网更省心",
-    description:
-      "支持多国家/地区流量方案与设备适配查询，适合跨境出行、商务差旅与海外应用注册场景。",
+    highlight: "一站式全球 eSIM 连接",
+    description: "支持多国家/地区流量方案，适合跨境出行、商务差旅与海外应用注册场景。",
     code: "WISE666",
     link: "https://xesim.cc/?DIST=RkJHFVg%3D",
     iconUrl: "https://xesim.cc/",
     tutorialLink: "https://x.com/WiseInvest513/status/2022688883348246699",
+    claimedCount: 450,
   },
   {
     id: "account-planet",
     title: "账号星球",
-    highlight: "海外账号注册与激活的一站式解决方案",
-    description:
-      "专注解决出海必备账号注册难题，覆盖主流平台账号注册与激活流程，适合需要快速搭建海外身份基础设施的用户。",
+    highlight: "海外账号注册一站式方案",
+    description: "专注解决出海必备账号注册难题，覆盖主流平台账号注册与激活流程。",
     link: "https://wiseinvest.acceboy.com/",
     iconUrl: "https://wiseinvest.acceboy.com/",
+    claimedCount: 320,
   },
 ];
 
 const perkCategories: PerkCategory[] = [
-  {
-    id: "crypto",
-    label: "加密货币",
-    emoji: "₿",
-    items: perks.filter((p) => p.category === "Crypto"),
-  },
-  {
-    id: "banking",
-    label: "银行服务",
-    emoji: "🏦",
-    items: perks.filter((p) => p.category === "Banking"),
-  },
-  {
-    id: "stocks",
-    label: "股票交易",
-    emoji: "📈",
-    items: perks.filter((p) => p.category === "Stocks"),
-  },
-  {
-    id: "virtual-card",
-    label: "虚拟 U 卡",
-    emoji: "💳",
-    items: perks.filter((p) => p.category === "VirtualCard"),
-  },
-  {
-    id: "wallet",
-    label: "链上钱包",
-    emoji: "⛓️",
-    items: perks.filter((p) => p.category === "Wallet"),
-  },
-  {
-    id: "other-resources",
-    label: "其他资源",
-    emoji: "🧰",
-    items: [],
-  },
+  { id: "crypto", label: "加密货币", emoji: "₿", items: perks.filter((p) => p.category === "Crypto") },
+  { id: "banking", label: "银行服务", emoji: "🏦", items: perks.filter((p) => p.category === "Banking") },
+  { id: "stocks", label: "股票交易", emoji: "📈", items: perks.filter((p) => p.category === "Stocks") },
+  { id: "virtual-card", label: "虚拟 U 卡", emoji: "💳", items: perks.filter((p) => p.category === "VirtualCard") },
+  { id: "wallet", label: "链上钱包", emoji: "⛓️", items: perks.filter((p) => p.category === "Wallet") },
+  { id: "other-resources", label: "其他资源", emoji: "🧰", items: [] },
 ];
 
+const formatCount = (n: number) =>
+  n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+
+// 根据背景色亮度返回对应文字色
+const getTextColor = (hex: string) => {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16);
+  const g = parseInt(c.substring(2, 4), 16);
+  const b = parseInt(c.substring(4, 6), 16);
+  return 0.299 * r + 0.587 * g + 0.114 * b > 160 ? "#000000" : "#ffffff";
+};
+
+const BADGE_STYLE: Record<string, string> = {
+  "编辑推荐": "bg-amber-400 text-amber-950",
+  "热门": "bg-rose-500 text-white",
+  "新上线": "bg-emerald-500 text-white",
+  "限时": "bg-purple-500 text-white",
+};
+
 export default function PerksPage() {
-  const [activeCategory, setActiveCategory] = useState<string>(
-    perkCategories[0]?.id || ""
-  );
+  const [activeCategory, setActiveCategory] = useState<string>(perkCategories[0]?.id || "");
   const [copiedCodeId, setCopiedCodeId] = useState<string | null>(null);
 
-  // Handle smooth scroll and active category detection (Optimized with throttle)
   useEffect(() => {
     let ticking = false;
-    
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const sections = perkCategories
             .map((cat) => {
-              const element = document.getElementById(cat.id);
-              if (element) {
-                const rect = element.getBoundingClientRect();
-                return {
-                  id: cat.id,
-                  top: rect.top,
-                  bottom: rect.bottom,
-                };
-              }
-              return null;
+              const el = document.getElementById(cat.id);
+              if (!el) return null;
+              const rect = el.getBoundingClientRect();
+              return { id: cat.id, top: rect.top, bottom: rect.bottom };
             })
-            .filter(Boolean) as Array<{ id: string; top: number; bottom: number }>;
-
-          // Find the section currently in view
-          const viewportMiddle = window.innerHeight / 2 + 100; // Offset for sticky header
-          for (const section of sections) {
-            if (section.top <= viewportMiddle && section.bottom >= viewportMiddle) {
-              setActiveCategory(section.id);
-              break;
-            }
+            .filter(Boolean) as { id: string; top: number; bottom: number }[];
+          const mid = window.innerHeight / 2 + 100;
+          for (const s of sections) {
+            if (s.top <= mid && s.bottom >= mid) { setActiveCategory(s.id); break; }
           }
           ticking = false;
         });
         ticking = true;
       }
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
-
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleCategoryClick = (categoryId: string) => {
-    const element = document.getElementById(categoryId);
-    if (element) {
-      const offset = 80; // Account for sticky header
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-
-      setActiveCategory(categoryId);
+  const handleCategoryClick = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
+      setActiveCategory(id);
     }
   };
 
-  const handleCopyCode = (code: string, perkId: string) => {
+  const handleCopyCode = (code: string, id: string) => {
     navigator.clipboard.writeText(code);
-    setCopiedCodeId(perkId);
-    toast.success("邀请码已复制到剪贴板");
+    setCopiedCodeId(id);
+    toast.success("邀请码已复制");
     setTimeout(() => setCopiedCodeId(null), 2000);
   };
 
-  const handleClaimOffer = (link: string) => {
-    openSafeExternalUrl(link);
-  };
-
-  const getCategoryBadgeColor = (category: string) => {
-    switch (category) {
-      case "Crypto":
-        return "text-yellow-600 border-yellow-300";
-      case "Banking":
-        return "text-blue-600 border-blue-300";
-      case "Stocks":
-        return "text-green-600 border-green-300";
-      case "VirtualCard":
-        return "text-purple-600 border-purple-300";
-      case "Wallet":
-        return "text-amber-600 border-amber-300";
-      default:
-        return "text-slate-600 border-slate-300";
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
-      {/* Main Container - No top padding here. We handle spacing inside sticky elements. */}
-      <div className="max-w-[1520px] mx-auto flex items-start relative pt-0">
-        
-        {/* --- LEFT SIDEBAR --- */}
-        <aside className="w-48 shrink-0 sticky top-16 pt-6 self-start max-h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent hidden md:block scrollbar-hide">
-          {/* Inner padding for content */}
-          <div className="px-2">
-            <h2 className="px-2 text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950">
+      <div className="max-w-[1520px] mx-auto flex items-start gap-4 relative px-4 md:px-6 pt-2">
+
+        {/* ── LEFT SIDEBAR ── */}
+        <aside className="w-52 shrink-0 sticky top-20 pt-6 self-start max-h-[calc(100vh-80px)] overflow-y-auto hidden md:block scrollbar-hide">
+          <div className="px-3 py-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3 px-1">
               分类导航
-            </h2>
-            <nav className="space-y-1 px-2 flex flex-col items-center">
-              {perkCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => handleCategoryClick(category.id)}
-                  className={cn(
-                    "directory-nav-button",
-                    activeCategory === category.id
-                      ? "directory-nav-button-active directory-nav-active"
-                      : ""
-                  )}
-                >
-                  <span className="mr-2">{category.emoji}</span>
-                  {category.label}
-                </button>
-              ))}
+            </p>
+            <nav className="space-y-1">
+              {perkCategories.map((cat) => {
+                const count = cat.id === "other-resources" ? otherResources.length : cat.items.length;
+                const isActive = activeCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => handleCategoryClick(cat.id)}
+                    className={cn(
+                      "w-full flex items-center justify-between px-3 py-2 rounded-full text-sm font-medium transition-all duration-200",
+                      isActive
+                        ? "bg-amber-400 dark:bg-amber-500 text-slate-900 shadow-sm"
+                        : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-200"
+                    )}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>{cat.emoji}</span>
+                      <span>{cat.label}</span>
+                    </span>
+                    <span className={cn(
+                      "text-xs rounded-full px-1.5 py-0.5 font-mono",
+                      isActive
+                        ? "bg-amber-950/20 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
+                    )}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
             </nav>
           </div>
         </aside>
 
-        {/* --- RIGHT CONTENT --- */}
+        {/* ── MAIN CONTENT ── */}
         <main className="flex-1 min-w-0 flex flex-col">
-          
-          {/* 1. HEADER (Smart Sticky) */}
-          <div className="sticky top-16 z-20 bg-white/95 dark:bg-slate-950/95 backdrop-blur pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 transition-all">
-            <div className="px-6 md:px-8">
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                社区专属福利
-              </h1>
-              <p className="text-base text-slate-500 dark:text-slate-400">
-                专为 Wise Invest 读者精选的最佳注册优惠和手续费返佣
-              </p>
-            </div>
+
+          {/* Page Header */}
+          <div className="pt-6 pb-4">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">社区专属福利</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              专为 Wise Invest 读者精选的最佳注册优惠和手续费返佣
+            </p>
           </div>
 
-          {/* 2. SCROLLABLE CONTENT */}
-          <div className="content-fade-in px-6 md:px-8 pb-20 pt-6">
+          {/* Sections */}
+          <div className="pb-20 space-y-14">
             {perkCategories.map((category) => {
-              const sectionCount =
-                category.id === "other-resources"
-                  ? otherResources.length
-                  : category.items.length;
-              return (
-              <section
-                key={category.id}
-                id={category.id}
-                className="mb-12 scroll-mt-32"
-              >
-                {/* Section Header */}
-                <div className="mb-6">
-                  <h2 className="font-heading text-2xl font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
-                    <span>{category.emoji}</span>
-                    {category.label}
-                  </h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    {sectionCount} 个福利
-                  </p>
-                </div>
+              const isOther = category.id === "other-resources";
+              const items = isOther ? [] : category.items;
+              const featured = items.find((p) => p.featured);
+              const rest = items.filter((p) => !p.featured);
+              const count = isOther ? otherResources.length : items.length;
 
-                {/* Perk Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {category.id === "other-resources"
-                    ? otherResources.map((item) => {
-                        const iconSourceUrl = item.iconUrl || item.link || "";
-                        const iconInfo = IconService.getIconInfo(iconSourceUrl, item.title);
-                        const hasWatermarkIcon = Boolean(item.link) && !iconInfo.isDefault;
-                        return item.link ? (
-                          <div
+              return (
+                <section key={category.id} id={category.id} className="scroll-mt-24">
+                  {/* Section Header */}
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-xl">{category.emoji}</span>
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">{category.label}</h2>
+                    <span className="text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded-full">
+                      {count} 个福利
+                    </span>
+                  </div>
+
+                  <div className="space-y-4">
+                    {/* Featured Hero Card */}
+                    {!isOther && featured && (
+                      <HeroCard
+                        perk={featured}
+                        copiedCodeId={copiedCodeId}
+                        onCopyCode={handleCopyCode}
+                      />
+                    )}
+
+                    {/* Regular 2-col Grid */}
+                    {!isOther && rest.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {rest.map((perk) => (
+                          <PerkCard
+                            key={perk.id}
+                            perk={perk}
+                            copiedCodeId={copiedCodeId}
+                            onCopyCode={handleCopyCode}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Other Resources Grid */}
+                    {isOther && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {otherResources.map((item) => (
+                          <OtherCard
                             key={item.id}
-                            className="group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[220px] flex flex-col relative overflow-hidden"
-                          >
-                            <div className="h-1 w-full bg-red-500" />
-                            {hasWatermarkIcon && (
-                              <img
-                                src={iconInfo.iconUrl}
-                                alt=""
-                                className="absolute -bottom-12 -right-10 w-44 h-44 opacity-[0.1] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.16] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0"
-                              />
-                            )}
-                            <div className="relative z-10 p-5 flex flex-col flex-1">
-                              <div className="flex items-start justify-between mb-3">
-                                <div className="flex items-center gap-3 flex-1 min-w-0">
-                                  <ResourceIcon
-                                    url={iconSourceUrl}
-                                    name={item.title}
-                                    size={40}
-                                    rounded={true}
-                                  />
-                                  <h3 className="font-bold text-text-primary text-base leading-tight">
-                                    {item.title}
-                                  </h3>
-                                </div>
-                                <Badge
-                                  variant="outline"
-                                  className="text-xs shrink-0 text-slate-600 border-slate-300 border-current"
-                                >
-                                  其他资源
-                                </Badge>
-                              </div>
-                              <div className="mb-4">
-                                {item.highlight && (
-                                  <p className="text-lg font-bold text-text-primary mb-1 leading-tight">
-                                    {item.highlight}
-                                  </p>
-                                )}
-                                <p className="text-xs text-text-secondary line-clamp-1">
-                                  {item.description}
-                                </p>
-                              </div>
-                              {item.code && (
-                                <div className="mb-2 flex items-center gap-2">
-                                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300 whitespace-nowrap shrink-0">
-                                      折扣邀请码
-                                  </span>
-                                  <div className="flex-1 min-w-0 bg-bg-secondary rounded-md flex justify-between items-center px-3 py-1.5 border border-slate-200/70 dark:border-slate-700/70">
-                                    <span className="text-sm font-mono text-text-primary truncate">
-                                      {item.code}
-                                    </span>
-                                    <button
-                                      onClick={() => handleCopyCode(item.code!, item.id)}
-                                      className="text-text-muted hover:text-text-primary transition-colors"
-                                      aria-label="复制邀请码"
-                                    >
-                                      {copiedCodeId === item.id ? (
-                                        <Check className="w-4 h-4 text-green-600" />
-                                      ) : (
-                                        <Copy className="w-4 h-4" />
-                                      )}
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                              <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
-                                <Button
-                                  onClick={() => openSafeExternalUrl(item.link!)}
-                                  className="flex-1 h-9 bg-yellow-400 dark:bg-yellow-500 text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 font-semibold text-sm"
-                                >
-                                  立即访问
-                                  <ExternalLink className="h-3.5 w-3.5 ml-1.5" />
-                                </Button>
-                                {item.tutorialLink && (
-                                  <Button
-                                    onClick={() => openSafeExternalUrl(item.tutorialLink!)}
-                                    variant="outline"
-                                    className="h-9 px-3 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 font-medium text-sm whitespace-nowrap"
-                                  >
-                                    <BookOpen className="h-3.5 w-3.5 mr-1.5" />
-                                    查看教程
-                                  </Button>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          <div
-                            key={item.id}
-                            className="bg-bg-primary border border-border-color rounded-lg shadow-sm h-full min-h-[240px] flex flex-col justify-center items-center text-center p-6"
-                          >
-                            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
-                              <span className="text-xl">📦</span>
-                            </div>
-                            <h3 className="font-bold text-text-primary text-lg mb-2">
-                              {item.title}
-                            </h3>
-                            <p className="text-sm text-text-secondary">{item.description}</p>
-                          </div>
-                        );
-                      })
-                    : category.items.map((perk) => (
-                        <PerkCard
-                          key={perk.id}
-                          perk={perk}
-                          copiedCodeId={copiedCodeId}
-                          onCopyCode={handleCopyCode}
-                          onClaimOffer={handleClaimOffer}
-                          getCategoryBadgeColor={getCategoryBadgeColor}
-                        />
-                      ))}
-                </div>
-              </section>
-            );
+                            item={item}
+                            copiedCodeId={copiedCodeId}
+                            onCopyCode={handleCopyCode}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </section>
+              );
             })}
           </div>
-
         </main>
-
       </div>
     </div>
   );
 }
 
-interface PerkCardProps {
-  perk: Perk;
-  copiedCodeId: string | null;
-  onCopyCode: (code: string, perkId: string) => void;
-  onClaimOffer: (link: string) => void;
-  getCategoryBadgeColor: (category: string) => string;
-}
-
-function PerkCard({
+// ── Hero Card (Featured, Full-Width) ──────────────────────────────────────────
+function HeroCard({
   perk,
   copiedCodeId,
   onCopyCode,
-  onClaimOffer,
-  getCategoryBadgeColor,
-}: PerkCardProps) {
-  const [tutorialDialogOpen, setTutorialDialogOpen] = useState(false);
+}: {
+  perk: Perk;
+  copiedCodeId: string | null;
+  onCopyCode: (code: string, id: string) => void;
+}) {
+  const [tutorialOpen, setTutorialOpen] = useState(false);
   const isCopied = copiedCodeId === perk.id;
   const iconSourceUrl = perk.iconUrl || perk.link;
   const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
-  const hasWatermarkIcon = !iconInfo.isDefault;
   const hasTutorial = perk.tutorialImage || perk.tutorialLink;
 
   const handleTutorialClick = () => {
-    if (perk.tutorialImage) {
-      setTutorialDialogOpen(true);
-    } else if (perk.tutorialLink) {
-      openSafeExternalUrl(perk.tutorialLink!);
-    }
+    if (perk.tutorialImage) setTutorialOpen(true);
+    else if (perk.tutorialLink) openSafeExternalUrl(perk.tutorialLink);
   };
 
   return (
-    <div className="group bg-bg-primary border border-border-color rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-      {/* Top Border Stripe - Brand Accent */}
-      <div
-        className="h-1 w-full"
-        style={{
-          backgroundColor: perk.color,
-        }}
-      />
-
-      {/* Watermark background icon */}
-      {hasWatermarkIcon && (
+    <div
+      className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300"
+      style={{ borderLeftWidth: 4, borderLeftColor: perk.color }}
+    >
+      {/* Watermark */}
+      {!iconInfo.isDefault && (
         <img
           src={iconInfo.iconUrl}
           alt=""
-          className="absolute -bottom-12 -right-10 w-44 h-44 opacity-[0.1] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.16] z-0 pointer-events-none select-none grayscale group-hover:grayscale-0"
+          className="absolute -bottom-16 -right-12 w-64 h-64 opacity-[0.06] rotate-12 group-hover:opacity-[0.1] group-hover:scale-105 group-hover:rotate-6 transition-all duration-500 pointer-events-none select-none grayscale group-hover:grayscale-0 z-0"
         />
       )}
 
-      {/* Card Content */}
-      <div className="relative z-10 p-5 flex flex-col flex-1">
-        {/* Header Row 1: Platform Name + Category Badge */}
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            {/* Brand Icon - 使用通用图标组件 */}
-            <ResourceIcon 
-              url={perk.iconUrl || perk.link}
-              name={perk.platform}
-              size={40}
-              rounded={true}
-            />
-            {/* Platform Name */}
-            <h3 className="font-bold text-text-primary text-base leading-tight">
-              {perk.platform}
-            </h3>
+      <div className="relative z-10 p-4 md:p-5">
+        {/* Top row: icon + name + badge */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2.5">
+            <ResourceIcon url={iconSourceUrl} name={perk.platform} size={36} rounded />
+            <div>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">{perk.platform}</span>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{perk.description}</p>
+            </div>
           </div>
-          <Badge
-            variant="outline"
-            className={`text-xs shrink-0 ${getCategoryBadgeColor(perk.category)} border-current`}
+          {perk.badge && (
+            <span className={cn("inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold", BADGE_STYLE[perk.badge])}>
+              <Star className="w-3 h-3" />
+              {perk.badge}
+            </span>
+          )}
+        </div>
+
+        {/* Highlight value + benefit */}
+        <div className="mb-3">
+          <div
+            className="text-3xl font-extrabold leading-none mb-1.5 tracking-tight"
+            style={{ color: perk.color }}
           >
-            {perk.category === "Crypto"
-              ? "加密货币"
-              : perk.category === "Banking"
-              ? "银行服务"
-              : perk.category === "Stocks"
-              ? "股票交易"
-              : perk.category === "VirtualCard"
-              ? "虚拟 U 卡"
-              : "链上钱包"}
-          </Badge>
+            {perk.highlightValue}
+          </div>
+          <p className="text-base font-semibold text-slate-800 dark:text-slate-100">{perk.benefit}</p>
         </div>
 
-        {/* Row 2: Benefit + Description */}
-        <div className="mb-4">
-          <p className="text-lg font-bold text-text-primary mb-1 leading-tight">
-            {perk.benefit}
-          </p>
-          <p className="text-xs text-text-secondary line-clamp-1">
-            {perk.description}
-          </p>
-        </div>
-
-        {/* Row 3: Action Area - Compact Footer (Pushed to Bottom) */}
-        <div className={`mt-auto flex flex-col gap-2 ${!perk.code ? "pt-2" : ""}`}>
-          {/* Code Section - Compact */}
-          {perk.code && (
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-500/20 dark:text-yellow-300 whitespace-nowrap shrink-0">
-                  折扣邀请码
+        {/* Code */}
+        {perk.code && (
+          <div className="mb-3 flex items-center gap-2 max-w-xs">
+            <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 whitespace-nowrap">邀请码</span>
+            <div className="flex-1 flex items-center justify-between bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1.5">
+              <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100 tracking-widest">
+                {perk.code}
               </span>
-              <div className="flex-1 min-w-0 bg-bg-secondary rounded-md flex justify-between items-center px-3 py-1.5 border border-slate-200/70 dark:border-slate-700/70">
-                <span className="text-sm font-mono text-text-primary truncate">
-                  {perk.code}
-                </span>
-                <button
-                  onClick={() => onCopyCode(perk.code!, perk.id)}
-                  className="text-text-muted hover:text-text-primary transition-colors"
-                  aria-label="复制邀请码"
-                >
-                  {isCopied ? (
-                    <Check className="w-4 h-4 text-green-600" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
+              <button
+                onClick={() => onCopyCode(perk.code!, perk.id)}
+                className="ml-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                aria-label="复制邀请码"
+              >
+                {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Actions + social proof */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            onClick={() => openSafeExternalUrl(perk.link)}
+            className="h-8 px-4 font-bold text-xs hover:opacity-90 transition-opacity shadow-sm"
+            style={{ backgroundColor: perk.color, color: getTextColor(perk.color) }}
+          >
+            立即领取
+            <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+          </Button>
+          {hasTutorial && (
+            <Button
+              onClick={handleTutorialClick}
+              variant="outline"
+              className="h-8 px-3 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs"
+            >
+              <BookOpen className="w-3 h-3 mr-1.5" />
+              查看教程
+            </Button>
+          )}
+          {perk.claimedCount && (
+            <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 ml-auto">
+              <Users className="w-3.5 h-3.5" />
+              <span className="text-xs">{formatCount(perk.claimedCount)} 人已领取</span>
             </div>
           )}
-
-          {/* Action Buttons - Side by Side */}
-          <div className="flex items-center gap-2">
-            {/* Main CTA Button */}
-            <Button
-              onClick={() => onClaimOffer(perk.link)}
-              className="flex-1 h-9 bg-yellow-400 dark:bg-yellow-500 text-black hover:bg-yellow-500 dark:hover:bg-yellow-600 font-semibold text-sm"
-            >
-              立即领取
-              <ExternalLink className="h-3.5 w-3.5 ml-1.5" />
-            </Button>
-
-            {/* Tutorial Button - 图片弹窗 或 链接新窗口 */}
-            {hasTutorial && (
-              <Button
-                onClick={handleTutorialClick}
-                variant="outline"
-                className="h-9 px-3 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 font-medium text-sm whitespace-nowrap"
-              >
-                <BookOpen className="h-3.5 w-3.5 mr-1.5" />
-                查看教程
-              </Button>
-            )}
-          </div>
         </div>
       </div>
 
-      {/* 教程图片弹窗 */}
+      {/* Tutorial Dialog */}
       {perk.tutorialImage && (
-        <Dialog open={tutorialDialogOpen} onOpenChange={setTutorialDialogOpen}>
+        <Dialog open={tutorialOpen} onOpenChange={setTutorialOpen}>
           <DialogContent className="max-w-7xl w-[95vw] max-h-[95vh] overflow-auto p-0">
             <DialogHeader className="p-4 pb-0">
               <DialogTitle>{perk.platform} - 教程</DialogTitle>
             </DialogHeader>
             <div className="p-4 pt-2">
-              <img
-                src={perk.tutorialImage}
-                alt={`${perk.platform} 教程`}
-                className="w-full h-auto min-w-0 rounded-lg"
-              />
+              <img src={perk.tutorialImage} alt={`${perk.platform} 教程`} className="w-full h-auto rounded-lg" />
             </div>
           </DialogContent>
         </Dialog>
       )}
+    </div>
+  );
+}
+
+// ── Regular Perk Card (2-col grid) ────────────────────────────────────────────
+function PerkCard({
+  perk,
+  copiedCodeId,
+  onCopyCode,
+}: {
+  perk: Perk;
+  copiedCodeId: string | null;
+  onCopyCode: (code: string, id: string) => void;
+}) {
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const isCopied = copiedCodeId === perk.id;
+  const iconSourceUrl = perk.iconUrl || perk.link;
+  const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
+  const hasTutorial = perk.tutorialImage || perk.tutorialLink;
+
+  const handleTutorialClick = () => {
+    if (perk.tutorialImage) setTutorialOpen(true);
+    else if (perk.tutorialLink) openSafeExternalUrl(perk.tutorialLink);
+  };
+
+  return (
+    <div
+      className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
+      style={{ borderLeftWidth: 3, borderLeftColor: perk.color }}
+    >
+      {/* Watermark */}
+      {!iconInfo.isDefault && (
+        <img
+          src={iconInfo.iconUrl}
+          alt=""
+          className="absolute -bottom-10 -right-8 w-36 h-36 opacity-[0.07] rotate-12 group-hover:opacity-[0.12] group-hover:rotate-6 transition-all duration-500 pointer-events-none select-none grayscale group-hover:grayscale-0 z-0"
+        />
+      )}
+
+      <div className="relative z-10 p-5 flex flex-col flex-1">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2.5">
+            <ResourceIcon url={iconSourceUrl} name={perk.platform} size={36} rounded />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">{perk.platform}</span>
+          </div>
+          {perk.badge && (
+            <span className={cn("text-[10px] font-bold px-2 py-0.5 rounded-full", BADGE_STYLE[perk.badge])}>
+              {perk.badge}
+            </span>
+          )}
+        </div>
+
+        {/* Highlight value + benefit */}
+        <div className="mb-4">
+          <div
+            className="text-2xl font-extrabold leading-none mb-1.5 tracking-tight"
+            style={{ color: perk.color }}
+          >
+            {perk.highlightValue}
+          </div>
+          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">{perk.benefit}</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{perk.description}</p>
+        </div>
+
+        {/* Code */}
+        {perk.code && (
+          <div className="mb-3 flex items-center gap-1.5">
+            <div className="flex-1 flex items-center justify-between bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1.5">
+              <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-200 tracking-widest">
+                {perk.code}
+              </span>
+              <button
+                onClick={() => onCopyCode(perk.code!, perk.id)}
+                className="ml-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                aria-label="复制邀请码"
+              >
+                {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="mt-auto flex items-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <button
+            onClick={() => openSafeExternalUrl(perk.link)}
+            className="flex-1 h-8 flex items-center justify-center gap-1.5 rounded-lg text-xs font-bold hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: perk.color, color: getTextColor(perk.color) }}
+          >
+            立即领取
+            <ExternalLink className="w-3 h-3" />
+          </button>
+          {hasTutorial && (
+            <button
+              onClick={handleTutorialClick}
+              className="h-8 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-1"
+            >
+              <BookOpen className="w-3 h-3" />
+              教程
+            </button>
+          )}
+          {perk.claimedCount && (
+            <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500 ml-auto">
+              <Users className="w-3 h-3" />
+              <span className="text-[11px] font-mono">{formatCount(perk.claimedCount)}</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Tutorial Dialog */}
+      {perk.tutorialImage && (
+        <Dialog open={tutorialOpen} onOpenChange={setTutorialOpen}>
+          <DialogContent className="max-w-7xl w-[95vw] max-h-[95vh] overflow-auto p-0">
+            <DialogHeader className="p-4 pb-0">
+              <DialogTitle>{perk.platform} - 教程</DialogTitle>
+            </DialogHeader>
+            <div className="p-4 pt-2">
+              <img src={perk.tutorialImage} alt={`${perk.platform} 教程`} className="w-full h-auto rounded-lg" />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </div>
+  );
+}
+
+// ── Other Resource Card ───────────────────────────────────────────────────────
+function OtherCard({
+  item,
+  copiedCodeId,
+  onCopyCode,
+}: {
+  item: OtherResourceItem;
+  copiedCodeId: string | null;
+  onCopyCode: (code: string, id: string) => void;
+}) {
+  const isCopied = copiedCodeId === item.id;
+  const iconSourceUrl = item.iconUrl || item.link || "";
+  const iconInfo = IconService.getIconInfo(iconSourceUrl, item.title);
+
+  return (
+    <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col border-l-[3px] border-l-slate-400 dark:border-l-slate-600">
+      {!iconInfo.isDefault && (
+        <img
+          src={iconInfo.iconUrl}
+          alt=""
+          className="absolute -bottom-10 -right-8 w-36 h-36 opacity-[0.07] rotate-12 group-hover:opacity-[0.12] group-hover:rotate-6 transition-all duration-500 pointer-events-none select-none grayscale group-hover:grayscale-0 z-0"
+        />
+      )}
+      <div className="relative z-10 p-5 flex flex-col flex-1">
+        <div className="flex items-center gap-2.5 mb-4">
+          <ResourceIcon url={iconSourceUrl} name={item.title} size={36} rounded />
+          <span className="font-bold text-sm text-slate-900 dark:text-white">{item.title}</span>
+        </div>
+
+        <div className="mb-4">
+          {item.highlight && (
+            <p className="text-base font-bold text-slate-800 dark:text-slate-100 mb-1">{item.highlight}</p>
+          )}
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{item.description}</p>
+        </div>
+
+        {item.code && (
+          <div className="mb-3 flex items-center gap-1.5">
+            <div className="flex-1 flex items-center justify-between bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1.5">
+              <span className="font-mono text-xs font-bold text-slate-700 dark:text-slate-200 tracking-widest">
+                {item.code}
+              </span>
+              <button
+                onClick={() => onCopyCode(item.code!, item.id)}
+                className="ml-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+                aria-label="复制邀请码"
+              >
+                {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
+          {item.link && (
+            <button
+              onClick={() => openSafeExternalUrl(item.link!)}
+              className="flex-1 h-8 flex items-center justify-center gap-1.5 rounded-lg bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition-opacity"
+            >
+              立即访问
+              <ExternalLink className="w-3 h-3" />
+            </button>
+          )}
+          {item.tutorialLink && (
+            <button
+              onClick={() => openSafeExternalUrl(item.tutorialLink!)}
+              className="h-8 px-3 rounded-lg border border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-1"
+            >
+              <BookOpen className="w-3 h-3" />
+              教程
+            </button>
+          )}
+          {item.claimedCount && (
+            <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500 ml-auto">
+              <Users className="w-3 h-3" />
+              <span className="text-[11px] font-mono">{formatCount(item.claimedCount)}</span>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

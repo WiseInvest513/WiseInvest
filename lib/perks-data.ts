@@ -6,11 +6,15 @@ export interface Perk {
   category: "Crypto" | "Banking" | "Stocks" | "VirtualCard" | "Wallet";
   description: string;
   benefit: string;
+  highlightValue: string; // 大字展示的核心价值，如 "20%"、"终生免佣"
+  badge?: "编辑推荐" | "热门" | "新上线" | "限时";
+  featured?: boolean; // 每个 section 的精选大卡
+  claimedCount?: number; // 已领取人数（社会证明）
   code: string | null;
-  link: string; // 邀请链接
-  iconUrl?: string; // 官方网站 URL，用于获取图标（可选，如果没有则使用 link）
-  tutorialLink: string | null; // 教程链接（新窗口打开）
-  tutorialImage?: string | null; // 教程图片路径（弹窗展示，如 /images/perks/xxx.png）
+  link: string;
+  iconUrl?: string;
+  tutorialLink: string | null;
+  tutorialImage?: string | null;
   color: string;
 }
 
@@ -21,7 +25,11 @@ export const perks: Perk[] = [
     platform: "Binance",
     category: "Crypto",
     description: "全球领先的加密货币交易所",
-    benefit: "20% 永久交易&钱包手续费减免",
+    benefit: "永久交易 & 钱包手续费减免",
+    highlightValue: "20%",
+    badge: "编辑推荐",
+    featured: true,
+    claimedCount: 3240,
     code: "WISE6666",
     link: "https://www.bsmkweb.com/join?ref=WISE6666",
     iconUrl: "https://www.binance.com",
@@ -33,7 +41,9 @@ export const perks: Perk[] = [
     platform: "OKX",
     category: "Crypto",
     description: "全球知名数字资产交易平台",
-    benefit: "20% 永久交易&钱包手续费减免",
+    benefit: "永久交易 & 钱包手续费减免",
+    highlightValue: "20%",
+    claimedCount: 1890,
     code: "WISE6666",
     link: "https://www.vmutkhamuut.com/join/WISE6666",
     iconUrl: "https://www.okx.com",
@@ -45,7 +55,9 @@ export const perks: Perk[] = [
     platform: "Bitget",
     category: "Crypto",
     description: "全球领先的加密货币衍生品交易平台",
-    benefit: "20% 手续费减免&新用户注册专享福利",
+    benefit: "手续费减免 & 新用户注册专享福利",
+    highlightValue: "20%",
+    claimedCount: 1120,
     code: "wise6666",
     link: "https://partner.hdmune.cn/bg/m53rb8lg",
     iconUrl: "https://www.bitget.com",
@@ -57,7 +69,9 @@ export const perks: Perk[] = [
     platform: "Bybit",
     category: "Crypto",
     description: "全球知名加密货币衍生品交易所",
-    benefit: "20% 手续费减免&注册即享交易优惠",
+    benefit: "手续费减免 & 注册即享交易优惠",
+    highlightValue: "20%",
+    claimedCount: 980,
     code: "WISE6666",
     link: "https://partner.bybit.com/b/WISE6666",
     iconUrl: "https://www.bybit.com",
@@ -70,7 +84,11 @@ export const perks: Perk[] = [
     platform: "Wise",
     category: "Banking",
     description: "全球汇款和货币兑换服务",
-    benefit: "600美元汇款免手续费",
+    benefit: "汇款免手续费额度",
+    highlightValue: "$600",
+    badge: "热门",
+    featured: true,
+    claimedCount: 2100,
     code: "ewke85g",
     link: "https://wise.com/invite/ihpc/ewke85g",
     iconUrl: "https://wise.com",
@@ -83,6 +101,8 @@ export const perks: Perk[] = [
     category: "Banking",
     description: "香港虚拟银行",
     benefit: "开户即享专属优惠",
+    highlightValue: "专属礼",
+    claimedCount: 760,
     code: "T659B7",
     link: "https://l.za.group/Dsh3x",
     iconUrl: "https://www.za.group",
@@ -92,10 +112,12 @@ export const perks: Perk[] = [
   // 股票交易
   {
     id: "longbridge",
-    platform: "LongBridge (长桥)",
+    platform: "LongBridge 长桥",
     category: "Stocks",
     description: "新一代港美股券商",
     benefit: "入金送港美股终生免佣",
+    highlightValue: "终生免佣",
+    claimedCount: 1450,
     code: "J8S4WK",
     link: "https://app.lbmkt.ing/session/login?account_channel=lb&channel=HB100031&invite-code=J8S4WK",
     iconUrl: "https://longbridgeapp.com",
@@ -108,6 +130,8 @@ export const perks: Perk[] = [
     category: "Stocks",
     description: "全球领先的在线券商",
     benefit: "低佣金交易，全球市场覆盖",
+    highlightValue: "全球",
+    claimedCount: 890,
     code: null,
     link: "https://ibkr.com/referral/fengyang247",
     iconUrl: "https://www.interactivebrokers.com",
@@ -120,6 +144,8 @@ export const perks: Perk[] = [
     category: "Stocks",
     description: "智能港美股交易平台",
     benefit: "新用户注册专享福利",
+    highlightValue: "新人礼",
+    claimedCount: 340,
     code: "ckxq",
     link: "https://www.usmart.com/",
     iconUrl: "https://hk.usmartglobal.com/zh-hk",
@@ -132,10 +158,14 @@ export const perks: Perk[] = [
     category: "Stocks",
     description: "一站式港美股交易平台",
     benefit: "开户即享交易优惠",
-    code: "020633",
-    link: "https://h5.fotechwealth.com/pages/startAccount.html#/index?channel=020633&aeCode=B2&langType=zhCn",
+    highlightValue: "开户礼",
+    badge: "编辑推荐",
+    featured: true,
+    claimedCount: 520,
+    code: "AGVPK3",
+    link: "https://h5.fotechwealth.com/pages/startAccount.html?channel=030005&aeCode=B2&invitationCode=AGVPK3&langType=zhCn",
     iconUrl: "https://www.futuhk.com",
-    tutorialLink: "https://x.com/WiseInvest513",
+    tutorialLink: "https://x.com/WiseInvest513/status/2037797205491515684",
     color: "#1A1A1A",
   },
   {
@@ -144,6 +174,8 @@ export const perks: Perk[] = [
     category: "Stocks",
     description: "香港本地老牌券商，支持港美股账户开设",
     benefit: "使用邀请码开户，享专属开户流程与活动支持",
+    highlightValue: "专属",
+    claimedCount: 180,
     code: "HN7787",
     link: "https://service.chiefgroup.com.hk/account-open/login?PromoCode=HN7787",
     iconUrl: "https://www.chiefgroup.com.hk/",
@@ -156,6 +188,8 @@ export const perks: Perk[] = [
     category: "Stocks",
     description: "全球知名综合券商，适合长期资产配置与跨市场投资",
     benefit: "国际账户开户入口，支持美股及多品类资产配置",
+    highlightValue: "国际",
+    claimedCount: 290,
     code: null,
     link: "https://international.schwab.com/open-account-intro/open-account?country=CH&branchCode=EO",
     iconUrl: "https://international.schwab.com",
@@ -169,6 +203,10 @@ export const perks: Perk[] = [
     category: "VirtualCard",
     description: "Bitget 平台虚拟 U 卡服务",
     benefit: "便捷的数字资产支付解决方案",
+    highlightValue: "数字支付",
+    badge: "新上线",
+    featured: true,
+    claimedCount: 670,
     code: "89zQdt",
     link: "https://web3.bitget.com/invite/card/89zQdt?channel=Copylink&utm_source=newInviteRebate&inviteCode=89zQdt",
     iconUrl: "https://www.bitget.com",
@@ -181,6 +219,8 @@ export const perks: Perk[] = [
     category: "VirtualCard",
     description: "SafePal 钱包虚拟 U 卡服务",
     benefit: "安全便捷的加密货币支付卡",
+    highlightValue: "安全支付",
+    claimedCount: 430,
     code: "884823",
     link: "https://www.safepal.com/bank/register?referral=884823",
     iconUrl: "https://www.safepal.com",
@@ -194,6 +234,10 @@ export const perks: Perk[] = [
     category: "Wallet",
     description: "币安 Web3 钱包，支持多链资产管理",
     benefit: "安全易用的多链钱包，支持 DeFi、NFT 与跨链",
+    highlightValue: "多链",
+    badge: "编辑推荐",
+    featured: true,
+    claimedCount: 560,
     code: "WISE555",
     link: "https://web3.binance.com/referral?ref=WISE555",
     iconUrl: "https://www.binance.com",
@@ -207,6 +251,8 @@ export const perks: Perk[] = [
     category: "Wallet",
     description: "OKX Web3 钱包，一站式链上资产管理",
     benefit: "多链钱包，支持 DeFi 交互、NFT 与跨链桥",
+    highlightValue: "多链",
+    claimedCount: 380,
     code: "WISE6666",
     link: "https://web3.okx.com/join/WISE6666",
     iconUrl: "https://www.okx.com",

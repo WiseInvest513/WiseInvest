@@ -145,6 +145,43 @@ export function StaggerItem({ children, className = "", index = 0 }: StaggerItem
   );
 }
 
+// ─── FadeInSection ────────────────────────────────────────────────────────────
+// 滚动到可见区域时触发 opacity + translateY 入场动画
+interface FadeInSectionProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number; // 秒
+  distance?: number; // px，默认 28px
+}
+
+export function FadeInSection({ children, className = "", delay = 0, distance = 28 }: FadeInSectionProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsInView(true); },
+      { threshold: 0.07, rootMargin: "-60px" }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => { if (ref.current) observer.unobserve(ref.current); };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translateY(0px)" : `translateY(${distance}px)`,
+        transition: `opacity 0.65s ease-out ${delay}s, transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94) ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 interface TitleAnimationProps {
   children: React.ReactNode;
   className?: string;

@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.git/
+dist/
+build/
+out/
+*.log
+*.lock
+package-lock.json
+tsconfig.tsbuildinfo
+public/
+docs/

@@ -11,7 +11,7 @@ import { AnthologySection } from "@/components/sections/AnthologySection";
 // import { NewsletterToast } from "@/components/newsletter-toast"; // 周刊订阅功能暂时隐藏
 import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles, ArrowUpRight, CheckCircle2, ShieldAlert, Radar } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
-import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation } from "@/components/motion/SectionWrapper";
+import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation, FadeInSection } from "@/components/motion/SectionWrapper";
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
 import { ParallaxBackground } from "@/components/motion/ParallaxBackground";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
@@ -50,6 +50,9 @@ function HeroSection() {
             `,
           }}
         />
+
+        {/* 噪点纹理 — 增加深色区域质感 */}
+        <NoiseTexture opacity={0.04} />
 
         {/* SVG Waves — white low-opacity for dark bg */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[9] overflow-hidden" style={{ height: "52%" }}>
@@ -236,6 +239,51 @@ function HeroSection() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 深色区域噪点纹理（2-4% opacity 增加质感）
+// ─────────────────────────────────────────────────────────────────────────────
+function NoiseTexture({ opacity = 0.035 }: { opacity?: number }) {
+  return (
+    <div
+      aria-hidden
+      className="absolute inset-0 pointer-events-none select-none"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E")`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "256px 256px",
+        opacity,
+        zIndex: 2,
+      }}
+    />
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SVG 曲线过渡：Hero(#0f172a) → MarqueeStrip(slate-50)
+// ─────────────────────────────────────────────────────────────────────────────
+function CurveDivider() {
+  return (
+    <div style={{ background: "#f8fafc", lineHeight: 0, display: "block" }}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 70"
+        preserveAspectRatio="none"
+        style={{ display: "block", width: "100%", height: "70px" }}
+      >
+        {/* 深色区域，底边向下弯曲，中心最深 */}
+        <path d="M0,0 L0,28 C480,70 960,70 1440,28 L1440,0 Z" fill="#0f172a" />
+        {/* 琥珀色描边，沿曲线走 */}
+        <path
+          d="M0,28 C480,70 960,70 1440,28"
+          fill="none"
+          stroke="rgba(245,158,11,0.3)"
+          strokeWidth="1.5"
+        />
+      </svg>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // MarqueeStrip — 投资平台品牌跑马灯
 // ─────────────────────────────────────────────────────────────────────────────
 const marqueeItems = [
@@ -254,7 +302,7 @@ const marqueeItems = [
 function MarqueeStrip() {
   const allItems = [...marqueeItems, ...marqueeItems];
   return (
-    <section className="bg-slate-50/80 dark:bg-slate-900/50 border-y border-slate-100 dark:border-slate-800 py-5 overflow-hidden relative">
+    <section className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800 py-5 overflow-hidden relative">
       {/* Left fade */}
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-slate-50/80 dark:from-slate-900/50 to-transparent" />
       {/* Right fade */}
@@ -752,41 +800,56 @@ export default function Home() {
       {/* ① Hero — 深色 #0f172a */}
       <HeroSection />
 
+      {/* ↓ SVG 曲线过渡，代替硬切边 */}
+      <CurveDivider />
+
       {/* ② MarqueeStrip — 过渡浅灰 */}
       <MarqueeStrip />
 
-      {/* ③ WeeklyAction — 纯白 */}
-      <div className="bg-white dark:bg-slate-900">
-        <WeeklyActionSection />
+      {/* ③ WeeklyAction — 天蓝淡底，与 Marquee 区分 */}
+      <div className="bg-sky-50/50 dark:bg-slate-900">
+        <FadeInSection>
+          <WeeklyActionSection />
+        </FadeInSection>
       </div>
 
       {/* ④ FeaturesSection — 再次深色，形成强对比 */}
-      <div style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0f172a 100%)" }}>
+      <div className="relative" style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0f172a 100%)" }}>
+        <NoiseTexture opacity={0.03} />
         <FeaturesSection />
       </div>
 
-      {/* ⑤ CEXSection — 浅灰，从深色中浮出 */}
-      <div className="bg-slate-50 dark:bg-slate-950">
-        <CEXSection />
+      {/* ⑤ CEXSection — 淡绿底，从深色中浮出 */}
+      <div className="bg-emerald-50/40 dark:bg-slate-950">
+        <FadeInSection>
+          <CEXSection />
+        </FadeInSection>
       </div>
 
-      {/* ⑥ ToolsSection — 纯白 */}
-      <div className="bg-white dark:bg-slate-900">
-        <ToolsSection />
+      {/* ⑥ ToolsSection — 淡靛蓝底 */}
+      <div className="bg-indigo-50/40 dark:bg-slate-900">
+        <FadeInSection>
+          <ToolsSection />
+        </FadeInSection>
       </div>
 
-      {/* ⑦ TweetsSection — 琥珀暖色调 */}
+      {/* ⑦ TweetsSection — 琥珀暖色调（保持） */}
       <div className="bg-amber-50/60 dark:bg-slate-900/80">
-        <TweetsSection />
+        <FadeInSection>
+          <TweetsSection />
+        </FadeInSection>
       </div>
 
-      {/* ⑧ AnthologySection — 浅灰 */}
-      <div className="bg-slate-50 dark:bg-slate-950">
-        <AnthologySection />
+      {/* ⑧ AnthologySection — 淡紫底，与 TweetsSection 区分 */}
+      <div className="bg-violet-50/40 dark:bg-slate-950">
+        <FadeInSection>
+          <AnthologySection />
+        </FadeInSection>
       </div>
 
       {/* ⑨ FriendlySites — 深色收尾，与 Hero 呼应 */}
-      <div style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0f172a 100%)" }}>
+      <div className="relative" style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0f172a 100%)" }}>
+        <NoiseTexture opacity={0.03} />
         <FriendlySitesSection />
       </div>
 
