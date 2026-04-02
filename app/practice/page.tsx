@@ -37,7 +37,8 @@ const practiceCategories = [
 
 export default function PracticePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative">
+      <div className="fixed inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)", backgroundSize: "22px 22px", opacity: 0.45 }} />
       <div className="max-w-7xl mx-auto px-4 py-4 md:py-6">
         {/* Header */}
         <div className="mb-8 text-center">

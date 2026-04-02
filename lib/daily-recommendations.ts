@@ -15,24 +15,24 @@ export interface RecommendationItem {
 const defaultRecommendations: RecommendationItem[] = [
   {
     type: "welfare",
-    title: "Wise Invest 专属粉丝群",
+    title: "Wise Invest 专属会员福利",
     desc: "加入社群，获取每日独家研报与宏观策略。",
-    link: "https://t.me/WiseInvestChat513",
+    link: "https://x.com/WiseInvest513/status/2012422265774964948",
     tag: "长期福利",
   },
   {
     type: "article",
-    title: "2026 giftgaff 英国手机卡购买",
-    desc: "一手渠道获取资源，短时间拥有一个自己的国外手机卡",
-    link: "https://www.youtube.com/watch?v=ZxElS0gVpY4",
-    tag: "SIM卡购买",
+    title: "2026 giffgaff 英国手机卡购买",
+    desc: "一手渠道和货源，帮助大家顺利拥有一个自己的境外手机卡",
+    link: "https://www.wise-sim.org/",
+    tag: "SIM 卡购买",
     featured: true,
   },
   {
     type: "wool",
-    title: "Bitget 虚拟U卡注册，开卡消费立领5U 空投",
+    title: "某交易所新户注册送 50U",
     desc: "限时活动，截止到本月底，手慢无。",
-    link: "https://www.youtube.com/watch?v=ZxElS0gVpY4",
+    link: "https://x.com/WiseInvest513/status/2012150097937899867",
     tag: "限时羊毛",
   },
 ];

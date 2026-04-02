@@ -3,9 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gift, Sparkles, TrendingUp, Calendar as CalendarIcon, Star } from "lucide-react";
+import { Gift, Sparkles, Calendar as CalendarIcon, Star } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { PriceTesterPasswordDialog } from "@/components/PriceTesterPasswordDialog";
 import { EventCalendar } from "@/components/EventCalendar";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
 import { type Tool } from "@/lib/data";
@@ -24,7 +23,7 @@ const navItems = [
   { label: "推文", href: "/tweets" },
   { label: "工具", href: "/tools" },
   { label: "学习路线", href: "/roadmap" },
-  { label: "文集", href: "/anthology" },
+  { label: "文章", href: "/articles" },
   { label: "福利", href: "/perks" },
   { label: "常用导航", href: "/resources" },
   { label: "实践", href: "/practice" },
@@ -32,7 +31,6 @@ const navItems = [
 ];
 
 export function Navbar() {
-  const [priceTesterOpen, setPriceTesterOpen] = useState(false);
   const [eventCalendarOpen, setEventCalendarOpen] = useState(false);
   const [recommendationOpen, setRecommendationOpen] = useState(false);
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
@@ -52,81 +50,66 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      {/* 悬浮岛屿导航 */}
+      <nav className="sticky top-0 z-50 w-full flex justify-center px-4 pt-3 pb-1 pointer-events-none">
+        <div className="pointer-events-auto w-full max-w-[1400px] flex items-center h-12 px-3 rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-xl shadow-md shadow-slate-300/30 dark:shadow-slate-950/60">
+
           {/* Logo */}
-          <Link href="/" prefetch={true} className="font-heading text-xl font-bold flex items-center gap-2">
-            <span>Wise Invest</span>
+          <Link href="/" prefetch={true} className="font-heading text-base font-bold text-slate-900 dark:text-white px-2 shrink-0">
+            Wise Invest
           </Link>
 
-          {/* Navigation Items */}
-          <div className="hidden md:flex items-center space-x-6">
+          {/* 分隔线 */}
+          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2 shrink-0" />
+
+          {/* Nav items — 居中 */}
+          <div className="flex-1 flex items-center justify-center gap-0.5">
             {navItems.map((item) => {
               const active = isActive(item.href);
               const isPerks = item.href === "/perks";
               return (
-              <Link
-                key={item.href}
-                href={item.href}
-                prefetch={true}
-                className={cn(
-                  "text-[15px] font-semibold transition-all relative flex items-center gap-1.5 group px-2 py-1.5 rounded-md",
-                  active
-                    ? "text-yellow-700 dark:text-yellow-400 font-bold bg-amber-50/80 dark:bg-amber-900/20 nav-item-burst"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100/70 dark:hover:bg-slate-800/60"
-                )}
-              >
-                {isPerks && (
-                  <Sparkles className="h-3.5 w-3.5 text-yellow-500 dark:text-yellow-400 group-hover:text-yellow-600 dark:group-hover:text-yellow-300 transition-colors" />
-                )}
-                {item.label}
-                {isPerks && (
-                  <span className="absolute -top-0.5 -right-1.5 h-2 w-2 bg-red-500 dark:bg-red-400 rounded-full animate-pulse" />
-                )}
-                <span
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  prefetch={true}
                   className={cn(
-                    "absolute -bottom-1 left-2 right-2 h-0.5 rounded-full bg-yellow-600 dark:bg-yellow-500 transition-transform duration-300 origin-center",
-                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    "relative flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm font-medium transition-all duration-200",
+                    active
+                      ? "bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/70"
                   )}
-                />
-              </Link>
+                >
+                  {isPerks && (
+                    <Sparkles className="h-3 w-3 text-yellow-500 dark:text-yellow-400 shrink-0" />
+                  )}
+                  {item.label}
+                  {isPerks && (
+                    <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 bg-red-500 rounded-full animate-pulse" />
+                  )}
+                </Link>
               );
             })}
           </div>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-2">
-            {/* Event Calendar Button */}
+          {/* 分隔线 */}
+          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1 shrink-0" />
+
+          {/* Right actions */}
+          <div className="flex items-center gap-0.5 shrink-0">
             <button
               onClick={() => setEventCalendarOpen(true)}
-              className="p-2 rounded-md hover:bg-muted transition-colors"
-              aria-label="重要事件日历"
+              className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               title="重要事件日历"
             >
-              <CalendarIcon className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+              <CalendarIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
-
-            {/* Daily Recommendation Button - 今日精选 */}
             <button
               onClick={() => setRecommendationOpen(true)}
-              className="p-2 rounded-md hover:bg-muted transition-colors relative group"
-              aria-label="今日精选"
+              className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               title="今日精选"
             >
-              <Gift className="h-5 w-5 text-yellow-600 dark:text-yellow-400 group-hover:scale-110 transition-transform" />
+              <Gift className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
-
-            {/* Price Tester Button */}
-            <button
-              onClick={() => setPriceTesterOpen(true)}
-              className="p-2 rounded-md hover:bg-muted transition-colors"
-              aria-label="后台测试入口"
-              title="后台测试入口"
-            >
-              <TrendingUp className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
-            </button>
-
-            {/* Theme Toggle */}
             <ThemeToggle />
           </div>
         </div>
@@ -137,12 +120,6 @@ export function Navbar() {
 
       {/* Daily Recommendation */}
       <DailyRecommendation open={recommendationOpen} onOpenChange={setRecommendationOpen} />
-
-      {/* Price Tester Password Dialog */}
-      <PriceTesterPasswordDialog
-        open={priceTesterOpen}
-        onOpenChange={setPriceTesterOpen}
-      />
 
       {/* Tool Modal */}
       <Dialog

@@ -253,7 +253,8 @@ export default function ToolsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative">
+      <div className="fixed inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)", backgroundSize: "22px 22px", opacity: 0.45 }} />
       {/* Main Container */}
       <div className="max-w-[1520px] mx-auto flex items-start relative pt-0">
         {/* --- LEFT SIDEBAR --- */}

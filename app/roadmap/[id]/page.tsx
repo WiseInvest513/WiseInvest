@@ -181,7 +181,7 @@ export default function RoadmapDetailPage() {
             路线图未找到
           </h1>
           <Link
-            href="/roadmap"
+            href="/roadmap?view=cards"
             className="text-yellow-600 dark:text-yellow-500 hover:underline"
           >
             返回路线图列表
@@ -299,7 +299,7 @@ export default function RoadmapDetailPage() {
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Back */}
         <Link
-          href="/roadmap"
+          href="/roadmap?view=cards"
           className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -592,7 +592,7 @@ export default function RoadmapDetailPage() {
                   </div>
                 </div>
                 <Link
-                  href="/roadmap"
+                  href="/roadmap?view=cards"
                   className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-all"
                 >
                   <ArrowLeft className="w-4 h-4" />

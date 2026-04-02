@@ -20,7 +20,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="w-full bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6">
+      <footer className="w-full bg-white dark:bg-slate-900 border-t-2 border-slate-200 dark:border-slate-700 mt-12 py-6 relative z-10 shadow-[0_-1px_12px_rgba(0,0,0,0.06)]">
         <div className="max-w-[1600px] mx-auto px-6">
           {/* Top Section: Multi-column Grid */}
           <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">

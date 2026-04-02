@@ -157,7 +157,8 @@ export default function TweetsPage() {
   const maxViews = useMemo(() => Math.max(...tweets.map((t) => t.views)), []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-white dark:from-slate-950 dark:via-slate-950 dark:to-slate-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative">
+      <div className="fixed inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)", backgroundSize: "22px 22px", opacity: 0.45 }} />
       <div className="max-w-[1520px] mx-auto flex items-start gap-4 relative px-4 md:px-6 pt-2">
 
         {/* --- LEFT SIDEBAR --- */}

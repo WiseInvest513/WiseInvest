@@ -15,6 +15,7 @@ import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation, FadeInSe
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
 import { ParallaxBackground } from "@/components/motion/ParallaxBackground";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
+import { tweets } from "@/lib/data";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Section A: Hero Section — Stripe-style dark centered layout
@@ -183,7 +184,7 @@ function HeroSection() {
               transition: "all 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.45s",
             }}
           >
-            做最懂小白的博主，投资最好是十年前，其次是现在。
+            做最懂小白的博主，最佳的投资学习网站。<br />投资最好是十年前，其次是现在。
           </p>
 
           {/* CTA Buttons */}
@@ -833,7 +834,46 @@ export default function Home() {
         </FadeInSection>
       </div>
 
-      {/* ⑦ TweetsSection — 琥珀暖色调（保持） */}
+      {/* ⑦ Tweet Ticker — 无缝滚动推文跑马灯 */}
+      <div className="relative bg-white dark:bg-slate-950 border-y border-slate-100 dark:border-slate-800 py-3 overflow-hidden">
+        {/* 左右渐隐遮罩 */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white dark:from-slate-950 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white dark:from-slate-950 to-transparent" />
+        <div className="flex" style={{ animation: "ticker 60s linear infinite" }}>
+          {[...tweets.slice(0, 20), ...tweets.slice(0, 20)].map((t, i) => {
+            const catFirst = t.category.split(",")[0].trim();
+            const abbr: Record<string, { label: string; color: string }> = {
+              web3:   { label: "W3",  color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" },
+              美股:   { label: "US",  color: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400" },
+              工具分享: { label: "工具", color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" },
+              思考:   { label: "思考", color: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400" },
+              指数投资: { label: "指数", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" },
+            };
+            const tag = abbr[catFirst] ?? { label: catFirst.slice(0, 2), color: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" };
+            return (
+              <Link
+                key={i}
+                href="/tweets"
+                className="flex items-center gap-2 px-5 shrink-0 group"
+              >
+                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${tag.color}`}>{tag.label}</span>
+                <span className="text-sm text-slate-600 dark:text-slate-400 whitespace-nowrap group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors max-w-[200px] truncate">
+                  {t.title}
+                </span>
+                <span className="text-slate-200 dark:text-slate-700 shrink-0">·</span>
+              </Link>
+            );
+          })}
+        </div>
+        <style jsx>{`
+          @keyframes ticker {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+        `}</style>
+      </div>
+
+      {/* ⑧ TweetsSection — 琥珀暖色调（保持） */}
       <div className="bg-amber-50/60 dark:bg-slate-900/80">
         <FadeInSection>
           <TweetsSection />

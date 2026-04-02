@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Clock, BookOpen, Brain } from "lucide-react";
 import MindMapCanvas from "@/components/MindMapCanvas";
 import { roadmaps, type RoadmapCategory } from "@/lib/roadmaps-data";
-import { SectionCardShell } from "@/components/sections/SectionCardShell";
 
 // Category definitions
 const categoryConfig: Record<RoadmapCategory, { label: string; icon: string }> = {
@@ -33,53 +33,101 @@ const roadmapCategories: RoadmapCategoryGroup[] = [
   { id: "ai_zone",          label: "AI 学习专区", emoji: "🤖", items: roadmaps.filter(r => r.category === "ai_zone") },
 ];
 
+// 每个分类对应的色系
+const categoryAccent: Record<RoadmapCategory, { dot: string; badge: string; badgeText: string; glow: string }> = {
+  investment:       { dot: "bg-amber-400",   badge: "bg-amber-100 dark:bg-amber-900/30",   badgeText: "text-amber-700 dark:text-amber-400",   glow: "group-hover:shadow-amber-100 dark:group-hover:shadow-amber-900/20" },
+  us_stocks:        { dot: "bg-indigo-400",  badge: "bg-indigo-100 dark:bg-indigo-900/30",  badgeText: "text-indigo-700 dark:text-indigo-400",  glow: "group-hover:shadow-indigo-100 dark:group-hover:shadow-indigo-900/20" },
+  web3:             { dot: "bg-blue-400",    badge: "bg-blue-100 dark:bg-blue-900/30",      badgeText: "text-blue-700 dark:text-blue-400",      glow: "group-hover:shadow-blue-100 dark:group-hover:shadow-blue-900/20" },
+  index_investing:  { dot: "bg-emerald-400", badge: "bg-emerald-100 dark:bg-emerald-900/30",badgeText: "text-emerald-700 dark:text-emerald-400",glow: "group-hover:shadow-emerald-100 dark:group-hover:shadow-emerald-900/20" },
+  overseas_earning: { dot: "bg-violet-400",  badge: "bg-violet-100 dark:bg-violet-900/30",  badgeText: "text-violet-700 dark:text-violet-400",  glow: "group-hover:shadow-violet-100 dark:group-hover:shadow-violet-900/20" },
+  ai_zone:          { dot: "bg-rose-400",    badge: "bg-rose-100 dark:bg-rose-900/30",      badgeText: "text-rose-700 dark:text-rose-400",      glow: "group-hover:shadow-rose-100 dark:group-hover:shadow-rose-900/20" },
+};
+
 // Roadmap Card Component
 function RoadmapCard({ roadmap, index }: { roadmap: (typeof roadmaps)[0]; index: number }) {
   const config = categoryConfig[roadmap.category];
+  const accent = categoryAccent[roadmap.category];
+  const maxDots = 6;
+  const stepCount = roadmap.steps.length;
+  const dots = Math.min(stepCount, maxDots);
+
   return (
-    <Link href={`/roadmap/${roadmap.id}`} className="block h-full roadmap-card-enter" style={{ animationDelay: `${index * 60}ms` }}>
-      <SectionCardShell className="h-full" contentClassName="p-6 rounded-xl flex flex-col h-full"
-        watermarkNode={
-          <svg viewBox="0 0 120 120" className="w-full h-full" aria-hidden>
-            <circle cx="60" cy="60" r="52" fill="none" stroke="#374151" strokeWidth="1.5"/>
-            <circle cx="60" cy="60" r="36" fill="none" stroke="#374151" strokeWidth="1"/>
-            <circle cx="60" cy="60" r="18" fill="#374151"/>
-          </svg>
-        }
-      >
-        <div className="flex items-start justify-between mb-4">
-          <div className="text-4xl">{roadmap.icon}</div>
-          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-            {config.label}
-          </span>
-        </div>
-        <h2 className="font-bold text-xl text-slate-900 dark:text-slate-50 mb-2 group-hover:text-amber-700 dark:group-hover:text-amber-500 transition-colors">
-          {roadmap.title}
-        </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4 flex-1 line-clamp-2">{roadmap.description}</p>
-        <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
-          <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-            <div className="flex items-center gap-1">
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>{roadmap.steps.length} 个步骤</span>
-            </div>
-            {roadmap.estimatedTotalTime && (
-              <div className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" />
-                <span>{roadmap.estimatedTotalTime}</span>
-              </div>
-            )}
+    <Link
+      href={`/roadmap/${roadmap.id}`}
+      className={`group block h-full roadmap-card-enter`}
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      <div className={`relative h-full flex flex-col rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${accent.glow}`}>
+        {/* 顶部彩色 accent 条 */}
+        <div className={`h-1 w-full ${accent.dot} opacity-80`} />
+
+        <div className="flex flex-col flex-1 p-5">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-3">
+            <div className="text-3xl leading-none">{roadmap.icon}</div>
+            <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${accent.badge} ${accent.badgeText}`}>
+              {config.label}
+            </span>
           </div>
-          <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
+
+          {/* Title */}
+          <h2 className="font-bold text-[17px] leading-snug text-slate-900 dark:text-white mb-2 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+            {roadmap.title}
+          </h2>
+
+          {/* Description */}
+          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed flex-1">
+            {roadmap.description}
+          </p>
+
+          {/* Step nodes visualization */}
+          <div className="mt-4 mb-3">
+            <div className="flex items-center gap-0">
+              {Array.from({ length: dots }).map((_, i) => (
+                <div key={i} className="flex items-center">
+                  <div className={`w-2.5 h-2.5 rounded-full border-2 border-white dark:border-slate-900 ring-1 ring-offset-0 transition-all duration-200 ${
+                    i < Math.ceil(dots / 2)
+                      ? `${accent.dot} ring-current`
+                      : "bg-slate-200 dark:bg-slate-700 ring-slate-200 dark:ring-slate-700"
+                  }`} />
+                  {i < dots - 1 && (
+                    <div className={`h-px w-5 ${i < Math.ceil(dots / 2) - 1 ? accent.dot + " opacity-60" : "bg-slate-200 dark:bg-slate-700"}`} />
+                  )}
+                </div>
+              ))}
+              {stepCount > maxDots && (
+                <span className="ml-2 text-[10px] text-slate-400">+{stepCount - maxDots}</span>
+              )}
+            </div>
+          </div>
+
+          {/* Footer meta */}
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
+              <span className="flex items-center gap-1">
+                <BookOpen className="w-3 h-3" />
+                {stepCount} 步骤
+              </span>
+              {roadmap.estimatedTotalTime && (
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
+                  {roadmap.estimatedTotalTime}
+                </span>
+              )}
+            </div>
+            <ArrowRight className="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-amber-500 group-hover:translate-x-1 transition-all" />
+          </div>
         </div>
-      </SectionCardShell>
+      </div>
     </Link>
   );
 }
 
 export default function RoadmapPage() {
-  // "mindmap" = show embedded mind map; anything else = category id showing cards
-  const [viewMode, setViewMode] = useState<"mindmap" | string>("mindmap");
+  const searchParams = useSearchParams();
+  const initialView = searchParams.get("view") === "cards" ? (roadmapCategories[0]?.id || "investment") : "mindmap";
+
+  const [viewMode, setViewMode] = useState<"mindmap" | string>(initialView);
   const [activeCategory, setActiveCategory] = useState<string>(roadmapCategories[0]?.id || "");
   const pendingCategoryRef = useRef<string | null>(null);
 
@@ -135,7 +183,16 @@ export default function RoadmapPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative">
+      {/* 点阵背景 */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)",
+          backgroundSize: "22px 22px",
+          opacity: 0.45,
+        }}
+      />
       <div className={`flex items-start relative pt-0 ${viewMode === "mindmap" ? "w-full" : "max-w-[1520px] mx-auto"}`}>
 
         {/* ── LEFT SIDEBAR ── */}
@@ -186,41 +243,62 @@ export default function RoadmapPage() {
             </div>
           ) : (
             <>
-              {/* Sticky header */}
-              <div className="sticky top-16 z-20 bg-white/95 dark:bg-slate-950/95 backdrop-blur pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 transition-all">
-                <div className="px-6 md:px-8">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-baseline gap-4">
-                      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">学习路线</h1>
-                      <span className="text-slate-500 dark:text-slate-400 text-sm">
-                        共 <span className="font-semibold text-slate-900 dark:text-slate-50">{roadmaps.length}</span> 个路线图
-                      </span>
-                    </div>
-                    <p className="text-base text-slate-600 dark:text-slate-400">
+              {/* Header */}
+              <div className="relative px-8 pt-8 pb-6 border-b border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm">
+                <div className="flex items-end justify-between flex-wrap gap-4">
+                  <div>
+                    <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">学习路线</h1>
+                    <p className="mt-1.5 text-slate-500 dark:text-slate-400 text-sm max-w-md">
                       系统化的学习路径，从零基础到进阶，一步步掌握投资和 Web3 的核心技能
                     </p>
+                  </div>
+                  {/* Stats */}
+                  <div className="flex items-center gap-1">
+                    {[
+                      { value: roadmaps.length, label: "条路线" },
+                      { value: roadmapCategories.filter(c => c.items.length > 0).length, label: "个分类" },
+                      { value: roadmaps.reduce((s, r) => s + r.steps.length, 0), label: "个步骤" },
+                    ].map((stat, i) => (
+                      <div key={stat.label} className="flex items-center gap-1">
+                        {i > 0 && <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-2" />}
+                        <div className="text-center px-2">
+                          <div className="text-xl font-black text-slate-800 dark:text-slate-100">{stat.value}</div>
+                          <div className="text-[11px] text-slate-400">{stat.label}</div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              {/* Cards */}
-              <div className="content-fade-in px-6 md:px-8 pb-20 pt-6">
-                {roadmapCategories.map(category => (
-                  <section key={category.id} id={category.id} className="mb-16 scroll-mt-24">
-                    <div className="mb-6">
-                      <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-2">
-                        <span className="text-2xl">{category.emoji}</span>
-                        {category.label}
-                      </h2>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">共 {category.items.length} 个路线图</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {category.items.map((roadmap, idx) => (
-                        <RoadmapCard key={roadmap.id} roadmap={roadmap} index={idx} />
-                      ))}
-                    </div>
-                  </section>
-                ))}
+              {/* Cards — 斑马纹分区 */}
+              <div className="content-fade-in pb-16">
+                {roadmapCategories.filter(c => c.items.length > 0).map((category, sectionIdx) => {
+                  const accent = categoryAccent[category.id as RoadmapCategory];
+                  const isEven = sectionIdx % 2 === 0;
+                  return (
+                    <section
+                      key={category.id}
+                      id={category.id}
+                      className="scroll-mt-20 py-7 px-6 md:px-8"
+                    >
+                      {/* 分类标题 */}
+                      <div className="flex items-center gap-3 mb-5">
+                        <div className={`w-1 h-6 rounded-full ${accent.dot}`} />
+                        <span className="text-xl leading-none">{category.emoji}</span>
+                        <h2 className="text-base font-bold text-slate-900 dark:text-white">{category.label}</h2>
+                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${accent.badge} ${accent.badgeText}`}>
+                          {category.items.length} 条路线
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {category.items.map((roadmap, idx) => (
+                          <RoadmapCard key={roadmap.id} roadmap={roadmap} index={idx} />
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
               </div>
             </>
           )}
