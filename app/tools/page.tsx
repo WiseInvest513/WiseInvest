@@ -256,7 +256,7 @@ export default function ToolsPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative">
       <div className="fixed inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)", backgroundSize: "22px 22px", opacity: 0.45 }} />
       {/* Main Container */}
-      <div className="max-w-[1520px] mx-auto flex items-start relative pt-0">
+      <div className="max-w-[1400px] mx-auto flex items-start relative pt-0">
         {/* --- LEFT SIDEBAR --- */}
         <aside className="w-48 shrink-0 sticky top-16 pt-6 self-start max-h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent hidden md:block scrollbar-hide">
           {/* Inner padding for content */}
@@ -285,24 +285,6 @@ export default function ToolsPage() {
 
         {/* --- RIGHT CONTENT AREA --- */}
         <main className="flex-1 min-w-0 flex flex-col">
-          {/* HEADER (Sticky) */}
-          <div className="sticky top-16 z-20 bg-white/95 dark:bg-slate-950/95 backdrop-blur pt-6 pb-4 border-b border-slate-100 dark:border-slate-800 transition-all">
-            <div className="px-6 md:px-8">
-              <div className="flex items-baseline gap-4">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Investment Tools
-                </h1>
-                <div className="flex items-center gap-3">
-                  <span className="text-slate-500 dark:text-slate-400 text-sm">
-                    共 <span className="font-semibold text-slate-900 dark:text-slate-50">
-                      {toolCategories.reduce((sum, cat) => sum + cat.items.length, 0)}
-                    </span> 个工具
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* SCROLLABLE CONTENT */}
           <div className="content-fade-in px-6 md:px-8 pb-20 pt-6">
             {/* Render tools grouped by category */}

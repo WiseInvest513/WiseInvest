@@ -193,7 +193,7 @@ export default function RoadmapPage() {
           opacity: 0.45,
         }}
       />
-      <div className={`flex items-start relative pt-0 ${viewMode === "mindmap" ? "w-full" : "max-w-[1520px] mx-auto"}`}>
+      <div className={`flex items-start relative pt-0 ${viewMode === "mindmap" ? "w-full" : "max-w-[1400px] mx-auto"}`}>
 
         {/* ── LEFT SIDEBAR ── */}
         <aside className="w-48 shrink-0 sticky top-16 pt-6 self-start max-h-[calc(100vh-64px)] overflow-y-auto border-r border-transparent hidden md:block scrollbar-hide">
@@ -244,7 +244,7 @@ export default function RoadmapPage() {
           ) : (
             <>
               {/* Header */}
-              <div className="relative px-8 pt-8 pb-6 border-b border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm">
+              <div className="relative px-8 pt-8 pb-6">
                 <div className="flex items-end justify-between flex-wrap gap-4">
                   <div>
                     <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">学习路线</h1>

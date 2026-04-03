@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin, BookOpen } from "lucide-react";
+import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
@@ -33,13 +34,13 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 // ─── 社媒增长数据（从 25年8月 开始） ──────────────────────
 const growthData = [
   { month: "25/08", twitter: 0,    youtube: 0,   bilibili: 0,    xiaohongshu: 0    },
-  { month: "25/09", twitter: 820,  youtube: 80,  bilibili: 210,  xiaohongshu: 650  },
-  { month: "25/10", twitter: 2300, youtube: 280, bilibili: 890,  xiaohongshu: 2100 },
-  { month: "25/11", twitter: 5800, youtube: 520, bilibili: 2400, xiaohongshu: 5300 },
-  { month: "25/12", twitter: 11200,youtube: 890, bilibili: 5200, xiaohongshu: 9800 },
-  { month: "26/01", twitter: 19500,youtube: 1300,bilibili: 8100, xiaohongshu: 13200},
-  { month: "26/02", twitter: 26800,youtube: 1650,bilibili: 10500,xiaohongshu: 15800},
-  { month: "26/03", twitter: 31200,youtube: 1900,bilibili: 12000,xiaohongshu: 17500},
+  { month: "25/09", twitter: 3000, youtube: 80,  bilibili: 500,  xiaohongshu: 1200 },
+  { month: "25/10", twitter: 10000,youtube: 280, bilibili: 1800, xiaohongshu: 4500 },
+  { month: "25/11", twitter: 15000,youtube: 520, bilibili: 4200, xiaohongshu: 8000 },
+  { month: "25/12", twitter: 20000,youtube: 890, bilibili: 6500, xiaohongshu: 11000},
+  { month: "26/01", twitter: 24000,youtube: 1300,bilibili: 8800, xiaohongshu: 13800},
+  { month: "26/02", twitter: 30000,youtube: 1650,bilibili: 10500,xiaohongshu: 15800},
+  { month: "26/03", twitter: 32000,youtube: 1900,bilibili: 12000,xiaohongshu: 17500},
   { month: "26/04", twitter: 34020,youtube: 2040,bilibili: 12873,xiaohongshu: 18302},
 ];
 
@@ -249,9 +250,9 @@ export default function AboutMe() {
             {/* 里程碑 */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
               {[
-                { month: "25/09", event: "首月破千", icon: "🎯" },
-                { month: "25/11", event: "Twitter 破万", icon: "🔥" },
-                { month: "25/12", event: "全网破 2 万", icon: "⚡" },
+                { month: "25/09", event: "首月破三千", icon: "🎯" },
+                { month: "25/10", event: "Twitter 破万", icon: "🔥" },
+                { month: "25/12", event: "Twitter 破两万", icon: "⚡" },
                 { month: "26/04", event: "全网突破 7 万", icon: "🚀" },
               ].map((m, i) => (
                 <div key={i} className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700/50 flex items-center gap-3">
@@ -374,8 +375,72 @@ export default function AboutMe() {
         </div>
       </section>
 
-      {/* ══ SECTION 5: 联系 ══════════════════════════════════ */}
+      {/* ══ SECTION 5: 精选教程 ══════════════════════════════ */}
       <section className="py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="mb-10">
+            <div className="flex items-center gap-2 mb-2">
+              <BookOpen className="w-5 h-5 text-amber-500" />
+              <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Latest Tutorials</span>
+            </div>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">最新系列教程</h2>
+            <p className="text-slate-500 dark:text-slate-400">复星证券系列 — 手把手带你完成开户与入金全流程</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                step: "01",
+                tag: "新手必看",
+                tagColor: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
+                title: "2026 年复星券商开户详细教程",
+                desc: "复星证券完整开户教程，含费率对比、福利政策、入金方式详解。46 年港资零售券商 No.1，仅凭身份证即可完成开户。",
+                href: "/articles/broker/sQSbLRe8",
+                accent: "from-amber-400 to-orange-500",
+                border: "border-amber-200 dark:border-amber-800/40",
+                bg: "bg-amber-50/50 dark:bg-amber-900/10",
+              },
+              {
+                step: "02",
+                tag: "进阶操作",
+                tagColor: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400",
+                title: "众安 & Ifast 银行入金复星最全教程",
+                desc: "详解如何通过众安银行与 Ifast 数字银行向复星证券入金，无港卡用户的最佳入金选择，最快四小时即可到账。",
+                href: "/articles/broker/myu8sVmc",
+                accent: "from-blue-400 to-sky-500",
+                border: "border-blue-200 dark:border-blue-800/40",
+                bg: "bg-blue-50/50 dark:bg-blue-900/10",
+              },
+            ].map((item, i) => (
+              <Link
+                key={i}
+                href={item.href}
+                className={`group relative rounded-3xl border ${item.border} ${item.bg} p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+              >
+                <div className="flex items-start justify-between mb-5">
+                  <div className={`text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br ${item.accent} opacity-20 select-none leading-none`}>
+                    {item.step}
+                  </div>
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${item.tagColor}`}>{item.tag}</span>
+                </div>
+                <h3 className="text-lg font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
+                  {item.desc}
+                </p>
+                <div className="flex items-center gap-1.5 text-sm font-semibold text-amber-600 dark:text-amber-400">
+                  <span>立即阅读</span>
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ SECTION 6: 联系 ══════════════════════════════════ */}
+      <section className="py-20 bg-white dark:bg-slate-900/50">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h3 className="text-3xl font-black text-slate-900 dark:text-slate-50 mb-4">想要建立商务合作？</h3>
           <p className="text-slate-500 dark:text-slate-400 mb-8">无论是项目推广、工具开发还是深度投研，欢迎随时通过推特联系我</p>

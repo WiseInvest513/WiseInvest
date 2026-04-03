@@ -28,7 +28,6 @@ const navItemsBefore = [
 const navItemsAfter = [
   { label: "福利", href: "/perks" },
   { label: "常用导航", href: "/resources" },
-  { label: "实践", href: "/practice" },
   { label: "关于我", href: "/aboutme" },
 ];
 

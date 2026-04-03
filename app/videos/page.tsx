@@ -58,7 +58,7 @@ const categoryEmoji: Record<string, string> = {
 
 export default function VideoContentPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(allCategories));
+  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
   const [selectedVideoId, setSelectedVideoId] = useState<number | null>(null);
 
   // 从 URL 读取选中视频
@@ -251,7 +251,7 @@ export default function VideoContentPage() {
         </main>
 
         {/* ══ RIGHT SIDEBAR ══════════════════════════════ */}
-        <aside className="w-64 shrink-0 border-l border-slate-200/80 dark:border-slate-800 hidden lg:flex flex-col bg-white dark:bg-slate-900">
+        <aside className="w-72 shrink-0 border-l border-slate-200/80 dark:border-slate-800 hidden lg:flex flex-col bg-white dark:bg-slate-900">
           <div className="px-5 pt-6 pb-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-slate-900 dark:text-slate-100">相关信息</p>
           </div>
