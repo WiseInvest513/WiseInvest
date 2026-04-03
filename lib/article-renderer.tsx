@@ -97,6 +97,31 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       i++; continue;
     }
 
+    // iframe
+    if (trimmed.startsWith("<iframe")) {
+      const srcMatch = trimmed.match(/src="([^"]+)"/);
+      const heightMatch = trimmed.match(/height="([^"]+)"/);
+      if (srcMatch) {
+        const src = srcMatch[1];
+        const height = heightMatch ? heightMatch[1] : "500";
+        elements.push(
+          <div key={k++} className="my-6 rounded-2xl overflow-hidden aspect-video">
+            <iframe
+              src={src}
+              width="100%"
+              height={height}
+              className="w-full rounded-xl"
+              frameBorder={0}
+              allowFullScreen
+            />
+          </div>
+        );
+        // 跳过多行 iframe 直到结束
+        while (i < lines.length && !lines[i].includes("/>") && !lines[i].includes("</iframe>")) i++;
+        i++; continue;
+      }
+    }
+
     // image
     const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
     if (imgMatch) {
