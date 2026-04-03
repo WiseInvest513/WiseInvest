@@ -63,7 +63,7 @@ export default function VideoContentPage() {
 
   // 从 URL 读取选中视频
   useEffect(() => {
-    const match = window.location.pathname.match(/\/practice\/video-content\/([a-z0-9]{8})$/);
+    const match = window.location.pathname.match(/\/videos\/([a-z0-9]{8})$/);
     if (match) {
       const uid = match[1];
       const found = videoData.find(v => genVideoUid(v.id) === uid);
@@ -99,7 +99,7 @@ export default function VideoContentPage() {
   const selectVideo = (video: Video) => {
     setSelectedVideoId(video.id);
     const uid = genVideoUid(video.id);
-    window.history.pushState(null, "", `/practice/video-content/${uid}`);
+    window.history.pushState(null, "", `/videos/${uid}`);
   };
 
   const videoId = selectedVideo ? getYoutubeId(selectedVideo.youtubeLink) : "";

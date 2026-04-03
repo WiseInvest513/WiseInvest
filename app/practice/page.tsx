@@ -13,25 +13,11 @@ const practiceCategories = [
     href: "/practice/dca-investment",
   },
   {
-    id: "video-content",
-    label: "视频内容",
-    iconUrl: "https://cdn.simpleicons.org/youtube/FF0000",
-    description: "每周一期的 YouTube 视频内容",
-    href: "/practice/video-content",
-  },
-  {
     id: "airdrop-tutorials",
     label: "空投系列教程",
     iconUrl: "https://cdn.simpleicons.org/gitbook/7C3AED",
     description: "按照\"人生作弊指南\"教程，严格领取币安 Alpha/欧易Boost空投，后投入 QQQ",
     href: "/practice/airdrop-tutorials",
-  },
-  {
-    id: "bitget-corner",
-    label: "Bitget 一期一会",
-    iconUrl: "https://www.bitget.com/favicon.ico",
-    description: "Bitget 新用户活动记录与介绍",
-    href: "/practice/bitget-corner",
   },
 ];
 
