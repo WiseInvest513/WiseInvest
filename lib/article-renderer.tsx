@@ -112,6 +112,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
               height={height}
               className="w-full rounded-xl"
               frameBorder={0}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
           </div>
