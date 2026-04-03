@@ -7,6 +7,7 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: https:",
   "connect-src 'self' https: wss: ws:",
+  "frame-src https://www.youtube.com https://player.bilibili.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
