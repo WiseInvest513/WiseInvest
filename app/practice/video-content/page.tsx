@@ -1,29 +1,22 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Calendar, ExternalLink, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { EmptyState } from "@/components/ui/empty-state";
-import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external-links";
+import { Calendar, Search, X, Play } from "lucide-react";
 
-// 视频分类（根据实际数据提取）
 const videoCategories = ["赚钱", "投资", "虚拟 U 卡", "出入金", "alpha", "港卡", "美股", "券商"];
 
-// 视频数据
 interface Video {
   id: number;
   title: string;
   date: string;
   youtubeLink: string;
-  category: string; // 支持多个分类，用逗号分隔
+  category: string;
+}
+
+function getYoutubeId(url: string): string {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=))([^?&\s]+)/);
+  return match ? match[1] : "";
 }
 
 const videoData: Video[] = [
@@ -35,10 +28,10 @@ const videoData: Video[] = [
     category: "券商",
   },
   {
-    id: 13,
-    title: "2026 年全网最全最详细 SafePal 入金盈透、众安入金盈透、入金盈透教程、虚拟 U 卡入金盈透、港卡入金盈透教程，无港卡入金最全解决方案，再不用担心无法投资美股了",
-    date: "2026-01-11",
-    youtubeLink: "https://youtu.be/6NoGmOejUsI?si=AZi1IyDsQgSHWJdi",
+    id: 15,
+    title: "2026 年全网最全最详细 Bitget 虚拟 U 卡入金盈透教程｜盈透入金教程｜虚拟 U 卡入金盈透｜券商入金教程，最快四小时即可到账、没有港卡入金盈透最佳选择、加密入金券商最佳选择！",
+    date: "2026-02-08",
+    youtubeLink: "https://youtu.be/9ji8KUh9ojs?si=VwFzDGHpX4nxMMP4",
     category: "出入金",
   },
   {
@@ -49,18 +42,18 @@ const videoData: Video[] = [
     category: "出入金",
   },
   {
-    id: 15,
-    title: "2026 年全网最全最详细 Bitget 虚拟 U 卡入金盈透教程｜盈透入金教程｜虚拟 U 卡入金盈透｜券商入金教程，最快四小时即可到账、没有港卡入金盈透最佳选择、加密入金券商最佳选择！",
-    date: "2026-02-08",
-    youtubeLink: "https://youtu.be/9ji8KUh9ojs?si=VwFzDGHpX4nxMMP4",
-    category: "出入金",
-  },
-  {
     id: 1,
     title: "2026 年全网最新最全领取推特创作者激励｜X 认证｜Stripe 认证｜X 开通创作收益｜推特创作者收益｜领取推特创作者收益｜推特创作者收益计划",
     date: "2026-01-15",
     youtubeLink: "https://youtu.be/h50rjDBiTIg",
     category: "赚钱",
+  },
+  {
+    id: 13,
+    title: "2026 年全网最全最详细 SafePal 入金盈透、众安入金盈透、入金盈透教程、虚拟 U 卡入金盈透、港卡入金盈透教程，无港卡入金最全解决方案，再不用担心无法投资美股了",
+    date: "2026-01-11",
+    youtubeLink: "https://youtu.be/6NoGmOejUsI?si=AZi1IyDsQgSHWJdi",
+    category: "出入金",
   },
   {
     id: 2,
@@ -139,76 +132,47 @@ const videoData: Video[] = [
     youtubeLink: "https://youtu.be/2LcPWwwMSqw",
     category: "投资",
   },
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // 按时间倒序排列
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 export default function VideoContentPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [activeRowId, setActiveRowId] = useState<number | null>(null);
-  const activeRowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [activeVideo, setActiveVideo] = useState<Video>(videoData[0]);
 
-  useEffect(() => {
-    return () => {
-      if (activeRowTimerRef.current) clearTimeout(activeRowTimerRef.current);
-    };
-  }, []);
-
-  // 筛选逻辑（支持多分类）
   const filteredVideos = useMemo(() => {
     return videoData.filter((video) => {
       const matchesSearch =
         searchQuery === "" ||
         video.title.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      // 支持多分类筛选（用逗号分隔）
-      const videoCategories = video.category.split(",").map((c) => c.trim());
-      const matchesCategory =
-        selectedCategory === null || videoCategories.includes(selectedCategory);
-      
+      const cats = video.category.split(",").map((c) => c.trim());
+      const matchesCategory = selectedCategory === null || cats.includes(selectedCategory);
       return matchesSearch && matchesCategory;
     });
   }, [searchQuery, selectedCategory]);
 
-  // 分页逻辑
-  const totalPages = Math.ceil(filteredVideos.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedVideos = filteredVideos.slice(startIndex, endIndex);
-
-  useMemo(() => {
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(1);
-    }
-  }, [currentPage, totalPages]);
+  const hasActiveFilters = searchQuery !== "" || selectedCategory !== null;
 
   const clearFilters = () => {
     setSearchQuery("");
     setSelectedCategory(null);
-    setCurrentPage(1);
   };
 
-  const hasActiveFilters = searchQuery !== "" || selectedCategory !== null;
+  const videoId = getYoutubeId(activeVideo.youtubeLink);
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 py-2 md:py-3">
-        {/* Header - Centered */}
-        <div className="mb-2">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        {/* Header */}
+        <div className="mb-4">
           <Link
             href="/practice"
-            className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 mb-2"
+            className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 mb-3"
           >
             ← 返回实践主页
           </Link>
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-1">
-              <img
-                src="https://cdn.simpleicons.org/youtube/FF0000"
-                alt="YouTube"
-                className="w-8 h-8"
-              />
+              <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube" className="w-8 h-8" />
               <h1 className="font-serif text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
                 视频内容
               </h1>
@@ -219,234 +183,138 @@ export default function VideoContentPage() {
           </div>
         </div>
 
-        {/* Search and Filter Section */}
-        <div className="mb-4 space-y-3">
-          {/* Search Bar */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              placeholder="搜索视频标题..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
-            />
-          </div>
-
-          {/* Category Filters */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm text-slate-600 dark:text-slate-400">分类筛选：</span>
-            <button
-              onClick={() => {
-                setSelectedCategory(null);
-                setCurrentPage(1);
-              }}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                selectedCategory === null
-                  ? "bg-yellow-400/95 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-[0_10px_18px_-12px_rgba(245,158,11,0.95)] ring-1 ring-yellow-300/90 [transform:translateY(-2px)]"
-                  : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_18px_-12px_rgba(15,23,42,0.55)]"
-              }`}
-            >
-              全部
-            </button>
-            {videoCategories.map((category) => {
-              const isSelected = selectedCategory === category;
-              return (
+        {/* Main Layout: Left list + Right player */}
+        <div className="flex gap-4 h-[calc(100vh-220px)] min-h-[500px]">
+          {/* Left: Video List */}
+          <div className="w-80 flex-shrink-0 flex flex-col border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900">
+            {/* Search */}
+            <div className="p-3 border-b border-slate-200 dark:border-slate-800">
+              <div className="relative mb-2">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="搜索视频..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                />
+              </div>
+              {/* Category filters */}
+              <div className="flex flex-wrap gap-1">
                 <button
-                  key={category}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setCurrentPage(1);
-                  }}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
-                    isSelected
-                      ? "bg-yellow-400/95 dark:bg-yellow-500 text-slate-900 dark:text-slate-900 font-bold shadow-[0_10px_18px_-12px_rgba(245,158,11,0.95)] ring-1 ring-yellow-300/90 [transform:translateY(-2px)]"
-                      : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-slate-100 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_18px_-12px_rgba(15,23,42,0.55)]"
+                  onClick={() => setSelectedCategory(null)}
+                  className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${
+                    selectedCategory === null
+                      ? "bg-amber-400 text-slate-900"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50"
                   }`}
                 >
-                  {category}
+                  全部
                 </button>
-              );
-            })}
-            {hasActiveFilters && (
-              <button
-                onClick={clearFilters}
-                className="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 px-2 py-1 rounded hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-              >
-                <X className="h-3.5 w-3.5" />
-                <span>清除筛选</span>
-              </button>
-            )}
-          </div>
-        </div>
+                {videoCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${
+                      selectedCategory === cat
+                        ? "bg-amber-400 text-slate-900"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-amber-50"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+                {hasActiveFilters && (
+                  <button onClick={clearFilters} className="px-2 py-0.5 rounded text-xs text-slate-400 hover:text-slate-600 flex items-center gap-0.5">
+                    <X className="w-3 h-3" /> 清除
+                  </button>
+                )}
+              </div>
+            </div>
 
-        {/* Results Count */}
-        <div className="mb-3 flex items-center justify-between">
-          <div className="text-sm text-slate-500 dark:text-slate-400">
-            找到 <span className="font-semibold text-slate-900 dark:text-slate-50">{filteredVideos.length}</span> 个视频
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-500 dark:text-slate-400">每页显示：</span>
-            <select
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-              className="px-2 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-xs text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:border-slate-300 dark:hover:border-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-colors"
-            >
-              <option value={10}>10 条</option>
-              <option value={20}>20 条</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-100 dark:border-slate-800 overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-white dark:bg-slate-950 hover:bg-white dark:hover:bg-slate-950 border-b border-gray-100 dark:border-slate-800">
-                  <TableHead className="w-32 font-semibold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-950">
-                    发布日期
-                  </TableHead>
-                  <TableHead className="w-auto font-semibold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-950">
-                    视频标题
-                  </TableHead>
-                  <TableHead className="w-32 font-semibold text-slate-500 dark:text-slate-400 text-center bg-white dark:bg-slate-950">
-                    分类
-                  </TableHead>
-                  <TableHead className="w-32 font-semibold text-slate-500 dark:text-slate-400 text-center bg-white dark:bg-slate-950">
-                    操作
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {paginatedVideos.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={4} className="p-0">
-                      <EmptyState
-                        icon={Search}
-                        title="暂无相关内容"
-                        description="没有找到匹配的视频，试试切换其他分类或修改搜索关键词？"
-                        action={hasActiveFilters ? { label: "重置筛选", onClick: clearFilters } : undefined}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  paginatedVideos.map((video, index) => {
-                    const isEven = index % 2 === 0;
-                    const isActiveRow = activeRowId === video.id;
-                    const handleRowClick = () => {
-                      if (activeRowTimerRef.current) {
-                        clearTimeout(activeRowTimerRef.current);
-                      }
-                      setActiveRowId(video.id);
-                      activeRowTimerRef.current = setTimeout(() => {
-                        setActiveRowId(null);
-                      }, 1100);
-                      openSafeExternalUrl(video.youtubeLink);
-                    };
-                    return (
-                      <TableRow
-                        key={video.id}
-                        onClick={handleRowClick}
-                        className={`group cursor-pointer transition-all duration-200 ${
-                          isEven ? "bg-white dark:bg-slate-900" : "bg-slate-50/80 dark:bg-slate-900/70"
-                        } ${
-                          isActiveRow
-                            ? "bg-amber-50/65 dark:bg-amber-900/15 [transform:translateY(-2px)] shadow-[0_12px_26px_-18px_rgba(245,158,11,0.9)]"
-                            : "hover:bg-amber-50/40 dark:hover:bg-slate-800/70 hover:[transform:translateY(-2px)] hover:shadow-[0_10px_22px_-16px_rgba(15,23,42,0.45)]"
-                        } active:[transform:translateY(-1px)] ${
-                          index !== paginatedVideos.length - 1 ? "border-b border-slate-200/80 dark:border-slate-800" : ""
-                        }`}
-                      >
-                        {/* Date Column */}
-                        <TableCell className="w-32 py-3 border-r border-slate-200 dark:border-slate-700">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
-                            <span className="font-mono text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
-                              {video.date}
-                            </span>
-                          </div>
-                        </TableCell>
-
-                        {/* Title Column */}
-                        <TableCell className="w-auto py-3 border-r border-slate-200 dark:border-slate-700">
-                          <h3 className="font-semibold text-[15px] text-slate-900 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
+            {/* Video list */}
+            <div className="flex-1 overflow-y-auto">
+              {filteredVideos.length === 0 ? (
+                <div className="p-6 text-center text-sm text-slate-400">暂无相关视频</div>
+              ) : (
+                filteredVideos.map((video) => {
+                  const isActive = activeVideo.id === video.id;
+                  return (
+                    <button
+                      key={video.id}
+                      onClick={() => setActiveVideo(video)}
+                      className={`w-full text-left px-3 py-3 border-b border-slate-100 dark:border-slate-800 transition-all ${
+                        isActive
+                          ? "bg-amber-50 dark:bg-amber-900/20 border-l-2 border-l-amber-400"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                      }`}
+                    >
+                      <div className="flex items-start gap-2">
+                        <div className={`mt-0.5 shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${isActive ? "bg-amber-400" : "bg-slate-100 dark:bg-slate-800"}`}>
+                          <Play className={`w-2.5 h-2.5 ${isActive ? "text-white" : "text-slate-400"}`} fill="currentColor" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className={`text-xs leading-relaxed line-clamp-2 ${isActive ? "text-amber-700 dark:text-amber-300 font-medium" : "text-slate-700 dark:text-slate-300"}`}>
                             {video.title}
-                          </h3>
-                        </TableCell>
-
-                        {/* Category Column */}
-                        <TableCell className="w-32 py-3 border-r border-slate-200 dark:border-slate-700">
-                          <div className="flex items-center justify-center gap-2 flex-wrap">
-                            {video.category.split(",").map((cat, idx) => (
-                              <span
-                                key={idx}
-                                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
-                              >
+                          </p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Calendar className="w-3 h-3 text-slate-400" />
+                            <span className="text-[11px] text-slate-400">{video.date}</span>
+                            <span className="text-[11px] text-slate-300 dark:text-slate-600">·</span>
+                            {video.category.split(",").map((cat, i) => (
+                              <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
                                 {cat.trim()}
                               </span>
                             ))}
                           </div>
-                        </TableCell>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })
+              )}
+            </div>
 
-                        {/* Action Column */}
-                        <TableCell className="w-32 py-3">
-                          <div className="flex items-center justify-center">
-                            <a
-                              href={getSafeExternalUrl(video.youtubeLink)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors group-hover:text-amber-700 dark:group-hover:text-amber-300"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                              <span>观看</span>
-                            </a>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                )}
-              </TableBody>
-            </Table>
+            {/* Count */}
+            <div className="px-3 py-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400 text-center">
+              共 {filteredVideos.length} 个视频
+            </div>
+          </div>
+
+          {/* Right: Player */}
+          <div className="flex-1 flex flex-col min-w-0">
+            {/* Player */}
+            <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingTop: "56.25%" }}>
+              <iframe
+                key={videoId}
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                title={activeVideo.title}
+                frameBorder={0}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+
+            {/* Video info */}
+            <div className="mt-4 px-1">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                {activeVideo.category.split(",").map((cat, i) => (
+                  <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-medium">
+                    {cat.trim()}
+                  </span>
+                ))}
+                <span className="flex items-center gap-1 text-xs text-slate-400">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {activeVideo.date}
+                </span>
+              </div>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-snug">
+                {activeVideo.title}
+              </h2>
+            </div>
           </div>
         </div>
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-between">
-            <div className="text-sm text-slate-500 dark:text-slate-400">
-              显示第 {startIndex + 1} - {Math.min(endIndex, filteredVideos.length)} 条，共{" "}
-              {filteredVideos.length} 条
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-md text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <span className="text-sm text-slate-500 dark:text-slate-400 px-4">
-                第 {currentPage} / {totalPages} 页
-              </span>
-              <button
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-md text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
