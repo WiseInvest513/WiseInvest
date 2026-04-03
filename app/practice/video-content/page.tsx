@@ -161,7 +161,7 @@ export default function VideoContentPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="max-w-[1400px] mx-auto px-4 py-4">
         {/* Header */}
         <div className="mb-4">
           <Link
@@ -184,9 +184,9 @@ export default function VideoContentPage() {
         </div>
 
         {/* Main Layout: Left list + Right player */}
-        <div className="flex gap-4 h-[calc(100vh-220px)] min-h-[500px]">
+        <div className="flex gap-5" style={{ height: "calc(100vh - 200px)", minHeight: 560 }}>
           {/* Left: Video List */}
-          <div className="w-80 flex-shrink-0 flex flex-col border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900">
+          <div className="w-96 flex-shrink-0 flex flex-col border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900">
             {/* Search */}
             <div className="p-3 border-b border-slate-200 dark:border-slate-800">
               <div className="relative mb-2">
@@ -283,8 +283,8 @@ export default function VideoContentPage() {
 
           {/* Right: Player */}
           <div className="flex-1 flex flex-col min-w-0">
-            {/* Player */}
-            <div className="relative w-full rounded-xl overflow-hidden bg-black" style={{ paddingTop: "56.25%" }}>
+            {/* Player - takes most of the space */}
+            <div className="flex-1 relative rounded-xl overflow-hidden bg-black min-h-0">
               <iframe
                 key={videoId}
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
@@ -297,7 +297,7 @@ export default function VideoContentPage() {
             </div>
 
             {/* Video info */}
-            <div className="mt-4 px-1">
+            <div className="mt-3 px-1 flex-shrink-0">
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 {activeVideo.category.split(",").map((cat, i) => (
                   <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 font-medium">
@@ -309,7 +309,7 @@ export default function VideoContentPage() {
                   {activeVideo.date}
                 </span>
               </div>
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-snug">
+              <h2 className="text-base font-bold text-slate-900 dark:text-white leading-snug line-clamp-2">
                 {activeVideo.title}
               </h2>
             </div>
