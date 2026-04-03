@@ -9,7 +9,7 @@ import { CEXSection } from "@/components/sections/CEXSection";
 import { TweetsSection } from "@/components/sections/TweetsSection";
 import { AnthologySection } from "@/components/sections/AnthologySection";
 // import { NewsletterToast } from "@/components/newsletter-toast"; // 周刊订阅功能暂时隐藏
-import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles, ArrowUpRight, CheckCircle2, ShieldAlert, Radar } from "lucide-react";
+import { MessageSquare, Wrench, Map, BookOpen, Gift, Navigation, Sparkles, Youtube, ArrowUpRight, CheckCircle2, ShieldAlert, Radar } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
 import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation, FadeInSection } from "@/components/motion/SectionWrapper";
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
@@ -466,8 +466,8 @@ const features = [
     description: "社区福利和会员专属权益",
   },
   {
-    name: "文集",
-    href: "/anthology",
+    name: "文章",
+    href: "/articles",
     icon: BookOpen,
     description: "深度文章和投资知识库",
   },
@@ -478,10 +478,10 @@ const features = [
     description: "精选的投资资源和导航链接",
   },
   {
-    name: "实践",
-    href: "/practice",
-    icon: Sparkles,
-    description: "社会性实践实验室",
+    name: "视频",
+    href: "/videos",
+    icon: Youtube,
+    description: "学习精彩 YouTube 视频",
   },
 ];
 
@@ -524,7 +524,7 @@ function FeaturesSection() {
             return (
               <StaggerItem key={feature.name} className={`${feature.span} ${feature.rowSpan}`} index={index}>
                 <InteractiveCard href={feature.href} className="h-full">
-                  <div className={`group relative h-full ${isPrimary ? "min-h-[200px] md:min-h-[400px]" : "min-h-[180px] md:min-h-[190px]"}`}>
+                  <div className={`group relative h-full ${isPrimary ? "min-h-[200px] md:min-h-[400px]" : "min-h-[180px] md:min-h-[220px]"}`}>
                     {/* Ambient glow */}
                     <div className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-yellow-500/15 to-amber-400/20 rounded-2xl blur-xl" />

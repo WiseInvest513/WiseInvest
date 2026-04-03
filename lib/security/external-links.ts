@@ -13,6 +13,7 @@ const ALLOWED_HOST_SUFFIXES = [
   "seekingalpha.com",
   "coinmarketcap.com",
   "core-wise-invest.org",
+  "wise-invest.org",
   "blog.blacknico.com",
   "blacknico.com",
   "gitbook.io",

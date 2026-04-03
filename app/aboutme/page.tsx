@@ -124,8 +124,8 @@ export default function AboutMe() {
   const socialFade = useFadeIn();
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)", backgroundSize: "22px 22px", opacity: 0.35 }} />
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden dot-grid">
+      
 
       {/* ══ SECTION 1: Hero ══════════════════════════════════ */}
       <section className="min-h-[80vh] flex items-center">

@@ -183,16 +183,8 @@ export default function RoadmapPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative">
-      {/* 点阵背景 */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          backgroundImage: "radial-gradient(circle, #94a3b8 1.5px, transparent 1.5px)",
-          backgroundSize: "22px 22px",
-          opacity: 0.45,
-        }}
-      />
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid">
+      {/* 点阵背景由 .dot-grid 伪元素提供 */}
       <div className={`flex items-start relative pt-0 ${viewMode === "mindmap" ? "w-full" : "max-w-[1400px] mx-auto"}`}>
 
         {/* ── LEFT SIDEBAR ── */}
