@@ -59,6 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
+      <head><meta name="referrer" content="strict-origin-when-cross-origin" /></head>
       <body className={`${inter.variable} ${nunito.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col relative`}>
         {/* Grain Texture Overlay */}
         <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.015] dark:opacity-[0.03]" style={{
