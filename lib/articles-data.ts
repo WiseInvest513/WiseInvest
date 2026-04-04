@@ -15,6 +15,7 @@ export interface Category {
 }
 
 export const categories: Category[] = [
+  { id: "domestic", name: "国内投资板块", emoji: "🇨🇳" },
   { id: "crypto",   name: "加密货币", emoji: "🪙" },
   { id: "broker",   name: "券商开户", emoji: "🏛️" },
   { id: "bank",     name: "银行账户", emoji: "💳" },

@@ -3,7 +3,7 @@ import { articles as hardcodedArticles } from "@/lib/articles-data";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/config";
-import { genUid } from "@/lib/article-renderer";
+import { genUid } from "@/lib/article-uid";
 import ArticlesPage from "@/app/articles/page";
 
 function getAllArticles() {

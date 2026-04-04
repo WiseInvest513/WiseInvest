@@ -1,21 +1,51 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 
-// ─── UID generation (deterministic 4-digit from article id) ──
-export function genUid(id: string): string {
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let h1 = 5381, h2 = 52711;
-  for (let i = 0; i < id.length; i++) {
-    const c = id.charCodeAt(i);
-    h1 = ((h1 << 5) + h1) ^ c;
-    h2 = ((h2 << 5) + h2) ^ c;
-  }
-  let result = "";
-  let seed = ((h1 >>> 0) * 0x100000000 + (h2 >>> 0));
-  for (let i = 0; i < 8; i++) {
-    result += chars[Math.abs(Math.floor(seed / Math.pow(62, i))) % 62];
-  }
-  return result;
+// ─── Image Lightbox ────────────────────────────────────────
+function ImageLightbox({ src, alt }: { src: string; alt: string }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
+  return (
+    <>
+      <img
+        src={src}
+        alt={alt}
+        className="w-full rounded-xl object-cover cursor-zoom-in"
+        loading="lazy"
+        onClick={() => setOpen(true)}
+      />
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          onClick={() => setOpen(false)}
+        >
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors"
+          >
+            ✕
+          </button>
+          <img
+            src={src}
+            alt={alt}
+            className="max-w-[90vw] max-h-[90vh] rounded-xl object-contain shadow-2xl"
+            onClick={e => e.stopPropagation()}
+          />
+        </div>
+      )}
+    </>
+  );
 }
+
+// ─── UID generation ────────────────────────────────────────
+export { genUid } from "@/lib/article-uid";
 
 // ─── TOC 提取 ──────────────────────────────────────────────
 export function extractToc(content: string) {
@@ -36,7 +66,7 @@ export function renderInline(text: string): React.ReactNode {
   let match: RegExpExecArray | null;
   while ((match = regex.exec(text)) !== null) {
     if (match.index > lastIdx) parts.push(<span key={key++}>{text.slice(lastIdx, match.index)}</span>);
-    if (match[1] != null) parts.push(<a key={key++} href={match[2]} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1])}</a>);
+    if (match[1] != null) parts.push(<a key={key++} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1])}</a>);
     else if (match[3] != null) parts.push(<strong key={key++} className="font-semibold">{match[3]}</strong>);
     else if (match[4] != null) parts.push(<code key={key++} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-400">{match[4]}</code>);
     lastIdx = match.index + match[0].length;
@@ -64,8 +94,8 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       const cls = {
         1: "text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4 scroll-mt-24",
         2: "text-xl font-bold text-slate-800 dark:text-slate-100 mt-8 mb-3 scroll-mt-24",
-        3: "text-lg font-semibold text-slate-800 dark:text-slate-200 mt-6 mb-2 scroll-mt-24",
-        4: "text-base font-semibold text-slate-700 dark:text-slate-300 mt-4 mb-2 scroll-mt-24",
+        3: "text-lg font-semibold text-slate-700 dark:text-slate-300 mt-6 mb-2 scroll-mt-24",
+        4: "text-base font-semibold text-slate-600 dark:text-slate-400 mt-4 mb-2 scroll-mt-24",
       }[level] ?? "";
       const Tag = `h${level}` as "h1"|"h2"|"h3"|"h4";
       elements.push(<Tag key={k++} id={id} className={cls}>{text}</Tag>);
@@ -130,7 +160,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       elements.push(
         <figure key={k++} className="my-6 max-w-4xl mx-auto">
           <div className="rounded-2xl bg-slate-100 dark:bg-slate-800 p-3">
-            <img src={src} alt={alt} className="w-full rounded-xl object-cover" loading="lazy" />
+            <ImageLightbox src={src} alt={alt} />
           </div>
           {alt && <figcaption className="mt-2 text-center text-xs text-slate-400 dark:text-slate-500">{alt}</figcaption>}
         </figure>
@@ -182,9 +212,14 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       const items: string[] = [];
       while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) { items.push(lines[i].trim().replace(/^\d+\.\s/, "")); i++; }
       elements.push(
-        <ol key={k++} className="my-4 space-y-2 pl-5 list-decimal marker:text-amber-500 marker:font-semibold">
-          {items.map((it, j) => <li key={j} className="text-slate-700 dark:text-slate-300 text-[16px] leading-8">{renderInline(it)}</li>)}
-        </ol>
+        <div key={k++} className="my-4 space-y-3">
+          {items.map((it, j) => (
+            <div key={j} className="flex items-start gap-3">
+              <span className="shrink-0 w-6 h-6 rounded-full bg-amber-400 text-white text-xs font-bold flex items-center justify-center mt-0.5">{j + 1}</span>
+              <span className="text-slate-700 dark:text-slate-300 text-[16px] leading-8 flex-1">{renderInline(it)}</span>
+            </div>
+          ))}
+        </div>
       );
       continue;
     }
