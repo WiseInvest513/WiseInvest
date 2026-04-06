@@ -17,7 +17,7 @@ export const dailyRecommendations: RecommendationItem[] = [
     type: "welfare",
     title: "Wise Invest 官方社群",
     desc: "加入 Telegram 社群，获取每日独家研报与宏观策略。",
-    link: "https://t.me/WiseInvestChat513",
+    link: "https://t.me/WiseInvest513Chat",
     tag: "长期福利",
   },
   {

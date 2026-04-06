@@ -51,7 +51,7 @@ const socials = [
   { name: "YouTube", count: 2040, label: "Subscribers", Icon: Youtube, pngPath: "https://cdn.simpleicons.org/youtube/FF0000", color: "hover:border-red-500 hover:shadow-red-100", cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10", text: "text-red-600", bg: "bg-red-50", link: "https://www.youtube.com/@WiseInvest513" },
   { name: "Bilibili", count: 12873, label: "Fans", Icon: Video, pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6", color: "hover:border-blue-400 hover:shadow-blue-100", cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10", text: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20", link: "https://space.bilibili.com/347066091" },
   { name: "WeChat", count: 4382, label: "Readers", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100", cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10", text: "text-green-600", bg: "bg-green-50", link: "https://mp.weixin.qq.com/s/uo-O5ekA9Zfe-fNY88sFig" },
-  { name: "Telegram", count: 0, displayValue: "Join Group", label: "Official Community", Icon: Send, pngPath: "https://cdn.simpleicons.org/telegram/26A5E4", color: "hover:border-sky-500 hover:shadow-sky-100", cardTone: "border-sky-100 dark:border-sky-800/40 bg-sky-50/40 dark:bg-sky-900/10", text: "text-sky-600", bg: "bg-sky-50", link: "https://t.me/WiseInvestChat513" },
+  { name: "Telegram", count: 0, displayValue: "Join Group", label: "Official Community", Icon: Send, pngPath: "https://cdn.simpleicons.org/telegram/26A5E4", color: "hover:border-sky-500 hover:shadow-sky-100", cardTone: "border-sky-100 dark:border-sky-800/40 bg-sky-50/40 dark:bg-sky-900/10", text: "text-sky-600", bg: "bg-sky-50", link: "https://t.me/WiseInvest513Chat" },
 ];
 
 // ─── 坚持的事 ─────────────────────────────────────────────
@@ -205,7 +205,7 @@ export default function AboutMe() {
                   className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-amber-500 hover:text-white transition-all shadow-md">
                   <Twitter className="w-4 h-4" /> 关注我
                 </a>
-                <a href={getSafeExternalUrl("https://t.me/WiseInvestChat513")} target="_blank" rel="noopener noreferrer"
+                <a href={getSafeExternalUrl("https://t.me/WiseInvest513Chat")} target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-semibold text-sm hover:border-amber-400 hover:text-amber-600 transition-all">
                   <Send className="w-4 h-4" /> 加入社群
                 </a>
