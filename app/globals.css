@@ -489,11 +489,11 @@ input[type="range"].slider::-moz-range-thumb {
 
 .dot-grid::before {
   background-position: 0 0;
-  animation: dot-flicker-a 5.5s ease-in-out infinite;
+  opacity: 0.7;
 }
 
 .dot-grid::after {
   background-position: 11px 11px;
-  animation: dot-flicker-b 4.8s ease-in-out infinite 1.4s;
+  opacity: 0.18;
 }
 
