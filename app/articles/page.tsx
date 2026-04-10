@@ -6,7 +6,7 @@ import {
   ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
   Library, ArrowRight, Search,
 } from "lucide-react";
-import { articles as hardcodedArticles, categories, type Article } from "@/lib/articles-data";
+import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
 import type { FsArticle } from "@/lib/articles-fs";
 import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
@@ -32,7 +32,7 @@ function useActiveToc(toc: { id: string }[]) {
 
 // ─── Main Component ────────────────────────────────────────
 export default function ArticlesPage() {
-  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(["crypto"]));
+  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(["crypto", "broker:fuxing", "broker:zhifu"]));
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
@@ -93,7 +93,7 @@ export default function ArticlesPage() {
   useEffect(() => { contentRef.current?.scrollTo({ top: 0, behavior: "smooth" }); }, [selectedArticleId]);
 
   const renderedContent = useMemo(
-    () => selectedArticle ? renderMarkdown(selectedArticle.content, toc) : null,
+    () => selectedArticle ? renderMarkdown(selectedArticle.content, toc, selectedArticle.imageLayout) : null,
     [selectedArticle, toc]
   );
 
@@ -121,6 +121,14 @@ export default function ArticlesPage() {
               const catArticles = articlesByCategory.get(cat.id) ?? [];
               const isOpen = openCategories.has(cat.id);
               const hasSelected = catArticles.some(a => a.id === selectedArticleId);
+              const catSubcategories = subcategories.filter(s => s.categoryId === cat.id);
+
+              // Split articles: those in a subcategory vs standalone
+              const subArticleIds = new Set(
+                catArticles.filter(a => (a as Article & { subcategoryId?: string }).subcategoryId).map(a => a.id)
+              );
+              const standaloneArticles = catArticles.filter(a => !subArticleIds.has(a.id));
+
               return (
                 <div key={cat.id} className="mb-0.5">
                   <button
@@ -148,7 +156,69 @@ export default function ArticlesPage() {
                   </button>
                   {isOpen && (
                     <div className="mb-1">
-                      {catArticles.map(art => {
+                      {/* Subcategory groups */}
+                      {catSubcategories.map(sub => {
+                        const subArticles = catArticles.filter(
+                          a => (a as Article & { subcategoryId?: string }).subcategoryId === sub.id
+                        );
+                        // always show subcategory even if empty
+                        const isSubOpen = openCategories.has(`${cat.id}:${sub.id}`);
+                        const subHasSelected = subArticles.some(a => a.id === selectedArticleId);
+                        return (
+                          <div key={sub.id}>
+                            <button
+                              onClick={() => toggleCategory(`${cat.id}:${sub.id}`)}
+                              className={cn(
+                                "w-full flex items-center gap-2 px-5 pl-[3.25rem] py-2 text-xs font-semibold transition-colors",
+                                subHasSelected
+                                  ? "text-amber-600 dark:text-amber-400"
+                                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                              )}
+                            >
+                              <span className="flex-1 text-left">{sub.name}</span>
+                              {subArticles.length > 0 && (
+                                <span className={cn(
+                                  "tabular-nums px-1.5 py-0.5 rounded-full text-[10px]",
+                                  subHasSelected
+                                    ? "bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400"
+                                    : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                                )}>{subArticles.length}</span>
+                              )}
+                              {isSubOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                            </button>
+                            {isSubOpen && (
+                              <div className="ml-[3.5rem] border-l border-slate-200 dark:border-slate-700/60 mb-1">
+                                {subArticles.length === 0 && (
+                                  <p className="pl-4 py-2 text-xs text-slate-400 dark:text-slate-600 italic">暂无文章</p>
+                                )}
+                                {subArticles.map(art => {
+                                  const isActive = selectedArticleId === art.id;
+                                  return (
+                                    <button
+                                      key={art.id}
+                                      onClick={() => selectArticle(art.id, cat.id)}
+                                      className={cn(
+                                        "w-full text-left pl-4 pr-4 py-2.5 text-sm transition-all duration-150 relative",
+                                        isActive
+                                          ? "text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/15 font-medium"
+                                          : "text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/40"
+                                      )}
+                                    >
+                                      {isActive && <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-amber-400 rounded-r-full" />}
+                                      <span className="line-clamp-2 leading-snug">{art.title}</span>
+                                      <span className="flex items-center gap-1 mt-1 text-[11px] text-slate-400 dark:text-slate-600">
+                                        <Clock className="w-2.5 h-2.5" />{art.readTime} 分钟
+                                      </span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                      {/* Standalone articles (not in any subcategory) */}
+                      {standaloneArticles.map(art => {
                         const isActive = selectedArticleId === art.id;
                         return (
                           <button

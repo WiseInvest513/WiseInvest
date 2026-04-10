@@ -40,7 +40,7 @@ function walkMd(dir: string): string[] {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) results.push(...walkMd(full));
-    else if (entry.isFile() && entry.name.endsWith(".md")) results.push(full);
+    else if (entry.isFile() && entry.name.endsWith(".md") || entry.name.endsWith(".mdx")) results.push(full);
   }
   return results;
 }
@@ -67,10 +67,12 @@ export function loadFsArticles(): FsArticle[] {
         id: meta.id,
         title: meta.title,
         categoryId: meta.categoryId ?? "",
+        subcategoryId: meta.subcategoryId,
         date: meta.date ?? "",
         readTime: parseInt(meta.readTime ?? "5", 10),
         summary: meta.summary ?? "",
         content: resolveImagePaths(content, basePath),
+        imageLayout: meta.imageLayout,
         basePath,
       });
     } catch {

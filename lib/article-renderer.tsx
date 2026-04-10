@@ -76,7 +76,7 @@ export function renderInline(text: string): React.ReactNode {
 }
 
 // ─── Markdown Renderer ─────────────────────────────────────
-export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[]) {
+export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string) {
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
   let tocIdx = 0; let i = 0; let k = 0;
@@ -153,16 +153,34 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       }
     }
 
-    // image
+    // image row (multiple images on one line → display side by side)
+    const allImgMatches = [...trimmed.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)];
+    if (allImgMatches.length > 1) {
+      elements.push(
+        <div key={k++} className="my-6 flex gap-3 items-start">
+          {allImgMatches.map(([, alt, src], idx) => (
+            <figure key={idx} className="flex-1 min-w-0">
+              <div className="rounded-2xl bg-slate-100 dark:bg-slate-800 p-2">
+                <ImageLightbox src={src} alt={alt} />
+              </div>
+              {alt && <figcaption className="mt-1 text-center text-xs text-slate-400 dark:text-slate-500">{alt}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      );
+      i++; continue;
+    }
+
+    // image (single)
     const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
     if (imgMatch) {
       const [, alt, src] = imgMatch;
       elements.push(
-        <figure key={k++} className="my-6 max-w-4xl mx-auto">
-          <div className="rounded-2xl bg-slate-100 dark:bg-slate-800 p-3">
+        <figure key={k++} className={imageLayout === "portrait" ? "my-6 mx-auto w-fit" : "my-6 max-w-4xl mx-auto"}>
+          <div className={imageLayout === "portrait" ? "rounded-2xl bg-slate-100 dark:bg-slate-800 p-2 w-[260px]" : "rounded-2xl bg-slate-100 dark:bg-slate-800 p-3"}>
             <ImageLightbox src={src} alt={alt} />
           </div>
-          {alt && <figcaption className="mt-2 text-center text-xs text-slate-400 dark:text-slate-500">{alt}</figcaption>}
+          {alt && <figcaption className={`mt-1.5 text-center text-xs text-slate-400 dark:text-slate-500${imageLayout === "portrait" ? " w-[260px]" : ""}`}>{alt}</figcaption>}
         </figure>
       );
       i++; continue;
