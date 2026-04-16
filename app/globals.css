@@ -497,3 +497,11 @@ input[type="range"].slider::-moz-range-thumb {
   opacity: 0.18;
 }
 
+.dot-grid-light::before {
+  opacity: 0.2;
+}
+
+.dot-grid-light::after {
+  opacity: 0.06;
+}
+

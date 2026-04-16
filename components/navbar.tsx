@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube } from "lucide-react";
+import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EventCalendar } from "@/components/EventCalendar";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
@@ -41,6 +41,7 @@ export function Navbar() {
   const [recommendationOpen, setRecommendationOpen] = useState(false);
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const [contentOpen, setContentOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -61,6 +62,10 @@ export function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   return (
     <>
       <nav className="sticky top-0 z-50 w-full flex justify-center px-4 pt-3 pb-1 pointer-events-none">
@@ -71,10 +76,10 @@ export function Navbar() {
             Wise Invest
           </Link>
 
-          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2 shrink-0" />
+          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2 shrink-0 hidden md:block" />
 
-          {/* Nav items */}
-          <div className="flex-1 flex items-center justify-center gap-0.5">
+          {/* Nav items - desktop only */}
+          <div className="hidden md:flex flex-1 items-center justify-center gap-0.5">
             {navItemsBefore.map((item) => {
               const active = isActive(item.href);
               return (
@@ -161,6 +166,19 @@ export function Navbar() {
             })}
           </div>
 
+          {/* Mobile: spacer + hamburger */}
+          <div className="flex-1 md:hidden" />
+          <button
+            className="md:hidden p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors mr-1"
+            onClick={() => setMobileMenuOpen(v => !v)}
+            aria-label="菜单"
+          >
+            {mobileMenuOpen
+              ? <X className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+              : <Menu className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+            }
+          </button>
+
           <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1 shrink-0" />
 
           {/* Right actions */}
@@ -175,6 +193,68 @@ export function Navbar() {
           </div>
         </div>
       </nav>
+
+      {/* Mobile menu dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed top-[64px] left-0 right-0 z-40 mx-3 mt-1 rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl shadow-lg overflow-hidden">
+          <div className="py-2">
+            {navItemsBefore.map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  "flex items-center px-5 py-3 text-sm font-medium transition-colors",
+                  isActive(item.href)
+                    ? "text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20"
+                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+            {contentItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 px-5 py-3 text-sm font-medium transition-colors",
+                    isActive(item.href)
+                      ? "text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20"
+                      : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  )}
+                >
+                  <Icon className="w-4 h-4 text-slate-400" />
+                  {item.label}
+                  <span className="ml-1 text-xs text-slate-400">{item.desc}</span>
+                </Link>
+              );
+            })}
+            {navItemsAfter.map(item => {
+              const isPerks = item.href === "/perks";
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "flex items-center gap-2 px-5 py-3 text-sm font-medium transition-colors",
+                    isActive(item.href)
+                      ? "text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20"
+                      : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  )}
+                >
+                  {isPerks && <Sparkles className="h-3.5 w-3.5 text-yellow-500" />}
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <EventCalendar open={eventCalendarOpen} onOpenChange={setEventCalendarOpen} />
       <DailyRecommendation open={recommendationOpen} onOpenChange={setRecommendationOpen} />

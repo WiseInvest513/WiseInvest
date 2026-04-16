@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
-  Library, ArrowRight, Search,
+  Library, ArrowRight, Search, Menu,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
 import type { FsArticle } from "@/lib/articles-fs";
@@ -35,6 +35,7 @@ export default function ArticlesPage() {
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(["crypto", "broker:fuxing", "broker:zhifu"]));
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [allArticles, setAllArticles] = useState<(Article | FsArticle)[]>(hardcodedArticles);
 
@@ -88,6 +89,7 @@ export default function ArticlesPage() {
     setOpenCategories(prev => new Set([...prev, catId]));
     contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
     window.history.pushState(null, "", `/articles/${catId}/${genUid(id)}`);
+    setSidebarOpen(false);
   };
 
   useEffect(() => { contentRef.current?.scrollTo({ top: 0, behavior: "smooth" }); }, [selectedArticleId]);
@@ -99,10 +101,23 @@ export default function ArticlesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      {/* Mobile backdrop */}
+      {sidebarOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       <div className="w-full flex h-[calc(100vh-64px)]">
 
         {/* ══ LEFT SIDEBAR ═══════════════════════════════ */}
-        <aside className="w-72 shrink-0 flex flex-col border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <aside className={cn(
+          "shrink-0 flex flex-col border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900",
+          "fixed md:relative top-[64px] md:top-auto left-0 bottom-0 md:bottom-auto z-50 md:z-auto",
+          "w-[280px] md:w-72 transition-transform duration-300 ease-in-out",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        )}>
           <div className="px-5 pt-6 pb-4">
             <h1 className="text-base font-bold text-slate-900 dark:text-white tracking-tight mb-4">文章</h1>
             <div className="relative">
@@ -268,18 +283,31 @@ export default function ArticlesPage() {
 
         {/* ══ CENTER CONTENT ═════════════════════════════ */}
         <main ref={contentRef} className="flex-1 min-w-0 overflow-y-auto" style={{ backgroundImage: "radial-gradient(circle, rgba(148,163,184,0.25) 1.5px, transparent 1.5px)", backgroundSize: "22px 22px" }}>
+          {/* Mobile top bar */}
+          <div className="md:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-12 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-1.5 -ml-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+            >
+              <Menu className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+            </button>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate flex-1">
+              {selectedArticle ? selectedArticle.title : "文章"}
+            </span>
+          </div>
+
           {selectedArticle ? (
-            <article key={selectedArticleId} className="max-w-6xl mx-auto px-8 py-12">
+            <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
               <div className="flex items-center gap-2 mb-5">
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
                   {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
                 </span>
               </div>
-              <h1 className="text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-4 tracking-tight">
+              <h1 className="text-2xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-4 tracking-tight">
                 {selectedArticle.title}
               </h1>
-              <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-5 border-l-2 border-slate-200 dark:border-slate-700 pl-4">
+              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-5 border-l-2 border-slate-200 dark:border-slate-700 pl-4">
                 {selectedArticle.summary}
               </p>
               <div className="flex items-center gap-5 text-xs text-slate-400 pb-7 border-b border-slate-100 dark:border-slate-800">
@@ -289,7 +317,7 @@ export default function ArticlesPage() {
               <div className="mt-8">{renderedContent}</div>
             </article>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center px-8 py-16">
+            <div className="h-full flex flex-col items-center justify-center px-4 md:px-8 py-16">
               <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center mb-6 shadow-lg shadow-amber-200 dark:shadow-amber-900/30">
                 <BookOpen className="w-10 h-10 text-white" />
               </div>
@@ -297,7 +325,7 @@ export default function ArticlesPage() {
               <p className="text-sm text-slate-400 dark:text-slate-500 max-w-sm text-center leading-relaxed mb-12">
                 从左侧按分类浏览所有文章，点击后在此处本地阅读，无需跳转外部链接。
               </p>
-              <div className="grid grid-cols-2 gap-4 w-full max-w-xl mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl mb-6">
                 {allArticles.slice(0, 4).map(art => {
                   const cat = categories.find(c => c.id === art.categoryId);
                   return (

@@ -50,7 +50,7 @@ const socials = [
   { name: "Little Red Book", count: 18302, label: "Followers", Icon: Instagram, pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100", cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10", text: "text-rose-500", bg: "bg-rose-50", link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
   { name: "YouTube", count: 2040, label: "Subscribers", Icon: Youtube, pngPath: "https://cdn.simpleicons.org/youtube/FF0000", color: "hover:border-red-500 hover:shadow-red-100", cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10", text: "text-red-600", bg: "bg-red-50", link: "https://www.youtube.com/@WiseInvest513" },
   { name: "Bilibili", count: 12873, label: "Fans", Icon: Video, pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6", color: "hover:border-blue-400 hover:shadow-blue-100", cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10", text: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20", link: "https://space.bilibili.com/347066091" },
-  { name: "WeChat", count: 4382, label: "Readers", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100", cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10", text: "text-green-600", bg: "bg-green-50", link: "https://mp.weixin.qq.com/s/uo-O5ekA9Zfe-fNY88sFig" },
+  { name: "WeChat", count: 4382, label: "Readers", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100", cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10", text: "text-green-600", bg: "bg-green-50", link: "https://mp.weixin.qq.com/s/TY05tsqsUgoBNDgsKCiSag" },
   { name: "Telegram", count: 0, displayValue: "Join Group", label: "Official Community", Icon: Send, pngPath: "https://cdn.simpleicons.org/telegram/26A5E4", color: "hover:border-sky-500 hover:shadow-sky-100", cardTone: "border-sky-100 dark:border-sky-800/40 bg-sky-50/40 dark:bg-sky-900/10", text: "text-sky-600", bg: "bg-sky-50", link: "https://t.me/WiseInvest513Chat" },
 ];
 
@@ -124,7 +124,7 @@ export default function AboutMe() {
   const socialFade = useFadeIn();
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden dot-grid">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden dot-grid dot-grid-light">
       
 
       {/* ══ SECTION 1: Hero ══════════════════════════════════ */}
