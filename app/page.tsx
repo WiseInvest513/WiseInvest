@@ -711,10 +711,10 @@ const friendlySites = [
     watermarkEmoji: "🌍" as const,
   },
   {
-    name: "OpenClaw 入门学习教程",
-    url: "https://www.wise-claw.org/",
-    description: "专业的学习教程和资源库，助力投资者快速上手。",
-    watermarkEmoji: "⚙️" as const,
+    name: "Wise Hold",
+    url: "https://www.wise-hold.com/",
+    description: "价值投资追踪平台，助力投资者发现优质标的。",
+    watermarkEmoji: "📈" as const,
   },
   {
     name: "ETF 投资指南",

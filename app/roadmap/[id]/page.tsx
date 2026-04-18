@@ -47,7 +47,7 @@ function StepCard({
         isActive &&
           "border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-900 shadow-md cursor-pointer hover:shadow-lg hover:-translate-y-0.5",
         isLocked &&
-          "border-slate-100 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 opacity-50 cursor-not-allowed",
+          "border-slate-100 dark:border-slate-800/50 bg-white dark:bg-slate-900 opacity-50 cursor-not-allowed",
         !isLocked &&
           !isActive &&
           isCompleted &&
@@ -295,7 +295,7 @@ export default function RoadmapDetailPage() {
     roadmaps[currentIndex < roadmaps.length - 1 ? currentIndex + 1 : 0];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid dot-grid-subtle">
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Back */}
         <Link

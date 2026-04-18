@@ -472,6 +472,12 @@ input[type="range"].slider::-moz-range-thumb {
   85%     { opacity: 0.12; }
 }
 
+/* ── 点阵背景 ── */
+/* 全局可通过 CSS 变量控制透明度：
+   --dot-primary:   主层不透明度（默认 0.7）
+   --dot-secondary: 副层不透明度（默认 0.18）
+   用法示例：style="--dot-primary:0.3; --dot-secondary:0.08"
+*/
 .dot-grid {
   position: relative;
   isolation: isolate;
@@ -489,19 +495,29 @@ input[type="range"].slider::-moz-range-thumb {
 
 .dot-grid::before {
   background-position: 0 0;
-  opacity: 0.7;
+  opacity: var(--dot-primary, 0.7);
 }
 
 .dot-grid::after {
   background-position: 11px 11px;
-  opacity: 0.18;
+  opacity: var(--dot-secondary, 0.18);
 }
 
+/* 轻量版：适合内容密集页面（卡片多、文字多） */
 .dot-grid-light::before {
-  opacity: 0.2;
+  opacity: var(--dot-primary, 0.2);
 }
 
 .dot-grid-light::after {
-  opacity: 0.06;
+  opacity: var(--dot-secondary, 0.06);
+}
+
+/* 极轻版：内容卡片有透明背景时使用 */
+.dot-grid-subtle::before {
+  opacity: var(--dot-primary, 0.12);
+}
+
+.dot-grid-subtle::after {
+  opacity: var(--dot-secondary, 0.04);
 }
 

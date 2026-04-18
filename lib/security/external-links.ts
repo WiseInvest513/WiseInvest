@@ -35,7 +35,7 @@ const ALLOWED_HOST_SUFFIXES = [
   "wise.com",
   "wise-sim.org",
   "wise-witness.com",
-  "wise-claw.org",
+  "wise-hold.com",
   "wise-etf.com",
   "za.group",
   "lbmkt.ing",
