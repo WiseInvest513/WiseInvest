@@ -68,13 +68,13 @@ export const btcCycles: BTCCycle[] = [
     cycleNum: 4,
     halvingDate: "2024-04-20",
     halvingPrice: 63000,
-    bullTopDate: "2025-09-29",   // 实际周期最高点（Yahoo Finance 周K）
-    bullTopPrice: 123513,
+    bullTopDate: "2025-10-06",   // 实际周期最高点（多平台确认：$126,210 ATH）
+    bullTopPrice: 126210,
     bearBottomDate: "",
     bearBottomPrice: 0,
     rewardBefore: 6.25,
     rewardAfter: 3.125,
-    bullDays: 527,               // 2024-04-20 → 2025-09-29（WolfyXBT预测534天，实际527天）
+    bullDays: 534,               // 2024-04-20 → 2025-10-06（534天）
     bearDays: 0,
     gainFromBottom: "进行中",
   },
@@ -82,10 +82,9 @@ export const btcCycles: BTCCycle[] = [
 
 export const CYCLE4 = {
   halvingDate: new Date("2024-04-20"),
-  // 实际周期高点：2025-09-29 $123,513（Yahoo Finance 数据）
-  // WolfyXBT 预测 534天/$126k，实际527天/$123.5k，误差<3%，预测极准
-  knownTopDate: new Date("2025-09-29"),
-  knownTopPrice: 123513,
+  // 实际周期高点：2025-10-06 $126,210（ATH，多平台确认）
+  knownTopDate: new Date("2025-10-06"),
+  knownTopPrice: 126210,
   nextHalvingEst: new Date("2028-03-15"),
   cycleDays: 1460,
 };
@@ -125,6 +124,13 @@ export const btcMilestones: BTCMilestone[] = [
     type: "bull",
   },
   {
+    date: "2013-04",
+    price: "$150",
+    title: "塞浦路斯危机暴涨",
+    why: "欧洲银行强制存款征税引发避险需求，BTC 一个月内从 $30 飙升至 $150，涨幅 400%+，首次进入主流财经视野",
+    type: "bull",
+  },
+  {
     date: "2013-11-30",
     price: "$1,242",
     title: "第一个四位数",
@@ -153,6 +159,20 @@ export const btcMilestones: BTCMilestone[] = [
     type: "bear",
   },
   {
+    date: "2020-12",
+    price: "$29,000",
+    title: "机构入场元年",
+    why: "MicroStrategy 累计购入 7 万枚 BTC，PayPal 开放加密支付，Grayscale 持续吸筹，年底 BTC 首破 $28,000，机构叙事正式开启",
+    type: "bull",
+  },
+  {
+    date: "2021-02-21",
+    price: "$57,500",
+    title: "特斯拉买入引发机构潮",
+    why: "马斯克宣布特斯拉购入 15 亿美元 BTC，企业财务配置加密资产成为潮流，BTC 于 2 月冲至 $57,500 再创新高",
+    type: "bull",
+  },
+  {
     date: "2021-11-10",
     price: "$69,044",
     title: "当时历史最高",
@@ -172,6 +192,13 @@ export const btcMilestones: BTCMilestone[] = [
     title: "现货 ETF 获批",
     why: "SEC 批准贝莱德等 11 只 BTC 现货 ETF，机构资金通道正式打开",
     type: "bull",
+  },
+  {
+    date: "2024-03-14",
+    price: "$73,750",
+    title: "减半前突破历史新高",
+    why: "ETF 资金持续涌入叠加减半预期升温，BTC 在减半前 37 天冲至当时历史高点 $73,750，随后回调至 $63k 等待减半",
+    type: "ath",
   },
   {
     date: "2024-12-17",
@@ -202,10 +229,10 @@ export const btcMilestones: BTCMilestone[] = [
     type: "ath",
   },
   {
-    date: "2025-09-29",
-    price: "$123,513",
-    title: "第4周期实际顶部",
-    why: "减半后第 527 天，BTC 触及本轮牛市最高点 $123,513。WolfyXBT 预测 534天/$126k，实际误差不到 3%，预测极为准确",
+    date: "2025-10-06",
+    price: "$126,210",
+    title: "第4周期实际顶部 ATH",
+    why: "减半后第 534 天，BTC 触及本轮牛市最高点 $126,210，随后开始系统性下行进入熊市",
     type: "ath",
   },
 ];
@@ -226,94 +253,129 @@ export interface BTCEvent {
 
 export const btcEvents: BTCEvent[] = [
   {
+    date: "2012-11-28",
+    title: "第一次减半",
+    impact: "减半时 $12，此后一年涨至 $1,100+",
+    reason: "区块奖励从 50 BTC 降至 25 BTC，供应通缩叙事首次被验证，随后引发 2013 年第一轮大牛市",
+    type: "milestone",
+  },
+  {
     date: "2013-03",
     title: "塞浦路斯银行危机",
     impact: "$30 → $260",
-    reason: "政府对银行存款征税，民众把比特币当避险工具",
+    reason: "政府对银行存款征税，民众把比特币当避险工具，首次进入主流财经视野",
     type: "bull",
   },
   {
     date: "2014-02",
     title: "Mt.Gox 崩溃",
     impact: "$867 → $340",
-    reason: "全球最大交易所被盗 85 万 BTC，行业信任归零",
+    reason: "全球最大交易所被盗 85 万 BTC，行业信任归零，熊市延续近两年",
     type: "hack",
+  },
+  {
+    date: "2016-07-09",
+    title: "第二次减半",
+    impact: "减半时 $640，17 个月后涨至 $19,783",
+    reason: "区块奖励从 25 BTC 降至 12.5 BTC，机构和矿工开始认真对待四年周期规律",
+    type: "milestone",
   },
   {
     date: "2017-12",
     title: "ICO 全球狂热顶峰",
     impact: "$1k → $19,783",
-    reason: "以太坊智能合约让任何人发代币圈钱，散户 FOMO 达到极值",
+    reason: "以太坊智能合约让任何人发代币圈钱，散户 FOMO 达到极值，比特币期货上市加速顶部形成",
     type: "bull",
   },
   {
     date: "2018",
     title: "ICO 泡沫破裂",
     impact: "$19,783 → $3,191，跌 84%",
-    reason: "监管收紧加项目大规模归零加市场流动性耗尽",
+    reason: "监管收紧加项目大规模归零加市场流动性耗尽，全年熊市",
     type: "bear",
+  },
+  {
+    date: "2019-06",
+    title: "Facebook 发布 Libra 白皮书",
+    impact: "$4,000 → $13,800",
+    reason: "Facebook 宣布发行全球稳定币 Libra，加密货币概念被全球数十亿用户认知，BTC 年内翻三倍",
+    type: "bull",
   },
   {
     date: "2020-03-12",
     title: "新冠黑色星期四",
     impact: "$7,900 → $3,800，单日 -50%",
-    reason: "全球金融市场恐慌性抛售，衍生品市场爆仓超 $10 亿",
+    reason: "全球金融市场恐慌性抛售，衍生品市场爆仓超 $10 亿，BTC 与传统市场同步下跌",
     type: "macro",
   },
   {
     date: "2020-05-11",
     title: "第三次减半",
     impact: "减半时 $8,600，12 个月后 $60,000",
-    reason: "供应减半叠加美联储无限 QE，机构开始把 BTC 视为抗通胀资产",
+    reason: "供应减半叠加美联储无限 QE，机构开始把 BTC 视为抗通胀资产，MicroStrategy、灰度持续买入",
     type: "milestone",
   },
   {
     date: "2021-05-19",
     title: "中国禁矿 + 马斯克反水",
     impact: "$58,000 → $30,000，单周 -40%",
-    reason: "中国全面禁止挖矿，特斯拉暂停 BTC 支付，全市场连锁爆仓",
+    reason: "中国全面禁止挖矿，特斯拉暂停 BTC 支付，全市场连锁爆仓，算力转移引发短期信任危机",
     type: "regulation",
   },
   {
     date: "2022-05",
     title: "LUNA/UST 死亡螺旋",
     impact: "LUNA $80 → 近零，市值蒸发 $400 亿",
-    reason: "算法稳定币脱锚引发死亡螺旋，多米诺推倒三箭/Celsius/Voyager",
+    reason: "算法稳定币脱锚引发死亡螺旋，多米诺推倒三箭资本、Celsius、Voyager，行业信用危机",
     type: "bear",
   },
   {
     date: "2022-11",
     title: "FTX 欺诈崩溃",
     impact: "$21,000 → $15,500",
-    reason: "全球第二大交易所挪用用户资产被曝光，SBF 72 小时内宣布破产",
+    reason: "全球第二大交易所挪用用户资产被曝光，SBF 72 小时内宣布破产，行业进入最深熊市",
     type: "hack",
   },
   {
+    date: "2023-06-15",
+    title: "贝莱德申请比特币现货 ETF",
+    impact: "$25,000 → $31,000，年内首破 $31k",
+    reason: "全球最大资管机构贝莱德提交 IBIT 申请，ETF 叙事点燃市场，随后富达、Ark 等机构跟进申请",
+    type: "regulation",
+  },
+  {
+    date: "2023-08-29",
+    title: "Grayscale 胜诉 SEC",
+    impact: "$26,000 → $28,000",
+    reason: "法院裁定 SEC 拒绝 GBTC 转 ETF 的决定违法，市场视为 ETF 获批的重要先兆，信心大幅提振",
+    type: "regulation",
+  },
+  {
     date: "2024-01-10",
-    title: "比特币现货 ETF 通过",
+    title: "比特币现货 ETF 正式通过",
     impact: "当月突破 $48,000",
-    reason: "SEC 批准贝莱德 IBIT 等 11 只 ETF，机构增量资金正式入场",
+    reason: "SEC 批准贝莱德 IBIT 等 11 只现货 ETF，首日成交额超 $46 亿，机构增量资金正式入场",
     type: "regulation",
   },
   {
     date: "2024-04-20",
     title: "第四次减半",
     impact: "减半时 $63,000",
-    reason: "区块奖励降至 3.125 BTC，叠加 ETF 资金流入，供需矛盾加剧",
+    reason: "区块奖励降至 3.125 BTC，叠加 ETF 持续资金流入，供需矛盾加剧，为后续新高奠定基础",
     type: "milestone",
   },
   {
     date: "2024-11",
     title: "特朗普赢得大选",
     impact: "$70,000 → $108,364",
-    reason: "亲加密政策加国家比特币战略储备提议，极度乐观情绪推动突破 10 万",
+    reason: "亲加密政策加国家比特币战略储备提议，极度乐观情绪推动突破 $10 万，创历史新高",
     type: "bull",
   },
   {
     date: "2025-01-20",
-    title: "特朗普就职 + 数字资产战略储备令",
-    impact: "$94k → $102k（随后回调至$78k）",
-    reason: "特朗普上台首日签署行政令成立数字资产专案组，推进比特币战略储备提案，短期利好兑现后市场转向关税担忧",
+    title: "特朗普就职 + 数字资产行政令",
+    impact: "$94k → $102k（随后回调至 $78k）",
+    reason: "特朗普上台首日签署行政令成立数字资产专案组，推进比特币战略储备，短期利好兑现后市场转向关税担忧",
     type: "regulation",
   },
   {
@@ -338,17 +400,17 @@ export const btcEvents: BTCEvent[] = [
     type: "bull",
   },
   {
-    date: "2025-09-29",
-    title: "第4周期高点 $123,513（减半后 527 天）",
-    impact: "WolfyXBT 预测 534天/$126k，实际误差 <3%",
-    reason: "BTC 触及本轮牛市高点 $123,513，与 WolfyXBT 四年周期预测（2025-10-06/$126k）极为吻合，随后开始下行",
+    date: "2025-10-06",
+    title: "第4周期高点 $126,210 ATH",
+    impact: "减半后第 534 天触及 $126,210",
+    reason: "BTC 触及本轮牛市最高点 $126,210（ATH），随后开始系统性下行，进入新一轮熊市阶段",
     type: "milestone",
   },
   {
     date: "2025-11",
-    title: "周期顶后熊市确认，BTC 跌破 $90k",
+    title: "熊市确认，BTC 跌破 $90k",
     impact: "$123k → $86k，两个月下跌 -30%",
-    reason: "周期高点后获利回吐 + 美联储政策收紧预期 + 宏观流动性收缩，BTC 开始系统性下行",
+    reason: "周期高点后获利回吐 + 宏观流动性收缩，BTC 开始系统性下行",
     type: "bear",
   },
 ];
@@ -655,9 +717,9 @@ export const btcPriceHistory: BTCPricePoint[] = [
   { d: "2025-07-07", p: 119116 }, { d: "2025-07-21", p: 119448 }, // 新高突破
   { d: "2025-08-04", p: 119307 }, { d: "2025-08-18", p: 113458 },
   { d: "2025-09-01", p: 111168 }, { d: "2025-09-15", p: 115306 },
-  { d: "2025-09-29", p: 123513 }, // 周期最高点（WolfyXBT预测$126k，实际$123k，误差<3%）
-  // 2025 Q4 — 周期顶后熊市开始
-  { d: "2025-10-06", p: 115170 }, { d: "2025-10-20", p: 114472 },
+  { d: "2025-09-29", p: 123513 },
+  // 2025 Q4 — 2025-10-06 周期实际最高点 $126,210 ATH
+  { d: "2025-10-06", p: 126210 }, { d: "2025-10-20", p: 114472 },
   { d: "2025-11-03", p: 104720 }, { d: "2025-11-17", p: 86805 },
   { d: "2025-12-01", p: 90406 }, { d: "2025-12-15", p: 88622 },
   { d: "2025-12-29", p: 91413 },
@@ -679,8 +741,8 @@ export const btcPhases = [
   { x1: "2021-11-10", x2: "2022-11-21", type: "bear" as const, label: "熊市" },
   { x1: "2023-01-01", x2: "2024-12-17", type: "bull" as const, label: "牛市" },
   { x1: "2024-12-17", x2: "2025-03-31", type: "bear" as const, label: "调整" },  // 高点后回调至$78k
-  { x1: "2025-03-31", x2: "2025-09-29", type: "bull" as const, label: "牛市" },  // 反弹至$123k周期顶
-  { x1: "2025-09-29", x2: "2026-04-13", type: "bear" as const, label: "熊市" },  // 周期顶后下行至$65-76k
+  { x1: "2025-03-31", x2: "2025-10-06", type: "bull" as const, label: "牛市" },  // 反弹至$126k周期顶
+  { x1: "2025-10-06", x2: "2026-04-13", type: "bear" as const, label: "熊市" },  // 周期顶后下行
 ];
 
 // 减半标记

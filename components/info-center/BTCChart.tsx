@@ -20,12 +20,10 @@ import {
   type BTCPricePoint,
 } from "@/lib/data-center";
 
-// ─── WolfyXBT 4年周期阶段（正确定义）────────────────────────────────────────
-// 牛市 = 熊市底部 → 下一个牛市高点（约1064天）
-// 熊市 = 牛市高点 → 下一个熊市底部（约364-413天）
-// 各周期关键日期：
-//   底部: 2015-01-14 | 2018-12-15 | 2022-11-21
-//   高点: 2013-11-30 | 2017-12-17 | 2021-11-10 | 2025-09-29
+// ─── 牛熊周期阶段定义 ────────────────────────────────────────────────────────
+// 牛市 = 熊市底部 → 牛市高点；熊市 = 牛市高点 → 下一个熊市底部
+// 关键日期：底部 2015-01-14 | 2018-12-15 | 2022-11-21
+//           高点 2013-11-30 | 2017-12-17 | 2021-11-10 | 2025-10-06
 const wolfyPhases = [
   { x1: "2012-01-01",  x2: "2013-11-30", type: "bull" as const, daysLabel: "早期" },
   { x1: "2013-11-30",  x2: "2015-01-14", type: "bear" as const, daysLabel: "413天" },
@@ -33,8 +31,8 @@ const wolfyPhases = [
   { x1: "2017-12-17",  x2: "2018-12-15", type: "bear" as const, daysLabel: "363天" },
   { x1: "2018-12-15",  x2: "2021-11-10", type: "bull" as const, daysLabel: "1061天" },
   { x1: "2021-11-10",  x2: "2022-11-21", type: "bear" as const, daysLabel: "376天" },
-  { x1: "2022-11-21",  x2: "2025-09-29", type: "bull" as const, daysLabel: "1042天" },
-  { x1: "2025-09-29",  x2: "2026-12-31", type: "bear" as const, daysLabel: "~364天" },
+  { x1: "2022-11-21",  x2: "2025-10-06", type: "bull" as const, daysLabel: "1050天" },
+  { x1: "2025-10-06",  x2: "2026-12-31", type: "bear" as const, daysLabel: "~364天" },
 ];
 
 function daysBetween(a: string, b: string) {
@@ -51,13 +49,14 @@ function fmtPrice(v: number) {
 function CustomTooltip({ active, payload, label }: {
   active?: boolean;
   payload?: Array<{ value?: number }>;
-  label?: string;
+  label?: number;
 }) {
   if (!active || !payload?.length) return null;
   const p = payload[0]?.value;
+  const dateStr = label != null ? new Date(label).toISOString().substring(0, 10) : "";
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg px-3 py-2 text-xs">
-      <div className="text-slate-400 mb-1">{label}</div>
+      <div className="text-slate-400 mb-1">{dateStr}</div>
       {p != null && (
         <div className="font-bold text-amber-600 dark:text-amber-400">
           ${p.toLocaleString("en-US")}

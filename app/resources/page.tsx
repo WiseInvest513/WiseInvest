@@ -30,6 +30,8 @@ import {
 } from "@/lib/data-center";
 import type { StockData } from "@/app/api/market/stocks/route";
 import BTCChart from "@/components/info-center/BTCChart";
+import BTCMilestoneMap from "@/components/info-center/BTCMilestoneMap";
+import BTCEventMap from "@/components/info-center/BTCEventMap";
 import {
   MarketCapChart,
   PEChart,
@@ -129,14 +131,17 @@ function BTCCycleTab() {
   const daysSinceTop = Math.floor((now.getTime() - topMs) / 86400000);
   const nextHalvingMs = CYCLE4.nextHalvingEst.getTime();
   const daysToNextHalving = Math.max(0, Math.floor((nextHalvingMs - now.getTime()) / 86400000));
-  const cycleProgress = Math.min(100, (daysSinceHalving / CYCLE4.cycleDays) * 100);
 
-  // 当前阶段判断（基于 WolfyXBT 四年周期理论）
-  // 减半后 0-180天: 牛市初期 | 180-534天: 牛市中后期 | 顶后>60天: 熊市
+  // 当前阶段判断
+  const inBear = daysSinceTop > 30;
+  const BEAR_DAYS = 364; // 历史熊市平均约 363-413 天
+  const bearProgress = inBear ? Math.min(100, (daysSinceTop / BEAR_DAYS) * 100) : 0;
+  const bullProgress = Math.min(100, (daysSinceHalving / 534) * 100); // 534天为本轮牛市顶部
+
   let phaseLabel = "牛市初期";
   let phaseColor = "text-emerald-600 dark:text-emerald-400";
-  if (daysSinceTop > 60) {
-    phaseLabel = daysSinceTop > 200 ? "熊市中期" : "熊市初期 / 过渡期";
+  if (inBear) {
+    phaseLabel = daysSinceTop > 200 ? "熊市中期" : "熊市初期";
     phaseColor = "text-red-500 dark:text-red-400";
   } else if (daysSinceHalving > 400) {
     phaseLabel = "牛市后期 / 顶部区";
@@ -176,7 +181,10 @@ function BTCCycleTab() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="font-semibold text-slate-900 dark:text-white mb-0.5">第四次减半周期进度</h3>
-              <p className="text-xs text-slate-400">减半日：2024-04-20 &nbsp;·&nbsp; 当前周期：第 <span className="font-medium text-slate-600 dark:text-slate-300">{daysSinceHalving}</span> 天（共约 1,460 天）</p>
+              {inBear
+                ? <p className="text-xs text-slate-400">熊市阶段：第 <span className="font-medium text-slate-600 dark:text-slate-300">{daysSinceTop}</span> 天（历史熊市约 364 天）</p>
+                : <p className="text-xs text-slate-400">牛市阶段：减半后第 <span className="font-medium text-slate-600 dark:text-slate-300">{daysSinceHalving}</span> 天（本轮顶部 534 天）</p>
+              }
             </div>
             <span className={`text-sm font-semibold ${phaseColor}`}>{phaseLabel}</span>
           </div>
@@ -185,25 +193,34 @@ function BTCCycleTab() {
           <div className="relative mb-5">
             <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-700"
-                style={{ width: `${cycleProgress}%` }}
+                className={`h-full rounded-full transition-all duration-700 ${inBear ? "bg-gradient-to-r from-red-400 to-red-500" : "bg-gradient-to-r from-amber-400 to-amber-500"}`}
+                style={{ width: `${inBear ? bearProgress : bullProgress}%` }}
               />
             </div>
-            <div className="absolute top-0 h-3 w-0.5 bg-emerald-400 dark:bg-emerald-500" style={{ left: `${(527/1460)*100}%` }} />
             <div
-              className="absolute -top-0.5 w-4 h-4 bg-amber-500 border-2 border-white dark:border-slate-900 rounded-full shadow-md transition-all duration-700"
-              style={{ left: `calc(${cycleProgress}% - 8px)` }}
+              className="absolute -top-0.5 w-4 h-4 border-2 border-white dark:border-slate-900 rounded-full shadow-md transition-all duration-700"
+              style={{ left: `calc(${inBear ? bearProgress : bullProgress}% - 8px)`, background: inBear ? "#ef4444" : "#f59e0b" }}
             />
           </div>
           <div className="flex justify-between text-xs text-slate-400 mb-4">
-            <span>减半 2024-04-20</span>
-            <span className="text-emerald-500">↑ 实际顶部（527天 $123k）</span>
-            <span>预计下次减半 ~2028-03</span>
+            {inBear ? (
+              <>
+                <span>顶部 2025-10-06（$126,210）</span>
+                <span className="text-red-400">当前：第 {daysSinceTop} 天</span>
+                <span>历史均值约 364 天结束</span>
+              </>
+            ) : (
+              <>
+                <span>减半 2024-04-20</span>
+                <span className="text-emerald-500">↑ 实际顶部（534天 $126k）</span>
+                <span>预计下次减半 ~2028-03</span>
+              </>
+            )}
           </div>
 
-          <div className="rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 p-3">
-            <p className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">
-              <span className="font-medium">WolfyXBT 四年周期理论：</span>前三次减半后约 367-548 天出现周期高点，高点后约 363-411 天到达熊市底部。第四周期实际顶部为减半后第 527 天（2025-09-29，$123,513）。WolfyXBT预测534天/$126k，实际误差不足3%。当前处于减半后 {daysSinceHalving} 天，仅供参考，不构成投资建议。
+          <div className="rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 p-3">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              历史数据：前三次减半周期的熊市持续约 363–413 天。本轮牛市顶部出现在减半后第 534 天（2025-10-06，$126,210 ATH）。当前处于减半后第 {daysSinceHalving} 天、顶部后第 {daysSinceTop} 天，仅供参考，不构成投资建议。
             </p>
           </div>
         </div>
@@ -279,9 +296,11 @@ function BTCCycleTab() {
               <div className="text-xs text-slate-400 mb-1">距实际高点</div>
               <div className="text-lg font-bold text-slate-900 dark:text-white">{daysSinceTop} 天</div>
             </div>
-            <div className="rounded-lg bg-slate-50 dark:bg-slate-800/60 p-3">
-              <div className="text-xs text-slate-400 mb-1">周期完成度</div>
-              <div className="text-lg font-bold text-slate-900 dark:text-white">{cycleProgress.toFixed(1)}%</div>
+            <div className={`rounded-lg p-3 ${inBear ? "bg-red-50 dark:bg-red-950/30" : "bg-emerald-50 dark:bg-emerald-950/30"}`}>
+              <div className="text-xs text-slate-400 mb-1">熊市阶段进度</div>
+              <div className={`text-lg font-bold ${inBear ? "text-red-500" : "text-slate-400"}`}>
+                {inBear ? `${daysSinceTop} / 364 天` : "未开始"}
+              </div>
             </div>
             <div className="rounded-lg bg-slate-50 dark:bg-slate-800/60 p-3">
               <div className="text-xs text-slate-400 mb-1">距下次减半</div>
@@ -311,42 +330,19 @@ function BTCCycleTab() {
               </div>
             ))}
           </div>
-          <p className="text-xs text-slate-400 mt-2">* 第4周期高点：2025-09-29 $123,513（Yahoo Finance）</p>
+          <p className="text-xs text-slate-400 mt-2">* 第4周期高点：2025-10-06 $126,210（ATH，多平台确认）</p>
         </div>
       </div>
     </div>
   );
 }
 
-// ─── BTC 价格历史 ─────────────────────────────────────────────────────────────
+// ─── BTC 价格里程碑脑图 ───────────────────────────────────────────────────────
 function BTCMilestonesTab() {
+  // 用负 margin 抵消父容器的 px-6/sm:px-8/py-6，让画布撑满全区域
   return (
-    <div className="space-y-4">
-      <div className="mb-2">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">价格里程碑</h2>
-        <p className="text-sm text-slate-400">从创世到 $108k，每个关键价格背后的故事</p>
-      </div>
-      {/* 里程碑图表 */}
-      <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700/60 p-4">
-        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">历史价格曲线 · 关键里程碑标注</h3>
-        <BTCChart variant="milestones" height={380} />
-        <p className="text-xs text-slate-400 mt-2">竖线标注各里程碑时间点，悬停查看价格</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {btcMilestones.map((m, i) => (
-          <div key={i} className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700/60 p-4">
-            <div className="flex items-start justify-between mb-2">
-              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${milestoneColors[m.type]}`}>
-                {m.type === "ath" ? "历史高点" : m.type === "bear" ? "熊市底" : m.type === "bull" ? "牛市" : m.type === "genesis" ? "创世" : "首次"}
-              </span>
-              <span className="text-xs text-slate-400 font-mono">{m.date}</span>
-            </div>
-            <div className="text-xl font-bold text-slate-900 dark:text-white mb-1">{m.price}</div>
-            <div className="text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">{m.title}</div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{m.why}</p>
-          </div>
-        ))}
-      </div>
+    <div className="-mx-6 sm:-mx-8 -my-6" style={{ height: "calc(100vh - 65px)" }}>
+      <BTCMilestoneMap />
     </div>
   );
 }
@@ -354,40 +350,8 @@ function BTCMilestonesTab() {
 // ─── BTC 重大事件 ─────────────────────────────────────────────────────────────
 function BTCEventsTab() {
   return (
-    <div className="space-y-4">
-      <div className="mb-2">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1">重大事件分析</h2>
-        <p className="text-sm text-slate-400">每次大涨大跌背后的真实原因</p>
-        <div className="flex flex-wrap gap-1.5 mt-2">
-          {(Object.keys(eventLabels) as EventType[]).map((t) => (
-            <span key={t} className={`text-xs px-2 py-0.5 rounded-full font-medium ${eventColors[t].badge}`}>{eventLabels[t]}</span>
-          ))}
-        </div>
-      </div>
-      {/* 事件图表 */}
-      <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700/60 p-4">
-        <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">历史价格曲线 · 重大事件标注</h3>
-        <BTCChart variant="events" height={380} />
-        <p className="text-xs text-slate-400 mt-2">竖线对应各重大事件时间点，颜色区分事件类型</p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {btcEvents.map((e, i) => {
-          const c = eventColors[e.type];
-          return (
-            <div key={i} className={`rounded-xl border p-4 ${c.bg} border-slate-200 dark:border-slate-700/50`}>
-              <div className="flex items-center justify-between mb-2">
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${c.badge}`}>{eventLabels[e.type]}</span>
-                <span className="text-xs text-slate-400 font-mono">{e.date}</span>
-              </div>
-              <div className="font-semibold text-slate-900 dark:text-white text-sm mb-1">{e.title}</div>
-              <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-1">
-                <Activity className="w-3 h-3" />{e.impact}
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{e.reason}</p>
-            </div>
-          );
-        })}
-      </div>
+    <div className="-mx-6 sm:-mx-8 -my-6" style={{ height: "calc(100vh - 65px)" }}>
+      <BTCEventMap />
     </div>
   );
 }
@@ -707,7 +671,7 @@ function ValuationTab() {
 }
 
 // ─── 模块配置 ─────────────────────────────────────────────────────────────────
-type ModuleId = "btc" | "stocks" | "index";
+type ModuleId = "btc" | "index"; // "stocks" 暂时隐藏，接口待修复
 type SectionId = string;
 
 const modules = [
@@ -721,15 +685,7 @@ const modules = [
       { id: "events", label: "重大事件" },
     ],
   },
-  {
-    id: "stocks" as ModuleId,
-    label: "美股七巨头",
-    icon: <BarChart3 className="w-4 h-4" />,
-    sections: [
-      { id: "data", label: "数据快照" },
-      { id: "narrative", label: "深度解读" },
-    ],
-  },
+  // { id: "stocks", label: "美股七巨头", ... } // 暂时隐藏，接口待修复
   {
     id: "index" as ModuleId,
     label: "指数基金",
@@ -759,10 +715,8 @@ export default function InfoCenterPage() {
       if (activeSection === "milestones") return <BTCMilestonesTab />;
       if (activeSection === "events")     return <BTCEventsTab />;
     }
-    if (activeModule === "stocks") {
-      if (activeSection === "data")      return <StocksDataTab />;
-      if (activeSection === "narrative") return <StocksNarrativeTab />;
-    }
+    // stocks 模块暂时隐藏
+    // if (activeModule === "stocks") { ... }
     if (activeModule === "index") {
       if (activeSection === "etf")       return <ETFTab />;
       if (activeSection === "valuation") return <ValuationTab />;
@@ -771,27 +725,24 @@ export default function InfoCenterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid dot-grid-subtle">
-      {/* 全宽顶部标题栏 */}
-      <div className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-        <div className="px-4 sm:px-8 py-4">
-          <h1 className="text-xl font-bold text-slate-900 dark:text-white">核心数据</h1>
-          <p className="text-xs text-slate-400 mt-0.5">比特币 · 美股七巨头 · 指数基金 — 实时数据 + 深度叙事</p>
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid dot-grid-light">
       <div className="flex h-[calc(100vh-65px)]">
         {/* 左侧固定边栏 */}
-        <aside className="w-52 flex-shrink-0 hidden md:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm">
+        <aside className="w-64 flex-shrink-0 hidden md:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm">
+          {/* 侧边栏标题 */}
+          <div className="px-5 pt-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">核心数据</h1>
+            <p className="text-xs text-slate-400 mt-0.5">实时数据 · 深度叙事</p>
+          </div>
           <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
             {modules.map((mod) => (
               <div key={mod.id}>
                 <button
                   onClick={() => handleModuleChange(mod.id)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
                     activeModule === mod.id
-                      ? "bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 shadow-sm"
-                      : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                      ? "bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"
+                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                   }`}
                 >
                   {mod.icon}
@@ -803,7 +754,7 @@ export default function InfoCenterPage() {
                       <button
                         key={sec.id}
                         onClick={() => setActiveSection(sec.id)}
-                        className={`w-full text-left px-2 py-1.5 rounded-lg text-xs transition-colors ${
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                           activeSection === sec.id
                             ? "text-amber-600 dark:text-amber-400 font-semibold bg-amber-50/60 dark:bg-amber-900/20"
                             : "text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
