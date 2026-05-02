@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin, BookOpen } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin, BookOpen, X } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from "recharts";
@@ -46,13 +52,13 @@ const growthData = [
 
 // ─── 社媒数据 ──────────────────────────────────────────────
 const socials = [
-  { name: "Twitter / X", count: 34020, label: "Followers", Icon: Twitter, pngPath: "https://cdn.simpleicons.org/x/000000", color: "hover:border-slate-500 hover:shadow-slate-200", cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40", text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800", link: "https://x.com/WiseInvest513" },
-  { name: "Little Red Book", count: 18302, label: "Followers", Icon: Instagram, pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100", cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10", text: "text-rose-500", bg: "bg-rose-50", link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
-  { name: "YouTube", count: 2040, label: "Subscribers", Icon: Youtube, pngPath: "https://cdn.simpleicons.org/youtube/FF0000", color: "hover:border-red-500 hover:shadow-red-100", cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10", text: "text-red-600", bg: "bg-red-50", link: "https://www.youtube.com/@WiseInvest513" },
-  { name: "Bilibili", count: 12873, label: "Fans", Icon: Video, pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6", color: "hover:border-blue-400 hover:shadow-blue-100", cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10", text: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20", link: "https://space.bilibili.com/347066091" },
-  { name: "WeChat", count: 4382, label: "Readers", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100", cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10", text: "text-green-600", bg: "bg-green-50", link: "https://mp.weixin.qq.com/s/TY05tsqsUgoBNDgsKCiSag" },
-  { name: "Telegram", count: 0, displayValue: "Join Group", label: "Official Community", Icon: Send, pngPath: "https://cdn.simpleicons.org/telegram/26A5E4", color: "hover:border-sky-500 hover:shadow-sky-100", cardTone: "border-sky-100 dark:border-sky-800/40 bg-sky-50/40 dark:bg-sky-900/10", text: "text-sky-600", bg: "bg-sky-50", link: "https://t.me/WiseInvest513Chat" },
-];
+  { name: "Twitter / X",    count: 34020, label: "Followers",          Icon: Twitter,        pngPath: "https://cdn.simpleicons.org/x/000000",          color: "hover:border-slate-500 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://x.com/WiseInvest513" },
+  { name: "Little Red Book",count: 18302, label: "Followers",          Icon: Instagram,      pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100",    cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10",       text: "text-rose-500",                      bg: "bg-rose-50",                           link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
+  { name: "YouTube",         count: 2040,  label: "Subscribers",        Icon: Youtube,        pngPath: "https://cdn.simpleicons.org/youtube/FF0000",     color: "hover:border-red-500 hover:shadow-red-100",      cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10",           text: "text-red-600",                       bg: "bg-red-50",                            link: "https://www.youtube.com/@WiseInvest513" },
+  { name: "Bilibili",        count: 12873, label: "Fans",               Icon: Video,          pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6",    color: "hover:border-blue-400 hover:shadow-blue-100",    cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10",       text: "text-blue-500",                      bg: "bg-blue-50 dark:bg-blue-900/20",       link: "https://space.bilibili.com/347066091" },
+  { name: "Douyin",          count: 0,     displayValue: "Follow Me",   label: "Fans · 抖音",Icon: Video,          pngPath: "https://cdn.simpleicons.org/tiktok/000000",     color: "hover:border-slate-700 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://v.douyin.com/WfJLuLqm9k8" },
+  { name: "WeChat Group",    count: 0,     displayValue: "Join Group",  label: "Official Community", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100",  cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10",    text: "text-green-600",                     bg: "bg-green-50",                          isModal: true },
+] as const;
 
 // ─── 坚持的事 ─────────────────────────────────────────────
 const commitments = [
@@ -123,9 +129,58 @@ export default function AboutMe() {
   const commitFade = useFadeIn();
   const socialFade = useFadeIn();
 
+  const [wechatGroupOpen, setWechatGroupOpen] = useState(false);
+
+  const handleWechatGroupClose = (noShowToday: boolean) => {
+    if (noShowToday) {
+      const today = new Date().toDateString();
+      localStorage.setItem("wechatGroupNoShow", today);
+    }
+    setWechatGroupOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative overflow-x-hidden dot-grid dot-grid-light">
-      
+
+      {/* ══ 微信群聊弹窗 ════════════════════════════════════ */}
+      <Dialog open={wechatGroupOpen} onOpenChange={setWechatGroupOpen}>
+        <DialogContent className="max-w-md p-0 overflow-hidden rounded-2xl border-0 shadow-2xl">
+          {/* 头部 */}
+          <DialogHeader className="px-6 pt-6 pb-0">
+            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-green-600 mb-1">WISEINVEST 社区</p>
+            <DialogTitle className="text-lg font-bold text-slate-900 dark:text-white">
+              欢迎加入官方微信群聊
+            </DialogTitle>
+          </DialogHeader>
+
+          {/* 内容 */}
+          <div className="px-6 pb-6 flex flex-col items-center text-center">
+            <img
+              src="/群聊.png"
+              alt="微信群聊二维码"
+              className="w-full rounded-xl mb-4 object-contain"
+            />
+
+            <p className="text-xs text-slate-400 dark:text-slate-500 mb-4">
+              扫码加入群聊，与志同道合的投资者一起交流
+            </p>
+
+            <button
+              onClick={() => handleWechatGroupClose(false)}
+              className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+            >
+              进入平台
+            </button>
+
+            <button
+              onClick={() => handleWechatGroupClose(true)}
+              className="mt-3 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+            >
+              今日不再提示
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* ══ SECTION 1: Hero ══════════════════════════════════ */}
       <section className="min-h-[80vh] flex items-center">
@@ -137,10 +192,8 @@ export default function AboutMe() {
             {/* 左：图片区域 */}
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative w-72 h-72 lg:w-96 lg:h-96">
-                {/* 背景装饰圆 */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 rotate-6" />
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-400/10 to-orange-500/10 -rotate-3" />
-                {/* 头像 */}
                 <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-2xl shadow-amber-200/30 dark:shadow-amber-900/20">
                   <img
                     src="/images/profile/avatar.png"
@@ -149,7 +202,6 @@ export default function AboutMe() {
                     onError={e => { e.currentTarget.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=WiseInvest"; }}
                   />
                 </div>
-                {/* 浮动徽章 */}
                 <div className="absolute -bottom-4 -left-4 bg-white dark:bg-slate-900 rounded-2xl px-4 py-2.5 shadow-lg border border-slate-100 dark:border-slate-800 flex items-center gap-2">
                   <span className="text-lg">🚀</span>
                   <div>
@@ -185,7 +237,6 @@ export default function AboutMe() {
                 <p>坚信<strong className="text-slate-800 dark:text-slate-200">「普通人也可以通过结构化优势在市场中找到自己的阿尔法」</strong>，并用实盘数据证明这一点。</p>
               </div>
 
-              {/* 核心数据 */}
               <div className="grid grid-cols-3 gap-4 pt-2">
                 {[
                   { value: "8", unit: "个月", label: "从零到万粉" },
@@ -199,16 +250,16 @@ export default function AboutMe() {
                 ))}
               </div>
 
-              {/* CTA */}
               <div className="flex items-center gap-3 pt-2">
                 <a href={getSafeExternalUrl("https://x.com/WiseInvest513")} target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-amber-500 hover:text-white transition-all shadow-md">
                   <Twitter className="w-4 h-4" /> 关注我
                 </a>
-                <a href={getSafeExternalUrl("https://t.me/WiseInvest513Chat")} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-semibold text-sm hover:border-amber-400 hover:text-amber-600 transition-all">
-                  <Send className="w-4 h-4" /> 加入社群
-                </a>
+                <button
+                  onClick={() => setWechatGroupOpen(true)}
+                  className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-semibold text-sm hover:border-green-400 hover:text-green-600 transition-all">
+                  <MessageCircle className="w-4 h-4" /> 加入社群
+                </button>
               </div>
             </div>
           </div>
@@ -247,7 +298,6 @@ export default function AboutMe() {
               </ResponsiveContainer>
             </div>
 
-            {/* 里程碑 */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
               {[
                 { month: "25/09", event: "首月破三千", icon: "🎯" },
@@ -331,45 +381,62 @@ export default function AboutMe() {
               <p className="text-slate-500 dark:text-slate-400">点击任意平台卡片，直接访问对应主页</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {socials.map((item, idx) => (
-                <a key={idx} href={getSafeExternalUrl(item.link)} target="_blank" rel="noopener noreferrer"
-                  className={`group relative overflow-hidden p-8 rounded-3xl border ${item.cardTone} transition-all duration-300 hover:-translate-y-1 ${item.color} shadow-sm hover:shadow-xl`}
-                >
-                  <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-8">
-                      <div className={`p-3 rounded-2xl transition-colors ${item.bg} ${item.text}`}>
-                        <item.Icon className="w-6 h-6" />
+              {socials.map((item, idx) => {
+                const isModal = "isModal" in item && item.isModal;
+                const cardClass = `group relative overflow-hidden p-8 rounded-3xl border ${item.cardTone} transition-all duration-300 hover:-translate-y-1 ${item.color} shadow-sm hover:shadow-xl w-full text-left`;
+
+                const cardInner = (
+                  <>
+                    <div className="relative z-10">
+                      <div className="flex justify-between items-start mb-8">
+                        <div className={`p-3 rounded-2xl transition-colors ${item.bg} ${item.text}`}>
+                          <item.Icon className="w-6 h-6" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {item.name === "WeChat Group" && (
+                            <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/40 px-2 py-0.5 text-[10px] font-bold tracking-wide text-green-700 dark:text-green-300">LIVE</span>
+                          )}
+                          <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors" />
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        {item.name === "Telegram" && (
-                          <span className="inline-flex items-center rounded-full bg-sky-100 dark:bg-sky-900/40 px-2 py-0.5 text-[10px] font-bold tracking-wide text-sky-700 dark:text-sky-300">LIVE</span>
-                        )}
-                        <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors" />
+                      <div className="space-y-1">
+                        <div className="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+                          {"displayValue" in item && item.displayValue ? (
+                            <span className="text-2xl md:text-3xl">{item.displayValue}</span>
+                          ) : (
+                            <AnimatedNumber value={item.count} />
+                          )}
+                        </div>
+                        <div className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
+                          {item.label}
+                          {item.name === "WeChat Group" ? (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 font-semibold">微信扫码进群</span>
+                          ) : (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">{item.name}</span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="space-y-1">
-                      <div className="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
-                        {"displayValue" in item && item.displayValue ? (
-                          <span className="text-2xl md:text-3xl">{item.displayValue}</span>
-                        ) : (
-                          <AnimatedNumber value={item.count} />
-                        )}
-                      </div>
-                      <div className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
-                        {item.label}
-                        {item.name === "Telegram" ? (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300 font-semibold">Join on Telegram</span>
-                        ) : (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">{item.name}</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  {item.pngPath && (
-                    <img src={item.pngPath} alt="" className="absolute -bottom-12 -right-12 w-48 h-48 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none grayscale group-hover:grayscale-0" />
-                  )}
-                </a>
-              ))}
+                    {item.pngPath && (
+                      <img src={item.pngPath} alt="" className="absolute -bottom-12 -right-12 w-48 h-48 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none grayscale group-hover:grayscale-0" />
+                    )}
+                  </>
+                );
+
+                if (isModal) {
+                  return (
+                    <button key={idx} onClick={() => setWechatGroupOpen(true)} className={cardClass}>
+                      {cardInner}
+                    </button>
+                  );
+                }
+
+                return (
+                  <a key={idx} href={getSafeExternalUrl((item as any).link)} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                    {cardInner}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -7,6 +7,8 @@ const ALLOWED_HOST_SUFFIXES = [
   "youtu.be",
   "xiaohongshu.com",
   "bilibili.com",
+  "douyin.com",
+  "v.douyin.com",
   "mp.weixin.qq.com",
   "investing.com",
   "tradingview.com",

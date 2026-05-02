@@ -55,7 +55,7 @@ export function Footer() {
                   )}
                 </a>
                 <a
-                  href={getSafeExternalUrl("https://t.me/WiseInvest513")}
+                  href={getSafeExternalUrl("https://t.me/WiseInvest513Chat")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-slate-400 dark:text-slate-500 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
