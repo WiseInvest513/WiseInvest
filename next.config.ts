@@ -37,8 +37,18 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  // 增加开发服务器的超时时间
+  // 告诉 Next.js 不要将这些重型 Node.js 库打包进 Serverless Function
+  // 改为运行时 require，避免 Vercel 250MB 限制
+  serverExternalPackages: [
+    "canvas",
+    "pdf-parse",
+    "pdf-poppler",
+    "mammoth",
+    "yahoo-finance2",
+    "react-pdf",
+    "https-proxy-agent",
+    "pdfjs-dist",
+  ],
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       // 客户端：排除 Node.js 特定的模块
@@ -79,10 +89,8 @@ const nextConfig: NextConfig = {
     
     return config;
   },
-  // 优化开发服务器性能
-  experimental: {
-    optimizePackageImports: ['lucide-react', 'recharts'],
-  },
+  // 优化包导入（Next.js 15 已稳定）
+  optimizePackageImports: ['lucide-react', 'recharts'],
   // 优化页面加载性能
   compress: true,
   poweredByHeader: false,
