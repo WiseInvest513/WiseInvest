@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Copy, ExternalLink, BookOpen, Check, Users, Star, Zap, TrendingUp, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { perks, type Perk } from "@/lib/perks-data";
@@ -409,6 +410,7 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
   perk: Perk; copiedCodeId: string | null; onCopyCode: (code: string, id: string) => void;
 }) {
   const [tutorialOpen, setTutorialOpen] = useState(false);
+  const router = useRouter();
   const isCopied = copiedCodeId === perk.id;
   const iconSourceUrl = perk.iconUrl || perk.link;
   const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
@@ -416,7 +418,10 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
 
   const handleTutorialClick = () => {
     if (perk.tutorialImage) setTutorialOpen(true);
-    else if (perk.tutorialLink) openSafeExternalUrl(perk.tutorialLink);
+    else if (perk.tutorialLink) {
+      if (perk.tutorialLink.startsWith("/")) router.push(perk.tutorialLink);
+      else openSafeExternalUrl(perk.tutorialLink);
+    }
   };
 
   return (
@@ -537,6 +542,7 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
   perk: Perk; copiedCodeId: string | null; onCopyCode: (code: string, id: string) => void;
 }) {
   const [tutorialOpen, setTutorialOpen] = useState(false);
+  const router = useRouter();
   const isCopied = copiedCodeId === perk.id;
   const iconSourceUrl = perk.iconUrl || perk.link;
   const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
@@ -544,7 +550,10 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
 
   const handleTutorialClick = () => {
     if (perk.tutorialImage) setTutorialOpen(true);
-    else if (perk.tutorialLink) openSafeExternalUrl(perk.tutorialLink);
+    else if (perk.tutorialLink) {
+      if (perk.tutorialLink.startsWith("/")) router.push(perk.tutorialLink);
+      else openSafeExternalUrl(perk.tutorialLink);
+    }
   };
 
   return (

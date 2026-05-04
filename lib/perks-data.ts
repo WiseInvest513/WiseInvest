@@ -33,7 +33,7 @@ export const perks: Perk[] = [
     code: "WISE6666",
     link: "https://www.bsmkweb.com/join?ref=WISE6666",
     iconUrl: "https://www.binance.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/1970757919500120451",
+    tutorialLink: "/articles/crypto/GaM38JYk",
     color: "#F3BA2F",
   },
   {
@@ -47,7 +47,7 @@ export const perks: Perk[] = [
     code: "WISE6666",
     link: "https://www.vmutkhamuut.com/join/WISE6666",
     iconUrl: "https://www.okx.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/1953466482576556465",
+    tutorialLink: "/articles/crypto/mAPQm7WZ",
     color: "#000000",
   },
   {
@@ -61,7 +61,7 @@ export const perks: Perk[] = [
     code: "wise6666",
     link: "https://partner.hdmune.cn/bg/m53rb8lg",
     iconUrl: "https://www.bitget.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/1980140049267343697",
+    tutorialLink: "/articles/crypto/k3RVVcw4",
     color: "#03C87C",
   },
   {
@@ -75,7 +75,7 @@ export const perks: Perk[] = [
     code: "WISE6666",
     link: "https://partner.bybit.com/b/WISE6666",
     iconUrl: "https://www.bybit.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/1980641416243212480",
+    tutorialLink: "/articles/crypto/e6utod7B",
     color: "#F8A33C",
   },
   // 银行服务
@@ -92,7 +92,7 @@ export const perks: Perk[] = [
     code: "ewke85g",
     link: "https://wise.com/invite/ihpc/ewke85g",
     iconUrl: "https://wise.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/1996859457494737003",
+    tutorialLink: "/articles/bank/Ysn8tPfj",
     color: "#00B9FF",
   },
   {
@@ -106,7 +106,7 @@ export const perks: Perk[] = [
     code: "T659B7",
     link: "https://l.za.group/Dsh3x",
     iconUrl: "https://www.za.group",
-    tutorialLink: "https://x.com/WiseInvest513/status/1979423189169246371",
+    tutorialLink: "/articles/bank/2aiiqnjt",
     color: "#00A0E9",
   },
   // 股票交易
@@ -165,7 +165,7 @@ export const perks: Perk[] = [
     code: "AGVPK3",
     link: "https://h5.fotechwealth.com/pages/startAccount.html?channel=030005&aeCode=B2&invitationCode=AGVPK3&langType=zhCn",
     iconUrl: "https://www.futuhk.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/2037797205491515684",
+    tutorialLink: "/articles/broker/sQSbLRe8",
     color: "#1A1A1A",
   },
   {
@@ -179,7 +179,7 @@ export const perks: Perk[] = [
     code: "HN7787",
     link: "https://service.chiefgroup.com.hk/account-open/login?PromoCode=HN7787",
     iconUrl: "https://www.chiefgroup.com.hk/",
-    tutorialLink: "https://x.com/WiseInvest513/status/2018884799763775532",
+    tutorialLink: "/articles/broker/GaobLP0X",
     color: "#2563EB",
   },
   {
@@ -193,8 +193,22 @@ export const perks: Perk[] = [
     code: null,
     link: "https://international.schwab.com/open-account-intro/open-account?country=CH&branchCode=EO",
     iconUrl: "https://international.schwab.com",
-    tutorialLink: "https://x.com/WiseInvest513/status/2019609350898413685",
+    tutorialLink: "/articles/broker/MWyWMwwN",
     color: "#0073CF",
+  },
+  {
+    id: "diyi-securities",
+    platform: "第一证券",
+    category: "Stocks",
+    description: "美国本土券商，不参与 CRS，凭护照即可开户",
+    benefit: "零佣金交易，注重隐私的内地投资者首选",
+    highlightValue: "零佣金",
+    claimedCount: 120,
+    code: null,
+    link: "https://www.firstrade.com/content/zh-tw/accounttypes",
+    iconUrl: "https://www.firstrade.com",
+    tutorialLink: "/articles/broker/eKIyMXl8",
+    color: "#E53935",
   },
   // 虚拟 U 卡
   {
@@ -210,7 +224,7 @@ export const perks: Perk[] = [
     code: "89zQdt",
     link: "https://web3.bitget.com/invite/card/89zQdt?channel=Copylink&utm_source=newInviteRebate&inviteCode=89zQdt",
     iconUrl: "https://www.bitget.com",
-    tutorialLink: "https://youtu.be/ZxElS0gVpY4",
+    tutorialLink: "/articles/vcard/WK8p1cCV",
     color: "#03C87C",
   },
   {
@@ -224,8 +238,23 @@ export const perks: Perk[] = [
     code: "884823",
     link: "https://www.safepal.com/bank/register?referral=884823",
     iconUrl: "https://www.safepal.com",
-    tutorialLink: "https://youtu.be/1Lw8VssYFNE",
+    tutorialLink: "/articles/vcard/E4lD5AIn",
     color: "#4F46E5",
+  },
+  {
+    id: "bybit-virtual-card",
+    platform: "Bybit 虚拟 U 卡",
+    category: "VirtualCard",
+    description: "Bybit 平台虚拟 U 卡，支持 10% 消费返现",
+    benefit: "开卡即享消费返现，支持 Google Pay / Apple Pay",
+    highlightValue: "10% 返现",
+    badge: "新上线",
+    claimedCount: 310,
+    code: "JJKZWA4",
+    link: "https://www.bybit.com/en/card/",
+    iconUrl: "https://www.bybit.com",
+    tutorialLink: "/articles/vcard/wYKRLDvK",
+    color: "#F8A33C",
   },
   // 链上钱包
   {
