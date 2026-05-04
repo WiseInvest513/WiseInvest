@@ -23,10 +23,12 @@ export interface Subcategory {
 }
 
 export const subcategories: Subcategory[] = [
-  { id: "fuxing",          categoryId: "broker", name: "复星" },
-  { id: "zhifu",           categoryId: "broker", name: "致富" },
+  { id: "us-broker",        categoryId: "broker", name: "美股券商" },
+  { id: "hk-broker",       categoryId: "broker", name: "港股券商" },
   { id: "physical-bank",   categoryId: "bank",   name: "实体银行" },
   { id: "virtual-bank",    categoryId: "bank",   name: "虚拟银行" },
+  { id: "digital-bank",    categoryId: "bank",   name: "数字银行" },
+  { id: "jianzheng",       categoryId: "bank",   name: "见证开户" },
 ];
 
 export const categories: Category[] = [
@@ -35,10 +37,11 @@ export const categories: Category[] = [
   { id: "broker",   name: "券商开户", emoji: "🏛️" },
   { id: "bank",     name: "银行账户", emoji: "💳" },
   { id: "simcard",  name: "手机套餐",  emoji: "📱" },
-  { id: "ai",       name: "实用工具",  emoji: "⚡" },
+  { id: "ai",       name: "AI 工具",  emoji: "⚡" },
   { id: "vcard",    name: "虚拟U卡",  emoji: "💰" },
   { id: "index",    name: "指数投资", emoji: "📈" },
   { id: "strategy", name: "投资策略", emoji: "🧭" },
+  { id: "outside",  name: "出海必备", emoji: "✈️" },
 ];
 
 export const articles: Article[] = [];

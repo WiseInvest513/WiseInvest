@@ -5,7 +5,7 @@ categoryId: bank
 date: 2026-04-10
 readTime: 23
 summary: 2026 年全网最全工银亚洲开户教程&细节介绍
-subcategoryId: virtual-bank
+subcategoryId: physical-bank
 ---
 
 ![封面](./0.png)

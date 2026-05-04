@@ -32,7 +32,10 @@ function useActiveToc(toc: { id: string }[]) {
 
 // ─── Main Component ────────────────────────────────────────
 export default function ArticlesPage() {
-  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set(["crypto", "broker:fuxing", "broker:zhifu"]));
+  const [openCategories, setOpenCategories] = useState<Set<string>>(new Set([
+    "crypto", "broker:us-broker", "broker:hk-broker",
+    "bank:physical-bank", "bank:virtual-bank", "bank:digital-bank", "bank:jianzheng",
+  ]));
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -264,8 +267,10 @@ export default function ArticlesPage() {
             })}
             <div className="px-4 mt-4 mb-2">
               <div className="h-px bg-slate-100 dark:bg-slate-800 mb-4" />
-              <Link
-                href="/anthology"
+              <a
+                href="https://www.wise-hold.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl border border-indigo-100 dark:border-indigo-900/60 bg-gradient-to-br from-indigo-50 to-indigo-50/30 dark:from-indigo-950/40 dark:to-slate-900 text-indigo-700 dark:text-indigo-400 hover:border-indigo-300 dark:hover:border-indigo-700 hover:from-indigo-100 transition-all duration-200 group"
               >
                 <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 flex items-center justify-center shrink-0">
@@ -276,7 +281,7 @@ export default function ArticlesPage() {
                   <div className="text-[11px] text-indigo-500/70 dark:text-indigo-500 mt-0.5 truncate">段永平 · 查理芒格 · 巴菲特</div>
                 </div>
                 <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-80 group-hover:translate-x-0.5 transition-all" />
-              </Link>
+              </a>
             </div>
           </nav>
         </aside>
@@ -341,8 +346,10 @@ export default function ArticlesPage() {
                   );
                 })}
               </div>
-              <Link
-                href="/anthology"
+              <a
+                href="https://www.wise-hold.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-4 w-full max-w-xl p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800/60 bg-gradient-to-r from-indigo-50 to-white dark:from-indigo-950/30 dark:to-slate-900 hover:border-indigo-400 dark:hover:border-indigo-700 hover:shadow-md transition-all duration-200 group"
               >
                 <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/60 flex items-center justify-center shrink-0">
@@ -353,7 +360,7 @@ export default function ArticlesPage() {
                   <div className="text-xs text-indigo-500/80 dark:text-indigo-500">段永平 · 查理芒格 · 巴菲特 · 经典演讲与著作</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </a>
             </div>
           )}
         </main>

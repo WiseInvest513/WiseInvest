@@ -31,6 +31,13 @@ interface Video {
 }
 
 const videoData: Video[] = [
+  { id: 23, title: "2026 年全网最全最详细 giffgaff 手机卡开通&充值教程、英国保号神卡、无需实名 KYC 认证，充值 10 镑，每年不到一英镑，0 月租、可轻松使用数十年、出海必备的境外神卡！人手必备！", date: "2026-02-18", youtubeLink: "https://youtu.be/EQ2bNF9ziPc", category: "手机卡" },
+  { id: 22, title: "2026 年全网最全最详细复星证券开户教程 ｜ 复星证券开户入金教程，港美股终身免佣、可投资港股/美股/A 股/加密/美债/期权等产品一站式购买 、Ifast/众安数字银行入金复星，一个视频搞定！", date: "2026-04-01", youtubeLink: "https://youtu.be/UCKdg2Ki4SE", category: "券商" },
+  { id: 21, title: "2026 年国内见证开户最全最详细教程，包含汇丰｜渣打｜恒生｜东亚｜星展等银行的具体详细介绍，不出国！国内50万存3个月就能开香港/新加坡/迪拜银行卡 | 见证开户全攻略", date: "2026-03-29", youtubeLink: "https://youtu.be/DtO1J03SB-k", category: "港卡" },
+  { id: 20, title: "2026 年全网最全Claude 大模型订阅最佳解决方案，可解决 ChatGPT、Gemini 等顶级大模型的订阅、Bybit 虚拟 U 卡开通教程，可用于 google pay、Apple Pay！", date: "2026-03-20", youtubeLink: "https://youtu.be/wRA6sseqNtU", category: "AI" },
+  { id: 19, title: "2026 年澳门蚂蚁银行注册最全教程｜可投资港美股的银行、支持大陆用户开户，一站式投资港美股，同众安银行同等功能、港美股投资教程、澳门银行开通！", date: "2026-03-18", youtubeLink: "https://youtu.be/OT7JlKBwc2w", category: "港卡" },
+  { id: 18, title: "2026 年全网最全最详细嘉信理财开户教程、国内用户仅凭护照即可完成开户、无需境外地址证明、无 CRS 风险，可放心投资港美股、大陆用户必开无 CRS 券商、无盈透证券的最佳选择！", date: "2026-03-02", youtubeLink: "https://www.youtube.com/watch?v=DjtUP6e9hDU", category: "券商" },
+  { id: 17, title: "2026 年如何在不写任何一行代码的情况下拥有一个自己的独立的个人网站、Vibe Coding写网站、AI 写网站！AI", date: "2026-02-18", youtubeLink: "https://youtu.be/yRK_eKMvYFc", category: "AI" },
   { id: 16, title: "2026 年全网最全最详细致富证券开户教程、国内用户仅凭身份证即可完成开户、国内用户可使用的香港券商，成立 46 年，46年港资零售券商No.1！", date: "2026-02-15", youtubeLink: "https://youtu.be/pCsQo_aIrWk?si=-4ePntuEPlUEGWAb", category: "券商" },
   { id: 15, title: "2026 年全网最全最详细 Bitget 虚拟 U 卡入金盈透教程｜盈透入金教程｜虚拟 U 卡入金盈透｜券商入金教程，最快四小时即可到账、没有港卡入金盈透最佳选择、加密入金券商最佳选择！", date: "2026-02-08", youtubeLink: "https://youtu.be/9ji8KUh9ojs?si=VwFzDGHpX4nxMMP4", category: "出入金" },
   { id: 14, title: "2026 年全网最全最详细 港卡绑定微信在国内消费、港卡绑定、港卡国内消费、众安绑定微信支付、众安绑卡、出金详细教程、港卡出金详细流程、超低手续费完成港卡中资金的国内消费、港卡消费教程！", date: "2026-01-20", youtubeLink: "https://youtu.be/GG5qdaUgScc?si=LAKhCsdqxmh1NJ2a", category: "出入金" },
@@ -49,11 +56,12 @@ const videoData: Video[] = [
   { id: 12, title: "2025 年全网最全最详细 0 门槛英国 Ifast数字银行开户教程，替代港卡的最佳选择，支持大陆银行卡无痕入金。兴业银行入金 Ifast 最全最详细教程，可无损入金港美股券商。港美股券商入金首选", date: "2025-11-02", youtubeLink: "https://youtu.be/2LcPWwwMSqw", category: "投资" },
 ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-const allCategories = ["赚钱", "投资", "虚拟 U 卡", "出入金", "alpha", "港卡", "美股", "券商"];
+const allCategories = ["赚钱", "投资", "虚拟 U 卡", "出入金", "alpha", "港卡", "美股", "券商", "AI", "手机卡"];
 
 const categoryEmoji: Record<string, string> = {
   "赚钱": "💰", "投资": "📈", "虚拟 U 卡": "💳", "出入金": "🏦",
   "alpha": "⚡", "港卡": "🌐", "美股": "🗽", "券商": "🏛️",
+  "AI": "🤖", "手机卡": "📱",
 };
 
 export default function VideoContentPage() {

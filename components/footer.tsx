@@ -127,12 +127,14 @@ export function Footer() {
             <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">站内导航</h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/anthology"
+                <a
+                  href="https://www.wise-hold.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
                   投资文集
-                </Link>
+                </a>
               </li>
               <li>
                 <Link

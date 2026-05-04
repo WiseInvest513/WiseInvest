@@ -2,7 +2,7 @@
 id: ifas-fuxing
 title: 众安&Ifast 银行入金复星最全教程
 categoryId: broker
-subcategoryId: fuxing
+subcategoryId: hk-broker
 date: 2026-04-02
 readTime: 5
 summary: Ifast&众安入金复星证券最全详解
@@ -12,7 +12,7 @@ summary: Ifast&众安入金复星证券最全详解
 
 ## 一、写在前面
 
-哈喽，大家好这里是 **Wise 投资有术**，我是你们的老朋友 **Wise**！
+哈喽，大家好这里是 **WiseInvest**，我是你们的老朋友 **Wise**！
 
 在上次的教程里面，我们详细介绍了关于[**复星的注册和福利**](/articles/broker/sQSbLRe8)，如果大家还没有注册复星的可以查阅我的上一篇内容进行注册和学习啦！
 

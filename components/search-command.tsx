@@ -57,7 +57,7 @@ export function SearchCommand({
     { label: "首页", href: "/", icon: Home },
     { label: "推文", href: "/tweets", icon: FileText },
     { label: "工具", href: "/tools", icon: SearchIcon },
-    { label: "文集", href: "/anthology", icon: FileText },
+    { label: "文集", href: "https://www.wise-hold.com/", icon: FileText },
   ];
 
   // Filter tools based on search
