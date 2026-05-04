@@ -21,7 +21,7 @@ export default function TweetsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeRowId, setActiveRowId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(25);
   const activeRowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleKnowledgeGraphClick = () => {
@@ -156,6 +156,21 @@ export default function TweetsPage() {
 
   const maxViews = useMemo(() => Math.max(...tweets.map((t) => t.views)), []);
 
+  const hotCount = useMemo(() => tweets.filter(t => t.views > 5000).length, []);
+  const topicCounts = useMemo(() => {
+    const map: Record<string, number> = {};
+    tweets.forEach(t => t.category.split(",").forEach(c => { const k = c.trim(); map[k] = (map[k] || 0) + 1; }));
+    return Object.entries(map).sort((a, b) => b[1] - a[1]);
+  }, []);
+
+  // Numbered pagination helper
+  const getPageNumbers = (current: number, total: number): (number | "...")[] => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    if (current <= 4) return [1, 2, 3, 4, 5, "...", total];
+    if (current >= total - 3) return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+    return [1, "...", current - 1, current, current + 1, "...", total];
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid">
       
@@ -283,21 +298,46 @@ export default function TweetsPage() {
                   </button>
 
                   {/* 每页显示 */}
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-xs text-slate-400 dark:text-slate-500">每页</span>
-                    <select
-                      value={pageSize}
-                      onChange={(e) => {
-                        setPageSize(Number(e.target.value));
-                        setCurrentPage(1);
-                      }}
-                      className="px-2 py-1 border border-slate-200 dark:border-slate-700 rounded-full text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-colors"
-                    >
-                      <option value={10}>10</option>
-                      <option value={20}>20</option>
-                    </select>
-                    <span className="text-xs text-slate-400 dark:text-slate-500">条</span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-slate-400 dark:text-slate-500 mr-1">每页</span>
+                    {[25, 50].map(n => (
+                      <button
+                        key={n}
+                        onClick={() => { setPageSize(n); setCurrentPage(1); }}
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${pageSize === n ? "bg-amber-400 border-amber-400 text-slate-900" : "border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-amber-300 dark:hover:border-amber-600"}`}
+                      >
+                        {n}
+                      </button>
+                    ))}
                   </div>
+                </div>
+              </div>
+
+              {/* ── Stats Banner ── */}
+              <div className="px-5 md:px-6 py-3 flex flex-wrap items-center gap-3 bg-slate-50/60 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                  <span className="font-semibold text-slate-800 dark:text-slate-200 text-sm">{tweets.length}</span>篇推文
+                </div>
+                <div className="w-px h-4 bg-slate-200 dark:bg-slate-700" />
+                <div className="flex items-center gap-1.5 text-xs text-orange-500 dark:text-orange-400">
+                  <Flame className="w-3.5 h-3.5" />
+                  <span className="font-semibold">{hotCount}</span>篇爆款（浏览量 &gt;5k）
+                </div>
+                <div className="w-px h-4 bg-slate-200 dark:bg-slate-700" />
+                <div className="flex items-center gap-2 flex-wrap">
+                  {topicCounts.slice(0, 5).map(([topic, count]) => (
+                    <button
+                      key={topic}
+                      onClick={() => toggleTopic(topic)}
+                      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium transition-all ${
+                        selectedTopics.includes(topic)
+                          ? "bg-amber-400 text-slate-900"
+                          : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-amber-300 dark:hover:border-amber-600"
+                      }`}
+                    >
+                      {topic}<span className="opacity-60">{count}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -364,21 +404,21 @@ export default function TweetsPage() {
                             } ${isHot ? "border-l-2 border-l-amber-400" : "border-l-2 border-l-transparent"}`}
                           >
                             {/* 日期 */}
-                            <TableCell className="w-36 py-4 pl-4">
+                            <TableCell className="w-36 py-5 pl-4">
                               <span className="font-mono text-xs text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
                                 {tweet.date}
                               </span>
                             </TableCell>
 
                             {/* 标题 */}
-                            <TableCell className="py-4 max-w-0">
-                              <span className="block truncate font-semibold text-[15px] text-slate-800 dark:text-slate-100 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
+                            <TableCell className="py-5 max-w-0">
+                              <span className="block truncate font-semibold text-[16px] leading-snug text-slate-800 dark:text-slate-100 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
                                 {renderHighlightedTitle(tweet.title)}
                               </span>
                             </TableCell>
 
                             {/* 标签 */}
-                            <TableCell className="w-52 py-4">
+                            <TableCell className="w-52 py-5">
                               <div className="flex items-center gap-1.5 justify-end flex-wrap">
                                 {tweet.category.split(",").map((cat, idx) => (
                                   <span
@@ -400,22 +440,22 @@ export default function TweetsPage() {
                             </TableCell>
 
                             {/* 浏览量 */}
-                            <TableCell className="w-36 py-4 pr-6">
-                              <div className="flex flex-col items-end gap-1">
+                            <TableCell className="w-36 py-5 pr-6">
+                              <div className="flex flex-col items-end gap-1.5">
                                 <div className="flex items-center gap-1">
                                   {isHot ? (
                                     <Flame className="h-3.5 w-3.5 text-orange-400" />
                                   ) : (
                                     <Eye className="h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
                                   )}
-                                  <span className={`text-xs font-mono font-medium ${isHot ? "text-orange-500 dark:text-orange-400" : "text-slate-500 dark:text-slate-400"}`}>
+                                  <span className={`text-sm font-mono font-semibold ${isHot ? "text-orange-500 dark:text-orange-400" : "text-slate-500 dark:text-slate-400"}`}>
                                     {tweet.views >= 1000
                                       ? `${(tweet.views / 1000).toFixed(1)}k`
                                       : tweet.views}
                                   </span>
                                 </div>
-                                {/* 进度条 */}
-                                <div className="w-16 h-1 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                {/* 进度条 — 加宽 */}
+                                <div className="w-24 h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                                   <div
                                     className={`h-full rounded-full transition-all ${isHot ? "bg-gradient-to-r from-amber-400 to-orange-400" : "bg-slate-300 dark:bg-slate-600"}`}
                                     style={{ width: `${viewPercent}%` }}
@@ -433,27 +473,41 @@ export default function TweetsPage() {
 
               {/* 分页 */}
               {totalPages > 1 && (
-                <div className="px-5 md:px-6 py-3.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span className="text-xs text-slate-400 dark:text-slate-500">
+                <div className="px-5 md:px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4">
+                  <span className="text-xs text-slate-400 dark:text-slate-500 tabular-nums shrink-0">
                     第 {startIndex + 1}–{Math.min(endIndex, filteredTweets.length)} 条，共 {filteredTweets.length} 条
                   </span>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="p-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
-                      <ChevronLeft className="w-4 h-4" />
+                      <ChevronLeft className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 px-3 tabular-nums">
-                      {currentPage} / {totalPages}
-                    </span>
+                    {getPageNumbers(currentPage, totalPages).map((p, i) =>
+                      p === "..." ? (
+                        <span key={`ellipsis-${i}`} className="px-1.5 text-xs text-slate-400">…</span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => setCurrentPage(p as number)}
+                          className={`min-w-[32px] h-8 px-2 rounded-lg text-xs font-medium transition-all ${
+                            currentPage === p
+                              ? "bg-amber-400 text-slate-900 shadow-sm"
+                              : "border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-amber-300 dark:hover:border-amber-600"
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      )
+                    )}
                     <button
                       onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="p-1.5 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
