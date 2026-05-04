@@ -172,10 +172,10 @@ export default function PerksPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid" style={{ "--dot-primary": "0.06", "--dot-secondary": "0.02" } as React.CSSProperties}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid">
 
       {/* ── PAGE HERO ── */}
-      <div className="bg-amber-50 dark:bg-slate-900 border-b border-amber-200 dark:border-slate-800">
+      <div className="relative z-[1] bg-amber-50 dark:bg-slate-900 border-b border-amber-200 dark:border-slate-800">
         <div className="max-w-[1520px] mx-auto px-4 md:px-6 pt-8 pb-6">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
@@ -230,7 +230,14 @@ export default function PerksPage() {
                     <div className="text-[11px] text-slate-400 truncate">{item.desc}</div>
                   </div>
                   {i < starterPath.length - 1 && (
-                    <div className="hidden sm:block shrink-0 text-slate-300 dark:text-slate-600 text-lg mx-1">→</div>
+                    <div className="hidden sm:flex shrink-0 items-center mx-2 gap-0">
+                      {/* flowing line */}
+                      <div className="relative w-16 h-0.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div className="animate-flow-dot absolute inset-y-0 w-10 bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+                      </div>
+                      {/* arrowhead */}
+                      <div className="w-2 h-2 border-t-[2px] border-r-[2px] border-amber-400 dark:border-amber-500 rotate-45 -ml-1 shrink-0" />
+                    </div>
                   )}
                 </div>
               ))}
@@ -268,7 +275,7 @@ export default function PerksPage() {
         </div>
       </div>
 
-      <div className="max-w-[1520px] mx-auto flex items-start gap-4 relative px-4 md:px-6 pt-4">
+      <div className="relative z-[1] max-w-[1520px] mx-auto flex items-start gap-4 px-4 md:px-6 pt-4">
 
         {/* ── LEFT SIDEBAR ── */}
         <aside className="w-52 shrink-0 sticky top-20 pt-4 self-start max-h-[calc(100vh-80px)] overflow-y-auto hidden md:block scrollbar-hide">
