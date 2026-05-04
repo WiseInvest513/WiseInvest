@@ -12,6 +12,15 @@
 .animate-flow-dot {
   animation: flowDot 1.6s ease-in-out infinite;
 }
+@keyframes flowDotVertical {
+  0%   { top: -80%; opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { top: 180%; opacity: 0; }
+}
+.animate-flow-dot-vertical {
+  animation: flowDotVertical 1.6s ease-in-out infinite;
+}
 
 /* ── Mind-map flow animations ─────────────────────────────────── */
 @keyframes flowMove {

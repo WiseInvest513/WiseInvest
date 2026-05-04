@@ -210,33 +210,60 @@ export default function PerksPage() {
           </div>
 
           {/* Starter Path */}
-          <div className="mt-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="mt-5 rounded-2xl border border-amber-200/70 dark:border-amber-900/40 bg-gradient-to-br from-amber-50/80 to-white dark:from-slate-900 dark:to-slate-900 p-5 shadow-sm overflow-hidden relative">
+            {/* subtle glow behind */}
+            <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 w-64 h-24 rounded-full bg-amber-300/20 blur-2xl" />
+
+            <div className="flex items-center gap-2 mb-5 relative">
               <TrendingUp className="w-4 h-4 text-amber-500" />
-              <span className="text-sm font-bold text-slate-800 dark:text-slate-100">🆕 新手推荐领取路径</span>
-              <span className="text-xs text-slate-400 dark:text-slate-500 ml-1">— 按这个顺序领，效果最好</span>
+              <span className="text-sm font-bold text-slate-800 dark:text-slate-100">新手推荐领取路径</span>
+              <span className="ml-1 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 text-[11px] font-semibold">按顺序领效果最好</span>
             </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+
+            <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-0 relative">
               {starterPath.map((item, i) => (
-                <div key={item.step} className="flex items-center gap-2 flex-1 min-w-0">
+                <div key={item.step} className="flex sm:flex-row items-center flex-1 min-w-0">
+                  {/* Step card */}
                   <div
-                    className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shadow-sm"
-                    style={{ backgroundColor: item.color, color: getTextColor(item.color) }}
+                    className="flex-1 rounded-xl p-4 border relative transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                    style={{
+                      borderColor: item.color + "55",
+                      background: `linear-gradient(135deg, ${item.color}12 0%, ${item.color}06 100%)`,
+                    }}
                   >
-                    {item.step}
+                    {/* Step number badge */}
+                    <div
+                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black shadow mb-3"
+                      style={{ backgroundColor: item.color, color: getTextColor(item.color) }}
+                    >
+                      {item.step}
+                    </div>
+                    <div className="font-bold text-[15px] text-slate-900 dark:text-white leading-snug">{item.label}</div>
+                    <div className="text-[12px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{item.desc}</div>
                   </div>
-                  <div className="min-w-0">
-                    <div className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">{item.label}</div>
-                    <div className="text-[11px] text-slate-400 truncate">{item.desc}</div>
-                  </div>
+
+                  {/* Animated flow connector */}
                   {i < starterPath.length - 1 && (
-                    <div className="hidden sm:flex shrink-0 items-center mx-2 gap-0">
-                      {/* flowing line */}
-                      <div className="relative w-16 h-0.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div className="animate-flow-dot absolute inset-y-0 w-10 bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+                    <div className="hidden sm:flex shrink-0 flex-col items-center justify-center w-14 self-center gap-1">
+                      <div className="relative w-full h-[3px] bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                        <div
+                          className="animate-flow-dot absolute inset-y-0 w-10 bg-gradient-to-r from-transparent via-amber-400 to-transparent"
+                          style={{ animationDelay: `${i * 0.55}s` }}
+                        />
                       </div>
-                      {/* arrowhead */}
-                      <div className="w-2 h-2 border-t-[2px] border-r-[2px] border-amber-400 dark:border-amber-500 rotate-45 -ml-1 shrink-0" />
+                      <div
+                        className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[8px] border-l-amber-400 dark:border-l-amber-500 -mt-0.5"
+                        style={{ marginLeft: "auto", marginRight: "4px" }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Mobile vertical connector */}
+                  {i < starterPath.length - 1 && (
+                    <div className="sm:hidden flex flex-col items-center w-full py-1 gap-0.5">
+                      <div className="relative h-8 w-[3px] bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden mx-auto">
+                        <div className="absolute inset-0 w-full bg-gradient-to-b from-transparent via-amber-400 to-transparent animate-flow-dot-vertical" />
+                      </div>
                     </div>
                   )}
                 </div>
