@@ -53,28 +53,28 @@ const nextConfig: NextConfig = {
   // 从 Serverless Function 的文件追踪中排除不需要的大型包
   // 这是解决 Vercel 250MB 限制最有效的方法
   outputFileTracingExcludes: {
-    // 文章详情页：content 目录全部在构建时预渲染，运行时无需读取
-    // dynamicParams=false 保证未知路径返回 404，函数不会读 content
-    'app/articles/[categoryId]/[uid]/page': [
-      'content/**',
+    // articles 详情页：content 目录 280MB，全部在构建时 SSG，运行时不读 FS
+    // key 用 URL 路径（带前缀斜线），pattern 用 ./ 相对路径
+    '/articles/[categoryId]/[uid]': [
+      './content/**',
     ],
     // 所有路由：排除只在构建阶段需要的开发工具包
     '*': [
-      'node_modules/typescript/**',
-      'node_modules/eslint/**',
-      'node_modules/eslint-config-next/**',
-      'node_modules/@typescript-eslint/**',
-      'node_modules/eslint-plugin-react/**',
-      'node_modules/eslint-plugin-react-hooks/**',
-      'node_modules/@next/eslint-plugin-next/**',
-      'node_modules/caniuse-lite/**',
-      'node_modules/axe-core/**',
-      'node_modules/es-abstract/**',
-      'node_modules/es-toolkit/**',
-      'node_modules/@swc/core-linux-x64-gnu/**',
-      'node_modules/@swc/core-linux-x64-musl/**',
-      'node_modules/@esbuild/**',
-      'node_modules/terser/**',
+      './node_modules/typescript/**',
+      './node_modules/eslint/**',
+      './node_modules/eslint-config-next/**',
+      './node_modules/@typescript-eslint/**',
+      './node_modules/eslint-plugin-react/**',
+      './node_modules/eslint-plugin-react-hooks/**',
+      './node_modules/@next/eslint-plugin-next/**',
+      './node_modules/caniuse-lite/**',
+      './node_modules/axe-core/**',
+      './node_modules/es-abstract/**',
+      './node_modules/es-toolkit/**',
+      './node_modules/@swc/core-linux-x64-gnu/**',
+      './node_modules/@swc/core-linux-x64-musl/**',
+      './node_modules/@esbuild/**',
+      './node_modules/terser/**',
     ],
   },
   webpack: (config, { isServer, webpack }) => {
