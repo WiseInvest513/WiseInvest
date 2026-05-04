@@ -48,7 +48,29 @@ const nextConfig: NextConfig = {
     "react-pdf",
     "https-proxy-agent",
     "pdfjs-dist",
+    "rss-parser",
   ],
+  // 从 Serverless Function 的文件追踪中排除不需要的大型包
+  // 这是解决 Vercel 250MB 限制最有效的方法
+  outputFileTracingExcludes: {
+    '*': [
+      'node_modules/typescript/**',
+      'node_modules/eslint/**',
+      'node_modules/eslint-config-next/**',
+      'node_modules/@typescript-eslint/**',
+      'node_modules/eslint-plugin-react/**',
+      'node_modules/eslint-plugin-react-hooks/**',
+      'node_modules/@next/eslint-plugin-next/**',
+      'node_modules/caniuse-lite/**',
+      'node_modules/axe-core/**',
+      'node_modules/es-abstract/**',
+      'node_modules/es-toolkit/**',
+      'node_modules/@swc/core-linux-x64-gnu/**',
+      'node_modules/@swc/core-linux-x64-musl/**',
+      'node_modules/@esbuild/**',
+      'node_modules/terser/**',
+    ],
+  },
   webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       // 客户端：排除 Node.js 特定的模块
