@@ -12,6 +12,10 @@ function getAllArticles() {
   return [...hardcodedArticles.filter(a => !fsIds.has(a.id)), ...fsArticles];
 }
 
+// 所有文章页面均在构建时静态生成，不存在的路径直接返回 404
+// 这样 Serverless Function 运行时无需读取文件系统
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return getAllArticles().map(a => ({ categoryId: a.categoryId, uid: genUid(a.id) }));
 }
