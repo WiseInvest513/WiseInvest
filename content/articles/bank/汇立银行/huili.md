@@ -4,7 +4,7 @@ title: 2026 年香港汇立数字银行开通转账福利介绍
 categoryId: bank
 date: 2026-04-10
 readTime: 23
-summary: 2026 年香港汇立数字银行开通转账福利介绍
+summary: 香港首批虚拟银行之一，GoSave定期最低10港元起存，借记卡海外消费最高3%回赠，支持转数快免费入金，本文含完整开户+转账实操流程。
 subcategoryId: virtual-bank
 ---
 

@@ -4,7 +4,7 @@ title: 2026 年汇丰银行线上开户教程
 categoryId: bank
 date: 2026-04-10
 readTime: 30
-summary: 2026 年全网最全的汇丰银行线上开户教程
+summary: 人在香港即可全程线上开立汇丰One账户，需要港澳通行证+出入境证明，重点注意公司名称后缀须为Co.,Ltd，成功率接近100%。
 subcategoryId: physical-bank
 ---
 

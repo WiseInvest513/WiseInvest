@@ -4,7 +4,7 @@ title: 众安虚拟银行注册开通教程
 categoryId: bank
 date: 2026-04-10
 readTime: 6
-summary: 2026 年全网最全的众安虚拟银行开户注册教程
+summary: 香港首批虚拟银行，开户后可绑定国内微信消费年额度6.5万港币，还可直接入金盈透/致富等券商，需内地身份证+银行卡+出入境证明。
 subcategoryId: virtual-bank
 ---
 

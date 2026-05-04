@@ -5,7 +5,7 @@ categoryId: broker
 subcategoryId: us-broker
 date: 2026-04-10
 readTime: 50
-summary: 嘉信证券开户详细教程
+summary: 全球最大券商之一，管理资产超11万亿美元，不参与CRS，凭护照即可开户，流程约30-45分钟，需提前准备地址证明和英文地址。
 ---
 
 ![嘉信证券封面](./0.jpeg)

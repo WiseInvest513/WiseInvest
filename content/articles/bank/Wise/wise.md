@@ -4,7 +4,7 @@ title: Wise 身份证注册开通教程
 categoryId: bank
 date: 2026-04-10
 readTime: 6
-summary: 2026 年全网最全的 Wise 身份证注册开卡教程
+summary: 无需前往香港，仅凭内地身份证即可开立港区和美元账户，功能等同港卡，全程约30-40分钟，若被要求地址证明可用招行信用卡账单解决。
 subcategoryId: digital-bank
 ---
 

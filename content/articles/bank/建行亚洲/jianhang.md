@@ -4,7 +4,7 @@ title: 2026 年全网最全工银亚洲开户教程&细节介绍
 categoryId: bank
 date: 2026-04-10
 readTime: 23
-summary: 2026 年全网最全工银亚洲开户教程&细节介绍
+summary: 建行亚洲陆港通龙卡可打通内地与香港两地账户，港元实时免费互转，开户赠200元人民币现金+3个月5.88%定存，约10分钟完成线上开户。
 subcategoryId: physical-bank
 ---
 

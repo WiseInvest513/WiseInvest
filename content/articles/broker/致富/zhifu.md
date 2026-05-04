@@ -5,7 +5,7 @@ categoryId: broker
 subcategoryId: hk-broker
 date: 2026-04-10
 readTime: 5
-summary: 致富证券开户入金最详细教程
+summary: 46年港资老牌券商，内地身份证即可线上开户，仅需5-10分钟，支持港美股打新和月供，开户30日内入金1万港币可领迎新福利。
 ---
 
 ![致富证券封面](./0.jpeg)

@@ -5,7 +5,7 @@ categoryId: broker
 subcategoryId: us-broker
 date: 2026-04-10
 readTime: 38
-summary: 第一证券开户最详细教程
+summary: 美国本土券商，不参与CRS，零佣金交易，凭护照+地址证明即可开户，整个流程约10-15分钟，适合注重隐私的内地投资者。
 ---
 
 ## 一、写在前面

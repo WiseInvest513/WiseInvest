@@ -4,7 +4,7 @@ title: 中银香港注册开户教程
 categoryId: bank
 date: 2026-04-10
 readTime: 6
-summary: 2026 年全网最全的中银香港注册开户教程
+summary: 香港最大本地银行之一，人在港用身份证+港澳通行证+出入境证明即可线上完成开户，注意开户用途填储蓄和投资，六位保安编码务必记录。
 subcategoryId: physical-bank
 ---
 

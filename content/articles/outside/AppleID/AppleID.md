@@ -4,7 +4,7 @@ title: 2025 年注册苹果美区 ID 与修改港区 ID 全网最全教程
 categoryId: outside
 date: 2026-04-10
 readTime: 25
-summary: 2025 年注册苹果美区 ID 与修改港区 ID 全网最全教程
+summary: 手把手教你从零注册苹果美区ID，以及把现有国区ID改成港区ID，两套方案覆盖不同需求，解决下载境外App的账号问题。
 ---
 
 ## 一、写在前面

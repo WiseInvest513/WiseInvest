@@ -4,7 +4,7 @@ title: 蚂蚁（澳门）注册开通教程
 categoryId: bank
 date: 2026-04-10
 readTime: 23
-summary: 2026 年全网最全的蚂蚁（澳门）注册开通教程
+summary: 澳门最大数字银行，支持交易港美股是香港蚂蚁没有的功能，入金3千港币可领阿里巴巴股票，人在澳门用身份证+港澳通行证即可开户。
 subcategoryId: virtual-bank
 ---
 

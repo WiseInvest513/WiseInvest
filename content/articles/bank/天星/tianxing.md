@@ -4,7 +4,7 @@ title: 天星银行注册开通教程
 categoryId: bank
 date: 2026-04-10
 readTime: 23
-summary: 2026 年全网最全的天星银行注册开通教程
+summary: 渣打银行联合香港电讯和携程创立的虚拟银行，人在港持身份证+出入境证明即可开户，流程简洁，英文名须与证件拼音完全一致。
 subcategoryId: virtual-bank
 ---
 

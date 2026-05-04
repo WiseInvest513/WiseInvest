@@ -4,7 +4,7 @@ title: 2026 年全网最全平安数字银行注册开通教程
 categoryId: bank
 date: 2026-04-10
 readTime: 23
-summary: 2026 年全网最全平安数字银行注册开通教程
+summary: 香港第7家虚拟银行，新客活期+定期双8%年利率，存款可无缝切换购买港美股，还支持线上买保险，需港澳通行证+出入境记录开户。
 subcategoryId: virtual-bank
 ---
 

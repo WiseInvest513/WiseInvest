@@ -4,7 +4,7 @@ title: 蚂蚁银行（香港）注册开户教程
 categoryId: bank
 date: 2026-04-10
 readTime: 23
-summary: 2026 年全网最全的蚂蚁银行（香港）注册开户教程
+summary: 蚂蚁集团旗下香港持牌虚拟银行，界面简洁操作顺畅，人在港满18岁持内地身份证+出入境证明，四步即可完成开户申请。
 subcategoryId: virtual-bank
 ---
 
