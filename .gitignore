@@ -60,3 +60,10 @@ Thumbs.db
 
 # Contentlayer
 .contentlayer/
+
+# Backup / temp files
+*.backup
+*.backup2
+*.bak
+*.tmp
+*.orig
