@@ -1,31 +1,7 @@
-# 排除开发文档和脚本
-*.md
-!README.md
-docs/
-scripts/
-
-# 排除开发工具配置
-DEBUG_PROXY.md
-PROXY_SETUP.md
-PROXY_TROUBLESHOOTING.md
-API_TEST_URLS.md
-FILES_CHECKLIST.md
-ROI_API_TEST_REPORT.md
-STARTUP_CHECKLIST.md
-QUICK_START.md
-RESTART_GUIDE.md
-STOP_SERVER.md
-THEME_GUIDE.md
-TROUBLESHOOTING.md
-KNOWLEDGE_GRAPH_CONFIG.md
-PROJECT_STATUS.md
-查看日志说明.md
-
-# 排除 shell 脚本
+# 排除 shell 脚本（不需要部署）
 *.sh
 
 # 排除本地环境文件
-env.local.example
 .env.local
 .env*.local
 
