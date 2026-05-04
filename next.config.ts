@@ -116,8 +116,6 @@ const nextConfig: NextConfig = {
     
     return config;
   },
-  // 优化包导入（Next.js 15 已稳定）
-  optimizePackageImports: ['lucide-react', 'recharts'],
   // 优化页面加载性能
   compress: true,
   poweredByHeader: false,
