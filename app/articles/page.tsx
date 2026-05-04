@@ -42,30 +42,39 @@ export default function ArticlesPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [allArticles, setAllArticles] = useState<(Article | FsArticle)[]>(hardcodedArticles);
 
+  // Detect URL article target on first paint — show skeleton instead of empty state
+  const [isLoadingArticle, setIsLoadingArticle] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(window.location.pathname);
+  });
+
   useEffect(() => {
+    // Parse URL once; resolve article in the same batch as setAllArticles
+    const urlMatch = window.location.pathname.match(/^\/articles\/([^/]+)\/([a-zA-Z0-9]{8})$/);
+
     fetch("/api/articles-fs")
       .then(r => r.json())
       .then((fsArticles: FsArticle[]) => {
-        // Merge: FS articles override hardcoded ones with the same id
         const fsIds = new Set(fsArticles.map(a => a.id));
         const merged = [...hardcodedArticles.filter(a => !fsIds.has(a.id)), ...fsArticles];
-        setAllArticles(merged);
-      })
-      .catch(() => {});
-  }, []);
 
-  // Auto-select article from URL on load
-  useEffect(() => {
-    if (!allArticles.length) return;
-    const match = window.location.pathname.match(/^\/articles\/([^/]+)\/([a-zA-Z0-9]{8})$/);
-    if (!match) return;
-    const [, catId, uid] = match;
-    const found = allArticles.find(a => a.categoryId === catId && genUid(a.id) === uid);
-    if (found && !selectedArticleId) {
-      setSelectedArticleId(found.id);
-      setOpenCategories(prev => new Set([...prev, catId]));
-    }
-  }, [allArticles]);
+        if (urlMatch) {
+          const [, catId, uid] = urlMatch;
+          const found = merged.find(a => a.categoryId === catId && genUid(a.id) === uid);
+          if (found) {
+            // All in one batch — React 18 automatic batching, single re-render
+            setAllArticles(merged);
+            setSelectedArticleId(found.id);
+            setOpenCategories(prev => new Set([...prev, catId]));
+            setIsLoadingArticle(false);
+            return;
+          }
+        }
+        setAllArticles(merged);
+        setIsLoadingArticle(false);
+      })
+      .catch(() => setIsLoadingArticle(false));
+  }, []);
 
   const selectedArticle = useMemo(() => allArticles.find(a => a.id === selectedArticleId) ?? null, [selectedArticleId, allArticles]);
   const toc = useMemo(() => selectedArticle ? extractToc(selectedArticle.content) : [], [selectedArticle]);
@@ -301,7 +310,25 @@ export default function ArticlesPage() {
             </span>
           </div>
 
-          {selectedArticle ? (
+          {isLoadingArticle && !selectedArticle ? (
+            /* ── Article skeleton shown while fetch is in-flight ── */
+            <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12 animate-pulse">
+              <div className="h-6 w-24 rounded-full bg-slate-200 dark:bg-slate-800 mb-5" />
+              <div className="h-8 w-3/4 rounded-lg bg-slate-200 dark:bg-slate-800 mb-3" />
+              <div className="h-8 w-1/2 rounded-lg bg-slate-200 dark:bg-slate-800 mb-5" />
+              <div className="h-4 w-full rounded bg-slate-100 dark:bg-slate-800/60 mb-2" />
+              <div className="h-4 w-5/6 rounded bg-slate-100 dark:bg-slate-800/60 mb-7" />
+              <div className="flex gap-4 pb-7 border-b border-slate-100 dark:border-slate-800">
+                <div className="h-3 w-24 rounded bg-slate-100 dark:bg-slate-800/60" />
+                <div className="h-3 w-28 rounded bg-slate-100 dark:bg-slate-800/60" />
+              </div>
+              <div className="mt-8 space-y-3">
+                {[100, 90, 95, 70, 85, 60, 92, 75].map((w, i) => (
+                  <div key={i} className={`h-4 rounded bg-slate-100 dark:bg-slate-800/60`} style={{ width: `${w}%` }} />
+                ))}
+              </div>
+            </div>
+          ) : selectedArticle ? (
             <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
               <div className="flex items-center gap-2 mb-5">
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
