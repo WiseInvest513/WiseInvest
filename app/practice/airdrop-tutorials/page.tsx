@@ -16,6 +16,34 @@ import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external
 // Mock data - 空投系列教程
 const airdropTutorialsData = [
   {
+    id: 9,
+    title: "2026 年四月回顾「人生作弊指南」收益情况",
+    date: "2026-05-03",
+    tweetLink: "https://x.com/WiseInvest513/status/2050797730470269386",
+    description: "2026 年四月「人生作弊指南」收益回顾",
+  },
+  {
+    id: 10,
+    title: "三月回顾「人生作弊指南」收益情况",
+    date: "2026-03-31",
+    tweetLink: "https://x.com/WiseInvest513/status/2038976649266647069",
+    description: "2026 年三月「人生作弊指南」收益回顾",
+  },
+  {
+    id: 11,
+    title: "二月回顾「人生作弊指南」收益情况",
+    date: "2026-03-02",
+    tweetLink: "https://x.com/WiseInvest513/status/2028447100791644649",
+    description: "2026 年二月「人生作弊指南」收益回顾",
+  },
+  {
+    id: 12,
+    title: "关于人生作弊指南，一定会坚持到 26 年走完的！",
+    date: "2026-02-17",
+    tweetLink: "https://x.com/WiseInvest513/status/2023686432045605168",
+    description: "坚持「人生作弊指南」策略的心路历程与信念分享",
+  },
+  {
     id: 1,
     title: "Boost 准备加号",
     date: "2026-01-28",
