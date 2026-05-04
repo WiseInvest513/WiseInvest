@@ -25,11 +25,11 @@ function parseFrontmatter(raw: string): { meta: Record<string, string>; content:
   return { meta, content };
 }
 
-/** Resolve ./image.jpg → /api/content/articles/{basePath}/image.jpg */
+/** Resolve ./image.jpg → /content/articles/{basePath}/image.jpg (served as static CDN asset) */
 function resolveImagePaths(content: string, basePath: string): string {
   return content.replace(
     /!\[([^\]]*)\]\(\.\//g,
-    `![$1](/api/content/articles/${basePath}/`
+    `![$1](/content/articles/${basePath}/`
   );
 }
 
