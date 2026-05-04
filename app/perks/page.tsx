@@ -172,7 +172,7 @@ export default function PerksPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 relative dot-grid" style={{ "--dot-primary": "0.06", "--dot-secondary": "0.02" } as React.CSSProperties}>
 
       {/* ── PAGE HERO ── */}
       <div className="bg-amber-50 dark:bg-slate-900 border-b border-amber-200 dark:border-slate-800">
