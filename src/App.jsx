@@ -3695,7 +3695,7 @@ function ReportPage() {
   const [peHistory, setPeHistory] = useState({sp500:[],nasdaq100:[]});
   const [etfs, setEtfs] = useState(FALLBACK.etfs);
   const [liveData, setLiveData] = useState(()=>{
-    try{ const c=localStorage.getItem("wise_etf_live"); return c?JSON.parse(c).data||{}:{}; }catch{return {};}
+    try{ const c=localStorage.getItem("wise_etf_live_v2"); return c?JSON.parse(c).data||{}:{}; }catch{return {};}
   });
   const [images, setImages] = useState([]); // [{title, url, filename}]
   const [generating, setGenerating] = useState(false);
@@ -3924,7 +3924,7 @@ export default function App() {
   // 同步读缓存，避免首屏 loading 闪烁
   const [liveData,setLiveData]=useState(()=>{
     try{
-      const raw=localStorage.getItem("wise_etf_live");
+      const raw=localStorage.getItem("wise_etf_live_v2");
       if(!raw) return {};
       const {data,ts}=JSON.parse(raw);
       const H21=21*3600*1000,DAY=24*3600*1000;
@@ -3934,7 +3934,7 @@ export default function App() {
   });
   const [liveTs,setLiveTs]=useState(()=>{
     try{
-      const raw=localStorage.getItem("wise_etf_live");
+      const raw=localStorage.getItem("wise_etf_live_v2");
       if(!raw) return null;
       const {liveTs,ts}=JSON.parse(raw);
       const H21=21*3600*1000,DAY=24*3600*1000;
@@ -3993,7 +3993,7 @@ export default function App() {
   // ── 实时行情（day_change / rolling_1y / buy_status / daily_limit）
   // 数据每日在北京时间凌晨5点（美股收盘后）更新一次，缓存到下一个北京时间5点再失效
   useEffect(()=>{
-    const CACHE_KEY="wise_etf_live";
+    const CACHE_KEY="wise_etf_live_v2";
     const H21=21*3600*1000,DAY=24*3600*1000;
     const lastBeijing5am=()=>Math.floor((Date.now()-H21)/DAY)*DAY+H21;
     // 已在 useState 初始化时同步加载缓存；这里只在缓存失效时重新拉取
