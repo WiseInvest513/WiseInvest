@@ -859,13 +859,13 @@ function PEHistoryReference({pe, nqPe, isMobile}) {
             {refs.map((row,i)=>(
               <tr key={i} style={{borderBottom:`1px solid ${C.borderLight}`, background:row.isCurrent?accent+"0a":"transparent"}}>
                 <td style={{padding:"11px 12px", fontWeight:row.isCurrent?700:400, color:row.isCurrent?accent:C.text, whiteSpace:"nowrap"}}>{row.period}</td>
-                <td style={{padding:"11px 12px", fontWeight:800, color:row.isCurrent?(curPE?.pe>=30?C.red:C.orange):i<2?C.red:"#ff6b35"}}>
+                <td style={{padding:"11px 12px", fontWeight:800, color:row.isCurrent?(curPE?.pe>=30?C.red:C.orange):i<2?C.red:"#ff6b35", whiteSpace:"nowrap"}}>
                   {row.isCurrent ? (curPE ? `${curPE.pe}x` : "--") : row.pe}
                 </td>
-                <td style={{padding:"11px 12px", color:C.textMuted}}>{row.note}</td>
-                <td style={{padding:"11px 12px", fontWeight:700, color:row.next1y==="?"?C.textDim:row.next1y.startsWith("-")?C.red:C.green}}>{row.next1y}</td>
-                <td style={{padding:"11px 12px", fontWeight:800, color:row.ddColor}}>{row.maxDD}</td>
-                <td style={{padding:"11px 12px", fontWeight:600, color:row.recovery==="?"?C.textDim:C.textMuted}}>{row.recovery}</td>
+                <td style={{padding:"11px 12px", color:C.textMuted, whiteSpace:"nowrap"}}>{row.note}</td>
+                <td style={{padding:"11px 12px", fontWeight:700, color:row.next1y==="?"?C.textDim:row.next1y.startsWith("-")?C.red:C.green, whiteSpace:"nowrap"}}>{row.next1y}</td>
+                <td style={{padding:"11px 12px", fontWeight:800, color:row.ddColor, whiteSpace:"nowrap"}}>{row.maxDD}</td>
+                <td style={{padding:"11px 12px", fontWeight:600, color:row.recovery==="?"?C.textDim:C.textMuted, whiteSpace:"nowrap"}}>{row.recovery}</td>
               </tr>
             ))}
           </tbody>
@@ -4324,15 +4324,15 @@ export default function App() {
         </div>
         {/* Mobile dropdown menu */}
         {mobileMenuOpen&&(
-          <div className="mobile-menu" style={{borderTop:`1px solid ${C.border}`,background:"rgba(255,255,255,0.97)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)"}}>
+          <div className="mobile-menu" style={{borderTop:`1px solid ${C.border}`,background:C.card,backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)"}}>
             {TABS.map(tab=>(
               tab.href
                 ? <a key={tab.id} href={tab.href}
-                    style={{display:"block",width:"100%",padding:"14px 24px",textAlign:"left",borderBottom:`1px solid ${C.border}30`,color:C.text,fontWeight:400,fontSize:15,textDecoration:"none"}}>
+                    style={{display:"flex",alignItems:"center",width:"100%",padding:"14px 24px",textAlign:"left",borderBottom:`1px solid ${C.border}`,color:C.textMuted,fontWeight:500,fontSize:15,textDecoration:"none",boxSizing:"border-box"}}>
                     {tab.label}
                   </a>
                 : <button key={tab.id} onClick={()=>{switchTab(tab.id);setMobileMenuOpen(false);}}
-                    style={{display:"block",width:"100%",padding:"14px 24px",textAlign:"left",background:"none",border:"none",borderBottom:`1px solid ${C.border}30`,color:activeTab===tab.id?C.accent:C.text,fontWeight:activeTab===tab.id?700:400,fontSize:15,cursor:"pointer"}}>
+                    style={{display:"flex",alignItems:"center",width:"100%",padding:"14px 24px",textAlign:"left",background:activeTab===tab.id?C.accent+"15":"none",border:"none",borderBottom:`1px solid ${C.border}`,color:activeTab===tab.id?C.accent:C.textMuted,fontWeight:activeTab===tab.id?700:500,fontSize:15,cursor:"pointer",boxSizing:"border-box"}}>
                     {tab.label}
                   </button>
             ))}
@@ -4756,9 +4756,11 @@ export default function App() {
         @media(max-width:900px){
           header nav{flex:1;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
           header nav::-webkit-scrollbar{display:none}
-          header nav button{padding:0 14px;font-size:13px}
-          .hamburger-btn{display:none !important}
-          .mobile-menu{display:block}
+          header nav button,header nav a{padding:0 11px;font-size:13px}
+        }
+        @media(max-width:600px){
+          header nav{display:none}
+          .hamburger-btn{display:flex !important}
         }
 
         @media(max-width:768px){
