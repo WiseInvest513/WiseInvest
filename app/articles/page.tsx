@@ -33,7 +33,7 @@ function useActiveToc(toc: { id: string }[]) {
 // ─── Main Component ────────────────────────────────────────
 export default function ArticlesPage() {
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set([
-    "crypto", "broker:us-broker", "broker:hk-broker",
+    "broker:us-broker", "broker:hk-broker",
     "bank:physical-bank", "bank:virtual-bank", "bank:digital-bank", "bank:jianzheng",
   ]));
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);

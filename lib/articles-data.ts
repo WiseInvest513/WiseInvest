@@ -40,6 +40,7 @@ export const categories: Category[] = [
   { id: "ai",       name: "AI 工具",  emoji: "⚡" },
   { id: "vcard",    name: "虚拟U卡",  emoji: "💰" },
   { id: "index",    name: "指数投资", emoji: "📈" },
+  { id: "onchain",  name: "OnChain 美股", emoji: "⛓️" },
   { id: "strategy", name: "投资策略", emoji: "🧭" },
   { id: "outside",  name: "出海必备", emoji: "✈️" },
 ];
