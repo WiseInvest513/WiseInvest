@@ -287,6 +287,12 @@ export default function TweetsPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
+                  {/* 科学上网提示 */}
+                  <span className="hidden sm:inline-flex items-center gap-1 text-xs text-slate-400 dark:text-slate-500">
+                    <span>🌐</span>
+                    此推文均为推特推文，请科学上网之后查阅
+                  </span>
+
                   {/* 知识图谱 — ghost 样式 */}
                   <button
                     type="button"
