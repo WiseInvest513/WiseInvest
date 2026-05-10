@@ -3,7 +3,7 @@
 export interface Perk {
   id: string;
   platform: string;
-  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard" | "Wallet";
+  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard" | "Wallet" | "AStocks";
   description: string;
   benefit: string;
   highlightValue: string; // 大字展示的核心价值，如 "20%"、"终生免佣"
@@ -16,6 +16,8 @@ export interface Perk {
   tutorialLink: string | null;
   tutorialImage?: string | null;
   color: string;
+  details?: string[]; // 费率/条款详细说明
+  contactWeChat?: boolean; // 点击领取时弹出微信联系二维码
 }
 
 export const perks: Perk[] = [
@@ -255,6 +257,77 @@ export const perks: Perk[] = [
     iconUrl: "https://www.bybit.com",
     tutorialLink: "/articles/vcard/wYKRLDvK",
     color: "#F8A33C",
+  },
+  // A 股券商
+  {
+    id: "china-galaxy",
+    platform: "银河证券",
+    category: "AStocks",
+    description: "A股大型券商，ETF永久免五，多品种低佣",
+    benefit: "入金1.5万放2个月，ETF永久免五",
+    highlightValue: "永久免五",
+    badge: "编辑推荐",
+    claimedCount: 0,
+    code: null,
+    link: "https://www.chinastock.com.cn/",
+    iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/33/30/9c3330e7-b543-f9e6-65c3-bceeeac2d132/AppIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/512x512bb.jpg",
+    tutorialLink: null,
+    color: "#C8102E",
+    contactWeChat: true,
+    details: [
+      "##交易费率",
+      "ETF/LOF：万0.5，1毛起（免五）",
+      "股票：万0.86，50万↑万0.8，5元起",
+      "可转债：万0.5，沪0.1元/深0.2元起",
+      "北交所：万2，港股通：万0.8（不免五）",
+      "国债逆回购：1折，500万以上0.1折",
+      "LOF申购1折，赎回5折",
+      "##融资利率",
+      "50~100万：3.98%",
+      "100~200万：3.78%",
+      "200~400万：3.58%",
+      "400~700万：3.38%",
+      "700~1000万：3.18%",
+      "1000万以上：3%以下",
+      "##其他权益",
+      "新客理财：6%，5万28天",
+      "Level2+智能交易VIP：新客3个月",
+    ],
+  },
+  {
+    id: "huatai-securities",
+    platform: "华泰证券",
+    category: "AStocks",
+    description: "A股头部券商，SMART量化交易，新客行情12个月",
+    benefit: "VIP佣金万1，新客赠12个月10档行情",
+    highlightValue: "万1",
+    claimedCount: 0,
+    code: null,
+    link: "https://www.htsc.com.cn/",
+    iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f0/4d/ce/f04dceaa-9b0b-771e-5af7-2060f57bec2d/AppIcon-0-0-1x_U007emarketing-0-8-0-0-85-220.png/512x512bb.jpg",
+    tutorialLink: null,
+    color: "#E60012",
+    contactWeChat: true,
+    details: [
+      "##交易费率",
+      "股票：万1，单笔5元起",
+      "ETF/LOF：万0.5，单笔5元起",
+      "可转债：万0.4，深0.1元/沪1元起",
+      "国债逆回购：1折，0.01元起",
+      "北交所：万2.25，港股通：万1.3",
+      "##融资利率",
+      "融资ETF：3.09%~3.49%",
+      "股票 0~100万：3.99%",
+      "股票 100~500万：3.7%",
+      "股票 500~1000万：3.5%",
+      "股票 1000~5000万：3.2%",
+      "##新客权益",
+      "理财4%：1.1万×364天→440元 / 2万×182天→400元 / 5万×70天→384元 / 10万×35天→384元",
+      "理财6.08%：0.5万×35天→29元（两档可叠加）",
+      "新客行情：赠12个月10档，参与活动最高10年",
+      "SMART量化：50万手机端，300万PC端",
+      "主力密码+趋势顶底功能：新客3个月",
+    ],
   },
   // 链上钱包
   {

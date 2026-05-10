@@ -73,6 +73,7 @@ const perkCategories: PerkCategory[] = [
   { id: "crypto", label: "加密货币", emoji: "₿", items: perks.filter((p) => p.category === "Crypto") },
   { id: "banking", label: "银行服务", emoji: "🏦", items: perks.filter((p) => p.category === "Banking") },
   { id: "stocks", label: "股票交易", emoji: "📈", items: perks.filter((p) => p.category === "Stocks") },
+  { id: "a-stocks", label: "A股券商", emoji: "🏮", items: perks.filter((p) => p.category === "AStocks") },
   { id: "virtual-card", label: "虚拟 U 卡", emoji: "💳", items: perks.filter((p) => p.category === "VirtualCard") },
   { id: "wallet", label: "链上钱包", emoji: "⛓️", items: perks.filter((p) => p.category === "Wallet") },
   { id: "other-resources", label: "其他资源", emoji: "🧰", items: [] },
@@ -378,10 +379,19 @@ export default function PerksPage() {
                 </div>
 
                 <div className="space-y-4">
-                  {!isOther && featured && (
+                  {/* A股券商：全部作为大卡展示 */}
+                  {!isOther && category.id === "a-stocks" && (
+                    <div className="space-y-4">
+                      {items.map((perk) => (
+                        <HeroCard key={perk.id} perk={perk} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
+                      ))}
+                    </div>
+                  )}
+                  {/* 其他分类：一张精选大卡 + 普通卡网格 */}
+                  {!isOther && category.id !== "a-stocks" && featured && (
                     <HeroCard perk={featured} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
                   )}
-                  {!isOther && rest.length > 0 && (
+                  {!isOther && category.id !== "a-stocks" && rest.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {rest.map((perk) => (
                         <PerkCard key={perk.id} perk={perk} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
@@ -410,6 +420,7 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
   perk: Perk; copiedCodeId: string | null; onCopyCode: (code: string, id: string) => void;
 }) {
   const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [wechatOpen, setWechatOpen] = useState(false);
   const router = useRouter();
   const isCopied = copiedCodeId === perk.id;
   const iconSourceUrl = perk.iconUrl || perk.link;
@@ -422,6 +433,11 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
       if (perk.tutorialLink.startsWith("/")) router.push(perk.tutorialLink);
       else openSafeExternalUrl(perk.tutorialLink);
     }
+  };
+
+  const handleClaimClick = () => {
+    if (perk.contactWeChat) setWechatOpen(true);
+    else openSafeExternalUrl(perk.link);
   };
 
   return (
@@ -471,17 +487,56 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
         </div>
 
         {/* Reward highlight */}
-        <div className="mt-4 mb-4 flex items-end gap-3">
+        <div className="mt-3 mb-3 flex items-end gap-3">
           <div
-            className="text-4xl md:text-5xl font-black leading-none tracking-tight"
+            className="text-3xl md:text-4xl font-black leading-none tracking-tight"
             style={{ color: perk.color }}
           >
             {perk.highlightValue}
           </div>
-          <div className="pb-1">
-            <p className="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug">{perk.benefit}</p>
+          <div className="pb-0.5">
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">{perk.benefit}</p>
           </div>
         </div>
+
+        {/* Details grid */}
+        {perk.details && perk.details.length > 0 && (
+          <div className="mb-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/50 p-3">
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {(() => {
+                const groups: { title: string; items: string[] }[] = [];
+                let current: { title: string; items: string[] } | null = null;
+                for (const d of perk.details!) {
+                  if (d.startsWith("##")) {
+                    if (current) groups.push(current);
+                    current = { title: d.slice(2), items: [] };
+                  } else {
+                    if (!current) current = { title: "", items: [] };
+                    current.items.push(d);
+                  }
+                }
+                if (current) groups.push(current);
+                return groups.map((group, gi) => (
+                  <div key={gi} className="min-w-0 flex-1" style={{ minWidth: "160px" }}>
+                    {group.title && (
+                      <p className="text-[10px] font-bold mb-1" style={{ color: perk.color }}>
+                        {group.title}
+                      </p>
+                    )}
+                    <div className="space-y-0.5">
+                      {group.items.map((item, ii) => (
+                        <div key={ii} className="flex items-start gap-1">
+                          <span className="mt-[5px] shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: perk.color + "99" }} />
+                          <span className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
+        )}
 
         {/* Code */}
         {perk.code && (
@@ -504,12 +559,12 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
         {/* Actions */}
         <div className="flex items-center gap-2.5">
           <button
-            onClick={() => openSafeExternalUrl(perk.link)}
+            onClick={handleClaimClick}
             className="h-10 px-6 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center gap-2"
             style={{ backgroundColor: perk.color, color: getTextColor(perk.color) }}
           >
             立即领取
-            <ExternalLink className="w-4 h-4" />
+            {perk.contactWeChat ? <span className="text-base leading-none">💬</span> : <ExternalLink className="w-4 h-4" />}
           </button>
           {hasTutorial && (
             <button
@@ -529,6 +584,26 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
             <DialogHeader className="p-4 pb-0"><DialogTitle>{perk.platform} - 教程</DialogTitle></DialogHeader>
             <div className="p-4 pt-2">
               <img src={perk.tutorialImage} alt={`${perk.platform} 教程`} className="w-full h-auto rounded-lg" />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {perk.contactWeChat && (
+        <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
+          <DialogContent className="max-w-sm w-[90vw] p-0 overflow-hidden">
+            <DialogHeader className="sr-only"><DialogTitle>微信联系二维码</DialogTitle></DialogHeader>
+            <div className="bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-900 p-6 text-center">
+              <div className="mb-3">
+                <p className="text-base font-bold text-slate-900 dark:text-white">添加微信，获取专属开户支持</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  扫码添加好友，发送「<span className="font-semibold text-slate-700 dark:text-slate-300">{perk.platform}</span>」即可获取专属开户费率协助
+                </p>
+              </div>
+              <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm mx-auto" style={{ maxWidth: 260 }}>
+                <img src="/images/wx.jpg" alt="微信二维码" className="w-full h-auto block" />
+              </div>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">长按或扫码识别二维码</p>
             </div>
           </DialogContent>
         </Dialog>
@@ -604,6 +679,23 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
           <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">{perk.benefit}</p>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{perk.description}</p>
         </div>
+
+        {/* Details grid */}
+        {perk.details && perk.details.length > 0 && (
+          <div className="mb-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/50 p-2.5">
+            <div className="grid grid-cols-1 gap-y-1">
+              {perk.details.slice(0, 6).map((d, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="mt-[4px] shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: perk.color + "aa" }} />
+                  <span className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">{d}</span>
+                </div>
+              ))}
+              {perk.details.length > 6 && (
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 pl-2.5">+{perk.details.length - 6} 项更多权益</p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Code */}
         {perk.code && (
