@@ -312,7 +312,7 @@ export default function ArticlesPage() {
 
           {isLoadingArticle && !selectedArticle ? (
             /* ── Article skeleton shown while fetch is in-flight ── */
-            <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12 animate-pulse">
+            <div className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-12 animate-pulse">
               <div className="h-6 w-24 rounded-full bg-slate-200 dark:bg-slate-800 mb-5" />
               <div className="h-8 w-3/4 rounded-lg bg-slate-200 dark:bg-slate-800 mb-3" />
               <div className="h-8 w-1/2 rounded-lg bg-slate-200 dark:bg-slate-800 mb-5" />
@@ -329,32 +329,32 @@ export default function ArticlesPage() {
               </div>
             </div>
           ) : selectedArticle ? (
-            <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-12">
+            <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-12">
               <div className="flex items-center gap-2 mb-5">
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
                   {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
                 </span>
               </div>
-              <h1 className="text-2xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-4 tracking-tight">
+              <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
                 {selectedArticle.title}
               </h1>
-              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-5 border-l-2 border-slate-200 dark:border-slate-700 pl-4">
+              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-4 md:mb-5 border-l-2 border-slate-200 dark:border-slate-700 pl-4">
                 {selectedArticle.summary}
               </p>
-              <div className="flex items-center gap-5 text-xs text-slate-400 pb-7 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-5 text-xs text-slate-400 pb-5 md:pb-7 border-b border-slate-100 dark:border-slate-800">
                 <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{selectedArticle.date}</span>
                 <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />约 {selectedArticle.readTime} 分钟阅读</span>
               </div>
-              <div className="mt-8">{renderedContent}</div>
+              <div className="mt-6 md:mt-8">{renderedContent}</div>
             </article>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center px-4 md:px-8 py-16">
-              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center mb-6 shadow-lg shadow-amber-200 dark:shadow-amber-900/30">
+            <div className="h-full flex flex-col items-center justify-center px-4 md:px-8 py-10 md:py-16">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-amber-200 dark:shadow-amber-900/30">
                 <BookOpen className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2 tracking-tight">选择一篇文章开始阅读</h2>
-              <p className="text-sm text-slate-400 dark:text-slate-500 max-w-sm text-center leading-relaxed mb-12">
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2 tracking-tight">选择一篇文章开始阅读</h2>
+              <p className="text-sm text-slate-400 dark:text-slate-500 max-w-sm text-center leading-relaxed mb-8 md:mb-12">
                 从左侧按分类浏览所有文章，点击后在此处本地阅读，无需跳转外部链接。
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl mb-6">

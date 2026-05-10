@@ -184,15 +184,15 @@ export default function AboutMe() {
       </Dialog>
 
       {/* ══ SECTION 1: Hero ══════════════════════════════════ */}
-      <section className="min-h-[80vh] flex items-center">
-        <div className="max-w-6xl mx-auto px-6 py-20 w-full">
+      <section className="min-h-[60vh] md:min-h-[80vh] flex items-center">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-20 w-full">
           <div
             ref={heroFade.ref}
-            className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${heroFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center transition-all duration-1000 ${heroFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             {/* 左：图片区域 */}
             <div className="relative flex justify-center lg:justify-end">
-              <div className="relative w-72 h-72 lg:w-96 lg:h-96">
+              <div className="relative w-52 h-52 sm:w-72 sm:h-72 lg:w-96 lg:h-96">
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 rotate-6" />
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-amber-400/10 to-orange-500/10 -rotate-3" />
                 <div className="relative w-full h-full rounded-3xl overflow-hidden border-2 border-white dark:border-slate-800 shadow-2xl shadow-amber-200/30 dark:shadow-amber-900/20">
@@ -203,18 +203,18 @@ export default function AboutMe() {
                     onError={e => { e.currentTarget.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=WiseInvest"; }}
                   />
                 </div>
-                <div className="absolute -bottom-4 -left-4 bg-white dark:bg-slate-900 rounded-2xl px-4 py-2.5 shadow-lg border border-slate-100 dark:border-slate-800 flex items-center gap-2">
+                <div className="absolute -bottom-3 -left-2 md:-bottom-4 md:-left-4 bg-white dark:bg-slate-900 rounded-2xl px-3 py-2 md:px-4 md:py-2.5 shadow-lg border border-slate-100 dark:border-slate-800 flex items-center gap-2">
                   <span className="text-lg">🚀</span>
                   <div>
-                    <div className="text-xs text-slate-400">内容创作</div>
-                    <div className="text-sm font-bold text-slate-800 dark:text-slate-100">从 2025.08 开始</div>
+                    <div className="text-[10px] md:text-xs text-slate-400">内容创作</div>
+                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">从 2025.08 开始</div>
                   </div>
                 </div>
-                <div className="absolute -top-4 -right-4 bg-white dark:bg-slate-900 rounded-2xl px-4 py-2.5 shadow-lg border border-slate-100 dark:border-slate-800 flex items-center gap-2">
+                <div className="absolute -top-3 -right-2 md:-top-4 md:-right-4 bg-white dark:bg-slate-900 rounded-2xl px-3 py-2 md:px-4 md:py-2.5 shadow-lg border border-slate-100 dark:border-slate-800 flex items-center gap-2">
                   <span className="text-lg">📈</span>
                   <div>
-                    <div className="text-xs text-slate-400">全网粉丝</div>
-                    <div className="text-sm font-bold text-slate-800 dark:text-slate-100">70,000+</div>
+                    <div className="text-[10px] md:text-xs text-slate-400">全网粉丝</div>
+                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">70,000+</div>
                   </div>
                 </div>
               </div>
@@ -224,41 +224,41 @@ export default function AboutMe() {
             <div className="space-y-6">
               <div>
                 <p className="text-amber-500 font-semibold text-sm tracking-widest uppercase mb-2">Web3 & Investment Creator</p>
-                <h1 className="text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-none mb-4">
                   Wise<br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Invest</span>
                 </h1>
-                <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed">
                   2025 年 8 月从零开始，专注 Web3 与港美股投资的独立内容创作者。
                 </p>
               </div>
 
               <div className="space-y-3 text-slate-600 dark:text-slate-400 leading-relaxed">
-                <p>在全网 5 个平台持续输出高质量投资内容，分享理性的投资逻辑、实用的出入金工具，以及 Web3 的前沿机会。</p>
-                <p>坚信<strong className="text-slate-800 dark:text-slate-200">「普通人也可以通过结构化优势在市场中找到自己的阿尔法」</strong>，并用实盘数据证明这一点。</p>
+                <p className="text-sm md:text-base">在全网 5 个平台持续输出高质量投资内容，分享理性的投资逻辑、实用的出入金工具，以及 Web3 的前沿机会。</p>
+                <p className="text-sm md:text-base">坚信<strong className="text-slate-800 dark:text-slate-200">「普通人也可以通过结构化优势在市场中找到自己的阿尔法」</strong>，并用实盘数据证明这一点。</p>
               </div>
 
-              <div className="grid grid-cols-3 gap-4 pt-2">
+              <div className="grid grid-cols-3 gap-2 md:gap-4 pt-2">
                 {[
                   { value: "8", unit: "个月", label: "从零到万粉" },
                   { value: "5", unit: "个平台", label: "同步更新" },
                   { value: "71K+", unit: "", label: "全网粉丝" },
                 ].map((stat, i) => (
-                  <div key={i} className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-800 text-center shadow-sm">
-                    <div className="text-2xl font-black text-slate-900 dark:text-white">{stat.value}<span className="text-sm font-medium text-slate-400 ml-0.5">{stat.unit}</span></div>
-                    <div className="text-xs text-slate-400 mt-1">{stat.label}</div>
+                  <div key={i} className="bg-white dark:bg-slate-900 rounded-xl p-2.5 md:p-4 border border-slate-100 dark:border-slate-800 text-center shadow-sm">
+                    <div className="text-lg md:text-2xl font-black text-slate-900 dark:text-white">{stat.value}<span className="text-sm font-medium text-slate-400 ml-0.5">{stat.unit}</span></div>
+                    <div className="text-[10px] md:text-xs text-slate-400 mt-0.5">{stat.label}</div>
                   </div>
                 ))}
               </div>
 
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-2 md:gap-3 pt-2">
                 <a href={getSafeExternalUrl("https://x.com/WiseInvest513")} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-amber-500 hover:text-white transition-all shadow-md">
+                  className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2 md:px-6 md:py-2.5 rounded-xl font-semibold text-xs md:text-sm hover:bg-amber-500 hover:text-white transition-all shadow-md">
                   <Twitter className="w-4 h-4" /> 关注我
                 </a>
                 <button
                   onClick={() => setWechatGroupOpen(true)}
-                  className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-6 py-2.5 rounded-xl font-semibold text-sm hover:border-green-400 hover:text-green-600 transition-all">
+                  className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 md:px-6 md:py-2.5 rounded-xl font-semibold text-xs md:text-sm hover:border-green-400 hover:text-green-600 transition-all">
                   <MessageCircle className="w-4 h-4" /> 加入社群
                 </button>
               </div>
@@ -268,23 +268,23 @@ export default function AboutMe() {
       </section>
 
       {/* ══ SECTION 2: 增长曲线 ══════════════════════════════ */}
-      <section className="py-20 bg-white dark:bg-slate-900/50">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-10 md:py-20 bg-white dark:bg-slate-900/50">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div
             ref={growthFade.ref}
             className={`transition-all duration-1000 ${growthFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <div className="mb-10">
+            <div className="mb-6 md:mb-10">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingUp className="w-5 h-5 text-amber-500" />
                 <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Growth Story</span>
               </div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">从零开始的增长轨迹</h2>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">从零开始的增长轨迹</h2>
               <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，8 个月内全网突破 71,000 粉丝</p>
             </div>
 
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm">
-              <ResponsiveContainer width="100%" height={360}>
+              <ResponsiveContainer width="100%" height={260}>
                 <LineChart data={growthData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                   <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
@@ -299,7 +299,7 @@ export default function AboutMe() {
               </ResponsiveContainer>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div className="grid grid-cols-2 gap-3 mt-6">
               {[
                 { month: "25/09", event: "首月破三千", icon: "🎯" },
                 { month: "25/10", event: "Twitter 破万", icon: "🔥" },
@@ -307,10 +307,10 @@ export default function AboutMe() {
                 { month: "26/04", event: "全网突破 7 万", icon: "🚀" },
               ].map((m, i) => (
                 <div key={i} className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700/50 flex items-center gap-3">
-                  <span className="text-2xl">{m.icon}</span>
+                  <span className="text-xl">{m.icon}</span>
                   <div>
                     <div className="text-xs text-slate-400">{m.month}</div>
-                    <div className="text-sm font-bold text-slate-800 dark:text-slate-100">{m.event}</div>
+                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">{m.event}</div>
                   </div>
                 </div>
               ))}
@@ -320,17 +320,17 @@ export default function AboutMe() {
       </section>
 
       {/* ══ SECTION 3: 在坚持的事 ════════════════════════════ */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-10 md:py-20">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div
             ref={commitFade.ref}
             className={`transition-all duration-1000 ${commitFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <div className="mb-10">
+            <div className="mb-6 md:mb-10">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Commitments</span>
               </div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">一直在坚持的两件事</h2>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">一直在坚持的两件事</h2>
               <p className="text-slate-500 dark:text-slate-400">不只是内容，更是真实的实践——所有数据全程公开</p>
             </div>
 
@@ -339,23 +339,23 @@ export default function AboutMe() {
                 const Icon = item.icon;
                 return (
                   <a key={i} href={item.href}
-                    className={`group relative rounded-3xl border ${item.borderColor} ${item.bgColor} p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+                    className={`group relative rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 md:p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
                   >
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg shrink-0`}>
-                        <Icon className="w-7 h-7 text-white" />
+                    <div className="flex items-start gap-4 mb-5 md:mb-6">
+                      <div className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg shrink-0`}>
+                        <Icon className="w-5 h-5 md:w-7 md:h-7 text-white" />
                       </div>
                       <div>
                         <div className="text-xs text-slate-400 mb-1">{item.since}</div>
-                        <h3 className="text-xl font-black text-slate-900 dark:text-white">{item.title}</h3>
+                        <h3 className="text-base md:text-xl font-black text-slate-900 dark:text-white">{item.title}</h3>
                       </div>
                     </div>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 text-sm">{item.desc}</p>
-                    <div className="grid grid-cols-3 gap-3">
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-4 text-sm">{item.desc}</p>
+                    <div className="grid grid-cols-3 gap-2">
                       {item.stats.map((stat, j) => (
-                        <div key={j} className="bg-white/60 dark:bg-slate-900/40 rounded-xl p-3 text-center">
-                          <div className="text-sm font-bold text-slate-800 dark:text-slate-100">{stat.value}</div>
-                          <div className="text-[11px] text-slate-400 mt-0.5">{stat.label}</div>
+                        <div key={j} className="bg-white/60 dark:bg-slate-900/40 rounded-lg p-2 md:p-3 text-center">
+                          <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">{stat.value}</div>
+                          <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">{stat.label}</div>
                         </div>
                       ))}
                     </div>
@@ -371,25 +371,25 @@ export default function AboutMe() {
       </section>
 
       {/* ══ SECTION 4: 社媒数字 ══════════════════════════════ */}
-      <section className="py-20 bg-white dark:bg-slate-900/50">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-10 md:py-20 bg-white dark:bg-slate-900/50">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div
             ref={socialFade.ref}
             className={`transition-all duration-1000 ${socialFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <div className="mb-10">
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">全网社媒分布</h2>
+            <div className="mb-6 md:mb-10">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">全网社媒分布</h2>
               <p className="text-slate-500 dark:text-slate-400">点击任意平台卡片，直接访问对应主页</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
               {socials.map((item, idx) => {
                 const isModal = "isModal" in item && item.isModal;
-                const cardClass = `group relative overflow-hidden p-8 rounded-3xl border ${item.cardTone} transition-all duration-300 hover:-translate-y-1 ${item.color} shadow-sm hover:shadow-xl w-full text-left`;
+                const cardClass = `group relative overflow-hidden p-5 md:p-8 rounded-3xl border ${item.cardTone} transition-all duration-300 hover:-translate-y-1 ${item.color} shadow-sm hover:shadow-xl w-full text-left`;
 
                 const cardInner = (
                   <>
                     <div className="relative z-10">
-                      <div className="flex justify-between items-start mb-8">
+                      <div className="flex justify-between items-start mb-5 md:mb-8">
                         <div className={`p-3 rounded-2xl transition-colors ${item.bg} ${item.text}`}>
                           <item.Icon className="w-6 h-6" />
                         </div>
@@ -401,7 +401,7 @@ export default function AboutMe() {
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <div className="text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+                        <div className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
                           {"displayValue" in item && item.displayValue ? (
                             <span className="text-2xl md:text-3xl">{item.displayValue}</span>
                           ) : (
@@ -444,14 +444,14 @@ export default function AboutMe() {
       </section>
 
       {/* ══ SECTION 5: 精选教程 ══════════════════════════════ */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-10">
+      <section className="py-10 md:py-20">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="mb-6 md:mb-10">
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-5 h-5 text-amber-500" />
               <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Latest Tutorials</span>
             </div>
-            <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">最新系列教程</h2>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">最新系列教程</h2>
             <p className="text-slate-500 dark:text-slate-400">复星证券系列 — 手把手带你完成开户与入金全流程</p>
           </div>
 
@@ -483,15 +483,15 @@ export default function AboutMe() {
               <Link
                 key={i}
                 href={item.href}
-                className={`group relative rounded-3xl border ${item.border} ${item.bg} p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+                className={`group relative rounded-3xl border ${item.border} ${item.bg} p-5 md:p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
               >
                 <div className="flex items-start justify-between mb-5">
-                  <div className={`text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br ${item.accent} opacity-20 select-none leading-none`}>
+                  <div className={`text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br ${item.accent} opacity-20 select-none leading-none`}>
                     {item.step}
                   </div>
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${item.tagColor}`}>{item.tag}</span>
                 </div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+                <h3 className="text-base md:text-lg font-black text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
@@ -508,9 +508,9 @@ export default function AboutMe() {
       </section>
 
       {/* ══ SECTION 6: 联系 ══════════════════════════════════ */}
-      <section className="py-20 bg-white dark:bg-slate-900/50">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h3 className="text-3xl font-black text-slate-900 dark:text-slate-50 mb-4">想要建立商务合作？</h3>
+      <section className="py-10 md:py-20 bg-white dark:bg-slate-900/50">
+        <div className="max-w-3xl mx-auto px-4 md:px-6 text-center">
+          <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-50 mb-3">想要建立商务合作？</h3>
           <p className="text-slate-500 dark:text-slate-400 mb-8">无论是项目推广、工具开发还是深度投研，欢迎随时通过推特联系我</p>
           <a href={getSafeExternalUrl("https://x.com/WiseInvest513")} target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-amber-500 hover:text-white dark:hover:bg-amber-500 transition-all shadow-lg hover:shadow-amber-200">

@@ -177,7 +177,7 @@ export default function PerksPage() {
 
       {/* ── PAGE HERO ── */}
       <div className="relative z-[1] bg-amber-50 dark:bg-slate-900 border-b border-amber-200 dark:border-slate-800">
-        <div className="max-w-[1520px] mx-auto px-4 md:px-6 pt-8 pb-6">
+        <div className="max-w-[1520px] mx-auto px-4 md:px-6 pt-6 pb-4 md:pt-8 md:pb-6">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -194,18 +194,18 @@ export default function PerksPage() {
               </p>
             </div>
             {/* Stats */}
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="text-xl font-black text-amber-500">{formatCount(totalClaimed)}+</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">已领取人次</div>
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-3 py-2 md:px-4 md:py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div className="text-lg md:text-xl font-black text-amber-500">{formatCount(totalClaimed)}+</div>
+                <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">已领取人次</div>
               </div>
-              <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="text-xl font-black text-slate-800 dark:text-white">{perks.length + otherResources.length}</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">个专属福利</div>
+              <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-3 py-2 md:px-4 md:py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div className="text-lg md:text-xl font-black text-slate-800 dark:text-white">{perks.length + otherResources.length}</div>
+                <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">个专属福利</div>
               </div>
-              <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-4 py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="text-xl font-black text-emerald-500">100%</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">亲测有效</div>
+              <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-3 py-2 md:px-4 md:py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div className="text-lg md:text-xl font-black text-emerald-500">100%</div>
+                <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">亲测有效</div>
               </div>
             </div>
           </div>
@@ -226,7 +226,7 @@ export default function PerksPage() {
                 <div key={item.step} className="flex sm:flex-row items-center flex-1 min-w-0">
                   {/* Step card */}
                   <div
-                    className="flex-1 rounded-xl p-4 border relative transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                    className="flex-1 rounded-xl p-3 md:p-4 border relative transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                     style={{
                       borderColor: item.color + "55",
                       background: `linear-gradient(135deg, ${item.color}12 0%, ${item.color}06 100%)`,
@@ -234,13 +234,13 @@ export default function PerksPage() {
                   >
                     {/* Step number badge */}
                     <div
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black shadow mb-3"
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shadow mb-2"
                       style={{ backgroundColor: item.color, color: getTextColor(item.color) }}
                     >
                       {item.step}
                     </div>
-                    <div className="font-bold text-[15px] text-slate-900 dark:text-white leading-snug">{item.label}</div>
-                    <div className="text-[12px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{item.desc}</div>
+                    <div className="font-bold text-sm md:text-[15px] text-slate-900 dark:text-white leading-snug">{item.label}</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{item.desc}</div>
                   </div>
 
                   {/* Animated flow connector */}
@@ -356,7 +356,7 @@ export default function PerksPage() {
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <main className="flex-1 min-w-0 flex flex-col pb-20 space-y-12">
+        <main className="flex-1 min-w-0 flex flex-col pb-16 md:pb-20 space-y-8 md:space-y-12">
           {perkCategories.map((category) => {
             const isOther = category.id === "other-resources";
             const items = isOther ? [] : category.items;
@@ -367,7 +367,7 @@ export default function PerksPage() {
             return (
               <section key={category.id} id={category.id} className="scroll-mt-24">
                 {/* Section Header */}
-                <div className="flex items-center gap-3 mb-5">
+                <div className="flex items-center gap-3 mb-4 md:mb-5">
                   <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-base">
                     {category.emoji}
                   </div>
@@ -473,7 +473,7 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
         {/* Reward highlight */}
         <div className="mt-4 mb-4 flex items-end gap-3">
           <div
-            className="text-5xl font-black leading-none tracking-tight"
+            className="text-4xl md:text-5xl font-black leading-none tracking-tight"
             style={{ color: perk.color }}
           >
             {perk.highlightValue}
@@ -598,7 +598,7 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
 
         {/* Reward */}
         <div className="mb-3">
-          <div className="text-3xl font-black leading-none mb-1.5 tracking-tight" style={{ color: perk.color }}>
+          <div className="text-2xl md:text-3xl font-black leading-none mb-1.5 tracking-tight" style={{ color: perk.color }}>
             {perk.highlightValue}
           </div>
           <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">{perk.benefit}</p>
