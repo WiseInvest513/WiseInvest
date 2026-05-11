@@ -42,8 +42,8 @@
   <view class="section-card">
     <view class="section-title">资产配置</view>
 
-    <!-- 环形图居中 -->
-    <view class="pie-wrap">
+    <!-- 环形图：画完后才显示，避免先于页面内容出现 -->
+    <view class="pie-wrap" style="opacity:{{pieReady?1:0}};transition:opacity 0.3s">
       <canvas type="2d" id="allocPie" class="pie-canvas"/>
     </view>
 

@@ -10,6 +10,7 @@ Page({
     p:             null,
     allocsLabeled: [],
     yearReturns:   [],
+    pieReady:      false,
   },
 
   onLoad(options) {
@@ -64,8 +65,8 @@ Page({
       const canvas = res[0].node;
       const ctx    = canvas.getContext('2d');
       const dpr    = wx.getWindowInfo ? wx.getWindowInfo().pixelRatio : 2;
-      const w      = res[0].width;
-      const h      = res[0].height;
+      const w      = res[0].width  || 130;
+      const h      = res[0].height || 130;
 
       canvas.width  = w * dpr;
       canvas.height = h * dpr;
@@ -101,6 +102,9 @@ Page({
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(p.allocs.length + '类资产', cx, cy);
+
+      // 画完再显示 canvas，避免饼图先于页面其他内容出现
+      self.setData({ pieReady: true });
     });
   },
 });
