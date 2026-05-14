@@ -1299,7 +1299,6 @@ function GroupChatModal({onClose}) {
 }
 
 function GalaxyCard({isMobile}) {
-  const C = useColors();
   const [showWx, setShowWx] = React.useState(false);
   const fees = [
     {label:"ETF / LOF",  value:"万0.5，1毛起",  highlight:true,  note:"免五"},
