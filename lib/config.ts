@@ -12,7 +12,7 @@ export const siteConfig = {
    * 开发环境：http://localhost:3002
    * 生产环境：https://yourdomain.com
    */
-  baseUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3002",
+  baseUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://www.wise-invest.org",
 
   /**
    * 网站名称
