@@ -10,6 +10,7 @@ import { articles as hardcodedArticles, categories, subcategories, type Article 
 import type { FsArticle } from "@/lib/articles-fs";
 import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
+import { ArticleExportButton } from "@/components/article-export-button";
 
 // ─── Active TOC hook ───────────────────────────────────────
 function useActiveToc(toc: { id: string }[]) {
@@ -330,11 +331,23 @@ export default function ArticlesPage() {
             </div>
           ) : selectedArticle ? (
             <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-12">
-              <div className="flex items-center gap-2 mb-5">
+              <div className="flex items-center justify-between gap-2 mb-5">
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
                   {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
                 </span>
+                <ArticleExportButton
+                  articleId={selectedArticle.id}
+                  categoryId={selectedArticle.categoryId}
+                  uid={genUid(selectedArticle.id)}
+                  title={selectedArticle.title}
+                  summary={selectedArticle.summary}
+                  date={selectedArticle.date}
+                  readTime={selectedArticle.readTime}
+                  categoryName={categories.find(c => c.id === selectedArticle.categoryId)?.name ?? ""}
+                  categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
+                  content={selectedArticle.content}
+                />
               </div>
               <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
                 {selectedArticle.title}
