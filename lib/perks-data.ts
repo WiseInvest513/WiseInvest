@@ -18,6 +18,7 @@ export interface Perk {
   color: string;
   details?: string[]; // 费率/条款详细说明
   contactWeChat?: boolean; // 点击领取时弹出微信联系二维码
+  notice?: string; // 红字特别提示
 }
 
 export const perks: Perk[] = [
@@ -111,6 +112,33 @@ export const perks: Perk[] = [
     tutorialLink: "/articles/bank/2aiiqnjt",
     color: "#00A0E9",
   },
+  {
+    id: "east-west-bank",
+    platform: "华美银行",
+    category: "Banking",
+    description: "美国本土银行，总部位于加州，专注服务华人社区",
+    benefit: "配合盈透证券，实现美国银行 + 美券无 CRS 组合",
+    highlightValue: "无 CRS",
+    claimedCount: 0,
+    code: null,
+    link: "#",
+    iconUrl: "https://www.eastwestbank.com",
+    tutorialLink: null,
+    color: "#B91C1C",
+    contactWeChat: true,
+    notice: "联系博主协助开户，备注「华美银行」即可",
+    details: [
+      "##核心优势",
+      "美国本土银行，不参与 CRS，账户信息不上报中国税务局",
+      "配合盈透证券（IBKR）打造完整美国金融体系",
+      "支持 ACH / 电汇，与 IBKR 资金划转顺畅",
+      "##适合人群",
+      "希望资产合规出海、规避 CRS 申报的投资者",
+      "已持有或计划开设盈透证券账户的用户",
+      "##开户方式",
+      "需联系博主协助，备注「华美银行」添加好友",
+    ],
+  },
   // 股票交易
   {
     id: "longbridge",
@@ -139,6 +167,8 @@ export const perks: Perk[] = [
     iconUrl: "https://www.interactivebrokers.com",
     tutorialLink: "https://x.com/WiseInvest513",
     color: "#003366",
+    contactWeChat: true,
+    notice: "现已放开注册，可联系博主协助开户",
   },
   {
     id: "usmart",

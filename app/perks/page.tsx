@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Copy, ExternalLink, BookOpen, Check, Users, Star, Zap, TrendingUp, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -212,7 +212,7 @@ export default function PerksPage() {
           </div>
 
           {/* Starter Path */}
-          <div className="mt-5 rounded-2xl border border-amber-200/70 dark:border-amber-900/40 bg-gradient-to-br from-amber-50/80 to-white dark:from-slate-900 dark:to-slate-900 p-5 shadow-sm overflow-hidden relative">
+          <div className="hidden md:block mt-5 rounded-2xl border border-amber-200/70 dark:border-amber-900/40 bg-gradient-to-br from-amber-50/80 to-white dark:from-slate-900 dark:to-slate-900 p-5 shadow-sm overflow-hidden relative">
             {/* subtle glow behind */}
             <div className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 w-64 h-24 rounded-full bg-amber-300/20 blur-2xl" />
 
@@ -617,11 +617,27 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
   perk: Perk; copiedCodeId: string | null; onCopyCode: (code: string, id: string) => void;
 }) {
   const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [wechatOpen, setWechatOpen] = useState(false);
+  const [isFloating, setIsFloating] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const isCopied = copiedCodeId === perk.id;
   const iconSourceUrl = perk.iconUrl || perk.link;
   const iconInfo = IconService.getIconInfo(iconSourceUrl, perk.platform);
   const hasTutorial = perk.tutorialImage || perk.tutorialLink;
+
+  // 进入视口时触发浮动动画（仅 notice 卡片）
+  useEffect(() => {
+    if (!perk.notice) return;
+    const el = cardRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setIsFloating(true); },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [perk.notice]);
 
   const handleTutorialClick = () => {
     if (perk.tutorialImage) setTutorialOpen(true);
@@ -633,8 +649,15 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
 
   return (
     <div
-      className="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden group hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
-      style={{ borderLeftWidth: 3, borderLeftColor: perk.color }}
+      ref={cardRef}
+      className={cn(
+        "relative rounded-2xl bg-white dark:bg-slate-900 overflow-hidden group hover:shadow-lg transition-all duration-200 flex flex-col",
+        perk.notice
+          ? "border-2 border-amber-400 dark:border-amber-500 shadow-[0_0_0_3px_rgba(251,191,36,0.15)] dark:shadow-[0_0_0_3px_rgba(251,191,36,0.1)]"
+          : "border border-slate-200 dark:border-slate-800 shadow-sm",
+        isFloating ? "animate-float-attention" : "hover:-translate-y-0.5"
+      )}
+      style={perk.notice ? undefined : { borderLeftWidth: 3, borderLeftColor: perk.color }}
     >
       {/* Tinted top stripe */}
       <div
@@ -678,20 +701,32 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
           </div>
           <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">{perk.benefit}</p>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{perk.description}</p>
+          {perk.notice && (
+            <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/50 px-3 py-1.5">
+              <span className="text-base leading-none">🔥</span>
+              <p className="text-sm font-bold text-red-600 dark:text-red-400">{perk.notice}</p>
+            </div>
+          )}
         </div>
 
         {/* Details grid */}
         {perk.details && perk.details.length > 0 && (
           <div className="mb-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/50 p-2.5">
             <div className="grid grid-cols-1 gap-y-1">
-              {perk.details.slice(0, 6).map((d, i) => (
-                <div key={i} className="flex items-start gap-1.5">
-                  <span className="mt-[4px] shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: perk.color + "aa" }} />
-                  <span className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">{d}</span>
-                </div>
-              ))}
-              {perk.details.length > 6 && (
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 pl-2.5">+{perk.details.length - 6} 项更多权益</p>
+              {perk.details.slice(0, 8).map((d, i) => {
+                const isTitle = d.startsWith("##");
+                if (isTitle) return (
+                  <p key={i} className="text-[11px] font-bold mt-1.5 first:mt-0" style={{ color: perk.color }}>{d.slice(2)}</p>
+                );
+                return (
+                  <div key={i} className="flex items-start gap-1.5">
+                    <span className="mt-[4px] shrink-0 w-1 h-1 rounded-full" style={{ backgroundColor: perk.color + "aa" }} />
+                    <span className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">{d}</span>
+                  </div>
+                );
+              })}
+              {perk.details.filter(d => !d.startsWith("##")).length > 6 && (
+                <p className="text-[10px] text-slate-400 dark:text-slate-500 pl-2.5">+更多权益</p>
               )}
             </div>
           </div>
@@ -714,14 +749,36 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
 
         {/* Actions */}
         <div className="mt-auto flex items-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
-          <button
-            onClick={() => openSafeExternalUrl(perk.link)}
-            className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all shadow-sm"
-            style={{ backgroundColor: perk.color, color: getTextColor(perk.color) }}
-          >
-            立即领取
-            <ExternalLink className="w-3.5 h-3.5" />
-          </button>
+          {perk.link !== "#" && (
+            <button
+              onClick={() => openSafeExternalUrl(perk.link)}
+              className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all shadow-sm"
+              style={{ backgroundColor: perk.color, color: getTextColor(perk.color) }}
+            >
+              立即领取
+              <ExternalLink className="w-3.5 h-3.5" />
+            </button>
+          )}
+          {perk.contactWeChat && (
+            perk.link === "#" ? (
+              <button
+                onClick={() => setWechatOpen(true)}
+                className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-xl text-sm font-bold hover:opacity-90 active:scale-95 transition-all shadow-sm"
+                style={{ backgroundColor: perk.color, color: getTextColor(perk.color) }}
+              >
+                <span className="text-base leading-none">💬</span>
+                联系博主
+              </button>
+            ) : (
+              <button
+                onClick={() => setWechatOpen(true)}
+                className="h-10 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 transition-all flex items-center gap-1 whitespace-nowrap"
+              >
+                <span className="text-sm leading-none">💬</span>
+                联系博主
+              </button>
+            )
+          )}
           {hasTutorial && (
             <button
               onClick={handleTutorialClick}
@@ -740,6 +797,26 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
             <DialogHeader className="p-4 pb-0"><DialogTitle>{perk.platform} - 教程</DialogTitle></DialogHeader>
             <div className="p-4 pt-2">
               <img src={perk.tutorialImage} alt={`${perk.platform} 教程`} className="w-full h-auto rounded-lg" />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {perk.contactWeChat && (
+        <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
+          <DialogContent className="max-w-sm w-[90vw] p-0 overflow-hidden">
+            <DialogHeader className="sr-only"><DialogTitle>微信联系二维码</DialogTitle></DialogHeader>
+            <div className="bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-900 p-6 text-center">
+              <div className="mb-3">
+                <p className="text-base font-bold text-slate-900 dark:text-white">添加微信，获取专属开户支持</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  扫码添加好友，发送「<span className="font-semibold text-slate-700 dark:text-slate-300">{perk.platform}</span>」即可获取专属开户费率协助
+                </p>
+              </div>
+              <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm mx-auto" style={{ maxWidth: 260 }}>
+                <img src="/images/wx.jpg" alt="微信二维码" className="w-full h-auto block" />
+              </div>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">长按或扫码识别二维码</p>
             </div>
           </DialogContent>
         </Dialog>
