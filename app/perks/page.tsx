@@ -36,6 +36,15 @@ interface OtherResourceItem {
   claimedCount?: number;
 }
 
+const ipoResource: OtherResourceItem = {
+  id: "a-stock-ipo",
+  title: "A 股打新",
+  highlight: "集合打新获取超额财富",
+  description: "利用现有A股持仓参与集合申购，提升中签率，在股票涨跌之外获取稳定的阿尔法超额收益，年化预期 3%～10%。",
+  link: "/ipo",
+  claimedCount: 180,
+};
+
 const otherResources: OtherResourceItem[] = [
   {
     id: "gamsgo",
@@ -76,12 +85,14 @@ const perkCategories: PerkCategory[] = [
   { id: "a-stocks", label: "A股券商", emoji: "🏮", items: perks.filter((p) => p.category === "AStocks") },
   { id: "virtual-card", label: "虚拟 U 卡", emoji: "💳", items: perks.filter((p) => p.category === "VirtualCard") },
   { id: "wallet", label: "链上钱包", emoji: "⛓️", items: perks.filter((p) => p.category === "Wallet") },
+  { id: "a-stock-ipo", label: "A股打新", emoji: "🎯", items: [] },
   { id: "other-resources", label: "其他资源", emoji: "🧰", items: [] },
 ];
 
 const totalClaimed = [
   ...perks.map((p) => p.claimedCount ?? 0),
   ...otherResources.map((r) => r.claimedCount ?? 0),
+  ipoResource.claimedCount ?? 0,
 ].reduce((a, b) => a + b, 0);
 
 const formatCount = (n: number) =>
@@ -201,7 +212,7 @@ export default function PerksPage() {
                 <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">已领取人次</div>
               </div>
               <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-3 py-2 md:px-4 md:py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="text-lg md:text-xl font-black text-slate-800 dark:text-white">{perks.length + otherResources.length}</div>
+                <div className="text-lg md:text-xl font-black text-slate-800 dark:text-white">{perks.length + otherResources.length + 1}</div>
                 <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">个专属福利</div>
               </div>
               <div className="text-center bg-white dark:bg-slate-900 rounded-xl px-3 py-2 md:px-4 md:py-2.5 border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -279,7 +290,7 @@ export default function PerksPage() {
       <div className="md:hidden sticky top-16 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
         <div className="flex gap-1 overflow-x-auto scrollbar-hide px-3 py-2">
           {perkCategories.map((cat) => {
-            const count = cat.id === "other-resources" ? otherResources.length : cat.items.length;
+            const count = cat.id === "other-resources" ? otherResources.length : cat.id === "a-stock-ipo" ? 1 : cat.items.length;
             const isActive = activeCategory === cat.id;
             return (
               <button
@@ -314,7 +325,7 @@ export default function PerksPage() {
             </p>
             <nav className="space-y-1">
               {perkCategories.map((cat) => {
-                const count = cat.id === "other-resources" ? otherResources.length : cat.items.length;
+                const count = cat.id === "other-resources" ? otherResources.length : cat.id === "a-stock-ipo" ? 1 : cat.items.length;
                 const isActive = activeCategory === cat.id;
                 return (
                   <button
@@ -365,6 +376,8 @@ export default function PerksPage() {
             const rest = items.filter((p) => !p.featured);
             const count = isOther ? otherResources.length : items.length;
 
+            const isIpo = category.id === "a-stock-ipo";
+
             return (
               <section key={category.id} id={category.id} className="scroll-mt-24">
                 {/* Section Header */}
@@ -374,13 +387,17 @@ export default function PerksPage() {
                   </div>
                   <h2 className="text-lg font-bold text-slate-900 dark:text-white">{category.label}</h2>
                   <span className="text-xs font-mono bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40 px-2 py-0.5 rounded-full">
-                    {count} 个福利
+                    {isIpo ? "1 个福利" : `${count} 个福利`}
                   </span>
                 </div>
 
                 <div className="space-y-4">
+                  {/* A股打新：单独大卡 */}
+                  {isIpo && (
+                    <OtherCard item={ipoResource} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
+                  )}
                   {/* A股券商：全部作为大卡展示 */}
-                  {!isOther && category.id === "a-stocks" && (
+                  {!isOther && !isIpo && category.id === "a-stocks" && (
                     <div className="space-y-4">
                       {items.map((perk) => (
                         <HeroCard key={perk.id} perk={perk} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
@@ -388,10 +405,10 @@ export default function PerksPage() {
                     </div>
                   )}
                   {/* 其他分类：一张精选大卡 + 普通卡网格 */}
-                  {!isOther && category.id !== "a-stocks" && featured && (
+                  {!isOther && !isIpo && category.id !== "a-stocks" && featured && (
                     <HeroCard perk={featured} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
                   )}
-                  {!isOther && category.id !== "a-stocks" && rest.length > 0 && (
+                  {!isOther && !isIpo && category.id !== "a-stocks" && rest.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {rest.map((perk) => (
                         <PerkCard key={perk.id} perk={perk} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
@@ -830,7 +847,9 @@ function OtherCard({ item, copiedCodeId, onCopyCode }: {
   item: OtherResourceItem; copiedCodeId: string | null; onCopyCode: (code: string, id: string) => void;
 }) {
   const isCopied = copiedCodeId === item.id;
-  const iconSourceUrl = item.iconUrl || item.link || "";
+  const router = useRouter();
+  const isInternalLink = item.link?.startsWith("/");
+  const iconSourceUrl = item.iconUrl || (isInternalLink ? undefined : item.link) || "";
   const iconInfo = IconService.getIconInfo(iconSourceUrl, item.title);
 
   return (
@@ -874,7 +893,7 @@ function OtherCard({ item, copiedCodeId, onCopyCode }: {
         <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
           {item.link && (
             <button
-              onClick={() => openSafeExternalUrl(item.link!)}
+              onClick={() => isInternalLink ? router.push(item.link!) : openSafeExternalUrl(item.link!)}
               className="flex-1 h-10 flex items-center justify-center gap-1.5 rounded-xl bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 text-sm font-bold hover:opacity-90 active:scale-95 transition-all"
             >
               立即访问 <ExternalLink className="w-3.5 h-3.5" />
