@@ -49,13 +49,14 @@ const growthData = [
   { month: "26/03", twitter: 32000,youtube: 1900,bilibili: 12000,xiaohongshu: 17500},
   { month: "26/04", twitter: 34020,youtube: 2040,bilibili: 12873,xiaohongshu: 18302},
   { month: "26/05", twitter: 36363,youtube: 2310,bilibili: 12873,xiaohongshu: 19528},
+  { month: "26/06", twitter: 42670,youtube: 2490,bilibili: 12873,xiaohongshu: 28159},
 ];
 
 // ─── 社媒数据 ──────────────────────────────────────────────
 const socials = [
-  { name: "Twitter / X",    count: 36363, label: "Followers",          Icon: Twitter,        pngPath: "https://cdn.simpleicons.org/x/000000",          color: "hover:border-slate-500 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://x.com/WiseInvest513" },
-  { name: "Little Red Book",count: 19528, label: "Followers",          Icon: Instagram,      pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100",    cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10",       text: "text-rose-500",                      bg: "bg-rose-50",                           link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
-  { name: "YouTube",         count: 2310,  label: "Subscribers",        Icon: Youtube,        pngPath: "https://cdn.simpleicons.org/youtube/FF0000",     color: "hover:border-red-500 hover:shadow-red-100",      cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10",           text: "text-red-600",                       bg: "bg-red-50",                            link: "https://www.youtube.com/@WiseInvest513" },
+  { name: "Twitter / X",    count: 42670, label: "Followers",          Icon: Twitter,        pngPath: "https://cdn.simpleicons.org/x/000000",          color: "hover:border-slate-500 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://x.com/WiseInvest513" },
+  { name: "Little Red Book",count: 28159, label: "Followers",          Icon: Instagram,      pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100",    cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10",       text: "text-rose-500",                      bg: "bg-rose-50",                           link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
+  { name: "YouTube",         count: 2490,  label: "Subscribers",        Icon: Youtube,        pngPath: "https://cdn.simpleicons.org/youtube/FF0000",     color: "hover:border-red-500 hover:shadow-red-100",      cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10",           text: "text-red-600",                       bg: "bg-red-50",                            link: "https://www.youtube.com/@WiseInvest513" },
   { name: "Bilibili",        count: 12873, label: "Fans",               Icon: Video,          pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6",    color: "hover:border-blue-400 hover:shadow-blue-100",    cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10",       text: "text-blue-500",                      bg: "bg-blue-50 dark:bg-blue-900/20",       link: "https://space.bilibili.com/347066091" },
   { name: "Douyin",          count: 0,     displayValue: "Follow Me",   label: "Fans · 抖音",Icon: Video,          pngPath: "https://cdn.simpleicons.org/tiktok/000000",     color: "hover:border-slate-700 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://v.douyin.com/WfJLuLqm9k8" },
   { name: "WeChat Group",    count: 0,     displayValue: "Join Group",  label: "Official Community", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100",  cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10",    text: "text-green-600",                     bg: "bg-green-50",                          isModal: true },
@@ -242,7 +243,7 @@ export default function AboutMe() {
                 {[
                   { value: "8", unit: "个月", label: "从零到万粉" },
                   { value: "5", unit: "个平台", label: "同步更新" },
-                  { value: "71K+", unit: "", label: "全网粉丝" },
+                  { value: "86K+", unit: "", label: "全网粉丝" },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white dark:bg-slate-900 rounded-xl p-2.5 md:p-4 border border-slate-100 dark:border-slate-800 text-center shadow-sm">
                     <div className="text-lg md:text-2xl font-black text-slate-900 dark:text-white">{stat.value}<span className="text-sm font-medium text-slate-400 ml-0.5">{stat.unit}</span></div>
@@ -280,7 +281,7 @@ export default function AboutMe() {
                 <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Growth Story</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">从零开始的增长轨迹</h2>
-              <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，8 个月内全网突破 71,000 粉丝</p>
+              <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，10 个月内全网突破 86,000 粉丝</p>
             </div>
 
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm">
