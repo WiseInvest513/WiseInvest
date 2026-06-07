@@ -16,6 +16,13 @@ import { getSafeExternalUrl, openSafeExternalUrl } from "@/lib/security/external
 // Mock data - 空投系列教程
 const airdropTutorialsData = [
   {
+    id: 13,
+    title: "2026 年五月回顾「人生作弊指南」收益情况-658 刀！",
+    date: "2026-06-02",
+    tweetLink: "https://x.com/WiseInvest513/status/2061801474548711911",
+    description: "2026 年五月「人生作弊指南」收益回顾",
+  },
+  {
     id: 9,
     title: "2026 年四月回顾「人生作弊指南」收益情况",
     date: "2026-05-03",

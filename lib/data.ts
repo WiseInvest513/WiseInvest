@@ -2423,6 +2423,15 @@ export const tweets: Tweet[] = [
     views: 1500,
   },
   {
+    id: 270,
+    title: "2026 年五月回顾「人生作弊指南」收益情况-658 刀！",
+    category: "web3",
+    type: "日常",
+    date: "2026-06-02",
+    link: "https://x.com/WiseInvest513/status/2061801474548711911",
+    views: 1500,
+  },
+  {
     id: 269,
     title: "盈透开户指南",
     category: "美股",
