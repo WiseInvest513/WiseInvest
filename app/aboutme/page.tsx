@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin, BookOpen, X } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin, BookOpen, X, Globe } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -215,7 +215,7 @@ export default function AboutMe() {
                   <span className="text-lg">📈</span>
                   <div>
                     <div className="text-[10px] md:text-xs text-slate-400">全网粉丝</div>
-                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">70,000+</div>
+                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">86,000+</div>
                   </div>
                 </div>
               </div>
@@ -262,6 +262,11 @@ export default function AboutMe() {
                   className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 md:px-6 md:py-2.5 rounded-xl font-semibold text-xs md:text-sm hover:border-green-400 hover:text-green-600 transition-all">
                   <MessageCircle className="w-4 h-4" /> 加入社群
                 </button>
+                <Link
+                  href="/website"
+                  className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 md:px-6 md:py-2.5 rounded-xl font-semibold text-xs md:text-sm hover:border-amber-400 hover:text-amber-600 transition-all">
+                  <Globe className="w-4 h-4" /> 其他网站
+                </Link>
               </div>
             </div>
           </div>
