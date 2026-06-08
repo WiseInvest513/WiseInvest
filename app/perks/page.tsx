@@ -618,7 +618,7 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
                 </p>
               </div>
               <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm mx-auto" style={{ maxWidth: 260 }}>
-                <img src="/images/wx.jpg" alt="微信二维码" className="w-full h-auto block" />
+                <img src="/images/企业微信.png" alt="微信二维码" className="w-full h-auto block" />
               </div>
               <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">长按或扫码识别二维码</p>
             </div>
@@ -831,7 +831,7 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
                 </p>
               </div>
               <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm mx-auto" style={{ maxWidth: 260 }}>
-                <img src="/images/wx.jpg" alt="微信二维码" className="w-full h-auto block" />
+                <img src="/images/企业微信.png" alt="微信二维码" className="w-full h-auto block" />
               </div>
               <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">长按或扫码识别二维码</p>
             </div>
