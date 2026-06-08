@@ -142,6 +142,21 @@ export default function PerksPage() {
   const [activeCategory, setActiveCategory] = useState<string>(perkCategories[0]?.id || "");
   const [copiedCodeId, setCopiedCodeId] = useState<string | null>(null);
 
+  // Hash-based anchor scrolling (e.g. /perks#china-galaxy)
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    const tryScroll = (attempts = 0) => {
+      const el = document.getElementById(hash);
+      if (el) {
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 100, behavior: "smooth" });
+      } else if (attempts < 10) {
+        setTimeout(() => tryScroll(attempts + 1), 100);
+      }
+    };
+    setTimeout(() => tryScroll(), 200);
+  }, []);
+
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -459,7 +474,8 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
 
   return (
     <div
-      className="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden group hover:shadow-xl transition-all duration-300"
+      id={perk.id}
+      className="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden group hover:shadow-xl transition-all duration-300 scroll-mt-24"
       style={{ borderLeftWidth: 4, borderLeftColor: perk.color }}
     >
       {/* Tinted top stripe */}
