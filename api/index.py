@@ -3743,12 +3743,17 @@ def api_qdii_valuations(response: Response, force: bool = False, light: bool = F
 
                 logger.info(f"[qdii/a_share] snapshot done: {len(daily_snap)}/{len(us_symbols)} symbols")
 
-            # close_price 已停用（前端不再展示收盘价列）
+            # 收盘估值：last_post_pct 来自 Nasdaq percentageChange（直接字段）
+            # 盘后估值：post_pct 来自 stock_pf_stale_*（Yahoo postMarketChangePercent，7天TTL）
+            stale_data = _cache_mget([f"stock_pf_stale_{s}" for s in us_symbols])
             for sym in us_symbols:
                 pf = _pf_cached(sym) or dict(_EMPTY_PF)
                 snap = daily_snap.get(sym) or {}
                 if snap.get("pct") is not None:
                     pf = {**pf, "last_post_pct": snap["pct"]}
+                stale = stale_data.get(f"stock_pf_stale_{sym}") or {}
+                if stale.get("post_pct") is not None:
+                    pf = {**pf, "post_pct": stale["post_pct"]}
                 stock_cache[sym] = pf
 
             # ── 以下为原来的逻辑，已停用，原因见上方注释 ──────────────────────────
@@ -3800,19 +3805,22 @@ def api_qdii_valuations(response: Response, force: bool = False, light: bool = F
         nav_date = g.get("nav_date")
 
         if session == "a_share":
-            # A股时段：用持仓×昨日盘后涨跌加权计算，得到真实的"昨日美股表现"。
-            # 不能直接用 fundgz 的 gszzl：当基金公司已公布最新净值（如周五）时，
-            # gszzl = (今日A股估值 - 最新净值) / 最新净值，实际只反映汇率等微小变化，
-            # 与昨日美股表现无关，方向可能完全相反。
+            # A股时段：
+            #   收盘估值（valuation）    = 持仓 × 昨日收盘涨跌幅（Nasdaq percentageChange）
+            #   盘后估值（post_valuation）= 持仓 × 昨日盘后涨跌幅（Yahoo postMarketChangePercent）
             r = calc_valuation_for_fund(code, stock_cache, fx_change, "a_share",
                                         prefetched_holdings=all_holdings.get(code, []))
             r["gszzl_time"] = gztime
             if r["valuation"] is None and gszzl_v is not None:
-                # 持仓数据完全缺失时才用 gszzl 兜底
                 r["valuation"]   = gszzl_v
                 r["data_source"] = "gszzl_fallback"
             else:
                 r["data_source"] = "a_share_post_calc"
+            # 盘后估值
+            r_post = calc_valuation_for_fund(code, stock_cache, fx_change, "post_market",
+                                             prefetched_holdings=all_holdings.get(code, []))
+            r["post_valuation"] = r_post["valuation"]
+            r["post_coverage"]  = r_post["coverage"]
         else:
             # 其他时段 → 持仓加权计算（session决定价格字段）
             r = calc_valuation_for_fund(code, stock_cache, fx_change, session,

@@ -58,7 +58,7 @@ function getMarketSession() {
 }
 
 const SESSION_INFO = {
-  a_share:     { label:"A股时段",  valLabel:"昨日估值", desc:"昨日盘后涨跌幅加权，数据已固定",      color:"#ffffff", bg:"rgba(5,150,105,0.85)",   dot:"#6ee7b7" },
+  a_share:     { label:"A股时段",  valLabel:"收盘估值", desc:"昨日收盘涨跌幅加权，数据已固定",      color:"#ffffff", bg:"rgba(5,150,105,0.85)",   dot:"#6ee7b7" },
   pre_market:  { label:"美股盘前", valLabel:"盘前估值", desc:"盘前涨跌幅实时加权，15分钟刷新",       color:"#ffffff", bg:"rgba(234,88,12,0.85)",   dot:"#fdba74" },
   us_open:     { label:"美股盘中", valLabel:"盘中估值", desc:"实时股价加权估值，5分钟刷新",          color:"#ffffff", bg:"rgba(37,99,235,0.85)",   dot:"#93c5fd" },
   post_market: { label:"美股盘后", valLabel:"盘后估值", desc:"盘后涨跌幅实时加权，15分钟刷新",       color:"#ffffff", bg:"rgba(124,58,237,0.85)",  dot:"#c4b5fd" },
@@ -304,6 +304,17 @@ function FundRow({ fund, onClick, isEven, isMobile, cc, session, watched, onTogg
           <span style={{ color:cc.textDim, fontSize:12 }}>—</span>
         )}
       </td>}
+      {session === "a_share" && !isMobile && (
+        <td style={{ ...mkTd(cc), textAlign:"center", fontWeight:700 }}>
+          {fund.post_valuation != null ? (
+            <span style={{ color: fund.post_valuation >= 0 ? cc.red : cc.green, fontSize:15 }}>
+              {fund.post_valuation >= 0 ? "+" : ""}{fund.post_valuation.toFixed(2)}%
+            </span>
+          ) : (
+            <span style={{ color:cc.textDim, fontSize:13 }}>—</span>
+          )}
+        </td>
+      )}
       <td style={{ ...mkTd(cc), textAlign:"center", fontWeight:700 }}>
         {val != null ? (
           <span style={{ color: val >= 0 ? cc.red : cc.green, fontSize:15 }}>
@@ -359,19 +370,29 @@ function DetailPanel({ fund, onClose, cc, session }) {
           </div>
 
           {val != null && (
-            <div style={{ marginTop:16, display:"flex", alignItems:"center", gap:8 }}>
-              <div style={{ fontSize:36, fontWeight:900, letterSpacing:-1, color: val >= 0 ? "#ff6b6b" : "#6ee7b7" }}>
-                {val >= 0 ? "+" : ""}{val.toFixed(2)}%
-              </div>
-              <div style={{ fontSize:12, opacity:0.7, lineHeight:1.5 }}>
-                {SESSION_INFO[session]?.valLabel ?? "今日估值"}涨跌幅<br/>
-                {fund.data_source === "gszzl"           ? "fundgz 全仓实时估值" :
-                 fund.data_source === "gszzl_fallback"  ? "gszzl 兜底数据" :
-                 fund.data_source === "us_open_calc"    ? "实时股价加权" :
-                 fund.data_source === "pre_market_calc" ? "盘前涨跌幅加权" :
-                 fund.data_source === "post_market_calc"? "盘后涨跌幅加权" :
-                 fund.data_source === "a_share_post_calc"? "昨日盘后涨跌加权" :
-                 "季报持仓加权"}
+            <div style={{ marginTop:16, display:"flex", alignItems:"flex-end", gap:20, flexWrap:"wrap" }}>
+              {session === "a_share" && fund.post_valuation != null && (
+                <div>
+                  <div style={{ fontSize:30, fontWeight:900, letterSpacing:-1, color: fund.post_valuation >= 0 ? "#ff6b6b" : "#6ee7b7" }}>
+                    {fund.post_valuation >= 0 ? "+" : ""}{fund.post_valuation.toFixed(2)}%
+                  </div>
+                  <div style={{ fontSize:11, opacity:0.65, marginTop:2 }}>盘后估值<br/>盘后涨跌加权</div>
+                </div>
+              )}
+              <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                <div style={{ fontSize:36, fontWeight:900, letterSpacing:-1, color: val >= 0 ? "#ff6b6b" : "#6ee7b7" }}>
+                  {val >= 0 ? "+" : ""}{val.toFixed(2)}%
+                </div>
+                <div style={{ fontSize:12, opacity:0.7, lineHeight:1.5 }}>
+                  {SESSION_INFO[session]?.valLabel ?? "今日估值"}涨跌幅<br/>
+                  {fund.data_source === "gszzl"           ? "fundgz 全仓实时估值" :
+                   fund.data_source === "gszzl_fallback"  ? "gszzl 兜底数据" :
+                   fund.data_source === "us_open_calc"    ? "实时股价加权" :
+                   fund.data_source === "pre_market_calc" ? "盘前涨跌幅加权" :
+                   fund.data_source === "post_market_calc"? "盘后涨跌幅加权" :
+                   fund.data_source === "a_share_post_calc"? "收盘涨跌加权" :
+                   "季报持仓加权"}
+                </div>
               </div>
             </div>
           )}
@@ -1396,6 +1417,7 @@ export default function QDIIPage() {
                     { key:"daily_limit", label:"每日限额", align:"center" },
                     { key:"status",      label:"状态",     align:"center", noSort:true },
                     { key:"nav",         label:"最新净值", align:"center" },
+                    ...(session === "a_share" ? [{ key:"post_valuation", label:"盘后估值", align:"center" }] : []),
                     { key:"valuation",   label: SESSION_INFO[session]?.valLabel ?? "今日估值", align:"center" },
                   ]).map(({ key, label, align, noSort }) => {
                     const active = sortKey === key;
@@ -1432,7 +1454,7 @@ export default function QDIIPage() {
             <div style={{ padding:"12px 16px", borderTop:`1px solid ${CC.border}`, fontSize:12, color:CC.textDim, display:"flex", justifyContent:"space-between", alignItems:"center", background:CC.card }}>
               <span>共 {filtered.length} 只{loading ? " · 估值加载中…" : ""}</span>
               <span>
-                {session === "a_share"    ? "昨日盘后涨跌加权" :
+                {session === "a_share"    ? "收盘估值 + 盘后估值加权" :
                  session === "us_open"    ? "Yahoo 实时股价加权" :
                  session === "pre_market" ? "Yahoo 盘前价格加权" :
                  session === "post_market"? "Yahoo 盘后价格加权" :
