@@ -2520,6 +2520,13 @@ try:
 except Exception as _e:
     logger.warning(f"[db] init tables failed (non-fatal): {_e}")
 
+# qdii_stock_prices 表加 close_price 列（旧表无此列，忽略已存在错误）
+try:
+    with _db() as _conn:
+        _conn.execute("ALTER TABLE qdii_stock_prices ADD COLUMN close_price REAL")
+except Exception:
+    pass
+
 
 def _db_save_holdings(fund_code: str, holdings: list, report_date: str = ""):
     now = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -2546,6 +2553,45 @@ def _db_save_stock_prices(stock_cache: dict, date: str):
                     ON CONFLICT(symbol, date) DO UPDATE SET
                         change_pct=excluded.change_pct, updated_at=excluded.updated_at
                 """, (sym, date, pct, now))
+
+
+def _db_save_daily_snap(snap: dict, date: str):
+    """保存每日 Nasdaq 快照到 qdii_stock_prices，并删除 3 天前旧数据。"""
+    if not snap:
+        return
+    now = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    with _db() as conn:
+        for sym, data in snap.items():
+            conn.execute("""
+                INSERT INTO qdii_stock_prices(symbol, date, change_pct, close_price, updated_at)
+                VALUES(?,?,?,?,?)
+                ON CONFLICT(symbol, date) DO UPDATE SET
+                    change_pct=excluded.change_pct,
+                    close_price=excluded.close_price,
+                    updated_at=excluded.updated_at
+            """, (sym, date, data.get("pct"), data.get("close_price"), now))
+        conn.execute("DELETE FROM qdii_stock_prices WHERE date < date('now', '-3 days')")
+    logger.info(f"[db] saved daily snap {date}: {len(snap)} symbols, cleaned >3d old data")
+
+
+def _db_load_latest_prices(symbols: list) -> dict:
+    """从 DB 读取每个 symbol 最近一条涨跌数据，用于 Nasdaq 失败时兜底。"""
+    if not symbols:
+        return {}
+    with _db() as conn:
+        placeholders = ",".join("?" * len(symbols))
+        rows = conn.execute(f"""
+            SELECT symbol, change_pct, close_price FROM qdii_stock_prices
+            WHERE symbol IN ({placeholders})
+            AND change_pct IS NOT NULL
+            ORDER BY date DESC
+        """, symbols).fetchall()
+    result = {}
+    for row in rows:
+        sym = row["symbol"]
+        if sym not in result:  # 每个 symbol 只取最新一条
+            result[sym] = {"pct": row["change_pct"], "close_price": row["close_price"]}
+    return result
 
 
 def _db_save_valuations(results: list, date: str):
@@ -3687,6 +3733,16 @@ def api_qdii_valuations(response: Response, force: bool = False, light: bool = F
                 if fresh_snap:
                     _cache_set(daily_snap_key, fresh_snap, 20 * 3600)
                     daily_snap = fresh_snap
+                    _db_save_daily_snap(fresh_snap, today_hkt)  # 存 DB，保留近 3 天
+
+                # Nasdaq 失败的 symbol：从 DB 取最近一条兜底
+                failed = [s for s in us_symbols if s not in daily_snap]
+                if failed:
+                    db_fallback = _db_load_latest_prices(failed)
+                    if db_fallback:
+                        daily_snap = {**daily_snap, **db_fallback}
+                        logger.info(f"[qdii/a_share] DB fallback: {len(db_fallback)} symbols")
+
                 logger.info(f"[qdii/a_share] snapshot done: {len(daily_snap)}/{len(us_symbols)} symbols")
 
             for sym in us_symbols:
