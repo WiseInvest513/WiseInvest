@@ -1852,6 +1852,64 @@ def cron_qdii():
         return {"ok": False, "ts": datetime.now().isoformat(), "session": session, "error": str(e)}
 
 
+@app.get("/api/cron/post_snap")
+def cron_post_snap():
+    """
+    手动/定时触发：从 Yahoo v7 拉取所有 QDII 美股持仓的盘后涨跌幅，
+    写入 stock_last_post_*（72h TTL），供 A股时段盘后估值使用。
+    可在任意时段调用，postMarketChangePercent 是直接字段，A股时段也能获取。
+    """
+    # 收集所有 US symbols
+    all_syms: set = set()
+    for code in QDII_CODES:
+        master = _C_TO_A_HOLDINGS_MAP.get(code, code)
+        holdings = fetch_qdii_holdings(master) or []
+        for h in holdings:
+            sym = h.get("symbol", "")
+            if sym and _is_us(sym):
+                all_syms.add(sym)
+    us_symbols = list(all_syms)
+    if not us_symbols:
+        return {"ok": False, "msg": "no US symbols found"}
+
+    # 分批调 Yahoo v7（每批 ≤15 个）
+    batch_size = 15
+    batches = [us_symbols[i:i+batch_size] for i in range(0, len(us_symbols), batch_size)]
+    results: dict = {}
+    for batch in batches:
+        try:
+            data = _yf_batch_quote(batch)
+            results.update(data)
+        except Exception as e:
+            logger.warning(f"[post_snap] batch failed: {e}")
+
+    # 写入 stock_last_post_*
+    written = 0
+    now = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    for sym, pf in results.items():
+        post_pct   = pf.get("post_pct")
+        reg_pct    = pf.get("regular_pct")
+        snap_pct   = post_pct if post_pct is not None else reg_pct
+        if snap_pct is not None:
+            _cache_set(f"stock_last_post_{sym}", {
+                "pct":      snap_pct,
+                "post_pct": post_pct,
+            }, 72 * 3600)
+            written += 1
+
+    # 清估值缓存，让下次请求重新计算
+    _cache_delete_pattern("qdii_valuation_*")
+
+    logger.info(f"[post_snap] written={written}/{len(us_symbols)} symbols")
+    return {
+        "ok":      True,
+        "ts":      now,
+        "total":   len(us_symbols),
+        "written": written,
+        "missing": [s for s in us_symbols if s not in results or results[s].get("post_pct") is None],
+    }
+
+
 @app.get("/api/cron/clear")
 def cron_clear():
     """清空 Redis 基金缓存，下次用户请求时自动重拉（用于强制刷新）"""
