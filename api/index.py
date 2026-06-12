@@ -3187,8 +3187,8 @@ def fetch_stock_price_fields(symbol: str) -> dict:
             snap_pct = out.get("post_pct") or out.get("regular_pct")
             if snap_pct is not None:
                 _cache_set(last_post_key, {
-                    "pct": snap_pct,
-                    # "close_price": out.get("close_price"),  # 已停用，前端不再展示收盘价
+                    "pct":      snap_pct,
+                    "post_pct": out.get("post_pct"),  # 单独存盘后涨跌幅，供 a_share 盘后估值用
                 }, 72 * 3600)  # 72h：确保周五盘后快照能撑过周末到周一A股时段
         _cache_set(cache_key, out, ttl)
         _cache_set(stale_cache_key, out, 7 * 24 * 3600)
@@ -3744,16 +3744,17 @@ def api_qdii_valuations(response: Response, force: bool = False, light: bool = F
                 logger.info(f"[qdii/a_share] snapshot done: {len(daily_snap)}/{len(us_symbols)} symbols")
 
             # 收盘估值：last_post_pct 来自 Nasdaq percentageChange（直接字段）
-            # 盘后估值：post_pct 来自 stock_pf_stale_*（Yahoo postMarketChangePercent，7天TTL）
-            stale_data = _cache_mget([f"stock_pf_stale_{s}" for s in us_symbols])
+            # 盘后估值：post_pct 来自 stock_last_post_*（post_market 时段 Yahoo 写入，72h TTL）
+            last_post_keys = [f"stock_last_post_{s}" for s in us_symbols]
+            bulk_last_post = _cache_mget(last_post_keys)
             for sym in us_symbols:
                 pf = _pf_cached(sym) or dict(_EMPTY_PF)
                 snap = daily_snap.get(sym) or {}
                 if snap.get("pct") is not None:
                     pf = {**pf, "last_post_pct": snap["pct"]}
-                stale = stale_data.get(f"stock_pf_stale_{sym}") or {}
-                if stale.get("post_pct") is not None:
-                    pf = {**pf, "post_pct": stale["post_pct"]}
+                last_post = bulk_last_post.get(f"stock_last_post_{sym}") or {}
+                if last_post.get("post_pct") is not None:
+                    pf = {**pf, "post_pct": last_post["post_pct"]}
                 stock_cache[sym] = pf
 
             # ── 以下为原来的逻辑，已停用，原因见上方注释 ──────────────────────────
