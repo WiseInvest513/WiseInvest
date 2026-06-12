@@ -3727,7 +3727,10 @@ def api_qdii_valuations(response: Response, force: bool = False, light: bool = F
                         try:
                             r = fut.result()
                             if r.get("pct") is not None:
-                                fresh_snap[sym] = {"pct": r["pct"], "close_price": r.get("prev_close")}
+                                # prev_close = secondaryData.lastSalePrice，A股时段为空
+                                # 回退用 price（primaryData.lastSalePrice），A股时段即昨收价
+                                close = r.get("prev_close") or r.get("price")
+                                fresh_snap[sym] = {"pct": r["pct"], "close_price": close}
                         except Exception as e:
                             logger.warning(f"[qdii/a_share] nasdaq {sym}: {e}")
                 if fresh_snap:
