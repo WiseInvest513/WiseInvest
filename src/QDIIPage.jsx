@@ -997,27 +997,6 @@ export default function QDIIPage() {
   return (
     <div style={{ minHeight:"100vh", background:CC.bg, paddingBottom:60, transition:"background 0.2s" }}>
 
-      {/* ── 升级弹窗 ──────────────────────────────────────────────────────────── */}
-      <div style={{
-        position:"fixed", inset:0, zIndex:9999,
-        background:"rgba(0,0,0,0.6)", backdropFilter:"blur(8px)",
-        display:"flex", alignItems:"center", justifyContent:"center",
-      }}>
-        <div style={{
-          background:"#fff", borderRadius:20, padding:"40px 48px",
-          textAlign:"center", boxShadow:"0 20px 60px rgba(0,0,0,0.25)",
-          maxWidth:360, width:"90%",
-        }}>
-          <div style={{ fontSize:40, marginBottom:16 }}>🔧</div>
-          <div style={{ fontSize:18, fontWeight:800, color:"#1e293b", marginBottom:10 }}>
-            功能升级中
-          </div>
-          <div style={{ fontSize:14, color:"#64748b", lineHeight:1.7 }}>
-            此功能正在升级，请稍后再访问
-          </div>
-        </div>
-      </div>
-
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <div style={{ background:"linear-gradient(135deg,#1a56db,#7c3aed)", color:"#fff", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", width:320, height:320, borderRadius:"50%", background:"rgba(255,255,255,0.04)", top:-80, right:-60, pointerEvents:"none" }} />
