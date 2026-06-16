@@ -1713,25 +1713,29 @@ def cron_live():
     now = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
     if session == "post_market":
-        # 正规收盘已完成：Nasdaq → qdii:close（72h，覆盖到次日 A股 + 周末）
-        close_res = _fetch_chg_from_nasdaq(symbols, timeout=20)
+        # 正规收盘已完成：Yahoo regular → qdii:close（72h）；Yahoo post → qdii:live（7min）
+        close_res = _fetch_chg_from_yf_simple(symbols, prefer_regular=True, timeout=25)
         if close_res:
             _cache_mset({f"qdii:close:{s}": pct for s, pct in close_res.items()}, 72 * 3600)
-        # 夜盘实时：Yahoo v8 post → qdii:live（7min）
-        live_res = _fetch_chg_from_yf_simple(symbols, prefer_post=True, timeout=20)
+        live_res = _fetch_chg_from_yf_simple(symbols, prefer_post=True, timeout=25)
         if live_res:
             _cache_mset({f"qdii:live:{s}": pct for s, pct in live_res.items()}, 7 * 60)
         logger.info(f"[cron/live] post_market close={len(close_res)} live={len(live_res)}")
         return {"ok": True, "ts": now, "session": session, "close": len(close_res), "live": len(live_res)}
 
-    else:  # pre_market / us_open：Nasdaq → qdii:live（7min），Yahoo 兜底
-        live_res = _fetch_chg_from_nasdaq(symbols, timeout=20)
-        missing  = [s for s in symbols if s not in live_res]
-        if missing:
-            live_res.update(_fetch_chg_from_yf_simple(missing, timeout=15))
+    elif session == "us_open":
+        # 盘中：Yahoo regularMarketChangePercent → qdii:live（7min）
+        live_res = _fetch_chg_from_yf_simple(symbols, prefer_regular=True, timeout=25)
         if live_res:
             _cache_mset({f"qdii:live:{s}": pct for s, pct in live_res.items()}, 7 * 60)
-        logger.info(f"[cron/live] {session} live={len(live_res)}/{len(symbols)}")
+        logger.info(f"[cron/live] us_open live={len(live_res)}/{len(symbols)}")
+        return {"ok": True, "ts": now, "session": session, "live": len(live_res)}
+
+    else:  # pre_market：Yahoo 默认（盘前 > 盘后 > 盘中）→ qdii:live（7min）
+        live_res = _fetch_chg_from_yf_simple(symbols, timeout=25)
+        if live_res:
+            _cache_mset({f"qdii:live:{s}": pct for s, pct in live_res.items()}, 7 * 60)
+        logger.info(f"[cron/live] pre_market live={len(live_res)}/{len(symbols)}")
         return {"ok": True, "ts": now, "session": session, "live": len(live_res)}
 
 
@@ -3383,14 +3387,12 @@ def _sym_to_yf(sym: str) -> str:
     return sym
 
 
-def _yf_pct_simple(symbol: str, prefer_post: bool = False) -> Optional[float]:
+def _yf_pct_simple(symbol: str, prefer_post: bool = False, prefer_regular: bool = False) -> Optional[float]:
     """
     Yahoo Finance v8 chart 接口（无需 crumb）获取当前涨跌幅。
-    适用于 Nasdaq.com 不覆盖的股票（NYSE ADR、日本股票等）。
-    prefer_post=True：优先返回盘后（供 a_share 时段取夜盘数据使用）。
-    盘前：(preMarketPrice - regularMarketPrice) / regularMarketPrice
-    盘中：(regularMarketPrice - chartPreviousClose) / chartPreviousClose
-    盘后：(postMarketPrice - regularMarketPrice) / regularMarketPrice
+    prefer_post=True：只取盘后价（供 post_market/a_share 夜盘用）。
+    prefer_regular=True：只取正规收盘涨跌幅（供 us_open 盘中用，避免 pre 数据干扰）。
+    默认：盘前 > 盘后 > 盘中。
     """
     yf_sym = _sym_to_yf(symbol)
     try:
@@ -3404,30 +3406,37 @@ def _yf_pct_simple(symbol: str, prefer_post: bool = False) -> Optional[float]:
         pre   = meta.get("preMarketPrice")
         post  = meta.get("postMarketPrice")
         if prefer_post:
-            # 盘后模式：只返回真实盘后价格计算的涨跌幅，无盘后价则返回 None（不做错误回落）
             if post and reg:
                 return round((post - reg) / reg * 100, 2)
             return None
-        else:
-            # 普通优先级：盘前 > 盘后 > 盘中
-            if pre and reg:
-                return round((pre - reg) / reg * 100, 2)
-            if post and reg:
-                return round((post - reg) / reg * 100, 2)
+        if prefer_regular:
+            # 直接用 Yahoo 的 regularMarketChangePercent，或手算 (reg - prev) / prev
+            chg_pct = meta.get("regularMarketChangePercent")
+            if chg_pct is not None:
+                return round(chg_pct, 2)
             if reg and prev:
                 return round((reg - prev) / prev * 100, 2)
+            return None
+        # 默认：盘前 > 盘后 > 盘中
+        if pre and reg:
+            return round((pre - reg) / reg * 100, 2)
+        if post and reg:
+            return round((post - reg) / reg * 100, 2)
+        if reg and prev:
+            return round((reg - prev) / prev * 100, 2)
     except Exception as e:
         logger.debug(f"[yf_simple] {symbol}({yf_sym}): {e}")
     return None
 
 
-def _fetch_chg_from_yf_simple(symbols: List[str], timeout: int = 15, prefer_post: bool = False) -> Dict[str, float]:
-    """并发调用 _yf_pct_simple，Nasdaq 拉不到时的最终兜底。prefer_post=True 供 a_share 时段取夜盘。"""
+def _fetch_chg_from_yf_simple(symbols: List[str], timeout: int = 15,
+                               prefer_post: bool = False, prefer_regular: bool = False) -> Dict[str, float]:
+    """并发调用 _yf_pct_simple（最多16线程，无人工延迟）。"""
     if not symbols:
         return {}
     results: Dict[str, float] = {}
     with ThreadPoolExecutor(max_workers=min(16, len(symbols))) as ex:
-        futs = {ex.submit(_yf_pct_simple, sym, prefer_post): sym for sym in symbols}
+        futs = {ex.submit(_yf_pct_simple, sym, prefer_post, prefer_regular): sym for sym in symbols}
         done, not_done = wait(list(futs), timeout=timeout)
         for fut in not_done:
             fut.cancel()
