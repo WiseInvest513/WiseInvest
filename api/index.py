@@ -3689,6 +3689,47 @@ def api_qdii_holdings(code: str, response: Response, force: bool = False):
     }
 
 
+# ╔══════════════════════════════════════════════════════════════════════════════════╗
+# ║         QDII 估值展示逻辑 — 权威定义  (SESSION DISPLAY SPEC)                  ║
+# ║                                                                                  ║
+# ║  ⚠️  修改本函数或 calc_valuation_for_fund 前必须阅读此注释。                  ║
+# ║     任何与下方逻辑相悖的改动，必须在代码中用 # [SPEC CONFLICT] 标注，         ║
+# ║     并向用户说明冲突原因，获得确认后方可执行。                                 ║
+# ║                                                                                  ║
+# ║  最后更新：2026-06-17                                                            ║
+# ╠══════════════════════════════════════════════════════════════════════════════════╣
+# ║  两列定义：                                                                      ║
+# ║    收盘估值 = 上一个已完成交易日的正规收盘加权估值（固定参照，不随时间变动）    ║
+# ║    实时估值 = 当前时段的动态加权估值                                             ║
+# ╠══════════════════════════════════════════════════════════════════════════════════╣
+# ║  时段          │ 收盘估值（close_valuation）         │ 实时估值（live_valuation）  ║
+# ║  ─────────────────────────────────────────────────────────────────────────────  ║
+# ║  pre_market    │ 昨日收盘（Redis close_pct，          │ 盘前涨跌（Nasdaq pre_pct，  ║
+# ║  16:00–21:30   │ 由 08:05 cron 写入，固定）           │ 5min 实时刷新）             ║
+# ║  ─────────────────────────────────────────────────────────────────────────────  ║
+# ║  us_open       │ 昨日收盘（同上，close_pct，固定）    │ 盘中实时（Nasdaq            ║
+# ║  21:30–04:00   │                                     │ regular_pct，5min 刷新）   ║
+# ║  ─────────────────────────────────────────────────────────────────────────────  ║
+# ║  post_market   │ 今日正规收盘（Redis close_pct；      │ 夜盘实时（Yahoo v8          ║
+# ║  04:00–08:00   │ cron 未跑时以 regular_pct 代替）     │ post_pct，15min 刷新）      ║
+# ║  ─────────────────────────────────────────────────────────────────────────────  ║
+# ║  a_share       │ 昨日收盘（Redis close_pct，固定）    │ 昨日夜盘（Redis post_pct，  ║
+# ║  08:00–16:00   │ api.valuation = close_valuation      │ api.post_valuation，固定）  ║
+# ║  ─────────────────────────────────────────────────────────────────────────────  ║
+# ║  weekend       │ 周五收盘（Redis close_pct）          │ 不显示                      ║
+# ╠══════════════════════════════════════════════════════════════════════════════════╣
+# ║  Redis 写入节点（vercel.json cron）：                                            ║
+# ║    qdii:chg:close:{sym}  每日 HKT 08:05（UTC 00:05 Tue–Sat）                    ║
+# ║                          来源：Nasdaq regularMarketChangePercent（正规收盘涨跌） ║
+# ║    qdii:chg:post:{sym}   同上 cron                                               ║
+# ║                          来源：Yahoo v8 postMarketPrice（夜盘涨跌，收盘后最终价）║
+# ║    qdii:chg:open:{sym}   us_open/pre_market 实时写，TTL 6min                     ║
+# ║    qdii:chg:pre:{sym}    pre_market 实时写，TTL 5min                             ║
+# ╠══════════════════════════════════════════════════════════════════════════════════╣
+# ║  前端字段映射（QDIIPage.jsx，搜索 [SESSION DISPLAY SPEC]）：                    ║
+# ║    a_share:  close_valuation = api.valuation;  live_valuation = api.post_valuation ║
+# ║    其他时段: close_valuation = api.close_valuation; live_valuation = api.valuation ║
+# ╚══════════════════════════════════════════════════════════════════════════════════╝
 @app.get("/api/qdii/valuations")
 def api_qdii_valuations(response: Response, force: bool = False, light: bool = False):
     """

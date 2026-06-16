@@ -26,6 +26,6 @@
     { "path": "/api/cron/qdii",      "schedule": "55 7 * * 1-5"  },
     { "path": "/api/cron/qdii",      "schedule": "25 13 * * 1-5" },
     { "path": "/api/cron/qdii",      "schedule": "55 19 * * 1-5" },
-    { "path": "/api/cron/post_snap", "schedule": "30 21 * * 1-5" }
+    { "path": "/api/cron/post_snap", "schedule": "5 0 * * 2-6"  }
   ]
 }
