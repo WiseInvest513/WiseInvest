@@ -3882,11 +3882,13 @@ def api_qdii_valuations(response: Response, force: bool = False, light: bool = F
                     if session == "pre_market":
                         _cache_mset({f"qdii:chg:pre:{s}":  pct for s, pct in fresh.items()}, 5 * 60)
                         for s, pct in fresh.items():
-                            stock_cache[s] = {"pre_pct": pct, "stale_pct": pct}
+                            existing = stock_cache.get(s, {})
+                            stock_cache[s] = {**existing, "pre_pct": pct, "stale_pct": pct}
                     else:  # us_open
                         _cache_mset({f"qdii:chg:open:{s}": pct for s, pct in fresh.items()}, 6 * 60)
                         for s, pct in fresh.items():
-                            stock_cache[s] = {"regular_pct": pct, "stale_pct": pct}
+                            existing = stock_cache.get(s, {})
+                            stock_cache[s] = {**existing, "regular_pct": pct, "stale_pct": pct}
                     _cache_mset(stale, 7 * 24 * 3600)
 
     # ── Step 3: 逐基金估值（session-aware 优先级）─────────────────────────────
