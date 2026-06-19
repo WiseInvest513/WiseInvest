@@ -15,7 +15,7 @@ function WxDialog({ id, title, desc }: { id: string; title: string; desc: string
         <p className="text-base font-bold text-slate-900 dark:text-white mb-1">{title}</p>
         <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{desc}</p>
         <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 mx-auto" style={{ maxWidth: 320 }}>
-          <img src="/images/企业微信.png" alt="微信二维码" className="w-full h-auto block" />
+          <img src="/images/微信图片 520.png" alt="微信二维码" className="w-full h-auto block" />
         </div>
         <p className="text-xs text-slate-400 mt-3">长按或扫码识别二维码</p>
       </div>
