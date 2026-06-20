@@ -53,7 +53,7 @@ const otherResources: OtherResourceItem[] = [
     description: "连续7年提供高质量、价格可负担的数字订阅服务，适合控制流媒体与软件订阅开支。",
     link: "https://www.gamsgo.com/partner/GwZjT",
     iconUrl: "https://www.gamsgo.com/",
-    tutorialLink: "https://x.com/WiseInvest513/status/2017103331576139919",
+    tutorialLink: "/articles/ai/AYoe5wH7",
     claimedCount: 890,
   },
   {
@@ -64,7 +64,7 @@ const otherResources: OtherResourceItem[] = [
     code: "WISE666",
     link: "https://xesim.cc/?DIST=RkJHFVg%3D",
     iconUrl: "https://xesim.cc/",
-    tutorialLink: "https://x.com/WiseInvest513/status/2022688883348246699",
+    tutorialLink: "https://www.wise-sim.org/guides/xesim",
     claimedCount: 450,
   },
   {
