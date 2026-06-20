@@ -85,6 +85,7 @@ const perkCategories: PerkCategory[] = [
   { id: "a-stocks", label: "A股券商", emoji: "🏮", items: perks.filter((p) => p.category === "AStocks") },
   { id: "virtual-card", label: "虚拟 U 卡", emoji: "💳", items: perks.filter((p) => p.category === "VirtualCard") },
   { id: "wallet", label: "链上钱包", emoji: "⛓️", items: perks.filter((p) => p.category === "Wallet") },
+  { id: "on-chain-stocks", label: "链上美股", emoji: "🌐", items: perks.filter((p) => p.category === "OnChainStocks") },
   { id: "a-stock-ipo", label: "A股打新", emoji: "🎯", items: [] },
   { id: "other-resources", label: "其他资源", emoji: "🧰", items: [] },
 ];
@@ -428,6 +429,14 @@ export default function PerksPage() {
                       {rest.map((perk) => (
                         <PerkCard key={perk.id} perk={perk} copiedCodeId={copiedCodeId} onCopyCode={handleCopyCode} />
                       ))}
+                    </div>
+                  )}
+                  {/* 空分类占位 */}
+                  {!isOther && !isIpo && category.id !== "a-stocks" && items.length === 0 && (
+                    <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-8 text-center">
+                      <div className="text-3xl mb-3">{category.emoji}</div>
+                      <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">即将上线</p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">相关平台福利正在整理中，敬请期待</p>
                     </div>
                   )}
                   {isOther && (

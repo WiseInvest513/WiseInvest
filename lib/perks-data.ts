@@ -3,7 +3,7 @@
 export interface Perk {
   id: string;
   platform: string;
-  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard" | "Wallet" | "AStocks";
+  category: "Crypto" | "Banking" | "Stocks" | "VirtualCard" | "Wallet" | "AStocks" | "OnChainStocks";
   description: string;
   benefit: string;
   highlightValue: string; // 大字展示的核心价值，如 "20%"、"终生免佣"
@@ -274,6 +274,36 @@ export const perks: Perk[] = [
     color: "#4F46E5",
   },
   {
+    id: "uuwallet-virtual-card",
+    platform: "UU Wallet 虚拟 U 卡",
+    category: "VirtualCard",
+    description: "最安全的 Web3 支付平台，一站式解决存、换、花、赚、转",
+    benefit: "开虚拟卡 100% 返现，实体卡 50% 返现",
+    highlightValue: "100% 返现",
+    badge: "新上线",
+    claimedCount: 0,
+    code: "d1wvsq",
+    link: "/articles/vcard/aQ7pEkbH",
+    iconUrl: "https://app.uuwallet.com",
+    tutorialLink: "/articles/vcard/aQ7pEkbH",
+    color: "#7C3AED",
+  },
+  {
+    id: "benpay-virtual-card",
+    platform: "BenPay Delta Card",
+    category: "VirtualCard",
+    description: "无需 KYC 实名，无开卡费，可稳定订阅各种 AI 会员",
+    benefit: "无需 KYC，即开即用，支持 AI 订阅",
+    highlightValue: "无 KYC",
+    badge: "新上线",
+    claimedCount: 0,
+    code: "9WJVG9",
+    link: "https://benpay.com/card?invite_code=9WJVG9",
+    iconUrl: "https://benpay.com",
+    tutorialLink: "/articles/vcard/oCyhotvX",
+    color: "#0EA5E9",
+  },
+  {
     id: "bybit-virtual-card",
     platform: "Bybit 虚拟 U 卡",
     category: "VirtualCard",
@@ -357,6 +387,37 @@ export const perks: Perk[] = [
       "新客行情：赠12个月10档，参与活动最高10年",
       "SMART量化：50万手机端，300万PC端",
       "主力密码+趋势顶底功能：新客3个月",
+    ],
+  },
+  // 链上美股
+  {
+    id: "stablestock",
+    platform: "StableStock",
+    category: "OnChainStocks",
+    description: "稳定币直购真实港美股的 TraDeFi 平台，无需港卡券商",
+    benefit: "稳定币入金，港股打新，900+ 标的",
+    highlightValue: "20%",
+    badge: "新上线",
+    featured: true,
+    claimedCount: 0,
+    code: "WISE666",
+    link: "https://app.stablestock.finance/?join=WISE666",
+    iconUrl: "https://app.stablestock.finance",
+    tutorialLink: "/articles/onchain/stablestock",
+    color: "#0D9488",
+    details: [
+      "##核心优势",
+      "USDT/USDC 直接入金，无需港卡或传统券商",
+      "支持港股打新，无需另开港股账户",
+      "900+ 标的：美股 ETF 500+，港股 170+",
+      "最低 10 美元起购，24/7 链上交易",
+      "##交易费率",
+      "美股：约千一（含上游成本）",
+      "港股：略高，含 0.1% 印花税",
+      "入金出金：免手续费",
+      "##适合人群",
+      "持有稳定币、希望直接购买美港股的 Web3 用户",
+      "无港卡但想参与港股打新的投资者",
     ],
   },
   // 链上钱包
