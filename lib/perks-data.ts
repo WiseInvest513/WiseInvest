@@ -283,7 +283,7 @@ export const perks: Perk[] = [
     badge: "新上线",
     claimedCount: 0,
     code: "d1wvsq",
-    link: "/articles/vcard/aQ7pEkbH",
+    link: "#",
     iconUrl: "https://app.uuwallet.com",
     tutorialLink: "/articles/vcard/aQ7pEkbH",
     color: "#7C3AED",
