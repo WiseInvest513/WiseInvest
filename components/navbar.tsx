@@ -21,7 +21,6 @@ import { CompoundInterestCalc } from "@/components/tools/CompoundInterestCalc";
 const navItemsBefore = [
   { label: "首页", href: "/" },
   { label: "推文", href: "/tweets" },
-  { label: "工具", href: "/tools" },
   { label: "学习路线", href: "/roadmap" },
 ];
 
