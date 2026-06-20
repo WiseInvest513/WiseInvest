@@ -68,6 +68,16 @@ const otherResources: OtherResourceItem[] = [
     claimedCount: 450,
   },
   {
+    id: "xueding-ai",
+    title: "薛定 AI 中转站",
+    highlight: "顶级 AI 模型低价直连",
+    description: "提供 ChatGPT、Claude、Gemini 等主流大模型 API 中转服务，稳定高速，按量计费。",
+    code: "X227LE6M",
+    link: "https://shop.xuedingtoken.com/?invite=X227LE6M",
+    iconUrl: "https://xuedingtoken.com",
+    claimedCount: 0,
+  },
+  {
     id: "account-planet",
     title: "账号星球",
     highlight: "海外账号注册一站式方案",

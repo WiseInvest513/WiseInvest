@@ -22,6 +22,8 @@ const ALLOWED_HOST_SUFFIXES = [
   "github.io",
   "gamsgo.com",
   "xesim.cc",
+  "xuedingtoken.com",
+  "shop.xuedingtoken.com",
   "acceboy.com",
   "binance.com",
   "web3.binance.com",
