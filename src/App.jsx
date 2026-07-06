@@ -1306,7 +1306,7 @@ function TelegramGroupChatModal({onClose}) {
                 onError={e=>{e.currentTarget.parentElement.style.display="none";}}/>
             </div>
             <div style={{fontSize:13,color:C.textDim,textAlign:"center",lineHeight:1.7}}>
-              这张图片是 WiseInvest Telegram 社群入口，适合关注美股 ETF、QDII 基金和跨市场投资讨论的用户加入交流。
+              扫码或点击按钮加入 Telegram 群，与全球投资者交流
             </div>
           </div>
         ) : (
