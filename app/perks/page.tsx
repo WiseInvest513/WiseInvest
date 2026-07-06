@@ -655,7 +655,7 @@ function HeroCard({ perk, copiedCodeId, onCopyCode }: {
               <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm mx-auto" style={{ maxWidth: 260 }}>
                 <img src="/images/微信图片520.png" alt="微信二维码" className="w-full h-auto block" />
               </div>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">长按或扫码识别二维码</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">这张图片是 WiseInvest 微信咨询入口，用于获取开户支持和费率协助。</p>
             </div>
           </DialogContent>
         </Dialog>
@@ -868,7 +868,7 @@ function PerkCard({ perk, copiedCodeId, onCopyCode }: {
               <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm mx-auto" style={{ maxWidth: 260 }}>
                 <img src="/images/微信图片520.png" alt="微信二维码" className="w-full h-auto block" />
               </div>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">长按或扫码识别二维码</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3">这张图片是 WiseInvest 微信咨询入口，用于获取开户支持和费率协助。</p>
             </div>
           </DialogContent>
         </Dialog>
