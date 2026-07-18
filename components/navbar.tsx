@@ -25,8 +25,8 @@ const navItemsBefore = [
 ];
 
 const navItemsAfter = [
-  { label: "福利", href: "/perks" },
-  { label: "核心数据", href: "/resources" },
+  { label: "福利", href: "/perk" },
+  { label: "资料库", href: "/resources" },
   { label: "关于我", href: "/aboutme" },
 ];
 
@@ -46,7 +46,7 @@ export function Navbar() {
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   const isContentActive = contentItems.some(item => isActive(item.href));
@@ -144,7 +144,7 @@ export function Navbar() {
 
             {navItemsAfter.map((item) => {
               const active = isActive(item.href);
-              const isPerks = item.href === "/perks";
+              const isPerks = item.href === "/perk";
               return (
                 <Link
                   key={item.href}
@@ -233,7 +233,7 @@ export function Navbar() {
               );
             })}
             {navItemsAfter.map(item => {
-              const isPerks = item.href === "/perks";
+              const isPerks = item.href === "/perk";
               return (
                 <Link
                   key={item.href}

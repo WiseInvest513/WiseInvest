@@ -138,7 +138,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/perks"
+                  href="/perk"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
                   福利中心
@@ -149,7 +149,7 @@ export function Footer() {
                   href="/resources"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
-                  核心数据
+                  资料库
                 </Link>
               </li>
             </ul>
@@ -245,4 +245,3 @@ export function Footer() {
     </>
   );
 }
-

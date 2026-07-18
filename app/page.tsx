@@ -461,7 +461,7 @@ const features = [
   },
   {
     name: "福利",
-    href: "/perks",
+    href: "/perk",
     icon: Gift,
     description: "社区福利和会员专属权益",
   },

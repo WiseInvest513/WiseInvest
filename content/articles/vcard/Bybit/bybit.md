@@ -15,7 +15,7 @@ https://x.com/WiseInvest513/status/1980641416243212480?s=20
 
 那这里多讲一句，因为咱们开完 **Bybit** 之后，可能还需要充值入金，所以如果你想要同步注册其他的交易所，也欢迎查阅此链接：
 
-https://www.wise-invest.org/perks
+https://www.wise-invest.org/perk
 
 里面有详细的介绍其他的交易所注册的教程，以及一些券商/银行的注册教程，帮助大家来打开美股/加密的投资之路。
 

@@ -731,8 +731,8 @@ export default function InfoCenterPage() {
         <aside className="w-64 flex-shrink-0 hidden md:flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm">
           {/* 侧边栏标题 */}
           <div className="px-5 pt-6 pb-4 border-b border-slate-100 dark:border-slate-800">
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">核心数据</h1>
-            <p className="text-xs text-slate-400 mt-0.5">实时数据 · 深度叙事</p>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">资料库</h1>
+            <p className="text-xs text-slate-400 mt-0.5">精选资料 · 深度内容</p>
           </div>
           <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
             {modules.map((mod) => (

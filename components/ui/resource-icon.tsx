@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconService } from "@/lib/icon-service";
 
 interface ResourceIconProps {
@@ -29,11 +29,26 @@ export function ResourceIcon({
   alt,
   rounded = false
 }: ResourceIconProps) {
-  const [imageError, setImageError] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   // 优先使用 iconUrl，如果没有则使用 url（向后兼容）
   const iconSourceUrl = iconUrl || url;
-  const iconInfo = IconService.getIconInfo(iconSourceUrl, name);
+  const isDirectImageUrl =
+    !!iconUrl &&
+    (iconUrl.startsWith("/") || iconUrl.startsWith("data:") || iconUrl.startsWith("blob:"));
+  const iconInfo = isDirectImageUrl
+    ? {
+        iconUrl,
+        fallbackLetter: name.charAt(0).toUpperCase(),
+        isDefault: false,
+        source: "direct" as const,
+      }
+    : IconService.getIconInfo(iconSourceUrl, name);
+  const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(isDirectImageUrl);
+
+  useEffect(() => {
+    setImageError(false);
+    setImageLoaded(isDirectImageUrl);
+  }, [iconInfo.iconUrl, isDirectImageUrl]);
 
   // 判断是否有真实图标（不是默认生成的SVG）
   const hasRealIcon = !iconInfo.isDefault;

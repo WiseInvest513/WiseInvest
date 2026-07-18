@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/resources`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/practice`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/aboutme`, priority: 0.6, changeFrequency: "monthly" as const },
-    { url: `${baseUrl}/perks`, priority: 0.6, changeFrequency: "monthly" as const },
+    { url: `${baseUrl}/perk`, priority: 0.6, changeFrequency: "monthly" as const },
   ];
 
   // 工具页面（只包含 Available 的）
