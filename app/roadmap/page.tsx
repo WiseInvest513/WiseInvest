@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Clock, BookOpen, Brain } from "lucide-react";
-import MindMapCanvas from "@/components/MindMapCanvas";
+import { ArrowRight, Clock, BookOpen, Route } from "lucide-react";
+import CapitalFlowMap from "@/components/CapitalFlowMap";
 import { roadmaps, type RoadmapCategory } from "@/lib/roadmaps-data";
 
 // Category definitions
@@ -193,7 +193,7 @@ export default function RoadmapPage() {
             <h2 className="px-2 text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">路线分类</h2>
             <nav className="space-y-1 px-2 flex flex-col items-center">
 
-              {/* 投资脑图 — toggles back to mindmap view */}
+              {/* 资金路线 — toggles back to flow-map view */}
               <button
                 onClick={() => setViewMode("mindmap")}
                 className={`flex items-center justify-center gap-2 w-full rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 mb-1 ${
@@ -202,8 +202,8 @@ export default function RoadmapPage() {
                     : "bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 dark:bg-amber-900/20 dark:border-amber-800/50 dark:text-amber-400 dark:hover:bg-amber-900/40"
                 }`}
               >
-                <Brain className="w-4 h-4 flex-shrink-0" />
-                投资脑图
+                <Route className="w-4 h-4 flex-shrink-0" />
+                资金路线
               </button>
 
               <div className="w-full h-px bg-slate-100 dark:bg-slate-800 my-1" />
@@ -229,10 +229,7 @@ export default function RoadmapPage() {
         {/* ── MAIN CONTENT ── */}
         <main className="flex-1 min-w-0 flex flex-col">
           {viewMode === "mindmap" ? (
-            /* Embedded mind map — rendered directly, no iframe */
-            <div style={{ height: "calc(100vh - 64px)" }}>
-              <MindMapCanvas embedded={true} />
-            </div>
+            <CapitalFlowMap />
           ) : (
             <>
               {/* Header */}

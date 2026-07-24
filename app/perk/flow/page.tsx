@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function RoadmapMindMapRedirect() {
+export default function PerkFlowRedirect() {
   redirect("/roadmap");
 }
