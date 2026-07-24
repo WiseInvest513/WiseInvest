@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Banknote,
   ChevronDown,
@@ -21,6 +21,8 @@ type NodeKind =
   | "us-bank"
   | "us-broker"
   | "hk-broker"
+  | "a-broker"
+  | "onchain-broker"
   | "exchange"
   | "u-card"
   | "payment"
@@ -37,6 +39,7 @@ type FlowNode = Point & {
   subtitle: string;
   kind: NodeKind;
   icon?: string;
+  href?: string;
   showInOverview?: boolean;
 };
 
@@ -61,10 +64,13 @@ type GuidePath = {
   points: Point[];
 };
 
+type RouteCategoryId = "overview" | "onchain-investment" | "traditional-investment" | "capital-flow";
+
 type RoutePreset = {
   id: string;
   label: string;
   description: string;
+  category: RouteCategoryId;
   tone: keyof typeof routeTones;
   paths: string[][];
   guidePaths?: GuidePath[];
@@ -125,6 +131,20 @@ const nodeKinds: Record<
     dot: "#14b8a6",
     icon: Banknote,
   },
+  "a-broker": {
+    label: "A 股券商",
+    color: "text-rose-700",
+    bg: "bg-rose-50 border-rose-200",
+    dot: "#f43f5e",
+    icon: Banknote,
+  },
+  "onchain-broker": {
+    label: "链上美股平台",
+    color: "text-amber-700",
+    bg: "bg-amber-50 border-amber-200",
+    dot: "#f59e0b",
+    icon: Network,
+  },
   exchange: {
     label: "交易所",
     color: "text-orange-700",
@@ -163,7 +183,17 @@ const routeTones = {
   crypto: { stroke: "#f59e0b", label: "加密路径" },
   consume: { stroke: "#e11d48", label: "直接消费" },
   direct: { stroke: "#2563eb", label: "美元直连" },
+  onchain: { stroke: "#f59e0b", label: "链上投资" },
+  traditional: { stroke: "#2563eb", label: "传统投资" },
+  ipo: { stroke: "#e11d48", label: "打新路径" },
 };
+
+const routeCategories: { id: RouteCategoryId; label: string; description: string }[] = [
+  { id: "overview", label: "总览", description: "完整资金地图" },
+  { id: "onchain-investment", label: "链上投资", description: "链上美股和链上打新" },
+  { id: "traditional-investment", label: "传统投资", description: "传统美股、传统打新和 A 股打新" },
+  { id: "capital-flow", label: "资金通道", description: "银行卡、U 卡和回流路径" },
+];
 
 const nodes: FlowNode[] = [
   { id: "domestic-hub", label: "国内银行卡", subtitle: "起点 / 承接", kind: "domestic-bank", icon: `${iconBase}/ccb.jpeg`, x: 140, y: 390 },
@@ -200,9 +230,17 @@ const nodes: FlowNode[] = [
   { id: "bitget-exchange", label: "Bitget", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/bitget.jpeg`, x: 585, y: 690 },
   { id: "bybit", label: "Bybit", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/bybit.jpeg`, x: 725, y: 670 },
 
+  { id: "binance-stock", label: "币安", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/binance.jpeg`, x: 760, y: 615, showInOverview: false },
+  { id: "bit", label: "Bit", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/bit.jpeg`, x: 805, y: 665 },
+  { id: "biyapay", label: "BiyaPay", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/biyapay.jpeg`, x: 865, y: 695 },
+  { id: "stockcoin", label: "StockCoin", subtitle: "链上美股 / 打新", kind: "onchain-broker", icon: `${iconBase}/stockcoin.jpeg`, x: 925, y: 675 },
+
   { id: "bitget-wallet", label: "Bitget Wallet", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/bitget-wallet.jpeg`, x: 900, y: 620 },
   { id: "safepal", label: "SafePal", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/safepal.jpeg`, x: 1030, y: 585 },
   { id: "neverless", label: "Neverless", subtitle: "回流工具", kind: "u-card", icon: `${iconBase}/neverless.jpeg`, x: 1090, y: 520 },
+
+  { id: "galaxy", label: "银河证券", subtitle: "A 股打新", kind: "a-broker", icon: `${iconBase}/china-galaxy.jpeg`, x: 1035, y: 600 },
+  { id: "ipo-pool", label: "集合打新", subtitle: "IPO 入口", kind: "process", href: "/ipo", x: 1035, y: 665, showInOverview: false },
 
   { id: "wechat", label: "微信", subtitle: "支付", kind: "payment", icon: `${iconBase}/wechat.jpeg`, x: 1080, y: 300 },
   { id: "alipay", label: "支付宝", subtitle: "支付", kind: "payment", icon: `${iconBase}/alipay.jpeg`, x: 1120, y: 390 },
@@ -244,7 +282,7 @@ const overviewRings = [
   {
     radius: 318,
     startDeg: -98,
-    ids: ["bitget-exchange", "bybit", "fosun", "chief", "tengda", "neverless", "wechat", "alipay", "taobao", "meituan"],
+    ids: ["bitget-exchange", "bybit", "bit", "biyapay", "stockcoin", "galaxy", "fosun", "chief", "tengda", "neverless", "wechat", "alipay", "taobao", "meituan"],
   },
 ];
 
@@ -266,14 +304,210 @@ const routes: RoutePreset[] = [
     id: "overview",
     label: "完整资金环形总览",
     description: "默认只展示产品在资金地图中的位置。节点会在圆环上轻微浮动，方便先建立整体印象；选择具体路线后，产品会重组为从左到右的资金链路。",
+    category: "overview",
     tone: "overview",
     paths: [],
     steps: ["左侧是国内资金起点", "上方是中转卡、港卡和美卡", "右侧是券商与国内消费", "下方是交易所、虚拟 U 卡和回流工具"],
   },
   {
+    id: "onchain-us-stocks",
+    label: "链上美股",
+    description: "支付宝、微信等国内平台资金先进入币安 / 欧易；币安可直接购买链上美股，也可以和欧易一起给 Bitget、Bit、BiyaPay、StockCoin 等产品充值购买美股。",
+    category: "onchain-investment",
+    tone: "onchain",
+    paths: [
+      ["wechat", "binance", "binance-stock"],
+      ["alipay", "okx", "bitget-exchange"],
+      ["binance", "bit"],
+      ["okx", "biyapay"],
+      ["binance", "stockcoin"],
+      ["okx", "stockcoin"],
+    ],
+    guidePaths: [{ id: "onchain-us-stocks-main", points: [{ x: 210, y: 390 }, { x: 325, y: 390 }, { x: 555, y: 390 }] }],
+    steps: ["支付宝 / 微信作为国内平台起点", "资金先进入币安和欧易", "币安可以直接购买链上美股", "币安 / 欧易也可以给 Bitget、Bit、BiyaPay、StockCoin 充值购买美股"],
+    layout: {
+      wechat: { x: 125, y: 330 },
+      alipay: { x: 125, y: 460 },
+      binance: { x: 405, y: 330 },
+      okx: { x: 405, y: 460 },
+      "binance-stock": { x: 665, y: 265 },
+      "bitget-exchange": { x: 815, y: 330 },
+      bit: { x: 665, y: 420 },
+      biyapay: { x: 815, y: 490 },
+      stockcoin: { x: 665, y: 575 },
+    },
+    groups: [
+      { label: "国内平台", x: 55, y: 250, width: 150, height: 280, tone: "payment", variant: "section" },
+      { label: "币安 / 欧易", x: 325, y: 250, width: 160, height: 280, tone: "exchange", variant: "section" },
+      { label: "链上美股产品", x: 575, y: 180, width: 330, height: 455, tone: "onchain-broker", variant: "section" },
+    ],
+    stageLabels: [
+      { label: "国内平台", x: 125, y: 145 },
+      { label: "交易所入口", x: 405, y: 145 },
+      { label: "链上美股", x: 735, y: 145 },
+    ],
+  },
+  {
+    id: "onchain-ipo",
+    label: "链上打新",
+    description: "支付宝、微信资金进入币安 / 欧易后，再充值到 StockCoin，用链上资金参与打新。",
+    category: "onchain-investment",
+    tone: "ipo",
+    paths: [
+      ["wechat", "binance", "stockcoin"],
+      ["alipay", "okx", "stockcoin"],
+    ],
+    guidePaths: [{ id: "onchain-ipo-main", points: [{ x: 210, y: 390 }, { x: 350, y: 390 }, { x: 625, y: 390 }] }],
+    steps: ["支付宝 / 微信作为国内平台起点", "资金充值到币安或欧易", "币安 / 欧易再充值到 StockCoin", "通过 StockCoin 参与链上打新"],
+    layout: {
+      wechat: { x: 125, y: 330 },
+      alipay: { x: 125, y: 460 },
+      binance: { x: 430, y: 330 },
+      okx: { x: 430, y: 460 },
+      stockcoin: { x: 720, y: 390 },
+    },
+    groups: [
+      { label: "国内平台", x: 55, y: 250, width: 150, height: 280, tone: "payment", variant: "section" },
+      { label: "交易所入口", x: 350, y: 250, width: 160, height: 280, tone: "exchange", variant: "section" },
+      { label: "链上打新", x: 640, y: 285, width: 160, height: 210, tone: "onchain-broker", variant: "section" },
+    ],
+    stageLabels: [
+      { label: "国内平台", x: 125, y: 145 },
+      { label: "币安 / 欧易", x: 430, y: 145 },
+      { label: "StockCoin 打新", x: 720, y: 145 },
+    ],
+  },
+  {
+    id: "traditional-us-stocks",
+    label: "传统美股",
+    description: "国内银行卡资金通过 iFast、Wise、StarryBlu、港卡或美卡中转，再进入盈透、嘉信、第一、腾达、复星、致富等券商，适合传统美股交易。",
+    category: "traditional-investment",
+    tone: "traditional",
+    paths: [
+      ["cib", "ifast", "ibkr"],
+      ["ccb", "wise", "schwab"],
+      ["cmb", "starryblu", "firstrade"],
+      ["cib", "hsbc-hk", "tengda"],
+      ["ccb", "bochk", "fosun"],
+      ["cmb", "za-bank", "chief"],
+      ["cib", "east-west", "ibkr"],
+      ["ccb", "hsbc-us", "schwab"],
+    ],
+    guidePaths: [{ id: "traditional-us-stocks-main", points: [{ x: 240, y: 390 }, { x: 280, y: 390 }, { x: 800, y: 390 }, { x: 820, y: 390 }] }],
+    steps: ["兴业 / 建行 / 招商准备资金", "资金可进入 iFast、Wise、StarryBlu、港卡或美卡", "再汇入盈透、嘉信、第一、腾达、复星、致富等券商", "适合传统美股买卖路径"],
+    layout: {
+      cib: { x: 140, y: 280 },
+      ccb: { x: 140, y: 390 },
+      cmb: { x: 140, y: 500 },
+      ifast: { x: 382, y: 310 },
+      wise: { x: 482, y: 310 },
+      starryblu: { x: 432, y: 410 },
+      "hsbc-hk": { x: 622, y: 310 },
+      bochk: { x: 722, y: 310 },
+      "za-bank": { x: 672, y: 410 },
+      "east-west": { x: 500, y: 575 },
+      "hsbc-us": { x: 610, y: 575 },
+      ibkr: { x: 860, y: 315 },
+      schwab: { x: 970, y: 315 },
+      firstrade: { x: 1080, y: 315 },
+      tengda: { x: 860, y: 475 },
+      fosun: { x: 970, y: 475 },
+      chief: { x: 1080, y: 475 },
+    },
+    groups: [
+      { label: "国内资金", x: 45, y: 225, width: 190, height: 330, tone: "domestic-bank", variant: "section" },
+      { label: "中转卡 / 港卡 / 美卡", x: 280, y: 155, width: 520, height: 500, tone: "transfer-card", variant: "section" },
+      { label: "中转银行卡", x: 310, y: 235, width: 230, height: 235, tone: "transfer-card", variant: "sub" },
+      { label: "港资银行卡", x: 560, y: 235, width: 230, height: 235, tone: "hk-bank", variant: "sub" },
+      { label: "美资银行卡", x: 425, y: 505, width: 270, height: 135, tone: "us-bank", variant: "sub" },
+      { label: "券商", x: 820, y: 225, width: 330, height: 330, tone: "us-broker", variant: "section" },
+    ],
+    stageLabels: [
+      { label: "国内资金", x: 140, y: 145 },
+      { label: "中转卡 / 港卡 / 美卡", x: 530, y: 125 },
+      { label: "券商", x: 965, y: 145 },
+    ],
+  },
+  {
+    id: "traditional-ipo",
+    label: "传统打新",
+    description: "国内资金可通过中转卡、港卡或美卡作为桥梁，再进入致富、复星、腾达等打新券商，用于传统港股 / 美股打新。",
+    category: "traditional-investment",
+    tone: "traditional",
+    paths: [
+      ["cib", "ifast", "chief"],
+      ["ccb", "wise", "fosun"],
+      ["cmb", "starryblu", "tengda"],
+      ["cib", "hsbc-hk", "chief"],
+      ["ccb", "bochk", "fosun"],
+      ["cmb", "za-bank", "tengda"],
+      ["cib", "east-west", "chief"],
+      ["ccb", "hsbc-us", "fosun"],
+    ],
+    guidePaths: [{ id: "traditional-ipo-main", points: [{ x: 240, y: 390 }, { x: 280, y: 390 }, { x: 800, y: 390 }, { x: 820, y: 390 }] }],
+    steps: ["国内银行卡准备资金", "资金进入中转卡、港卡或美卡", "再进入致富、复星、腾达等打新券商", "用于传统打新和港美股交易"],
+    layout: {
+      cib: { x: 140, y: 280 },
+      ccb: { x: 140, y: 390 },
+      cmb: { x: 140, y: 500 },
+      ifast: { x: 382, y: 310 },
+      wise: { x: 482, y: 310 },
+      starryblu: { x: 432, y: 410 },
+      "hsbc-hk": { x: 622, y: 310 },
+      bochk: { x: 722, y: 310 },
+      "za-bank": { x: 672, y: 410 },
+      "east-west": { x: 500, y: 575 },
+      "hsbc-us": { x: 610, y: 575 },
+      chief: { x: 880, y: 390 },
+      fosun: { x: 970, y: 390 },
+      tengda: { x: 1060, y: 390 },
+    },
+    groups: [
+      { label: "国内资金", x: 45, y: 225, width: 190, height: 330, tone: "domestic-bank", variant: "section" },
+      { label: "中转卡 / 港卡 / 美卡", x: 280, y: 155, width: 520, height: 500, tone: "transfer-card", variant: "section" },
+      { label: "中转银行卡", x: 310, y: 235, width: 230, height: 235, tone: "transfer-card", variant: "sub" },
+      { label: "港资银行卡", x: 560, y: 235, width: 230, height: 235, tone: "hk-bank", variant: "sub" },
+      { label: "美资银行卡", x: 425, y: 505, width: 270, height: 135, tone: "us-bank", variant: "sub" },
+      { label: "打新券商", x: 820, y: 285, width: 300, height: 210, tone: "hk-broker", variant: "section" },
+    ],
+    stageLabels: [
+      { label: "国内资金", x: 140, y: 145 },
+      { label: "中转卡 / 港卡 / 美卡", x: 530, y: 125 },
+      { label: "传统打新券商", x: 970, y: 145 },
+    ],
+  },
+  {
+    id: "a-share-ipo",
+    label: "A 股打新",
+    description: "国内银行卡资金进入 A 股券商账户，用于 A 股新股申购；也可以进入 WiseInvest 集合打新入口查看专属业务。",
+    category: "traditional-investment",
+    tone: "ipo",
+    paths: [
+      ["ccb", "galaxy"],
+      ["cmb", "ipo-pool"],
+    ],
+    guidePaths: [{ id: "a-share-ipo-main", points: [{ x: 240, y: 390 }, { x: 500, y: 390 }] }],
+    steps: ["国内银行卡准备资金", "资金进入 A 股券商账户", "使用银河证券等账户参与 A 股打新", "也可以点击集合打新进入 /ipo 专属业务"],
+    layout: {
+      ccb: { x: 145, y: 330 },
+      cmb: { x: 145, y: 460 },
+      galaxy: { x: 610, y: 325 },
+      "ipo-pool": { x: 610, y: 475 },
+    },
+    groups: [
+      { label: "国内资金", x: 60, y: 250, width: 170, height: 280, tone: "domestic-bank", variant: "section" },
+      { label: "A 股打新", x: 500, y: 245, width: 230, height: 320, tone: "a-broker", variant: "section" },
+    ],
+    stageLabels: [
+      { label: "国内银行卡", x: 145, y: 145 },
+      { label: "A 股打新", x: 610, y: 145 },
+    ],
+  },
+  {
     id: "domestic-to-hk-card",
     label: "国内银行卡 → 港卡",
     description: "从兴业、建设、招商等国内银行卡出发，通过跨境支付通转入香港银行卡；汇丰、中银是实体港卡，众安和天星属于虚拟银行，需要单独识别。",
+    category: "capital-flow",
     tone: "bank",
     paths: [
       ["cib", "cross-border-pay", "hsbc-hk"],
@@ -288,16 +522,16 @@ const routes: RoutePreset[] = [
       ccb: { x: 158, y: 380 },
       cmb: { x: 158, y: 515 },
       "cross-border-pay": { x: 410, y: 380 },
-      "hsbc-hk": { x: 715, y: 300 },
-      bochk: { x: 715, y: 430 },
-      "za-bank": { x: 955, y: 315 },
-      airstar: { x: 955, y: 455 },
+      "hsbc-hk": { x: 730, y: 315 },
+      bochk: { x: 730, y: 455 },
+      "za-bank": { x: 950, y: 315 },
+      airstar: { x: 950, y: 455 },
     },
     groups: [
       { label: "国内资金", x: 55, y: 180, width: 205, height: 420, tone: "domestic-bank", variant: "section" },
       { label: "港资银行卡", x: 600, y: 165, width: 485, height: 420, tone: "hk-bank", variant: "section" },
-      { label: "实体银行卡", x: 635, y: 235, width: 160, height: 245, tone: "hk-bank", variant: "sub" },
-      { label: "虚拟银行卡", x: 850, y: 240, width: 205, height: 290, tone: "hk-bank", variant: "sub" },
+      { label: "实体银行卡", x: 635, y: 240, width: 190, height: 290, tone: "hk-bank", variant: "sub" },
+      { label: "虚拟银行卡", x: 855, y: 240, width: 190, height: 290, tone: "hk-bank", variant: "sub" },
     ],
     stageLabels: [
       { label: "起始端", x: 158, y: 125 },
@@ -309,6 +543,7 @@ const routes: RoutePreset[] = [
     id: "transfer-to-us-broker",
     label: "国内 → 中转卡 → 美资券商",
     description: "适合用 Wise / iFast / StarryBlu 作为桥梁，再把资金汇入盈透、嘉信、第一证券。",
+    category: "capital-flow",
     tone: "broker",
     paths: [
       ["cib", "ifast", "ibkr"],
@@ -343,6 +578,7 @@ const routes: RoutePreset[] = [
     id: "hk-card-to-hk-broker",
     label: "国内 → 港卡 → 港资券商",
     description: "适合使用汇丰香港、中银香港、众安、天星等港卡进入港资券商，用于港股、美股和打新场景。",
+    category: "capital-flow",
     tone: "broker",
     paths: [
       ["cib", "hsbc-hk", "tiger"],
@@ -352,29 +588,29 @@ const routes: RoutePreset[] = [
       ["hsbc-hk", "fosun"],
       ["bochk", "chief"],
     ],
-    guidePaths: [{ id: "hk-card-to-broker-main", points: [{ x: 245, y: 390 }, { x: 540, y: 390 }, { x: 640, y: 390 }] }],
+    guidePaths: [{ id: "hk-card-to-broker-main", points: [{ x: 245, y: 390 }, { x: 650, y: 390 }, { x: 690, y: 390 }] }],
     steps: ["国内银行卡准备资金", "资金进入港资银行卡", "港卡入金港资券商", "适合港股、美股和打新"],
     layout: {
       cib: { x: 140, y: 255 },
       ccb: { x: 140, y: 390 },
       cmb: { x: 140, y: 525 },
-      "hsbc-hk": { x: 415, y: 305 },
-      bochk: { x: 415, y: 420 },
-      "za-bank": { x: 415, y: 560 },
-      airstar: { x: 415, y: 650 },
-      tiger: { x: 690, y: 390 },
-      futu: { x: 770, y: 390 },
-      longbridge: { x: 850, y: 390 },
-      fosun: { x: 930, y: 390 },
-      chief: { x: 1010, y: 390 },
-      tengda: { x: 1090, y: 390 },
+      "hsbc-hk": { x: 385, y: 340 },
+      bochk: { x: 385, y: 460 },
+      "za-bank": { x: 535, y: 340 },
+      airstar: { x: 535, y: 460 },
+      tiger: { x: 725, y: 390 },
+      futu: { x: 805, y: 390 },
+      longbridge: { x: 885, y: 390 },
+      fosun: { x: 965, y: 390 },
+      chief: { x: 1045, y: 390 },
+      tengda: { x: 1125, y: 390 },
     },
     groups: [
       { label: "国内资金", x: 45, y: 200, width: 190, height: 380, tone: "domestic-bank", variant: "section" },
-      { label: "港资银行卡", x: 290, y: 175, width: 250, height: 575, tone: "hk-bank", variant: "section" },
-      { label: "实体银行卡", x: 325, y: 250, width: 180, height: 220, tone: "hk-bank", variant: "sub" },
-      { label: "虚拟银行卡", x: 325, y: 500, width: 180, height: 240, tone: "hk-bank", variant: "sub" },
-      { label: "港资券商", x: 640, y: 285, width: 520, height: 210, tone: "hk-broker", variant: "section" },
+      { label: "港资银行卡", x: 290, y: 220, width: 360, height: 350, tone: "hk-bank", variant: "section" },
+      { label: "实体银行卡", x: 320, y: 270, width: 135, height: 255, tone: "hk-bank", variant: "sub" },
+      { label: "虚拟银行卡", x: 470, y: 270, width: 135, height: 255, tone: "hk-bank", variant: "sub" },
+      { label: "港资券商", x: 690, y: 285, width: 470, height: 210, tone: "hk-broker", variant: "section" },
     ],
     stageLabels: [
       { label: "国内资金", x: 140, y: 125 },
@@ -386,6 +622,7 @@ const routes: RoutePreset[] = [
     id: "us-bank-direct",
     label: "国内 → 美卡 → 美资券商",
     description: "美元体系路径：国内换汇到华美银行或汇丰美国，再连接盈透、嘉信、第一证券。",
+    category: "capital-flow",
     tone: "direct",
     paths: [
       ["domestic-hub", "usd-exchange", "east-west", "ibkr"],
@@ -419,6 +656,7 @@ const routes: RoutePreset[] = [
     id: "hk-card-u-card-consume",
     label: "港卡 → U 卡 / 微信消费",
     description: "资金不一定要回国：港卡可以进入 StarryBlu U 卡，也可以用众安直接绑定国内微信支付。",
+    category: "capital-flow",
     tone: "consume",
     paths: [
       ["hsbc-hk", "starryblu", "wechat"],
@@ -451,6 +689,7 @@ const routes: RoutePreset[] = [
     id: "crypto-u-card-consume",
     label: "国内平台 → 交易所 → 虚拟 U 卡 → 国内消费",
     description: "支付宝、微信等国内平台作为启动入口，资金进入币安 / 欧易等交易所，再转入 Bitget Wallet 或 SafePal，最后通过虚拟 U 卡在国内消费。",
+    category: "capital-flow",
     tone: "crypto",
     paths: [
       ["alipay", "binance", "bitget-wallet", "taobao"],
@@ -488,6 +727,7 @@ const routes: RoutePreset[] = [
     id: "crypto-to-us-broker",
     label: "国内平台 → 交易所 → U 卡 → 美资券商 / 美卡",
     description: "支付宝、微信等国内平台先进入币安 / 欧易，再通过 Bitget Wallet / SafePal 衔接盈透、嘉信，也可以转向华美银行、汇丰美国。",
+    category: "capital-flow",
     tone: "crypto",
     paths: [
       ["alipay", "binance", "bitget-wallet", "east-west", "ibkr"],
@@ -525,6 +765,7 @@ const routes: RoutePreset[] = [
     id: "return-home",
     label: "券商 → 回流工具 → 国内消费",
     description: "券商资金可以回到 Wise / iFast、港卡或 Neverless，再回到国内银行，最后进入支付消费。",
+    category: "capital-flow",
     tone: "return",
     paths: [
       ["ibkr", "ifast", "ccb", "wechat"],
@@ -647,13 +888,39 @@ function FlowNodeCard({
   canvasHeight: number;
 }) {
   const kind = nodeKinds[node.kind];
+  const content = node.kind === "process" ? (
+    <div className="flex min-w-[150px] items-center justify-center gap-2 rounded-2xl border border-amber-300 bg-amber-50/95 px-4 py-3 text-center shadow-[0_16px_36px_rgba(245,158,11,0.16)] ring-1 ring-white/80 backdrop-blur dark:border-amber-700 dark:bg-amber-900/30">
+      <Route className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-300" />
+      <div>
+        <div className="text-sm font-black leading-5 text-amber-800 dark:text-amber-200">{node.label}</div>
+        <div className="text-[10px] font-bold text-amber-600 dark:text-amber-300">{node.subtitle}</div>
+      </div>
+    </div>
+  ) : (
+    <div className="flex min-w-[78px] flex-col items-center">
+      <div
+        className={cn(
+          "relative overflow-hidden rounded-2xl border-2 bg-white shadow-[0_14px_30px_rgba(15,23,42,0.14)] ring-4 ring-white/85 dark:ring-slate-950/75",
+          kind.bg,
+          overview ? "h-[58px] w-[58px]" : "h-[64px] w-[64px]",
+          active && !overview && "shadow-[0_22px_46px_rgba(245,158,11,0.24)] ring-amber-200"
+        )}
+      >
+        {node.icon ? <Image src={node.icon} alt={node.label} fill sizes="64px" className="object-cover" /> : null}
+      </div>
+      <div className="mt-1 max-w-[112px] rounded-xl bg-white px-1.5 py-0.5 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-950 dark:ring-slate-800">
+        <div className="truncate text-[11px] font-black leading-4 text-slate-950 dark:text-white">{node.label}</div>
+        <div className={cn("truncate text-[9px] font-black leading-3", kind.color)}>{node.subtitle}</div>
+      </div>
+    </div>
+  );
 
   return (
     <div
       className={cn(
         "absolute z-10 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)]",
         overview && "overview-float",
-        active && !overview && "z-20 scale-105",
+        active && !overview && "z-20",
         dimmed && "pointer-events-none scale-75 opacity-0 grayscale"
       )}
       style={{
@@ -662,32 +929,16 @@ function FlowNodeCard({
         animationDelay: `${(index % 9) * 130}ms`,
       }}
     >
-      {node.kind === "process" ? (
-        <div className="flex min-w-[150px] items-center justify-center gap-2 rounded-2xl border border-amber-300 bg-amber-50/95 px-4 py-3 text-center shadow-[0_16px_36px_rgba(245,158,11,0.16)] ring-1 ring-white/80 backdrop-blur dark:border-amber-700 dark:bg-amber-900/30">
-          <Route className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-300" />
-          <div>
-            <div className="text-sm font-black leading-5 text-amber-800 dark:text-amber-200">{node.label}</div>
-            <div className="text-[10px] font-bold text-amber-600 dark:text-amber-300">{node.subtitle}</div>
-          </div>
-        </div>
-      ) : (
-        <div className="flex min-w-[78px] flex-col items-center">
-          <div
-            className={cn(
-              "relative overflow-hidden rounded-2xl border-2 bg-white shadow-[0_14px_30px_rgba(15,23,42,0.14)] ring-4 ring-white/85 dark:ring-slate-950/75",
-              kind.bg,
-              overview ? "h-[58px] w-[58px]" : "h-[64px] w-[64px]",
-              active && !overview && "shadow-[0_22px_46px_rgba(245,158,11,0.24)] ring-amber-200"
-            )}
-          >
-            {node.icon ? <Image src={node.icon} alt={node.label} fill sizes="64px" className="object-cover" /> : null}
-          </div>
-          <div className="mt-1 max-w-[112px] rounded-xl bg-white/55 px-1.5 py-0.5 text-center backdrop-blur-sm dark:bg-slate-950/55">
-            <div className="truncate text-[11px] font-black leading-4 text-slate-950 dark:text-white">{node.label}</div>
-            <div className={cn("truncate text-[9px] font-black leading-3", kind.color)}>{node.subtitle}</div>
-          </div>
-        </div>
-      )}
+      {node.href ? (
+        <a
+          href={node.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+        >
+          {content}
+        </a>
+      ) : content}
     </div>
   );
 }
@@ -783,6 +1034,8 @@ function RouteLines({ route }: { route: RoutePreset }) {
 
 export default function CapitalFlowMap() {
   const [selectedRouteId, setSelectedRouteId] = useState("overview");
+  const [routeMenuOpen, setRouteMenuOpen] = useState(false);
+  const routeMenuRef = useRef<HTMLDivElement>(null);
   const selectedRoute = routes.find((route) => route.id === selectedRouteId) ?? routes[0];
   const overview = selectedRoute.id === "overview";
   const activeNodeIds = useMemo(() => getRouteNodeIds(selectedRoute), [selectedRoute]);
@@ -791,6 +1044,34 @@ export default function CapitalFlowMap() {
   }, [activeNodeIds, overview]);
   const canvasWidth = overview ? overviewSize : graphWidth;
   const canvasHeight = overview ? overviewSize : graphHeight;
+
+  useEffect(() => {
+    if (!routeMenuOpen) return;
+
+    function handlePointerDown(event: MouseEvent | TouchEvent) {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (!routeMenuRef.current?.contains(target)) {
+        setRouteMenuOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setRouteMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [routeMenuOpen]);
 
   return (
     <div className="relative h-[calc(100vh-64px)] overflow-hidden bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">
@@ -856,19 +1137,67 @@ export default function CapitalFlowMap() {
         <aside className="min-h-0 overflow-y-auto rounded-[26px] border border-slate-200/90 bg-white/92 p-3 shadow-[0_18px_54px_rgba(15,23,42,0.07)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/92 dark:ring-white/5">
           <div className="mb-3">
             <label className="mb-1.5 block text-[11px] font-black text-slate-400">选择资金路线</label>
-            <div className="relative">
-              <select
-                value={selectedRouteId}
-                onChange={(event) => setSelectedRouteId(event.target.value)}
-                className="h-10 w-full appearance-none rounded-xl border border-amber-200 bg-amber-50 px-3 pr-9 text-xs font-black text-amber-800 outline-none transition-colors hover:border-amber-300 focus:border-amber-400 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300"
+            <div ref={routeMenuRef} className="relative z-50">
+              <button
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded={routeMenuOpen}
+                onClick={() => setRouteMenuOpen((open) => !open)}
+                className="flex h-10 w-full items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-3 text-left text-xs font-black text-amber-800 outline-none transition-colors hover:border-amber-300 focus:border-amber-400 focus-visible:ring-2 focus-visible:ring-amber-300 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300"
               >
-                {routes.map((route) => (
-                  <option key={route.id} value={route.id}>
-                    {route.label}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-amber-700 dark:text-amber-300" />
+                <span className="truncate">{selectedRoute.label}</span>
+                <ChevronDown className={cn("ml-2 h-4 w-4 shrink-0 text-amber-700 transition-transform dark:text-amber-300", routeMenuOpen && "rotate-180")} />
+              </button>
+
+              {routeMenuOpen ? (
+                <div
+                  role="listbox"
+                  aria-label="选择资金路线"
+                  className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-[520px] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_24px_64px_rgba(15,23,42,0.18)] ring-1 ring-white dark:border-slate-800 dark:bg-slate-950 dark:ring-white/5"
+                >
+                  {routeCategories.map((category, categoryIndex) => {
+                    const categoryRoutes = routes.filter((route) => route.category === category.id);
+                    if (categoryRoutes.length === 0) return null;
+
+                    return (
+                      <div key={category.id} className={cn(categoryIndex > 0 && "mt-1.5")}>
+                        <div className="px-2 pb-1 pt-1 text-[10px] font-black text-slate-400">{category.label}</div>
+                        <div className="space-y-1">
+                          {categoryRoutes.map((route) => {
+                            const selected = route.id === selectedRouteId;
+                            return (
+                              <button
+                                key={route.id}
+                                type="button"
+                                role="option"
+                                aria-selected={selected}
+                                onClick={() => {
+                                  setSelectedRouteId(route.id);
+                                  setRouteMenuOpen(false);
+                                }}
+                                className={cn(
+                                  "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[11px] font-black transition-colors",
+                                  selected
+                                    ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
+                                    : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900"
+                                )}
+                              >
+                                <span
+                                  className={cn(
+                                    "h-2 w-2 shrink-0 rounded-full",
+                                    selected ? "bg-amber-500" : "bg-slate-300 dark:bg-slate-700"
+                                  )}
+                                />
+                                <span className="truncate">{route.label}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : null}
             </div>
           </div>
 
