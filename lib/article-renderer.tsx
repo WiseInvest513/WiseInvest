@@ -175,12 +175,14 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
     const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
     if (imgMatch) {
       const [, alt, src] = imgMatch;
+      const isPortrait = imageLayout === "portrait" || alt.startsWith("portrait:");
+      const caption = alt.replace(/^portrait:\s*/, "");
       elements.push(
-        <figure key={k++} className={imageLayout === "portrait" ? "my-6 mx-auto w-fit" : "my-6 max-w-4xl mx-auto"}>
-          <div className={imageLayout === "portrait" ? "rounded-2xl bg-slate-100 dark:bg-slate-800 p-2 w-[260px]" : "rounded-2xl bg-slate-100 dark:bg-slate-800 p-3"}>
-            <ImageLightbox src={src} alt={alt} />
+        <figure key={k++} className={isPortrait ? "my-6 mx-auto w-fit" : "my-6 max-w-4xl mx-auto"}>
+          <div className={isPortrait ? "rounded-2xl bg-slate-100 dark:bg-slate-800 p-2 w-[260px]" : "rounded-2xl bg-slate-100 dark:bg-slate-800 p-3"}>
+            <ImageLightbox src={src} alt={caption} />
           </div>
-          {alt && <figcaption className={`mt-1.5 text-center text-xs text-slate-400 dark:text-slate-500${imageLayout === "portrait" ? " w-[260px]" : ""}`}>{alt}</figcaption>}
+          {caption && <figcaption className={`mt-1.5 text-center text-xs text-slate-400 dark:text-slate-500${isPortrait ? " w-[260px]" : ""}`}>{caption}</figcaption>}
         </figure>
       );
       i++; continue;

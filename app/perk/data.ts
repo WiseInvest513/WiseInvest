@@ -903,7 +903,7 @@ export const perkSections: Perks2Section[] = [
             code: "QSNRLQ",
             registerLink: "https://stockcoin.ai/zh-tw/register?ref=QSNRLQ",
             registerLabel: "去注册",
-            tutorialLink: null,
+            tutorialLink: "/articles/onchain/YGkvEHeX",
             recommendation: 4.6,
             recommendationText: "新补充",
             badge: "新产品",
