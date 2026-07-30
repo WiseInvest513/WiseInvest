@@ -58,7 +58,7 @@ const sites = [
   },
   {
     name: "Wise IPO",
-    url: "",
+    url: "https://www.wise-ipo.com/",
     desc: "港美 A 股 IPO 信息",
     gradient: "from-rose-400 to-pink-500",
     bg: "from-rose-50 to-pink-50",
@@ -68,7 +68,6 @@ const sites = [
     delay: 4,
     floatDelay: "2.4s",
     flipDelay: "3.2s",
-    comingSoon: true,
   },
   {
     name: "Wise Chain",
