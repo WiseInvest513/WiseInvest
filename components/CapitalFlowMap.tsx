@@ -85,6 +85,29 @@ const graphWidth = 1200;
 const graphHeight = 760;
 const overviewSize = 760;
 
+const articleHref = {
+  wise: "/articles/bank/Ysn8tPfj",
+  ifast: "/articles/bank/AARzryKJ",
+  starryblu: "/articles/vcard/uQfN0J0j",
+  hsbcHk: "/articles/bank/WoxUXncV",
+  bochk: "/articles/bank/AO9Yfph5",
+  zaBank: "/articles/bank/4EB0zNOS",
+  airstar: "/articles/bank/ucHyMf8P",
+  ibkr: "/articles/broker/2Uh6hvvZ",
+  schwab: "/articles/broker/MWyWMwwN",
+  firstrade: "/articles/broker/eKIyMXl8",
+  fosun: "/articles/broker/sQSbLRe8",
+  chief: "/articles/broker/GaobLP0X",
+  tengda: "/articles/broker/4k1kTctf",
+  binance: "/articles/crypto/GaM38JYk",
+  okx: "/articles/crypto/mAPQm7WZ",
+  bitgetExchange: "/articles/crypto/k3RVVcw4",
+  bybit: "/articles/crypto/e6utod7B",
+  bitgetWallet: "/articles/vcard/WK8p1cCV",
+  safepal: "/articles/vcard/E4lD5AIn",
+  stockcoin: "/articles/onchain/YGkvEHeX",
+} as const;
+
 const nodeKinds: Record<
   NodeKind,
   { label: string; color: string; bg: string; dot: string; icon: LucideIcon }
@@ -201,42 +224,42 @@ const nodes: FlowNode[] = [
   { id: "ccb", label: "建行", subtitle: "承接", kind: "domestic-bank", icon: `${iconBase}/ccb.jpeg`, x: 190, y: 500 },
   { id: "cmb", label: "招商", subtitle: "承接", kind: "domestic-bank", icon: `${iconBase}/cmb.jpeg`, x: 280, y: 620 },
 
-  { id: "ifast", label: "iFast", subtitle: "中转", kind: "transfer-card", icon: `${iconBase}/ifast.jpeg`, x: 420, y: 125 },
-  { id: "wise", label: "Wise", subtitle: "中转", kind: "transfer-card", icon: `${iconBase}/wise.jpeg`, x: 560, y: 95 },
-  { id: "starryblu", label: "StarryBlu", subtitle: "中转 / U 卡", kind: "transfer-card", icon: `${iconBase}/starryblu.jpeg`, x: 700, y: 125 },
+  { id: "ifast", label: "iFast", subtitle: "中转", kind: "transfer-card", icon: `${iconBase}/ifast.jpeg`, href: articleHref.ifast, x: 420, y: 125 },
+  { id: "wise", label: "Wise", subtitle: "中转", kind: "transfer-card", icon: `${iconBase}/wise.jpeg`, href: articleHref.wise, x: 560, y: 95 },
+  { id: "starryblu", label: "StarryBlu", subtitle: "中转 / U 卡", kind: "transfer-card", icon: `${iconBase}/starryblu.jpeg`, href: articleHref.starryblu, x: 700, y: 125 },
 
-  { id: "hsbc-hk", label: "汇丰香港", subtitle: "港卡", kind: "hk-bank", icon: `${iconBase}/hsbc-hk.jpeg`, x: 380, y: 260 },
-  { id: "bochk", label: "中银香港", subtitle: "港卡", kind: "hk-bank", icon: `${iconBase}/bochk.jpeg`, x: 505, y: 285 },
-  { id: "za-bank", label: "众安", subtitle: "微信支付", kind: "hk-bank", icon: `${iconBase}/za-bank.jpeg`, x: 630, y: 285 },
-  { id: "airstar", label: "天星", subtitle: "港卡", kind: "hk-bank", icon: `${iconBase}/airstar.jpeg`, x: 755, y: 260 },
+  { id: "hsbc-hk", label: "汇丰香港", subtitle: "港卡", kind: "hk-bank", icon: `${iconBase}/hsbc-hk.jpeg`, href: articleHref.hsbcHk, x: 380, y: 260 },
+  { id: "bochk", label: "中银香港", subtitle: "港卡", kind: "hk-bank", icon: `${iconBase}/bochk.jpeg`, href: articleHref.bochk, x: 505, y: 285 },
+  { id: "za-bank", label: "众安", subtitle: "微信支付", kind: "hk-bank", icon: `${iconBase}/za-bank.jpeg`, href: articleHref.zaBank, x: 630, y: 285 },
+  { id: "airstar", label: "天星", subtitle: "港卡", kind: "hk-bank", icon: `${iconBase}/airstar.jpeg`, href: articleHref.airstar, x: 755, y: 260 },
 
   { id: "east-west", label: "华美", subtitle: "美卡", kind: "us-bank", icon: `${iconBase}/east-west.jpeg`, x: 870, y: 125 },
   { id: "hsbc-us", label: "汇丰美国", subtitle: "美卡", kind: "us-bank", icon: `${iconBase}/hsbc-us.jpeg`, x: 1010, y: 190 },
 
-  { id: "ibkr", label: "盈透", subtitle: "美资券商", kind: "us-broker", icon: `${iconBase}/ibkr.jpeg`, x: 930, y: 335 },
-  { id: "schwab", label: "嘉信", subtitle: "美资券商", kind: "us-broker", icon: `${iconBase}/schwab.jpeg`, x: 1040, y: 420 },
-  { id: "firstrade", label: "第一", subtitle: "美资券商", kind: "us-broker", icon: `${iconBase}/firstrade.jpeg`, x: 930, y: 505 },
+  { id: "ibkr", label: "盈透", subtitle: "美资券商", kind: "us-broker", icon: `${iconBase}/ibkr.jpeg`, href: articleHref.ibkr, x: 930, y: 335 },
+  { id: "schwab", label: "嘉信", subtitle: "美资券商", kind: "us-broker", icon: `${iconBase}/schwab.jpeg`, href: articleHref.schwab, x: 1040, y: 420 },
+  { id: "firstrade", label: "第一", subtitle: "美资券商", kind: "us-broker", icon: `${iconBase}/firstrade.jpeg`, href: articleHref.firstrade, x: 930, y: 505 },
 
   { id: "tiger", label: "老虎", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/tiger.jpeg`, x: 810, y: 365 },
   { id: "futu", label: "富途", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/futu.jpeg`, x: 860, y: 470 },
   { id: "longbridge", label: "长桥", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/longbridge.jpeg`, x: 790, y: 575 },
-  { id: "fosun", label: "复星", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/fosun.jpeg`, x: 670, y: 650 },
-  { id: "chief", label: "致富", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/chief.jpeg`, x: 540, y: 670 },
-  { id: "tengda", label: "腾达", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/tengda.jpeg`, x: 410, y: 650 },
+  { id: "fosun", label: "复星", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/fosun.jpeg`, href: articleHref.fosun, x: 670, y: 650 },
+  { id: "chief", label: "致富", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/chief.jpeg`, href: articleHref.chief, x: 540, y: 670 },
+  { id: "tengda", label: "腾达", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/tengda.jpeg`, href: articleHref.tengda, x: 410, y: 650 },
   { id: "usmart", label: "盈立", subtitle: "港资券商", kind: "hk-broker", icon: `${iconBase}/usmart.jpeg`, x: 330, y: 560 },
 
-  { id: "binance", label: "币安", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/binance.jpeg`, x: 305, y: 670 },
-  { id: "okx", label: "欧易", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/okx.jpeg`, x: 445, y: 690 },
-  { id: "bitget-exchange", label: "Bitget", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/bitget.jpeg`, x: 585, y: 690 },
-  { id: "bybit", label: "Bybit", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/bybit.jpeg`, x: 725, y: 670 },
+  { id: "binance", label: "币安", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/binance.jpeg`, href: articleHref.binance, x: 305, y: 670 },
+  { id: "okx", label: "欧易", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/okx.jpeg`, href: articleHref.okx, x: 445, y: 690 },
+  { id: "bitget-exchange", label: "Bitget", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/bitget.jpeg`, href: articleHref.bitgetExchange, x: 585, y: 690 },
+  { id: "bybit", label: "Bybit", subtitle: "交易所", kind: "exchange", icon: `${iconBase}/bybit.jpeg`, href: articleHref.bybit, x: 725, y: 670 },
 
-  { id: "binance-stock", label: "币安", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/binance.jpeg`, x: 760, y: 615, showInOverview: false },
+  { id: "binance-stock", label: "币安", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/binance.jpeg`, href: articleHref.binance, x: 760, y: 615, showInOverview: false },
   { id: "bit", label: "Bit", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/bit.jpeg`, x: 805, y: 665 },
   { id: "biyapay", label: "BiyaPay", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/biyapay.jpeg`, x: 865, y: 695 },
-  { id: "stockcoin", label: "StockCoin", subtitle: "链上美股 / 打新", kind: "onchain-broker", icon: `${iconBase}/stockcoin.jpeg`, x: 925, y: 675 },
+  { id: "stockcoin", label: "StockCoin", subtitle: "链上美股 / 打新", kind: "onchain-broker", icon: `${iconBase}/stockcoin.jpeg`, href: articleHref.stockcoin, x: 925, y: 675 },
 
-  { id: "bitget-wallet", label: "Bitget Wallet", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/bitget-wallet.jpeg`, x: 900, y: 620 },
-  { id: "safepal", label: "SafePal", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/safepal.jpeg`, x: 1030, y: 585 },
+  { id: "bitget-wallet", label: "Bitget Wallet", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/bitget-wallet.jpeg`, href: articleHref.bitgetWallet, x: 900, y: 620 },
+  { id: "safepal", label: "SafePal", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/safepal.jpeg`, href: articleHref.safepal, x: 1030, y: 585 },
   { id: "neverless", label: "Neverless", subtitle: "回流工具", kind: "u-card", icon: `${iconBase}/neverless.jpeg`, x: 1090, y: 520 },
 
   { id: "galaxy", label: "银河证券", subtitle: "A 股打新", kind: "a-broker", icon: `${iconBase}/china-galaxy.jpeg`, x: 1035, y: 600 },
@@ -934,7 +957,9 @@ function FlowNodeCard({
           href={node.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          aria-label={`打开${node.label}教程`}
+          title={`打开${node.label}教程`}
+          className="block cursor-pointer rounded-2xl transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
         >
           {content}
         </a>
