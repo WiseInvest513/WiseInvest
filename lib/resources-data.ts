@@ -26,7 +26,7 @@ export const resourceCategories: ResourceCategory[] = [
         name: "Binance",
         desc: "全球最大的加密货币交易所",
         url: "https://www.binance.com",
-        invitationLink: "https://web3.binance.com/m/referral?ref=WISE555",
+        invitationLink: "https://www.bsmkweb.cc/register?ref=WISEBNB1",
         iconUrl: "https://www.binance.com",
         icon: "Coins",
         tag: "Recommended",
@@ -83,7 +83,7 @@ export const resourceCategories: ResourceCategory[] = [
         name: "Bitget",
         desc: "创新的加密货币交易和跟单平台",
         url: "https://www.bitget.com",
-        invitationLink: "https://partner.hdmune.cn/bg/bhy9vywp",
+        invitationLink: "https://partner.bitget.cafe/bg/8ax9wf4r",
         iconUrl: "https://www.bitget.com",
         icon: "TrendingUp",
         rating: 4,
@@ -718,4 +718,3 @@ export const resourceCategories: ResourceCategory[] = [
     ],
   },
 ];
-
