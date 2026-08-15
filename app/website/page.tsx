@@ -1,115 +1,249 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ArrowUpRight, Globe } from "lucide-react";
+import Image from "next/image";
+import { ArrowUpRight, Globe2, RotateCcw } from "lucide-react";
 
-const sites = [
+type WiseSite = {
+  name: string;
+  url?: string;
+  desc: string;
+  eyebrow: string;
+  image: string;
+  accent: string;
+  accentText: string;
+  accentBorder: string;
+  glow: string;
+  comingSoon?: boolean;
+};
+
+const sites: WiseSite[] = [
   {
     name: "Wise Sim",
     url: "https://www.wise-sim.org/",
     desc: "手机卡购买平台",
-    gradient: "from-amber-400 to-orange-500",
-    bg: "from-amber-50 to-orange-50",
-    darkBg: "dark:from-amber-900/20 dark:to-orange-900/20",
-    border: "border-amber-200 dark:border-amber-700/40",
+    eyebrow: "全球通信",
+    image: "/images/websites/wise-sim-tech.jpg",
     accent: "#f59e0b",
-    delay: 0,
-    floatDelay: "0s",
-    flipDelay: "0s",
+    accentText: "text-amber-300",
+    accentBorder: "group-hover:border-amber-400/70",
+    glow: "from-amber-500/35",
   },
   {
     name: "Wise Witness",
     url: "https://www.wise-witness.com/",
     desc: "见证开户平台",
-    gradient: "from-violet-400 to-purple-500",
-    bg: "from-violet-50 to-purple-50",
-    darkBg: "dark:from-violet-900/20 dark:to-purple-900/20",
-    border: "border-violet-200 dark:border-violet-700/40",
-    accent: "#8b5cf6",
-    delay: 1,
-    floatDelay: "0.6s",
-    flipDelay: "0.8s",
+    eyebrow: "远程认证",
+    image: "/images/websites/wise-witness-tech.jpg",
+    accent: "#a78bfa",
+    accentText: "text-violet-300",
+    accentBorder: "group-hover:border-violet-400/70",
+    glow: "from-violet-500/35",
   },
   {
     name: "Wise Hold",
     url: "https://www.wise-hold.com/",
     desc: "长期持有策略",
-    gradient: "from-emerald-400 to-teal-500",
-    bg: "from-emerald-50 to-teal-50",
-    darkBg: "dark:from-emerald-900/20 dark:to-teal-900/20",
-    border: "border-emerald-200 dark:border-emerald-700/40",
-    accent: "#10b981",
-    delay: 2,
-    floatDelay: "1.2s",
-    flipDelay: "1.6s",
+    eyebrow: "长期复利",
+    image: "/images/websites/wise-hold-tech.jpg",
+    accent: "#34d399",
+    accentText: "text-emerald-300",
+    accentBorder: "group-hover:border-emerald-400/70",
+    glow: "from-emerald-500/35",
   },
   {
     name: "Wise ETF",
     url: "https://www.wise-etf.com/",
     desc: "ETF 指数投资",
-    gradient: "from-sky-400 to-blue-500",
-    bg: "from-sky-50 to-blue-50",
-    darkBg: "dark:from-sky-900/20 dark:to-blue-900/20",
-    border: "border-sky-200 dark:border-sky-700/40",
-    accent: "#0ea5e9",
-    delay: 3,
-    floatDelay: "1.8s",
-    flipDelay: "2.4s",
+    eyebrow: "指数配置",
+    image: "/images/websites/wise-etf-tech.jpg",
+    accent: "#38bdf8",
+    accentText: "text-sky-300",
+    accentBorder: "group-hover:border-sky-400/70",
+    glow: "from-sky-500/35",
   },
   {
     name: "Wise IPO",
     url: "https://www.wise-ipo.com/",
     desc: "港美 A 股 IPO 信息",
-    gradient: "from-rose-400 to-pink-500",
-    bg: "from-rose-50 to-pink-50",
-    darkBg: "dark:from-rose-900/20 dark:to-pink-900/20",
-    border: "border-rose-200 dark:border-rose-700/40",
-    accent: "#f43f5e",
-    delay: 4,
-    floatDelay: "2.4s",
-    flipDelay: "3.2s",
+    eyebrow: "新股情报",
+    image: "/images/websites/wise-ipo-tech.jpg",
+    accent: "#fb7185",
+    accentText: "text-rose-300",
+    accentBorder: "group-hover:border-rose-400/70",
+    glow: "from-rose-500/35",
   },
   {
     name: "Wise Chain",
-    url: "",
     desc: "热门产业链数据",
-    gradient: "from-indigo-400 to-cyan-500",
-    bg: "from-indigo-50 to-cyan-50",
-    darkBg: "dark:from-indigo-900/20 dark:to-cyan-900/20",
-    border: "border-indigo-200 dark:border-indigo-700/40",
-    accent: "#6366f1",
-    delay: 5,
-    floatDelay: "3.0s",
-    flipDelay: "4.0s",
+    eyebrow: "产业链数据",
+    image: "/images/websites/wise-chain-tech.jpg",
+    accent: "#22d3ee",
+    accentText: "text-cyan-300",
+    accentBorder: "group-hover:border-cyan-400/70",
+    glow: "from-cyan-500/35",
     comingSoon: true,
   },
 ];
 
-export default function WebsitePage() {
-  const [mounted, setMounted] = useState(false);
+function SiteCard({ site, priority, index }: { site: WiseSite; priority: boolean; index: number }) {
+  const displayUrl = site.url ?? "网址筹备中";
+  const card = (
+    <div
+      className="wise-site-card-float relative aspect-[4/3] w-full rounded-[1.7rem]"
+      style={{
+        perspective: "1200px",
+        animationDelay: `${index * 0.6}s`,
+        animationDuration: `${3.5 + index * 0.4}s`,
+      }}
+    >
+      <div
+        className="wise-site-card-inner relative h-full w-full will-change-transform [transform-style:preserve-3d]"
+        style={{
+          animationDelay: `${index * 0.8}s`,
+          animationDuration: `${5 + index * 0.5}s`,
+        }}
+      >
+        {/* 正面：保留科技产品主视觉 */}
+        <div
+          aria-hidden="true"
+          className={`absolute inset-0 block h-full w-full overflow-hidden rounded-[1.7rem] border border-slate-800/90 bg-slate-950 text-left shadow-[0_18px_45px_rgba(15,23,42,0.18)] transition-shadow duration-500 group-hover:shadow-[0_26px_65px_rgba(15,23,42,0.28)] ${site.accentBorder}`}
+          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+        >
+          <Image
+            src={site.image}
+            alt={`${site.name} 产品场景`}
+            fill
+            priority={priority}
+            sizes="(min-width: 1024px) 352px, (min-width: 640px) 50vw, 100vw"
+            className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045] ${site.comingSoon ? "saturate-[0.82]" : ""}`}
+          />
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-slate-950/95" />
+          <div className={`absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t ${site.glow} via-transparent to-transparent opacity-35 transition-opacity duration-500 group-hover:opacity-55`} />
+          <div className="absolute inset-0 rounded-[1.65rem] ring-1 ring-inset ring-white/10" />
+
+          <div className="absolute left-4 top-4 z-10">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[10px] font-black tracking-[0.14em] text-white/85 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full shadow-[0_0_10px_currentColor]" style={{ backgroundColor: site.accent, color: site.accent }} />
+              {site.eyebrow}
+            </span>
+          </div>
+
+          <div className="absolute right-4 top-4 z-10 rounded-lg border border-white/10 bg-black/70 px-2 py-1.5 shadow-xl backdrop-blur-md">
+            <Image
+              src="/images/websites/wiseinvest-brand.png"
+              alt="WiseInvest"
+              width={109}
+              height={27}
+              className="h-[21px] w-auto object-contain"
+            />
+          </div>
+
+          {site.comingSoon && (
+            <div className="absolute right-4 top-[3.9rem] z-10 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-2.5 py-1 text-[10px] font-black tracking-widest text-cyan-200 backdrop-blur-md">
+              即将上线
+            </div>
+          )}
+
+          <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6">
+            <div className={`mb-1.5 text-[11px] font-black uppercase tracking-[0.2em] ${site.accentText}`}>
+              Wise Product
+            </div>
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-black tracking-tight text-white md:text-2xl">{site.name}</h2>
+                <p className="mt-1 text-xs font-medium text-slate-300 md:text-sm">{site.desc}</p>
+              </div>
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white backdrop-blur-md transition-all duration-300 group-hover:rotate-180 group-hover:bg-white group-hover:text-slate-950" aria-hidden="true">
+                <RotateCcw className="h-4 w-4" />
+              </span>
+            </div>
+          </div>
+
+          <div className="pointer-events-none absolute -left-1/2 top-0 h-full w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-all duration-700 group-hover:left-[115%] group-hover:opacity-100" />
+        </div>
+
+        {/* 背面：网站名称、真实网址与访问入口 */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 overflow-hidden rounded-[1.7rem] border border-white/15 bg-[#070912] text-white shadow-[0_22px_60px_rgba(15,23,42,0.34)]"
+          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        >
+          <Image src={site.image} alt="" fill sizes="(min-width: 1024px) 352px, (min-width: 640px) 50vw, 100vw" className="scale-110 object-cover opacity-[0.12] blur-[2px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(2,6,23,0.98),rgba(9,12,25,0.92)_52%,rgba(15,23,42,0.82))]" />
+          <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px)] [background-size:28px_28px]" />
+          <div className="absolute -right-16 -top-20 h-52 w-52 rounded-full opacity-20 blur-3xl" style={{ backgroundColor: site.accent }} />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+
+          <div className="relative z-10 flex h-full flex-col p-5 md:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/55">
+                <span className="h-1.5 w-1.5 rounded-full shadow-[0_0_12px_currentColor]" style={{ backgroundColor: site.accent, color: site.accent }} />
+                Website destination
+              </span>
+              <Image src="/images/websites/wiseinvest-brand.png" alt="WiseInvest" width={109} height={27} className="h-[19px] w-auto object-contain opacity-90" />
+            </div>
+
+            <div className="my-auto py-3">
+              <p className={`mb-2 text-[10px] font-black uppercase tracking-[0.2em] ${site.accentText}`}>Wise ecosystem</p>
+              <h2 className="text-2xl font-black tracking-tight text-white md:text-[1.75rem]">{site.name}</h2>
+              <p className="mt-1.5 text-xs font-medium text-slate-400 md:text-sm">{site.desc}</p>
+              <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.055] px-3.5 py-3 backdrop-blur-sm">
+                <span className="block text-[9px] font-black uppercase tracking-[0.18em] text-white/35">Official URL</span>
+                <span className="mt-1 block break-all font-mono text-[11px] font-bold text-white/85 md:text-xs">{displayUrl}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {site.url ? (
+                <span className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-black text-slate-950 transition-all group-hover:bg-slate-100">
+                  点击前往
+                  <ArrowUpRight className="h-4 w-4" />
+                </span>
+              ) : (
+                <div className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-center text-xs font-black text-white/45">
+                  即将上线
+                </div>
+              )}
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white/70">
+                <RotateCcw className="h-4 w-4" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const wrapperClass = "group block rounded-[1.7rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-950";
+
+  if (site.url) {
+    return (
+      <a href={site.url} target="_blank" rel="noopener noreferrer" className={wrapperClass} aria-label={`访问 ${site.name}：${site.url}`}>
+        {card}
+      </a>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center relative overflow-hidden">
-      {/* 背景装饰 */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-300/10 dark:bg-amber-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-300/10 dark:bg-violet-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sky-300/5 dark:bg-sky-500/3 rounded-full blur-3xl" />
-      </div>
+    <div className={`${wrapperClass} cursor-default`} aria-label={`${site.name}，即将上线`}>
+      {card}
+    </div>
+  );
+}
 
+export default function WebsitePage() {
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-slate-50 pb-16 pt-28 dark:bg-slate-950 md:pb-20 md:pt-32">
       <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotateX(0deg); }
+        @keyframes wise-site-float {
+          0%, 100% { transform: translateY(0) rotateX(0deg); }
           25% { transform: translateY(-12px) rotateX(3deg); }
           50% { transform: translateY(-6px) rotateX(-2deg); }
           75% { transform: translateY(-14px) rotateX(2deg); }
         }
 
-        @keyframes flip-y {
+        @keyframes wise-site-flip-y {
           0% { transform: rotateY(0deg); }
           45% { transform: rotateY(0deg); }
           50% { transform: rotateY(180deg); }
@@ -117,127 +251,55 @@ export default function WebsitePage() {
           100% { transform: rotateY(360deg); }
         }
 
-        .site-card-wrapper {
-          perspective: 1200px;
-          animation: float 4s ease-in-out infinite;
+        .wise-site-card-float {
+          animation-name: wise-site-float;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
         }
 
-        .site-card-inner {
-          position: relative;
-          width: 100%;
-          height: 100%;
+        .wise-site-card-inner {
+          animation-name: wise-site-flip-y;
+          animation-timing-function: ease-in-out;
+          animation-iteration-count: infinite;
           transform-style: preserve-3d;
-          animation: flip-y 6s ease-in-out infinite;
         }
 
-        .site-card-front,
-        .site-card-back {
-          position: absolute;
-          inset: 0;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          border-radius: 1.5rem;
-        }
-
-        .site-card-back {
-          transform: rotateY(180deg);
+        @media (prefers-reduced-motion: reduce) {
+          .wise-site-card-float,
+          .wise-site-card-inner {
+            animation: none !important;
+          }
         }
       `}</style>
 
-      {/* 标题 */}
-      <div
-        className={`text-center mb-12 md:mb-16 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-      >
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <Globe className="w-5 h-5 text-amber-500" />
-          <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">My Websites</span>
-        </div>
-        <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-3">
-          Wise 系列网站
-        </h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm md:text-base">
-          点击卡片前往网站，灰色卡片为即将上线产品
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[8%] top-24 h-72 w-72 rounded-full bg-amber-200/20 blur-3xl dark:bg-amber-500/5" />
+        <div className="absolute right-[8%] top-1/3 h-96 w-96 rounded-full bg-cyan-200/20 blur-3xl dark:bg-cyan-500/5" />
+        <div className="absolute inset-0 opacity-[0.28] dark:opacity-[0.08] [background-image:linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] [background-size:48px_48px] [mask-image:linear-gradient(to_bottom,black,transparent_78%)]" />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 md:px-6">
+        <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <Globe2 className="h-5 w-5 text-amber-500" />
+            <span className="text-sm font-black uppercase tracking-[0.2em] text-amber-500">My Websites</span>
+          </div>
+          <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-5xl">Wise 系列网站</h1>
+          <p className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400 md:text-base">
+            六个独立产品，同一套 WiseInvest 科技生态
+          </p>
+        </header>
+
+        <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-7" aria-label="Wise 系列产品">
+          {sites.map((site, index) => (
+            <SiteCard key={site.name} site={site} priority={index < 3} index={index} />
+          ))}
+        </section>
+
+        <p className="mt-10 text-center text-xs font-medium tracking-wide text-slate-400 dark:text-slate-600">
+          所有网站均为 Wise Invest 旗下独立产品
         </p>
       </div>
-
-      {/* 卡片网格 */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-6 max-w-5xl w-full relative z-10">
-        {sites.map((site, i) => {
-          const isComingSoon = (site as any).comingSoon;
-          const CardWrapper = isComingSoon ? "div" : "a";
-          const wrapperProps = isComingSoon
-            ? {}
-            : { href: site.url, target: "_blank", rel: "noopener noreferrer" };
-
-          return (
-            <CardWrapper
-              key={i}
-              {...(wrapperProps as any)}
-              className={`site-card-wrapper block w-full h-48 md:h-56 group ${isComingSoon ? "cursor-default" : "cursor-pointer"}`}
-              style={{
-                animationDelay: site.floatDelay,
-                animationDuration: `${3.5 + i * 0.4}s`,
-              }}
-            >
-              <div
-                className="site-card-inner"
-                style={{ animationDelay: site.flipDelay, animationDuration: `${5 + i * 0.5}s` }}
-              >
-                {/* 正面 */}
-                <div
-                  className={`site-card-front bg-gradient-to-br ${site.bg} ${site.darkBg} border ${site.border} shadow-xl flex flex-col items-center justify-center gap-3 p-4 ${isComingSoon ? "" : "hover:shadow-2xl"} transition-shadow duration-300`}
-                >
-                  {isComingSoon && (
-                    <span className="absolute top-3 right-3 text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">
-                      即将上线
-                    </span>
-                  )}
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${site.gradient} flex items-center justify-center shadow-lg ${isComingSoon ? "opacity-60" : ""}`}>
-                    <Globe className="w-7 h-7 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <div className={`font-black text-sm md:text-base leading-tight ${isComingSoon ? "text-slate-400 dark:text-slate-500" : "text-slate-900 dark:text-white"}`}>{site.name}</div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{site.desc}</div>
-                  </div>
-                  {isComingSoon ? (
-                    <div className="text-xs text-slate-400 dark:text-slate-500">敬请期待</div>
-                  ) : (
-                    <div className={`flex items-center gap-1 text-xs font-semibold bg-gradient-to-r ${site.gradient} bg-clip-text text-transparent`}>
-                      <span>访问网站</span>
-                      <ArrowUpRight className="w-3 h-3" style={{ color: site.accent }} />
-                    </div>
-                  )}
-                </div>
-
-                {/* 背面 */}
-                <div
-                  className={`site-card-back bg-gradient-to-br ${isComingSoon ? "from-slate-300 to-slate-400 dark:from-slate-700 dark:to-slate-600" : site.gradient} shadow-xl flex flex-col items-center justify-center gap-3 p-4`}
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
-                    <Globe className="w-7 h-7 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <div className="font-black text-white text-sm md:text-base leading-tight">{site.name}</div>
-                    <div className="text-xs text-white/70 mt-1">
-                      {isComingSoon ? "即将上线" : site.url.replace("https://", "").replace("/", "")}
-                    </div>
-                  </div>
-                  <div className="text-xs font-semibold text-white/80">
-                    {isComingSoon ? "🚧 开发中" : "点击前往 →"}
-                  </div>
-                </div>
-              </div>
-            </CardWrapper>
-          );
-        })}
-      </div>
-
-      {/* 底部说明 */}
-      <p
-        className={`mt-14 text-xs text-slate-400 dark:text-slate-600 transition-all duration-1000 delay-500 ${mounted ? "opacity-100" : "opacity-0"}`}
-      >
-        所有网站均为 Wise Invest 旗下独立产品
-      </p>
-    </div>
+    </main>
   );
 }

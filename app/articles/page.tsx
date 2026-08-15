@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
   Library, ArrowRight, Search, Menu,
@@ -33,6 +34,7 @@ function useActiveToc(toc: { id: string }[]) {
 
 // ─── Main Component ────────────────────────────────────────
 export default function ArticlesPage() {
+  const pathname = usePathname();
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set([
     "broker:us-broker", "broker:hk-broker",
     "bank:physical-bank", "bank:virtual-bank", "bank:digital-bank", "bank:jianzheng",
@@ -44,10 +46,9 @@ export default function ArticlesPage() {
   const [allArticles, setAllArticles] = useState<(Article | FsArticle)[]>(hardcodedArticles);
 
   // Detect URL article target on first paint — show skeleton instead of empty state
-  const [isLoadingArticle, setIsLoadingArticle] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(window.location.pathname);
-  });
+  const [isLoadingArticle, setIsLoadingArticle] = useState(() =>
+    /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(pathname)
+  );
 
   useEffect(() => {
     // Parse URL once; resolve article in the same batch as setAllArticles

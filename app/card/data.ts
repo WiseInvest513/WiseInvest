@@ -389,9 +389,9 @@ export const virtualCardProducts: VirtualCardProduct[] = [
     issuer: "BiyaPay",
     issuerUrl: "https://www.biyapay.com",
     iconUrl: "/images/perks/biyapay-card.jpeg",
-    inviteCode: null,
+    inviteCode: "53443445",
     registerLink: "https://www.biyapay.com/en/virtualcard/apply",
-    tutorialLink: null,
+    tutorialLink: "/articles/onchain/KewUM4Og",
     score: 5,
     ratingLabel: "法币通道",
     ai: {
@@ -399,7 +399,7 @@ export const virtualCardProducts: VirtualCardProduct[] = [
       tone: "usable",
       detail: "优势在国内外资金流通，对没有加密货币的用户更友好，订阅场景后续补细节。",
     },
-    status: "待补教程",
+    status: "完整教程",
     usage:
       "适合做国内外资金流通，能降低没有加密资产用户使用虚拟卡订阅海外服务的门槛。",
     bestFor: ["国内外流通", "无加密用户", "订阅付款", "资金中转"],

@@ -106,6 +106,7 @@ const articleHref = {
   bybit: "/articles/crypto/e6utod7B",
   bitgetWallet: "/articles/vcard/WK8p1cCV",
   safepal: "/articles/vcard/E4lD5AIn",
+  biyapay: "/articles/onchain/KewUM4Og",
   stockcoin: "/articles/onchain/YGkvEHeX",
 } as const;
 
@@ -256,7 +257,7 @@ const nodes: FlowNode[] = [
 
   { id: "binance-stock", label: "币安", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/binance.jpeg`, href: articleHref.binance, x: 760, y: 615, showInOverview: false },
   { id: "bit", label: "Bit", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/bit.jpeg`, x: 805, y: 665 },
-  { id: "biyapay", label: "BiyaPay", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/biyapay.jpeg`, x: 865, y: 695 },
+  { id: "biyapay", label: "BiyaPay", subtitle: "链上美股", kind: "onchain-broker", icon: `${iconBase}/biyapay.jpeg`, href: articleHref.biyapay, x: 865, y: 695 },
   { id: "stockcoin", label: "StockCoin", subtitle: "链上美股 / 打新", kind: "onchain-broker", icon: `${iconBase}/stockcoin.jpeg`, href: articleHref.stockcoin, x: 925, y: 675 },
 
   { id: "bitget-wallet", label: "Bitget Wallet", subtitle: "虚拟 U 卡", kind: "u-card", icon: `${iconBase}/bitget-wallet.jpeg`, href: articleHref.bitgetWallet, x: 900, y: 620 },
