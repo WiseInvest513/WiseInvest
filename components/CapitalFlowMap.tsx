@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Banknote,
@@ -828,6 +829,10 @@ const routes: RoutePreset[] = [
   },
 ];
 
+function resolveRouteId(routeId: string | null) {
+  return routes.some((route) => route.id === routeId) ? routeId! : "overview";
+}
+
 const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
 function getRouteNodeIds(route: RoutePreset) {
@@ -1058,7 +1063,11 @@ function RouteLines({ route }: { route: RoutePreset }) {
 }
 
 export default function CapitalFlowMap() {
-  const [selectedRouteId, setSelectedRouteId] = useState("overview");
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedRouteId = searchParams.get("route");
+  const [selectedRouteId, setSelectedRouteId] = useState(() => resolveRouteId(requestedRouteId));
   const [routeMenuOpen, setRouteMenuOpen] = useState(false);
   const routeMenuRef = useRef<HTMLDivElement>(null);
   const selectedRoute = routes.find((route) => route.id === selectedRouteId) ?? routes[0];
@@ -1069,6 +1078,26 @@ export default function CapitalFlowMap() {
   }, [activeNodeIds, overview]);
   const canvasWidth = overview ? overviewSize : graphWidth;
   const canvasHeight = overview ? overviewSize : graphHeight;
+
+  useEffect(() => {
+    setSelectedRouteId(resolveRouteId(requestedRouteId));
+  }, [requestedRouteId]);
+
+  const selectRoute = (routeId: string) => {
+    setSelectedRouteId(routeId);
+    setRouteMenuOpen(false);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("view");
+    if (routeId === "overview") {
+      params.delete("route");
+    } else {
+      params.set("route", routeId);
+    }
+
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
 
   useEffect(() => {
     if (!routeMenuOpen) return;
@@ -1196,10 +1225,7 @@ export default function CapitalFlowMap() {
                                 type="button"
                                 role="option"
                                 aria-selected={selected}
-                                onClick={() => {
-                                  setSelectedRouteId(route.id);
-                                  setRouteMenuOpen(false);
-                                }}
+                                onClick={() => selectRoute(route.id)}
                                 className={cn(
                                   "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[11px] font-black transition-colors",
                                   selected

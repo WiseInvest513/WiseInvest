@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Clock, BookOpen, Route } from "lucide-react";
 import CapitalFlowMap from "@/components/CapitalFlowMap";
@@ -124,12 +124,29 @@ function RoadmapCard({ roadmap, index }: { roadmap: (typeof roadmaps)[0]; index:
 }
 
 export default function RoadmapPage() {
+  const pathname = usePathname();
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const initialView = searchParams.get("view") === "cards" ? (roadmapCategories[0]?.id || "investment") : "mindmap";
+  const requestedRouteId = searchParams.get("route");
+  const initialView = !requestedRouteId && searchParams.get("view") === "cards"
+    ? (roadmapCategories[0]?.id || "investment")
+    : "mindmap";
 
   const [viewMode, setViewMode] = useState<"mindmap" | string>(initialView);
   const [activeCategory, setActiveCategory] = useState<string>(roadmapCategories[0]?.id || "");
   const pendingCategoryRef = useRef<string | null>(null);
+
+  const replaceRoadmapQuery = (updates: { view?: "cards"; clearRoute?: boolean }) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (updates.clearRoute) params.delete("route");
+    if (updates.view) {
+      params.set("view", updates.view);
+    } else {
+      params.delete("view");
+    }
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  };
 
   const scrollToSection = (categoryId: string) => {
     const el = document.getElementById(categoryId);
@@ -171,11 +188,17 @@ export default function RoadmapPage() {
     }
   }, [viewMode]);
 
+  // Deep links always open the funding map, including browser back/forward navigation.
+  useEffect(() => {
+    if (requestedRouteId) setViewMode("mindmap");
+  }, [requestedRouteId]);
+
   const handleCategoryClick = (categoryId: string) => {
     if (viewMode === "mindmap") {
       pendingCategoryRef.current = categoryId;
       setActiveCategory(categoryId);
       setViewMode(categoryId);
+      replaceRoadmapQuery({ view: "cards", clearRoute: true });
     } else {
       setActiveCategory(categoryId);
       scrollToSection(categoryId);
@@ -195,7 +218,10 @@ export default function RoadmapPage() {
 
               {/* 资金路线 — toggles back to flow-map view */}
               <button
-                onClick={() => setViewMode("mindmap")}
+                onClick={() => {
+                  setViewMode("mindmap");
+                  replaceRoadmapQuery({ clearRoute: false });
+                }}
                 className={`flex items-center justify-center gap-2 w-full rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-200 mb-1 ${
                   viewMode === "mindmap"
                     ? "bg-amber-100 border border-amber-300 text-amber-900 dark:bg-amber-900/30 dark:border-amber-700 dark:text-amber-300"

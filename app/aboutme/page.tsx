@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, Send, TrendingUp, Zap, Bitcoin, BookOpen, X, Globe } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -37,6 +37,15 @@ const AnimatedNumber = ({ value }: { value: number }) => {
   return <>{count.toLocaleString()}</>;
 };
 
+const socialCounts = {
+  twitter: 47500,
+  youtube: 3130,
+  bilibili: 12873,
+  xiaohongshu: 28159,
+} as const;
+
+const totalFollowers = Object.values(socialCounts).reduce((sum, count) => sum + count, 0);
+
 // ─── 社媒增长数据（从 25年8月 开始） ──────────────────────
 const growthData = [
   { month: "25/08", twitter: 0,    youtube: 0,   bilibili: 0,    xiaohongshu: 0    },
@@ -50,14 +59,15 @@ const growthData = [
   { month: "26/04", twitter: 34020,youtube: 2040,bilibili: 12873,xiaohongshu: 18302},
   { month: "26/05", twitter: 36363,youtube: 2310,bilibili: 12873,xiaohongshu: 19528},
   { month: "26/06", twitter: 42670,youtube: 2490,bilibili: 12873,xiaohongshu: 28159},
+  { month: "26/08", ...socialCounts },
 ];
 
 // ─── 社媒数据 ──────────────────────────────────────────────
 const socials = [
-  { name: "Twitter / X",    count: 42670, label: "Followers",          Icon: Twitter,        pngPath: "https://cdn.simpleicons.org/x/000000",          color: "hover:border-slate-500 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://x.com/WiseInvest513" },
-  { name: "Little Red Book",count: 28159, label: "Followers",          Icon: Instagram,      pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100",    cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10",       text: "text-rose-500",                      bg: "bg-rose-50",                           link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
-  { name: "YouTube",         count: 2490,  label: "Subscribers",        Icon: Youtube,        pngPath: "https://cdn.simpleicons.org/youtube/FF0000",     color: "hover:border-red-500 hover:shadow-red-100",      cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10",           text: "text-red-600",                       bg: "bg-red-50",                            link: "https://www.youtube.com/@WiseInvest513" },
-  { name: "Bilibili",        count: 12873, label: "Fans",               Icon: Video,          pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6",    color: "hover:border-blue-400 hover:shadow-blue-100",    cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10",       text: "text-blue-500",                      bg: "bg-blue-50 dark:bg-blue-900/20",       link: "https://space.bilibili.com/347066091" },
+  { name: "Twitter / X",    count: socialCounts.twitter, label: "Followers",          Icon: Twitter,        pngPath: "https://cdn.simpleicons.org/x/000000",          color: "hover:border-slate-500 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://x.com/WiseInvest513" },
+  { name: "Little Red Book",count: socialCounts.xiaohongshu, label: "Followers",          Icon: Instagram,      pngPath: "https://cdn.simpleicons.org/xiaohongshu/FF2442", color: "hover:border-rose-500 hover:shadow-rose-100",    cardTone: "border-rose-100 dark:border-rose-800/40 bg-rose-50/35 dark:bg-rose-900/10",       text: "text-rose-500",                      bg: "bg-rose-50",                           link: "https://www.xiaohongshu.com/user/profile/6373a8ba0000000024014988" },
+  { name: "YouTube",         count: socialCounts.youtube,  label: "Subscribers",        Icon: Youtube,        pngPath: "https://cdn.simpleicons.org/youtube/FF0000",     color: "hover:border-red-500 hover:shadow-red-100",      cardTone: "border-red-100 dark:border-red-800/40 bg-red-50/35 dark:bg-red-900/10",           text: "text-red-600",                       bg: "bg-red-50",                            link: "https://www.youtube.com/@WiseInvest513" },
+  { name: "Bilibili",        count: socialCounts.bilibili, label: "Fans",               Icon: Video,          pngPath: "https://cdn.simpleicons.org/bilibili/00A1D6",    color: "hover:border-blue-400 hover:shadow-blue-100",    cardTone: "border-blue-100 dark:border-blue-800/40 bg-blue-50/35 dark:bg-blue-900/10",       text: "text-blue-500",                      bg: "bg-blue-50 dark:bg-blue-900/20",       link: "https://space.bilibili.com/347066091" },
   { name: "Douyin",          count: 0,     displayValue: "Follow Me",   label: "Fans · 抖音",Icon: Video,          pngPath: "https://cdn.simpleicons.org/tiktok/000000",     color: "hover:border-slate-700 hover:shadow-slate-200",  cardTone: "border-slate-200 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40",    text: "text-slate-900 dark:text-slate-100", bg: "bg-slate-100 dark:bg-slate-800",       link: "https://v.douyin.com/WfJLuLqm9k8" },
   { name: "WeChat Group",    count: 0,     displayValue: "Join Group",  label: "Official Community", Icon: MessageCircle, pngPath: "https://cdn.simpleicons.org/wechat/07C160", color: "hover:border-green-500 hover:shadow-green-100",  cardTone: "border-green-100 dark:border-green-800/40 bg-green-50/35 dark:bg-green-900/10",    text: "text-green-600",                     bg: "bg-green-50",                          isModal: true },
 ] as const;
@@ -78,21 +88,6 @@ const commitments = [
       { label: "记录", value: "全程公开" },
     ],
     href: "/practice/dca-investment",
-  },
-  {
-    icon: Zap,
-    color: "from-violet-400 to-purple-500",
-    bgColor: "bg-violet-50 dark:bg-violet-900/20",
-    borderColor: "border-violet-200 dark:border-violet-800/40",
-    title: "Alpha 空投实战",
-    since: "2025 年 06 月起",
-    desc: "持续参与币安 Alpha、欧易 Boost 等主流平台空投，严格执行「人生作弊指南」策略，所得收益全部转投 QQQ。",
-    stats: [
-      { label: "参与平台", value: "币安 / 欧易" },
-      { label: "收益去向", value: "全投 QQQ" },
-      { label: "记录", value: "每期公开" },
-    ],
-    href: "/practice/airdrop-tutorials",
   },
 ];
 
@@ -215,7 +210,7 @@ export default function AboutMe() {
                   <span className="text-lg">📈</span>
                   <div>
                     <div className="text-[10px] md:text-xs text-slate-400">全网粉丝</div>
-                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">86,000+</div>
+                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">{totalFollowers.toLocaleString()}</div>
                   </div>
                 </div>
               </div>
@@ -243,7 +238,7 @@ export default function AboutMe() {
                 {[
                   { value: "8", unit: "个月", label: "从零到万粉" },
                   { value: "5", unit: "个平台", label: "同步更新" },
-                  { value: "86K+", unit: "", label: "全网粉丝" },
+                  { value: totalFollowers.toLocaleString(), unit: "", label: "全网粉丝" },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white dark:bg-slate-900 rounded-xl p-2.5 md:p-4 border border-slate-100 dark:border-slate-800 text-center shadow-sm">
                     <div className="text-lg md:text-2xl font-black text-slate-900 dark:text-white">{stat.value}<span className="text-sm font-medium text-slate-400 ml-0.5">{stat.unit}</span></div>
@@ -263,9 +258,9 @@ export default function AboutMe() {
                   <MessageCircle className="w-4 h-4" /> 加入社群
                 </button>
                 <Link
-                  href="/website"
+                  href="/resources"
                   className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 md:px-6 md:py-2.5 rounded-xl font-semibold text-xs md:text-sm hover:border-amber-400 hover:text-amber-600 transition-all">
-                  <Globe className="w-4 h-4" /> 其他网站
+                  <BookOpen className="w-4 h-4" /> 资料库
                 </Link>
               </div>
             </div>
@@ -286,7 +281,7 @@ export default function AboutMe() {
                 <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Growth Story</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">从零开始的增长轨迹</h2>
-              <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，10 个月内全网突破 86,000 粉丝</p>
+              <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，目前全网累计 {totalFollowers.toLocaleString()} 位关注者</p>
             </div>
 
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm">
@@ -310,7 +305,7 @@ export default function AboutMe() {
                 { month: "25/09", event: "首月破三千", icon: "🎯" },
                 { month: "25/10", event: "Twitter 破万", icon: "🔥" },
                 { month: "25/12", event: "Twitter 破两万", icon: "⚡" },
-                { month: "26/04", event: "全网突破 7 万", icon: "🚀" },
+                { month: "26/08", event: "全网突破 9 万", icon: "🚀" },
               ].map((m, i) => (
                 <div key={i} className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700/50 flex items-center gap-3">
                   <span className="text-xl">{m.icon}</span>
@@ -336,16 +331,16 @@ export default function AboutMe() {
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Commitments</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">一直在坚持的两件事</h2>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">一直在坚持的事</h2>
               <p className="text-slate-500 dark:text-slate-400">不只是内容，更是真实的实践——所有数据全程公开</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="max-w-3xl">
               {commitments.map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <a key={i} href={item.href}
-                    className={`group relative rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 md:p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+                    className={`group relative block w-full rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 md:p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
                   >
                     <div className="flex items-start gap-4 mb-5 md:mb-6">
                       <div className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg shrink-0`}>
@@ -449,38 +444,40 @@ export default function AboutMe() {
         </div>
       </section>
 
-      {/* ══ SECTION 5: 精选教程 ══════════════════════════════ */}
+      {/* ══ SECTION 5: 美股投资教程 ══════════════════════════ */}
       <section className="py-10 md:py-20">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="mb-6 md:mb-10">
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-5 h-5 text-amber-500" />
-              <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Latest Tutorials</span>
+              <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">US Stock Guide</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">最新系列教程</h2>
-            <p className="text-slate-500 dark:text-slate-400">复星证券系列 — 手把手带你完成开户与入金全流程</p>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">美股投资教程</h2>
+            <p className="text-slate-500 dark:text-slate-400">先选一条适合你的资金路线，再进入学习路线查看完整产品与操作方案</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
                 step: "01",
-                tag: "新手必看",
+                tag: "传统方式",
                 tagColor: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
-                title: "2026 年复星券商开户详细教程",
-                desc: "复星证券完整开户教程，含费率对比、福利政策、入金方式详解。46 年港资零售券商 No.1，仅凭身份证即可完成开户。",
-                href: "/articles/broker/sQSbLRe8",
+                title: "传统美股：通过中转卡入金券商",
+                desc: "适合习惯使用传统券商的人。先解决资金中转，再把资金汇入美股券商账户。",
+                flow: ["国内资金", "中转卡 / 港卡 / 美卡", "美股券商"],
+                href: "/roadmap?route=traditional-us-stocks",
                 accent: "from-amber-400 to-orange-500",
                 border: "border-amber-200 dark:border-amber-800/40",
                 bg: "bg-amber-50/50 dark:bg-amber-900/10",
               },
               {
                 step: "02",
-                tag: "进阶操作",
+                tag: "链上方式",
                 tagColor: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400",
-                title: "众安 & Ifast 银行入金复星最全教程",
-                desc: "详解如何通过众安银行与 Ifast 数字银行向复星证券入金，无港卡用户的最佳入金选择，最快四小时即可到账。",
-                href: "/articles/broker/myu8sVmc",
+                title: "链上美股：从法币入金到链上产品",
+                desc: "适合已经使用加密平台的人。通过 OTC / C2C 完成入金，再选择链上美股产品。",
+                flow: ["支付宝 / 微信", "币安 / 欧易 OTC · C2C", "链上美股产品"],
+                href: "/roadmap?route=onchain-us-stocks",
                 accent: "from-blue-400 to-sky-500",
                 border: "border-blue-200 dark:border-blue-800/40",
                 bg: "bg-blue-50/50 dark:bg-blue-900/10",
@@ -503,8 +500,20 @@ export default function AboutMe() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
                   {item.desc}
                 </p>
+                <div className="flex flex-wrap items-center gap-2 mb-6" aria-label={`${item.title}资金流程`}>
+                  {item.flow.map((flowStep, flowIndex) => (
+                    <div key={flowStep} className="contents">
+                      <span className="rounded-full border border-white/80 dark:border-slate-700 bg-white/75 dark:bg-slate-900/60 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-sm">
+                        {flowStep}
+                      </span>
+                      {flowIndex < item.flow.length - 1 && (
+                        <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">→</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
                 <div className="flex items-center gap-1.5 text-sm font-semibold text-amber-600 dark:text-amber-400">
-                  <span>立即阅读</span>
+                  <span>查看完整学习路线</span>
                   <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </div>
               </Link>

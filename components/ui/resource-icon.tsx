@@ -11,6 +11,7 @@ interface ResourceIconProps {
   className?: string;
   alt?: string;
   rounded?: boolean;
+  flush?: boolean;
 }
 
 /**
@@ -27,7 +28,8 @@ export function ResourceIcon({
   size = 40,
   className = "",
   alt,
-  rounded = false
+  rounded = false,
+  flush = false
 }: ResourceIconProps) {
   // 优先使用 iconUrl，如果没有则使用 url（向后兼容）
   const iconSourceUrl = iconUrl || url;
@@ -61,7 +63,7 @@ export function ResourceIcon({
 
   return (
     <div
-      className={`relative flex items-center justify-center bg-white dark:bg-slate-800 ${rounded ? 'rounded-full' : 'rounded-xl'} border border-slate-200 dark:border-slate-700 shadow-sm ${className}`}
+      className={`relative flex items-center justify-center overflow-hidden bg-white dark:bg-slate-800 ${rounded ? 'rounded-full' : 'rounded-xl'} border border-slate-200 dark:border-slate-700 shadow-sm ${className}`}
       style={{ width: size, height: size }}
     >
       {/* 默认图标：首字母 - 作为占位符或最终fallback */}
@@ -81,7 +83,7 @@ export function ResourceIcon({
         <img
           src={iconInfo.iconUrl}
           alt={alt || `${name} icon`}
-          className={`absolute w-full h-full ${rounded ? 'rounded-full' : 'rounded-lg'} object-contain p-1 transition-opacity duration-300 ${
+          className={`absolute h-full w-full ${rounded ? 'rounded-full' : 'rounded-xl'} ${flush ? 'object-cover p-0' : 'object-contain p-1'} transition-opacity duration-300 ${
             imageLoaded && !imageError ? 'opacity-100' : 'opacity-0'
           }`}
           loading="lazy"
