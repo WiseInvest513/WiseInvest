@@ -1,0 +1,418 @@
+[
+  {
+    "date": "2026-07-06",
+    "time": "22:00",
+    "title": "美国5月ISM服务业PMI",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注价格分项与就业指数"
+  },
+  {
+    "date": "2026-07-08",
+    "time": "02:00",
+    "title": "美联储6月FOMC会议纪要",
+    "category": "宏观",
+    "impact": "high",
+    "description": "披露内部对就业/通胀/降息路径分歧"
+  },
+  {
+    "date": "2026-07-09",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "就业市场及时温度计"
+  },
+  {
+    "date": "2026-07-14",
+    "time": "全天",
+    "title": "美联储主席Warsh众议院听证会",
+    "category": "宏观",
+    "impact": "high",
+    "description": "首次半年度货币政策报告"
+  },
+  {
+    "date": "2026-07-14",
+    "time": "20:30",
+    "title": "美国6月CPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "核心CPI环比为关键，决定降息预期"
+  },
+  {
+    "date": "2026-07-15",
+    "time": "全天",
+    "title": "美联储主席Warsh参议院听证会",
+    "category": "宏观",
+    "impact": "high",
+    "description": "继续观察鹰鸽表态"
+  },
+  {
+    "date": "2026-07-16",
+    "time": "盘前",
+    "title": "台积电（TSM）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "AI芯片晴雨表，关注CoWoS产能与全年CapEx"
+  },
+  {
+    "date": "2026-07-20",
+    "time": "22:00",
+    "title": "Conference Board领先经济指数（LEI）",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "前瞻指标，看是否扩散到实体订单/就业"
+  },
+  {
+    "date": "2026-07-21",
+    "time": "盘后",
+    "title": "3M（MMM）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "工业与电子/数据中心需求温度"
+  },
+  {
+    "date": "2026-07-21",
+    "time": "盘后",
+    "title": "通用汽车（GM）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美国消费者购车能力与促销力度"
+  },
+  {
+    "date": "2026-07-22",
+    "time": "盘后",
+    "title": "特斯拉（TSLA）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "毛利率19.5% + 自由现金流 + Robotaxi规模"
+  },
+  {
+    "date": "2026-07-22",
+    "time": "盘后",
+    "title": "Alphabet（GOOGL）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "Cloud营收能否超230亿 + CapEx匹配"
+  },
+  {
+    "date": "2026-07-23",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "就业温和降温最佳"
+  },
+  {
+    "date": "2026-07-23",
+    "time": "盘后",
+    "title": "英特尔（INTC）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "DCAI增速 + 毛利率 + Foundry亏损"
+  },
+  {
+    "date": "2026-07-24",
+    "time": "21:45",
+    "title": "美国7月Flash制造业/服务业/综合PMI",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "新订单、就业、价格分项"
+  },
+  {
+    "date": "2026-07-27",
+    "time": "20:30",
+    "title": "美国6月耐用品订单",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "核心资本品订单反映企业投资意愿"
+  },
+  {
+    "date": "2026-07-28",
+    "time": "全天",
+    "title": "美联储7月FOMC会议开始",
+    "category": "宏观",
+    "impact": "high",
+    "description": "两日会议"
+  },
+  {
+    "date": "2026-07-28",
+    "time": "22:00",
+    "title": "Conference Board7月消费者信心指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "通胀预期与“工作难找”比例"
+  },
+  {
+    "date": "2026-07-28",
+    "time": "盘后",
+    "title": "UPS财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "货运量与消费真实温度"
+  },
+  {
+    "date": "2026-07-28",
+    "time": "盘后",
+    "title": "Visa财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "消费金额与跨境交易"
+  },
+  {
+    "date": "2026-07-29",
+    "time": "02:00",
+    "title": "美联储利率决议 + 沃什新闻发布会",
+    "category": "宏观",
+    "impact": "high",
+    "description": "维持3.50%-3.75%，关注9月加息信号"
+  },
+  {
+    "date": "2026-07-29",
+    "time": "盘后",
+    "title": "微软（MSFT）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "Azure增速能否维持~40% + CapEx压力"
+  },
+  {
+    "date": "2026-07-29",
+    "time": "盘后",
+    "title": "Meta（META）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "广告收入/利润率能否覆盖1250-1450亿CapEx"
+  },
+  {
+    "date": "2026-07-30",
+    "time": "20:30",
+    "title": "美国6月PCE物价指数（含核心PCE）",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "美联储最关注的通胀指标"
+  },
+  {
+    "date": "2026-07-30",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "同步观察"
+  },
+  {
+    "date": "2026-07-30",
+    "time": "20:30",
+    "title": "美国Q2 GDP初值",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "经济增长软着陆确认"
+  },
+  {
+    "date": "2026-07-30",
+    "time": "盘后",
+    "title": "苹果（AAPL）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "轻资产路线 vs iPhone/服务收入"
+  },
+  {
+    "date": "2026-07-30",
+    "time": "盘后",
+    "title": "亚马逊（AMZN）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "AWS增速与利润率 vs CapEx"
+  },
+  {
+    "date": "2026-07-31",
+    "time": "盘前",
+    "title": "埃克森美孚（XOM）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "油价持续性"
+  },
+  {
+    "date": "2026-07-31",
+    "time": "盘前",
+    "title": "雪佛龙（CVX）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "油价持续性"
+  },
+  {
+    "date": "2026-07-31",
+    "time": "20:30",
+    "title": "美国Q2就业成本指数（ECI）",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "工资通胀关键指标"
+  },
+  {
+    "date": "2026-07-31",
+    "time": "22:00",
+    "title": "密歇根大学消费者信心终值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "通胀预期"
+  },
+  {
+    "date": "2026-08-03",
+    "time": "22:00",
+    "title": "美国7月ISM制造业PMI",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "重点看价格指数"
+  },
+  {
+    "date": "2026-08-03",
+    "time": "盘后",
+    "title": "Palantir（PLTR）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "商业业务增速与全年指引"
+  },
+  {
+    "date": "2026-08-04",
+    "time": "02:00",
+    "title": "美联储SLOOS银行高级信贷员调查",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "信贷标准与贷款需求"
+  },
+  {
+    "date": "2026-08-04",
+    "time": "22:00",
+    "title": "美国6月JOLTS职位空缺",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "劳动力市场软着陆关键"
+  },
+  {
+    "date": "2026-08-04",
+    "time": "盘后",
+    "title": "AMD（AMD）财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "AI GPU放量与全年AI收入指引"
+  },
+  {
+    "date": "2026-08-04",
+    "time": "盘后",
+    "title": "SpaceX（SPCX）财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "Starlink用户/现金流 vs CapEx"
+  },
+  {
+    "date": "2026-08-05",
+    "time": "22:00",
+    "title": "美国7月ISM服务业PMI",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "价格与就业分项"
+  },
+  {
+    "date": "2026-08-05",
+    "time": "盘后",
+    "title": "迪士尼（DIS）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "流媒体盈利与乐园客流"
+  },
+  {
+    "date": "2026-08-05",
+    "time": "盘后",
+    "title": "礼来（LLY）财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "Mounjaro/Zepbound销售与产能"
+  },
+  {
+    "date": "2026-08-05",
+    "time": "盘后",
+    "title": "Uber财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "订单与自动驾驶合作"
+  },
+  {
+    "date": "2026-08-06",
+    "time": "04:05",
+    "title": "美联储理事Lisa Cook讲话",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "经济前景表态"
+  },
+  {
+    "date": "2026-08-06",
+    "time": "20:30",
+    "title": "美国Q2非农生产率与单位劳动力成本",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "滞胀信号观察"
+  },
+  {
+    "date": "2026-08-07",
+    "time": "20:30",
+    "title": "美国7月非农就业报告",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "新增7-10万为最佳“不冷不热”区间"
+  },
+  {
+    "date": "2026-08-11",
+    "time": "盘后",
+    "title": "CoreWeave（CRWV）财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "AI算力需求与资本回报压力测试"
+  },
+  {
+    "date": "2026-08-12",
+    "time": "20:30",
+    "title": "美国7月CPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "核心CPI环比0.3%为关键线"
+  },
+  {
+    "date": "2026-08-12",
+    "time": "盘后",
+    "title": "Cisco（CSCO）财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "AI网络订单能否继续上修"
+  },
+  {
+    "date": "2026-08-13",
+    "time": "20:30",
+    "title": "美国7月PPI",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "企业端成本压力确认"
+  },
+  {
+    "date": "2026-08-13",
+    "time": "盘后",
+    "title": "Applied Materials（AMAT）财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "半导体设备与存储资本开支验证"
+  },
+  {
+    "date": "2026-08-14",
+    "time": "20:30",
+    "title": "美国7月零售销售",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "消费者是否被高利率拖累"
+  },
+  {
+    "date": "2026-08-14",
+    "time": "22:00",
+    "title": "密歇根大学8月消费者信心初值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "通胀预期"
+  }
+]
