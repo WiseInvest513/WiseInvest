@@ -45,9 +45,9 @@ export const virtualCardProducts: VirtualCardProduct[] = [
     issuer: "Bitget Wallet",
     issuerUrl: "https://web3.bitget.com",
     iconUrl: "/images/perks/bitget-wallet-card.jpeg",
-    inviteCode: "89zQdt",
+    inviteCode: "Wise6666",
     registerLink:
-      "https://web3.bitget.com/invite/card/89zQdt?channel=Copylink&utm_source=newInviteRebate&inviteCode=89zQdt",
+      "https://web3.bitget.com/invite/card/Wise6666?channel=Copylink&utm_source=newInviteRebate&inviteCode=Wise6666",
     tutorialLink: "/articles/vcard/WK8p1cCV",
     score: 5,
     ratingLabel: "日常最佳",
