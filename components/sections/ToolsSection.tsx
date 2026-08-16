@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { CardDescription, CardTitle } from "@/components/ui/card";
-import { Calculator, Clock, TrendingUp, BarChart3, Percent } from "lucide-react";
+import { Calculator, Clock, TrendingUp, BarChart3, Percent, Target } from "lucide-react";
 import { getToolRoute } from "@/lib/tool-routes";
 import { tools } from "@/lib/data";
 import { SectionCardShell } from "@/components/sections/SectionCardShell";
 
-const featuredToolIds = ["compound-calc", "roi-calculator", "fear-greed"];
+const featuredToolIds = ["dca-zone", "compound-calc", "roi-calculator"];
 
 const iconMap = {
   Calculator,
@@ -15,6 +15,7 @@ const iconMap = {
   TrendingUp,
   BarChart3,
   Percent,
+  Target,
 } as const;
 
 export function ToolsSection() {
@@ -72,4 +73,3 @@ export function ToolsSection() {
     </section>
   );
 }
-

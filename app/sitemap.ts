@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/anthology`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/roadmap`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/resources`, priority: 0.7, changeFrequency: "weekly" as const },
-    { url: `${baseUrl}/practice`, priority: 0.7, changeFrequency: "weekly" as const },
+    { url: `${baseUrl}/practice/dca-investment`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/aboutme`, priority: 0.6, changeFrequency: "monthly" as const },
     { url: `${baseUrl}/perk`, priority: 0.6, changeFrequency: "monthly" as const },
     { url: `${baseUrl}/card`, priority: 0.6, changeFrequency: "monthly" as const },
@@ -27,8 +27,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((t) => t.status === "Available")
     .map((tool) => ({
       url: `${baseUrl}${getToolRoute(tool.id)}`,
-      priority: 0.7,
-      changeFrequency: "monthly" as const,
+      priority: tool.id === "dca-zone" ? 0.9 : 0.7,
+      changeFrequency: tool.id === "dca-zone" ? "daily" as const : "monthly" as const,
     }));
 
   // Roadmap 详情页

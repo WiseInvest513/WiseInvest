@@ -197,10 +197,10 @@ function HeroSection() {
             }}
           >
             <Link
-              href="/practice/dca-investment"
+              href="/DCA"
               className="inline-flex items-center justify-center rounded-full bg-amber-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-amber-500/25 transition-all duration-300 hover:bg-amber-400 hover:shadow-amber-400/30"
             >
-              查看实盘数据
+              进入 DCA
             </Link>
             <Link
               href="/roadmap"
@@ -332,9 +332,9 @@ const weeklyActionItems = [
   {
     title: "本周该做什么",
     icon: CheckCircle2,
-    summary: "按计划定投，不猜顶底，不追涨杀跌。",
-    ctaLabel: "去看定投记录",
-    ctaHref: "/practice/dca-investment",
+    summary: "基础定投照常，看看 BTC、ETH 与 QQQ 是否进入击球区。",
+    ctaLabel: "查看 DCA",
+    ctaHref: "/DCA",
     iconClass: "text-emerald-600 dark:text-emerald-400",
     iconBg: "bg-emerald-100 dark:bg-emerald-900/30",
   },

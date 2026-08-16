@@ -1,213 +1,49 @@
 "use client";
 
 import { useState } from "react";
-import { ExternalLink, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
-  AreaChart,
+  ComposedChart,
   Area,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
-import { getSafeExternalUrl } from "@/lib/security/external-links";
 
-// 定投文章数据（按时间倒序排列，最新的在最上面）
-const dcaArticles = [
-  {
-    id: 31,
-    title: "BTC/ETH 周定投 10 年致富实盘之第31周🎉🎉",
-    date: "2026-03-01",
-    tweetLink: "https://x.com/WiseInvest513/status/2028362556944031976",
-  },
-  {
-    id: 30,
-    title: "BTC/ETH 周定投 10 年致富实盘之第30周🎉🎉",
-    date: "2026-02-22",
-    tweetLink: "https://x.com/WiseInvest513/status/2026297970145333610",
-  },
-  {
-    id: 29,
-    title: "BTC/ETH 周定投 10 年致富实盘之第29周🎉🎉",
-    date: "2026-02-15",
-    tweetLink: "https://x.com/WiseInvest513/status/2022990438265946301",
-  },
-  {
-    id: 28,
-    title: "BTC/ETH 周定投 10 年致富实盘之第28周🎉🎉",
-    date: "2026-02-08",
-    tweetLink: "https://x.com/WiseInvest513/status/2020474704851779861",
-  },
-  {
-    id: 27,
-    title: "BTC/ETH 周定投 10 年致富实盘之第27周🎉🎉",
-    date: "2026-02-01",
-    tweetLink: "https://x.com/WiseInvest513/status/2018322118002532805",
-  },
-  {
-    id: 26,
-    title: "BTC/ETH 周定投 10 年致富实盘之第26周🎉🎉",
-    date: "2026-01-25",
-    tweetLink: "https://x.com/WiseInvest513/status/2016166229040566657",
-  },
-  {
-    id: 25,
-    title: "BTC/ETH 周定投 10 年致富实盘之第25周🎉🎉",
-    date: "2026-01-18",
-    tweetLink: "https://x.com/WiseInvest513/status/2012906444749000792",
-  },
-  {
-    id: 24,
-    title: "BTC/ETH 周定投 10 年致富实盘之第24周🎉🎉",
-    date: "2026-01-11",
-    tweetLink: "https://x.com/WiseInvest513/status/2010686041041293521",
-  },
-  {
-    id: 23,
-    title: "BTC/ETH 周定投 10 年致富实盘之第23周🎉🎉",
-    date: "2026-01-04",
-    tweetLink: "https://x.com/WiseInvest513/status/2007812727771983973",
-  },
-  {
-    id: 22,
-    title: "BTC/ETH 周定投 10 年致富实盘之第22周🎉🎉",
-    date: "2025-12-29",
-    tweetLink: "https://x.com/WiseInvest513/status/2005642317521420341",
-  },
-  {
-    id: 21,
-    title: "BTC/ETH 周定投 10 年致富实盘之第21周🎉🎉",
-    date: "2025-12-21",
-    tweetLink: "https://x.com/WiseInvest513/status/2002623025108451750",
-  },
-  {
-    id: 20,
-    title: "BTC/ETH 周定投 10 年致富实盘之第20周🎉🎉",
-    date: "2025-12-15",
-    tweetLink: "https://x.com/WiseInvest513/status/2000420828580864509",
-  },
-  {
-    id: 19,
-    title: "BTC/ETH 周定投 10 年致富实盘之第19周🎉🎉",
-    date: "2025-12-07",
-    tweetLink: "https://x.com/WiseInvest513/status/1997654557070164425",
-  },
-  {
-    id: 18,
-    title: "BTC/ETH 周定投 10 年致富实盘之第18周🎉🎉",
-    date: "2025-11-30",
-    tweetLink: "https://x.com/WiseInvest513/status/1995475479613276364",
-  },
-  {
-    id: 17,
-    title: "BTC/ETH 周定投 10 年致富实盘之第17周🎉🎉",
-    date: "2025-11-23",
-    tweetLink: "https://x.com/WiseInvest513/status/1992604136911855748",
-  },
-  {
-    id: 16,
-    title: "BTC/ETH 周定投 10 年致富实盘之第16周🎉🎉",
-    date: "2025-11-16",
-    tweetLink: "https://x.com/WiseInvest513/status/1989987551671886064",
-  },
-  {
-    id: 15,
-    title: "BTC/ETH 周定投 10 年致富实盘之第15周🎉🎉",
-    date: "2025-11-09",
-    tweetLink: "https://x.com/WiseInvest513/status/1987422454294188223",
-  },
-  {
-    id: 14,
-    title: "BTC/ETH 周定投 10 年致富实盘之第14周🎉🎉",
-    date: "2025-11-02",
-    tweetLink: "https://x.com/WiseInvest513/status/1984843757402128705",
-  },
-  {
-    id: 13,
-    title: "BTC/ETH 周定投 10 年致富实盘之第13周🎉🎉",
-    date: "2025-10-26",
-    tweetLink: "https://x.com/WiseInvest513/status/1982365681623744839",
-  },
-  {
-    id: 12,
-    title: "BTC/ETH 周定投 10 年致富实盘之第12周🎉🎉",
-    date: "2025-10-19",
-    tweetLink: "https://x.com/WiseInvest513/status/1979745818799452239",
-  },
-  {
-    id: 11,
-    title: "BTC/ETH 周定投 10 年致富实盘之第11周🎉🎉",
-    date: "2025-10-14",
-    tweetLink: "https://x.com/WiseInvest513/status/1978114530786881584",
-  },
-  {
-    id: 10,
-    title: "BTC/ETH 周定投 10 年致富实盘之第10周🎉🎉",
-    date: "2025-10-06",
-    tweetLink: "https://x.com/WiseInvest513/status/1975213127152390333",
-  },
-  {
-    id: 9,
-    title: "BTC/ETH 周定投 10 年致富实盘之第9周🎉🎉",
-    date: "2025-09-29",
-    tweetLink: "https://x.com/WiseInvest513/status/1972684844942696927",
-  },
-  {
-    id: 8,
-    title: "BTC/ETH 周定投 10 年致富实盘之第8周🎉🎉",
-    date: "2025-09-21",
-    tweetLink: "https://x.com/WiseInvest513/status/1969658655357485395",
-  },
-  {
-    id: 7,
-    title: "BTC/ETH 周定投 10 年致富实盘之第7周🎉🎉",
-    date: "2025-09-14",
-    tweetLink: "https://x.com/WiseInvest513/status/1967204762685952497",
-  },
-  {
-    id: 6,
-    title: "BTC/ETH 周定投 10 年致富实盘之第6周🎉🎉",
-    date: "2025-09-07",
-    tweetLink: "https://x.com/WiseInvest513/status/1964640729151815749",
-  },
-  {
-    id: 5,
-    title: "BTC/ETH 周定投 10 年致富实盘之第5周🎉🎉",
-    date: "2025-08-31",
-    tweetLink: "https://x.com/WiseInvest513/status/1961977981007757601",
-  },
-  {
-    id: 4,
-    title: "BTC/ETH 周定投 10 年致富实盘之第4周🎉🎉",
-    date: "2025-08-24",
-    tweetLink: "https://x.com/WiseInvest513/status/1959540416455295334",
-  },
-  {
-    id: 3,
-    title: "BTC/ETH 周定投 10 年致富实盘之第3周🎉🎉",
-    date: "2025-08-17",
-    tweetLink: "https://x.com/WiseInvest513/status/1957063605750493662",
-  },
-  {
-    id: 2,
-    title: "BTC/ETH 周定投 10 年致富实盘之第2周🎉🎉",
-    date: "2025-08-10",
-    tweetLink: "https://x.com/WiseInvest513/status/1954524116968702270",
-  },
-  {
-    id: 1,
-    title: "BTC/ETH 周定投 10 年致富实盘之第1周🎉🎉",
-    date: "2025-08-03",
-    tweetLink: "https://x.com/WiseInvest513/status/1952017101805457420",
-  },
-];
+interface DcaDataPoint {
+  date: string;
+  btcPrice: number;
+  btcHigh?: number;
+  btcLow?: number;
+  btcYield?: number;
+  ethPrice: number;
+  ethHigh?: number;
+  ethLow?: number;
+  ethYield?: number;
+  executionTime?: string;
+  source?: string;
+}
 
-// 定投数据（根据用户提供的数据）
-const dcaData = [
+interface DcaTimelinePoint extends DcaDataPoint {
+  week: number;
+  btcYield: number;
+  ethYield: number;
+  btcQuantity: number;
+  ethQuantity: number;
+  btcHoldings: number;
+  ethHoldings: number;
+  totalInvested: number;
+  totalValue: number;
+  totalProfit: number;
+  totalYield: number;
+}
+
+// 截至 2026/03/16 的记录来自既有截图，日期、价格与收益率保持原样。
+const historicalDcaData: DcaDataPoint[] = [
   {
     date: "2025/08/03",
     btcPrice: 114079.05,
@@ -573,32 +409,123 @@ const dcaData = [
   },
 ];
 
-type TabType = "articles" | "data" | "chart";
+// 从既有最后一条记录之后继续：每周日 20:30（北京时间），BTC 与 ETH 各投入 100U。
+// 新增价格采用 OKX BTC-USDT / ETH-USDT 对应 20:30 分钟 K 线开盘价估算。
+const continuationDcaData: DcaDataPoint[] = [
+  { date: "2026/03/22", btcPrice: 68659.1, ethPrice: 2084.79, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/03/29", btcPrice: 66777, ethPrice: 2002.95, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/04/05", btcPrice: 66884.8, ethPrice: 2037.31, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/04/12", btcPrice: 71411, ethPrice: 2204.84, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/04/19", btcPrice: 75519.7, ethPrice: 2328.2, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/04/26", btcPrice: 77958.1, ethPrice: 2331.14, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/05/03", btcPrice: 78778.5, ethPrice: 2326.96, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/05/10", btcPrice: 80927.6, ethPrice: 2324.51, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/05/17", btcPrice: 78432.3, ethPrice: 2193.85, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/05/24", btcPrice: 77072.7, ethPrice: 2118.41, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/05/31", btcPrice: 73937, ethPrice: 2023.49, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/06/07", btcPrice: 61941.4, ethPrice: 1610.89, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/06/14", btcPrice: 64467.2, ethPrice: 1673.07, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/06/21", btcPrice: 64022.6, ethPrice: 1719.09, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/06/28", btcPrice: 60338.9, ethPrice: 1584.51, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/07/05", btcPrice: 62753.3, ethPrice: 1766.27, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/07/12", btcPrice: 64065, ethPrice: 1807.56, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/07/19", btcPrice: 64307.5, ethPrice: 1868.7, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/07/26", btcPrice: 64576.5, ethPrice: 1890.03, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/08/02", btcPrice: 63181.9, ethPrice: 1858.4, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/08/09", btcPrice: 64944.8, ethPrice: 1918.3, executionTime: "周日 20:30", source: "OKX" },
+  { date: "2026/08/16", btcPrice: 63017.6, ethPrice: 1880.71, executionTime: "周日 20:30", source: "OKX" },
+];
+
+const investmentPerAsset = 100;
+
+function buildDcaTimeline(points: DcaDataPoint[]): DcaTimelinePoint[] {
+  let btcHoldings = 0;
+  let ethHoldings = 0;
+
+  return points.map((point, index) => {
+    btcHoldings += investmentPerAsset / point.btcPrice;
+    ethHoldings += investmentPerAsset / point.ethPrice;
+
+    const week = index + 1;
+    const investedPerAsset = week * investmentPerAsset;
+    const totalInvested = investedPerAsset * 2;
+    const btcValue = btcHoldings * point.btcPrice;
+    const ethValue = ethHoldings * point.ethPrice;
+    const totalValue = btcValue + ethValue;
+    const calculatedBtcYield = (btcValue / investedPerAsset - 1) * 100;
+    const calculatedEthYield = (ethValue / investedPerAsset - 1) * 100;
+
+    return {
+      ...point,
+      week,
+      btcYield: point.btcYield ?? calculatedBtcYield,
+      ethYield: point.ethYield ?? calculatedEthYield,
+      btcQuantity: investmentPerAsset / point.btcPrice,
+      ethQuantity: investmentPerAsset / point.ethPrice,
+      btcHoldings,
+      ethHoldings,
+      totalInvested,
+      totalValue,
+      totalProfit: totalValue - totalInvested,
+      totalYield: (totalValue / totalInvested - 1) * 100,
+    };
+  });
+}
+
+const dcaData = buildDcaTimeline([
+  ...historicalDcaData,
+  ...continuationDcaData,
+]);
+const dcaDataNewestFirst = [...dcaData].reverse();
+
+type TabType = "data" | "chart";
 
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
+    const point = payload[0]?.payload as DcaTimelinePoint | undefined;
+    if (!point) return null;
+
     return (
-      <div className="rounded-xl border border-slate-200/80 bg-white/95 px-3 py-2.5 shadow-xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/90">
-        <p className="mb-2 text-xs font-mono text-slate-500 dark:text-slate-400">
-          {payload[0]?.payload?.date}
-        </p>
-        <div className="space-y-1">
-          {payload.map((entry: any, index: number) => (
-            <div key={index} className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-sm text-slate-700 dark:text-slate-300">
-                {entry.name}:{" "}
-                <span style={{ color: entry.color }} className="font-bold">
-                  {entry.value >= 0 ? "+" : ""}
-                  {entry.value.toFixed(2)}%
-                </span>
-              </span>
-            </div>
-          ))}
+      <div className="w-[min(260px,calc(100vw-48px))] rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 shadow-xl dark:border-slate-700 dark:bg-slate-900 dark:text-white">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">第 {point.week} 周</p>
+          <p className="font-mono text-[11px] text-slate-400">{point.date}</p>
+        </div>
+
+        <div className="mt-3 border-b border-slate-100 pb-3 dark:border-slate-800">
+          <p className="text-[11px] text-slate-400">组合累计收益</p>
+          <p className={`mt-1 font-mono text-2xl font-black ${point.totalYield >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+            {point.totalYield >= 0 ? "+" : ""}{point.totalYield.toFixed(2)}%
+          </p>
+        </div>
+
+        <div className="mt-3 space-y-2 text-xs">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2 text-slate-500 dark:text-slate-400"><span className="h-0.5 w-5 bg-[#F7931A]" />BTC</span>
+            <span className="font-mono text-slate-700 dark:text-slate-100">{point.btcYield >= 0 ? "+" : ""}{point.btcYield.toFixed(2)}%</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2 text-slate-500 dark:text-slate-400"><span className="h-0.5 w-5 bg-[#7C8CE8]" />ETH</span>
+            <span className="font-mono text-slate-700 dark:text-slate-100">{point.ethYield >= 0 ? "+" : ""}{point.ethYield.toFixed(2)}%</span>
+          </div>
+        </div>
+
+        <div className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3 text-[11px] dark:border-slate-800">
+          <div>
+            <p className="text-slate-500">累计投入</p>
+            <p className="mt-1 font-mono font-semibold text-slate-700 dark:text-slate-200">{point.totalInvested.toLocaleString()}U</p>
+          </div>
+          <div className="text-right">
+            <p className="text-slate-500">组合净值</p>
+            <p className="mt-1 font-mono font-semibold text-slate-700 dark:text-slate-200">{point.totalValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}U</p>
+          </div>
+          <div className="col-span-2 flex items-center justify-between rounded-lg bg-slate-50 px-2.5 py-2 dark:bg-slate-950">
+            <span className="text-slate-500">累计盈亏</span>
+            <span className={`font-mono font-bold ${point.totalProfit >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+              {point.totalProfit >= 0 ? "+" : ""}{point.totalProfit.toLocaleString(undefined, { maximumFractionDigits: 2 })}U
+            </span>
+          </div>
         </div>
       </div>
     );
@@ -616,70 +543,48 @@ const formatDate = (dateStr: string) => {
 };
 
 export default function DCAInvestmentPage() {
-  const [activeTab, setActiveTab] = useState<TabType>("articles");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [activeTab, setActiveTab] = useState<TabType>("chart");
   // 数据表格分页状态
   const [dataCurrentPage, setDataCurrentPage] = useState(1);
   const [dataPageSize, setDataPageSize] = useState(15);
-
-  // 文章分页逻辑
-  const totalPages = Math.ceil(dcaArticles.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedArticles = dcaArticles.slice(startIndex, endIndex);
 
   // 数据表格分页逻辑
   const dataTotalPages = Math.ceil(dcaData.length / dataPageSize);
   const dataStartIndex = (dataCurrentPage - 1) * dataPageSize;
   const dataEndIndex = dataStartIndex + dataPageSize;
-  const paginatedDcaData = dcaData.slice(dataStartIndex, dataEndIndex);
+  const paginatedDcaData = dcaDataNewestFirst.slice(dataStartIndex, dataEndIndex);
 
   // 图表数据准备
   const chartData = dcaData.map((item) => ({
-    date: item.date.replace(/\//g, "/"),
+    ...item,
     btcYield: item.btcYield,
     ethYield: item.ethYield,
+    totalYield: item.totalYield,
   }));
 
   // 计算计分板数据
   const totalInvestments = dcaData.length;
-  // 每次定投：BTC 100U + ETH 100U = 200U
-  const investmentPerPeriod = 200; // 美元
-  const totalInvested = totalInvestments * investmentPerPeriod; // 动态计算总投入
-  
-  // 使用最后一条数据的收益率（BTC和ETH收益率平均）
   const latestData = dcaData[dcaData.length - 1];
-  const totalROI = (latestData.btcYield + latestData.ethYield) / 2;
+  const totalInvested = latestData.totalInvested;
+  const totalROI = latestData.totalYield;
+  const currentValue = latestData.totalValue;
+  const totalProfit = latestData.totalProfit;
   
-  // 使用最后一条数据的收益率计算当前净值
-  const currentValue = totalInvested * (1 + totalROI / 100);
-  
-  // 计算Y轴域与刻度（统一刻度避免图形拥挤和读数混乱）
-  const maxYield = Math.max(
-    ...dcaData.map((item) => Math.max(Math.abs(item.btcYield), Math.abs(item.ethYield)))
-  );
-  const yAxisLimit = Math.max(40, Math.ceil((maxYield + 2) / 10) * 10);
-  const yAxisTicks = [
-    -yAxisLimit,
-    -Math.round(yAxisLimit / 2),
-    0,
-    Math.round(yAxisLimit / 2),
-    yAxisLimit,
-  ];
-  const yAxisDomain: [number, number] = [-yAxisLimit, yAxisLimit];
+  // 非对称自适应范围，让主要波动充满画布，同时始终保留 0% 盈亏线。
+  const yieldValues = dcaData.flatMap((item) => [
+    item.btcYield,
+    item.ethYield,
+    item.totalYield,
+  ]);
+  const yAxisMin = Math.floor((Math.min(0, ...yieldValues) - 4) / 10) * 10;
+  const yAxisMax = Math.ceil((Math.max(0, ...yieldValues) + 4) / 10) * 10;
+  const yAxisDomain: [number, number] = [yAxisMin, yAxisMax];
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <div className="max-w-7xl mx-auto px-4 py-2 md:py-3">
         {/* Header - Centered */}
         <div className="mb-2">
-          <Link 
-            href="/practice"
-            className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 mb-2"
-          >
-            ← 返回实践主页
-          </Link>
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-1">
             <img
@@ -692,131 +597,89 @@ export default function DCAInvestmentPage() {
             </h1>
           </div>
             <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base">
-            定投文章记录与实盘数据追踪
+            BTC / ETH 收益曲线与每周定投明细
           </p>
           </div>
         </div>
 
+        <section className="mb-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900 md:p-5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-600 dark:text-amber-400">
+                持续定投
+              </p>
+              <h2 className="mt-1 text-lg font-black text-slate-900 dark:text-white">
+                每周定投 200U
+              </h2>
+            </div>
+            <span className="self-start rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400">
+              更新至 {latestData.date}
+            </span>
+          </div>
+
+          <p className="mt-3 text-xs leading-5 text-slate-500 dark:text-slate-400">
+            每周末定投 BTC / ETH 各 100U，坚持十年。
+          </p>
+
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-950">
+              <div className="text-xs text-slate-500 dark:text-slate-400">累计投入</div>
+              <div className="mt-1 font-mono text-lg font-black text-slate-900 dark:text-white">
+                {totalInvested.toLocaleString()}U
+              </div>
+              <div className="mt-1 text-[11px] text-slate-400">BTC / ETH 各 {(totalInvested / 2).toLocaleString()}U</div>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-950">
+              <div className="text-xs text-slate-500 dark:text-slate-400">截至记录净值</div>
+              <div className="mt-1 font-mono text-lg font-black text-slate-900 dark:text-white">
+                {currentValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}U
+              </div>
+              <div className="mt-1 text-[11px] text-slate-400">按最新定投时点价格估值</div>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-950">
+              <div className="text-xs text-slate-500 dark:text-slate-400">累计盈亏</div>
+              <div className={`mt-1 font-mono text-lg font-black ${totalProfit >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                {totalProfit >= 0 ? "+" : ""}{totalProfit.toLocaleString(undefined, { maximumFractionDigits: 2 })}U
+              </div>
+              <div className="mt-1 text-[11px] text-slate-400">收益率 {totalROI >= 0 ? "+" : ""}{totalROI.toFixed(2)}%</div>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-950">
+              <div className="text-xs text-slate-500 dark:text-slate-400">已执行</div>
+              <div className="mt-1 font-mono text-lg font-black text-slate-900 dark:text-white">
+                {totalInvestments} 周
+              </div>
+              <div className="mt-1 text-[11px] text-slate-400">共 {totalInvestments * 2} 笔买入</div>
+            </div>
+          </div>
+        </section>
+
         {/* Tabs */}
-        <div className="mb-2 border-b border-slate-200 dark:border-slate-800">
-          <div className="flex gap-4">
+        <div className="mb-4 flex justify-center md:justify-start">
+          <div className="grid w-full grid-cols-2 rounded-xl border border-slate-200 bg-slate-100 p-1 dark:border-slate-700 dark:bg-slate-900 sm:w-[340px]">
             <button
-              onClick={() => setActiveTab("articles")}
-              className={`px-4 py-2 font-medium transition-colors border-b-2 ${
-                activeTab === "articles"
-                  ? "border-amber-500 text-amber-600 dark:text-amber-400"
-                  : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
+              onClick={() => setActiveTab("chart")}
+              className={`min-h-11 rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
+                activeTab === "chart"
+                  ? "bg-white text-amber-600 shadow-sm ring-1 ring-amber-200 dark:bg-slate-800 dark:text-amber-300 dark:ring-amber-500/30"
+                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               }`}
             >
-              文章
+              收益曲线
             </button>
             <button
               onClick={() => setActiveTab("data")}
-              className={`px-4 py-2 font-medium transition-colors border-b-2 ${
+              className={`min-h-11 rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
                 activeTab === "data"
-                  ? "border-amber-500 text-amber-600 dark:text-amber-400"
-                  : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
+                  ? "bg-white text-amber-600 shadow-sm ring-1 ring-amber-200 dark:bg-slate-800 dark:text-amber-300 dark:ring-amber-500/30"
+                  : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
               }`}
             >
-              数据
-            </button>
-            <button
-              onClick={() => setActiveTab("chart")}
-              className={`px-4 py-2 font-medium transition-colors border-b-2 ${
-                activeTab === "chart"
-                  ? "border-amber-500 text-amber-600 dark:text-amber-400"
-                  : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
-              }`}
-            >
-              图表
+              定投明细
             </button>
           </div>
         </div>
 
         {/* Tab Content */}
-        {activeTab === "articles" && (
-          <div className="space-y-2">
-            {/* Page Size Selector */}
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-500 dark:text-slate-400">每页显示：</span>
-                <select
-                  value={pageSize}
-                  onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                    setCurrentPage(1);
-                  }}
-                  className="px-2 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950"
-                >
-                  <option value={10}>10 条</option>
-                  <option value={20}>20 条</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Articles List - Fixed Height */}
-            <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-              <div className="h-[calc(100vh-240px)] min-h-[600px] overflow-y-auto">
-                <div className="divide-y divide-slate-200 dark:divide-slate-800">
-                  {paginatedArticles.map((article) => (
-              <a
-                key={article.id}
-                href={getSafeExternalUrl(article.tweetLink)}
-                target="_blank"
-                rel="noopener noreferrer"
-                      className="block p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
-              >
-                <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
-                            <span className="text-sm text-slate-500 dark:text-slate-400 font-mono">
-                        {article.date}
-                      </span>
-                    </div>
-                          <h3 className="font-semibold text-base text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                      {article.title}
-                    </h3>
-                  </div>
-                  <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors shrink-0" />
-                </div>
-              </a>
-            ))}
-          </div>
-              </div>
-            </div>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-4">
-                <div className="text-sm text-slate-500 dark:text-slate-400">
-                  显示第 {startIndex + 1} - {Math.min(endIndex, dcaArticles.length)} 条，共{" "}
-                  {dcaArticles.length} 条
-              </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-md text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <span className="text-sm text-slate-500 dark:text-slate-400 px-4">
-                    第 {currentPage} / {totalPages} 页
-                  </span>
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-md text-sm text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-950 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-            </div>
-              </div>
-            )}
-            </div>
-        )}
-
         {activeTab === "data" && (
           <div className="space-y-2">
             {/* Page Size Selector */}
@@ -843,157 +706,114 @@ export default function DCAInvestmentPage() {
             <div className="hidden md:block">
               <div className="bg-white dark:bg-slate-900 shadow-sm rounded-xl border border-gray-100 dark:border-slate-800 overflow-hidden">
                 <div className="h-[calc(100vh-240px)] min-h-[600px] overflow-y-auto overflow-x-auto">
-                  <table className="w-full text-sm table-fixed">
-                    <colgroup>
-                      <col style={{ width: "15%" }} />
-                      <col style={{ width: "20%" }} />
-                      <col style={{ width: "15%" }} />
-                      <col style={{ width: "20%" }} />
-                      <col style={{ width: "15%" }} />
-                    </colgroup>
-                    <thead className="sticky top-0 bg-white dark:bg-slate-900 z-10">
-                      {/* Top Header Row */}
-                      <tr>
-                        <th className="text-left py-4 px-6" style={{ width: "15%" }}></th>
-                        <th
-                          colSpan={2}
-                          className="text-center py-4 px-6 text-gray-400 dark:text-gray-500 text-xs font-bold uppercase tracking-wider"
-                          style={{ width: "35%" }}
-                        >
-                          Bitcoin Core Data
-                    </th>
-                        <th
-                          colSpan={2}
-                          className="text-center py-4 px-6 text-gray-400 dark:text-gray-500 text-xs font-bold uppercase tracking-wider"
-                          style={{ width: "35%" }}
-                        >
-                          Ethereum Core Data
-                    </th>
-                      </tr>
-                      {/* Sub Header Row */}
+                  <table className="w-full min-w-[1040px] text-sm">
+                    <thead className="sticky top-0 z-10 bg-white dark:bg-slate-900">
                       <tr className="border-b border-gray-100 dark:border-slate-800">
-                        <th className="text-left py-4 px-6 text-gray-500 dark:text-gray-400 text-sm font-medium" style={{ width: "15%" }}>
-                          定投时间
-                    </th>
-                        <th className="text-right py-4 px-6 text-gray-500 dark:text-gray-400 text-sm font-medium" style={{ width: "20%" }}>
-                          定投价格
-                    </th>
-                        <th className="text-right py-4 px-6 text-gray-500 dark:text-gray-400 text-sm font-medium" style={{ width: "15%" }}>
-                          收益率
-                    </th>
-                        <th className="text-right py-4 px-6 text-gray-500 dark:text-gray-400 text-sm font-medium" style={{ width: "20%" }}>
-                          定投价格
-                    </th>
-                        <th className="text-right py-4 px-6 text-gray-500 dark:text-gray-400 text-sm font-medium" style={{ width: "15%" }}>
-                      收益率
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                      {paginatedDcaData.map((item, index) => (
-                    <tr
-                          key={index}
-                          className="border-b border-gray-100 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800/30 transition-colors group bg-white dark:bg-slate-900"
-                    >
-                          <td className="py-5 px-6 text-gray-400 dark:text-gray-500 font-medium text-sm" style={{ width: "15%" }}>
-                        {item.date}
-                      </td>
-                          <td className="py-5 px-6 text-right" style={{ width: "20%" }}>
-                            <div className="font-mono text-gray-900 dark:text-gray-100 text-sm">
-                              {item.btcPrice.toLocaleString()}
+                        <th className="px-5 py-4 text-left font-medium text-gray-500 dark:text-gray-400">周次 / 时间</th>
+                        <th className="px-5 py-4 text-right font-medium text-gray-500 dark:text-gray-400">BTC · 每周 100U</th>
+                        <th className="px-5 py-4 text-right font-medium text-gray-500 dark:text-gray-400">BTC 累计收益</th>
+                        <th className="px-5 py-4 text-right font-medium text-gray-500 dark:text-gray-400">ETH · 每周 100U</th>
+                        <th className="px-5 py-4 text-right font-medium text-gray-500 dark:text-gray-400">ETH 累计收益</th>
+                        <th className="px-5 py-4 text-right font-medium text-gray-500 dark:text-gray-400">组合净值 / 盈亏</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {paginatedDcaData.map((item) => (
+                        <tr
+                          key={item.week}
+                          className="border-b border-gray-100 bg-white transition-colors hover:bg-gray-50 dark:border-slate-800 dark:bg-slate-900 dark:hover:bg-slate-800"
+                        >
+                          <td className="px-5 py-4">
+                            <div className="font-semibold text-slate-900 dark:text-white">第 {item.week} 周</div>
+                            <div className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{item.date}</div>
+                            <div className="mt-1 text-[11px] text-slate-400">
+                              每周定投 200U
                             </div>
-                            <div className="text-xs text-gray-400 dark:text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              H: {item.btcHigh.toLocaleString()} | L: {item.btcLow.toLocaleString()}
-                            </div>
-                      </td>
-                          <td className="py-5 px-6 text-right" style={{ width: "15%" }}>
-                            <span
-                              className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium font-mono ${
-                                item.btcYield >= 0
-                                  ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400"
-                                  : "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"
-                              }`}
-                            >
-                              {item.btcYield >= 0 ? "+" : ""}
-                              {item.btcYield.toFixed(2)}%
+                          </td>
+                          <td className="px-5 py-4 text-right">
+                            <div className="font-mono text-slate-900 dark:text-slate-100">@ {item.btcPrice.toLocaleString()}U</div>
+                            <div className="mt-1 font-mono text-[11px] text-slate-400">买入 {item.btcQuantity.toFixed(8)} BTC</div>
+                          </td>
+                          <td className="px-5 py-4 text-right">
+                            <span className={`inline-flex rounded-full px-2 py-1 font-mono text-xs font-medium ${item.btcYield >= 0 ? "bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400" : "bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400"}`}>
+                              {item.btcYield >= 0 ? "+" : ""}{item.btcYield.toFixed(2)}%
                             </span>
                           </td>
-                          <td className="py-5 px-6 text-right" style={{ width: "20%" }}>
-                            <div className="font-mono text-gray-900 dark:text-gray-100 text-sm">
-                              {item.ethPrice.toLocaleString()}
-                            </div>
-                            <div className="text-xs text-gray-400 dark:text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              H: {item.ethHigh.toLocaleString()} | L: {item.ethLow.toLocaleString()}
-                            </div>
-                      </td>
-                          <td className="py-5 px-6 text-right" style={{ width: "15%" }}>
-                            <span
-                              className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium font-mono ${
-                                item.ethYield >= 0
-                                  ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400"
-                                  : "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"
-                              }`}
-                            >
-                              {item.ethYield >= 0 ? "+" : ""}
-                              {item.ethYield.toFixed(2)}%
+                          <td className="px-5 py-4 text-right">
+                            <div className="font-mono text-slate-900 dark:text-slate-100">@ {item.ethPrice.toLocaleString()}U</div>
+                            <div className="mt-1 font-mono text-[11px] text-slate-400">买入 {item.ethQuantity.toFixed(6)} ETH</div>
+                          </td>
+                          <td className="px-5 py-4 text-right">
+                            <span className={`inline-flex rounded-full px-2 py-1 font-mono text-xs font-medium ${item.ethYield >= 0 ? "bg-green-50 text-green-600 dark:bg-green-500/10 dark:text-green-400" : "bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400"}`}>
+                              {item.ethYield >= 0 ? "+" : ""}{item.ethYield.toFixed(2)}%
                             </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          </td>
+                          <td className="px-5 py-4 text-right">
+                            <div className="font-mono font-semibold text-slate-900 dark:text-white">
+                              {item.totalValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}U
+                            </div>
+                            <div className={`mt-1 font-mono text-xs ${item.totalProfit >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                              {item.totalProfit >= 0 ? "+" : ""}{item.totalProfit.toLocaleString(undefined, { maximumFractionDigits: 2 })}U · {item.totalYield >= 0 ? "+" : ""}{item.totalYield.toFixed(2)}%
+                            </div>
+                            <div className="mt-1 text-[11px] text-slate-400">累计投入 {item.totalInvested.toLocaleString()}U</div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
             </div>
           </div>
             </div>
 
             {/* Mobile Card View */}
             <div className="md:hidden space-y-3">
-              {paginatedDcaData.map((item, index) => (
+              {paginatedDcaData.map((item) => (
                 <div
-                  key={index}
-                  className="bg-white dark:bg-slate-900 rounded-xl border border-gray-100 dark:border-slate-800 p-5 shadow-sm"
+                  key={item.week}
+                  className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                 >
-                  <div className="text-gray-400 dark:text-gray-500 font-medium text-sm mb-4">
-                    {item.date}
+                  <div className="mb-4 flex items-start justify-between gap-3">
+                    <div>
+                      <div className="font-semibold text-slate-900 dark:text-white">第 {item.week} 周</div>
+                      <div className="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">{item.date}</div>
+                    </div>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+                      每周定投 200U
+                    </span>
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">BTC 价格</span>
-                      <span className="font-mono text-sm text-gray-900 dark:text-gray-100">
-                        {item.btcPrice.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">BTC 收益率</span>
-                      <span
-                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium font-mono ${
-                          item.btcYield >= 0
-                            ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400"
-                            : "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"
-                        }`}
-                      >
-                        {item.btcYield >= 0 ? "+" : ""}
-                        {item.btcYield.toFixed(2)}%
-                      </span>
+                      <div>
+                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300">BTC · 100U</div>
+                        <div className="mt-1 font-mono text-[11px] text-slate-400">买入 {item.btcQuantity.toFixed(8)} BTC</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-mono text-sm text-slate-900 dark:text-slate-100">@ {item.btcPrice.toLocaleString()}U</div>
+                        <div className={`mt-1 font-mono text-xs ${item.btcYield >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                          累计 {item.btcYield >= 0 ? "+" : ""}{item.btcYield.toFixed(2)}%
+                        </div>
+                      </div>
                     </div>
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-slate-800">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">ETH 价格</span>
-                      <span className="font-mono text-sm text-gray-900 dark:text-gray-100">
-                        {item.ethPrice.toLocaleString()}
-                      </span>
+                      <div>
+                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300">ETH · 100U</div>
+                        <div className="mt-1 font-mono text-[11px] text-slate-400">买入 {item.ethQuantity.toFixed(6)} ETH</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-mono text-sm text-slate-900 dark:text-slate-100">@ {item.ethPrice.toLocaleString()}U</div>
+                        <div className={`mt-1 font-mono text-xs ${item.ethYield >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                          累计 {item.ethYield >= 0 ? "+" : ""}{item.ethYield.toFixed(2)}%
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">ETH 收益率</span>
-                      <span
-                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium font-mono ${
-                          item.ethYield >= 0
-                            ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400"
-                            : "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"
-                        }`}
-                      >
-                        {item.ethYield >= 0 ? "+" : ""}
-                        {item.ethYield.toFixed(2)}%
-                      </span>
+                    <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-950">
+                      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                        <span>累计投入 {item.totalInvested.toLocaleString()}U</span>
+                        <span>组合净值 {item.totalValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}U</span>
+                      </div>
+                      <div className={`mt-2 text-right font-mono text-sm font-bold ${item.totalProfit >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}>
+                        {item.totalProfit >= 0 ? "+" : ""}{item.totalProfit.toLocaleString(undefined, { maximumFractionDigits: 2 })}U · {item.totalYield >= 0 ? "+" : ""}{item.totalYield.toFixed(2)}%
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1002,7 +822,7 @@ export default function DCAInvestmentPage() {
 
             {/* Pagination */}
             {dataTotalPages > 1 && (
-              <div className="flex items-center justify-between mt-4">
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="text-sm text-slate-500 dark:text-slate-400">
                   显示第 {dataStartIndex + 1} - {Math.min(dataEndIndex, dcaData.length)} 条，共{" "}
                   {dcaData.length} 条
@@ -1032,126 +852,135 @@ export default function DCAInvestmentPage() {
         )}
 
         {activeTab === "chart" && (
-          <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm dark:border-slate-800 dark:from-slate-900 dark:to-slate-950 md:p-6">
-            {/* Header */}
-            <div className="mb-4 flex flex-col gap-3 md:mb-5 md:flex-row md:items-center md:justify-between">
-              <div>
-                <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-slate-100">
-                  收益率趋势图
-                </h2>
-                <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                  BTC 与 ETH 每周定投收益率变化
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#F7931A]" />
-                  BTC 收益率
+          <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-6">
+            <div>
+              <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-amber-600 dark:text-amber-400">
+                    <span className="h-px w-6 bg-amber-500" />
+                    DCA · {totalInvestments} 周
+                  </div>
+                  <h2 className="mt-2 font-serif text-2xl font-black text-slate-900 dark:text-white md:text-3xl">
+                    累计收益曲线
+                  </h2>
+                  <p className="mt-1 text-xs leading-5 text-slate-400 md:text-sm">
+                    以每周定投后的累计持仓估值计算，组合收益作为主线。
+                  </p>
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#627EEA]" />
-                  ETH 收益率
-                </div>
-              </div>
-            </div>
 
-            {/* Scoreboard */}
-            <div className="mb-4 grid grid-cols-2 gap-3 md:mb-5 md:grid-cols-4">
-              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
-                <div className="text-xs text-slate-500 dark:text-slate-400">总投入</div>
-                <div className="mt-1 text-base font-semibold font-mono text-slate-900 dark:text-slate-100">
-                  ${totalInvested.toLocaleString()}
+                <div className="flex items-end justify-between gap-5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-950 md:min-w-[220px] md:justify-end">
+                  <div>
+                    <p className="text-[11px] text-slate-500">最新组合收益</p>
+                    <p className={`mt-1 font-mono text-2xl font-black ${totalROI >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                      {totalROI >= 0 ? "+" : ""}{totalROI.toFixed(2)}%
+                    </p>
+                  </div>
+                  <div className="pb-1 text-right">
+                    <p className="font-mono text-[11px] text-slate-500">{latestData.date}</p>
+                    <p className="mt-1 text-[11px] text-slate-400">第 {latestData.week} 周</p>
+                  </div>
                 </div>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
-                <div className="text-xs text-slate-500 dark:text-slate-400">当前净值</div>
-                <div className="mt-1 text-base font-semibold font-mono text-slate-900 dark:text-slate-100">
-                  ${currentValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                </div>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
-                <div className="text-xs text-slate-500 dark:text-slate-400">总收益率</div>
-                <div
-                  className={`mt-1 text-lg font-bold font-mono ${
-                    totalROI >= 0
-                      ? "text-emerald-600 dark:text-emerald-400"
-                      : "text-rose-600 dark:text-rose-400"
-                  }`}
-                >
-                  {totalROI >= 0 ? "+" : ""}
-                  {totalROI.toFixed(2)}%
-                </div>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 dark:border-slate-700 dark:bg-slate-900/70">
-                <div className="text-xs text-slate-500 dark:text-slate-400">定投次数</div>
-                <div className="mt-1 text-base font-semibold font-mono text-slate-900 dark:text-slate-100">
-                  {totalInvestments} 次
-                </div>
-              </div>
-            </div>
+              </header>
 
-            {/* Chart */}
-            <div className="h-[calc(100vh-360px)] min-h-[500px] rounded-xl border border-slate-200 bg-white/70 p-2 dark:border-slate-800 dark:bg-slate-900/50 md:p-3">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 12, right: 12, left: 0, bottom: 6 }}>
-                  <defs>
-                    <linearGradient id="colorBtc" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#F7931A" stopOpacity={0.28} />
-                      <stop offset="100%" stopColor="#F7931A" stopOpacity={0.02} />
-                    </linearGradient>
-                    <linearGradient id="colorEth" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#627EEA" stopOpacity={0.22} />
-                      <stop offset="100%" stopColor="#627EEA" stopOpacity={0.02} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid
-                    strokeDasharray="4 4"
-                    stroke="#cbd5e1"
-                    vertical={false}
-                    horizontal={true}
-                  />
-                  <XAxis
-                    dataKey="date"
-                    stroke="#64748b"
-                    tick={{ fontSize: 12, fill: "#64748b" }}
-                    tickFormatter={formatDate}
-                    minTickGap={40}
-                    height={36}
-                  />
-                  <YAxis
-                    stroke="#64748b"
-                    tick={{ fontSize: 12, fill: "#64748b" }}
-                    tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
-                    width={52}
-                    domain={yAxisDomain}
-                    ticks={yAxisTicks}
-                  />
-                  <ReferenceLine y={0} stroke="#94a3b8" strokeWidth={1.5} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Area
-                    type="monotone"
-                    dataKey="btcYield"
-                    stroke="#F7931A"
-                    strokeWidth={2.5}
-                    fill="url(#colorBtc)"
-                    name="BTC 收益率"
-                    dot={false}
-                    activeDot={{ r: 6, fill: "#F7931A", stroke: "#fff", strokeWidth: 2 }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="ethYield"
-                    stroke="#627EEA"
-                    strokeWidth={2.5}
-                    fill="url(#colorEth)"
-                    name="ETH 收益率"
-                    dot={false}
-                    activeDot={{ r: 6, fill: "#627EEA", stroke: "#fff", strokeWidth: 2 }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
+              <div className="mt-5 grid grid-cols-3 gap-2 rounded-xl border border-slate-200 bg-slate-50 p-1.5 text-[11px] dark:border-slate-700 dark:bg-slate-950 sm:text-xs">
+                <div className="flex items-center justify-center gap-2 rounded-lg bg-amber-50 px-2 py-2.5 font-semibold text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
+                  <span className="h-0.5 w-5 rounded-full bg-[#F4B942]" />
+                  组合
+                </div>
+                <div className="flex items-center justify-center gap-2 rounded-lg px-2 py-2.5 text-slate-600 dark:text-slate-300">
+                  <span className="h-0.5 w-5 rounded-full bg-[#F7931A]" />
+                  BTC
+                </div>
+                <div className="flex items-center justify-center gap-2 rounded-lg px-2 py-2.5 text-slate-600 dark:text-slate-300">
+                  <span className="h-0.5 w-5 rounded-full bg-[#7C8CE8]" />
+                  ETH
+                </div>
+              </div>
+
+              <div className="mt-3 h-[320px] rounded-xl border border-slate-200 bg-white p-1.5 dark:border-slate-700 dark:bg-slate-950 sm:h-[400px] lg:h-[500px] md:p-3">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={chartData} margin={{ top: 16, right: 8, left: -8, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorPortfolio" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#F4B942" stopOpacity={0.24} />
+                        <stop offset="100%" stopColor="#F4B942" stopOpacity={0.01} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="2 7" stroke="#e2e8f0" vertical={false} />
+                    <XAxis
+                      dataKey="date"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 11, fill: "#94a3b8" }}
+                      tickFormatter={formatDate}
+                      minTickGap={58}
+                      interval="preserveStartEnd"
+                      height={32}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 11, fill: "#94a3b8" }}
+                      tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
+                      width={48}
+                      domain={yAxisDomain}
+                      tickCount={6}
+                      allowDecimals={false}
+                    />
+                    <ReferenceLine
+                      y={0}
+                      stroke="#64748b"
+                      strokeOpacity={0.8}
+                      strokeWidth={1.25}
+                      label={{ value: "盈亏平衡", position: "insideTopRight", fill: "#94a3b8", fontSize: 10 }}
+                    />
+                    <Tooltip
+                      content={<CustomTooltip />}
+                      cursor={{ stroke: "#f59e0b", strokeOpacity: 0.35, strokeDasharray: "3 4" }}
+                    />
+                    <Area
+                      type="linear"
+                      dataKey="totalYield"
+                      stroke="#F4B942"
+                      strokeWidth={3.2}
+                      strokeLinecap="round"
+                      fill="url(#colorPortfolio)"
+                      name="组合收益率"
+                      dot={false}
+                      activeDot={{ r: 6, fill: "#F4B942", stroke: "#ffffff", strokeWidth: 3 }}
+                    />
+                    <Line
+                      type="linear"
+                      dataKey="btcYield"
+                      stroke="#F7931A"
+                      strokeWidth={1.6}
+                      strokeOpacity={0.82}
+                      strokeLinecap="round"
+                      name="BTC 收益率"
+                      dot={false}
+                      activeDot={{ r: 4, fill: "#F7931A", stroke: "#ffffff", strokeWidth: 2 }}
+                    />
+                    <Line
+                      type="linear"
+                      dataKey="ethYield"
+                      stroke="#7C8CE8"
+                      strokeWidth={1.6}
+                      strokeOpacity={0.82}
+                      strokeLinecap="round"
+                      name="ETH 收益率"
+                      dot={false}
+                      activeDot={{ r: 4, fill: "#7C8CE8", stroke: "#ffffff", strokeWidth: 2 }}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+
+              <footer className="mt-3 flex flex-col gap-1 text-[11px] leading-5 text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+                <span>金色为 BTC / ETH 等额组合；橙色与靛蓝为单资产累计收益。</span>
+                <span className="font-mono">{totalInvestments} 个数据节点 · 最新净值 {currentValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}U</span>
+              </footer>
             </div>
-          </div>
+          </section>
         )}
       </div>
     </div>

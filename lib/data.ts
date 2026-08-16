@@ -2865,6 +2865,15 @@ export interface Tool {
 
 export const tools: Tool[] = [
   {
+    id: "dca-zone",
+    name: "DCA",
+    description: "持续追踪 BTC、ETH 与 QQQ，判断是否进入分批定投区间",
+    icon: "Target",
+    category: "Market Data",
+    type: "dynamic",
+    status: "Available",
+  },
+  {
     id: "compound-calc",
     name: "复利计算器",
     description: "计算复利投资收益，支持多种投资场景",

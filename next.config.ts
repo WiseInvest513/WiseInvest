@@ -119,6 +119,15 @@ const nextConfig: NextConfig = {
   // 优化页面加载性能
   compress: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: "/tools/dca-zone",
+        destination: "/DCA",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -155,4 +164,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

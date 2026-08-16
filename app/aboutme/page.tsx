@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Target } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -75,6 +75,22 @@ const socials = [
 // ─── 坚持的事 ─────────────────────────────────────────────
 const commitments = [
   {
+    icon: Target,
+    color: "from-slate-700 to-slate-950",
+    bgColor: "bg-slate-50 dark:bg-slate-900/70",
+    borderColor: "border-slate-200 dark:border-slate-700",
+    title: "持续 DCA",
+    since: "日线持续更新",
+    desc: "跟踪 BTC、ETH 与 QQQ 距离 52 周高点的回撤，判断当前处于常规定投、击球区还是深度击球区。基础定投不停，回撤到线后再决定是否启用备用资金。",
+    stats: [
+      { label: "跟踪产品", value: "BTC · ETH · QQQ" },
+      { label: "击球区", value: "回撤 10%" },
+      { label: "深度区", value: "回撤 20%" },
+    ],
+    href: "/DCA",
+    cta: "查看当前区间",
+  },
+  {
     icon: Bitcoin,
     color: "from-orange-400 to-amber-500",
     bgColor: "bg-orange-50 dark:bg-orange-900/20",
@@ -88,6 +104,7 @@ const commitments = [
       { label: "记录", value: "全程公开" },
     ],
     href: "/practice/dca-investment",
+    cta: "查看定投记录",
   },
 ];
 
@@ -335,12 +352,12 @@ export default function AboutMe() {
               <p className="text-slate-500 dark:text-slate-400">不只是内容，更是真实的实践——所有数据全程公开</p>
             </div>
 
-            <div className="max-w-3xl">
+            <div className="grid gap-4 md:grid-cols-2 md:gap-5">
               {commitments.map((item, i) => {
                 const Icon = item.icon;
                 return (
-                  <a key={i} href={item.href}
-                    className={`group relative block w-full rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 md:p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+                  <Link key={i} href={item.href}
+                    className={`group relative flex h-full w-full flex-col rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 md:p-7 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
                   >
                     <div className="flex items-start gap-4 mb-5 md:mb-6">
                       <div className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg shrink-0`}>
@@ -351,19 +368,24 @@ export default function AboutMe() {
                         <h3 className="text-base md:text-xl font-black text-slate-900 dark:text-white">{item.title}</h3>
                       </div>
                     </div>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-4 text-sm">{item.desc}</p>
-                    <div className="grid grid-cols-3 gap-2">
-                      {item.stats.map((stat, j) => (
-                        <div key={j} className="bg-white/60 dark:bg-slate-900/40 rounded-lg p-2 md:p-3 text-center">
-                          <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">{stat.value}</div>
-                          <div className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">{stat.label}</div>
-                        </div>
-                      ))}
+                    <p className="mb-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{item.desc}</p>
+                    <div className="mt-auto">
+                      <div className="grid grid-cols-3 gap-2">
+                        {item.stats.map((stat, j) => (
+                          <div key={j} className="rounded-lg bg-white/80 p-2 text-center dark:bg-slate-950/80 md:p-3">
+                            <div className="text-xs font-bold text-slate-800 dark:text-slate-100 md:text-sm">{stat.value}</div>
+                            <div className="mt-0.5 text-[10px] text-slate-400 md:text-[11px]">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-4 flex justify-end">
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-white/90 px-3 py-1.5 text-xs font-bold text-orange-600 transition-colors group-hover:border-orange-300 group-hover:bg-white dark:border-orange-800 dark:bg-slate-950 dark:text-orange-300">
+                          {item.cta}
+                          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </span>
+                      </div>
                     </div>
-                    <div className="absolute bottom-6 right-6">
-                      <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors" />
-                    </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>

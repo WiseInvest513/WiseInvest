@@ -1,5 +1,6 @@
 // Tool ID to route slug mapping
 export const toolRouteMap: Record<string, string> = {
+  "dca-zone": "/DCA",
   "compound-calc": "compound-calculator",
   "fear-greed": "fear-greed",
   "fomc-calendar": "fomc-calendar",
@@ -25,6 +26,6 @@ export const toolRouteMap: Record<string, string> = {
 };
 
 export function getToolRoute(toolId: string): string {
-  return `/tools/${toolRouteMap[toolId] || toolId}`;
+  const route = toolRouteMap[toolId] || toolId;
+  return route.startsWith("/") ? route : `/tools/${route}`;
 }
-
