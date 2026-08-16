@@ -414,5 +414,77 @@
     "category": "经济数据",
     "impact": "medium",
     "description": "通胀预期"
+  },
+  {
+    "date": "2026-08-18",
+    "time": "盘前",
+    "title": "Home Depot（HD）Q2 2026财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注同店销售、大额家装需求和全年指引，验证住房与家装消费链条是否企稳。"
+  },
+  {
+    "date": "2026-08-18",
+    "time": "20:30",
+    "title": "美国7月住房开工与建筑许可",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注高利率环境下住宅投资是否继续走弱，并观察房地产和家装消费链条压力。"
+  },
+  {
+    "date": "2026-08-18",
+    "time": "21:15",
+    "title": "美国7月工业产出",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注实体经济韧性，尤其是制造业和工业活动是否延续扩张。"
+  },
+  {
+    "date": "2026-08-19",
+    "time": "盘前",
+    "title": "Analog Devices（ADI）FY2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注工业、汽车和模拟芯片需求，判断半导体复苏是否从AI向更广泛终端扩散。"
+  },
+  {
+    "date": "2026-08-19",
+    "time": "盘前",
+    "title": "Lowe's（LOW）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注家装消费、同店销售和管理层指引，与住房数据及Home Depot财报交叉验证。"
+  },
+  {
+    "date": "2026-08-19",
+    "time": "盘前",
+    "title": "Target（TGT）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注普通家庭可选消费、客流、客单价和全年指引，验证消费放缓是否扩散。"
+  },
+  {
+    "date": "2026-08-20",
+    "time": "02:00",
+    "title": "FOMC 7月会议纪要",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注美联储内部对通胀、就业和增长的分歧，判断9月政策风险是否升温。"
+  },
+  {
+    "date": "2026-08-20",
+    "time": "盘前",
+    "title": "Walmart（WMT）Q2财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注美国同店销售、客流、电商增长、商品结构和全年指引，验证大众消费韧性。"
+  },
+  {
+    "date": "2026-08-21",
+    "time": "21:45",
+    "title": "美国8月S&P Global Flash PMI",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注新订单和价格分项，判断三季度企业活动是否放缓以及价格压力是否继续降温。"
   }
 ]
