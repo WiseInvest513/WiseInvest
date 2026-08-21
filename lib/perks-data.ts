@@ -81,6 +81,21 @@ export const perks: Perk[] = [
     tutorialLink: "/articles/crypto/e6utod7B",
     color: "#F8A33C",
   },
+  {
+    id: "gate",
+    platform: "Gate",
+    category: "Crypto",
+    description: "老牌加密货币交易所，覆盖现货、合约、理财、Web3、Gate Card 和美股交易入口",
+    benefit: "交易返现 & 100U 入金奖励",
+    highlightValue: "20%",
+    badge: "新上线",
+    claimedCount: 560,
+    code: "WISEGATE",
+    link: "https://www.wise-invest.org/articles/vcard/GUhygjYV",
+    iconUrl: "https://www.gate.com",
+    tutorialLink: "https://www.wise-invest.org/articles/vcard/GUhygjYV",
+    color: "#2354E6",
+  },
   // 银行服务
   {
     id: "wise",
@@ -317,6 +332,21 @@ export const perks: Perk[] = [
     iconUrl: "https://www.bybit.com",
     tutorialLink: "/articles/vcard/wYKRLDvK",
     color: "#F8A33C",
+  },
+  {
+    id: "gate-virtual-card",
+    platform: "Gate Card",
+    category: "VirtualCard",
+    description: "Gate 交易所推出的虚拟 U 卡，教程覆盖注册、开卡和基础消费测试",
+    benefit: "交易所账户内完成申请，支持支付宝和美团等日常消费场景",
+    highlightValue: "Gate Card",
+    badge: "新上线",
+    claimedCount: 560,
+    code: "WISEGATE",
+    link: "https://www.wise-invest.org/articles/vcard/GUhygjYV",
+    iconUrl: "https://www.gate.com",
+    tutorialLink: "https://www.wise-invest.org/articles/vcard/GUhygjYV",
+    color: "#2354E6",
   },
   // A 股券商
   {

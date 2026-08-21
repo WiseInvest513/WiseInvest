@@ -46,6 +46,15 @@ const cexExchanges = [
     claimLink: perks.find(p => p.id === "bybit")?.link || "https://www.bybit.com",
     tutorialLink: perks.find(p => p.id === "bybit")?.tutorialLink || "https://x.com/WiseInvest513",
   },
+  {
+    id: "gate",
+    name: "Gate",
+    nameEn: "Gate",
+    url: "https://www.gate.com",
+    description: "老牌加密货币交易所，覆盖现货、合约和 Gate Card",
+    claimLink: perks.find(p => p.id === "gate")?.link || "https://www.gate.com",
+    tutorialLink: perks.find(p => p.id === "gate")?.tutorialLink || "https://x.com/WiseInvest513",
+  },
 ];
 
 export function CEXSection() {
@@ -57,7 +66,7 @@ export function CEXSection() {
           <span className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-30" />
         </span>
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5 max-w-7xl mx-auto">
         {cexExchanges.map((exchange) => {
           const iconInfo = IconService.getIconInfo(exchange.url, exchange.nameEn);
           const watermarkSrc = iconInfo.isDefault ? undefined : iconInfo.iconUrl;
@@ -122,4 +131,3 @@ export function CEXSection() {
     </section>
   );
 }
-
