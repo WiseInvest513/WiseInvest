@@ -31,6 +31,7 @@ import {
   type Perks2Subcategory,
 } from "../data";
 import { CopyCodeButton } from "./copy-code-button";
+import { CexRewardDialog, RegisterRewardButton } from "./register-reward-button";
 import { WechatContactButton } from "./wechat-contact-button";
 
 export const dynamicParams = false;
@@ -114,7 +115,13 @@ export async function generateMetadata(
   };
 }
 
-function ProductCard({ product, wide = false }: { product: Perks2Product; wide?: boolean }) {
+function ProductCard({
+  product,
+  wide = false,
+}: {
+  product: Perks2Product;
+  wide?: boolean;
+}) {
   const stars = Array.from({ length: 5 });
   const score = Math.max(0, Math.min(5, product.recommendation));
   const tutorialIsExternal = product.tutorialLink ? isExternalUrl(product.tutorialLink) : false;
@@ -203,15 +210,10 @@ function ProductCard({ product, wide = false }: { product: Perks2Product; wide?:
           <MessageCircle className="h-4 w-4" />
         </WechatContactButton>
       ) : (
-        <a
+        <RegisterRewardButton
           href={product.registerLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-3 py-2.5 text-sm font-black text-amber-300 shadow-[0_10px_22px_rgba(15,23,42,0.16)] transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
-        >
-          {product.registerLabel ?? "去注册"}
-          <ExternalLink className="h-4 w-4" />
-        </a>
+          label={product.registerLabel ?? "去注册"}
+        />
       )}
     </div>
   );
@@ -702,9 +704,11 @@ export default async function Perks2SectionPage(
 
   const Icon = sectionIcons[section.slug] ?? Sparkles;
   const slotCount = section.subcategories.reduce((sum, subcategory) => sum + subcategory.slots, 0);
+  const shouldShowCexRewardDialog = section.slug === "crypto";
 
   return (
     <div className="relative min-h-screen bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">
+      {shouldShowCexRewardDialog && <CexRewardDialog />}
       <main className="relative z-[1] mx-auto max-w-6xl px-4 py-7 md:px-6 md:py-9">
         <div className="mb-4 flex items-center justify-between gap-3">
           <Link
