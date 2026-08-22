@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
   ComposedChart,
   Area,
@@ -898,7 +899,7 @@ export default function DCAInvestmentPage() {
               </div>
 
               <div className="mt-3 h-[320px] rounded-xl border border-slate-200 bg-white p-1.5 dark:border-slate-700 dark:bg-slate-950 sm:h-[400px] lg:h-[500px] md:p-3">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={1}>
                   <ComposedChart data={chartData} margin={{ top: 16, right: 8, left: -8, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorPortfolio" x1="0" y1="0" x2="0" y2="1">
@@ -979,6 +980,26 @@ export default function DCAInvestmentPage() {
                 <span>金色为 BTC / ETH 等额组合；橙色与靛蓝为单资产累计收益。</span>
                 <span className="font-mono">{totalInvestments} 个数据节点 · 最新净值 {currentValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}U</span>
               </footer>
+
+              <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">
+                我现在的 BTC / ETH 定投是在 Bitget 里执行的。大家如果也想用同样的入口，可以先看开户教程，再通过注册链接创建账号。
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <a
+                    href="/articles/crypto/k3RVVcw4"
+                    className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 transition-colors hover:border-amber-300 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                  >
+                    Bitget 教程
+                  </a>
+                  <a
+                    href={getSafeExternalUrl("https://partner.bitget.cafe/bg/8ax9wf4r")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-bold text-amber-700 transition-colors hover:border-amber-300 hover:bg-amber-50 dark:border-amber-800 dark:bg-slate-900 dark:text-amber-300"
+                  >
+                    Bitget 注册账号
+                  </a>
+                </div>
+              </div>
             </div>
           </section>
         )}

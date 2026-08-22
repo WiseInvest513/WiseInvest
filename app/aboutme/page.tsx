@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Target } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Target, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -73,7 +73,30 @@ const socials = [
 ] as const;
 
 // ─── 坚持的事 ─────────────────────────────────────────────
-const commitments = [
+type CommitmentChartLine = {
+  key: string;
+  name: string;
+  color: string;
+};
+
+type CommitmentItem = {
+  icon: LucideIcon;
+  color: string;
+  bgColor: string;
+  borderColor: string;
+  title: string;
+  since: string;
+  desc: string;
+  stats: { label: string; value: string }[];
+  href: string;
+  chart?: {
+    label: string;
+    data: Record<string, string | number>[];
+    lines: CommitmentChartLine[];
+  };
+};
+
+const commitments: CommitmentItem[] = [
   {
     icon: Target,
     color: "from-slate-700 to-slate-950",
@@ -88,7 +111,6 @@ const commitments = [
       { label: "深度区", value: "回撤 20%" },
     ],
     href: "/DCA",
-    cta: "查看当前区间",
   },
   {
     icon: Bitcoin,
@@ -96,15 +118,56 @@ const commitments = [
     bgColor: "bg-orange-50 dark:bg-orange-900/20",
     borderColor: "border-orange-200 dark:border-orange-800/40",
     title: "BTC / ETH 定投",
-    since: "2024 年 01 月起",
-    desc: "每月固定定投 BTC 与 ETH，不择时、不预测，用时间换收益。记录每一笔买入，公开持仓与盈亏，和大家一起穿越牛熊。",
+    since: "2025 年 08 月起",
+    desc: "BTC / ETH 是已经开始执行的长期定投记录，不择时、不预测，用时间换收益。记录每一笔买入，公开持仓与盈亏，和大家一起穿越牛熊。",
     stats: [
-      { label: "定投周期", value: "15+ 个月" },
-      { label: "策略", value: "每月固定" },
+      { label: "产品", value: "BTC · ETH" },
+      { label: "定投周期", value: "12+ 个月" },
       { label: "记录", value: "全程公开" },
     ],
     href: "/practice/dca-investment",
-    cta: "查看定投记录",
+    chart: {
+      label: "BTC / ETH 累计执行节奏",
+      data: [
+        { month: "25/08", btc: 1, eth: 1 },
+        { month: "25/11", btc: 4, eth: 4 },
+        { month: "26/02", btc: 7, eth: 7 },
+        { month: "26/05", btc: 10, eth: 10 },
+        { month: "26/08", btc: 13, eth: 13 },
+      ],
+      lines: [
+        { key: "btc", name: "BTC", color: "#f59e0b" },
+        { key: "eth", name: "ETH", color: "#6366f1" },
+      ],
+    },
+  },
+  {
+    icon: TrendingUp,
+    color: "from-yellow-400 to-indigo-600",
+    bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
+    borderColor: "border-yellow-200 dark:border-yellow-800/40",
+    title: "BNB / QQQ 定投",
+    since: "计划启动",
+    desc: "BNB 和 QQQ 放在同一个定投入口里，进入后再选择查看 BNB 还是 QQQ。两套逻辑独立展示，后续有真实数据后再分别接入。",
+    stats: [
+      { label: "产品", value: "BNB · QQQ" },
+      { label: "曲线", value: "分开展示" },
+      { label: "状态", value: "计划启动" },
+    ],
+    href: "/practice/binance-dca",
+    chart: {
+      label: "BNB / QQQ 计划入口",
+      data: [
+        { month: "准备", bnb: 0, qqq: 0 },
+        { month: "第 1 期", bnb: 1, qqq: 1 },
+        { month: "第 2 期", bnb: 2, qqq: 2 },
+        { month: "第 3 期", bnb: 3, qqq: 3 },
+      ],
+      lines: [
+        { key: "bnb", name: "BNB", color: "#f0b90b" },
+        { key: "qqq", name: "QQQ", color: "#4f46e5" },
+      ],
+    },
   },
 ];
 
@@ -142,8 +205,13 @@ export default function AboutMe() {
   const growthFade = useFadeIn();
   const commitFade = useFadeIn();
   const socialFade = useFadeIn();
+  const [chartsMounted, setChartsMounted] = useState(false);
 
   const [wechatGroupOpen, setWechatGroupOpen] = useState(false);
+
+  useEffect(() => {
+    setChartsMounted(true);
+  }, []);
 
   const handleWechatGroupClose = (noShowToday: boolean) => {
     if (noShowToday) {
@@ -302,19 +370,23 @@ export default function AboutMe() {
             </div>
 
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm">
-              <ResponsiveContainer width="100%" height={260}>
-                <LineChart data={growthData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 12, fill: "#94a3b8" }} axisLine={false} tickLine={false} tickFormatter={v => v >= 1000 ? `${v/1000}K` : v} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Legend wrapperStyle={{ fontSize: 12, paddingTop: 16 }} />
-                  <Line type="monotone" dataKey="twitter" name="Twitter/X" stroke="#0f172a" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="xiaohongshu" name="小红书" stroke="#ff2442" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="bilibili" name="Bilibili" stroke="#00a1d6" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="youtube" name="YouTube" stroke="#ff0000" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
-                </LineChart>
-              </ResponsiveContainer>
+              {chartsMounted ? (
+                <ResponsiveContainer width="100%" height={260} minWidth={1}>
+                  <LineChart data={growthData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 12, fill: "#94a3b8" }} axisLine={false} tickLine={false} tickFormatter={v => v >= 1000 ? `${v/1000}K` : v} />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend wrapperStyle={{ fontSize: 12, paddingTop: 16 }} />
+                    <Line type="monotone" dataKey="twitter" name="Twitter/X" stroke="#0f172a" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+                    <Line type="monotone" dataKey="xiaohongshu" name="小红书" stroke="#ff2442" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+                    <Line type="monotone" dataKey="bilibili" name="Bilibili" stroke="#00a1d6" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+                    <Line type="monotone" dataKey="youtube" name="YouTube" stroke="#ff0000" strokeWidth={2.5} dot={false} activeDot={{ r: 5 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="h-[260px]" aria-hidden="true" />
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-3 mt-6">
@@ -352,23 +424,57 @@ export default function AboutMe() {
               <p className="text-slate-500 dark:text-slate-400">不只是内容，更是真实的实践——所有数据全程公开</p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+            <div className="grid gap-4 md:grid-cols-3 md:gap-4">
               {commitments.map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <Link key={i} href={item.href}
-                    className={`group relative flex h-full w-full flex-col rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 md:p-7 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
+                    className={`group relative flex h-full w-full flex-col rounded-3xl border ${item.borderColor} ${item.bgColor} p-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden`}
                   >
-                    <div className="flex items-start gap-4 mb-5 md:mb-6">
-                      <div className={`w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg shrink-0`}>
-                        <Icon className="w-5 h-5 md:w-7 md:h-7 text-white" />
+                    <div className="flex items-start gap-3 mb-4">
+                      <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg shrink-0`}>
+                        <Icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <div className="text-xs text-slate-400 mb-1">{item.since}</div>
-                        <h3 className="text-base md:text-xl font-black text-slate-900 dark:text-white">{item.title}</h3>
+                        <h3 className="text-base font-black text-slate-900 dark:text-white md:text-lg">{item.title}</h3>
                       </div>
+                      <ArrowUpRight className="ml-auto h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-amber-500 dark:text-slate-600" />
                     </div>
-                    <p className="mb-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{item.desc}</p>
+                    <p className="mb-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{item.desc}</p>
+                    {item.chart && (
+                      <div className="mb-4 rounded-2xl border border-white/80 bg-white/70 p-3 shadow-inner shadow-white/70 dark:border-slate-800 dark:bg-slate-950/55 dark:shadow-none">
+                        <div className="mb-2 flex items-center justify-between gap-3">
+                          <span className="text-[11px] font-black text-slate-400">{item.chart.label}</span>
+                          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black text-slate-400 dark:bg-slate-900">独立展示</span>
+                        </div>
+                        <div className="h-[62px]">
+                          {chartsMounted ? (
+                            <ResponsiveContainer width="100%" height="100%" minWidth={1}>
+                              <LineChart data={item.chart.data} margin={{ top: 6, right: 4, bottom: 0, left: 4 }}>
+                                <XAxis dataKey="month" hide />
+                                <YAxis hide domain={["dataMin", "dataMax"]} />
+                                <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#cbd5e1", strokeDasharray: "3 3" }} />
+                                {item.chart.lines.map((line) => (
+                                  <Line
+                                    key={line.key}
+                                    type="monotone"
+                                    dataKey={line.key}
+                                    name={line.name}
+                                    stroke={line.color}
+                                    strokeWidth={2.5}
+                                    dot={false}
+                                    activeDot={{ r: 4 }}
+                                  />
+                                ))}
+                              </LineChart>
+                            </ResponsiveContainer>
+                          ) : (
+                            <div className="h-full" aria-hidden="true" />
+                          )}
+                        </div>
+                      </div>
+                    )}
                     <div className="mt-auto">
                       <div className="grid grid-cols-3 gap-2">
                         {item.stats.map((stat, j) => (
@@ -377,12 +483,6 @@ export default function AboutMe() {
                             <div className="mt-0.5 text-[10px] text-slate-400 md:text-[11px]">{stat.label}</div>
                           </div>
                         ))}
-                      </div>
-                      <div className="mt-4 flex justify-end">
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-orange-200 bg-white/90 px-3 py-1.5 text-xs font-bold text-orange-600 transition-colors group-hover:border-orange-300 group-hover:bg-white dark:border-orange-800 dark:bg-slate-950 dark:text-orange-300">
-                          {item.cta}
-                          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        </span>
                       </div>
                     </div>
                   </Link>
