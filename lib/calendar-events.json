@@ -497,6 +497,14 @@
   },
   {
     "date": "2026-08-25",
+    "time": "22:00",
+    "title": "Conference Board 8月消费者信心指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注预期指数、就业感受和通胀预期，判断消费韧性与软着陆叙事是否继续匹配"
+  },
+  {
+    "date": "2026-08-25",
     "time": "盘后",
     "title": "Intuit（INTU）Q4及全年财报",
     "category": "美股财报",
