@@ -486,5 +486,125 @@
     "category": "经济数据",
     "impact": "medium",
     "description": "关注新订单和价格分项，判断三季度企业活动是否放缓以及价格压力是否继续降温。"
+  },
+  {
+    "date": "2026-08-25",
+    "time": "22:00",
+    "title": "美国7月新屋销售",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注销量、库存月数和价格变化，判断高利率环境下住房需求与建筑链条压力"
+  },
+  {
+    "date": "2026-08-25",
+    "time": "盘后",
+    "title": "Intuit（INTU）Q4及全年财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注QuickBooks、Credit Karma、Mailchimp增长和FY27指引，观察中小企业软件与消费信贷温度"
+  },
+  {
+    "date": "2026-08-26",
+    "time": "20:30",
+    "title": "美国7月耐用品订单",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注核心资本品订单和出货，判断企业投资、制造业需求与工业股盈利预期"
+  },
+  {
+    "date": "2026-08-26",
+    "time": "20:30",
+    "title": "美国7月PCE物价指数",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注核心PCE环比、服务通胀和实际消费，是美联储政策路径最核心的通胀输入"
+  },
+  {
+    "date": "2026-08-26",
+    "time": "20:30",
+    "title": "美国Q2 GDP二修及企业利润",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注实际增长、消费贡献和企业利润修正，影响软着陆叙事、利率曲线和指数盈利预期"
+  },
+  {
+    "date": "2026-08-26",
+    "time": "盘后",
+    "title": "英伟达（NVDA）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注数据中心收入、Vera Rubin/Blackwell需求、毛利率和下一季指引，决定AI算力链预期"
+  },
+  {
+    "date": "2026-08-26",
+    "time": "盘后",
+    "title": "CrowdStrike（CRWD）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注ARR、净新增ARR、自由现金流和FY27指引，判断网络安全支出与AI安全需求强度"
+  },
+  {
+    "date": "2026-08-26",
+    "time": "盘后",
+    "title": "Salesforce（CRM）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注订阅收入、cRPO、Agentforce/Data 360采用和利润率，检验企业软件AI商业化进度"
+  },
+  {
+    "date": "2026-08-27",
+    "time": "全天",
+    "title": "杰克逊霍尔全球央行年会开幕",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注会议论文和央行官员对通胀、金融创新及政策框架的表态，影响美债收益率与风险偏好"
+  },
+  {
+    "date": "2026-08-27",
+    "time": "20:30",
+    "title": "美国7月商品贸易及库存初值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注贸易逆差、批发和零售库存，对三季度GDPNow、周期股和美元需求预期有前瞻影响"
+  },
+  {
+    "date": "2026-08-27",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请与续请是否延续降温趋势，给9月非农前的就业市场提供高频线索"
+  },
+  {
+    "date": "2026-08-27",
+    "time": "盘后",
+    "title": "Marvell（MRVL）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注AI定制芯片、数据中心互联、光互连和毛利率，检验除NVDA外的AI半导体链景气度"
+  },
+  {
+    "date": "2026-08-27",
+    "time": "盘后",
+    "title": "Workday（WDAY）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注订阅收入、剩余履约义务和AI产品采用，观察企业HR/财务软件预算与并购预期"
+  },
+  {
+    "date": "2026-08-28",
+    "time": "22:00",
+    "title": "密歇根大学8月消费者信心终值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注长期通胀预期和消费者预期分项，辅助判断通胀预期是否继续锚定"
+  },
+  {
+    "date": "2026-08-28",
+    "time": "22:00",
+    "title": "BLS非农就业初步基准修正",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注截至3月的就业水平是否大幅重估，可能改变市场对劳动力市场强弱和美联储反应函数的判断"
   }
 ]
