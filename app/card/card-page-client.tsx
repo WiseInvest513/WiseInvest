@@ -21,7 +21,7 @@ import {
 import { ResourceIcon } from "@/components/ui/resource-icon";
 import { cn } from "@/lib/utils";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
-import { cardStats, virtualCardProducts, type CardAiTone, type VirtualCardProduct } from "./data";
+import { cardStats, virtualCardProducts, type CardAiTone, type CardPaymentSupport, type VirtualCardProduct } from "./data";
 
 type FilterKey = "all" | "ai" | "daily" | "transfer" | "pending";
 
@@ -52,6 +52,20 @@ const statusClass: Record<string, string> = {
   待补教程: "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400",
   待接入: "border-slate-200 bg-white text-slate-400 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-500",
 };
+
+const paymentClass: Record<CardPaymentSupport, string> = {
+  yes: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300",
+  no: "border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-800 dark:bg-rose-900/20 dark:text-rose-300",
+  partial: "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300",
+  unknown: "border-slate-200 bg-slate-50 text-slate-400 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-500",
+};
+
+function getPaymentText(value: CardPaymentSupport) {
+  if (value === "yes") return "支持";
+  if (value === "no") return "不支持";
+  if (value === "partial") return "部分";
+  return "待核";
+}
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -244,7 +258,7 @@ function CardRow({
   onOpenFee: (card: VirtualCardProduct) => void;
 }) {
   return (
-    <article className="group grid gap-4 rounded-3xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_12px_32px_rgba(15,23,42,0.055)] backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/80 hover:shadow-[0_18px_44px_rgba(245,158,11,0.13)] dark:border-slate-800/80 dark:bg-slate-900/90 dark:hover:border-amber-700/80 lg:grid-cols-[1.3fr_0.75fr_0.92fr_1.08fr_1.35fr_0.74fr_1.04fr] lg:items-center">
+    <article className="group grid gap-4 rounded-3xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_12px_32px_rgba(15,23,42,0.055)] backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/80 hover:shadow-[0_18px_44px_rgba(245,158,11,0.13)] dark:border-slate-800/80 dark:bg-slate-900/90 dark:hover:border-amber-700/80 lg:grid-cols-[1.24fr_0.92fr_1.08fr_0.98fr_1.34fr_0.72fr_1.02fr] lg:items-center">
       <div className="flex min-w-0 items-center gap-3">
         <ResourceIcon
           url={card.issuerUrl}
@@ -266,11 +280,6 @@ function CardRow({
             <span className="text-xs font-bold text-slate-400">{card.ratingLabel}</span>
           </div>
         </div>
-      </div>
-
-      <div>
-        <div className="text-[11px] font-black text-slate-400 lg:hidden">发行方</div>
-        <div className="text-sm font-black text-slate-800 dark:text-slate-100">{card.issuer}</div>
       </div>
 
       <div>
@@ -296,6 +305,19 @@ function CardRow({
           <span className="truncate">{card.ai.label}</span>
         </div>
         <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{card.ai.detail}</p>
+      </div>
+
+      <div>
+        <div className="text-[11px] font-black text-slate-400 lg:hidden">支付</div>
+        <div className="flex flex-wrap gap-1.5">
+          <span className={cn("rounded-lg border px-2 py-1 text-[11px] font-black", paymentClass[card.payment.applePay])}>
+            Apple {getPaymentText(card.payment.applePay)}
+          </span>
+          <span className={cn("rounded-lg border px-2 py-1 text-[11px] font-black", paymentClass[card.payment.googlePay])}>
+            Google {getPaymentText(card.payment.googlePay)}
+          </span>
+        </div>
+        <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{card.payment.detail}</p>
       </div>
 
       <div>
@@ -377,7 +399,7 @@ export default function CardPageClient() {
                 虚拟 U 卡资料库
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                把加密里的虚拟 U 卡独立出来，集中整理发行方、邀请码、AI 订阅状态、使用感受、开卡要求和费率。费用优先采用官方公开资料，查不到或官方口径冲突的项目会直接标明。
+                把虚拟 U 卡独立整理出来，重点看大陆用户能不能申请、是否需要境外地址证明、开卡成本、消费 / 换汇费率，以及 Apple Pay / Google Pay 绑定情况。
               </p>
             </div>
 
@@ -425,17 +447,17 @@ export default function CardPageClient() {
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="搜索卡片、发行方、场景..."
+                placeholder="搜索卡片、邀请码、场景..."
                 className="h-10 w-full rounded-xl border border-slate-200 bg-white pl-9 pr-3 text-sm font-semibold text-slate-700 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:focus:border-amber-700 dark:focus:ring-amber-900/30"
               />
             </label>
           </div>
 
-          <div className="mt-4 hidden rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-[11px] font-black uppercase tracking-[0.12em] text-slate-400 dark:border-slate-800 dark:bg-slate-950/60 lg:grid lg:grid-cols-[1.3fr_0.75fr_0.92fr_1.08fr_1.35fr_0.74fr_1.04fr] lg:items-center">
+          <div className="mt-4 hidden rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-[11px] font-black uppercase tracking-[0.12em] text-slate-400 dark:border-slate-800 dark:bg-slate-950/60 lg:grid lg:grid-cols-[1.24fr_0.92fr_1.08fr_0.98fr_1.34fr_0.72fr_1.02fr] lg:items-center">
             <span>卡片</span>
-            <span>发行方</span>
             <span>邀请码</span>
             <span>AI 订阅</span>
+            <span>支付</span>
             <span>使用感受</span>
             <span>费率</span>
             <span>操作</span>

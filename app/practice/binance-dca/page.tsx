@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Bitcoin, CalendarDays, LineChart as LineChartIcon, TrendingUp } from "lucide-react";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { ArrowLeft, Bitcoin, CalendarDays, ListChecks, TrendingUp } from "lucide-react";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 
 type PlanKey = "bnb" | "qqq";
@@ -17,15 +16,12 @@ const plans = {
     icon: Bitcoin,
     status: "计划启动",
     platform: "Binance 币安",
-    cadence: "后续按实际执行记录更新",
+    cadence: "已记录第 1 期",
     description:
-      "BNB 和 BTC / ETH 不是同一套逻辑，所以不放进 BTC / ETH 的组合曲线里。这里单独记录 BNB 的定投计划、执行平台和后续真实买入数据。",
+      "BNB 和 BTC / ETH 不是同一套逻辑，所以不放进 BTC / ETH 的组合曲线里。这里单独记录 BNB 的定投执行价格和后续真实买入数据。",
     focus: ["BNB 生态", "平台币周期", "币安账户执行"],
-    data: [
-      { month: "准备", value: 0 },
-      { month: "第 1 期", value: 1 },
-      { month: "第 2 期", value: 2 },
-      { month: "第 3 期", value: 3 },
+    records: [
+      { period: "第 1 期", date: "2026/08/23", price: 694 },
     ],
   },
   qqq: {
@@ -36,15 +32,12 @@ const plans = {
     icon: TrendingUp,
     status: "计划启动",
     platform: "Binance 币安",
-    cadence: "后续按实际执行记录更新",
+    cadence: "已记录第 1 期",
     description:
-      "QQQ 属于美股指数 ETF，交易逻辑、估值逻辑和加密资产不同，所以单独展示。这里先放计划入口，等实际数据确认后再接入定投明细和收益曲线。",
+      "QQQ 属于美股指数 ETF，交易逻辑、估值逻辑和加密资产不同，所以单独展示。这里先记录第一期执行价格，等后续期数足够后再接入收益曲线。",
     focus: ["纳斯达克 100", "美股 ETF", "长期指数配置"],
-    data: [
-      { month: "准备", value: 0 },
-      { month: "第 1 期", value: 1 },
-      { month: "第 2 期", value: 2 },
-      { month: "第 3 期", value: 3 },
+    records: [
+      { period: "第 1 期", date: "2026/08/23", price: 712 },
     ],
   },
 } satisfies Record<PlanKey, {
@@ -58,29 +51,14 @@ const plans = {
   cadence: string;
   description: string;
   focus: string[];
-  data: { month: string; value: number }[];
+  records: { period: string; date: string; price: number }[];
 }>;
-
-function ChartTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null;
-
-  return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs shadow-lg dark:border-slate-800 dark:bg-slate-950">
-      <div className="font-black text-slate-800 dark:text-slate-100">{label}</div>
-      <div className="mt-1 text-slate-500 dark:text-slate-400">计划期数：{payload[0].value}</div>
-    </div>
-  );
-}
 
 export default function BinanceDcaPage() {
   const [active, setActive] = useState<PlanKey>("bnb");
-  const [mounted, setMounted] = useState(false);
   const plan = plans[active];
   const Icon = plan.icon;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const latestRecord = plan.records[plan.records.length - 1];
 
   return (
     <main className="min-h-screen bg-slate-50 dot-grid dot-grid-light px-4 py-8 dark:bg-slate-950 md:px-6 md:py-12">
@@ -101,7 +79,7 @@ export default function BinanceDcaPage() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-600 dark:text-amber-300">Binance DCA</p>
               <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-5xl">BNB / QQQ 定投</h1>
               <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                这里是币安定投入口。外层只保留一个入口，进来后再选择查看 BNB 或 QQQ；两条曲线独立展示，后续真实数据会分别接入。
+                这里是币安定投入口。外层只保留一个入口，进来后再选择查看 BNB 或 QQQ；当前两项都刚开始第一期，所以先记录执行价格，暂不绘制收益曲线。
               </p>
 
               <div className="mt-6 grid grid-cols-2 gap-2">
@@ -167,26 +145,30 @@ export default function BinanceDcaPage() {
               <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-50/75 p-4 dark:border-slate-800 dark:bg-slate-950/55">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="inline-flex items-center gap-2 text-sm font-black text-slate-700 dark:text-slate-200">
-                    <LineChartIcon className="h-4 w-4" />
-                    {plan.asset} 独立曲线
+                    <ListChecks className="h-4 w-4" />
+                    {plan.asset} 定投明细
                   </div>
-                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-slate-400 dark:bg-slate-900">待接入真实数据</span>
+                  <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-slate-400 dark:bg-slate-900">第一期</span>
                 </div>
-                <div className="h-56">
-                  {mounted ? (
-                    <ResponsiveContainer width="100%" height="100%" minWidth={1}>
-                      <LineChart data={plan.data} margin={{ top: 12, right: 16, bottom: 4, left: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                        <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#94a3b8" }} axisLine={false} tickLine={false} />
-                        <YAxis hide domain={[0, "dataMax"]} />
-                        <Tooltip content={<ChartTooltip />} />
-                        <Line type="monotone" dataKey="value" name={plan.asset} stroke={plan.color} strokeWidth={3} dot={false} activeDot={{ r: 5 }} />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  ) : (
-                    <div className="h-full" aria-hidden="true" />
-                  )}
+                <div className="grid gap-3 md:grid-cols-[1fr_1fr_1.2fr]">
+                  <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
+                    <div className="text-xs font-black text-slate-400">期数</div>
+                    <div className="mt-1 text-lg font-black text-slate-950 dark:text-white">{latestRecord.period}</div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
+                    <div className="text-xs font-black text-slate-400">执行日期</div>
+                    <div className="mt-1 font-mono text-lg font-black text-slate-950 dark:text-white">{latestRecord.date}</div>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
+                    <div className="text-xs font-black text-slate-400">执行价格</div>
+                    <div className="mt-1 font-mono text-lg font-black text-slate-950 dark:text-white">
+                      {latestRecord.price.toLocaleString()}U
+                    </div>
+                  </div>
                 </div>
+                <p className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/80 px-4 py-3 text-xs font-semibold leading-5 text-slate-500 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-400">
+                  目前只有第一期记录，没有可比较的收益序列；等后续继续执行后，再单独接入 {plan.asset} 的收益曲线和累计明细。
+                </p>
               </div>
 
               <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300">
