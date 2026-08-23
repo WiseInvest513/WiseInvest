@@ -36,6 +36,7 @@ function useActiveToc(toc: { id: string }[]) {
 export default function ArticlesPage() {
   const pathname = usePathname();
   const [openCategories, setOpenCategories] = useState<Set<string>>(new Set([
+    "web",
     "broker:us-broker", "broker:hk-broker",
     "bank:physical-bank", "bank:virtual-bank", "bank:digital-bank", "bank:jianzheng",
   ]));
@@ -81,6 +82,12 @@ export default function ArticlesPage() {
   const selectedArticle = useMemo(() => allArticles.find(a => a.id === selectedArticleId) ?? null, [selectedArticleId, allArticles]);
   const toc = useMemo(() => selectedArticle ? extractToc(selectedArticle.content) : [], [selectedArticle]);
   const activeId = useActiveToc(toc);
+
+  const featuredArticles = useMemo(() => {
+    const guide = allArticles.find(a => a.id === "web-guide");
+    const rest = allArticles.filter(a => a.id !== "web-guide");
+    return guide ? [guide, ...rest].slice(0, 5) : allArticles.slice(0, 4);
+  }, [allArticles]);
 
   const filteredArticles = useMemo(() => {
     if (!searchQuery.trim()) return allArticles;
@@ -367,20 +374,33 @@ export default function ArticlesPage() {
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-amber-200 dark:shadow-amber-900/30">
                 <BookOpen className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2 tracking-tight">选择一篇文章开始阅读</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2 tracking-tight">推荐阅读</h2>
               <p className="text-sm text-slate-400 dark:text-slate-500 max-w-sm text-center leading-relaxed mb-8 md:mb-12">
-                从左侧按分类浏览所有文章，点击后在此处本地阅读，无需跳转外部链接。
+                第一次来到 Wise，可以先从网站合集开始，快速知道每个工具应该在什么场景使用。
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl mb-6">
-                {allArticles.slice(0, 4).map(art => {
+                {featuredArticles.map(art => {
                   const cat = categories.find(c => c.id === art.categoryId);
+                  const isGuide = art.id === "web-guide";
                   return (
                     <button
                       key={art.id}
                       onClick={() => selectArticle(art.id, art.categoryId)}
-                      className="text-left p-5 rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900 hover:border-amber-300 dark:hover:border-amber-700 hover:shadow-md hover:shadow-amber-100/50 dark:hover:shadow-amber-900/20 transition-all duration-200 group"
+                      className={cn(
+                        "text-left p-5 rounded-2xl border bg-white dark:bg-slate-900 hover:border-amber-300 dark:hover:border-amber-700 hover:shadow-md hover:shadow-amber-100/50 dark:hover:shadow-amber-900/20 transition-all duration-200 group",
+                        isGuide
+                          ? "sm:col-span-2 border-amber-300 dark:border-amber-700 bg-gradient-to-br from-amber-50 to-white dark:from-amber-950/30 dark:to-slate-900"
+                          : "border-slate-200 dark:border-slate-700/80"
+                      )}
                     >
-                      <div className="text-2xl mb-3">{cat?.emoji}</div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="text-2xl">{cat?.emoji}</div>
+                        {isGuide && (
+                          <span className="rounded-full border border-amber-200 bg-white/70 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:border-amber-700/70 dark:bg-amber-950/50 dark:text-amber-300">
+                            先读这篇
+                          </span>
+                        )}
+                      </div>
                       <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors leading-snug mb-2">{art.title}</div>
                       <div className="text-[11px] text-slate-400 dark:text-slate-600 flex items-center gap-1"><Clock className="w-3 h-3" />{art.readTime} 分钟</div>
                     </button>
