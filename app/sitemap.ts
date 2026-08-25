@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/tools`, priority: 0.9, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/tweets`, priority: 0.8, changeFrequency: "daily" as const },
     { url: `${baseUrl}/anthology`, priority: 0.8, changeFrequency: "weekly" as const },
+    { url: `${baseUrl}/book/nasdaq`, priority: 0.88, changeFrequency: "monthly" as const },
     { url: `${baseUrl}/roadmap`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/resources`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${baseUrl}/practice/dca-investment`, priority: 0.86, changeFrequency: "weekly" as const },

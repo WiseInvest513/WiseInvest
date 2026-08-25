@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Banknote,
+  BookOpen,
   ChevronDown,
   CreditCard,
   Landmark,
@@ -1148,6 +1150,15 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
       >
         <section className="min-h-0 overflow-hidden rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5">
           <div className="relative h-full w-full overflow-hidden bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] [background-size:22px_22px]">
+            {!visualOnly ? (
+              <Link
+                href="/book/nasdaq"
+                className="absolute right-4 top-4 z-30 inline-flex items-center gap-1.5 rounded-full border border-amber-200/80 bg-white/78 px-3 py-1.5 text-xs font-black text-amber-700 shadow-sm backdrop-blur-md transition-all hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-800/60 dark:bg-slate-950/72 dark:text-amber-300 dark:hover:border-amber-700 dark:hover:bg-amber-900/20"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                纳指投资策略
+              </Link>
+            ) : null}
             <div
               className={cn(
                 "absolute transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)]",

@@ -164,6 +164,16 @@ const quickItems: SearchItem[] = [
     searchText: "BTC ETH 定投 实盘 收益 曲线 明细 DCA",
     priority: 90,
   },
+  {
+    id: "quick-nasdaq-book",
+    label: "纳指 / 标普投资蓝皮书",
+    href: "/book/nasdaq",
+    description: "在线阅读 WiseInvest 纳斯达克 100、标普 500、ETF 和长期定投系统指南",
+    group: "常用入口",
+    icon: BookOpen,
+    searchText: "纳指 标普 纳斯达克 Nasdaq S&P 500 QQQ ETF 指数基金 定投 蓝皮书 电子书 PDF",
+    priority: 89,
+  },
 ];
 
 const aliases: Record<string, string[]> = {
@@ -183,6 +193,9 @@ const aliases: Record<string, string[]> = {
   wise: ["美元账户", "跨境收款", "境外银行"],
   dca: ["定投", "btc", "eth", "qqq"],
   定投: ["dca", "btc", "eth", "qqq"],
+  纳指: ["nasdaq", "qqq", "纳斯达克", "蓝皮书", "标普"],
+  nasdaq: ["纳指", "纳斯达克", "qqq", "蓝皮书"],
+  标普: ["s&p 500", "sp500", "spy", "voo", "蓝皮书"],
 };
 
 function expandQuery(query: string) {
