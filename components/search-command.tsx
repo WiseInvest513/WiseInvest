@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState, useEffect, useRef, type KeyboardEvent } from "react";
 import {
   Calculator,
   TrendingUp,
@@ -21,6 +20,7 @@ import {
   Radio,
   type LucideIcon,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { virtualCardProducts } from "@/app/card/data";
 import { perkSections } from "@/app/perk/data";
 import { tools, type Tool } from "@/lib/data";
@@ -33,7 +33,6 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
@@ -251,9 +250,18 @@ export function SearchCommand({
   onOpenChange,
   onToolSelect,
 }: SearchCommandProps) {
-  const router = useRouter();
+  const pathname = usePathname();
+  const lastPathnameRef = useRef(pathname);
   const [search, setSearch] = useState("");
   const [articles, setArticles] = useState<Article[]>([]);
+
+  useEffect(() => {
+    if (lastPathnameRef.current === pathname) return;
+    lastPathnameRef.current = pathname;
+    if (!open) return;
+    onOpenChange(false);
+    setSearch("");
+  }, [onOpenChange, open, pathname]);
 
   useEffect(() => {
     if (!open || articles.length > 0) return;
@@ -370,7 +378,7 @@ export function SearchCommand({
     }
   };
 
-  const handleItemSelect = (item: SearchItem) => {
+  const handleItemSelect = (item: SearchItem, navigate = true) => {
     if (item.group === "工具" && item.href === "/tools" && onToolSelect) {
       const tool = tools.find((candidate) => `tool-${candidate.id}` === item.id);
       if (tool) {
@@ -379,17 +387,24 @@ export function SearchCommand({
       }
     }
 
-    if (isExternalUrl(item.href)) {
-      window.open(getSafeExternalUrl(item.href), "_blank", "noopener,noreferrer");
-    } else {
-      router.push(item.href);
+    if (navigate) {
+      if (isExternalUrl(item.href)) {
+        window.open(getSafeExternalUrl(item.href), "_blank", "noopener,noreferrer");
+      } else {
+        window.location.assign(item.href);
+      }
     }
     onOpenChange(false);
     setSearch("");
   };
 
-  const getItemValue = (item: SearchItem) =>
-    `${item.label} ${item.description} ${item.searchText}`;
+  const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== "Enter" || event.nativeEvent.isComposing) return;
+    const firstItem = filteredItems[0];
+    if (!firstItem) return;
+    event.preventDefault();
+    handleItemSelect(firstItem);
+  };
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
@@ -397,6 +412,7 @@ export function SearchCommand({
         placeholder="搜索文章、福利、虚拟卡、工具..."
         value={search}
         onValueChange={setSearch}
+        onKeyDown={handleInputKeyDown}
       />
       <CommandList>
         <CommandEmpty>
@@ -412,7 +428,6 @@ export function SearchCommand({
                 <button
                   key={item.id}
                   type="button"
-                  onMouseDown={(event) => event.preventDefault()}
                   onClick={() => handleItemSelect(item)}
                   className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-xs font-semibold text-slate-700 transition-colors hover:border-amber-300 hover:bg-amber-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30"
                 >
@@ -428,26 +443,30 @@ export function SearchCommand({
             <CommandGroup key={group} heading={group}>
               {items.map((item) => {
                 const Icon = item.icon;
+                const content = (
+                  <>
+                    <Icon className="mr-2 h-4 w-4" />
+                    <div className="min-w-0 flex-1">
+                      {renderHighlightedText(item.label, highlightTerms, "block truncate text-sm font-medium")}
+                      {renderHighlightedText(item.description, highlightTerms, "block truncate text-xs text-slate-500")}
+                    </div>
+                    {isExternalUrl(item.href) && (
+                      <CommandShortcut>
+                        <Radio className="h-3 w-3" />
+                      </CommandShortcut>
+                    )}
+                  </>
+                );
                 return (
-                <CommandItem
+                <button
                   key={item.id}
-                  value={getItemValue(item)}
-                  onSelect={() => handleItemSelect(item)}
+                  type="button"
+                  data-search-result={item.id}
                   onClick={() => handleItemSelect(item)}
-                  onMouseDown={(event) => event.preventDefault()}
-                  className="cursor-pointer"
+                  className="relative flex w-full min-w-0 cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-left text-sm outline-none transition-colors hover:bg-yellow-400 hover:text-black focus-visible:bg-yellow-400 focus-visible:text-black"
                 >
-                  <Icon className="mr-2 h-4 w-4" />
-                  <div className="min-w-0 flex-1">
-                    {renderHighlightedText(item.label, highlightTerms, "block truncate text-sm font-medium")}
-                    {renderHighlightedText(item.description, highlightTerms, "block truncate text-xs text-slate-500")}
-                  </div>
-                  {isExternalUrl(item.href) && (
-                    <CommandShortcut>
-                      <Radio className="h-3 w-3" />
-                    </CommandShortcut>
-                  )}
-                </CommandItem>
+                  {content}
+                </button>
                 );
               })}
             </CommandGroup>
