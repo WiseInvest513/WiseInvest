@@ -197,10 +197,10 @@ function HeroSection() {
             }}
           >
             <Link
-              href="/start"
+              href="/roadmap"
               className="inline-flex items-center justify-center rounded-full bg-amber-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-amber-500/25 transition-all duration-300 hover:bg-amber-400 hover:shadow-amber-400/30"
             >
-              查看投资路线图
+              进入学习路线
             </Link>
             <Link
               href="/get"

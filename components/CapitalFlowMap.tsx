@@ -1063,10 +1063,15 @@ function RouteLines({ route }: { route: RoutePreset }) {
   );
 }
 
-export default function CapitalFlowMap() {
+type CapitalFlowMapProps = {
+  mode?: "full" | "visual";
+};
+
+export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const visualOnly = mode === "visual";
   const requestedRouteId = searchParams.get("route");
   const [selectedRouteId, setSelectedRouteId] = useState(() => resolveRouteId(requestedRouteId));
   const [routeMenuOpen, setRouteMenuOpen] = useState(false);
@@ -1129,8 +1134,18 @@ export default function CapitalFlowMap() {
   }, [routeMenuOpen]);
 
   return (
-    <div className="relative h-[calc(100vh-64px)] overflow-hidden bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">
-      <div className="relative z-[1] grid h-full w-full gap-3 px-3 py-3 xl:grid-cols-[minmax(0,1fr)_286px]">
+    <div
+      className={cn(
+        "relative overflow-hidden bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950",
+        visualOnly ? "h-[520px] min-h-[420px] rounded-[28px]" : "h-[calc(100vh-64px)]"
+      )}
+    >
+      <div
+        className={cn(
+          "relative z-[1] grid h-full w-full",
+          visualOnly ? "grid-cols-1 p-0" : "gap-3 px-3 py-3 xl:grid-cols-[minmax(0,1fr)_286px]"
+        )}
+      >
         <section className="min-h-0 overflow-hidden rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5">
           <div className="relative h-full w-full overflow-hidden bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] [background-size:22px_22px]">
             <div
@@ -1140,7 +1155,7 @@ export default function CapitalFlowMap() {
                   ? "left-1/2 top-1/2 aspect-square max-h-[calc(100%-24px)] max-w-[calc(100%-24px)] -translate-x-1/2 -translate-y-1/2"
                   : "inset-0 h-full w-full"
               )}
-              style={overview ? { width: "min(100%, calc(100vh - 112px))" } : undefined}
+              style={overview ? { width: visualOnly ? "min(100%, 520px)" : "min(100%, calc(100vh - 112px))" } : undefined}
             >
             <svg
               className="absolute inset-0 z-[3] h-full w-full"
@@ -1189,6 +1204,7 @@ export default function CapitalFlowMap() {
           </div>
         </section>
 
+        {!visualOnly && (
         <aside className="min-h-0 overflow-y-auto rounded-[26px] border border-slate-200/90 bg-white/92 p-3 shadow-[0_18px_54px_rgba(15,23,42,0.07)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/92 dark:ring-white/5">
           <div className="mb-3">
             <label className="mb-1.5 block text-[11px] font-black text-slate-400">选择资金路线</label>
@@ -1273,6 +1289,7 @@ export default function CapitalFlowMap() {
             ))}
           </div>
         </aside>
+        )}
       </div>
 
       <style jsx>{`
