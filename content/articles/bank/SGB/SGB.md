@@ -1,10 +1,10 @@
 ---
 id: SGB-register
-title: 2026 年人手必开新加坡海湾银行｜无 CRS 炒股｜可与币安进行高效资金流通！
+title: 新加坡海湾银行 SGB 开户教程：大陆用户如何开通无 CRS 港美股和币安资金通道
 categoryId: bank
 date: 2026-05-10
 readTime: 30
-summary: 无需前往香港，仅凭内地身份证和护照即可完成的新加坡海湾银行开户，可买卖港美股，无 CRS 风险，支持币安高效出入金
+summary: 新加坡海湾银行 SGB 开户教程，适合大陆用户了解身份证和护照开户、港美股交易、无 CRS 账户、币安出入金和资金流转路径。
 subcategoryId: digital-bank
 ---
 

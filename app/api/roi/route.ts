@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { logger } from "@/lib/logger";
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 export const dynamic = 'force-dynamic'; // Prevent static caching
@@ -9,12 +10,12 @@ export const dynamic = 'force-dynamic'; // Prevent static caching
 const getProxyUrl = (): string => {
   const envProxy = process.env.https_proxy || process.env.HTTPS_PROXY || process.env.http_proxy || process.env.HTTP_PROXY;
   if (envProxy) {
-    console.log(`[ROI API] Using proxy from environment: ${envProxy}`);
+    logger.log(`[ROI API] Using proxy from environment: ${envProxy}`);
     return envProxy;
   }
   // Default to 7890, but user can override via env vars
   const defaultProxy = 'http://127.0.0.1:7890';
-  console.log(`[ROI API] Using default proxy: ${defaultProxy}`);
+  logger.log(`[ROI API] Using default proxy: ${defaultProxy}`);
   return defaultProxy;
 };
 
@@ -57,15 +58,15 @@ export async function GET(request: Request) {
   const requestStartTime = getTime();
   const requestId = Math.random().toString(36).substring(7);
   
-  console.log(`\n🔵 [ROI API] ========== 请求开始 [${requestId}] ==========`);
-  console.log(`⏰ [ROI API] 请求时间: ${new Date().toISOString()}`);
+  logger.log(`\n🔵 [ROI API] ========== 请求开始 [${requestId}] ==========`);
+  logger.log(`⏰ [ROI API] 请求时间: ${new Date().toISOString()}`);
   
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id') || 'btc';
   const years = parseInt(searchParams.get('years') || '1');
   const useFallback = searchParams.get('useFallback') === 'true';
 
-  console.log(`📋 [ROI API] 请求参数:`, {
+  logger.log(`📋 [ROI API] 请求参数:`, {
     id,
     years,
     useFallback,
@@ -74,7 +75,7 @@ export async function GET(request: Request) {
 
   // Handle QQQ (not available on crypto APIs)
   if (id === 'qqq') {
-    console.log(`📌 [ROI API] 处理 QQQ 资产（使用备用数据）`);
+    logger.log(`📌 [ROI API] 处理 QQQ 资产（使用备用数据）`);
     if (useFallback) {
       const historyPrice = FALLBACK_DATA[id]?.[years];
       const currentPrice = FALLBACK_CURRENT_PRICES[id];
@@ -115,7 +116,7 @@ export async function GET(request: Request) {
 
   // Create Proxy Agent (Force traffic through local proxy)
   const proxyAgent = new HttpsProxyAgent(LOCAL_PROXY);
-  console.log(`[ROI API] 🔧 Proxy Agent created for: ${LOCAL_PROXY}`);
+  logger.log(`[ROI API] 🔧 Proxy Agent created for: ${LOCAL_PROXY}`);
 
   // Define custom fetch options with the agent
   const fetchOptions: RequestInit = {
@@ -125,13 +126,13 @@ export async function GET(request: Request) {
   };
 
   // --- STRATEGY 1: BINANCE API (Best Data) ---
-  console.log(`\n🟢 [ROI API] ========== 策略 1: Binance API ==========`);
-  console.log(`[ROI API] 🔄 Fetching REAL DATA via Proxy (${LOCAL_PROXY})...`);
+  logger.log(`\n🟢 [ROI API] ========== 策略 1: Binance API ==========`);
+  logger.log(`[ROI API] 🔄 Fetching REAL DATA via Proxy (${LOCAL_PROXY})...`);
   const binanceStartTime = getTime();
   
   try {
-    console.log(`⏰ [ROI API] Binance 请求开始时间: ${new Date().toISOString()}`);
-    console.log(`📊 [ROI API] Binance 请求参数:`, {
+    logger.log(`⏰ [ROI API] Binance 请求开始时间: ${new Date().toISOString()}`);
+    logger.log(`📊 [ROI API] Binance 请求参数:`, {
       symbol: symbol.binance,
       startTime,
       startTimeDate: new Date(startTime).toISOString(),
@@ -140,7 +141,7 @@ export async function GET(request: Request) {
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
-      console.log(`⏱️ [ROI API] Binance 请求超时（5秒）`);
+      logger.log(`⏱️ [ROI API] Binance 请求超时（5秒）`);
       controller.abort();
     }, 5000); // 5 second timeout
 
@@ -153,11 +154,11 @@ export async function GET(request: Request) {
     const currentUrl = `https://api.binance.com/api/v3/ticker/price?symbol=${symbol.binance}`;
     const historyUrl = `https://api.binance.com/api/v3/klines?symbol=${symbol.binance}&interval=1d&startTime=${startTime}&limit=1`;
     
-    console.log(`🌐 [ROI API] Binance 当前价格 URL: ${currentUrl}`);
-    console.log(`🌐 [ROI API] Binance 历史价格 URL: ${historyUrl}`);
+    logger.log(`🌐 [ROI API] Binance 当前价格 URL: ${currentUrl}`);
+    logger.log(`🌐 [ROI API] Binance 历史价格 URL: ${historyUrl}`);
     
     const fetchStartTime = getTime();
-    console.log(`⏱️ [ROI API] Binance 开始并行请求...`);
+    logger.log(`⏱️ [ROI API] Binance 开始并行请求...`);
     
     const [currentRes, historyRes] = await Promise.all([
       fetch(currentUrl, fetchOptions),
@@ -169,8 +170,8 @@ export async function GET(request: Request) {
     
     clearTimeout(timeoutId);
     
-    console.log(`⏱️ [ROI API] Binance 请求完成，耗时: ${fetchDuration.toFixed(2)}ms`);
-    console.log(`📡 [ROI API] Binance 响应状态:`, {
+    logger.log(`⏱️ [ROI API] Binance 请求完成，耗时: ${fetchDuration.toFixed(2)}ms`);
+    logger.log(`📡 [ROI API] Binance 响应状态:`, {
       currentStatus: currentRes.status,
       currentOk: currentRes.ok,
       historyStatus: historyRes.status,
@@ -202,8 +203,8 @@ export async function GET(request: Request) {
     const parseEndTime = getTime();
     const parseDuration = parseEndTime - parseStartTime;
     
-    console.log(`⏱️ [ROI API] Binance JSON 解析完成，耗时: ${parseDuration.toFixed(2)}ms`);
-    console.log(`📦 [ROI API] Binance 原始数据:`, {
+    logger.log(`⏱️ [ROI API] Binance JSON 解析完成，耗时: ${parseDuration.toFixed(2)}ms`);
+    logger.log(`📦 [ROI API] Binance 原始数据:`, {
       currentData,
       historyDataLength: historyData?.length,
       historyDataFirst: historyData?.[0],
@@ -214,7 +215,7 @@ export async function GET(request: Request) {
     const historyPrice = parseFloat(historyData[0]?.[1]);
     const currentPrice = parseFloat(currentData.price);
 
-    console.log(`💰 [ROI API] Binance 解析后的价格:`, {
+    logger.log(`💰 [ROI API] Binance 解析后的价格:`, {
       currentPrice,
       historyPrice,
       currentPriceRaw: currentData.price,
@@ -241,8 +242,8 @@ export async function GET(request: Request) {
     const binanceEndTime = getTime();
     const binanceDuration = binanceEndTime - binanceStartTime;
     
-    console.log(`✅ [ROI API] Binance 成功 - 当前 USD: ${currentPrice}, 历史 USD: ${historyPrice}`);
-    console.log(`⏱️ [ROI API] Binance 总耗时: ${binanceDuration.toFixed(2)}ms`);
+    logger.log(`✅ [ROI API] Binance 成功 - 当前 USD: ${currentPrice}, 历史 USD: ${historyPrice}`);
+    logger.log(`⏱️ [ROI API] Binance 总耗时: ${binanceDuration.toFixed(2)}ms`);
 
     const response = {
       currentPrice: currentPrice * USD_TO_CNY,
@@ -251,9 +252,9 @@ export async function GET(request: Request) {
     };
     
     const totalTime = getTime() - requestStartTime;
-    console.log(`✅ [ROI API] ========== 请求成功 [${requestId}] ==========`);
-    console.log(`⏱️ [ROI API] 总耗时: ${totalTime.toFixed(2)}ms`);
-    console.log(`📊 [ROI API] 返回数据:`, response);
+    logger.log(`✅ [ROI API] ========== 请求成功 [${requestId}] ==========`);
+    logger.log(`⏱️ [ROI API] 总耗时: ${totalTime.toFixed(2)}ms`);
+    logger.log(`📊 [ROI API] 返回数据:`, response);
 
     return NextResponse.json(response);
   } catch (e: any) {
@@ -276,13 +277,13 @@ export async function GET(request: Request) {
   }
 
   // --- STRATEGY 2: COINCAP API (Backup) ---
-  console.log(`\n🟡 [ROI API] ========== 策略 2: CoinCap API ==========`);
-  console.log(`[ROI API] 🔄 Switching to CoinCap via Proxy (${LOCAL_PROXY})...`);
+  logger.log(`\n🟡 [ROI API] ========== 策略 2: CoinCap API ==========`);
+  logger.log(`[ROI API] 🔄 Switching to CoinCap via Proxy (${LOCAL_PROXY})...`);
   const coincapStartTime = getTime();
   
   try {
-    console.log(`⏰ [ROI API] CoinCap 请求开始时间: ${new Date().toISOString()}`);
-    console.log(`📊 [ROI API] CoinCap 请求参数:`, {
+    logger.log(`⏰ [ROI API] CoinCap 请求开始时间: ${new Date().toISOString()}`);
+    logger.log(`📊 [ROI API] CoinCap 请求参数:`, {
       symbol: symbol.coincap,
       startTime,
       endTime,
@@ -293,7 +294,7 @@ export async function GET(request: Request) {
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
-      console.log(`⏱️ [ROI API] CoinCap 请求超时（5秒）`);
+      logger.log(`⏱️ [ROI API] CoinCap 请求超时（5秒）`);
       controller.abort();
     }, 5000); // 5 second timeout
 
@@ -306,11 +307,11 @@ export async function GET(request: Request) {
     const currentUrl = `https://api.coincap.io/v2/assets/${symbol.coincap}`;
     const historyUrl = `https://api.coincap.io/v2/assets/${symbol.coincap}/history?interval=d1&start=${startTime}&end=${endTime}`;
     
-    console.log(`🌐 [ROI API] CoinCap 当前价格 URL: ${currentUrl}`);
-    console.log(`🌐 [ROI API] CoinCap 历史价格 URL: ${historyUrl}`);
+    logger.log(`🌐 [ROI API] CoinCap 当前价格 URL: ${currentUrl}`);
+    logger.log(`🌐 [ROI API] CoinCap 历史价格 URL: ${historyUrl}`);
     
     const fetchStartTime = getTime();
-    console.log(`⏱️ [ROI API] CoinCap 开始并行请求...`);
+    logger.log(`⏱️ [ROI API] CoinCap 开始并行请求...`);
     
     const [currentRes, historyRes] = await Promise.all([
       fetch(currentUrl, coincapFetchOptions),
@@ -322,8 +323,8 @@ export async function GET(request: Request) {
     
     clearTimeout(timeoutId);
     
-    console.log(`⏱️ [ROI API] CoinCap 请求完成，耗时: ${fetchDuration.toFixed(2)}ms`);
-    console.log(`📡 [ROI API] CoinCap 响应状态:`, {
+    logger.log(`⏱️ [ROI API] CoinCap 请求完成，耗时: ${fetchDuration.toFixed(2)}ms`);
+    logger.log(`📡 [ROI API] CoinCap 响应状态:`, {
       currentStatus: currentRes.status,
       currentOk: currentRes.ok,
       historyStatus: historyRes.status,
@@ -355,8 +356,8 @@ export async function GET(request: Request) {
     const parseEndTime = getTime();
     const parseDuration = parseEndTime - parseStartTime;
     
-    console.log(`⏱️ [ROI API] CoinCap JSON 解析完成，耗时: ${parseDuration.toFixed(2)}ms`);
-    console.log(`📦 [ROI API] CoinCap 原始数据:`, {
+    logger.log(`⏱️ [ROI API] CoinCap JSON 解析完成，耗时: ${parseDuration.toFixed(2)}ms`);
+    logger.log(`📦 [ROI API] CoinCap 原始数据:`, {
       currentJson: currentJson.data ? { id: currentJson.data.id, priceUsd: currentJson.data.priceUsd } : currentJson,
       historyDataLength: historyJson.data?.length,
       historyDataFirst: historyJson.data?.[0],
@@ -367,7 +368,7 @@ export async function GET(request: Request) {
     const historyUsd =
       historyData && historyData.length > 0 ? parseFloat(historyData[0]?.priceUsd || '0') : 0;
 
-    console.log(`💰 [ROI API] CoinCap 解析后的价格:`, {
+    logger.log(`💰 [ROI API] CoinCap 解析后的价格:`, {
       currentUsd,
       historyUsd,
       currentPriceRaw: currentJson.data?.priceUsd,
@@ -395,8 +396,8 @@ export async function GET(request: Request) {
     const coincapEndTime = getTime();
     const coincapDuration = coincapEndTime - coincapStartTime;
     
-    console.log(`✅ [ROI API] CoinCap 成功 - 当前 USD: ${currentUsd}, 历史 USD: ${historyUsd}`);
-    console.log(`⏱️ [ROI API] CoinCap 总耗时: ${coincapDuration.toFixed(2)}ms`);
+    logger.log(`✅ [ROI API] CoinCap 成功 - 当前 USD: ${currentUsd}, 历史 USD: ${historyUsd}`);
+    logger.log(`⏱️ [ROI API] CoinCap 总耗时: ${coincapDuration.toFixed(2)}ms`);
 
     const response = {
       currentPrice: currentUsd * USD_TO_CNY,
@@ -405,9 +406,9 @@ export async function GET(request: Request) {
     };
     
     const totalTime = getTime() - requestStartTime;
-    console.log(`✅ [ROI API] ========== 请求成功 [${requestId}] ==========`);
-    console.log(`⏱️ [ROI API] 总耗时: ${totalTime.toFixed(2)}ms`);
-    console.log(`📊 [ROI API] 返回数据:`, response);
+    logger.log(`✅ [ROI API] ========== 请求成功 [${requestId}] ==========`);
+    logger.log(`⏱️ [ROI API] 总耗时: ${totalTime.toFixed(2)}ms`);
+    logger.log(`📊 [ROI API] 返回数据:`, response);
 
     return NextResponse.json(response);
   } catch (e: any) {

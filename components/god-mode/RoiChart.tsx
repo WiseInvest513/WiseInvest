@@ -13,6 +13,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import { AssetYieldData } from "@/lib/mock/god-mode-data";
+import { logger } from "@/lib/logger";
 
 interface RoiChartProps {
   data: AssetYieldData[];
@@ -149,8 +150,7 @@ export function RoiChart({ data, title, description, selectedSymbols, showToolti
     return null;
   };
 
-  // 调试：检查数据
-  console.log('[RoiChart] 渲染数据:', {
+  logger.debug('[RoiChart] 渲染数据:', {
     dataLength: data.length,
     filteredDataLength: filteredData.length,
     chartDataLength: chartData.length,

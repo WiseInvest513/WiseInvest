@@ -1,10 +1,10 @@
 ---
 id: Benpay-vcard
-title: 简直神卡！无需开卡费，重点无需 KYC，即可享有稳定定于各种 AI 会员的虚拟 U 卡！
+title: BenPay 虚拟 U 卡教程：无需 KYC 的 AI 订阅卡如何开通、充值和使用
 categoryId: vcard
 date: 2026-05-17
 readTime: 30
-summary: 简直神卡！无需开卡费，重点无需 KYC，即可享有稳定定于各种 AI 会员的虚拟 U 卡！
+summary: BenPay 虚拟 U 卡使用教程，重点整理无需 KYC、无开卡费、AI 会员订阅、海外网站付款、充值和使用注意事项。
 ---
 
 ![BenPay Delta Card 封面](./0.jpeg)

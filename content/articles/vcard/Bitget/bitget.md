@@ -1,10 +1,10 @@
 ---
 id: bitget-vcard
-title: 最全避坑指南！Bitget Wallet 大陆用户申请最新教程（包含地址证明完整获取方式）
+title: Bitget Wallet Card 虚拟 U 卡申请教程：大陆用户开卡、地址证明与支付宝绑定
 categoryId: vcard
 date: 2026-08-16
 readTime: 20
-summary: 手把手教你完成 Bitget Wallet 大陆用户虚拟 U 卡申请，包含钱包创建、充值、身份认证、地址证明和邀请码绑定流程
+summary: 面向大陆用户的 Bitget Wallet Card 虚拟 U 卡教程，覆盖钱包创建、充值、身份认证、地址证明、邀请码绑定、支付宝和微信使用注意事项。
 ---
 
 ![Bitget Wallet 大陆用户申请最新教程](/content/articles/vcard/BitgetNew/0.jpeg)

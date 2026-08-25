@@ -1,11 +1,11 @@
 ---
 id: jiaxin
-title: 嘉信证券开户详细教程
+title: 嘉信证券 Schwab 开户教程：大陆用户如何用护照申请美股券商账户
 categoryId: broker
 subcategoryId: us-broker
 date: 2026-04-10
 readTime: 50
-summary: 全球最大券商之一，管理资产超11万亿美元，不参与CRS，凭护照即可开户，流程约30-45分钟，需提前准备地址证明和英文地址。
+summary: 嘉信证券 Schwab 开户教程，适合大陆用户了解护照开户、地址证明、英文地址、账户审核、入金和长期美股投资账户配置。
 ---
 
 ![嘉信证券封面](./0.jpeg)

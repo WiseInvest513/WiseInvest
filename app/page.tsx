@@ -9,7 +9,7 @@ import { CEXSection } from "@/components/sections/CEXSection";
 import { TweetsSection } from "@/components/sections/TweetsSection";
 import { AnthologySection } from "@/components/sections/AnthologySection";
 // import { NewsletterToast } from "@/components/newsletter-toast"; // 周刊订阅功能暂时隐藏
-import { MessageSquare, Wrench, Map, BookOpen, Gift, Globe2, Sparkles, Youtube, ArrowUpRight, CheckCircle2, ShieldAlert, Radar } from "lucide-react";
+import { MessageSquare, Wrench, Map, BookOpen, Gift, Globe2, Sparkles, Youtube, ArrowUpRight, CheckCircle2, ShieldAlert, Radar, CreditCard, Building2, Landmark, Search } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
 import { SectionWrapper, StaggerContainer, StaggerItem, TitleAnimation, FadeInSection } from "@/components/motion/SectionWrapper";
 import { InteractiveCard, IconContainer } from "@/components/motion/InteractiveCard";
@@ -197,16 +197,16 @@ function HeroSection() {
             }}
           >
             <Link
-              href="/DCA"
+              href="/start"
               className="inline-flex items-center justify-center rounded-full bg-amber-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-amber-500/25 transition-all duration-300 hover:bg-amber-400 hover:shadow-amber-400/30"
             >
-              进入 DCA
+              查看投资路线图
             </Link>
             <Link
-              href="/roadmap"
+              href="/get"
               className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
             >
-              开始学习路径
+              查找产品福利
             </Link>
           </div>
 
@@ -430,6 +430,124 @@ function WeeklyActionSection() {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const userIntentItems = [
+  {
+    title: "不知道先走哪条路线",
+    description: "按问题选择路径：交易所、虚拟 U 卡、港美股、境外银行、定投和工具从这里分流。",
+    href: "/start",
+    icon: BookOpen,
+    tags: ["路线图", "学习路线", "FAQ"],
+  },
+  {
+    title: "我已经知道要做什么",
+    description: "注册、开卡、开户、产品福利、定投工具和社群反馈入口集中放在一个页面。",
+    href: "/get",
+    icon: Gift,
+    tags: ["产品福利", "注册链接", "邀请码"],
+  },
+  {
+    title: "申请虚拟 U 卡",
+    description: "对比 MPCard、Bitget Wallet、SafePal、BenPay，找到适合 AI 订阅、Apple Pay、支付宝和微信的卡。",
+    href: "/card",
+    icon: CreditCard,
+    tags: ["MPCard", "Apple Pay", "AI 订阅"],
+  },
+  {
+    title: "注册交易所并入金",
+    description: "从 Binance、OKX、Bybit、Bitget 的注册、KYC、C2C 入金和返佣入口开始。",
+    href: "/perk/crypto",
+    icon: Gift,
+    tags: ["币安", "OKX", "C2C"],
+  },
+  {
+    title: "开港美股券商",
+    description: "查看盈透、嘉信、复星、长桥等券商开户入口、教程和适合场景。",
+    href: "/perk/broker",
+    icon: Building2,
+    tags: ["IBKR", "Schwab", "港美股"],
+  },
+  {
+    title: "准备境外银行账户",
+    description: "整理 Wise、香港银行、新加坡银行、见证开户和跨境资金流转路径。",
+    href: "/perk/bank",
+    icon: Landmark,
+    tags: ["Wise", "香港银行", "美元账户"],
+  },
+  {
+    title: "跟进定投实盘",
+    description: "查看 BTC / ETH 定投成本、收益曲线、定投明细和长期执行节奏。",
+    href: "/practice/dca-investment",
+    icon: Radar,
+    tags: ["BTC", "ETH", "DCA"],
+  },
+  {
+    title: "直接找工具",
+    description: "使用复利、仓位、补仓、合约、恐慌贪婪指数等计算工具辅助决策。",
+    href: "/tools",
+    icon: Wrench,
+    tags: ["复利", "仓位", "收益率"],
+  },
+];
+
+function UserIntentSection() {
+  return (
+    <section className="bg-white dark:bg-slate-950">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300">
+                <Search className="h-3.5 w-3.5" />
+                按需求找入口
+              </div>
+              <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950 dark:text-white md:text-3xl">
+                你现在想解决什么问题？
+              </h2>
+            </div>
+            <p className="max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+              Wise Invest 的教程、福利和工具已经按真实使用场景串起来；不用先理解网站结构，直接从目标进入。
+            </p>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+            {userIntentItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group rounded-2xl border border-slate-200/90 bg-slate-50/80 p-4 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50/70 hover:shadow-[0_16px_36px_rgba(245,158,11,0.12)] dark:border-slate-800 dark:bg-slate-900/75 dark:hover:border-amber-700 dark:hover:bg-amber-900/15"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-amber-300 dark:bg-amber-400 dark:text-slate-950">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 text-slate-300 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-amber-500" />
+                  </div>
+                  <h3 className="mt-4 text-base font-black text-slate-950 dark:text-white">{item.title}</h3>
+                  <p className="mt-2 min-h-[60px] text-sm leading-6 text-slate-500 dark:text-slate-400">
+                    {item.description}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {item.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -813,6 +931,8 @@ export default function Home() {
           <WeeklyActionSection />
         </FadeInSection>
       </div>
+
+      <UserIntentSection />
 
       {/* ④ FeaturesSection — 再次深色，形成强对比 */}
       <div className="relative" style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0f172a 100%)" }}>

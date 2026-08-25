@@ -34,6 +34,26 @@ export const metadata: Metadata = {
   title: `${siteConfig.name} - 专业的投资内容平台`,
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.baseUrl),
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteConfig.baseUrl }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  keywords: [
+    "Wise Invest",
+    "美股投资",
+    "指数基金",
+    "ETF",
+    "定投",
+    "Web3",
+    "港美股开户",
+    "虚拟 U 卡",
+  ],
+  alternates: {
+    canonical: siteConfig.baseUrl,
+    types: {
+      "application/rss+xml": siteConfig.url("/feed.xml"),
+    },
+  },
   icons: {
     icon: [{ url: "/favicon.ico", type: "image/x-icon", sizes: "any" }],
     shortcut: "/favicon.ico",
@@ -44,6 +64,8 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.baseUrl,
     siteName: siteConfig.name,
+    locale: "zh_CN",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
@@ -57,9 +79,37 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: siteConfig.baseUrl,
+    logo: siteConfig.url("/favicon.ico"),
+    sameAs: ["https://x.com/WiseInvest513", "https://t.me/WiseInvest513Chat"],
+  };
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.baseUrl,
+    inLanguage: "zh-CN",
+    description: siteConfig.description,
+  };
+
   return (
     <html lang="zh-CN" suppressHydrationWarning>
-      <head><meta name="referrer" content="strict-origin-when-cross-origin" /></head>
+      <head>
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} ${nunito.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col relative`}>
         {/* Grain Texture Overlay */}
         <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.015] dark:opacity-[0.03]" style={{
@@ -85,4 +135,3 @@ export default function RootLayout({
     </html>
   );
 }
-

@@ -124,17 +124,70 @@ export function Footer() {
 
           {/* Column 3: Resources Links */}
           <div>
+            <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">热门教程</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/articles/vcard"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  虚拟 U 卡教程
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/articles/crypto"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  交易所注册入金
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/articles/broker"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  港美股券商开户
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/articles/bank"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  境外银行开户
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/practice/dca-investment"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  BTC / ETH 定投实盘
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: Recommendations */}
+          <div>
             <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">站内导航</h3>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="https://www.wise-hold.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/start"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
-                  投资文集
-                </a>
+                  投资路线图
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/get"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  产品福利入口
+                </Link>
               </li>
               <li>
                 <Link
@@ -146,38 +199,27 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/articles"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  精选文章
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/card"
+                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
+                >
+                  虚拟 U 卡资料库
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/resources"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
                   资料库
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Recommendations */}
-          <div>
-            <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">推荐</h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href={getSafeExternalUrl("https://www.wise-sim.org/")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  📱 giffgaff 手机卡
-                </a>
-              </li>
-              <li>
-                <a
-                  href={getSafeExternalUrl("https://www.wise-witness.com/")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  🌍 见证开户
-                </a>
               </li>
               <li>
                 <a

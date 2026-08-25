@@ -1,10 +1,10 @@
 ---
 id: biance-guide
-title: 2026年大陆用户币安交易所注册&赚钱完整教程
+title: 币安 Binance 注册入金教程：大陆用户 2026 如何开户、KYC、买币和使用理财
 categoryId: crypto
 date: 2026-05-02
 readTime: 25
-summary: 从注册 KYC 到入金，再到理财赚币、打新薅羊毛，一篇搞定币安所有核心功能
+summary: 面向大陆用户的币安 Binance 注册教程，覆盖开户注册、KYC 认证、C2C 入金、购买 BTC/USDT、理财赚币、新手任务和安全设置。
 ---
 
 ![币安完整教程封面](./0.png)

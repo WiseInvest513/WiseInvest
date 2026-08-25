@@ -23,6 +23,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ResourceIcon } from "@/components/ui/resource-icon";
+import { siteConfig } from "@/lib/config";
 import {
   getPerks2Section,
   perkSections,
@@ -31,6 +32,7 @@ import {
   type Perks2Subcategory,
 } from "../data";
 import { CopyCodeButton } from "./copy-code-button";
+import { CexComparisonDialog } from "./cex-comparison-dialog";
 import { CexRewardDialog, RegisterRewardButton } from "./register-reward-button";
 import { WechatContactButton } from "./wechat-contact-button";
 
@@ -52,6 +54,49 @@ const learningLinkClass =
   "inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200/80 bg-white px-3 py-2.5 text-sm font-black text-slate-700 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-900/20 dark:hover:text-amber-300";
 
 const isExternalUrl = (url: string) => url.startsWith("http://") || url.startsWith("https://");
+
+const sectionTrustDefaults: Record<string, Pick<Perks2Product, "lastVerified" | "availability" | "bestFor" | "riskNote">> = {
+  crypto: {
+    lastVerified: "2026-08-25",
+    availability: "待确认",
+    bestFor: "交易所注册、C2C 入金、现货买币和返佣绑定",
+    riskNote: "活动权益、KYC 和入金通道变化较快，操作前以交易所页面为准。",
+  },
+  broker: {
+    lastVerified: "2026-08-25",
+    availability: "待确认",
+    bestFor: "港美股开户、美元入金、长期持仓和仓位管理",
+    riskNote: "开户资格、佣金和入金路径会变化，提交资料前以券商页面为准。",
+  },
+  bank: {
+    lastVerified: "2026-08-25",
+    availability: "待确认",
+    bestFor: "跨境收付款、多币种账户、券商入金和资金中转",
+    riskNote: "银行开户门槛和审核材料可能调整，办理前需要重新确认。",
+  },
+  ipo: {
+    lastVerified: "2026-08-25",
+    availability: "待确认",
+    bestFor: "港股打新、美股 IPO 认购和新股信息跟踪",
+    riskNote: "新股认购不保证盈利，额度、费用和中签规则以平台说明为准。",
+  },
+};
+
+function getProductTrustMeta(product: Perks2Product, sectionSlug?: string) {
+  const defaults = sectionTrustDefaults[sectionSlug ?? ""] ?? {
+    lastVerified: "2026-08-25",
+    availability: "待确认" as const,
+    bestFor: "按页面教程完成注册、开户、订阅或工具配置",
+    riskNote: "费用、活动和可用性会变化，实际操作前以官方页面为准。",
+  };
+
+  return {
+    lastVerified: product.lastVerified ?? defaults.lastVerified,
+    availability: product.availability ?? defaults.availability,
+    bestFor: product.bestFor ?? defaults.bestFor,
+    riskNote: product.riskNote ?? defaults.riskNote,
+  };
+}
 
 const witnessHighlights = [
   {
@@ -108,24 +153,51 @@ export async function generateMetadata(
   const { section: slug } = await params;
   const section = getPerks2Section(slug);
   if (!section) return {};
+  const sectionKeywords: Record<string, string[]> = {
+    bank: ["境外银行开户", "香港银行开户", "新加坡银行开户", "Wise 注册", "见证开户"],
+    crypto: ["交易所返佣", "币安邀请码", "OKX 邀请码", "Bybit 邀请码", "Bitget 邀请码", "CEX 注册"],
+    broker: ["美股券商开户", "盈透证券开户", "嘉信证券开户", "港美股开户", "券商入金"],
+    ipo: ["港股打新", "美股 IPO", "IPO 申购", "打新教程"],
+    "global-access": ["海外手机号", "出海账号", "eSIM", "国际网络", "海外应用注册"],
+    "other-resources": ["AI 订阅", "海外工具", "API 中转", "虚拟 U 卡"],
+  };
 
   return {
     title: `${section.title}福利 - Wise Invest`,
     description: section.summary,
+    keywords: ["Wise Invest", section.title, section.eyebrow, ...(sectionKeywords[section.slug] ?? [])],
+    alternates: {
+      canonical: siteConfig.url(`/perk/${section.slug}`),
+    },
+    openGraph: {
+      title: `${section.title}福利 - Wise Invest`,
+      description: section.summary,
+      url: siteConfig.url(`/perk/${section.slug}`),
+      siteName: siteConfig.name,
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: `${section.title}福利 - Wise Invest`,
+      description: section.summary,
+    },
   };
 }
 
 function ProductCard({
   product,
+  sectionSlug,
   wide = false,
 }: {
   product: Perks2Product;
+  sectionSlug?: string;
   wide?: boolean;
 }) {
   const stars = Array.from({ length: 5 });
   const score = Math.max(0, Math.min(5, product.recommendation));
   const tutorialIsExternal = product.tutorialLink ? isExternalUrl(product.tutorialLink) : false;
   const isLongCode = (product.code?.length ?? 0) > 10;
+  const trustMeta = getProductTrustMeta(product, sectionSlug);
   const codePanel = (
     <div
       className={`rounded-xl border border-slate-200/80 bg-slate-50/75 shadow-inner shadow-white/70 dark:border-slate-800/80 dark:bg-slate-900/70 dark:shadow-none ${
@@ -263,6 +335,14 @@ function ProductCard({
             <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
               {product.description}
             </p>
+            <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-black text-slate-500 dark:text-slate-400">
+              <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 dark:border-slate-800 dark:bg-slate-900">
+                最后核验 {trustMeta.lastVerified}
+              </span>
+              <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-amber-700 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300">
+                {trustMeta.availability}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -296,6 +376,11 @@ function ProductCard({
               {benefitPanel}
             </div>
           </div>
+          <div className="mb-4 rounded-xl border border-slate-200/80 bg-slate-50/75 p-3 text-xs leading-5 text-slate-500 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-400">
+            <span className="font-black text-slate-800 dark:text-slate-100">适合人群：</span>{trustMeta.bestFor}
+            <span className="mx-2 text-slate-300">|</span>
+            <span className="font-black text-slate-800 dark:text-slate-100">风险提示：</span>{trustMeta.riskNote}
+          </div>
           {renderActions(false)}
         </div>
       ) : (
@@ -303,6 +388,11 @@ function ProductCard({
           <div className={`${wide ? "grid gap-3 md:grid-cols-2" : "mb-4 grid gap-3 md:grid-cols-2"}`}>
             {codePanel}
             {benefitPanel}
+          </div>
+          <div className={`${wide ? "mb-0" : "mb-4"} rounded-xl border border-slate-200/80 bg-slate-50/75 p-3 text-xs leading-5 text-slate-500 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-400`}>
+            <span className="font-black text-slate-800 dark:text-slate-100">适合人群：</span>{trustMeta.bestFor}
+            <span className="mx-2 text-slate-300">|</span>
+            <span className="font-black text-slate-800 dark:text-slate-100">风险提示：</span>{trustMeta.riskNote}
           </div>
           {renderActions(wide)}
         </div>
@@ -353,6 +443,91 @@ function ProductSlot({
         <ArrowRight className="h-3.5 w-3.5 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-amber-500" />
       </div>
     </button>
+  );
+}
+
+function CexComparisonTable({ products }: { products: Perks2Product[] }) {
+  if (products.length === 0) return null;
+
+  return (
+    <section className="mb-5 overflow-hidden rounded-[24px] border border-slate-200/90 bg-white/95 p-4 shadow-[0_18px_54px_rgba(15,23,42,0.07)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 dark:ring-white/5">
+      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300">
+            <Sparkles className="h-3.5 w-3.5" />
+            CEX 对比
+          </div>
+          <h2 className="mt-3 text-xl font-black text-slate-950 dark:text-white">
+            交易所注册入金怎么选
+          </h2>
+        </div>
+        <p className="max-w-2xl text-xs leading-5 text-slate-500 dark:text-slate-400">
+          新手优先看注册、KYC、C2C 入金、现货交易、返佣绑定和后续链上钱包衔接。活动权益以交易所页面显示为准。
+        </p>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-[880px] w-full border-separate border-spacing-0 text-left text-sm">
+          <thead>
+            <tr className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
+              {["交易所", "适合场景", "邀请码", "核心权益", "推荐理由", "操作"].map((header) => (
+                <th key={header} className="border-b border-slate-200 px-3 py-3 dark:border-slate-800">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => {
+              const tutorialIsExternal = product.tutorialLink ? isExternalUrl(product.tutorialLink) : false;
+              return (
+                <tr key={product.id} className="align-top">
+                  <td className="border-b border-slate-100 px-3 py-3 dark:border-slate-800">
+                    <div className="font-black text-slate-950 dark:text-white">{product.title}</div>
+                    <div className="mt-1 text-xs font-bold text-amber-600 dark:text-amber-300">{product.recommendationText}</div>
+                  </td>
+                  <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                    {product.description}
+                  </td>
+                  <td className="border-b border-slate-100 px-3 py-3 dark:border-slate-800">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <span className="max-w-[150px] truncate rounded-lg border border-dashed border-slate-300 bg-slate-50 px-2.5 py-1.5 font-mono text-xs font-black tracking-[0.06em] text-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
+                        {product.code ?? "无需填写"}
+                      </span>
+                      {product.code && <CopyCodeButton code={product.code} />}
+                    </div>
+                  </td>
+                  <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                    <span className="font-black text-amber-600 dark:text-amber-300">{product.highlightValue}</span>
+                    <span className="ml-1">{product.benefit}</span>
+                  </td>
+                  <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                    {product.badge ?? "补充选择"}
+                  </td>
+                  <td className="border-b border-slate-100 px-3 py-3 dark:border-slate-800">
+                    <div className="flex min-w-[160px] flex-col gap-2">
+                      {product.tutorialLink && tutorialIsExternal && (
+                        <a href={product.tutorialLink} target="_blank" rel="noopener noreferrer" className={learningLinkClass}>
+                          <BookOpen className="h-4 w-4" />
+                          教程
+                        </a>
+                      )}
+                      {product.tutorialLink && !tutorialIsExternal && (
+                        <Link href={product.tutorialLink} className={learningLinkClass}>
+                          <BookOpen className="h-4 w-4" />
+                          教程
+                        </Link>
+                      )}
+                      <RegisterRewardButton href={product.registerLink} label={product.registerLabel ?? "注册"} />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }
 
@@ -678,6 +853,7 @@ function SubcategoryBlock({
             <ProductCard
               key={product.id}
               product={product}
+              sectionSlug={section.slug}
               wide={shouldWidenLastProduct && index === products.length - 1}
             />
           ))}
@@ -705,6 +881,7 @@ export default async function Perks2SectionPage(
   const Icon = sectionIcons[section.slug] ?? Sparkles;
   const slotCount = section.subcategories.reduce((sum, subcategory) => sum + subcategory.slots, 0);
   const shouldShowCexRewardDialog = section.slug === "crypto";
+  const cexProducts = section.subcategories.find((subcategory) => subcategory.slug === "uex-exchange")?.products ?? [];
 
   return (
     <div className="relative min-h-screen bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">
@@ -795,6 +972,12 @@ export default async function Perks2SectionPage(
             </div>
           </div>
         </section>
+
+        {section.slug === "crypto" && (
+          <div className="mb-5 flex justify-end">
+            <CexComparisonDialog products={cexProducts} />
+          </div>
+        )}
 
         <div className="space-y-4">
           {section.subcategories.map((subcategory) => (

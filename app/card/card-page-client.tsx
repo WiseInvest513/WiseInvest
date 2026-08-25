@@ -358,10 +358,102 @@ function CardRow({
   );
 }
 
+function getFeeItemValue(card: VirtualCardProduct, keyword: string) {
+  return card.feeItems.find((item) => item.label.includes(keyword))?.value ?? "查看详情";
+}
+
+function CardComparisonTable({
+  cards,
+  open,
+  onClose,
+}: {
+  cards: VirtualCardProduct[];
+  open: boolean;
+  onClose: () => void;
+}) {
+  if (!open) return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/35 px-4 py-6 backdrop-blur-sm">
+      <section className="max-h-[calc(100dvh-3rem)] w-full max-w-6xl overflow-y-auto rounded-[28px] border border-slate-200/80 bg-white p-4 shadow-[0_28px_80px_rgba(15,23,42,0.24)] dark:border-slate-800 dark:bg-slate-950">
+        <div className="mb-4 flex flex-col gap-3 border-b border-slate-100 pb-4 dark:border-slate-800 md:flex-row md:items-start md:justify-between">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300">
+              <FileText className="h-3.5 w-3.5" />
+              快速对比
+            </div>
+            <h2 className="mt-3 text-xl font-black text-slate-950 dark:text-white">
+              虚拟 U 卡怎么选
+            </h2>
+            <p className="mt-2 max-w-2xl text-xs leading-5 text-slate-500 dark:text-slate-400">
+              先看用途和申请门槛，再看支付绑定、充值费率和教程是否完整。费用以 App 下单页或官方页面为准。
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:text-slate-300 dark:hover:border-amber-700 dark:hover:bg-amber-900/20"
+            aria-label="关闭对比表"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-[900px] w-full border-separate border-spacing-0 text-left text-sm">
+          <thead>
+            <tr className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
+              {["卡片", "适合用途", "申请 / KYC", "开卡 / 持有", "充值 / 入金", "支付绑定", "入口"].map((header) => (
+                <th key={header} className="border-b border-slate-200 px-3 py-3 dark:border-slate-800">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {cards.map((card) => (
+              <tr key={card.id} className="align-top">
+                <td className="border-b border-slate-100 px-3 py-3 font-black text-slate-950 dark:border-slate-800 dark:text-white">
+                  {card.name}
+                  <div className="mt-1 text-xs font-bold text-amber-600 dark:text-amber-300">{card.ratingLabel}</div>
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                  {card.bestFor.slice(0, 3).join(" / ")}
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                  {getFeeItemValue(card, "KYC")}
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                  {getFeeItemValue(card, "开卡")}
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                  {getFeeItemValue(card, "充值")}
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 text-xs font-semibold leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                  Apple {getPaymentText(card.payment.applePay)} / Google {getPaymentText(card.payment.googlePay)}
+                </td>
+                <td className="border-b border-slate-100 px-3 py-3 dark:border-slate-800">
+                  <ActionLink href={card.tutorialLink}>
+                    <BookOpen className="h-3.5 w-3.5" />
+                    教程
+                  </ActionLink>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      </section>
+    </div>,
+    document.body
+  );
+}
+
 export default function CardPageClient() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FilterKey>("all");
   const [activeFeeCard, setActiveFeeCard] = useState<VirtualCardProduct | null>(null);
+  const [comparisonOpen, setComparisonOpen] = useState(false);
 
   const filteredCards = useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -451,6 +543,14 @@ export default function CardPageClient() {
                 className="h-10 w-full rounded-xl border border-slate-200 bg-white pl-9 pr-3 text-sm font-semibold text-slate-700 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-300 focus:ring-2 focus:ring-amber-100 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:focus:border-amber-700 dark:focus:ring-amber-900/30"
               />
             </label>
+            <button
+              type="button"
+              onClick={() => setComparisonOpen(true)}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 text-xs font-black text-amber-700 transition-colors hover:border-amber-300 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300 dark:hover:bg-amber-900/35"
+            >
+              <FileText className="h-3.5 w-3.5" />
+              对比卡片
+            </button>
           </div>
 
           <div className="mt-4 hidden rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-[11px] font-black uppercase tracking-[0.12em] text-slate-400 dark:border-slate-800 dark:bg-slate-950/60 lg:grid lg:grid-cols-[1.24fr_0.92fr_1.08fr_0.98fr_1.34fr_0.72fr_1.02fr] lg:items-center">
@@ -472,6 +572,7 @@ export default function CardPageClient() {
       </main>
 
       <FeeModal card={activeFeeCard} onClose={() => setActiveFeeCard(null)} />
+      <CardComparisonTable cards={virtualCardProducts} open={comparisonOpen} onClose={() => setComparisonOpen(false)} />
     </div>
   );
 }

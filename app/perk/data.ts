@@ -25,6 +25,10 @@ export type Perks2Product = {
   iconUrl?: string;
   imageUrl?: string;
   imageAlt?: string;
+  lastVerified?: string;
+  availability?: "可用" | "待确认" | "暂不可用";
+  bestFor?: string;
+  riskNote?: string;
 };
 
 export type Perks2Section = {

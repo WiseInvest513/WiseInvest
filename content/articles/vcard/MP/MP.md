@@ -1,10 +1,10 @@
 ---
 id: MP-vcard
-title: 大陆用户也能用的 U 卡？MPCard 2026 最全申请教程｜Apple Pay＋支付宝＋微信
+title: MPCard 虚拟 U 卡申请教程：大陆用户如何开卡、绑定 Apple Pay / 支付宝 / 微信
 categoryId: vcard
 date: 2026-08-23
 readTime: 20
-summary: 大陆用户也能用的 U 卡？MPCard 2026 最全申请教程｜Apple Pay＋支付宝＋微信
+summary: 面向大陆用户的 MPCard 虚拟 U 卡开卡教程，包含注册入口、邀请码、KYC、USDT/USDC 充值、Apple Pay、支付宝和微信绑定流程。
 ---
 
 ## 一、写在前面

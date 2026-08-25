@@ -1,10 +1,10 @@
 ---
 id: bybit-guide
-title: 2026年大陆用户 Bybit 介绍、入金、如何赚钱最详细教程
+title: Bybit 注册入金教程：大陆用户 2026 如何开户、KYC、买币和参与 Launchpool
 categoryId: crypto
 date: 2026-05-02
 readTime: 25
-summary: 从注册 KYC 到入金，再到新手福利、LaunchPool 和理财赚币，一篇搞定 Bybit 所有核心功能
+summary: 面向大陆用户的 Bybit 交易所教程，覆盖注册、KYC、C2C 入金、买币、新手福利、Launchpool、理财赚币和账户安全。
 ---
 
 ![Bybit 完整教程封面](./0.png)

@@ -1,10 +1,10 @@
 ---
 id: wise-register
-title: Wise 身份证注册开通教程
+title: Wise 账户注册教程：大陆用户如何用身份证开通美元、港币和跨境收款账户
 categoryId: bank
 date: 2026-04-10
 readTime: 6
-summary: 无需前往香港，仅凭内地身份证即可开立港区和美元账户，功能等同港卡，全程约30-40分钟，若被要求地址证明可用招行信用卡账单解决。
+summary: 大陆用户 Wise 注册开通教程，覆盖身份证开户、美元账户、港币账户、跨境收付款、地址证明处理和出海资金使用场景。
 subcategoryId: digital-bank
 ---
 

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -15,6 +16,28 @@ import {
 } from "lucide-react";
 import { perkSections, totalProductSlotCount, totalSubcategoryCount } from "./data";
 import { virtualCardProducts } from "../card/data";
+import { siteConfig } from "@/lib/config";
+
+export const metadata: Metadata = {
+  title: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
+  description: "Wise Invest 福利中心，整理 Binance、OKX、Bybit、Bitget 等交易所返佣，盈透、嘉信等美股券商开户，境外银行、虚拟 U 卡和出海工具入口。",
+  keywords: ["Wise Invest 福利", "交易所返佣", "币安邀请码", "OKX 邀请码", "美股券商开户", "盈透证券开户", "嘉信证券开户", "境外银行开户", "虚拟 U 卡"],
+  alternates: {
+    canonical: siteConfig.url("/perk"),
+  },
+  openGraph: {
+    title: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
+    description: "整理交易所返佣、美股券商开户、境外银行、虚拟 U 卡和出海工具入口。",
+    url: siteConfig.url("/perk"),
+    siteName: siteConfig.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
+    description: "整理交易所返佣、美股券商开户、境外银行、虚拟 U 卡和出海工具入口。",
+  },
+};
 
 const sectionIcons: Record<string, LucideIcon> = {
   bank: Landmark,
@@ -228,57 +251,77 @@ export default function PerkPage() {
     ["bank", "crypto", "broker"].includes(section.slug)
   );
   const ipoSection = perkSections.find((section) => section.slug === "ipo");
+  const perkJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
+    description: "Wise Invest 境外银行、加密交易所、美股券商、虚拟 U 卡和出海工具福利导航。",
+    url: siteConfig.url("/perk"),
+    itemListElement: perkSections.map((section, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: section.title,
+      description: section.summary,
+      url: siteConfig.url(`/perk/${section.slug}`),
+    })),
+  };
 
   return (
-    <div className="relative min-h-screen bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">
-      <main className="relative z-[1] mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-7">
-        <section className="mb-4 rounded-2xl border border-amber-200/70 bg-white/90 p-4 shadow-[0_14px_36px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-amber-900/50 dark:bg-slate-900/90">
-          <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div>
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300">
-                <Sparkles className="h-3.5 w-3.5" />
-                WiseInvest 福利导航
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(perkJsonLd) }}
+      />
+      <div className="relative min-h-screen bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">
+        <main className="relative z-[1] mx-auto max-w-6xl px-4 py-6 md:px-6 md:py-7">
+          <section className="mb-4 rounded-2xl border border-amber-200/70 bg-white/90 p-4 shadow-[0_14px_36px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-amber-900/50 dark:bg-slate-900/90">
+            <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div>
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  WiseInvest 福利导航
+                </div>
+                <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white">
+                Wise Invest 福利中心
+                </h1>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
+                集中整理交易所返佣、港美股券商开户、境外银行、虚拟 U 卡、IPO 打新和出海工具入口；每个页面里再承载具体产品、教程和领取按钮。
+                </p>
               </div>
-              <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white">
-                一眼找到要用的福利
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
-                场景入口直接进入独立页面；每个页面里再承载具体产品、教程和领取按钮。
-              </p>
+
+              <div className="grid gap-2 sm:grid-cols-[1fr_1fr_1fr] lg:grid-cols-3">
+                {[
+                  { label: "大类", value: 6, icon: Layers3 },
+                  { label: "方向", value: totalSubcategoryCount + 1, icon: BadgeCheck },
+                  { label: "产品位", value: totalProductSlotCount + virtualCardProducts.length, icon: Banknote },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div
+                      key={item.label}
+                      className="rounded-2xl border border-slate-200/80 bg-slate-50/70 px-3 py-3 shadow-inner shadow-white/70 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-none"
+                    >
+                      <Icon className="mb-2 h-4 w-4 text-amber-500" />
+                      <div className="text-xl font-black text-slate-950 dark:text-white">{item.value}</div>
+                      <div className="mt-0.5 text-[11px] font-semibold text-slate-400">{item.label}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
+          </section>
 
-            <div className="grid gap-2 sm:grid-cols-[1fr_1fr_1fr] lg:grid-cols-3">
-              {[
-                { label: "大类", value: 6, icon: Layers3 },
-                { label: "方向", value: totalSubcategoryCount + 1, icon: BadgeCheck },
-                { label: "产品位", value: totalProductSlotCount + virtualCardProducts.length, icon: Banknote },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.label}
-                    className="rounded-2xl border border-slate-200/80 bg-slate-50/70 px-3 py-3 shadow-inner shadow-white/70 dark:border-slate-800/80 dark:bg-slate-950/60 dark:shadow-none"
-                  >
-                    <Icon className="mb-2 h-4 w-4 text-amber-500" />
-                    <div className="text-xl font-black text-slate-950 dark:text-white">{item.value}</div>
-                    <div className="mt-0.5 text-[11px] font-semibold text-slate-400">{item.label}</div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {primarySections.map((section) => (
+              <SectionEntryCard key={section.slug} section={section} />
+            ))}
+            <CardModuleEntryCard displayIndex="04" />
+            {ipoSection && <SectionEntryCard section={ipoSection} displayIndex="05" />}
+            <CombinedAccessResourcesEntryCard displayIndex="06" />
+          </section>
 
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {primarySections.map((section) => (
-            <SectionEntryCard key={section.slug} section={section} />
-          ))}
-          <CardModuleEntryCard displayIndex="04" />
-          {ipoSection && <SectionEntryCard section={ipoSection} displayIndex="05" />}
-          <CombinedAccessResourcesEntryCard displayIndex="06" />
-        </section>
-
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }

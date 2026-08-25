@@ -1,10 +1,10 @@
 ---
 id: okx-guide
-title: 2026年大陆用户 OKX 欧易交易所注册&入金&购买 BTC 教程
+title: OKX 欧易注册入金教程：大陆用户 2026 如何开户、KYC、C2C 买币和购买 BTC
 categoryId: crypto
 date: 2026-05-02
 readTime: 30
-summary: 从欧易注册 KYC 到 C2C 入金，再到详细的购买 BTC 教程，一篇搞定欧易所有核心功能
+summary: 大陆用户 OKX 欧易交易所教程，覆盖注册开户、KYC 认证、C2C 入金、USDT 购买、BTC 买入流程和账户安全设置。
 ---
 
 ![欧易 OKX 完整教程封面](./0.png)

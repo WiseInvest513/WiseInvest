@@ -1,10 +1,10 @@
 ---
 id: bybit-vcard
-title: Bybit 虚拟 U 卡开卡&入金完整教程
+title: Bybit Card 虚拟 U 卡开卡教程：Bybit 用户如何申请、入金和领取返现
 categoryId: vcard
 date: 2026-04-10
 readTime: 10
-summary: 手把手教你开通 Bybit 虚拟 U 卡，含入金流程和 10% 消费返现领取
+summary: Bybit Card 虚拟 U 卡申请和入金教程，覆盖 Bybit 账号准备、卡片开通、资金充值、消费返现和使用场景。
 ---
 
 ## 一、写在前面

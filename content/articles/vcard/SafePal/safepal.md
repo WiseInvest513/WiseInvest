@@ -1,10 +1,10 @@
 ---
 id: safepal-vcard
-title: SafePal 虚拟 U 卡开卡&冷钱包领取完整教程
+title: SafePal 虚拟 U 卡开卡教程：大陆用户如何认证、充值、绑定支付与领取冷钱包
 categoryId: vcard
 date: 2026-04-10
 readTime: 20
-summary: 手把手教你开通 SafePal 虚拟 U 卡，含充值、KYC 认证、激活流程，完成还可免费领取冷钱包
+summary: SafePal 虚拟 U 卡完整开卡教程，适合大陆用户了解 KYC 认证、充值、激活、Apple Pay / Google Pay 使用，以及冷钱包领取流程。
 ---
 
 ## 零、写在前面

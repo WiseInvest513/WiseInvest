@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X } from "lucide-react";
+import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X, Search } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EventCalendar } from "@/components/EventCalendar";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
+import { SearchCommand } from "@/components/search-command";
 import { type Tool } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import {
@@ -41,6 +42,7 @@ export function Navbar() {
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const [contentOpen, setContentOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -64,6 +66,17 @@ export function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSearchOpen((value) => !value);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   return (
     <>
@@ -182,6 +195,14 @@ export function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-0.5 shrink-0">
+            <button onClick={() => setSearchOpen(true)} className="hidden items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 md:inline-flex" title="搜索全站">
+              <Search className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+              <span>搜索</span>
+              <kbd className="rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px] text-slate-400 dark:border-slate-700 dark:bg-slate-900">⌘K</kbd>
+            </button>
+            <button onClick={() => setSearchOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors md:hidden" title="搜索全站">
+              <Search className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+            </button>
             <button onClick={() => setEventCalendarOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="重要事件日历">
               <CalendarIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
@@ -255,6 +276,7 @@ export function Navbar() {
         </div>
       )}
 
+      <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />
       <EventCalendar open={eventCalendarOpen} onOpenChange={setEventCalendarOpen} />
       <DailyRecommendation open={recommendationOpen} onOpenChange={setRecommendationOpen} />
 

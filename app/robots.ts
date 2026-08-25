@@ -7,7 +7,16 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/test/", "/test-data/", "/test-simple/", "/test-colors/"],
+        disallow: [
+          "/api/",
+          "/test/",
+          "/test-data/",
+          "/test-simple/",
+          "/test-colors/",
+          "/layout-debug",
+          "/tools/price-tester",
+          "/tools/god-mode/crypto-yields/test/",
+        ],
       },
     ],
     sitemap: `${siteConfig.baseUrl}/sitemap.xml`,
