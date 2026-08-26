@@ -199,20 +199,17 @@ function ProductCard({
   const tutorialIsExternal = product.tutorialLink ? isExternalUrl(product.tutorialLink) : false;
   const isLongCode = (product.code?.length ?? 0) > 10;
   const trustMeta = getProductTrustMeta(product, sectionSlug);
-  const codePanel = (
+  const codePanel = product.feeDetails ? (
+    <FeeDetailsDialog details={product.feeDetails} productTitle={product.title} variant="panel" />
+  ) : (
     <div
       className={`rounded-xl border border-slate-200/80 bg-slate-50/75 shadow-inner shadow-white/70 dark:border-slate-800/80 dark:bg-slate-900/70 dark:shadow-none ${
         wide ? "p-2.5" : "p-3"
       }`}
     >
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 text-[11px] font-black text-slate-400">
-          <Ticket className="h-3.5 w-3.5 text-amber-500" />
-          邀请码
-        </div>
-        {product.feeDetails && (
-          <FeeDetailsDialog details={product.feeDetails} productTitle={product.title} />
-        )}
+      <div className="mb-2 flex items-center gap-1.5 text-[11px] font-black text-slate-400">
+        <Ticket className="h-3.5 w-3.5 text-amber-500" />
+        邀请码
       </div>
       <div className="flex min-w-0 items-center gap-2">
         <div
@@ -220,9 +217,7 @@ function ProductCard({
             isLongCode ? "text-xs tracking-[0.03em]" : "text-[13px] tracking-[0.08em] sm:text-sm"
           }`}
         >
-          <span className="truncate whitespace-nowrap">
-          {product.code ?? "无需填写"}
-          </span>
+          <span className="truncate whitespace-nowrap">{product.code ?? "无需填写"}</span>
         </div>
         {product.code && <CopyCodeButton code={product.code} />}
       </div>
