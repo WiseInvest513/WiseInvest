@@ -33,6 +33,7 @@ import {
 } from "../data";
 import { CopyCodeButton } from "./copy-code-button";
 import { CexComparisonDialog } from "./cex-comparison-dialog";
+import { FeeDetailsDialog } from "./fee-details-dialog";
 import { CexRewardDialog, RegisterRewardButton } from "./register-reward-button";
 import { WechatContactButton } from "./wechat-contact-button";
 
@@ -204,9 +205,14 @@ function ProductCard({
         wide ? "p-2.5" : "p-3"
       }`}
     >
-      <div className="mb-2 flex items-center gap-1.5 text-[11px] font-black text-slate-400">
-        <Ticket className="h-3.5 w-3.5 text-amber-500" />
-        邀请码
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5 text-[11px] font-black text-slate-400">
+          <Ticket className="h-3.5 w-3.5 text-amber-500" />
+          邀请码
+        </div>
+        {product.feeDetails && (
+          <FeeDetailsDialog details={product.feeDetails} productTitle={product.title} />
+        )}
       </div>
       <div className="flex min-w-0 items-center gap-2">
         <div
@@ -276,6 +282,7 @@ function ProductCard({
       {product.contactWeChat ? (
         <WechatContactButton
           platform={product.title}
+          contactNotice={product.feeDetails ? "添加好友之前请认真看费率，加好友只做对接，不回答问题。" : undefined}
           className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-3 py-2.5 text-sm font-black text-amber-300 shadow-[0_10px_22px_rgba(15,23,42,0.16)] transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
         >
           {product.registerLabel ?? "联系博主"}

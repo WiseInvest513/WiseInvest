@@ -6,6 +6,23 @@ export type Perks2Subcategory = {
   products?: Perks2Product[];
 };
 
+export type Perks2FeeDetails = {
+  title: string;
+  subtitle?: string;
+  highlight?: {
+    label: string;
+    value: string;
+    note?: string;
+  };
+  rows: {
+    label: string;
+    value: string;
+    note?: string;
+    badge?: string;
+  }[];
+  notice?: string;
+};
+
 export type Perks2Product = {
   id: string;
   title: string;
@@ -29,6 +46,7 @@ export type Perks2Product = {
   availability?: "可用" | "待确认" | "暂不可用";
   bestFor?: string;
   riskNote?: string;
+  feeDetails?: Perks2FeeDetails;
 };
 
 export type Perks2Section = {
@@ -42,6 +60,53 @@ export type Perks2Section = {
 };
 
 const onlineArticle = (path: string) => `https://www.wise-invest.org${path}`;
+
+const galaxySecuritiesFeeDetails: Perks2FeeDetails = {
+  title: "场内 ETF · A 股账户",
+  subtitle: "人民币买入 · 无需外汇额度 · 银河证券",
+  highlight: {
+    label: "永久免五",
+    value: "ETF / LOF",
+    note: "入金 1.5 万放 2 个月，ETF / LOF 可申请永久免五",
+  },
+  rows: [
+    {
+      label: "ETF / LOF",
+      value: "万0.5，1毛起",
+      note: "免五",
+      badge: "免五",
+    },
+    {
+      label: "股票",
+      value: "万0.86，5元起",
+      note: "50万↑万0.8",
+    },
+    {
+      label: "可转债",
+      value: "万0.5",
+      note: "沪0.1元 / 深0.2元起",
+    },
+    {
+      label: "北交所",
+      value: "万2",
+    },
+    {
+      label: "港股通",
+      value: "万0.8",
+      note: "不免五",
+    },
+    {
+      label: "国债逆回购",
+      value: "1折",
+      note: "500万以上0.1折",
+    },
+    {
+      label: "LOF申购/赎回",
+      value: "1折 / 5折",
+    },
+  ],
+  notice: "建议关注溢价率，本站「场内ETF」标签页实时监控。",
+};
 
 export const perkSections: Perks2Section[] = [
   {
@@ -718,6 +783,7 @@ export const perkSections: Perks2Section[] = [
             recommendationText: "ETF 友好",
             badge: "编辑推荐",
             iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/33/30/9c3330e7-b543-f9e6-65c3-bceeeac2d132/AppIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/512x512bb.jpg",
+            feeDetails: galaxySecuritiesFeeDetails,
           },
           {
             id: "huatai-securities",
@@ -852,6 +918,7 @@ export const perkSections: Perks2Section[] = [
             recommendationText: "A 股入口",
             badge: "编辑推荐",
             iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/33/30/9c3330e7-b543-f9e6-65c3-bceeeac2d132/AppIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/512x512bb.jpg",
+            feeDetails: galaxySecuritiesFeeDetails,
           },
           {
             id: "wiseinvest-collective-ipo",

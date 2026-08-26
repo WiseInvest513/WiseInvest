@@ -14,10 +14,12 @@ export function WechatContactButton({
   platform,
   className,
   children = "联系博主",
+  contactNotice,
 }: {
   platform: string;
   className?: string;
   children?: ReactNode;
+  contactNotice?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -44,6 +46,11 @@ export function WechatContactButton({
               <span className="font-bold text-slate-700 dark:text-slate-300">{platform}</span>
               」即可获取开户协助。
             </p>
+            {contactNotice && (
+              <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-800 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-200">
+                {contactNotice}
+              </p>
+            )}
             <div className="mx-auto mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-950" style={{ maxWidth: 260 }}>
               <img src="/images/微信图片520.png" alt="微信二维码" className="block h-auto w-full" />
             </div>
