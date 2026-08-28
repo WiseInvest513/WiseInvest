@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X, Search } from "lucide-react";
+import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X, Search, UserCircle } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EventCalendar } from "@/components/EventCalendar";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
@@ -18,6 +18,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CompoundInterestCalc } from "@/components/tools/CompoundInterestCalc";
+
+type NavSession = {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+} | null;
 
 const navItemsBefore = [
   { label: "首页", href: "/" },
@@ -43,6 +51,7 @@ export function Navbar() {
   const [contentOpen, setContentOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [accountUser, setAccountUser] = useState<NonNullable<NavSession>["user"] | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -77,6 +86,23 @@ export function Navbar() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/auth/session", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() as Promise<NavSession> : null))
+      .then((session) => {
+        if (!active) return;
+        setAccountUser(session?.user ?? null);
+      })
+      .catch(() => {
+        if (active) setAccountUser(null);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [pathname]);
 
   return (
     <>
@@ -209,6 +235,22 @@ export function Navbar() {
             <button onClick={() => setRecommendationOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="今日精选">
               <Gift className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
+            <Link
+              href="/account"
+              className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800"
+              title={accountUser?.name ? `Wise 账户：${accountUser.name}` : "Wise 账户"}
+            >
+              {accountUser?.image ? (
+                <img
+                  src={accountUser.image}
+                  alt="账户头像"
+                  referrerPolicy="no-referrer"
+                  className="h-6 w-6 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-700"
+                />
+              ) : (
+                <UserCircle className="h-4 w-4 text-slate-600 dark:text-slate-300" />
+              )}
+            </Link>
             <ThemeToggle />
           </div>
         </div>

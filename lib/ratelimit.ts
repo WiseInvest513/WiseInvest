@@ -17,6 +17,13 @@ function getRedis(): Redis {
   return new Redis({ url, token });
 }
 
+export function isRedisRatelimitConfigured() {
+  return Boolean(
+    (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL) &&
+      (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN)
+  );
+}
+
 /** 创建短链：每 1 秒最多 3 次 */
 export function getCreateShortLimit() {
   const redis = getRedis();
@@ -34,6 +41,26 @@ export function getRedirectLimit() {
     redis,
     limiter: Ratelimit.fixedWindow(5, "1 s"),
     prefix: "rl:short:redirect",
+  });
+}
+
+/** VIP 账户绑定提交：每 10 分钟最多 5 次 */
+export function getVipBindingSubmitLimit() {
+  const redis = getRedis();
+  return new Ratelimit({
+    redis,
+    limiter: Ratelimit.fixedWindow(5, "10 m"),
+    prefix: "rl:vip:binding-submit",
+  });
+}
+
+/** 后台写操作：每分钟最多 30 次 */
+export function getAdminMutationLimit() {
+  const redis = getRedis();
+  return new Ratelimit({
+    redis,
+    limiter: Ratelimit.fixedWindow(30, "1 m"),
+    prefix: "rl:admin:mutation",
   });
 }
 
