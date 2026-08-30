@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
-  Library, ArrowRight, Search, Menu, CheckCircle2, ExternalLink, MessageCircle, ShieldCheck,
+  Library, ArrowRight, Search, Menu, CheckCircle2, ExternalLink, MessageCircle, ShieldCheck, LockKeyhole,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
 import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
@@ -29,6 +29,10 @@ interface ArticlesPageProps {
   initialArticleId?: string;
   initialCategoryId?: string;
   initialFaqs?: ArticleFaqItem[];
+  lockedContent?: {
+    reason: string;
+    loginHref: string;
+  };
 }
 
 function getArticleHref(article: Pick<ArticleItem, "id" | "categoryId">) {
@@ -177,6 +181,7 @@ export function ArticlesContent({
   initialArticleId,
   initialCategoryId,
   initialFaqs,
+  lockedContent,
 }: ArticlesPageProps = {}) {
   const pathname = usePathname();
   const [openCategories, setOpenCategories] = useState<Set<string>>(() => new Set([
@@ -206,6 +211,11 @@ export function ArticlesContent({
   );
 
   useEffect(() => {
+    if (lockedContent) {
+      setIsLoadingArticle(false);
+      return;
+    }
+
     // Parse URL once; resolve article in the same batch as setAllArticles
     const urlMatch = window.location.pathname.match(/^\/articles\/([^/]+)\/([a-zA-Z0-9]{8})$/);
 
@@ -231,7 +241,7 @@ export function ArticlesContent({
         setIsLoadingArticle(false);
       })
       .catch(() => setIsLoadingArticle(false));
-  }, []);
+  }, [lockedContent]);
 
   const selectedArticle = useMemo(() => allArticles.find(a => a.id === selectedArticleId) ?? null, [selectedArticleId, allArticles]);
   const selectedContent = selectedArticle?.content ?? "";
@@ -524,18 +534,20 @@ export function ArticlesContent({
                   {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
                 </span>
-                <ArticleExportButton
-                  articleId={selectedArticle.id}
-                  categoryId={selectedArticle.categoryId}
-                  uid={genUid(selectedArticle.id)}
-                  title={selectedArticle.title}
-                  summary={selectedArticle.summary}
-                  date={selectedArticle.date}
-                  readTime={selectedArticle.readTime}
-                  categoryName={categories.find(c => c.id === selectedArticle.categoryId)?.name ?? ""}
-                  categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
-                  content={selectedContent}
-                />
+                {!lockedContent && (
+                  <ArticleExportButton
+                    articleId={selectedArticle.id}
+                    categoryId={selectedArticle.categoryId}
+                    uid={genUid(selectedArticle.id)}
+                    title={selectedArticle.title}
+                    summary={selectedArticle.summary}
+                    date={selectedArticle.date}
+                    readTime={selectedArticle.readTime}
+                    categoryName={categories.find(c => c.id === selectedArticle.categoryId)?.name ?? ""}
+                    categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
+                    content={selectedContent}
+                  />
+                )}
               </div>
               <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
                 {selectedArticle.title}
@@ -589,7 +601,33 @@ export function ArticlesContent({
 
               <div className="mt-6 md:mt-8">{renderedContent}</div>
 
-              {visibleFaqs.length > 0 && (
+              {lockedContent && (
+                <section className="mt-8 overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white p-5 shadow-sm dark:border-amber-900/60 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-950 md:p-6">
+                  <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                    <div className="flex items-start gap-4">
+                      <div className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-amber-200 bg-white text-amber-700 dark:border-amber-800 dark:bg-slate-950 dark:text-amber-300">
+                        <LockKeyhole className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700 dark:text-amber-300">Wise ID</p>
+                        <h2 className="mt-2 text-xl font-black text-slate-950 dark:text-white">登录后继续阅读完整内容</h2>
+                        <p className="mt-2 text-sm font-semibold leading-7 text-slate-600 dark:text-slate-300">
+                          {lockedContent.reason}。登录或注册后会自动回到这篇文章。
+                        </p>
+                      </div>
+                    </div>
+                    <Link
+                      href={lockedContent.loginHref}
+                      className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
+                    >
+                      登录阅读全文
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </section>
+              )}
+
+              {!lockedContent && visibleFaqs.length > 0 && (
                 <section className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-amber-500" />

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { auth } from "@/auth";
 import { siteConfig } from "@/lib/config";
 import {
   getAllArticles,
@@ -10,19 +11,16 @@ import {
   getArticleSeoKeywords,
   toArticleListItem,
 } from "@/lib/articles";
-import { genUid } from "@/lib/article-uid";
 import { ArticlesContent } from "@/app/articles/articles-content";
+import {
+  buildLoginHref,
+  canReadContentAccess,
+  createContentPreview,
+  getContentAccessRule,
+} from "@/lib/content-access";
 
-// 所有文章均在构建时静态生成，不存在的路径返回 404
-// Serverless Function 运行时不再读取文件系统
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  return getAllArticles().map((article) => ({
-    categoryId: article.categoryId,
-    uid: genUid(article.id),
-  }));
-}
+// 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ categoryId: string; uid: string }> }
@@ -71,7 +69,17 @@ export default async function ArticleUidPage(
   const article = getArticleByRoute(categoryId, uid);
   if (!article) notFound();
 
+  const session = await auth();
   const allArticles = getAllArticles();
+  const articleRoute = getArticleRoute(article);
+  const accessRule = getContentAccessRule(articleRoute);
+  const canReadFullArticle = canReadContentAccess(accessRule.access, session?.user?.membershipTier);
+  const visibleArticle = canReadFullArticle
+    ? article
+    : {
+        ...article,
+        content: createContentPreview(article.content),
+      };
   const url = siteConfig.url(getArticleRoute(article));
   const image = getArticlePrimaryImage(article);
   const absoluteImage = image
@@ -159,11 +167,19 @@ export default async function ArticleUidPage(
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <ArticlesContent
-        initialArticle={article}
+        initialArticle={visibleArticle}
         initialArticleId={article.id}
         initialArticles={allArticles.map(toArticleListItem)}
         initialCategoryId={article.categoryId}
         initialFaqs={articleFaqs}
+        lockedContent={
+          canReadFullArticle
+            ? undefined
+            : {
+                reason: accessRule.reason,
+                loginHref: buildLoginHref(articleRoute),
+              }
+        }
       />
     </>
   );

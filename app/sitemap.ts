@@ -50,11 +50,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const articlePages = getAllArticles()
     .filter((article) => article.categoryId)
-    .filter((article) => !requiresLoginForContent(getArticleRoute(article)))
     .map((article) => ({
       url: `${baseUrl}${getArticleRoute(article)}`,
       lastModified: article.date ? new Date(article.date) : undefined,
-      priority: 0.8,
+      priority: requiresLoginForContent(getArticleRoute(article)) ? 0.72 : 0.82,
       changeFrequency: "monthly" as const,
     }));
 

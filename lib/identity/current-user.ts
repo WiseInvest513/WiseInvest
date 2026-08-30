@@ -18,6 +18,11 @@ function createDevPreviewUser(membershipTier: "MEMBER" | "VIP" | "VIP_PLUS") {
     name: "Wise 本地预览用户",
     membershipTier,
     role: "USER" as const,
+    accounts: [
+      {
+        provider: "password",
+      },
+    ],
     partnerAccounts: isMember
       ? [
           {
@@ -142,6 +147,11 @@ export async function getCurrentWiseUser() {
       name: true,
       membershipTier: true,
       role: true,
+      accounts: {
+        select: {
+          provider: true,
+        },
+      },
       partnerAccounts: {
         select: {
           id: true,

@@ -1,23 +1,18 @@
-export type ContentAccessLevel = "PUBLIC" | "MEMBER" | "VIP";
+import {
+  defaultArticleAccessRule,
+  defaultRoadmapAccessRule,
+  publicArticlePaths,
+  publicCapitalFlowRouteIds,
+  publicRoadmapDetailIds,
+  type ContentAccessLevel,
+} from "@/lib/content-access-rules";
+
+export type { ContentAccessLevel } from "@/lib/content-access-rules";
 
 type ContentAccessRule = {
   access: ContentAccessLevel;
   reason: string;
 };
-
-const PUBLIC_ARTICLE_PATHS = new Set([
-  "/articles/web/EYO11DG3",
-]);
-
-const PUBLIC_ROADMAP_DETAIL_IDS = new Set([
-  "crypto-trading",
-  "binance-alpha-okx-boost",
-]);
-
-const PUBLIC_CAPITAL_FLOW_ROUTE_IDS = new Set([
-  "overview",
-  "onchain-us-stocks",
-]);
 
 const WISE_INVEST_HOSTS = new Set(["wise-invest.org", "www.wise-invest.org", "localhost", "127.0.0.1"]);
 
@@ -73,24 +68,24 @@ export function getContentAccessRule(hrefOrPath: string): ContentAccessRule {
   const { pathname, searchParams } = splitPathAndSearch(hrefOrPath);
 
   if (/^\/articles\/[^/]+\/[^/]+$/.test(pathname)) {
-    return PUBLIC_ARTICLE_PATHS.has(pathname)
+    return publicArticlePaths.has(pathname)
       ? { access: "PUBLIC", reason: "公开示范文章" }
-      : { access: "MEMBER", reason: "完整文章需要登录 Wise ID 后阅读" };
+      : defaultArticleAccessRule;
   }
 
   const roadmapDetail = pathname.match(/^\/roadmap\/([^/]+)$/);
   if (roadmapDetail) {
     const roadmapId = decodeURIComponent(roadmapDetail[1]);
-    return PUBLIC_ROADMAP_DETAIL_IDS.has(roadmapId)
+    return publicRoadmapDetailIds.has(roadmapId)
       ? { access: "PUBLIC", reason: "公开学习路线" }
-      : { access: "MEMBER", reason: "完整学习路线需要登录 Wise ID 后查看" };
+      : defaultRoadmapAccessRule;
   }
 
   if (pathname === "/roadmap") {
     const routeId = searchParams.get("route") ?? "overview";
-    return PUBLIC_CAPITAL_FLOW_ROUTE_IDS.has(routeId)
+    return publicCapitalFlowRouteIds.has(routeId)
       ? { access: "PUBLIC", reason: "公开资金路径" }
-      : { access: "MEMBER", reason: "完整资金路径需要登录 Wise ID 后查看" };
+      : defaultRoadmapAccessRule;
   }
 
   return { access: "PUBLIC", reason: "公开页面" };
@@ -107,4 +102,30 @@ export function getLockedContentHint(hrefOrPath: string) {
 
 export function buildLoginHref(callbackUrl: string) {
   return `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+}
+
+export function canReadContentAccess(access: ContentAccessLevel, membershipTier?: string | null) {
+  if (access === "PUBLIC") return true;
+  if (!membershipTier) return false;
+  if (access === "MEMBER") return true;
+  return membershipTier === "VIP" || membershipTier === "VIP_PLUS";
+}
+
+export function createContentPreview(content: string, maxChars = 900) {
+  const lines = content
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .filter((line) => line.trim() && !line.trim().startsWith("!["));
+
+  const selected: string[] = [];
+  let total = 0;
+
+  for (const line of lines) {
+    selected.push(line);
+    total += line.length;
+    if (total >= maxChars && selected.some((item) => /^#{1,3}\s+/.test(item))) break;
+    if (selected.length >= 16) break;
+  }
+
+  return selected.join("\n\n");
 }

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Github, IdCard, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Github, IdCard, LockKeyhole, Mail, ShieldCheck, UserRound } from "lucide-react";
 import { PasswordSettingsForm } from "@/app/account/settings/password-settings-form";
+import { ProfileSettingsForm } from "@/app/account/settings/profile-settings-form";
 import { SignOutButton } from "@/app/account/sign-out-button";
 import { Button } from "@/components/ui/button";
 import { requireWiseUser } from "@/lib/identity/current-user";
 import { getPrisma } from "@/lib/prisma";
 import { getPublicTierLabel } from "@/lib/vip/display";
+import { getLoginProviderLabel } from "@/lib/auth/provider-display";
 
 export const dynamic = "force-dynamic";
 
@@ -29,8 +31,15 @@ export default async function AccountSettingsPage() {
           passwordHash: true,
         },
       });
+  const linkedProviders = new Set(user.accounts?.map((account) => account.provider) ?? []);
+  if (passwordUser?.passwordHash || linkedProviders.has("password")) linkedProviders.add("password");
 
   const accountRows = [
+    {
+      label: "昵称",
+      value: user.name ?? "未命名用户",
+      icon: UserRound,
+    },
     {
       label: "Email",
       value: user.email ?? "未绑定邮箱",
@@ -85,19 +94,33 @@ export default async function AccountSettingsPage() {
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <ProfileSettingsForm name={user.name} email={user.email} image={user.image} />
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <h2 className="text-xl font-black">登录方式</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
-              { label: "邮箱密码", icon: Mail, state: user.email ? "可用" : "未绑定" },
-              { label: "Google", icon: ShieldCheck, state: "配置后可用" },
-              { label: "GitHub", icon: Github, state: "配置后可用" },
+              { provider: "password", label: "邮箱密码", icon: Mail },
+              { provider: "google", label: "Google", icon: ShieldCheck },
+              { provider: "github", label: "GitHub", icon: Github },
             ].map((item) => {
               const Icon = item.icon;
+              const linked = linkedProviders.has(item.provider);
               return (
-                <div key={item.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
-                  <Icon className="mb-3 h-5 w-5 text-amber-500" />
-                  <p className="font-black">{item.label}</p>
-                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{item.state}</p>
+                <div
+                  key={item.provider}
+                  className={`rounded-2xl border p-4 ${
+                    linked
+                      ? "border-amber-200 bg-amber-50/60 dark:border-amber-900/50 dark:bg-amber-950/20"
+                      : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950"
+                  }`}
+                >
+                  <Icon className={`mb-3 h-5 w-5 ${linked ? "text-amber-600 dark:text-amber-300" : "text-slate-400"}`} />
+                  <p className="font-black">{getLoginProviderLabel(item.provider)}</p>
+                  <p className={`mt-1 text-sm font-semibold ${linked ? "text-amber-700 dark:text-amber-300" : "text-slate-500 dark:text-slate-400"}`}>
+                    {linked ? "已绑定" : "未绑定"}
+                  </p>
                 </div>
               );
             })}
