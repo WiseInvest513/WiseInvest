@@ -614,5 +614,197 @@
     "category": "经济数据",
     "impact": "high",
     "description": "关注截至3月的就业水平是否大幅重估，可能改变市场对劳动力市场强弱和美联储反应函数的判断"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "盘前",
+    "title": "Medtronic（MDT）Q1 FY27财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注心血管、糖尿病和手术业务增速、毛利率及全年指引，观察大型医疗器械需求与汇率压力"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "21:05",
+    "title": "美联储理事Barr经济展望讲话",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注其对经济前景、信贷可得性和金融包容性的判断，辅助观察FOMC前官员对增长与金融条件的边际表态"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "22:00",
+    "title": "美国7月建筑支出",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注住宅、非住宅和制造业相关建设支出，判断高利率环境下地产链和AI/制造业投资韧性"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "22:00",
+    "title": "美国7月JOLTS职位空缺",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注职位空缺、招聘率和离职率，判断劳动力需求是否继续降温，并为周五非农和9月FOMC定价提供线索"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "22:00",
+    "title": "美国8月ISM制造业PMI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注新订单、就业、价格和供应商交付分项，判断制造业需求、成本压力和周期股盈利预期"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "盘后",
+    "title": "Credo（CRDO）Q1 FY27财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注高速互连收入、AI客户集中度、毛利率和下一季指引，检验数据中心连接链条景气度"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "盘后",
+    "title": "Dell（DELL）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注AI服务器收入、订单和积压、ISG利润率及全年指引，检验英伟达后AI硬件需求能否继续扩散"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "盘后",
+    "title": "MongoDB（MDB）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注Atlas增速、企业客户扩张、AI应用负载和FY27指引，观察数据库平台在AI应用开发中的预算优先级"
+  },
+  {
+    "date": "2026-09-01",
+    "time": "盘后",
+    "title": "Palo Alto Networks（PANW）Q4 FY26财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注ARR、RPO、平台化进展、CyberArk整合和FY27指引，检验网络安全AI叙事与估值能否匹配"
+  },
+  {
+    "date": "2026-09-02",
+    "time": "20:15",
+    "title": "美国8月ADP就业人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注私营部门就业和薪资变化，作为周五非农前的辅助信号，重点看是否与官方就业数据方向一致"
+  },
+  {
+    "date": "2026-09-02",
+    "time": "22:00",
+    "title": "美国7月工厂订单",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注总订单、核心资本品和出货修正，判断企业资本开支、制造业库存周期和工业板块盈利动能"
+  },
+  {
+    "date": "2026-09-02",
+    "time": "盘后",
+    "title": "Broadcom（AVGO）Q3 FY26财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注AI加速器、网络芯片、VMware整合、毛利率和FY27 AI收入展望，是AI半导体链的核心验证点"
+  },
+  {
+    "date": "2026-09-02",
+    "time": "盘后",
+    "title": "HPE（HPE）Q3 FY26财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注Cloud & AI、服务器、网络和Juniper整合后的利润率，判断企业AI基础设施订单质量"
+  },
+  {
+    "date": "2026-09-02",
+    "time": "盘后",
+    "title": "Snowflake（SNOW）Q2 FY27财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注产品收入、净留存率、大客户数、RPO和AI产品使用，检验企业数据云预算与AI商业化强度"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "02:00",
+    "title": "美联储Beige Book",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注地区经济、就业、工资和价格压力描述，是9月FOMC前评估软着陆与通胀黏性的关键材料"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "盘前",
+    "title": "Ciena（CIEN）Q3 FY26财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注光网络订单、云客户需求、毛利率和全年收入指引，观察AI数据中心带宽投资是否传导到光通信设备"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "20:30",
+    "title": "美国7月贸易帐",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注商品和服务贸易差额、进口需求与出口变化，影响三季度GDP跟踪和美元、周期股预期"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请和续请是否升温，为非农前一天提供就业市场高频线索，并影响短端利率波动"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "20:30",
+    "title": "美国Q2非农生产率及单位劳动力成本修正",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注生产率和单位劳动力成本修正，判断利润率、工资通胀和美联储对供给侧改善的信心"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "20:30",
+    "title": "美联储理事Waller经济展望讲话",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注其对就业、通胀和政策路径的措辞，尤其是非农前是否强化或削弱9月FOMC加息预期"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "22:00",
+    "title": "美国8月ISM服务业PMI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注商业活动、新订单、就业和价格分项，服务业仍是通胀和盈利韧性的核心观察窗口"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "盘后",
+    "title": "lululemon（LULU）Q2 FY26财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注北美同店销售、库存、毛利率和全年指引，判断高端消费与运动服饰需求是否继续承压"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "盘后",
+    "title": "Zscaler（ZS）Q4 FY26财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注ARR、RPO、大客户增长、自由现金流和FY27指引，观察零信任与AI安全预算是否延续"
+  },
+  {
+    "date": "2026-09-04",
+    "time": "20:30",
+    "title": "美国8月非农就业报告",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注新增非农、失业率、劳动参与率、时薪和前值修正，是9月FOMC前影响利率预期的最重要就业数据"
   }
 ]
