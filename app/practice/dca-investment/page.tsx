@@ -436,6 +436,7 @@ const continuationDcaData: DcaDataPoint[] = [
   { date: "2026/08/09", btcPrice: 64944.8, ethPrice: 1918.3, executionTime: "周日 20:30", source: "OKX" },
   { date: "2026/08/16", btcPrice: 63017.6, ethPrice: 1880.71, executionTime: "周日 20:30", source: "OKX" },
   { date: "2026/08/23", btcPrice: 76121, ethPrice: 2390, executionTime: "周日 20:30", source: "手动记录" },
+  { date: "2026/08/30", btcPrice: 78190, ethPrice: 2459, executionTime: "周日 20:30", source: "手动记录" },
 ];
 
 const investmentPerAsset = 100;
