@@ -328,16 +328,9 @@ export function ArticlesContent({
     setOpenCategories(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   };
 
-  const selectArticle = async (id: string, catId: string) => {
+  const selectArticle = (id: string, catId: string) => {
     const href = `/articles/${catId}/${genUid(id)}`;
-    const allowed = await guardHref(href);
-    if (!allowed) return;
-
-    setSelectedArticleId(id);
-    setOpenCategories(prev => new Set([...prev, catId]));
-    contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    window.history.pushState(null, "", href);
-    setSidebarOpen(false);
+    window.location.assign(href);
   };
 
   const toggleFavorite = async () => {

@@ -77,6 +77,15 @@ function recordLoginPrompt(href: string, title?: string) {
   }).catch(() => {});
 }
 
+function isArticleDetailHref(href: string) {
+  try {
+    const url = new URL(toWiseInvestRelativeHref(href), "https://www.wise-invest.org");
+    return /^\/articles\/[^/]+\/[^/]+$/.test(url.pathname);
+  } catch {
+    return false;
+  }
+}
+
 export function LoginRequiredDialog({
   open,
   href,
@@ -157,6 +166,8 @@ export function useContentAccessGate() {
   const guardHref = async (href: string) => {
     if (!isWiseInvestHref(href)) return true;
     const navigationHref = toWiseInvestRelativeHref(href);
+    if (isArticleDetailHref(navigationHref)) return true;
+
     const result = await checkContentAccess(navigationHref);
     if (result.allowed) return true;
     recordLoginPrompt(navigationHref);
@@ -201,6 +212,7 @@ export function ProtectedContentLink({
     const target = event.currentTarget.getAttribute("target");
     if (target && target !== "_self") return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (isArticleDetailHref(navigationHref)) return;
 
     event.preventDefault();
     const result = await checkContentAccess(navigationHref);

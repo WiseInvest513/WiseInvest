@@ -154,7 +154,7 @@ export function canReadContentAccess(access: ContentAccessLevel, membershipTier?
   return membershipTier === "VIP_PLUS";
 }
 
-export function createContentPreview(content: string, maxChars = 900) {
+export function createContentPreview(content: string, maxChars = 1200) {
   const lines = content
     .split("\n")
     .map((line) => line.trimEnd())
