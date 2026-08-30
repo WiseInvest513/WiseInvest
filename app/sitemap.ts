@@ -6,6 +6,7 @@ import { knowledgeBaseMetadata } from "@/lib/anthology/metadata";
 import { roadmaps } from "@/lib/roadmaps-data";
 import { getAllArticles, getArticleRoute } from "@/lib/articles";
 import { categories } from "@/lib/articles-data";
+import { requiresLoginForContent } from "@/lib/content-access";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.baseUrl;
@@ -39,14 +40,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }));
 
   // Roadmap 详情页
-  const roadmapPages = roadmaps.map((r) => ({
-    url: `${baseUrl}/roadmap/${r.id}`,
-    priority: 0.6,
-    changeFrequency: "monthly" as const,
-  }));
+  const roadmapPages = roadmaps
+    .filter((r) => !requiresLoginForContent(`/roadmap/${r.id}`))
+    .map((r) => ({
+      url: `${baseUrl}/roadmap/${r.id}`,
+      priority: 0.6,
+      changeFrequency: "monthly" as const,
+    }));
 
   const articlePages = getAllArticles()
     .filter((article) => article.categoryId)
+    .filter((article) => !requiresLoginForContent(getArticleRoute(article)))
     .map((article) => ({
       url: `${baseUrl}${getArticleRoute(article)}`,
       lastModified: article.date ? new Date(article.date) : undefined,

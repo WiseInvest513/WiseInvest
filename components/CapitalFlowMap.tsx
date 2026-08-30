@@ -10,12 +10,15 @@ import {
   ChevronDown,
   CreditCard,
   Landmark,
+  LockKeyhole,
   Network,
   Route,
   WalletCards,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
+import { getLockedContentHint } from "@/lib/content-access";
 
 type NodeKind =
   | "domestic-bank"
@@ -961,16 +964,14 @@ function FlowNodeCard({
       }}
     >
       {node.href ? (
-        <a
+        <ProtectedContentLink
           href={node.href}
-          target="_blank"
-          rel="noopener noreferrer"
           aria-label={`打开${node.label}教程`}
           title={`打开${node.label}教程`}
           className="block cursor-pointer rounded-2xl transition-transform duration-200 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
         >
           {content}
-        </a>
+        </ProtectedContentLink>
       ) : content}
     </div>
   );
@@ -1078,6 +1079,7 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
   const [selectedRouteId, setSelectedRouteId] = useState(() => resolveRouteId(requestedRouteId));
   const [routeMenuOpen, setRouteMenuOpen] = useState(false);
   const routeMenuRef = useRef<HTMLDivElement>(null);
+  const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
   const selectedRoute = routes.find((route) => route.id === selectedRouteId) ?? routes[0];
   const overview = selectedRoute.id === "overview";
   const activeNodeIds = useMemo(() => getRouteNodeIds(selectedRoute), [selectedRoute]);
@@ -1091,7 +1093,14 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
     setSelectedRouteId(resolveRouteId(requestedRouteId));
   }, [requestedRouteId]);
 
-  const selectRoute = (routeId: string) => {
+  const selectRoute = async (routeId: string) => {
+    const targetHref = routeId === "overview" ? "/roadmap" : `/roadmap?route=${routeId}`;
+    const allowed = await guardHref(targetHref);
+    if (!allowed) {
+      setRouteMenuOpen(false);
+      return;
+    }
+
     setSelectedRouteId(routeId);
     setRouteMenuOpen(false);
 
@@ -1142,6 +1151,7 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
         visualOnly ? "h-[520px] min-h-[420px] rounded-[28px]" : "h-[calc(100vh-64px)]"
       )}
     >
+      {contentGateDialog}
       <div
         className={cn(
           "relative z-[1] grid h-full w-full",
@@ -1247,13 +1257,14 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
                         <div className="space-y-1">
                           {categoryRoutes.map((route) => {
                             const selected = route.id === selectedRouteId;
+                            const lockedHint = getLockedContentHint(route.id === "overview" ? "/roadmap" : `/roadmap?route=${route.id}`);
                             return (
                               <button
                                 key={route.id}
                                 type="button"
                                 role="option"
                                 aria-selected={selected}
-                                onClick={() => selectRoute(route.id)}
+                                onClick={() => void selectRoute(route.id)}
                                 className={cn(
                                   "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[11px] font-black transition-colors",
                                   selected
@@ -1268,6 +1279,12 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
                                   )}
                                 />
                                 <span className="truncate">{route.label}</span>
+                                {lockedHint && (
+                                  <span className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-black text-slate-400 dark:border-slate-800 dark:bg-slate-950">
+                                    <LockKeyhole className="h-2.5 w-2.5" />
+                                    登录
+                                  </span>
+                                )}
                               </button>
                             );
                           })}

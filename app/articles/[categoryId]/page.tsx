@@ -5,6 +5,7 @@ import { ArrowRight, BookOpen, Calendar, Clock } from "lucide-react";
 import { categories, subcategories } from "@/lib/articles-data";
 import { getAllArticles, getArticleRoute } from "@/lib/articles";
 import { siteConfig } from "@/lib/config";
+import { ProtectedContentLink } from "@/components/content-access-gate";
 
 export const dynamicParams = false;
 
@@ -165,7 +166,7 @@ export default async function CategoryPage(
             {articles.map((article) => {
               const subcategory = subcategories.find((item) => item.id === article.subcategoryId);
               return (
-                <Link
+                <ProtectedContentLink
                   key={article.id}
                   href={getArticleRoute(article)}
                   className="group rounded-2xl border border-slate-200/80 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-[0_16px_36px_rgba(245,158,11,0.12)] dark:border-slate-800 dark:bg-slate-900 dark:hover:border-amber-700"
@@ -195,7 +196,7 @@ export default async function CategoryPage(
                     阅读教程
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </div>
-                </Link>
+                </ProtectedContentLink>
               );
             })}
           </div>

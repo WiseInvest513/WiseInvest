@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import Link from "next/link";
 import { BookOpen, Copy, ExternalLink, Sparkles, X } from "lucide-react";
 import type { Perks2Product } from "../data";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
+import { ProtectedContentLink } from "@/components/content-access-gate";
+import { isWiseInvestHref } from "@/lib/content-access";
 
-const isExternalUrl = (url: string) => url.startsWith("http://") || url.startsWith("https://");
+const isExternalUrl = (url: string) => (url.startsWith("http://") || url.startsWith("https://")) && !isWiseInvestHref(url);
 
 function CopyCodeButton({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
@@ -64,9 +65,9 @@ function LinkButton({
   }
 
   return (
-    <Link href={href} className={className}>
+    <ProtectedContentLink href={href} className={className}>
       {children}
-    </Link>
+    </ProtectedContentLink>
   );
 }
 

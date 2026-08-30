@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
 import { ArticleExportButton } from "@/components/article-export-button";
 import { CommunityDialog } from "@/components/community-dialog";
+import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
 
 type ArticleItem = ArticleListItem & { content?: string };
 type ArticleGuideProfile = {
@@ -188,6 +189,7 @@ export function ArticlesContent({
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [communityOpen, setCommunityOpen] = useState(false);
+  const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
   const contentRef = useRef<HTMLDivElement>(null);
   const [allArticles, setAllArticles] = useState<ArticleItem[]>(() => {
     if (!initialArticles) return hardcodedArticles;
@@ -277,11 +279,15 @@ export function ArticlesContent({
     setOpenCategories(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   };
 
-  const selectArticle = (id: string, catId: string) => {
+  const selectArticle = async (id: string, catId: string) => {
+    const href = `/articles/${catId}/${genUid(id)}`;
+    const allowed = await guardHref(href);
+    if (!allowed) return;
+
     setSelectedArticleId(id);
     setOpenCategories(prev => new Set([...prev, catId]));
     contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-    window.history.pushState(null, "", `/articles/${catId}/${genUid(id)}`);
+    window.history.pushState(null, "", href);
     setSidebarOpen(false);
   };
 
@@ -302,6 +308,7 @@ export function ArticlesContent({
         />
       )}
       <CommunityDialog open={communityOpen} onOpenChange={setCommunityOpen} />
+      {contentGateDialog}
 
       <div className="w-full flex h-[calc(100vh-64px)]">
 
@@ -405,7 +412,7 @@ export function ArticlesContent({
                                   return (
                                     <button
                                       key={art.id}
-                                      onClick={() => selectArticle(art.id, cat.id)}
+                                      onClick={() => void selectArticle(art.id, cat.id)}
                                       className={cn(
                                         "w-full text-left pl-4 pr-4 py-2.5 text-sm transition-all duration-150 relative",
                                         isActive
@@ -432,7 +439,7 @@ export function ArticlesContent({
                         return (
                           <button
                             key={art.id}
-                            onClick={() => selectArticle(art.id, cat.id)}
+                            onClick={() => void selectArticle(art.id, cat.id)}
                             className={cn(
                               "w-full text-left px-5 pl-[3.25rem] py-2.5 text-sm transition-all duration-150 relative",
                               isActive
@@ -617,7 +624,7 @@ export function ArticlesContent({
                       </h2>
                       <div className="mt-4 grid gap-3 sm:grid-cols-2">
                         {relatedArticles.map(article => (
-                          <Link
+                          <ProtectedContentLink
                             key={article.id}
                             href={getArticleHref(article)}
                             className="group rounded-2xl border border-slate-200/80 bg-white/90 p-4 transition-all hover:border-amber-300 hover:bg-amber-50/60 dark:border-slate-800 dark:bg-slate-900/90 dark:hover:border-amber-700 dark:hover:bg-amber-900/10"
@@ -632,7 +639,7 @@ export function ArticlesContent({
                             <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
                               {article.summary}
                             </p>
-                          </Link>
+                          </ProtectedContentLink>
                         ))}
                       </div>
                     </div>
@@ -645,7 +652,7 @@ export function ArticlesContent({
                       </h2>
                       <div className="mt-4 grid gap-3 md:grid-cols-3">
                         {topicLinks.map(link => (
-                          <Link
+                          <ProtectedContentLink
                             key={link.href}
                             href={link.href}
                             className="group rounded-2xl border border-amber-200/80 bg-amber-50/70 p-4 transition-all hover:border-amber-400 hover:bg-amber-100/70 dark:border-amber-900/60 dark:bg-amber-950/20 dark:hover:border-amber-700"
@@ -659,7 +666,7 @@ export function ArticlesContent({
                             <p className="mt-2 text-xs leading-5 text-slate-600 dark:text-slate-400">
                               {link.description}
                             </p>
-                          </Link>
+                          </ProtectedContentLink>
                         ))}
                       </div>
                     </div>
@@ -705,7 +712,7 @@ export function ArticlesContent({
                   return (
                     <button
                       key={art.id}
-                      onClick={() => selectArticle(art.id, art.categoryId)}
+                      onClick={() => void selectArticle(art.id, art.categoryId)}
                       className={cn(
                         "text-left p-5 rounded-2xl border bg-white dark:bg-slate-900 hover:border-amber-300 dark:hover:border-amber-700 hover:shadow-md hover:shadow-amber-100/50 dark:hover:shadow-amber-900/20 transition-all duration-200 group",
                         isGuide

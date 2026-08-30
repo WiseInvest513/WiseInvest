@@ -36,6 +36,8 @@ import {
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
+import { useContentAccessGate } from "@/components/content-access-gate";
+import { isWiseInvestHref, toWiseInvestRelativeHref } from "@/lib/content-access";
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -220,7 +222,7 @@ function getMatchScore(item: SearchItem, terms: string[]) {
 }
 
 function isExternalUrl(href: string) {
-  return href.startsWith("http://") || href.startsWith("https://");
+  return (href.startsWith("http://") || href.startsWith("https://")) && !isWiseInvestHref(href);
 }
 
 function escapeRegExp(value: string) {
@@ -267,6 +269,7 @@ export function SearchCommand({
   const lastPathnameRef = useRef(pathname);
   const [search, setSearch] = useState("");
   const [articles, setArticles] = useState<Article[]>([]);
+  const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
 
   useEffect(() => {
     if (lastPathnameRef.current === pathname) return;
@@ -391,7 +394,7 @@ export function SearchCommand({
     }
   };
 
-  const handleItemSelect = (item: SearchItem, navigate = true) => {
+  const handleItemSelect = async (item: SearchItem, navigate = true) => {
     if (item.group === "工具" && item.href === "/tools" && onToolSelect) {
       const tool = tools.find((candidate) => `tool-${candidate.id}` === item.id);
       if (tool) {
@@ -404,7 +407,14 @@ export function SearchCommand({
       if (isExternalUrl(item.href)) {
         window.open(getSafeExternalUrl(item.href), "_blank", "noopener,noreferrer");
       } else {
-        window.location.assign(item.href);
+        const targetHref = toWiseInvestRelativeHref(item.href);
+        const allowed = await guardHref(targetHref);
+        if (!allowed) {
+          onOpenChange(false);
+          setSearch("");
+          return;
+        }
+        window.location.assign(targetHref);
       }
     }
     onOpenChange(false);
@@ -416,10 +426,12 @@ export function SearchCommand({
     const firstItem = filteredItems[0];
     if (!firstItem) return;
     event.preventDefault();
-    handleItemSelect(firstItem);
+    void handleItemSelect(firstItem);
   };
 
   return (
+    <>
+    {contentGateDialog}
     <CommandDialog open={open} onOpenChange={onOpenChange}>
       <CommandInput
         placeholder="搜索文章、福利、虚拟卡、工具..."
@@ -441,7 +453,7 @@ export function SearchCommand({
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => handleItemSelect(item)}
+                  onClick={() => void handleItemSelect(item)}
                   className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-xs font-semibold text-slate-700 transition-colors hover:border-amber-300 hover:bg-amber-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-950/30"
                 >
                   {item.label}
@@ -475,7 +487,7 @@ export function SearchCommand({
                   key={item.id}
                   type="button"
                   data-search-result={item.id}
-                  onClick={() => handleItemSelect(item)}
+                  onClick={() => void handleItemSelect(item)}
                   className="relative flex w-full min-w-0 cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-left text-sm outline-none transition-colors hover:bg-yellow-400 hover:text-black focus-visible:bg-yellow-400 focus-visible:text-black"
                 >
                   {content}
@@ -487,5 +499,6 @@ export function SearchCommand({
         ))}
       </CommandList>
     </CommandDialog>
+    </>
   );
 }

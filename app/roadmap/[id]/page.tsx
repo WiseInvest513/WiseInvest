@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { roadmaps, type RoadmapStep } from "@/lib/roadmaps-data";
 import { cn } from "@/lib/utils";
+import { ProtectedContentLink } from "@/components/content-access-gate";
 
 type StepStatus = "locked" | "active" | "completed";
 type StageStatus = "locked" | "active" | "completed";
@@ -481,7 +482,7 @@ export default function RoadmapDetailPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Previous Roadmap */}
-            <Link
+            <ProtectedContentLink
               href={`/roadmap/${prevRoadmap.id}`}
               className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200 overflow-hidden"
             >
@@ -517,10 +518,10 @@ export default function RoadmapDetailPage() {
                   </div>
                 </div>
               </div>
-            </Link>
+            </ProtectedContentLink>
 
             {/* Next Roadmap */}
-            <Link
+            <ProtectedContentLink
               href={`/roadmap/${nextRoadmap.id}`}
               className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200 overflow-hidden"
             >
@@ -556,7 +557,7 @@ export default function RoadmapDetailPage() {
                   </div>
                 </div>
               </div>
-            </Link>
+            </ProtectedContentLink>
           </div>
         </div>
 

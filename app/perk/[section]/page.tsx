@@ -36,6 +36,8 @@ import { CexComparisonDialog } from "./cex-comparison-dialog";
 import { FeeDetailsDialog } from "./fee-details-dialog";
 import { CexRewardDialog, RegisterRewardButton } from "./register-reward-button";
 import { WechatContactButton } from "./wechat-contact-button";
+import { ProtectedContentLink } from "@/components/content-access-gate";
+import { isWiseInvestHref } from "@/lib/content-access";
 
 export const dynamicParams = false;
 
@@ -54,7 +56,7 @@ const formatCount = (value: number) =>
 const learningLinkClass =
   "inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200/80 bg-white px-3 py-2.5 text-sm font-black text-slate-700 transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-900/20 dark:hover:text-amber-300";
 
-const isExternalUrl = (url: string) => url.startsWith("http://") || url.startsWith("https://");
+const isExternalUrl = (url: string) => (url.startsWith("http://") || url.startsWith("https://")) && !isWiseInvestHref(url);
 
 const sectionTrustDefaults: Record<string, Pick<Perks2Product, "lastVerified" | "availability" | "bestFor" | "riskNote">> = {
   crypto: {
@@ -266,13 +268,13 @@ function ProductCard({
         </a>
       )}
       {product.tutorialLink && !tutorialIsExternal && (
-        <Link
+        <ProtectedContentLink
           href={product.tutorialLink}
           className={learningLinkClass}
         >
           <BookOpen className="h-4 w-4" />
           去学习
-        </Link>
+        </ProtectedContentLink>
       )}
       {product.contactWeChat ? (
         <WechatContactButton
@@ -515,10 +517,10 @@ function CexComparisonTable({ products }: { products: Perks2Product[] }) {
                         </a>
                       )}
                       {product.tutorialLink && !tutorialIsExternal && (
-                        <Link href={product.tutorialLink} className={learningLinkClass}>
+                        <ProtectedContentLink href={product.tutorialLink} className={learningLinkClass}>
                           <BookOpen className="h-4 w-4" />
                           教程
-                        </Link>
+                        </ProtectedContentLink>
                       )}
                       <RegisterRewardButton href={product.registerLink} label={product.registerLabel ?? "注册"} />
                     </div>
