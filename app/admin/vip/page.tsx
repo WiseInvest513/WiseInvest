@@ -11,6 +11,8 @@ import { ReviewPanel } from "@/app/admin/vip/review-panel";
 import { partnerAccountStatusLabels, partnerTypeLabels } from "@/lib/vip/status";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export const metadata: Metadata = {
   title: "VIP 审核后台 | Wise Invest",
