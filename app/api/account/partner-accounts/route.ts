@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewCookieValue } from "@/lib/identity/dev-preview";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { checkVipBindingSubmitLimit } from "@/lib/vip/api-guards";
+import { partnerAccountStatusLabels } from "@/lib/vip/status";
 
 export const runtime = "nodejs";
 
@@ -85,12 +86,52 @@ export async function POST(request: NextRequest) {
     select: {
       id: true,
       status: true,
+      reviewNote: true,
     },
   });
 
   if (existing) {
+    if (existing.status === "REJECTED" || existing.status === "NEEDS_REVIEW") {
+      const partnerAccount = await prisma.partnerAccount.update({
+        where: { id: existing.id },
+        data: {
+          userNote,
+          status: "PENDING",
+          submittedAt: new Date(),
+          verifiedAt: null,
+          verifiedById: null,
+        },
+        select: {
+          id: true,
+          status: true,
+        },
+      });
+
+      await prisma.auditLog.create({
+        data: {
+          actorUserId: userId,
+          targetUserId: userId,
+          action: "PARTNER_ACCOUNT_SUBMITTED",
+          metadata: {
+            partnerSlug,
+            partnerAccountId: partnerAccount.id,
+            resubmitted: true,
+            previousStatus: existing.status,
+            previousReviewNote: existing.reviewNote,
+          },
+        },
+      });
+
+      return NextResponse.json({ ok: true, partnerAccount, resubmitted: true });
+    }
+
     return NextResponse.json(
-      { ok: false, message: `这条绑定已经提交过，当前状态：${existing.status}` },
+      {
+        ok: false,
+        message: `这条绑定已经提交过，当前状态：${
+          partnerAccountStatusLabels[existing.status as keyof typeof partnerAccountStatusLabels] ?? existing.status
+        }`,
+      },
       { status: 409 }
     );
   }

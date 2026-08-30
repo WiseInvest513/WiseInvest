@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  AlertTriangle,
   ArrowLeft,
   ArrowUpRight,
   BadgeCheck,
@@ -14,8 +15,10 @@ import {
   Link2,
   ShieldCheck,
   Sparkles,
+  XCircle,
 } from "lucide-react";
 import { BindingForm } from "@/app/account/vip/binding-form";
+import { ReviewResultDialog } from "@/app/account/vip/review-result-dialog";
 import { Button } from "@/components/ui/button";
 import { requireWiseUser } from "@/lib/identity/current-user";
 import {
@@ -125,6 +128,8 @@ export default async function AccountVipPage() {
   const currentTierIndex = getTierIndex(currentTier);
   const nextTier = getNextTier(currentTier);
   const verifiedAccounts = user.partnerAccounts.filter((account) => account.status === "VERIFIED");
+  const latestRejectedAccount = user.partnerAccounts.find((account) => account.status === "REJECTED");
+  const latestNeedsReviewAccount = user.partnerAccounts.find((account) => account.status === "NEEDS_REVIEW");
   const activeEntitlements = user.entitlements.filter((entitlement) => !entitlement.expiresAt || entitlement.expiresAt > new Date());
   const verificationPartners = enabledPartners.filter((partner) => partner.type !== "OTHER");
   const vipPlusPartners = verificationPartners.filter((partner) => partner.vipPlusEligible);
@@ -133,6 +138,9 @@ export default async function AccountVipPage() {
   );
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
+      {latestRejectedAccount && (
+        <ReviewResultDialog partnerName={latestRejectedAccount.partner.name} reason={latestRejectedAccount.reviewNote} />
+      )}
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-10">
         <Button asChild variant="outline" className="h-10 rounded-xl border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
           <Link href="/account">
@@ -167,6 +175,44 @@ export default async function AccountVipPage() {
           </div>
           <BindingForm partners={partnerFormProps(verificationPartners)} />
         </section>
+
+        {currentTier === "VIP" || currentTier === "VIP_PLUS" ? (
+          <section className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-900 shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-100">
+            <div className="flex gap-3">
+              <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0" />
+              <div>
+                <p className="font-black">你此时已经是 {currentTier === "VIP_PLUS" ? "Wise SVIP" : "Wise VIP"} 用户，可以享受对应权益。</p>
+                <p className="mt-1 text-sm leading-6 text-emerald-800/80 dark:text-emerald-100/80">
+                  已审核通过的合作账户会持续记录在 Wise ID 下，后续权益会围绕同一个账户发放。
+                </p>
+              </div>
+            </div>
+          </section>
+        ) : latestNeedsReviewAccount ? (
+          <section className="rounded-3xl border border-blue-200 bg-blue-50 p-5 text-blue-900 shadow-sm dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-100">
+            <div className="flex gap-3">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+              <div>
+                <p className="font-black">{latestNeedsReviewAccount.partner.name} 需要补充资料。</p>
+                <p className="mt-1 text-sm leading-6 text-blue-800/80 dark:text-blue-100/80">
+                  {latestNeedsReviewAccount.reviewNote || "请补充账户标识、开户时间或注册渠道后重新提交审核。"}
+                </p>
+              </div>
+            </div>
+          </section>
+        ) : latestRejectedAccount ? (
+          <section className="rounded-3xl border border-rose-200 bg-rose-50 p-5 text-rose-900 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-100">
+            <div className="flex gap-3">
+              <XCircle className="mt-0.5 h-5 w-5 shrink-0" />
+              <div>
+                <p className="font-black">{latestRejectedAccount.partner.name} 的 VIP 审核已驳回。</p>
+                <p className="mt-1 text-sm leading-6 text-rose-800/80 dark:text-rose-100/80">
+                  {latestRejectedAccount.reviewNote || "请确认是否使用 Wise 合作渠道，并重新提交准确的账户标识。"}
+                </p>
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h2 className="text-2xl font-black">会员等级</h2>
@@ -366,9 +412,25 @@ export default async function AccountVipPage() {
           <div className="mt-6 space-y-3">
             {user.partnerAccounts.length > 0 ? (
               user.partnerAccounts.map((account) => {
-                const Icon = account.status === "VERIFIED" ? CircleCheck : account.status === "PENDING" ? Clock3 : Link2;
+                const Icon =
+                  account.status === "VERIFIED"
+                    ? CircleCheck
+                    : account.status === "PENDING"
+                      ? Clock3
+                      : account.status === "REJECTED"
+                        ? XCircle
+                        : Link2;
                 return (
-                  <div key={account.id} className="grid gap-3 rounded-2xl border border-slate-200 p-4 text-sm dark:border-slate-800 md:grid-cols-[1fr_auto_auto] md:items-center">
+                  <div
+                    key={account.id}
+                    className={`grid gap-3 rounded-2xl border p-4 text-sm md:grid-cols-[1fr_auto_auto] md:items-center ${
+                      account.status === "REJECTED"
+                        ? "border-rose-200 bg-rose-50/60 dark:border-rose-900/50 dark:bg-rose-950/20"
+                        : account.status === "NEEDS_REVIEW"
+                          ? "border-blue-200 bg-blue-50/60 dark:border-blue-900/50 dark:bg-blue-950/20"
+                          : "border-slate-200 dark:border-slate-800"
+                    }`}
+                  >
                     <div className="flex items-start gap-3">
                       <Icon className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
                       <div>

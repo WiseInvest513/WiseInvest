@@ -40,9 +40,17 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
     context.params,
     request.json() as Promise<{ action?: keyof typeof actionToStatus; reviewNote?: string }>,
   ]);
+  const reviewNote = body.reviewNote?.trim() || null;
 
   if (!body.action || !actionToStatus[body.action]) {
     return NextResponse.json({ ok: false, message: "Invalid review action." }, { status: 400 });
+  }
+
+  if ((body.action === "reject" || body.action === "needs_review") && !reviewNote) {
+    return NextResponse.json(
+      { ok: false, message: body.action === "reject" ? "拒绝审核时需要填写给用户看的驳回原因。" : "要求补充资料时需要填写具体补充内容。" },
+      { status: 400 }
+    );
   }
 
   if (isDevAdmin && !isDatabaseConfigured()) {
@@ -83,7 +91,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       where: { id },
       data: {
         status: actionToStatus[body.action!],
-        reviewNote: body.reviewNote?.trim() || null,
+        reviewNote,
         verifiedAt: body.action === "approve" ? new Date() : null,
         verifiedById: adminUserId,
       },
@@ -103,7 +111,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
           partnerAccountId: id,
           partnerSlug: current.partner.slug,
           partnerName: current.partner.name,
-          reviewNote: body.reviewNote?.trim() || null,
+          reviewNote,
         },
       },
     });

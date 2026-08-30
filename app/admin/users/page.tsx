@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 type AdminUsersPageProps = {
   searchParams: Promise<{
     q?: string;
+    tier?: string;
   }>;
 };
 
@@ -31,29 +32,53 @@ const userRoleLabels = {
   ADMIN: "管理员",
 } as const;
 
+const tierFilters = [
+  { key: "ALL", label: "全部用户" },
+  { key: "MEMBER", label: "普通用户" },
+  { key: "VIP", label: "Wise VIP" },
+  { key: "VIP_PLUS", label: "Wise SVIP" },
+] as const;
+
+type TierFilterKey = (typeof tierFilters)[number]["key"];
+
+function getTierFilterHref(tier: TierFilterKey, query: string) {
+  const params = new URLSearchParams();
+  if (query) params.set("q", query);
+  if (tier !== "ALL") params.set("tier", tier);
+  const suffix = params.toString();
+  return suffix ? `/admin/users?${suffix}` : "/admin/users";
+}
+
+function getTierBadgeClass(tier: string) {
+  if (tier === "VIP_PLUS") return "border-slate-950 bg-slate-950 text-amber-300 dark:border-white dark:bg-white dark:text-slate-950";
+  if (tier === "VIP") return "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200";
+  return "border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300";
+}
+
 export default async function AdminUsersPage({ searchParams }: AdminUsersPageProps) {
   await requireAdminUser();
-  const { q } = await searchParams;
+  const { q, tier } = await searchParams;
   const query = q?.trim() ?? "";
+  const selectedTier = tierFilters.some((filter) => filter.key === tier) ? (tier as TierFilterKey) : "ALL";
+  const tierList = tierFilters.filter((filter) => filter.key !== "ALL").map((filter) => filter.key);
 
   const isMockAdmin = await isDevPreviewAdminSession();
-  const users =
-    isMockAdmin && !isDatabaseConfigured()
-      ? devPreviewUsers.filter((user) => {
-          if (!query) return true;
-          const normalizedQuery = query.toLowerCase();
-          return [user.email, user.name, user.wiseUserId].some((value) => value?.toLowerCase().includes(normalizedQuery));
-        })
-      : await getPrisma().user.findMany({
-          where: query
-            ? {
-                OR: [
-                  { email: { contains: query, mode: "insensitive" } },
-                  { name: { contains: query, mode: "insensitive" } },
-                  { wiseUserId: { contains: query, mode: "insensitive" } },
-                ],
-              }
-            : undefined,
+  const prisma = isMockAdmin && !isDatabaseConfigured() ? null : getPrisma();
+  const [users, groupedCounts] = prisma
+    ? await Promise.all([
+        prisma.user.findMany({
+          where: {
+            ...(query
+              ? {
+                  OR: [
+                    { email: { contains: query, mode: "insensitive" } },
+                    { name: { contains: query, mode: "insensitive" } },
+                    { wiseUserId: { contains: query, mode: "insensitive" } },
+                  ],
+                }
+              : {}),
+            ...(selectedTier !== "ALL" ? { membershipTier: selectedTier } : {}),
+          },
           select: {
             id: true,
             wiseUserId: true,
@@ -78,7 +103,34 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
             createdAt: "desc",
           },
           take: 50,
-        });
+        }),
+        prisma.user.groupBy({
+          by: ["membershipTier"],
+          _count: { membershipTier: true },
+        }),
+      ])
+    : [
+        devPreviewUsers.filter((user) => {
+          const normalizedQuery = query.toLowerCase();
+          const matchQuery =
+            !query || [user.email, user.name, user.wiseUserId].some((value) => value?.toLowerCase().includes(normalizedQuery));
+          const matchTier = selectedTier === "ALL" || user.membershipTier === selectedTier;
+          return matchQuery && matchTier;
+        }),
+        [],
+      ];
+
+  const tierCounts = Object.fromEntries(tierList.map((key) => [key, 0])) as Record<(typeof tierList)[number], number>;
+  if (prisma) {
+    groupedCounts.forEach((item) => {
+      tierCounts[item.membershipTier as keyof typeof tierCounts] = item._count.membershipTier;
+    });
+  } else {
+    devPreviewUsers.forEach((user) => {
+      if (user.membershipTier in tierCounts) tierCounts[user.membershipTier as keyof typeof tierCounts] += 1;
+    });
+  }
+  const allCount = Object.values(tierCounts).reduce((sum, count) => sum + count, 0);
 
   const getProviders = (accounts: { provider: string }[] = []) => getLoginProviderLabels(accounts);
 
@@ -102,6 +154,26 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
               搜索
             </button>
           </form>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {tierFilters.map((filter) => {
+              const active = filter.key === selectedTier;
+              const count = filter.key === "ALL" ? allCount : tierCounts[filter.key];
+              return (
+                <Link
+                  key={filter.key}
+                  href={getTierFilterHref(filter.key, query)}
+                  className={`inline-flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-black transition ${
+                    active
+                      ? "border-slate-950 bg-slate-950 text-amber-300 dark:border-white dark:bg-white dark:text-slate-950"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-amber-300 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300"
+                  }`}
+                >
+                  {filter.label}
+                  <span className={`rounded-full px-2 py-0.5 text-xs ${active ? "bg-white/10" : "bg-slate-100 dark:bg-slate-800"}`}>{count}</span>
+                </Link>
+              );
+            })}
+          </div>
         </section>
 
         <section className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -124,7 +196,9 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
               <p className="break-all text-xs font-bold text-slate-500 dark:text-slate-400">{user.email ?? "未绑定邮箱"}</p>
               <p className="break-all font-mono text-xs font-bold text-slate-400">{user.wiseUserId}</p>
               <div>
-                <p className="font-bold">{membershipTierLabels[user.membershipTier]}</p>
+                <p className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-black ${getTierBadgeClass(user.membershipTier)}`}>
+                  {membershipTierLabels[user.membershipTier]}
+                </p>
                 <p className="mt-1 text-xs text-slate-400">{userRoleLabels[user.role] ?? user.role}</p>
               </div>
               <div className="flex flex-wrap gap-1.5">

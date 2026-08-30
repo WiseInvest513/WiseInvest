@@ -77,6 +77,7 @@ export function BindingForm({ partners }: BindingFormProps) {
   const [userNote, setUserNote] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [resubmitted, setResubmitted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const currentPartnerSlug = partnerSlug || bindingOptions[0]?.value || "";
 
@@ -100,7 +101,7 @@ export function BindingForm({ partners }: BindingFormProps) {
           userNote,
         }),
       });
-      const result = (await response.json()) as { ok: boolean; message?: string };
+      const result = (await response.json()) as { ok: boolean; message?: string; resubmitted?: boolean };
 
       if (!response.ok || !result.ok) {
         setMessage(result.message ?? "提交失败，请稍后再试。");
@@ -109,6 +110,7 @@ export function BindingForm({ partners }: BindingFormProps) {
 
       setExternalIdentifier("");
       setUserNote("");
+      setResubmitted(Boolean(result.resubmitted));
       setSubmitted(true);
       setMessage("");
       router.refresh();
@@ -130,6 +132,7 @@ export function BindingForm({ partners }: BindingFormProps) {
         setOpen(nextOpen);
         if (nextOpen) {
           setSubmitted(false);
+          setResubmitted(false);
           setMessage("");
         }
       }}
@@ -176,9 +179,11 @@ export function BindingForm({ partners }: BindingFormProps) {
           <div className="px-6 py-8">
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-100">
               <CheckCircle2 className="mb-4 h-7 w-7" />
-              <h3 className="text-xl font-black">已提交审核</h3>
+              <h3 className="text-xl font-black">{resubmitted ? "已重新提交审核" : "已提交审核"}</h3>
               <p className="mt-3 text-sm leading-7">
-                我们正在核验你的 Wise Partner Account 资格。审核完成后，账户状态和会员等级会自动更新。
+                {resubmitted
+                  ? "我们已收到你的补充信息，会重新核验这条 Wise Partner Account。审核完成后，账户状态和会员等级会自动更新。"
+                  : "我们正在核验你的 Wise Partner Account 资格。审核完成后，账户状态和会员等级会自动更新。"}
               </p>
             </div>
             <Button

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  AlertTriangle,
   ArrowRight,
   Circle,
   CircleCheck,
   Crown,
   Settings,
   ShieldCheck,
+  XCircle,
 } from "lucide-react";
 import { SignOutButton } from "@/app/account/sign-out-button";
 import { Button } from "@/components/ui/button";
@@ -71,6 +73,13 @@ function getDisplayName(user: { name: string | null; email: string | null; wiseU
   if (emailName) return emailName;
 
   return user.wiseUserId;
+}
+
+function getAccountStatusTone(status: string) {
+  if (status === "VERIFIED") return "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300";
+  if (status === "REJECTED") return "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-300";
+  if (status === "NEEDS_REVIEW") return "bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-200";
+  return "bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200";
 }
 
 export default async function AccountPage() {
@@ -167,24 +176,42 @@ export default async function AccountPage() {
           </div>
           <div className="mt-6 space-y-3">
             {user.partnerAccounts.length > 0 ? (
-              user.partnerAccounts.map((account) => (
-                <div key={account.id} className="grid gap-3 rounded-2xl border border-slate-200 p-4 text-sm dark:border-slate-800 md:grid-cols-[1fr_auto_auto] md:items-center">
-                  <div>
-                    <p className="font-black">{account.partner.name}</p>
-                    <p className="mt-1 text-xs font-bold text-slate-400">{partnerTypeLabels[account.partner.type]}</p>
+              user.partnerAccounts.map((account) => {
+                const Icon =
+                  account.status === "VERIFIED"
+                    ? CircleCheck
+                    : account.status === "REJECTED"
+                      ? XCircle
+                      : account.status === "NEEDS_REVIEW"
+                        ? AlertTriangle
+                        : Circle;
+                return (
+                  <div key={account.id} className="grid gap-3 rounded-2xl border border-slate-200 p-4 text-sm dark:border-slate-800 md:grid-cols-[1fr_auto_auto] md:items-center">
+                    <div className="flex items-start gap-3">
+                      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+                      <div>
+                        <p className="font-black">{account.partner.name}</p>
+                        <p className="mt-1 text-xs font-bold text-slate-400">{partnerTypeLabels[account.partner.type]}</p>
+                        {account.reviewNote && (
+                          <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+                            审核说明：{account.reviewNote}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-mono font-bold text-slate-500 dark:text-slate-400">{maskIdentifier(account.externalIdentifier)}</p>
+                      <details className="text-xs text-slate-500 dark:text-slate-400">
+                        <summary className="cursor-pointer font-bold text-amber-700 dark:text-amber-300">查看详情</summary>
+                        <p className="mt-2 break-all font-mono">{account.externalIdentifier}</p>
+                      </details>
+                    </div>
+                    <span className={`w-fit rounded-full px-3 py-1 text-xs font-black ${getAccountStatusTone(account.status)}`}>
+                      {getPartnerAccountStatusLabel(account.status)}
+                    </span>
                   </div>
-                  <div className="space-y-2">
-                    <p className="font-mono font-bold text-slate-500 dark:text-slate-400">{maskIdentifier(account.externalIdentifier)}</p>
-                    <details className="text-xs text-slate-500 dark:text-slate-400">
-                      <summary className="cursor-pointer font-bold text-amber-700 dark:text-amber-300">查看详情</summary>
-                      <p className="mt-2 break-all font-mono">{account.externalIdentifier}</p>
-                    </details>
-                  </div>
-                  <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                    {getPartnerAccountStatusLabel(account.status)}
-                  </span>
-                </div>
-              ))
+                );
+              })
             ) : (
               <div className="rounded-2xl border border-dashed border-slate-300 p-6 text-sm leading-7 text-slate-500 dark:border-slate-700 dark:text-slate-400">
                 当前还没有绑定记录。需要提交合作账户核验时，请进入 VIP 中心处理。
