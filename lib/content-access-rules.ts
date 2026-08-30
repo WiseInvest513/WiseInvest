@@ -1,6 +1,6 @@
 import { genUid } from "@/lib/article-uid";
 
-export type ContentAccessLevel = "PUBLIC" | "MEMBER" | "VIP";
+export type ContentAccessLevel = "PUBLIC" | "MEMBER" | "VIP" | "VIP_PLUS";
 
 export type ContentAccessRuleConfig = {
   access: ContentAccessLevel;

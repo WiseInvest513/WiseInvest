@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { BarChart3, ClipboardCheck, History, LayoutDashboard, ServerCog, Users, Waypoints } from "lucide-react";
+import { BarChart3, ClipboardCheck, FileLock2, History, LayoutDashboard, ServerCog, Users, Waypoints } from "lucide-react";
 
 const adminLinks = [
   { href: "/admin", label: "总览", icon: LayoutDashboard },
   { href: "/admin/vip", label: "VIP 审核", icon: ClipboardCheck },
   { href: "/admin/users", label: "用户", icon: Users },
+  { href: "/admin/content", label: "内容权限", icon: FileLock2 },
   { href: "/admin/partners", label: "合作方", icon: Waypoints },
   { href: "/admin/dca", label: "DCA", icon: BarChart3 },
   { href: "/admin/audit", label: "审计", icon: History },

@@ -38,6 +38,27 @@ enum PartnerAccountStatus {
   NEEDS_REVIEW
 }
 
+enum ContentItemType {
+  ARTICLE
+  ROADMAP_DETAIL
+  ROADMAP_ROUTE
+}
+
+enum ContentAccessLevel {
+  PUBLIC
+  MEMBER
+  VIP
+  VIP_PLUS
+}
+
+enum ContentEventType {
+  VIEW
+  PREVIEW_LOCKED
+  LOGIN_PROMPT
+  FAVORITE_ADD
+  FAVORITE_REMOVE
+}
+
 enum QualificationMetricType {
   TRADING_VOLUME
   DEPOSIT_AMOUNT
@@ -66,6 +87,7 @@ enum AuditAction {
   PARTNER_UPDATED
   SSO_CLIENT_CREATED
   SSO_CLIENT_UPDATED
+  CONTENT_PERMISSION_UPDATED
 }
 
 model User {
@@ -91,6 +113,9 @@ model User {
   targetAuditLogs      AuditLog[]            @relation("TargetAuditLogs")
   createdSsoClients    SsoClient[]           @relation("CreatedSsoClients")
   updatedSsoClients    SsoClient[]           @relation("UpdatedSsoClients")
+  updatedContentRules   ContentPermission[]   @relation("UpdatedContentPermissions")
+  contentEvents         ContentEvent[]
+  contentItems          UserContentItem[]
 
   @@map("users")
 }
@@ -247,6 +272,66 @@ model AuditLog {
   @@index([targetUserId])
   @@index([action, createdAt])
   @@map("audit_logs")
+}
+
+model ContentPermission {
+  id          String             @id @default(cuid())
+  contentType ContentItemType    @map("content_type")
+  contentKey  String             @map("content_key")
+  title       String
+  access      ContentAccessLevel @default(MEMBER)
+  reason      String             @db.Text
+  updatedById String?            @map("updated_by_id")
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+
+  updatedBy User? @relation("UpdatedContentPermissions", fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@unique([contentType, contentKey])
+  @@index([access])
+  @@index([updatedById])
+  @@map("content_permissions")
+}
+
+model ContentEvent {
+  id          String           @id @default(cuid())
+  userId      String?          @map("user_id")
+  eventType   ContentEventType @map("event_type")
+  contentType ContentItemType  @map("content_type")
+  contentKey  String           @map("content_key")
+  href        String
+  title       String?
+  metadata    Json?
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([eventType, createdAt])
+  @@index([contentType, contentKey])
+  @@map("content_events")
+}
+
+model UserContentItem {
+  id           String          @id @default(cuid())
+  userId       String          @map("user_id")
+  contentType  ContentItemType @map("content_type")
+  contentKey   String          @map("content_key")
+  href         String
+  title        String
+  summary      String?         @db.Text
+  viewCount    Int             @default(0) @map("view_count")
+  lastViewedAt DateTime?       @map("last_viewed_at")
+  favoritedAt  DateTime?       @map("favorited_at")
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentType, contentKey])
+  @@index([userId, lastViewedAt])
+  @@index([userId, favoritedAt])
+  @@map("user_content_items")
 }
 
 model SsoClient {

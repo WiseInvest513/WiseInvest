@@ -16,8 +16,8 @@ import {
   buildLoginHref,
   canReadContentAccess,
   createContentPreview,
-  getContentAccessRule,
 } from "@/lib/content-access";
+import { getResolvedContentAccessRule } from "@/lib/content-access-server";
 
 // 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
 export const dynamic = "force-dynamic";
@@ -72,7 +72,7 @@ export default async function ArticleUidPage(
   const session = await auth();
   const allArticles = getAllArticles();
   const articleRoute = getArticleRoute(article);
-  const accessRule = getContentAccessRule(articleRoute);
+  const accessRule = await getResolvedContentAccessRule(articleRoute);
   const canReadFullArticle = canReadContentAccess(accessRule.access, session?.user?.membershipTier);
   const visibleArticle = canReadFullArticle
     ? article

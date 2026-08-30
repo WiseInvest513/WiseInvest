@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
   Library, ArrowRight, Search, Menu, CheckCircle2, ExternalLink, MessageCircle, ShieldCheck, LockKeyhole,
+  Bookmark, BookmarkCheck,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
 import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
@@ -194,6 +195,8 @@ export function ArticlesContent({
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [communityOpen, setCommunityOpen] = useState(false);
+  const [favoriteHrefs, setFavoriteHrefs] = useState<Set<string>>(() => new Set());
+  const [favoriteBusy, setFavoriteBusy] = useState(false);
   const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
   const contentRef = useRef<HTMLDivElement>(null);
   const [allArticles, setAllArticles] = useState<ArticleItem[]>(() => {
@@ -244,6 +247,10 @@ export function ArticlesContent({
   }, [lockedContent]);
 
   const selectedArticle = useMemo(() => allArticles.find(a => a.id === selectedArticleId) ?? null, [selectedArticleId, allArticles]);
+  const selectedArticleHref = useMemo(
+    () => selectedArticle ? getArticleHref(selectedArticle) : "",
+    [selectedArticle]
+  );
   const selectedContent = selectedArticle?.content ?? "";
   const toc = useMemo(() => selectedContent ? extractToc(selectedContent) : [], [selectedContent]);
   const activeId = useActiveToc(toc);
@@ -285,6 +292,38 @@ export function ArticlesContent({
     return map;
   }, [filteredArticles]);
 
+  useEffect(() => {
+    if (!selectedArticle || !selectedArticleHref) return;
+
+    void fetch("/api/content/activity", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        eventType: lockedContent ? "PREVIEW_LOCKED" : "VIEW",
+        href: selectedArticleHref,
+        title: selectedArticle.title,
+        summary: selectedArticle.summary,
+        metadata: {
+          categoryId: selectedArticle.categoryId,
+          locked: Boolean(lockedContent),
+        },
+      }),
+      keepalive: true,
+    }).catch(() => {});
+  }, [lockedContent, selectedArticle, selectedArticleHref]);
+
+  useEffect(() => {
+    if (!selectedArticleHref) return;
+
+    fetch("/api/account/content-library", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload) => {
+        if (!payload?.favorites) return;
+        setFavoriteHrefs(new Set(payload.favorites.map((item: { href: string }) => item.href)));
+      })
+      .catch(() => {});
+  }, [selectedArticleHref]);
+
   const toggleCategory = (id: string) => {
     setOpenCategories(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   };
@@ -299,6 +338,41 @@ export function ArticlesContent({
     contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
     window.history.pushState(null, "", href);
     setSidebarOpen(false);
+  };
+
+  const toggleFavorite = async () => {
+    if (!selectedArticle || !selectedArticleHref || favoriteBusy) return;
+
+    const favorited = favoriteHrefs.has(selectedArticleHref);
+    setFavoriteBusy(true);
+    try {
+      const response = await fetch("/api/content/activity", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          eventType: favorited ? "FAVORITE_REMOVE" : "FAVORITE_ADD",
+          href: selectedArticleHref,
+          title: selectedArticle.title,
+          summary: selectedArticle.summary,
+          metadata: { categoryId: selectedArticle.categoryId },
+        }),
+      });
+
+      if (response.status === 401) {
+        await guardHref(selectedArticleHref);
+        return;
+      }
+
+      if (!response.ok) return;
+      setFavoriteHrefs((prev) => {
+        const next = new Set(prev);
+        if (favorited) next.delete(selectedArticleHref);
+        else next.add(selectedArticleHref);
+        return next;
+      });
+    } finally {
+      setFavoriteBusy(false);
+    }
   };
 
   useEffect(() => { contentRef.current?.scrollTo({ top: 0, behavior: "smooth" }); }, [selectedArticleId]);
@@ -535,18 +609,34 @@ export function ArticlesContent({
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
                 </span>
                 {!lockedContent && (
-                  <ArticleExportButton
-                    articleId={selectedArticle.id}
-                    categoryId={selectedArticle.categoryId}
-                    uid={genUid(selectedArticle.id)}
-                    title={selectedArticle.title}
-                    summary={selectedArticle.summary}
-                    date={selectedArticle.date}
-                    readTime={selectedArticle.readTime}
-                    categoryName={categories.find(c => c.id === selectedArticle.categoryId)?.name ?? ""}
-                    categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
-                    content={selectedContent}
-                  />
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void toggleFavorite()}
+                      disabled={favoriteBusy}
+                      className={cn(
+                        "inline-flex h-9 items-center gap-2 rounded-lg border px-3 text-xs font-black transition-colors",
+                        favoriteHrefs.has(selectedArticleHref)
+                          ? "border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200"
+                          : "border-slate-200 bg-white text-slate-500 hover:border-amber-200 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:border-amber-800"
+                      )}
+                    >
+                      {favoriteHrefs.has(selectedArticleHref) ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+                      {favoriteHrefs.has(selectedArticleHref) ? "已收藏" : "收藏"}
+                    </button>
+                    <ArticleExportButton
+                      articleId={selectedArticle.id}
+                      categoryId={selectedArticle.categoryId}
+                      uid={genUid(selectedArticle.id)}
+                      title={selectedArticle.title}
+                      summary={selectedArticle.summary}
+                      date={selectedArticle.date}
+                      readTime={selectedArticle.readTime}
+                      categoryName={categories.find(c => c.id === selectedArticle.categoryId)?.name ?? ""}
+                      categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
+                      content={selectedContent}
+                    />
+                  </div>
                 )}
               </div>
               <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
@@ -599,7 +689,12 @@ export function ArticlesContent({
                 </div>
               </section>
 
-              <div className="mt-6 md:mt-8">{renderedContent}</div>
+              <div className={cn("mt-6 md:mt-8", lockedContent && "relative max-h-[720px] overflow-hidden")}>
+                {renderedContent}
+                {lockedContent && (
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90" />
+                )}
+              </div>
 
               {lockedContent && (
                 <section className="mt-8 overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white p-5 shadow-sm dark:border-amber-900/60 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-950 md:p-6">

@@ -3,6 +3,8 @@ import Link from "next/link";
 import {
   AlertTriangle,
   ArrowRight,
+  BookOpen,
+  Bookmark,
   Circle,
   CircleCheck,
   Crown,
@@ -23,6 +25,7 @@ import {
   type PublicMembershipTier,
 } from "@/lib/vip/display";
 import { partnerTypeLabels } from "@/lib/vip/status";
+import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -82,6 +85,113 @@ function getAccountStatusTone(status: string) {
   return "bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200";
 }
 
+function formatContentTime(value: Date | string | null) {
+  if (!value) return "刚刚";
+  const date = value instanceof Date ? value : new Date(value);
+  return date.toLocaleDateString("zh-CN", {
+    month: "2-digit",
+    day: "2-digit",
+  });
+}
+
+async function getUserContentLibrary(userId: string) {
+  if (!isDatabaseConfigured()) return { favorites: [], recent: [] };
+
+  const prisma = getPrisma();
+  const [favorites, recent] = await Promise.all([
+    prisma.userContentItem.findMany({
+      where: {
+        userId,
+        favoritedAt: { not: null },
+      },
+      orderBy: { favoritedAt: "desc" },
+      take: 4,
+      select: {
+        id: true,
+        href: true,
+        title: true,
+        summary: true,
+        favoritedAt: true,
+        lastViewedAt: true,
+        viewCount: true,
+      },
+    }),
+    prisma.userContentItem.findMany({
+      where: {
+        userId,
+        lastViewedAt: { not: null },
+      },
+      orderBy: { lastViewedAt: "desc" },
+      take: 4,
+      select: {
+        id: true,
+        href: true,
+        title: true,
+        summary: true,
+        favoritedAt: true,
+        lastViewedAt: true,
+        viewCount: true,
+      },
+    }),
+  ]);
+
+  return { favorites, recent };
+}
+
+function ContentLibraryColumn({
+  title,
+  icon,
+  empty,
+  items,
+}: {
+  title: string;
+  icon: "book" | "bookmark";
+  empty: string;
+  items: Awaited<ReturnType<typeof getUserContentLibrary>>["recent"];
+}) {
+  const Icon = icon === "book" ? BookOpen : Bookmark;
+
+  return (
+    <div>
+      <div className="mb-4 flex items-center gap-2">
+        <Icon className="h-4 w-4 text-amber-500" />
+        <h2 className="text-xl font-black">{title}</h2>
+      </div>
+      {items.length > 0 ? (
+        <div className="space-y-3">
+          {items.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="group block rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-amber-200 hover:bg-amber-50/60 dark:border-slate-800 dark:bg-slate-950 dark:hover:border-amber-900/60 dark:hover:bg-amber-950/15"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <p className="line-clamp-2 text-sm font-black leading-6 text-slate-900 group-hover:text-amber-700 dark:text-slate-100 dark:group-hover:text-amber-300">
+                  {item.title}
+                </p>
+                <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-amber-500" />
+              </div>
+              {item.summary ? (
+                <p className="mt-2 line-clamp-2 text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">
+                  {item.summary}
+                </p>
+              ) : null}
+              <p className="mt-3 text-[11px] font-bold text-slate-400">
+                {item.lastViewedAt ? `最近阅读 ${formatContentTime(item.lastViewedAt)}` : `收藏于 ${formatContentTime(item.favoritedAt)}`}
+                {item.viewCount > 0 ? ` · ${item.viewCount} 次` : ""}
+              </p>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-dashed border-slate-300 p-5 text-sm font-semibold leading-7 text-slate-500 dark:border-slate-700 dark:text-slate-400">
+          {empty}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default async function AccountPage() {
   const user = await requireWiseUser();
   const displayName = getDisplayName(user);
@@ -90,6 +200,7 @@ export default async function AccountPage() {
   const nextTier = getNextTier(currentTier);
   const verifiedAccounts = user.partnerAccounts.filter((account) => account.status === "VERIFIED");
   const hero = getHeroCopy(currentTier, verifiedAccounts.length);
+  const contentLibrary = await getUserContentLibrary(user.id);
 
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
@@ -218,6 +329,21 @@ export default async function AccountPage() {
               </div>
             )}
           </div>
+        </section>
+
+        <section className="grid gap-5 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8 lg:grid-cols-2">
+          <ContentLibraryColumn
+            title="继续阅读"
+            icon="book"
+            empty="还没有最近阅读记录。打开一篇完整文章后，这里会自动记录。"
+            items={contentLibrary.recent}
+          />
+          <ContentLibraryColumn
+            title="我的收藏"
+            icon="bookmark"
+            empty="还没有收藏内容。阅读文章时点击收藏，之后可以从这里快速回来。"
+            items={contentLibrary.favorites}
+          />
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">

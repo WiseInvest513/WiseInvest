@@ -42,13 +42,50 @@ function getCallbackUrl(href: string) {
   return href;
 }
 
+async function checkContentAccess(href: string) {
+  try {
+    const response = await fetch(`/api/content-access/check?href=${encodeURIComponent(href)}`, {
+      cache: "no-store",
+    });
+    if (!response.ok) throw new Error("content access check failed");
+    return (await response.json()) as {
+      allowed: boolean;
+      reason?: string;
+      loginHref?: string;
+    };
+  } catch {
+    const sessionState = await getClientSessionState();
+    return {
+      allowed: !requiresLoginForContent(href) || sessionState === "signed-in",
+      reason: "完整内容需要登录 Wise ID 后查看",
+      loginHref: buildLoginHref(href),
+    };
+  }
+}
+
+function recordLoginPrompt(href: string, title?: string) {
+  void fetch("/api/content/activity", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      eventType: "LOGIN_PROMPT",
+      href,
+      title,
+      metadata: { source: "content_access_gate" },
+    }),
+    keepalive: true,
+  }).catch(() => {});
+}
+
 export function LoginRequiredDialog({
   open,
   href,
+  reason,
   onOpenChange,
 }: {
   open: boolean;
   href: string;
+  reason?: string;
   onOpenChange: (open: boolean) => void;
 }) {
   if (!open) return null;
@@ -80,7 +117,7 @@ export function LoginRequiredDialog({
             这部分内容需要登录后查看
           </h2>
           <p className="mt-3 text-sm font-medium leading-7 text-slate-600 dark:text-slate-300">
-            当前页面属于 Wise 会员内容。登录或注册后，可以继续阅读完整文章和学习路线。
+            {reason ?? "当前页面属于 Wise 会员内容。登录或注册后，可以继续阅读完整文章和学习路线。"}
           </p>
         </div>
 
@@ -115,22 +152,25 @@ export function LoginRequiredDialog({
 }
 
 export function useContentAccessGate() {
-  const [blockedHref, setBlockedHref] = useState<string | null>(null);
+  const [blocked, setBlocked] = useState<{ href: string; reason?: string } | null>(null);
 
   const guardHref = async (href: string) => {
-    if (!requiresLoginForContent(href)) return true;
-    const sessionState = await getClientSessionState();
-    if (sessionState === "signed-in") return true;
-    setBlockedHref(href);
+    if (!isWiseInvestHref(href)) return true;
+    const navigationHref = toWiseInvestRelativeHref(href);
+    const result = await checkContentAccess(navigationHref);
+    if (result.allowed) return true;
+    recordLoginPrompt(navigationHref);
+    setBlocked({ href: navigationHref, reason: result.reason });
     return false;
   };
 
   const dialog = (
     <LoginRequiredDialog
-      open={Boolean(blockedHref)}
-      href={blockedHref ?? "/login"}
+      open={Boolean(blocked)}
+      href={blocked?.href ?? "/login"}
+      reason={blocked?.reason}
       onOpenChange={(open) => {
-        if (!open) setBlockedHref(null);
+        if (!open) setBlocked(null);
       }}
     />
   );
@@ -151,23 +191,25 @@ export function ProtectedContentLink({
   onClick,
   ...props
 }: ProtectedContentLinkProps) {
-  const [blockedHref, setBlockedHref] = useState<string | null>(null);
+  const [blocked, setBlocked] = useState<{ href: string; reason?: string } | null>(null);
   const navigationHref = toWiseInvestRelativeHref(href);
 
   const handleClick = async (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);
-    if (event.defaultPrevented || !requiresLoginForContent(navigationHref)) return;
+    if (event.defaultPrevented) return;
 
     const target = event.currentTarget.getAttribute("target");
     if (target && target !== "_self") return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
     event.preventDefault();
-    const sessionState = await getClientSessionState();
-    if (sessionState === "signed-in") {
+    const result = await checkContentAccess(navigationHref);
+    if (result.allowed) {
       window.location.assign(navigationHref);
       return;
     }
-    setBlockedHref(navigationHref);
+    recordLoginPrompt(navigationHref, typeof children === "string" ? children : undefined);
+    setBlocked({ href: navigationHref, reason: result.reason });
   };
 
   if (!isWiseInvestHref(href)) {
@@ -184,10 +226,11 @@ export function ProtectedContentLink({
         {children}
       </Link>
       <LoginRequiredDialog
-        open={Boolean(blockedHref)}
-        href={blockedHref ?? navigationHref}
+        open={Boolean(blocked)}
+        href={blocked?.href ?? navigationHref}
+        reason={blocked?.reason}
         onOpenChange={(open) => {
-          if (!open) setBlockedHref(null);
+          if (!open) setBlocked(null);
         }}
       />
     </>

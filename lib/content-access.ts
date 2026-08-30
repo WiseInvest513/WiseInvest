@@ -15,6 +15,13 @@ type ContentAccessRule = {
 };
 
 const WISE_INVEST_HOSTS = new Set(["wise-invest.org", "www.wise-invest.org", "localhost", "127.0.0.1"]);
+export type ContentItemType = "ARTICLE" | "ROADMAP_DETAIL" | "ROADMAP_ROUTE";
+
+export type ContentItemRef = {
+  contentType: ContentItemType;
+  contentKey: string;
+  href: string;
+};
 
 export function isWiseInvestHref(value: string) {
   const trimmed = value.trim();
@@ -39,7 +46,7 @@ export function toWiseInvestRelativeHref(value: string) {
   }
 }
 
-function normalizePath(value: string) {
+export function normalizePath(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return "/";
 
@@ -61,6 +68,41 @@ function splitPathAndSearch(value: string) {
   return {
     pathname,
     searchParams: new URLSearchParams(search),
+  };
+}
+
+export function resolveContentItem(value: string): ContentItemRef {
+  const normalized = normalizePath(value);
+  const { pathname } = splitPathAndSearch(normalized);
+
+  if (/^\/articles\/[^/]+\/[^/]+$/.test(pathname)) {
+    return {
+      contentType: "ARTICLE",
+      contentKey: pathname,
+      href: normalized,
+    };
+  }
+
+  if (/^\/roadmap\/[^/]+$/.test(pathname)) {
+    return {
+      contentType: "ROADMAP_DETAIL",
+      contentKey: pathname,
+      href: normalized,
+    };
+  }
+
+  if (pathname === "/roadmap") {
+    return {
+      contentType: "ROADMAP_ROUTE",
+      contentKey: normalized,
+      href: normalized,
+    };
+  }
+
+  return {
+    contentType: "ARTICLE",
+    contentKey: normalized,
+    href: normalized,
   };
 }
 
@@ -108,7 +150,8 @@ export function canReadContentAccess(access: ContentAccessLevel, membershipTier?
   if (access === "PUBLIC") return true;
   if (!membershipTier) return false;
   if (access === "MEMBER") return true;
-  return membershipTier === "VIP" || membershipTier === "VIP_PLUS";
+  if (access === "VIP") return membershipTier === "VIP" || membershipTier === "VIP_PLUS";
+  return membershipTier === "VIP_PLUS";
 }
 
 export function createContentPreview(content: string, maxChars = 900) {
