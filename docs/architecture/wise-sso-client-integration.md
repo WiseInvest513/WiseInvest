@@ -72,7 +72,7 @@ https://wise-invest.org/oauth/authorize
   &code_challenge_method=S256
 ```
 
-如果用户没有登录，主站会先进入 `/login`。登录完成后继续授权，并回跳到客户端的 `redirect_uri`。
+如果用户没有登录，主站会先进入 `/login`。登录完成后进入明确的授权确认页，展示客户端名称、申请资料和当前会员等级；只有用户点击“同意授权并继续”后才签发授权码并回跳到客户端的 `redirect_uri`。用户取消时返回标准 `access_denied` 错误。
 
 ## Token exchange
 
@@ -152,7 +152,6 @@ V1 支持 Wise 自有产品接入，不作为开放第三方 OAuth 平台使用�
 
 V1 暂不做：
 
-- 动态 consent 页面
 - refresh token
 - scope 细粒度授权弹窗
 - 第三方开发者自助注册

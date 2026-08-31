@@ -12,13 +12,26 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+type ValidAuthorizationRequest = {
+  client: {
+    clientId: string;
+    name: string;
+    requirePkce: boolean;
+  };
+  clientId: string;
+  redirectUri: string;
+  state: string | null;
+  nonce: string | null;
+  codeChallenge: string | null;
+  codeChallengeMethod: string | null;
+  requestedScopes: string[];
+};
+
 function jsonError(error: string, description: string, status = 400) {
   return NextResponse.json({ error, error_description: description }, { status });
 }
 
-export async function GET(request: NextRequest) {
-  const session = await auth();
-  const params = request.nextUrl.searchParams;
+async function validateAuthorizationRequest(params: URLSearchParams) {
   const clientId = params.get("client_id") ?? "";
   const redirectUri = params.get("redirect_uri") ?? "";
   const responseType = params.get("response_type") ?? "";
@@ -29,14 +42,13 @@ export async function GET(request: NextRequest) {
   const requestedScopes = normalizeScopes(params.get("scope"));
 
   if (responseType !== "code") {
-    return jsonError("unsupported_response_type", "Wise SSO only supports authorization code flow.");
+    return { response: jsonError("unsupported_response_type", "Wise SSO only supports authorization code flow.") };
   }
   if (!clientId || !redirectUri) {
-    return jsonError("invalid_request", "client_id and redirect_uri are required.");
+    return { response: jsonError("invalid_request", "client_id and redirect_uri are required.") };
   }
 
-  const prisma = getPrisma();
-  const client = await prisma.ssoClient.findUnique({
+  const client = await getPrisma().ssoClient.findUnique({
     where: { clientId },
     select: {
       clientId: true,
@@ -49,47 +61,109 @@ export async function GET(request: NextRequest) {
   });
 
   if (!client || !client.enabled) {
-    return jsonError("unauthorized_client", "SSO client is not enabled.", 403);
+    return { response: jsonError("unauthorized_client", "SSO client is not enabled.", 403) };
   }
   if (!isRedirectUriAllowed(client, redirectUri)) {
-    return jsonError("invalid_request", "redirect_uri is not registered for this client.");
+    return { response: jsonError("invalid_request", "redirect_uri is not registered for this client.") };
   }
 
   const scopeError = validateRequestedScopes(requestedScopes, client.allowedScopes);
   if (scopeError) {
-    return NextResponse.redirect(createOauthErrorRedirect(redirectUri, "invalid_scope", scopeError, state));
+    return {
+      response: NextResponse.redirect(createOauthErrorRedirect(redirectUri, "invalid_scope", scopeError, state)),
+    };
   }
 
   if (client.requirePkce && (!codeChallenge || codeChallengeMethod !== "S256")) {
-    return NextResponse.redirect(
-      createOauthErrorRedirect(redirectUri, "invalid_request", "PKCE S256 code challenge is required.", state)
-    );
+    return {
+      response: NextResponse.redirect(
+        createOauthErrorRedirect(redirectUri, "invalid_request", "PKCE S256 code challenge is required.", state)
+      ),
+    };
   }
 
-  if (!session?.user?.id) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", `${request.nextUrl.pathname}${request.nextUrl.search}`);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  const code = randomToken(32);
-  const scope = requestedScopes.join(" ");
-  await prisma.ssoAuthorizationCode.create({
-    data: {
-      codeHash: hashToken(code),
-      clientId: client.clientId,
-      userId: session.user.id,
+  return {
+    value: {
+      client: {
+        clientId: client.clientId,
+        name: client.name,
+        requirePkce: client.requirePkce,
+      },
+      clientId,
       redirectUri,
-      scope,
+      state,
+      nonce,
       codeChallenge,
       codeChallengeMethod,
-      nonce,
+      requestedScopes,
+    } satisfies ValidAuthorizationRequest,
+  };
+}
+
+function loginRedirect(request: NextRequest, params: URLSearchParams) {
+  const loginUrl = new URL("/login", request.url);
+  loginUrl.searchParams.set("callbackUrl", `/oauth/authorize?${params.toString()}`);
+  return NextResponse.redirect(loginUrl);
+}
+
+async function issueAuthorizationCode(userId: string, input: ValidAuthorizationRequest) {
+  const code = randomToken(32);
+  await getPrisma().ssoAuthorizationCode.create({
+    data: {
+      codeHash: hashToken(code),
+      clientId: input.clientId,
+      userId,
+      redirectUri: input.redirectUri,
+      scope: input.requestedScopes.join(" "),
+      codeChallenge: input.codeChallenge,
+      codeChallengeMethod: input.codeChallengeMethod,
+      nonce: input.nonce,
       expiresAt: new Date(Date.now() + 10 * 60 * 1000),
     },
   });
 
-  const target = new URL(redirectUri);
+  const target = new URL(input.redirectUri);
   target.searchParams.set("code", code);
-  if (state) target.searchParams.set("state", state);
+  if (input.state) target.searchParams.set("state", input.state);
   return NextResponse.redirect(target);
+}
+
+export async function GET(request: NextRequest) {
+  const session = await auth();
+  const params = request.nextUrl.searchParams;
+  const validation = await validateAuthorizationRequest(params);
+  if ("response" in validation) return validation.response;
+
+  if (!session?.user?.id) return loginRedirect(request, params);
+
+  const consentUrl = new URL("/oauth/consent", request.url);
+  params.forEach((value, key) => consentUrl.searchParams.append(key, value));
+  return NextResponse.redirect(consentUrl);
+}
+
+export async function POST(request: NextRequest) {
+  const origin = request.headers.get("origin");
+  if (!origin || origin !== request.nextUrl.origin) {
+    return jsonError("invalid_request", "Authorization confirmation origin is invalid.", 403);
+  }
+
+  const formData = await request.formData();
+  const params = new URLSearchParams();
+  for (const [key, value] of formData.entries()) {
+    if (typeof value === "string" && key !== "decision") params.append(key, value);
+  }
+
+  const validation = await validateAuthorizationRequest(params);
+  if ("response" in validation) return validation.response;
+  const input = validation.value;
+  const session = await auth();
+  if (!session?.user?.id) return loginRedirect(request, params);
+
+  if (formData.get("decision") !== "approve") {
+    return NextResponse.redirect(
+      createOauthErrorRedirect(input.redirectUri, "access_denied", "The user denied the authorization request.", input.state)
+    );
+  }
+
+  return issueAuthorizationCode(session.user.id, input);
 }
