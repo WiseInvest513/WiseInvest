@@ -13,11 +13,6 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type ValidAuthorizationRequest = {
-  client: {
-    clientId: string;
-    name: string;
-    requirePkce: boolean;
-  };
   clientId: string;
   redirectUri: string;
   state: string | null;
@@ -84,11 +79,6 @@ async function validateAuthorizationRequest(params: URLSearchParams) {
 
   return {
     value: {
-      client: {
-        clientId: client.clientId,
-        name: client.name,
-        requirePkce: client.requirePkce,
-      },
       clientId,
       redirectUri,
       state,

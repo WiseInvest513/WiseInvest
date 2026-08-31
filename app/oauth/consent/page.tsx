@@ -48,6 +48,9 @@ export default async function ConsentPage({ searchParams }: ConsentPageProps) {
   const [params, session] = await Promise.all([searchParams, auth()]);
   const clientId = first(params.client_id);
   const redirectUri = first(params.redirect_uri);
+  const responseType = first(params.response_type);
+  const codeChallenge = first(params.code_challenge);
+  const codeChallengeMethod = first(params.code_challenge_method);
   const requestedScopes = normalizeScopes(first(params.scope));
   const query = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
@@ -62,11 +65,11 @@ export default async function ConsentPage({ searchParams }: ConsentPageProps) {
   const [client, user] = await Promise.all([
     getPrisma().ssoClient.findUnique({
       where: { clientId },
-      select: { name: true, enabled: true, allowedRedirectUris: true, allowedScopes: true },
+      select: { name: true, enabled: true, allowedRedirectUris: true, allowedScopes: true, requirePkce: true },
     }),
     getPrisma().user.findUnique({
       where: { id: session.user.id },
-      select: { name: true, email: true, image: true, membershipTier: true },
+      select: { name: true, email: true, membershipTier: true },
     }),
   ]);
 
@@ -74,8 +77,10 @@ export default async function ConsentPage({ searchParams }: ConsentPageProps) {
     !client
     || !client.enabled
     || !user
+    || responseType !== "code"
     || !isRedirectUriAllowed(client, redirectUri)
     || validateRequestedScopes(requestedScopes, client.allowedScopes)
+    || (client.requirePkce && (!codeChallenge || codeChallengeMethod !== "S256"))
   ) {
     return <InvalidConsentRequest />;
   }
