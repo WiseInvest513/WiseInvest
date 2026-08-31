@@ -6,13 +6,14 @@ export const runtime = "nodejs";
 
 export async function GET() {
   const issuer = getSsoIssuer();
+  const endpointBaseUrl = "https://www.wise-invest.org";
 
   return NextResponse.json({
     issuer,
-    authorization_endpoint: `${issuer}/oauth/authorize`,
-    token_endpoint: `${issuer}/oauth/token`,
-    userinfo_endpoint: `${issuer}/oauth/userinfo`,
-    jwks_uri: `${issuer}/.well-known/jwks.json`,
+    authorization_endpoint: `${endpointBaseUrl}/oauth/authorize`,
+    token_endpoint: `${endpointBaseUrl}/oauth/token`,
+    userinfo_endpoint: `${endpointBaseUrl}/oauth/userinfo`,
+    jwks_uri: `${endpointBaseUrl}/.well-known/jwks.json`,
     response_types_supported: ["code"],
     grant_types_supported: ["authorization_code"],
     subject_types_supported: ["public"],

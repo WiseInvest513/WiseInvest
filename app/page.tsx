@@ -555,6 +555,59 @@ function UserIntentSection() {
   );
 }
 
+const wiseIdBenefits = [
+  { title: "完整阅读", description: "继续查看登录后开放的文章和学习路线。", icon: BookOpen },
+  { title: "学习沉淀", description: "后续收藏、记录和权益都会跟随同一个账户。", icon: CheckCircle2 },
+  { title: "VIP 核验", description: "提交合作账户标识后，由后台人工审核资格。", icon: ShieldAlert },
+];
+
+function WiseIdEntrySection() {
+  return (
+    <section className="bg-white pb-8 dark:bg-slate-950 md:pb-12">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto grid max-w-6xl gap-5 rounded-3xl border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#fff7ed_52%,#f8fafc_100%)] p-5 shadow-sm dark:border-slate-800 dark:bg-[linear-gradient(135deg,#0f172a_0%,#111827_56%,#020617_100%)] md:grid-cols-[1fr_auto] md:items-center md:p-6">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/70 px-3 py-1 text-xs font-black text-amber-700 dark:border-amber-900/50 dark:bg-white/5 dark:text-amber-300">
+              <Sparkles className="h-3.5 w-3.5" />
+              Wise ID
+            </div>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950 dark:text-white md:text-3xl">
+              注册后，把内容、学习和 VIP 资格放到同一个账户。
+            </h2>
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {wiseIdBenefits.map((benefit) => {
+                const Icon = benefit.icon;
+                return (
+                  <div key={benefit.title} className="rounded-2xl border border-white/80 bg-white/75 p-4 dark:border-white/10 dark:bg-white/5">
+                    <Icon className="mb-3 h-5 w-5 text-amber-600 dark:text-amber-300" />
+                    <p className="font-black text-slate-950 dark:text-white">{benefit.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">{benefit.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
+            <Link
+              href="/register?callbackUrl=/account/vip"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
+            >
+              创建 Wise ID
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/vip"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 text-sm font-black text-slate-700 transition-colors hover:border-amber-300 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-amber-800 dark:hover:text-amber-300"
+            >
+              查看 VIP 权益
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // FeaturesSection — Bento Grid + 卡片升级
 // ─────────────────────────────────────────────────────────────────────────────
@@ -933,6 +986,8 @@ export default function Home() {
       </div>
 
       <UserIntentSection />
+
+      <WiseIdEntrySection />
 
       {/* ④ FeaturesSection — 再次深色，形成强对比 */}
       <div className="relative" style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0f172a 100%)" }}>

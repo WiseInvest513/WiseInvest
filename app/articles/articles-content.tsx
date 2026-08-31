@@ -702,6 +702,13 @@ export function ArticlesContent({
                         <p className="mt-2 text-sm font-semibold leading-7 text-slate-600 dark:text-slate-300">
                           {lockedContent.reason}。登录或注册后会自动回到这篇文章。
                         </p>
+                        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                          {["保留当前预览", "登录回到原文", "可收藏和继续学习"].map((item) => (
+                            <span key={item} className="rounded-xl border border-amber-100 bg-white px-3 py-2 text-xs font-black text-slate-600 dark:border-amber-900/40 dark:bg-slate-950 dark:text-slate-300">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                     <Link

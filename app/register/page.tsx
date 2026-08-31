@@ -40,28 +40,28 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
           </div>
           <div className="space-y-4">
             <h1 className="font-heading text-4xl font-black leading-tight text-slate-950 dark:text-white md:text-5xl">
-              创建一个账户，后续权益都归到同一个 Wise ID。
+              创建 Wise ID，把内容、记录和 VIP 权益放到同一个账户。
             </h1>
             <p className="max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300 md:text-lg">
-              注册后默认成为普通用户，可以继续提交合作账户核验，升级 Wise VIP，并在未来产品中复用同一身份。
+              注册后默认成为普通用户，可以继续阅读完整内容、提交合作账户核验，并在未来 Wise 产品中复用同一身份。
             </p>
           </div>
 
           <div className="grid gap-3 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-3">
             <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm dark:border-white/10 dark:bg-slate-950/50">
               <BadgeCheck className="mb-3 h-5 w-5 text-amber-500" />
-              <p className="font-black text-slate-950 dark:text-white">普通用户</p>
-              <p className="mt-2 leading-6">注册成功即可正常使用网站。</p>
+              <p className="font-black text-slate-950 dark:text-white">完整阅读</p>
+              <p className="mt-2 leading-6">登录后回到原文继续看。</p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm dark:border-white/10 dark:bg-slate-950/50">
               <ShieldCheck className="mb-3 h-5 w-5 text-emerald-500" />
-              <p className="font-black text-slate-950 dark:text-white">安全记录</p>
-              <p className="mt-2 leading-6">密码哈希保存，不存明文。</p>
+              <p className="font-black text-slate-950 dark:text-white">VIP 核验</p>
+              <p className="mt-2 leading-6">提交合作账户后人工审核。</p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm dark:border-white/10 dark:bg-slate-950/50">
               <LockKeyhole className="mb-3 h-5 w-5 text-blue-500" />
-              <p className="font-black text-slate-950 dark:text-white">后续绑定</p>
-              <p className="mt-2 leading-6">Google / GitHub 可继续补充。</p>
+              <p className="font-black text-slate-950 dark:text-white">安全账户</p>
+              <p className="mt-2 leading-6">密码哈希保存，不存明文。</p>
             </div>
           </div>
 

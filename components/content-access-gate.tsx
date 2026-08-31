@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from "react";
-import { ArrowRight, LockKeyhole, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, BookOpen, BookmarkCheck, LockKeyhole, X } from "lucide-react";
 import { buildLoginHref, isWiseInvestHref, requiresLoginForContent, toWiseInvestRelativeHref } from "@/lib/content-access";
 import { cn } from "@/lib/utils";
 
@@ -130,13 +130,20 @@ export function LoginRequiredDialog({
           </p>
         </div>
 
-        <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
-          <div className="flex items-start gap-3">
-            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-300" />
-            <p className="text-xs font-semibold leading-6 text-slate-500 dark:text-slate-400">
-              登录后会自动回到刚才点击的位置，不影响你继续学习。
-            </p>
-          </div>
+        <div className="mt-5 grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+          {[
+            { text: "登录后自动回到刚才点击的位置", icon: ArrowRight },
+            { text: "继续阅读完整文章和学习路线", icon: BookOpen },
+            { text: "后续收藏、记录和 VIP 权益跟随同一账户", icon: BookmarkCheck },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.text} className="flex items-start gap-3">
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-300" />
+                <p className="text-xs font-semibold leading-6 text-slate-500 dark:text-slate-400">{item.text}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-6 flex gap-3">

@@ -163,6 +163,42 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
           })}
         </section>
 
+        <section className="grid gap-3 md:grid-cols-4">
+          {statusFilters.filter((filter) => filter.key !== "ALL").map((filter) => {
+            const Icon = filter.icon;
+            const active = filter.key === selectedStatus;
+            const statusKey = filter.key as keyof typeof statusCounts;
+            return (
+              <Link
+                key={filter.key}
+                href={getFilterHref(filter.key)}
+                className={`rounded-2xl border p-4 transition ${
+                  active
+                    ? "border-amber-300 bg-amber-50 shadow-sm dark:border-amber-800/60 dark:bg-amber-950/25"
+                    : "border-slate-200 bg-white hover:border-amber-200 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-amber-900/60"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <Icon className={`h-5 w-5 ${active ? "text-amber-600 dark:text-amber-300" : "text-slate-400"}`} />
+                  <span className={`rounded-full px-2 py-1 text-xs font-black ${getStatusTone(filter.key)}`}>
+                    {filter.label}
+                  </span>
+                </div>
+                <p className="mt-4 font-heading text-3xl font-black">{statusCounts[statusKey]}</p>
+                <p className="mt-1 text-xs font-bold text-slate-400">
+                  {filter.key === "PENDING"
+                    ? "需要优先处理"
+                    : filter.key === "NEEDS_REVIEW"
+                      ? "等待用户补充"
+                      : filter.key === "REJECTED"
+                        ? "用户可重新提交"
+                        : "已完成核验"}
+                </p>
+              </Link>
+            );
+          })}
+        </section>
+
         {reviewAccounts.length === 0 ? (
           <section className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-sm leading-7 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
             当前筛选条件下没有绑定记录。
@@ -171,71 +207,87 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
           <section className="space-y-4">
             {reviewAccounts.map((account) => {
               const isResubmission = account.status === "PENDING" && Boolean(account.reviewNote);
+              const copyText = [
+                `用户：${getReviewUserName(account.user)}`,
+                `邮箱：${account.user.email ?? "未绑定邮箱"}`,
+                `Wise ID：${account.user.wiseUserId}`,
+                `合作方：${account.partner.name}`,
+                `类型：${partnerTypeLabels[account.partner.type]}`,
+                `UID / 账户标识：${account.externalIdentifier}`,
+                `用户备注：${account.userNote || "无"}`,
+                account.reviewNote ? `上次审核说明：${account.reviewNote}` : null,
+              ].filter(Boolean).join("\n");
               return (
-              <article key={account.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="space-y-3">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <h2 className="text-xl font-black">{account.partner.name}</h2>
-                        <span className={`rounded-full px-3 py-1 text-xs font-black ${getStatusTone(account.status)}`}>
+                <article key={account.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="space-y-3">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h2 className="text-xl font-black">{account.partner.name}</h2>
+                          <span className={`rounded-full px-3 py-1 text-xs font-black ${getStatusTone(account.status)}`}>
+                            {partnerAccountStatusLabels[account.status]}
+                          </span>
+                          {isResubmission && (
+                            <span className="rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-black text-violet-700 dark:border-violet-900/50 dark:bg-violet-950/30 dark:text-violet-200">
+                              二次提交
+                            </span>
+                          )}
+                          <CopyButton value={copyText} label="复制审核信息" />
+                        </div>
+                        <div className="mt-1 flex flex-wrap items-center gap-2 text-sm font-bold text-slate-400">
+                          <span>
+                            {partnerTypeLabels[account.partner.type]} · {account.partner.slug}
+                          </span>
+                          <span>提交于 {account.submittedAt.toLocaleString("zh-CN", { hour12: false })}</span>
+                        </div>
+                      </div>
+                      <div className="grid gap-3 text-sm sm:grid-cols-2">
+                        <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-950">
+                          <div className="flex items-center justify-between gap-3">
+                            <p className="font-bold text-slate-400">用户</p>
+                            <CopyButton value={`${getReviewUserName(account.user)}\n${account.user.email ?? ""}\n${account.user.wiseUserId}`} />
+                          </div>
+                          <p className="mt-1 break-all font-bold">{getReviewUserName(account.user)}</p>
+                          <p className="mt-1 break-all font-mono text-xs text-slate-500 dark:text-slate-400">{account.user.email ?? "未绑定邮箱"}</p>
+                          <p className="mt-1 break-all font-mono text-xs text-slate-400">{account.user.wiseUserId}</p>
+                        </div>
+                        <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-950">
+                          <div className="flex items-center justify-between gap-3">
+                            <p className="font-bold text-slate-400">UID / 账户标识</p>
+                            <CopyButton value={account.externalIdentifier} />
+                          </div>
+                          <p className="mt-1 break-all font-mono">{account.externalIdentifier}</p>
+                        </div>
+                      </div>
+                      {account.userNote && (
+                        <p className="rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-slate-950 dark:text-slate-400">
+                          <span className="font-black text-slate-700 dark:text-slate-200">用户备注：</span>
+                          {account.userNote}
+                          <span className="ml-2 inline-flex align-middle">
+                            <CopyButton value={account.userNote} label="复制备注" />
+                          </span>
+                        </p>
+                      )}
+                      {account.reviewNote && (
+                        <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+                          <span className="font-black">{isResubmission ? "上次驳回 / 补充原因：" : "给用户的审核说明："}</span>
+                          {account.reviewNote}
+                        </p>
+                      )}
+                    </div>
+                    <div className="w-full rounded-2xl border border-slate-200 p-4 dark:border-slate-800 lg:w-[360px]">
+                      <div className="mb-3 flex items-center justify-between gap-3">
+                        <span className="text-sm font-bold text-slate-500 dark:text-slate-400">当前状态</span>
+                        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                           {partnerAccountStatusLabels[account.status]}
                         </span>
-                        {isResubmission && (
-                          <span className="rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-black text-violet-700 dark:border-violet-900/50 dark:bg-violet-950/30 dark:text-violet-200">
-                            二次提交
-                          </span>
-                        )}
                       </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-2 text-sm font-bold text-slate-400">
-                        <span>{partnerTypeLabels[account.partner.type]} · {account.partner.slug}</span>
-                        <span>提交于 {account.submittedAt.toLocaleString("zh-CN", { hour12: false })}</span>
-                      </div>
+                      <ReviewPanel id={account.id} defaultNote={account.status === "PENDING" ? null : account.reviewNote} />
                     </div>
-                    <div className="grid gap-3 text-sm sm:grid-cols-2">
-                      <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-950">
-                        <div className="flex items-center justify-between gap-3">
-                          <p className="font-bold text-slate-400">用户</p>
-                          <CopyButton value={`${getReviewUserName(account.user)}\n${account.user.email ?? ""}\n${account.user.wiseUserId}`} />
-                        </div>
-                        <p className="mt-1 break-all font-bold">{getReviewUserName(account.user)}</p>
-                        <p className="mt-1 break-all font-mono text-xs text-slate-500 dark:text-slate-400">{account.user.email ?? "未绑定邮箱"}</p>
-                        <p className="mt-1 break-all font-mono text-xs text-slate-400">{account.user.wiseUserId}</p>
-                      </div>
-                      <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-950">
-                        <div className="flex items-center justify-between gap-3">
-                          <p className="font-bold text-slate-400">UID / 账户标识</p>
-                          <CopyButton value={account.externalIdentifier} />
-                        </div>
-                        <p className="mt-1 break-all font-mono">{account.externalIdentifier}</p>
-                      </div>
-                    </div>
-                    {account.userNote && (
-                      <p className="rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-slate-950 dark:text-slate-400">
-                        <span className="font-black text-slate-700 dark:text-slate-200">用户备注：</span>
-                        {account.userNote}
-                        <span className="ml-2 inline-flex align-middle"><CopyButton value={account.userNote} label="复制备注" /></span>
-                      </p>
-                    )}
-                    {account.reviewNote && (
-                      <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
-                        <span className="font-black">{isResubmission ? "上次驳回 / 补充原因：" : "给用户的审核说明："}</span>
-                        {account.reviewNote}
-                      </p>
-                    )}
                   </div>
-                  <div className="w-full rounded-2xl border border-slate-200 p-4 dark:border-slate-800 lg:w-[360px]">
-                    <div className="mb-3 flex items-center justify-between gap-3">
-                      <span className="text-sm font-bold text-slate-500 dark:text-slate-400">当前状态</span>
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                        {partnerAccountStatusLabels[account.status]}
-                      </span>
-                    </div>
-                    <ReviewPanel id={account.id} defaultNote={account.status === "PENDING" ? null : account.reviewNote} />
-                  </div>
-                </div>
-              </article>
-            )})}
+                </article>
+              );
+            })}
           </section>
         )}
     </AdminShell>

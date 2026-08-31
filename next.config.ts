@@ -10,7 +10,7 @@ const contentSecurityPolicy = [
   "frame-src https://www.youtube.com https://player.bilibili.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
-  "form-action 'self'",
+  "form-action 'self' https://wise-invest.org https://www.wise-invest.org https://wise-etf.com https://www.wise-etf.com http://localhost:5173 https://localhost:5173",
 ].join("; ");
 
 const securityHeaders = [

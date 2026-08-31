@@ -10,6 +10,13 @@ type ReviewPanelProps = {
   defaultNote?: string | null;
 };
 
+const quickNotes = [
+  "未查到该账户与 Wise 邀请关系，请确认是否使用 Wise 链接注册后重新提交。",
+  "请补充开户时间、注册邮箱或开户注册渠道，方便继续核验。",
+  "提交的 UID / 账户标识无法匹配，请检查后重新提交。",
+  "资料信息不足，请补充平台名称、账户标识和注册时间后重新提交。",
+];
+
 export function ReviewPanel({ id, defaultNote }: ReviewPanelProps) {
   const router = useRouter();
   const [reviewNote, setReviewNote] = useState(defaultNote ?? "");
@@ -40,6 +47,7 @@ export function ReviewPanel({ id, defaultNote }: ReviewPanelProps) {
       }
 
       setReviewNote("");
+      setMessage("审核操作已提交。");
       router.refresh();
     });
   };
@@ -59,6 +67,19 @@ export function ReviewPanel({ id, defaultNote }: ReviewPanelProps) {
         rows={3}
         className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-amber-400 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
       />
+      <div className="flex flex-wrap gap-2">
+        {quickNotes.map((note) => (
+          <button
+            key={note}
+            type="button"
+            onClick={() => setReviewNote(note)}
+            title={note}
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-500 transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:border-amber-800 dark:hover:bg-amber-950/30 dark:hover:text-amber-200"
+          >
+            {note.slice(0, 12)}...
+          </button>
+        ))}
+      </div>
       <div className="grid gap-2 sm:grid-cols-3">
         <Button
           type="button"
@@ -90,7 +111,11 @@ export function ReviewPanel({ id, defaultNote }: ReviewPanelProps) {
           拒绝
         </Button>
       </div>
-      {message && <p className="text-sm text-rose-600 dark:text-rose-300">{message}</p>}
+      {message && (
+        <p className={`text-sm ${message.includes("已提交") ? "text-emerald-600 dark:text-emerald-300" : "text-rose-600 dark:text-rose-300"}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }

@@ -242,6 +242,14 @@ export default async function AccountVipPage() {
                   <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                     选择一个真实会使用的券商或交易所账户，提交账户标识后等待人工核验。
                   </p>
+                  <div className="mt-3 grid gap-2">
+                    {["进入 VIP 群和策略讨论", "使用专属服务与专属工具", "获得更明确的开单观察区间"].map((item) => (
+                      <div key={item} className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-xs font-bold text-slate-600 dark:bg-slate-950 dark:text-slate-300">
+                        <CircleCheck className="h-3.5 w-3.5 text-amber-500" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
                   <div className="mt-3">
                     <BindingForm partners={partnerFormProps(verificationPartners)} />
                   </div>
@@ -277,7 +285,8 @@ export default async function AccountVipPage() {
           </section>
         ) : latestNeedsReviewAccount ? (
           <section className="rounded-3xl border border-blue-200 bg-blue-50 p-5 text-blue-900 shadow-sm dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-100">
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex gap-3">
               <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
               <div>
                 <p className="font-black">{latestNeedsReviewAccount.partner.name} 需要补充资料。</p>
@@ -285,11 +294,18 @@ export default async function AccountVipPage() {
                   {latestNeedsReviewAccount.reviewNote || "请补充账户标识、开户时间或注册渠道后重新提交审核。"}
                 </p>
               </div>
+              </div>
+              <BindingForm
+                partners={partnerFormProps(verificationPartners)}
+                triggerLabel="重新提交资料"
+                triggerClassName="w-full shrink-0 md:w-auto"
+              />
             </div>
           </section>
         ) : latestRejectedAccount ? (
           <section className="rounded-3xl border border-rose-200 bg-rose-50 p-5 text-rose-900 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-100">
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex gap-3">
               <XCircle className="mt-0.5 h-5 w-5 shrink-0" />
               <div>
                 <p className="font-black">{latestRejectedAccount.partner.name} 的 VIP 审核已驳回。</p>
@@ -297,6 +313,12 @@ export default async function AccountVipPage() {
                   {latestRejectedAccount.reviewNote || "请确认是否使用 Wise 合作渠道，并重新提交准确的账户标识。"}
                 </p>
               </div>
+              </div>
+              <BindingForm
+                partners={partnerFormProps(verificationPartners)}
+                triggerLabel="重新提交资料"
+                triggerClassName="w-full shrink-0 md:w-auto"
+              />
             </div>
           </section>
         ) : null}
@@ -592,9 +614,18 @@ export default async function AccountVipPage() {
                         <p className="mt-2 break-all font-mono">{account.externalIdentifier}</p>
                       </details>
                     </div>
-                    <span className={`w-fit rounded-full px-3 py-1 text-xs font-black ${getStatusTone(account.status)}`}>
-                      {getPartnerAccountStatusLabel(account.status)}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2 md:justify-end">
+                      <span className={`w-fit rounded-full px-3 py-1 text-xs font-black ${getStatusTone(account.status)}`}>
+                        {getPartnerAccountStatusLabel(account.status)}
+                      </span>
+                      {(account.status === "REJECTED" || account.status === "NEEDS_REVIEW") && (
+                        <BindingForm
+                          partners={partnerFormProps(verificationPartners)}
+                          triggerLabel="重新提交"
+                          triggerClassName="h-10 px-4 text-xs"
+                        />
+                      )}
+                    </div>
                   </div>
                 );
               })

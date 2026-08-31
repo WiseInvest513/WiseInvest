@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Clock3, Loader2, Plus, Send, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Clock3, KeyRound, Loader2, Plus, RotateCcw, Send, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { partnerTypeLabels } from "@/lib/vip/status";
 
 type PartnerOption = {
@@ -26,6 +27,8 @@ type PartnerOption = {
 
 type BindingFormProps = {
   partners: PartnerOption[];
+  triggerLabel?: string;
+  triggerClassName?: string;
 };
 
 type BindingOption = PartnerOption & {
@@ -66,7 +69,7 @@ function buildBindingOptions(partners: PartnerOption[]): BindingOption[] {
   return [...brokerageOption, ...exchangeOptions];
 }
 
-export function BindingForm({ partners }: BindingFormProps) {
+export function BindingForm({ partners, triggerLabel = "绑定新的合作账户", triggerClassName }: BindingFormProps) {
   const router = useRouter();
   const bindingOptions = useMemo(() => buildBindingOptions(partners), [partners]);
   const brokerageOptions = bindingOptions.filter((partner) => partner.type === "BROKERAGE");
@@ -140,10 +143,13 @@ export function BindingForm({ partners }: BindingFormProps) {
       <DialogTrigger asChild>
         <Button
           type="button"
-          className="h-12 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+          className={cn(
+            "h-12 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100",
+            triggerClassName
+          )}
         >
           <Plus className="mr-2 h-4 w-4" />
-          绑定新的合作账户
+          {triggerLabel}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[88vh] max-w-2xl overflow-y-auto rounded-2xl border-slate-200 bg-white p-0 dark:border-slate-800 dark:bg-slate-950">
@@ -277,7 +283,25 @@ export function BindingForm({ partners }: BindingFormProps) {
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-            这里只需要填写 UID / Account ID 等必要账户标识。Wise 不会要求你提供密码、钱包私钥、Seed Phrase、API Secret、2FA Code 或交易密码。
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { title: "只填账户标识", text: "UID / Account ID / 券商识别信息", icon: KeyRound },
+                { title: "人工核验后生效", text: "绑定本身不会自动升级 VIP", icon: ShieldCheck },
+                { title: "可补充重提", text: "被驳回或待补充后可重新提交", icon: RotateCcw },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.title} className="rounded-xl bg-white px-3 py-3 dark:bg-slate-950">
+                    <Icon className="mb-2 h-4 w-4 text-amber-600 dark:text-amber-300" />
+                    <p className="font-black text-slate-800 dark:text-slate-100">{item.title}</p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">{item.text}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="mt-3 border-t border-slate-200 pt-3 text-xs font-semibold leading-6 text-slate-500 dark:border-slate-800 dark:text-slate-400">
+              Wise 不会要求你提供密码、钱包私钥、Seed Phrase、API Secret、2FA Code 或交易密码。
+            </p>
           </div>
         </div>
         )}
