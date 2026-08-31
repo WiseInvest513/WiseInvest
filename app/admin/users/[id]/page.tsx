@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { MembershipForm } from "@/app/admin/users/[id]/membership-form";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
 import { requireAdminUser } from "@/lib/identity/current-user";
@@ -99,9 +99,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
   if (!user) notFound();
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <AdminNav />
+    <AdminShell>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h1 className="font-heading text-3xl font-black md:text-4xl">{user.name ?? user.email ?? "用户详情"}</h1>
           <p className="mt-2 break-all text-sm text-slate-500 dark:text-slate-400">{user.email ?? "未绑定邮箱"}</p>
@@ -198,7 +196,6 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
             </div>
           </div>
         </section>
-      </div>
-    </main>
+    </AdminShell>
   );
 }

@@ -18,6 +18,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { auth } from "@/auth";
+import { CommunityDialogButton } from "@/components/community-dialog-button";
 import { Button } from "@/components/ui/button";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewCookieValue } from "@/lib/identity/dev-preview";
 import { getEnabledVipPartners, getPartnerDisplayConfig } from "@/lib/vip/partners";
@@ -133,6 +134,7 @@ export default async function VipPage() {
   const [session, cookieStore, partners] = await Promise.all([auth(), cookies(), getEnabledVipPartners()]);
   const loggedIn = Boolean(session?.user?.id) || isDevPreviewCookieValue(cookieStore.get(WISE_DEV_PREVIEW_COOKIE)?.value);
   const primaryHref = loggedIn ? "/account/vip" : "/login?callbackUrl=/account/vip";
+  const contentHref = loggedIn ? "/account/vip/content" : "/login?callbackUrl=/account/vip/content";
   const partnersWithDisplay = partners.map((partner) => ({
     ...partner,
     ...getPartnerDisplayConfig(partner),
@@ -166,6 +168,18 @@ export default async function VipPage() {
               <Button asChild variant="outline" className="h-12 rounded-xl border-slate-200 bg-white px-5 dark:border-slate-700 dark:bg-slate-900">
                 <a href="#how-it-works">查看升级步骤</a>
               </Button>
+              <CommunityDialogButton className="h-12 border border-slate-200 bg-white px-5 text-slate-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-800 dark:hover:bg-amber-950/30 dark:hover:text-amber-200">
+                <MessageCircle className="h-4 w-4" />
+                加入免费群
+              </CommunityDialogButton>
+              {loggedIn && (
+                <Button asChild variant="outline" className="h-12 rounded-xl border-amber-200 bg-amber-50 px-5 text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+                  <Link href="/account/vip/content">
+                    VIP 内容中心
+                    <ArrowUpRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
 
@@ -227,12 +241,18 @@ export default async function VipPage() {
               先登录 Wise ID，再选择一个合作渠道提交核验。审核通过后，会员状态会在账户中心自动更新。
             </p>
           </div>
-          <Button asChild className="mt-4 h-12 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 md:mt-0">
-            <Link href={primaryHref}>
-              开始申请
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="mt-4 flex flex-wrap gap-3 md:mt-0">
+            <CommunityDialogButton className="h-12 border border-slate-200 bg-white px-5 text-slate-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-amber-800 dark:hover:bg-amber-950/30 dark:hover:text-amber-200">
+              <MessageCircle className="h-4 w-4" />
+              先加入免费群
+            </CommunityDialogButton>
+            <Button asChild className="h-12 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100">
+              <Link href={primaryHref}>
+                开始申请
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-6">
@@ -314,8 +334,8 @@ export default async function VipPage() {
             })}
           </div>
           <Button asChild className="mt-7 h-12 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-amber-300 dark:text-slate-950 dark:hover:bg-amber-200">
-            <Link href={primaryHref}>
-              先成为 VIP
+            <Link href={contentHref}>
+              {loggedIn ? "进入内容中心" : "先成为 VIP"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

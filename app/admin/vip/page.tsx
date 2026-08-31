@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AlertTriangle, CheckCircle2, Clock3, ShieldCheck, XCircle } from "lucide-react";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { CopyButton } from "@/app/admin/vip/copy-button";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { devPreviewPartnerAccounts } from "@/lib/identity/dev-preview-data";
@@ -123,9 +123,7 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
   const allCount = Object.values(statusCounts).reduce((sum, count) => sum + count, 0);
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <AdminNav />
+    <AdminShell>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200">
             <ShieldCheck className="h-3.5 w-3.5" />
@@ -240,7 +238,6 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
             )})}
           </section>
         )}
-      </div>
-    </main>
+    </AdminShell>
   );
 }

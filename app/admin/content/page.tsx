@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { ContentPermissionTable } from "@/app/admin/content/content-permission-table";
 import { getContentCatalogItems } from "@/lib/content-catalog";
 import type { ContentAccessLevel } from "@/lib/content-access";
@@ -43,6 +43,7 @@ export default async function AdminContentPage() {
       contentKey: item.contentKey,
       title: item.title,
       description: item.description,
+      group: item.group,
       access: (permission?.access ?? item.fallbackAccess) as ContentAccessLevel,
       reason: permission?.reason ?? item.fallbackReason,
       source: permission ? "DATABASE" as const : "DEFAULT" as const,
@@ -50,11 +51,8 @@ export default async function AdminContentPage() {
   });
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <AdminNav />
-        <ContentPermissionTable rows={rows} />
-      </div>
-    </main>
+    <AdminShell>
+      <ContentPermissionTable rows={rows} />
+    </AdminShell>
   );
 }

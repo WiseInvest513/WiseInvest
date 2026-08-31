@@ -1,4 +1,5 @@
 import { getAllArticles, getArticleRoute } from "@/lib/articles";
+import { categories } from "@/lib/articles-data";
 import { roadmaps } from "@/lib/roadmaps-data";
 import { getContentAccessRule, type ContentAccessLevel, type ContentItemType } from "@/lib/content-access";
 
@@ -7,6 +8,7 @@ export type ContentCatalogItem = {
   contentKey: string;
   title: string;
   description: string;
+  group: string;
   fallbackAccess: ContentAccessLevel;
   fallbackReason: string;
 };
@@ -44,6 +46,7 @@ export function getContentCatalogItems(): ContentCatalogItem[] {
       contentKey: getArticleRoute(article),
       title: article.title,
       description: article.summary,
+      group: categories.find((category) => category.id === article.categoryId)?.name ?? article.categoryId,
     })
   );
 
@@ -53,6 +56,7 @@ export function getContentCatalogItems(): ContentCatalogItem[] {
       contentKey: `/roadmap/${roadmap.id}`,
       title: roadmap.title,
       description: roadmap.description,
+      group: "学习路线",
     })
   );
 
@@ -62,6 +66,7 @@ export function getContentCatalogItems(): ContentCatalogItem[] {
       contentKey: `/roadmap?route=${route.id}`,
       title: route.title,
       description: route.description,
+      group: "资金地图",
     })
   );
 

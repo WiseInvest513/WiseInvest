@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { PartnerForm } from "@/app/admin/partners/partner-form";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { devPreviewPartners } from "@/lib/identity/dev-preview-data";
@@ -40,9 +40,7 @@ export default async function AdminPartnersPage() {
         });
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <AdminNav />
+    <AdminShell>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h1 className="font-heading text-3xl font-black md:text-4xl">合作方配置</h1>
           <p className="mt-2 text-sm leading-7 text-slate-500 dark:text-slate-400">
@@ -75,7 +73,6 @@ export default async function AdminPartnersPage() {
             />
           ))}
         </section>
-      </div>
-    </main>
+    </AdminShell>
   );
 }

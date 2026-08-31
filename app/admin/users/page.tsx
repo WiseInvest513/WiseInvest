@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Search } from "lucide-react";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { devPreviewUsers } from "@/lib/identity/dev-preview-data";
@@ -135,9 +135,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
   const getProviders = (accounts: { provider: string }[] = []) => getLoginProviderLabels(accounts);
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <AdminNav />
+    <AdminShell>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h1 className="font-heading text-3xl font-black md:text-4xl">用户管理</h1>
           <form className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -224,7 +222,6 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
           )}
           </div>
         </section>
-      </div>
-    </main>
+    </AdminShell>
   );
 }

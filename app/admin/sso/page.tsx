@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { KeyRound } from "lucide-react";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { SsoClientForm } from "@/app/admin/sso/sso-client-form";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
@@ -37,9 +37,7 @@ export default async function AdminSsoPage() {
   const issuer = getSsoIssuer();
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <AdminNav />
+    <AdminShell>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200">
             <KeyRound className="h-3.5 w-3.5" />
@@ -80,7 +78,6 @@ export default async function AdminSsoPage() {
             />
           ))}
         </section>
-      </div>
-    </main>
+    </AdminShell>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CheckCircle2, CircleAlert, ServerCog } from "lucide-react";
-import { AdminNav } from "@/app/admin/admin-nav";
+import { AdminShell } from "@/app/admin/admin-shell";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { isDatabaseConfigured } from "@/lib/prisma";
 import { isRedisRatelimitConfigured } from "@/lib/ratelimit";
@@ -77,9 +77,7 @@ export default async function AdminSystemPage() {
   ];
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-50 px-4 py-10 text-slate-950 dark:bg-slate-950 dark:text-white">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <AdminNav />
+    <AdminShell>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200">
             <ServerCog className="h-3.5 w-3.5" />
@@ -111,7 +109,6 @@ export default async function AdminSystemPage() {
             </article>
           ))}
         </section>
-      </div>
-    </main>
+    </AdminShell>
   );
 }
