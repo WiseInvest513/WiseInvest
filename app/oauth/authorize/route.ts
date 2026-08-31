@@ -267,14 +267,15 @@ async function validateAuthorizationRequest(params: URLSearchParams) {
   const scopeError = validateRequestedScopes(requestedScopes, client.allowedScopes);
   if (scopeError) {
     return {
-      response: NextResponse.redirect(createOauthErrorRedirect(redirectUri, "invalid_scope", scopeError, state)),
+      response: NextResponse.redirect(createOauthErrorRedirect(redirectUri, "invalid_scope", scopeError, state), 303),
     };
   }
 
   if (client.requirePkce && (!codeChallenge || codeChallengeMethod !== "S256")) {
     return {
       response: NextResponse.redirect(
-        createOauthErrorRedirect(redirectUri, "invalid_request", "PKCE S256 code challenge is required.", state)
+        createOauthErrorRedirect(redirectUri, "invalid_request", "PKCE S256 code challenge is required.", state),
+        303
       ),
     };
   }
@@ -296,7 +297,7 @@ async function validateAuthorizationRequest(params: URLSearchParams) {
 function loginRedirect(request: NextRequest, params: URLSearchParams) {
   const loginUrl = new URL("/login", request.url);
   loginUrl.searchParams.set("callbackUrl", `/oauth/authorize?${params.toString()}`);
-  return NextResponse.redirect(loginUrl);
+  return NextResponse.redirect(loginUrl, 303);
 }
 
 async function issueAuthorizationCode(userId: string, input: ValidAuthorizationRequest) {
@@ -318,7 +319,7 @@ async function issueAuthorizationCode(userId: string, input: ValidAuthorizationR
   const target = new URL(input.redirectUri);
   target.searchParams.set("code", code);
   if (input.state) target.searchParams.set("state", input.state);
-  return NextResponse.redirect(target);
+  return NextResponse.redirect(target, 303);
 }
 
 export async function GET(request: NextRequest) {
