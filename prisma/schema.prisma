@@ -113,6 +113,7 @@ model User {
   targetAuditLogs      AuditLog[]            @relation("TargetAuditLogs")
   createdSsoClients    SsoClient[]           @relation("CreatedSsoClients")
   updatedSsoClients    SsoClient[]           @relation("UpdatedSsoClients")
+  ssoAuthorizationCodes SsoAuthorizationCode[]
   updatedContentRules   ContentPermission[]   @relation("UpdatedContentPermissions")
   contentEvents         ContentEvent[]
   contentItems          UserContentItem[]
@@ -337,9 +338,11 @@ model UserContentItem {
 model SsoClient {
   id                  String   @id @default(cuid())
   clientId            String   @unique @map("client_id")
+  clientSecretHash    String?  @map("client_secret_hash") @db.Text
   name                String
   allowedRedirectUris String[] @map("allowed_redirect_uris")
   allowedScopes       String[] @map("allowed_scopes")
+  requirePkce         Boolean  @default(true) @map("require_pkce")
   enabled             Boolean  @default(false)
   createdById         String?  @map("created_by_id")
   updatedById         String?  @map("updated_by_id")
@@ -348,7 +351,30 @@ model SsoClient {
 
   createdBy User? @relation("CreatedSsoClients", fields: [createdById], references: [id], onDelete: SetNull)
   updatedBy User? @relation("UpdatedSsoClients", fields: [updatedById], references: [id], onDelete: SetNull)
+  authorizationCodes SsoAuthorizationCode[]
 
   @@index([enabled])
   @@map("sso_clients")
+}
+
+model SsoAuthorizationCode {
+  id                  String    @id @default(cuid())
+  codeHash            String    @unique @map("code_hash") @db.Text
+  clientId            String    @map("client_id")
+  userId              String    @map("user_id")
+  redirectUri         String    @map("redirect_uri") @db.Text
+  scope               String
+  codeChallenge       String?   @map("code_challenge") @db.Text
+  codeChallengeMethod String?   @map("code_challenge_method")
+  nonce               String?
+  expiresAt           DateTime  @map("expires_at")
+  consumedAt          DateTime? @map("consumed_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+
+  client SsoClient @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+  user   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, expiresAt])
+  @@index([userId, createdAt])
+  @@map("sso_authorization_codes")
 }

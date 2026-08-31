@@ -21,6 +21,7 @@
     "prisma:studio": "prisma studio",
     "vip:seed": "node scripts/seed-wise-vip.mjs",
     "wise:v1:verify": "node scripts/verify-wise-id-vip.mjs",
+    "sso:key": "node scripts/generate-sso-key.mjs",
     "download-favicons": "node scripts/download-favicons-simple.js",
     "clean": "rm -rf .next node_modules/.cache",
     "fix": "./fix-startup.sh",

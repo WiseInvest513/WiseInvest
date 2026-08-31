@@ -64,6 +64,16 @@ export default async function AdminSystemPage() {
       ok: hasEnv("WISE_ADMIN_EMAILS"),
       detail: "首个管理员邮箱必须在第一次登录前配置。",
     },
+    {
+      label: "Wise SSO Issuer",
+      ok: hasEnv("WISE_SSO_ISSUER", "AUTH_URL", "NEXT_PUBLIC_SITE_URL"),
+      detail: "用于对外声明 Wise 身份中心地址，线上建议为 https://wise-invest.org。",
+    },
+    {
+      label: "Wise SSO 私钥",
+      ok: hasEnv("WISE_SSO_PRIVATE_KEY"),
+      detail: "用于签发跨站登录 token。生产环境必须配置 RS256 私钥。",
+    },
   ];
 
   return (
