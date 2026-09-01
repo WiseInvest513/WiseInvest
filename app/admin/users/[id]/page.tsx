@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AdminShell } from "@/app/admin/admin-shell";
 import { MembershipForm } from "@/app/admin/users/[id]/membership-form";
+import { CopyButton } from "@/app/admin/vip/copy-button";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { getDevPreviewUserDetail } from "@/lib/identity/dev-preview-data";
@@ -40,6 +41,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
             wiseUserId: true,
             email: true,
             name: true,
+            wechatId: true,
             membershipTier: true,
             role: true,
             createdAt: true,
@@ -134,6 +136,22 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
               <p className="mt-3 text-xs leading-5 text-slate-400">
                 OAuth 登录会自动记录 Google / GitHub；邮箱注册成功后会记录邮箱密码登录方式。
               </p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <h2 className="text-xl font-black">VIP 联系方式</h2>
+              {user.wechatId ? (
+                <div className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-3 dark:border-amber-900/50 dark:bg-amber-950/20">
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-slate-400">微信号</p>
+                    <p className="mt-1 truncate font-mono font-black text-slate-950 dark:text-white">{user.wechatId}</p>
+                  </div>
+                  <CopyButton value={user.wechatId} />
+                </div>
+              ) : (
+                <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">用户暂未填写微信号。</p>
+              )}
+              <p className="mt-3 text-xs leading-5 text-slate-400">仅用于 VIP 服务联系及未来周边发放前确认收件信息。</p>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">

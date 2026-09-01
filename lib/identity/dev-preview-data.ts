@@ -179,6 +179,7 @@ export function getDevPreviewUserDetail(id: string) {
     wiseUserId: user.wiseUserId,
     email: user.email,
     name: user.name,
+    wechatId: isMember ? null : "WisePreview520",
     membershipTier: user.membershipTier,
     role: user.role,
     createdAt: user.createdAt,

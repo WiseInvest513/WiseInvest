@@ -20,7 +20,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { BindingForm } from "@/app/account/vip/binding-form";
-import { ReviewResultDialog } from "@/app/account/vip/review-result-dialog";
+import { VipPagePrompts } from "@/app/account/vip/vip-page-prompts";
 import { CommunityDialogButton } from "@/components/community-dialog-button";
 import { CopyTextButton } from "@/components/copy-text-button";
 import { Button } from "@/components/ui/button";
@@ -155,8 +155,9 @@ export default async function AccountVipPage() {
   const currentTierIndex = getTierIndex(currentTier);
   const nextTier = getNextTier(currentTier);
   const verifiedAccounts = user.partnerAccounts.filter((account) => account.status === "VERIFIED");
-  const latestRejectedAccount = user.partnerAccounts.find((account) => account.status === "REJECTED");
-  const latestNeedsReviewAccount = user.partnerAccounts.find((account) => account.status === "NEEDS_REVIEW");
+  const latestAccount = user.partnerAccounts[0];
+  const latestRejectedAccount = latestAccount?.status === "REJECTED" ? latestAccount : null;
+  const latestNeedsReviewAccount = latestAccount?.status === "NEEDS_REVIEW" ? latestAccount : null;
   const activeEntitlements = user.entitlements.filter((entitlement) => !entitlement.expiresAt || entitlement.expiresAt > new Date());
   const verificationPartners = enabledPartners.filter((partner) => partner.type !== "OTHER");
   const vipPlusPartners = verificationPartners.filter((partner) => partner.vipPlusEligible);
@@ -165,9 +166,6 @@ export default async function AccountVipPage() {
   );
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
-      {latestRejectedAccount && (
-        <ReviewResultDialog partnerName={latestRejectedAccount.partner.name} reason={latestRejectedAccount.reviewNote} />
-      )}
       <div className="mx-auto max-w-6xl space-y-8 px-4 py-10">
         <Button asChild variant="outline" className="h-10 rounded-xl border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
           <Link href="/account">
@@ -322,6 +320,19 @@ export default async function AccountVipPage() {
             </div>
           </section>
         ) : null}
+
+        <VipPagePrompts
+          initialWechatId={user.wechatId}
+          isVip={currentTier === "VIP" || currentTier === "VIP_PLUS"}
+          rejection={
+            latestRejectedAccount
+              ? {
+                  partnerName: latestRejectedAccount.partner.name,
+                  reason: latestRejectedAccount.reviewNote,
+                }
+              : null
+          }
+        />
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h2 className="text-2xl font-black">会员等级</h2>

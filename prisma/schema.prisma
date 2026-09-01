@@ -97,6 +97,7 @@ model User {
   email          String?        @unique
   emailVerified  DateTime?      @map("email_verified")
   image          String?
+  wechatId       String?        @map("wechat_id")
   passwordHash   String?        @map("password_hash") @db.Text
   membershipTier MembershipTier @default(MEMBER) @map("membership_tier")
   role           UserRole       @default(USER)

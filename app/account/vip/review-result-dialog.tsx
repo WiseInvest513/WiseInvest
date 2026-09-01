@@ -14,17 +14,26 @@ import {
 type ReviewResultDialogProps = {
   partnerName: string;
   reason: string | null;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function ReviewResultDialog({ partnerName, reason }: ReviewResultDialogProps) {
-  const [open, setOpen] = useState(false);
+export function ReviewResultDialog({ partnerName, reason, open, onOpenChange }: ReviewResultDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = open !== undefined;
+  const resolvedOpen = open ?? internalOpen;
 
   useEffect(() => {
-    setOpen(true);
-  }, []);
+    if (!isControlled) setInternalOpen(true);
+  }, [isControlled]);
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!isControlled) setInternalOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={resolvedOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-lg rounded-2xl border-slate-200 bg-white p-0 dark:border-slate-800 dark:bg-slate-950">
         <div className="border-b border-rose-100 bg-rose-50/80 px-6 py-5 dark:border-rose-900/50 dark:bg-rose-950/30">
           <DialogHeader>
@@ -47,7 +56,7 @@ export function ReviewResultDialog({ partnerName, reason }: ReviewResultDialogPr
           </div>
           <Button
             type="button"
-            onClick={() => setOpen(false)}
+            onClick={() => handleOpenChange(false)}
             className="h-11 w-full rounded-xl bg-slate-950 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
           >
             我知道了，去重新提交
