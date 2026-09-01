@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { AlertTriangle, ArrowRight, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +15,12 @@ import {
 type ReviewResultDialogProps = {
   partnerName: string;
   reason: string | null;
+  isExchange?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
 
-export function ReviewResultDialog({ partnerName, reason, open, onOpenChange }: ReviewResultDialogProps) {
+export function ReviewResultDialog({ partnerName, reason, isExchange = false, open, onOpenChange }: ReviewResultDialogProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const isControlled = open !== undefined;
   const resolvedOpen = open ?? internalOpen;
@@ -54,6 +56,20 @@ export function ReviewResultDialog({ partnerName, reason, open, onOpenChange }: 
             </div>
             <p>{reason || "暂未填写具体原因，请补充账户信息后重新提交。"}</p>
           </div>
+          {isExchange && (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-900/50 dark:bg-amber-950/20">
+              <p className="text-sm font-black text-slate-950 dark:text-white">可能是邀请码绑定关系不正确？</p>
+              <p className="mt-1 text-xs leading-6 text-slate-600 dark:text-slate-300">
+                如果账户已经绑定其他邀请人，先查看不同交易所的处理方式，再决定是否重新提交。
+              </p>
+              <Button asChild variant="outline" className="mt-3 h-10 w-full rounded-xl border-amber-300 bg-white text-amber-700 hover:bg-amber-100 dark:border-amber-800 dark:bg-slate-900 dark:text-amber-300">
+                <Link href="/guide/exchange-referral">
+                  查看邀请码绑定异常解决方法
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          )}
           <Button
             type="button"
             onClick={() => handleOpenChange(false)}

@@ -10,6 +10,7 @@ type VipPagePromptsProps = {
   rejection: {
     partnerName: string;
     reason: string | null;
+    isExchange: boolean;
   } | null;
 };
 
@@ -22,6 +23,7 @@ export function VipPagePrompts({ initialWechatId, isVip, rejection }: VipPagePro
         <ReviewResultDialog
           partnerName={rejection.partnerName}
           reason={rejection.reason}
+          isExchange={rejection.isExchange}
           open={reviewOpen}
           onOpenChange={setReviewOpen}
         />

@@ -9,6 +9,7 @@ import {
   BookOpen,
   Building2,
   CheckCircle2,
+  CircleHelp,
   ExternalLink,
   Globe2,
   Landmark,
@@ -978,7 +979,14 @@ export default async function Perks2SectionPage(
         </section>
 
         {section.slug === "crypto" && (
-          <div className="mb-5 flex justify-end">
+          <div className="mb-5 flex flex-col justify-end gap-2 sm:flex-row">
+            <Link
+              href="/guide/exchange-referral"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-amber-300 bg-white px-4 text-sm font-black text-amber-700 shadow-sm transition-colors hover:bg-amber-50 dark:border-amber-800 dark:bg-slate-900 dark:text-amber-300 dark:hover:bg-amber-950/30"
+            >
+              <CircleHelp className="h-4 w-4" />
+              如果绑定了他人邀请码应该怎么办
+            </Link>
             <CexComparisonDialog products={cexProducts} />
           </div>
         )}

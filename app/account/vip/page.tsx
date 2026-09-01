@@ -65,6 +65,8 @@ const vipRouteOptions = [
     cta: "查看银河证券",
     icon: Banknote,
     points: ["A 股账户", "ETF/LOF 免五", "纳指 / 标普定投"],
+    helpHref: null,
+    helpLabel: null,
   },
   {
     title: "港美股券商",
@@ -74,6 +76,8 @@ const vipRouteOptions = [
     cta: "查看港美股券商",
     icon: Building2,
     points: ["复星 / 致富 / 腾达", "BBAE 合作中", "美股交易账户"],
+    helpHref: null,
+    helpLabel: null,
   },
   {
     title: "交易所注册",
@@ -83,6 +87,8 @@ const vipRouteOptions = [
     cta: "查看交易所",
     icon: CandlestickChart,
     points: ["Binance / Bitget", "Bybit / OKX / Gate", "提交 UID 核验"],
+    helpHref: "/guide/exchange-referral",
+    helpLabel: "已经绑定他人邀请码？查看解决方法",
   },
 ];
 
@@ -329,40 +335,11 @@ export default async function AccountVipPage() {
               ? {
                   partnerName: latestRejectedAccount.partner.name,
                   reason: latestRejectedAccount.reviewNote,
+                  isExchange: latestRejectedAccount.partner.type === "EXCHANGE",
                 }
               : null
           }
         />
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
-          <h2 className="text-2xl font-black">会员等级</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-            你现在是 {getPublicTierLabel(currentTier)}
-            {nextTier ? `，下一步是 ${getPublicTierLabel(nextTier)}。` : "，当前公开等级已经完成。"}
-          </p>
-          <div className="mt-7 grid gap-4 md:grid-cols-3">
-            {(["MEMBER", "VIP", "VIP_PLUS"] as PublicMembershipTier[]).map((tier, index) => {
-              const isDone = index < currentTierIndex;
-              const isCurrent = tier === currentTier;
-              const Icon = isDone || isCurrent ? CircleCheck : Circle;
-              return (
-                <div
-                  key={tier}
-                  className={`rounded-2xl border p-5 ${
-                    isCurrent
-                      ? "border-amber-300 bg-amber-50/70 dark:border-amber-800/60 dark:bg-amber-950/25"
-                      : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950"
-                  }`}
-                >
-                  <Icon className={`mb-4 h-5 w-5 ${isDone || isCurrent ? "text-amber-500" : "text-slate-300 dark:text-slate-600"}`} />
-                  <p className="font-black">{membershipJourneyCopy[tier].label}</p>
-                  <p className="mt-1 text-xs font-bold text-slate-400">{membershipJourneyCopy[tier].short}</p>
-                  <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{membershipJourneyCopy[tier].description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
 
         {currentTier === "MEMBER" ? (
           <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
@@ -460,6 +437,15 @@ export default async function AccountVipPage() {
                         {route.cta}
                         <ArrowUpRight className="ml-1.5 h-4 w-4" />
                       </Link>
+                      {route.helpHref && route.helpLabel && (
+                        <Link
+                          href={route.helpHref}
+                          className="mt-3 inline-flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs font-black text-amber-800 transition-colors hover:border-amber-300 hover:bg-amber-100 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-200"
+                        >
+                          {route.helpLabel}
+                          <ArrowUpRight className="ml-2 h-3.5 w-3.5 shrink-0" />
+                        </Link>
+                      )}
                     </article>
                   );
                 })}
@@ -579,6 +565,36 @@ export default async function AccountVipPage() {
             </div>
           </section>
         )}
+
+        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
+          <h2 className="text-2xl font-black">会员等级</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+            你现在是 {getPublicTierLabel(currentTier)}
+            {nextTier ? `，下一步是 ${getPublicTierLabel(nextTier)}。` : "，当前公开等级已经完成。"}
+          </p>
+          <div className="mt-7 grid gap-4 md:grid-cols-3">
+            {(["MEMBER", "VIP", "VIP_PLUS"] as PublicMembershipTier[]).map((tier, index) => {
+              const isDone = index < currentTierIndex;
+              const isCurrent = tier === currentTier;
+              const Icon = isDone || isCurrent ? CircleCheck : Circle;
+              return (
+                <div
+                  key={tier}
+                  className={`rounded-2xl border p-5 ${
+                    isCurrent
+                      ? "border-amber-300 bg-amber-50/70 dark:border-amber-800/60 dark:bg-amber-950/25"
+                      : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950"
+                  }`}
+                >
+                  <Icon className={`mb-4 h-5 w-5 ${isDone || isCurrent ? "text-amber-500" : "text-slate-300 dark:text-slate-600"}`} />
+                  <p className="font-black">{membershipJourneyCopy[tier].label}</p>
+                  <p className="mt-1 text-xs font-bold text-slate-400">{membershipJourneyCopy[tier].short}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{membershipJourneyCopy[tier].description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">

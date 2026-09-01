@@ -229,44 +229,6 @@ export default async function VipPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-10">
-        <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
-            <p className="text-sm font-black uppercase text-amber-600 dark:text-amber-300">Wise ID</p>
-            <h2 className="mt-2 text-3xl font-black leading-tight">先注册，再把学习和权益放到同一个账户里。</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-500 dark:text-slate-400">
-              免费用户也可以正常使用公开内容。注册 Wise ID 的价值，是把完整文章、学习记录、合作账户核验和后续 VIP 权益统一起来。
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Button asChild className="h-11 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100">
-                <Link href={primaryHref}>
-                  {loggedIn ? "进入账户中心" : "注册 / 登录 Wise ID"}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <CommunityDialogButton className="h-11 border border-slate-200 bg-white px-5 text-slate-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
-                <MessageCircle className="h-4 w-4" />
-                先加入免费群
-              </CommunityDialogButton>
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {registrationBenefits.map((item) => {
-              const Icon = item.icon;
-              return (
-                <article key={item.title} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-300">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-5 font-black">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-500 dark:text-slate-400">{item.text}</p>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-12">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
@@ -354,6 +316,44 @@ export default async function VipPage() {
                     {route.cta}
                     <ArrowUpRight className="ml-1.5 h-4 w-4" />
                   </Link>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
+            <p className="text-sm font-black uppercase text-amber-600 dark:text-amber-300">Wise ID</p>
+            <h2 className="mt-2 text-3xl font-black leading-tight">先注册，再把学习和权益放到同一个账户里。</h2>
+            <p className="mt-4 text-sm leading-7 text-slate-500 dark:text-slate-400">
+              免费用户也可以正常使用公开内容。注册 Wise ID 的价值，是把完整文章、学习记录、合作账户核验和后续 VIP 权益统一起来。
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Button asChild className="h-11 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100">
+                <Link href={primaryHref}>
+                  {loggedIn ? "进入账户中心" : "注册 / 登录 Wise ID"}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <CommunityDialogButton className="h-11 border border-slate-200 bg-white px-5 text-slate-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                <MessageCircle className="h-4 w-4" />
+                先加入免费群
+              </CommunityDialogButton>
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {registrationBenefits.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-950/30 dark:text-amber-300">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 font-black">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-500 dark:text-slate-400">{item.text}</p>
                 </article>
               );
             })}
