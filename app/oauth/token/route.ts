@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getPrisma } from "@/lib/prisma";
 import { hashToken, verifyPkceChallenge } from "@/lib/sso/crypto";
-import { createTokenPair, verifyClientSecret } from "@/lib/sso/oauth";
+import { createTokenPair, isRedirectUriAllowed, verifyClientSecret } from "@/lib/sso/oauth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
     select: {
       clientId: true,
       clientSecretHash: true,
+      allowedRedirectUris: true,
       enabled: true,
       requirePkce: true,
     },
@@ -72,6 +73,9 @@ export async function POST(request: NextRequest) {
   }
   if (!verifyClientSecret(client, clientSecret)) {
     return tokenError("invalid_client", "Invalid client credentials.", 401);
+  }
+  if (!isRedirectUriAllowed(client, redirectUri)) {
+    return tokenError("invalid_grant", "redirect_uri is not registered for this client.", 400);
   }
 
   const authorizationCode = await prisma.ssoAuthorizationCode.findUnique({

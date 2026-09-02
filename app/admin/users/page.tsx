@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { AdminShell } from "@/app/admin/admin-shell";
+import { CopyButton } from "@/app/admin/vip/copy-button";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { devPreviewUsers } from "@/lib/identity/dev-preview-data";
@@ -74,6 +75,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
                     { email: { contains: query, mode: "insensitive" } },
                     { name: { contains: query, mode: "insensitive" } },
                     { wiseUserId: { contains: query, mode: "insensitive" } },
+                    { wechatId: { contains: query, mode: "insensitive" } },
                   ],
                 }
               : {}),
@@ -84,6 +86,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
             wiseUserId: true,
             email: true,
             name: true,
+            wechatId: true,
             membershipTier: true,
             role: true,
             createdAt: true,
@@ -113,7 +116,8 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
         devPreviewUsers.filter((user) => {
           const normalizedQuery = query.toLowerCase();
           const matchQuery =
-            !query || [user.email, user.name, user.wiseUserId].some((value) => value?.toLowerCase().includes(normalizedQuery));
+            !query ||
+            [user.email, user.name, user.wiseUserId, user.wechatId].some((value) => value?.toLowerCase().includes(normalizedQuery));
           const matchTier = selectedTier === "ALL" || user.membershipTier === selectedTier;
           return matchQuery && matchTier;
         }),
@@ -144,7 +148,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
               <input
                 name="q"
                 defaultValue={query}
-                placeholder="搜索邮箱、昵称或 Wise User ID"
+                placeholder="搜索邮箱、昵称、Wise User ID 或微信号"
                 className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-amber-400 dark:border-slate-700 dark:bg-slate-950"
               />
             </label>
@@ -175,9 +179,9 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
         </section>
 
         <section className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="min-w-[1040px]">
-          <div className="grid grid-cols-[1fr_1.35fr_1fr_0.75fr_0.95fr_0.45fr_0.45fr] gap-4 border-b border-slate-200 px-5 py-3 text-xs font-black uppercase text-slate-400 dark:border-slate-800">
-            <span>用户名</span>
+          <div className="min-w-[1180px]">
+          <div className="grid grid-cols-[1.45fr_1.25fr_1fr_0.75fr_0.9fr_0.4fr_0.4fr] gap-4 border-b border-slate-200 px-5 py-3 text-xs font-black uppercase text-slate-400 dark:border-slate-800">
+            <span>用户名 / 微信</span>
             <span>邮箱</span>
             <span>Wise ID</span>
             <span>会员</span>
@@ -189,8 +193,18 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
             const providers = getProviders(user.accounts ?? []);
 
             return (
-            <div key={user.id} className="grid grid-cols-[1fr_1.35fr_1fr_0.75fr_0.95fr_0.45fr_0.45fr] gap-4 border-b border-slate-100 px-5 py-4 text-sm last:border-0 dark:border-slate-800">
-              <p className="font-black">{user.name ?? "未命名用户"}</p>
+            <div key={user.id} className="grid grid-cols-[1.45fr_1.25fr_1fr_0.75fr_0.9fr_0.4fr_0.4fr] gap-4 border-b border-slate-100 px-5 py-4 text-sm last:border-0 dark:border-slate-800">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-black">{user.name ?? "未命名用户"}</p>
+                  {user.wechatId ? (
+                    <div className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-1 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200">
+                      <span className="min-w-0 truncate font-mono text-xs font-black">{user.wechatId}</span>
+                      <CopyButton value={user.wechatId} label="复制" />
+                    </div>
+                  ) : null}
+                </div>
+              </div>
               <p className="break-all text-xs font-bold text-slate-500 dark:text-slate-400">{user.email ?? "未绑定邮箱"}</p>
               <p className="break-all font-mono text-xs font-bold text-slate-400">{user.wiseUserId}</p>
               <div>

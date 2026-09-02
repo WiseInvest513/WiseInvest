@@ -1,13 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { getPrisma } from "@/lib/prisma";
+import { buildContentSecurityPolicy } from "@/lib/security/content-security-policy";
 import { hashToken, randomToken } from "@/lib/sso/crypto";
 import {
   createOauthErrorRedirect,
-  isRedirectUriAllowed,
   normalizeScopes,
   validateRequestedScopes,
 } from "@/lib/sso/oauth";
+import { getRegisteredRedirectUri } from "@/lib/sso/redirect-uri";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,6 +17,7 @@ type ValidAuthorizationRequest = {
   clientId: string;
   clientName: string;
   redirectUri: string;
+  redirectOrigin: string;
   state: string | null;
   nonce: string | null;
   codeChallenge: string | null;
@@ -25,8 +27,19 @@ type ValidAuthorizationRequest = {
 
 const trustedWiseOrigins = new Set(["https://wise-invest.org", "https://www.wise-invest.org"]);
 
+function secureAuthorizationResponse(response: NextResponse, redirectOrigin?: string) {
+  response.headers.set(
+    "Content-Security-Policy",
+    buildContentSecurityPolicy(redirectOrigin ? [redirectOrigin] : [])
+  );
+  response.headers.set("Cache-Control", "no-store");
+  return response;
+}
+
 function jsonError(error: string, description: string, status = 400) {
-  return NextResponse.json({ error, error_description: description }, { status });
+  return secureAuthorizationResponse(
+    NextResponse.json({ error, error_description: description }, { status })
+  );
 }
 
 function getRequestOrigin(request: NextRequest) {
@@ -72,9 +85,11 @@ function getParam(params: URLSearchParams, key: string) {
 function renderConsentPage({
   clientName,
   params,
+  redirectOrigin,
 }: {
   clientName: string;
   params: URLSearchParams;
+  redirectOrigin: string;
 }) {
   const hiddenFields = [
     "response_type",
@@ -97,7 +112,7 @@ function renderConsentPage({
     "wise.membership": "读取会员等级",
   };
 
-  return new NextResponse(
+  return secureAuthorizationResponse(new NextResponse(
     `<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -170,7 +185,7 @@ function renderConsentPage({
       flex: 0 0 auto;
     }
     .actions { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; margin-top: 24px; }
-    button, a {
+    button {
       height: 48px;
       border-radius: 14px;
       font-weight: 900;
@@ -181,12 +196,12 @@ function renderConsentPage({
       justify-content: center;
       cursor: pointer;
     }
-    button {
+    .approve {
       border: 0;
       background: #020617;
       color: #fbbf24;
     }
-    a {
+    .deny {
       border: 1px solid #e2e8f0;
       background: #ffffff;
       color: #475569;
@@ -210,8 +225,8 @@ function renderConsentPage({
       <form action="/oauth/authorize" method="post">
         ${hiddenFields}
         <div class="actions">
-          <a href="${escapeHtml(createOauthErrorRedirect(getParam(params, "redirect_uri"), "access_denied", "User denied authorization.", getParam(params, "state")).toString())}">取消</a>
-          <button type="submit">确认授权</button>
+          <button class="deny" name="decision" type="submit" value="deny">取消</button>
+          <button class="approve" name="decision" type="submit" value="approve">确认授权</button>
         </div>
       </form>
       <p class="fine">授权码有效期 10 分钟，客户端仍需要使用 PKCE 和 client_secret 在服务端换取 token。</p>
@@ -222,10 +237,9 @@ function renderConsentPage({
     {
       headers: {
         "Content-Type": "text/html; charset=utf-8",
-        "Cache-Control": "no-store",
       },
     }
-  );
+  ), redirectOrigin);
 }
 
 async function validateAuthorizationRequest(params: URLSearchParams) {
@@ -260,22 +274,29 @@ async function validateAuthorizationRequest(params: URLSearchParams) {
   if (!client || !client.enabled) {
     return { response: jsonError("unauthorized_client", "SSO client is not enabled.", 403) };
   }
-  if (!isRedirectUriAllowed(client, redirectUri)) {
+  const registeredRedirect = getRegisteredRedirectUri(client, redirectUri);
+  if (!registeredRedirect) {
     return { response: jsonError("invalid_request", "redirect_uri is not registered for this client.") };
   }
 
   const scopeError = validateRequestedScopes(requestedScopes, client.allowedScopes);
   if (scopeError) {
     return {
-      response: NextResponse.redirect(createOauthErrorRedirect(redirectUri, "invalid_scope", scopeError, state), 303),
+      response: secureAuthorizationResponse(
+        NextResponse.redirect(createOauthErrorRedirect(redirectUri, "invalid_scope", scopeError, state), 303),
+        registeredRedirect.origin
+      ),
     };
   }
 
   if (client.requirePkce && (!codeChallenge || codeChallengeMethod !== "S256")) {
     return {
-      response: NextResponse.redirect(
-        createOauthErrorRedirect(redirectUri, "invalid_request", "PKCE S256 code challenge is required.", state),
-        303
+      response: secureAuthorizationResponse(
+        NextResponse.redirect(
+          createOauthErrorRedirect(redirectUri, "invalid_request", "PKCE S256 code challenge is required.", state),
+          303
+        ),
+        registeredRedirect.origin
       ),
     };
   }
@@ -285,6 +306,7 @@ async function validateAuthorizationRequest(params: URLSearchParams) {
       clientId,
       clientName: client.name,
       redirectUri,
+      redirectOrigin: registeredRedirect.origin,
       state,
       nonce,
       codeChallenge,
@@ -294,10 +316,10 @@ async function validateAuthorizationRequest(params: URLSearchParams) {
   };
 }
 
-function loginRedirect(request: NextRequest, params: URLSearchParams) {
+function loginRedirect(request: NextRequest, params: URLSearchParams, redirectOrigin: string) {
   const loginUrl = new URL("/login", request.url);
   loginUrl.searchParams.set("callbackUrl", `/oauth/authorize?${params.toString()}`);
-  return NextResponse.redirect(loginUrl, 303);
+  return secureAuthorizationResponse(NextResponse.redirect(loginUrl, 303), redirectOrigin);
 }
 
 async function issueAuthorizationCode(userId: string, input: ValidAuthorizationRequest) {
@@ -319,7 +341,7 @@ async function issueAuthorizationCode(userId: string, input: ValidAuthorizationR
   const target = new URL(input.redirectUri);
   target.searchParams.set("code", code);
   if (input.state) target.searchParams.set("state", input.state);
-  return NextResponse.redirect(target, 303);
+  return secureAuthorizationResponse(NextResponse.redirect(target, 303), input.redirectOrigin);
 }
 
 export async function GET(request: NextRequest) {
@@ -329,12 +351,13 @@ export async function GET(request: NextRequest) {
 
   const session = await auth();
   if (!session?.user?.id) {
-    return loginRedirect(request, params);
+    return loginRedirect(request, params, validation.value.redirectOrigin);
   }
 
   return renderConsentPage({
     clientName: validation.value.clientName,
     params,
+    redirectOrigin: validation.value.redirectOrigin,
   });
 }
 
@@ -344,12 +367,39 @@ export async function POST(request: NextRequest) {
   }
 
   const params = new URLSearchParams(await request.text());
+  const decision = params.get("decision");
+  params.delete("decision");
   const validation = await validateAuthorizationRequest(params);
   if (validation.response) return validation.response;
 
   const session = await auth();
   if (!session?.user?.id) {
-    return loginRedirect(request, params);
+    return loginRedirect(request, params, validation.value.redirectOrigin);
+  }
+
+  if (decision === "deny") {
+    return secureAuthorizationResponse(
+      NextResponse.redirect(
+        createOauthErrorRedirect(
+          validation.value.redirectUri,
+          "access_denied",
+          "The user denied the authorization request.",
+          validation.value.state
+        ),
+        303
+      ),
+      validation.value.redirectOrigin
+    );
+  }
+
+  if (decision !== "approve") {
+    return secureAuthorizationResponse(
+      NextResponse.json(
+        { error: "invalid_request", error_description: "Authorization decision is required." },
+        { status: 400 }
+      ),
+      validation.value.redirectOrigin
+    );
   }
 
   return issueAuthorizationCode(session.user.id, validation.value);

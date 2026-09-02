@@ -37,10 +37,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, message: "请输入不超过 64 个字符的有效微信号。" }, { status: 400 });
     }
 
-    await getPrisma().user.update({
-      where: { id: session.user.id },
-      data: { wechatId },
-    });
+    const prisma = getPrisma();
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: session.user.id },
+        data: { wechatId },
+      }),
+      prisma.vipExchangeRecord.updateMany({
+        where: { userId: session.user.id },
+        data: { wechatId },
+      }),
+    ]);
 
     return NextResponse.json({
       ok: true,

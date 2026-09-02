@@ -45,7 +45,7 @@ export default async function AdminSsoPage() {
           </div>
           <h1 className="font-heading text-3xl font-black md:text-4xl">SSO 客户端</h1>
           <p className="mt-2 text-sm leading-7 text-slate-500 dark:text-slate-400">
-            给 wise-etf.com 或其他 Wise 产品创建登录客户端。其他网站通过标准授权码流程接入 Wise ID。
+            为每个 Wise 产品创建独立登录客户端。保存精确回调地址后即可通过标准授权码流程接入 Wise ID。
           </p>
           <div className="mt-5 grid gap-3 text-sm md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">

@@ -1,5 +1,6 @@
 import type { SsoClient, User } from "@prisma/client";
 import { getSsoIssuer, hashToken, randomToken, signJwt, verifyHashedToken } from "@/lib/sso/crypto";
+export { isRedirectUriAllowed } from "@/lib/sso/redirect-uri";
 
 export const WISE_SSO_SCOPES = ["openid", "profile", "email", "wise.membership"] as const;
 
@@ -38,10 +39,6 @@ export function verifyClientSecret(client: Pick<SsoClient, "clientSecretHash">, 
   if (!client.clientSecretHash) return true;
   if (!secret) return false;
   return verifyHashedToken(secret, client.clientSecretHash);
-}
-
-export function isRedirectUriAllowed(client: Pick<SsoClient, "allowedRedirectUris">, redirectUri: string) {
-  return client.allowedRedirectUris.includes(redirectUri);
 }
 
 export function createOauthErrorRedirect(redirectUri: string, error: string, description?: string, state?: string | null) {

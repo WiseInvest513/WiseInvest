@@ -1,23 +1,9 @@
 import type { NextConfig } from "next";
+import { buildContentSecurityPolicy } from "./lib/security/content-security-policy";
 
-const contentSecurityPolicy = [
-  "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-  "style-src 'self' 'unsafe-inline' https:",
-  "img-src 'self' data: blob: https:",
-  "font-src 'self' data: https:",
-  "connect-src 'self' https: wss: ws:",
-  "frame-src https://www.youtube.com https://player.bilibili.com",
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "form-action 'self' https://wise-invest.org https://www.wise-invest.org https://wise-etf.com https://www.wise-etf.com http://localhost:5173 https://localhost:5173",
-].join("; ");
+const contentSecurityPolicy = buildContentSecurityPolicy();
 
-const securityHeaders = [
-  {
-    key: "Content-Security-Policy",
-    value: contentSecurityPolicy,
-  },
+const sharedSecurityHeaders = [
   {
     key: "X-Frame-Options",
     value: "DENY",
@@ -33,6 +19,13 @@ const securityHeaders = [
   {
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=(), payment=()",
+  },
+];
+
+const cspHeader = [
+  {
+    key: "Content-Security-Policy",
+    value: contentSecurityPolicy,
   },
 ];
 
@@ -132,7 +125,13 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/(.*)",
-        headers: securityHeaders,
+        headers: sharedSecurityHeaders,
+      },
+      {
+        // /oauth/authorize supplies its own single request-specific CSP after
+        // validating redirect_uri against the SSO client's database allowlist.
+        source: "/((?!oauth/authorize(?:/|$)).*)",
+        headers: cspHeader,
       },
     ];
   },

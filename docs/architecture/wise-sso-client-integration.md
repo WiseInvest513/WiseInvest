@@ -3,6 +3,10 @@
 Status: V1 implementation guide
 Identity Provider: `https://wise-invest.org`
 
+接入新的 Wise 网站时，优先复制并填写通用模板：
+
+- [`wise-sso-client-template.md`](./wise-sso-client-template.md)
+
 Wise Invest 主站是 Wise ID 的身份中心。其他 Wise 产品站点不要直接读取主站数据库，也不要依赖 `.wise-invest.org` 共享 cookie。外部站点应作为 OAuth/OIDC client，通过 Authorization Code + PKCE 接入。
 
 ## Provider endpoints

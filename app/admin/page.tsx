@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ClipboardCheck, History, ServerCog, Users, Waypoints } from "lucide-react";
+import { BadgeDollarSign, ClipboardCheck, History, ServerCog, Users, Waypoints } from "lucide-react";
 import { AdminShell } from "@/app/admin/admin-shell";
 import { requireAdminUser } from "@/lib/identity/current-user";
 import { devPreviewAuditLogs, devPreviewPartnerAccounts, devPreviewPartners, devPreviewUsers } from "@/lib/identity/dev-preview-data";
@@ -21,17 +21,19 @@ export const metadata: Metadata = {
 export default async function AdminPage() {
   await requireAdminUser();
   const isMockAdmin = await isDevPreviewAdminSession();
-  const [userCount, pendingCount, partnerCount, auditCount] =
+  const [userCount, pendingCount, vipExchangeCount, partnerCount, auditCount] =
     isMockAdmin && !isDatabaseConfigured()
       ? [
           devPreviewUsers.length,
           devPreviewPartnerAccounts.filter((account) => account.status === "PENDING" || account.status === "NEEDS_REVIEW").length,
+          2,
           devPreviewPartners.length,
           devPreviewAuditLogs.length,
         ]
       : await Promise.all([
           getPrisma().user.count(),
           getPrisma().partnerAccount.count({ where: { status: { in: ["PENDING", "NEEDS_REVIEW"] } } }),
+          getPrisma().vipExchangeRecord.count(),
           getPrisma().partner.count(),
           getPrisma().auditLog.count(),
         ]);
@@ -39,6 +41,7 @@ export default async function AdminPage() {
   const cards = [
     { href: "/admin/users", label: "用户", value: userCount, icon: Users },
     { href: "/admin/vip", label: "待处理绑定", value: pendingCount, icon: ClipboardCheck },
+    { href: "/admin/vip-management", label: "交易所 VIP", value: vipExchangeCount, icon: BadgeDollarSign },
     { href: "/admin/partners", label: "合作方", value: partnerCount, icon: Waypoints },
     { href: "/admin/audit", label: "审计日志", value: auditCount, icon: History },
     { href: "/admin/system", label: "系统检查", value: "ENV", icon: ServerCog },

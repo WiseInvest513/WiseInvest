@@ -88,6 +88,14 @@ enum AuditAction {
   SSO_CLIENT_CREATED
   SSO_CLIENT_UPDATED
   CONTENT_PERMISSION_UPDATED
+  VIP_EXCHANGE_RECORD_CREATED
+  VIP_EXCHANGE_RECORD_UPDATED
+  VIP_EXCHANGE_RECORD_DELETED
+}
+
+enum VipExchangeRecordSource {
+  VERIFIED_ACCOUNT
+  MANUAL
 }
 
 model User {
@@ -104,20 +112,21 @@ model User {
   createdAt      DateTime       @default(now()) @map("created_at")
   updatedAt      DateTime       @updatedAt @map("updated_at")
 
-  accounts             Account[]
-  sessions             Session[]
-  partnerAccounts      PartnerAccount[]      @relation("UserPartnerAccounts")
-  verifiedAccounts     PartnerAccount[]      @relation("VerifiedPartnerAccounts")
-  qualificationMetrics QualificationMetric[]
-  entitlements         Entitlement[]
-  actedAuditLogs       AuditLog[]            @relation("ActorAuditLogs")
-  targetAuditLogs      AuditLog[]            @relation("TargetAuditLogs")
-  createdSsoClients    SsoClient[]           @relation("CreatedSsoClients")
-  updatedSsoClients    SsoClient[]           @relation("UpdatedSsoClients")
+  accounts              Account[]
+  sessions              Session[]
+  partnerAccounts       PartnerAccount[]       @relation("UserPartnerAccounts")
+  verifiedAccounts      PartnerAccount[]       @relation("VerifiedPartnerAccounts")
+  qualificationMetrics  QualificationMetric[]
+  entitlements          Entitlement[]
+  actedAuditLogs        AuditLog[]             @relation("ActorAuditLogs")
+  targetAuditLogs       AuditLog[]             @relation("TargetAuditLogs")
+  createdSsoClients     SsoClient[]            @relation("CreatedSsoClients")
+  updatedSsoClients     SsoClient[]            @relation("UpdatedSsoClients")
   ssoAuthorizationCodes SsoAuthorizationCode[]
-  updatedContentRules   ContentPermission[]   @relation("UpdatedContentPermissions")
+  updatedContentRules   ContentPermission[]    @relation("UpdatedContentPermissions")
   contentEvents         ContentEvent[]
   contentItems          UserContentItem[]
+  vipExchangeRecords    VipExchangeRecord[]
 
   @@map("users")
 }
@@ -216,12 +225,37 @@ model PartnerAccount {
   partner              Partner               @relation(fields: [partnerId], references: [id], onDelete: Restrict)
   verifiedBy           User?                 @relation("VerifiedPartnerAccounts", fields: [verifiedById], references: [id], onDelete: SetNull)
   qualificationMetrics QualificationMetric[]
+  vipExchangeRecord    VipExchangeRecord?
 
   @@unique([userId, partnerId, externalIdentifier])
   @@index([partnerId, status])
   @@index([userId, status])
   @@index([verifiedById])
   @@map("partner_accounts")
+}
+
+model VipExchangeRecord {
+  id               String                  @id @default(cuid())
+  userId           String?                 @map("user_id")
+  partnerAccountId String?                 @unique @map("partner_account_id")
+  email            String
+  wechatId         String?                 @map("wechat_id")
+  platform         String
+  uid              String
+  source           VipExchangeRecordSource @default(MANUAL)
+  note             String?                 @db.Text
+  createdAt        DateTime                @default(now()) @map("created_at")
+  updatedAt        DateTime                @updatedAt @map("updated_at")
+
+  user           User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  partnerAccount PartnerAccount? @relation(fields: [partnerAccountId], references: [id], onDelete: SetNull)
+
+  @@index([platform, uid])
+  @@index([email])
+  @@index([wechatId])
+  @@index([platform])
+  @@index([userId])
+  @@map("vip_exchange_records")
 }
 
 model QualificationMetric {
@@ -350,8 +384,8 @@ model SsoClient {
   createdAt           DateTime @default(now()) @map("created_at")
   updatedAt           DateTime @updatedAt @map("updated_at")
 
-  createdBy User? @relation("CreatedSsoClients", fields: [createdById], references: [id], onDelete: SetNull)
-  updatedBy User? @relation("UpdatedSsoClients", fields: [updatedById], references: [id], onDelete: SetNull)
+  createdBy          User?                  @relation("CreatedSsoClients", fields: [createdById], references: [id], onDelete: SetNull)
+  updatedBy          User?                  @relation("UpdatedSsoClients", fields: [updatedById], references: [id], onDelete: SetNull)
   authorizationCodes SsoAuthorizationCode[]
 
   @@index([enabled])

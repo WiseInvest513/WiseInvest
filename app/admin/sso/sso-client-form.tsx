@@ -28,9 +28,9 @@ type SsoClientFormProps = {
 };
 
 const emptyClient: SsoClientFormValues = {
-  clientId: "wise_etf",
-  name: "Wise ETF",
-  allowedRedirectUris: "https://wise-etf.com/api/auth/callback/wise\nhttp://localhost:3000/api/auth/callback/wise",
+  clientId: "",
+  name: "",
+  allowedRedirectUris: "",
   allowedScopes: ["openid", "profile", "email", "wise.membership"],
   enabled: true,
   requirePkce: true,
@@ -140,6 +140,9 @@ export function SsoClientForm({ client }: SsoClientFormProps) {
           placeholder="https://wise-etf.com/api/auth/callback/wise"
           className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-amber-400 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
         />
+        <span className="mt-2 block text-xs font-medium leading-5 text-slate-500 dark:text-slate-400">
+          每行一个，协议、域名、端口和路径必须逐字一致。保存后授权页会自动放行，无需修改 CSP。
+        </span>
       </label>
 
       <div>

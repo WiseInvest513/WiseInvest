@@ -73,10 +73,18 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         id: true,
         userId: true,
         status: true,
+        externalIdentifier: true,
+        user: {
+          select: {
+            email: true,
+            wechatId: true,
+          },
+        },
         partner: {
           select: {
             slug: true,
             name: true,
+            type: true,
             vipEligible: true,
           },
         },
@@ -115,6 +123,34 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         },
       },
     });
+
+    if (current.partner.type === "EXCHANGE" && current.partner.vipEligible) {
+      if (body.action === "approve") {
+        await tx.vipExchangeRecord.upsert({
+          where: { partnerAccountId: current.id },
+          create: {
+            userId: current.userId,
+            partnerAccountId: current.id,
+            email: current.user.email ?? "",
+            wechatId: current.user.wechatId,
+            platform: current.partner.name,
+            uid: current.externalIdentifier,
+            source: "VERIFIED_ACCOUNT",
+          },
+          update: {
+            userId: current.userId,
+            email: current.user.email ?? "",
+            wechatId: current.user.wechatId,
+            platform: current.partner.name,
+            uid: current.externalIdentifier,
+          },
+        });
+      } else {
+        await tx.vipExchangeRecord.deleteMany({
+          where: { partnerAccountId: current.id },
+        });
+      }
+    }
 
     const nextTier = await refreshUserMembership(tx, current.userId);
     if (body.action === "approve" && nextTier === "VIP") {

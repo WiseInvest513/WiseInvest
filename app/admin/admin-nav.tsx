@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BadgeDollarSign,
   BarChart3,
   ClipboardCheck,
   FileLock2,
@@ -24,6 +25,7 @@ const adminGroups = [
       { href: "/admin", label: "总览", icon: LayoutDashboard, exact: true },
       { href: "/admin/vip", label: "VIP 审核", icon: ClipboardCheck },
       { href: "/admin/users", label: "用户管理", icon: Users },
+      { href: "/admin/vip-management", label: "VIP 管理", icon: BadgeDollarSign },
     ],
   },
   {
