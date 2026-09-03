@@ -46,10 +46,7 @@ const nextConfig: NextConfig = {
   // 从 Serverless Function 的文件追踪中排除不需要的大型包
   // 这是解决 Vercel 250MB 限制最有效的方法
   outputFileTracingExcludes: {
-    // articles 详情页和 api/content 路由：content 目录图片已迁移到 public/
-    // content/ 现在只剩 markdown（< 1MB），可安全排除
-    '/articles/[categoryId]/[uid]': ['./content/**'],
-    '/api/content/[...path]': ['./content/**'],
+    // 文章详情页需要在运行时读取 content/articles 下的 Markdown；图片已迁移到 public/
     // 所有路由：排除只在构建阶段需要的开发工具包
     '*': [
       './node_modules/typescript/**',
