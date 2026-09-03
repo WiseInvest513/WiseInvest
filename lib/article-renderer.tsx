@@ -61,7 +61,7 @@ export function extractToc(content: string) {
 // ─── Inline markdown (bold / code / link) ─────────────────
 export function renderInline(text: string): React.ReactNode {
   const parts: React.ReactNode[] = [];
-  const regex = /\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|`(.+?)`/g;
+  const regex = /\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|`(.+?)`|(https?:\/\/[^\s<>\]\)"']+[^\s<>,;.)\]"'])/g;
   let lastIdx = 0; let key = 0;
   let match: RegExpExecArray | null;
   while ((match = regex.exec(text)) !== null) {
@@ -69,6 +69,20 @@ export function renderInline(text: string): React.ReactNode {
     if (match[1] != null) parts.push(<a key={key++} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1])}</a>);
     else if (match[3] != null) parts.push(<strong key={key++} className="font-semibold">{match[3]}</strong>);
     else if (match[4] != null) parts.push(<code key={key++} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-400">{match[4]}</code>);
+    else if (match[5] != null) {
+      const href = match[5];
+      parts.push(
+        <a
+          key={key++}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+        >
+          {href}
+        </a>
+      );
+    }
     lastIdx = match.index + match[0].length;
   }
   if (lastIdx < text.length) parts.push(<span key={key++}>{text.slice(lastIdx)}</span>);

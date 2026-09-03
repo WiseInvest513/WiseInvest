@@ -33,6 +33,7 @@ export const subcategories: Subcategory[] = [
 
 export const categories: Category[] = [
   { id: "web",      name: "Wise 网站", emoji: "🌐" },
+  { id: "VIP",      name: "VIP", emoji: "🌟" },
   { id: "domestic", name: "国内理财", emoji: "🇨🇳" },
   { id: "crypto",   name: "加密货币", emoji: "🪙" },
   { id: "broker",   name: "券商开户", emoji: "🏛️" },

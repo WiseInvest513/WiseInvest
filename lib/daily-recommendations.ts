@@ -14,6 +14,14 @@ export interface RecommendationItem {
  */
 export const dailyRecommendations: RecommendationItem[] = [
   {
+    type: "article",
+    title: "VIP 文章（加入 VIP）",
+    desc: "从 0 到 1 学习 Wise 体系：如何加入、如何学习、如何高效筛选后续入口。",
+    link: "/articles/VIP/mMMvDYhI",
+    tag: "VIP 入门",
+    featured: true,
+  },
+  {
     type: "welfare",
     title: "Wise Invest 官方社群",
     desc: "加入 Telegram 社群，获取每日独家研报与宏观策略。",
@@ -22,17 +30,16 @@ export const dailyRecommendations: RecommendationItem[] = [
   },
   {
     type: "article",
-    title: "加密货币交易所开户与手续费福利",
-    desc: "“币安、欧易、Bitget、Bybit 等常用交易所入口与手续费福利，一页集中整理。”",
+    title: "加密交易所开户与手续费福利",
+    desc: "币安、欧易、Bitget、Bybit 等常用交易所入口与手续费福利，一页集中整理。",
     link: "https://www.wise-invest.org/perk/crypto",
     tag: "交易所福利",
-    featured: true,
   },
   {
-    type: "wool",
-    title: "腾达证券开户、入金全流程实测",
-    desc: "内地身份证可线上开户，覆盖港美股、ETF、碎股、期权与港股打新。",
-    link: "https://www.wise-invest.org/articles/broker/4k1kTctf",
-    tag: "券商教程",
+    type: "welfare",
+    title: "Wise Invest 官方社区",
+    desc: "加入官方社群，交流实盘思路与日常运营更新。",
+    link: "https://t.me/WiseInvest513Chat",
+    tag: "官方社区",
   },
 ];

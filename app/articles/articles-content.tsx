@@ -187,6 +187,7 @@ export function ArticlesContent({
   const pathname = usePathname();
   const [openCategories, setOpenCategories] = useState<Set<string>>(() => new Set([
     "web",
+    "VIP",
     initialCategoryId ?? "",
     "broker:us-broker", "broker:hk-broker",
     "bank:physical-bank", "bank:virtual-bank", "bank:digital-bank", "bank:jianzheng",
@@ -269,15 +270,27 @@ export function ArticlesContent({
     () => getArticleGuideProfile(selectedArticle),
     [selectedArticle]
   );
+  const shouldShowGuideProfile = selectedArticle?.id !== "VIP";
   const visibleFaqs = useMemo(
     () => getVisibleArticleFaqs(selectedArticle, selectedArticle?.id === initialArticleId ? initialFaqs : undefined),
     [initialArticleId, initialFaqs, selectedArticle]
   );
 
   const featuredArticles = useMemo(() => {
+    const vip = allArticles.find(a => a.id === "VIP");
     const guide = allArticles.find(a => a.id === "web-guide");
-    const rest = allArticles.filter(a => a.id !== "web-guide");
-    return guide ? [guide, ...rest].slice(0, 5) : allArticles.slice(0, 4);
+    const used = new Set<string>();
+    const prioritized: ArticleItem[] = [];
+
+    [vip, guide].forEach((article) => {
+      if (article && !used.has(article.id)) {
+        prioritized.push(article);
+        used.add(article.id);
+      }
+    });
+
+    const rest = allArticles.filter(a => !used.has(a.id));
+    return [...prioritized, ...rest].slice(0, 5);
   }, [allArticles]);
 
   const filteredArticles = useMemo(() => {
@@ -644,43 +657,45 @@ export function ArticlesContent({
                 <span className="hidden items-center gap-1.5 md:flex"><ShieldCheck className="w-3.5 h-3.5" />持续维护</span>
               </div>
 
-              <section className="mt-6 grid gap-3 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:grid-cols-[1fr_1fr_0.9fr]">
-                <div>
-                  <div className="mb-2 flex items-center gap-2 text-sm font-black text-slate-900 dark:text-white">
-                    <CheckCircle2 className="h-4 w-4 text-amber-500" />
-                    本文适合谁
+              {shouldShowGuideProfile && (
+                <section className="mt-6 grid gap-3 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:grid-cols-[1fr_1fr_0.9fr]">
+                  <div>
+                    <div className="mb-2 flex items-center gap-2 text-sm font-black text-slate-900 dark:text-white">
+                      <CheckCircle2 className="h-4 w-4 text-amber-500" />
+                      本文适合谁
+                    </div>
+                    <div className="space-y-1.5">
+                      {guideProfile.audience.map((item) => (
+                        <p key={item} className="text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">
+                          {item}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    {guideProfile.audience.map((item) => (
-                      <p key={item} className="text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">
-                        {item}
-                      </p>
-                    ))}
+                  <div>
+                    <div className="mb-2 flex items-center gap-2 text-sm font-black text-slate-900 dark:text-white">
+                      <BookOpen className="h-4 w-4 text-amber-500" />
+                      你会得到什么
+                    </div>
+                    <div className="space-y-1.5">
+                      {guideProfile.outcomes.map((item) => (
+                        <p key={item} className="text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">
+                          {item}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div className="mb-2 flex items-center gap-2 text-sm font-black text-slate-900 dark:text-white">
-                    <BookOpen className="h-4 w-4 text-amber-500" />
-                    你会得到什么
+                  <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-3 dark:border-amber-800 dark:bg-amber-900/20">
+                    <div className="text-xs font-black text-amber-700 dark:text-amber-300">准备和状态</div>
+                    <p className="mt-2 text-xs font-semibold leading-5 text-slate-600 dark:text-slate-300">
+                      {guideProfile.prepare}
+                    </p>
+                    <p className="mt-2 border-t border-amber-200/70 pt-2 text-[11px] font-semibold leading-5 text-slate-500 dark:border-amber-800/60 dark:text-slate-400">
+                      最后更新：{selectedArticle.date || "持续更新"}。{guideProfile.status}
+                    </p>
                   </div>
-                  <div className="space-y-1.5">
-                    {guideProfile.outcomes.map((item) => (
-                      <p key={item} className="text-xs font-semibold leading-5 text-slate-500 dark:text-slate-400">
-                        {item}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-3 dark:border-amber-800 dark:bg-amber-900/20">
-                  <div className="text-xs font-black text-amber-700 dark:text-amber-300">准备和状态</div>
-                  <p className="mt-2 text-xs font-semibold leading-5 text-slate-600 dark:text-slate-300">
-                    {guideProfile.prepare}
-                  </p>
-                  <p className="mt-2 border-t border-amber-200/70 pt-2 text-[11px] font-semibold leading-5 text-slate-500 dark:border-amber-800/60 dark:text-slate-400">
-                    最后更新：{selectedArticle.date || "持续更新"}。{guideProfile.status}
-                  </p>
-                </div>
-              </section>
+                </section>
+              )}
 
               <div className={cn("mt-6 md:mt-8", lockedContent && "relative max-h-[720px] overflow-hidden")}>
                 {renderedContent}
@@ -841,21 +856,21 @@ export function ArticlesContent({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl mb-6">
                 {featuredArticles.map(art => {
                   const cat = categories.find(c => c.id === art.categoryId);
-                  const isGuide = art.id === "web-guide";
+                  const isFeatured = art.id === "VIP" || art.id === "web-guide";
                   return (
                     <button
                       key={art.id}
                       onClick={() => void selectArticle(art.id, art.categoryId)}
-                      className={cn(
+                  className={cn(
                         "text-left p-5 rounded-2xl border bg-white dark:bg-slate-900 hover:border-amber-300 dark:hover:border-amber-700 hover:shadow-md hover:shadow-amber-100/50 dark:hover:shadow-amber-900/20 transition-all duration-200 group",
-                        isGuide
-                          ? "sm:col-span-2 border-amber-300 dark:border-amber-700 bg-gradient-to-br from-amber-50 to-white dark:from-amber-950/30 dark:to-slate-900"
+                        isFeatured
+                          ? "border-amber-300 dark:border-amber-700 bg-gradient-to-br from-amber-50 to-white dark:from-amber-950/30 dark:to-slate-900"
                           : "border-slate-200 dark:border-slate-700/80"
                       )}
                     >
                       <div className="flex items-center justify-between mb-3">
                         <div className="text-2xl">{cat?.emoji}</div>
-                        {isGuide && (
+                        {art.id === "VIP" && (
                           <span className="rounded-full border border-amber-200 bg-white/70 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:border-amber-700/70 dark:bg-amber-950/50 dark:text-amber-300">
                             先读这篇
                           </span>

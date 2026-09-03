@@ -70,6 +70,7 @@ interface DailyRecommendationProps {
 
 export function DailyRecommendation({ open: controlledOpen, onOpenChange: controlledOnOpenChange }: DailyRecommendationProps = {}) {
   const [internalOpen, setInternalOpen] = useState(false);
+  const [communityChannel, setCommunityChannel] = useState<"telegram" | "wechat">("telegram");
   const recommendations: RecommendationItem[] = useMemo(
     () => dailyRecommendations.slice(0, 3),
     []
@@ -217,6 +218,43 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                   <p className="text-sm text-gray-500 line-clamp-1">
                     {item.desc}
                   </p>
+                  {item.title === "Wise Invest 官方社群" && (
+                    <div className="mt-3 flex flex-wrap items-center gap-2" onClick={(event) => event.stopPropagation()}>
+                      <button
+                        type="button"
+                        onClick={() => setCommunityChannel("telegram")}
+                        className={cn("rounded-full px-3 py-1 text-xs font-medium transition-colors", communityChannel === "telegram" ? "bg-sky-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200")}
+                      >
+                        Telegram 群
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCommunityChannel("wechat")}
+                        className={cn("rounded-full px-3 py-1 text-xs font-medium transition-colors", communityChannel === "wechat" ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200")}
+                      >
+                        微信群
+                      </button>
+                      {communityChannel === "telegram" ? (
+                        <button type="button" onClick={() => openSafeExternalUrl("https://t.me/WiseInvest513Chat")} className="text-xs text-sky-600 hover:underline">
+                          立即加入 →
+                        </button>
+                      ) : (
+                        <div className="mt-2 flex items-center gap-2">
+                          <a
+                            href="/群聊.png"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(event) => event.stopPropagation()}
+                            className="block rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                            title="点击查看微信群二维码大图"
+                          >
+                            <img src="/群聊.png" alt="微信群二维码（点击查看大图）" className="h-16 w-16 rounded-md border border-gray-100 object-cover transition-transform hover:scale-105" />
+                          </a>
+                          <span className="text-xs text-gray-500">打开微信扫码加入</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Right: Tag Pill & Featured Badge */}

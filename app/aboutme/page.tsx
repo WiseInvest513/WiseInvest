@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Target, type LucideIcon } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Target, Send, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -208,10 +208,13 @@ export default function AboutMe() {
   const [chartsMounted, setChartsMounted] = useState(false);
 
   const [wechatGroupOpen, setWechatGroupOpen] = useState(false);
+  const [communityChannel, setCommunityChannel] = useState<"telegram" | "wechat">("telegram");
 
   useEffect(() => {
     setChartsMounted(true);
   }, []);
+
+  const tgSafeUrl = getSafeExternalUrl("https://t.me/WiseInvest513Chat");
 
   const handleWechatGroupClose = (noShowToday: boolean) => {
     if (noShowToday) {
@@ -231,27 +234,74 @@ export default function AboutMe() {
           <DialogHeader className="px-6 pt-6 pb-0">
             <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-green-600 mb-1">WISEINVEST 社区</p>
             <DialogTitle className="text-lg font-bold text-slate-900 dark:text-white">
-              欢迎加入官方微信群聊
+              欢迎加入 Wise 官方社群
             </DialogTitle>
           </DialogHeader>
 
           {/* 内容 */}
           <div className="px-6 pb-6 flex flex-col items-center text-center">
-            <img
-              src="/群聊.png"
-              alt="微信群聊二维码"
-              className="w-full rounded-xl mb-4 object-contain"
-            />
+            <div className="w-full">
+              <div className="mb-4 grid grid-cols-2 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+                <button
+                  onClick={() => setCommunityChannel("telegram")}
+                  className={`flex items-center justify-center gap-2 py-2.5 text-xs font-semibold transition-colors ${
+                    communityChannel === "telegram"
+                      ? "bg-green-500 text-white"
+                      : "bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  }`}
+                >
+                  <Send className="w-4 h-4" />
+                  Telegram
+                </button>
+                <button
+                  onClick={() => setCommunityChannel("wechat")}
+                  className={`flex items-center justify-center gap-2 py-2.5 text-xs font-semibold transition-colors ${
+                    communityChannel === "wechat"
+                      ? "bg-green-500 text-white"
+                      : "bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  }`}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  微信群
+                </button>
+              </div>
 
-            <p className="text-xs text-slate-400 dark:text-slate-500 mb-4">
-              扫码加入群聊，与志同道合的投资者一起交流
-            </p>
+              {communityChannel === "telegram" && (
+                <>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                    点击下方按钮，直接加入 Telegram 官方群，和更多投资者一起交流。
+                  </p>
+                  <a
+                    href={tgSafeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex justify-center items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+                  >
+                    <Send className="w-4 h-4" />
+                    进入 Telegram
+                  </a>
+                </>
+              )}
+
+              {communityChannel === "wechat" && (
+                <>
+                  <img
+                    src="/群聊.png"
+                    alt="微信群聊二维码"
+                    className="w-full rounded-xl mb-4 object-contain"
+                  />
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                    扫码加入微信群聊，与志同道合的投资者一起交流
+                  </p>
+                </>
+              )}
+            </div>
 
             <button
               onClick={() => handleWechatGroupClose(false)}
-              className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+              className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
             >
-              进入平台
+              继续浏览
             </button>
 
             <button

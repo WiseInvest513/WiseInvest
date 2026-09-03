@@ -33,6 +33,12 @@ export const publicArticleAccessRules: ArticleAccessRuleConfig[] = [
     access: "PUBLIC",
     reason: "公开示范文章",
   },
+  {
+    articleId: "VIP",
+    categoryId: "VIP",
+    access: "PUBLIC",
+    reason: "VIP 体系说明",
+  },
 ];
 
 export const publicRoadmapDetailAccessRules: RoadmapAccessRuleConfig[] = [
