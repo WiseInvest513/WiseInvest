@@ -41,6 +41,16 @@ export const publicArticleAccessRules: ArticleAccessRuleConfig[] = [
   },
 ];
 
+// VIP 文章默认仅限 VIP 会员阅读；文章本身仍可在目录中展示。
+export const vipArticleAccessRules: ArticleAccessRuleConfig[] = [
+  {
+    articleId: "VIP001",
+    categoryId: "VIP",
+    access: "VIP",
+    reason: "Wise VIP 会员专属内容",
+  },
+];
+
 export const publicRoadmapDetailAccessRules: RoadmapAccessRuleConfig[] = [
   {
     id: "crypto-trading",
@@ -69,6 +79,9 @@ export const publicCapitalFlowRouteAccessRules: RoadmapAccessRuleConfig[] = [
 
 export const publicArticlePaths = new Set(
   publicArticleAccessRules.map((rule) => `/articles/${rule.categoryId}/${genUid(rule.articleId)}`)
+);
+export const vipArticlePaths = new Set(
+  vipArticleAccessRules.map((rule) => `/articles/${rule.categoryId}/${genUid(rule.articleId)}`)
 );
 
 export const publicRoadmapDetailIds = new Set(publicRoadmapDetailAccessRules.map((rule) => rule.id));

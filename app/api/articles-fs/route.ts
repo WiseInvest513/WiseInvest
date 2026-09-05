@@ -1,17 +1,20 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getContentViewerTier } from "@/lib/identity/content-viewer";
 import { loadFsArticles } from "@/lib/articles-fs";
 import { getArticleRoute } from "@/lib/articles";
-import { canReadContentAccess, createContentPreview, getContentAccessRule } from "@/lib/content-access";
+import { canReadContentAccess, createContentPreview } from "@/lib/content-access";
+import { getResolvedContentAccessRules } from "@/lib/content-access-server";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const session = await auth();
-  const membershipTier = session?.user?.membershipTier;
   const articles = loadFsArticles();
+  const [membershipTier, rules] = await Promise.all([
+    getContentViewerTier(),
+    getResolvedContentAccessRules(articles.map(getArticleRoute)),
+  ]);
   const visibleArticles = articles.map((article) => {
-    const rule = getContentAccessRule(getArticleRoute(article));
+    const rule = rules.get(getArticleRoute(article))!;
     if (canReadContentAccess(rule.access, membershipTier)) return article;
 
     return {

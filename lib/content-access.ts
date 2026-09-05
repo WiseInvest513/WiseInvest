@@ -2,6 +2,7 @@ import {
   defaultArticleAccessRule,
   defaultRoadmapAccessRule,
   publicArticlePaths,
+  vipArticlePaths,
   publicCapitalFlowRouteIds,
   publicRoadmapDetailIds,
   type ContentAccessLevel,
@@ -110,9 +111,9 @@ export function getContentAccessRule(hrefOrPath: string): ContentAccessRule {
   const { pathname, searchParams } = splitPathAndSearch(hrefOrPath);
 
   if (/^\/articles\/[^/]+\/[^/]+$/.test(pathname)) {
-    return publicArticlePaths.has(pathname)
-      ? { access: "PUBLIC", reason: "公开示范文章" }
-      : defaultArticleAccessRule;
+    if (publicArticlePaths.has(pathname)) return { access: "PUBLIC", reason: "公开示范文章" };
+    if (vipArticlePaths.has(pathname)) return { access: "VIP", reason: "Wise VIP 会员专属内容" };
+    return defaultArticleAccessRule;
   }
 
   const roadmapDetail = pathname.match(/^\/roadmap\/([^/]+)$/);

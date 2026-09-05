@@ -11,7 +11,7 @@ export async function GET(
 
   // Security: prevent path traversal
   const contentRoot = path.join(process.cwd(), "content");
-  if (!filePath.startsWith(contentRoot)) {
+  if (!filePath.startsWith(`${contentRoot}${path.sep}`)) {
     return new NextResponse("Forbidden", { status: 403 });
   }
 
@@ -30,7 +30,13 @@ export async function GET(
     ".mp4": "video/mp4",
   };
 
-  const mime = mimeMap[ext] ?? "application/octet-stream";
+  // This endpoint serves media only. Article source must go through membership checks.
+  const mime = mimeMap[ext];
+  if (!mime) return new NextResponse("Not Found", { status: 404 });
+  if (!fs.realpathSync(filePath).startsWith(`${fs.realpathSync(contentRoot)}${path.sep}`)) {
+    return new NextResponse("Forbidden", { status: 403 });
+  }
+  if (!fs.statSync(filePath).isFile()) return new NextResponse("Not Found", { status: 404 });
   const buffer = fs.readFileSync(filePath);
 
   return new NextResponse(buffer, {

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { auth } from "@/auth";
+import { getContentViewerTier } from "@/lib/identity/content-viewer";
 import { buildLoginHref, canReadContentAccess, resolveContentItem } from "@/lib/content-access";
 import { getResolvedContentAccessRule } from "@/lib/content-access-server";
 
@@ -8,11 +8,11 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   const href = request.nextUrl.searchParams.get("href") ?? "/";
   const item = resolveContentItem(href);
-  const [session, rule] = await Promise.all([
-    auth(),
+  const [membershipTier, rule] = await Promise.all([
+    getContentViewerTier(),
     getResolvedContentAccessRule(href),
   ]);
-  const allowed = canReadContentAccess(rule.access, session?.user?.membershipTier);
+  const allowed = canReadContentAccess(rule.access, membershipTier);
 
   return NextResponse.json({
     ok: true,
@@ -20,5 +20,5 @@ export async function GET(request: NextRequest) {
     access: rule.access,
     reason: rule.reason,
     loginHref: buildLoginHref(item.href),
-  });
+  }, { headers: { "Cache-Control": "private, no-store" } });
 }

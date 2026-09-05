@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { auth } from "@/auth";
+import { getContentViewerTier } from "@/lib/identity/content-viewer";
 import { siteConfig } from "@/lib/config";
 import {
   getAllArticles,
@@ -60,8 +60,6 @@ export async function generateMetadata(
   };
 }
 
-// dynamicParams=false 保证此组件只在构建时被调用（SSG）
-// 运行时所有已知路径均从 CDN 直接返回静态 HTML，未知路径返回 404
 export default async function ArticleUidPage(
   { params }: { params: Promise<{ categoryId: string; uid: string }> }
 ) {
@@ -69,11 +67,13 @@ export default async function ArticleUidPage(
   const article = getArticleByRoute(categoryId, uid);
   if (!article) notFound();
 
-  const session = await auth();
   const allArticles = getAllArticles();
   const articleRoute = getArticleRoute(article);
-  const accessRule = await getResolvedContentAccessRule(articleRoute);
-  const canReadFullArticle = canReadContentAccess(accessRule.access, session?.user?.membershipTier);
+  const [membershipTier, accessRule] = await Promise.all([
+    getContentViewerTier(),
+    getResolvedContentAccessRule(articleRoute),
+  ]);
+  const canReadFullArticle = canReadContentAccess(accessRule.access, membershipTier);
   const visibleArticle = canReadFullArticle
     ? article
     : {
