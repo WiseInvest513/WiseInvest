@@ -25,18 +25,14 @@ function parseFrontmatter(raw: string): { meta: Record<string, string>; content:
   return { meta, content };
 }
 
-/** Resolve ./image.jpg to an accessible article image route.
- * - Prefer public assets under /public/content/articles when available.
- * - Fallback to content API: /api/content/articles/{basePath}/{image}.
+/** Resolve relative article images to static CDN assets.
+ * Do not inspect public/ with fs here: Next.js traces dynamic filesystem paths
+ * into every consuming server function, bundling the entire image library.
  */
 function resolveImagePaths(content: string, basePath: string): string {
-  const publicImageDir = path.join(process.cwd(), "public", "content", "articles", basePath);
-  const useContentApi = !fs.existsSync(publicImageDir);
-  const imageBase = useContentApi ? `/api/content/articles/${basePath}` : `/content/articles/${basePath}`;
-
   return content.replace(
     /!\[([^\]]*)\]\(\.\//g,
-    `![$1](${imageBase}/`
+    `![$1](/content/articles/${basePath}/`
   );
 }
 
