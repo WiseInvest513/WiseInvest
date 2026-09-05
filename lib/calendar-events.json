@@ -806,5 +806,157 @@
     "category": "经济数据",
     "impact": "high",
     "description": "关注新增非农、失业率、劳动参与率、时薪和前值修正，是9月FOMC前影响利率预期的最重要就业数据"
+  },
+  {
+    "date": "2026-09-07",
+    "time": "全天",
+    "title": "美国劳动节，美股休市",
+    "category": "宏观",
+    "impact": "low",
+    "description": "美股、期权和多项美国市场服务休市，关注假期后流动性与订单顺延"
+  },
+  {
+    "date": "2026-09-08",
+    "time": "23:00",
+    "title": "纽约联储8月消费者预期调查",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注一年和三年通胀预期、就业担忧与信贷可得性对利率预期的影响"
+  },
+  {
+    "date": "2026-09-08",
+    "time": "盘后",
+    "title": "Braze（BRZE）Q2 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注客户留存、AI营销产品采用率和净收入留存对软件需求的信号"
+  },
+  {
+    "date": "2026-09-08",
+    "time": "盘后",
+    "title": "Casey's（CASY）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注同店销售、燃油毛利、门店扩张和食品服务需求对美国消费的映射"
+  },
+  {
+    "date": "2026-09-08",
+    "time": "盘后",
+    "title": "ServiceTitan（TTAN）Q2 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注订阅增长、AI产品商业化和全年指引对垂直软件估值的影响"
+  },
+  {
+    "date": "2026-09-09",
+    "time": "01:00",
+    "title": "美国财政部3年期国债拍卖",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注投标倍数、尾部利差和间接买家需求对前端利率预期的反馈"
+  },
+  {
+    "date": "2026-09-09",
+    "time": "盘前",
+    "title": "Chewy（CHWY）Q2 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注活跃客户、自动配送、宠物医疗扩张和毛利率对线上消费韧性的指示"
+  },
+  {
+    "date": "2026-09-09",
+    "time": "22:00",
+    "title": "美国6月雇主成本补偿",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注工资和福利成本结构，判断服务通胀和企业利润率压力"
+  },
+  {
+    "date": "2026-09-10",
+    "time": "01:00",
+    "title": "美国财政部10年期国债再发行拍卖",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注期限溢价、海外买盘和尾部利差对长端收益率的传导"
+  },
+  {
+    "date": "2026-09-10",
+    "time": "20:30",
+    "title": "美国8月PPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注最终需求服务、商品价格和贸易服务利润率对PCE通胀的传导"
+  },
+  {
+    "date": "2026-09-10",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请和续请是否验证就业降温或维持强韧，影响降息定价"
+  },
+  {
+    "date": "2026-09-10",
+    "time": "22:00",
+    "title": "美国7月批发贸易销售和库存",
+    "category": "经济数据",
+    "impact": "low",
+    "description": "关注库存销售比和批发销售是否显示企业补库或需求放缓"
+  },
+  {
+    "date": "2026-09-10",
+    "time": "盘后",
+    "title": "Adobe（ADBE）Q3 FY2026财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注Creative Cloud增长、Firefly变现、净新增ARR和领导层交接后的指引"
+  },
+  {
+    "date": "2026-09-10",
+    "time": "盘后",
+    "title": "Oracle（ORCL）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注OCI增速、AI订单积压、CapEx和自由现金流对AI基建交易的影响"
+  },
+  {
+    "date": "2026-09-11",
+    "time": "01:00",
+    "title": "美国财政部30年期国债再发行拍卖",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注超长期需求、直接和间接买家占比以及拍卖尾部对久期资产的影响"
+  },
+  {
+    "date": "2026-09-11",
+    "time": "盘前",
+    "title": "Kroger（KR）Q2财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注同店销售、毛利率、食品通胀和数字业务对必需消费的指示"
+  },
+  {
+    "date": "2026-09-11",
+    "time": "20:30",
+    "title": "美国8月CPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注核心服务、住房、能源和核心商品环比，决定9月FOMC前通胀定价"
+  },
+  {
+    "date": "2026-09-11",
+    "time": "22:00",
+    "title": "美国9月密歇根大学消费者信心初值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注一年和五年通胀预期以及预期指数，对消费和利率预期敏感"
+  },
+  {
+    "date": "2026-09-12",
+    "time": "02:00",
+    "title": "美国8月财政预算月报",
+    "category": "宏观",
+    "impact": "low",
+    "description": "关注赤字、利息支出和融资需求变化，对美债供给预期有边际影响"
   }
 ]
