@@ -4,12 +4,9 @@ import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewCookieValue } from "@/lib/identity
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { checkVipBindingSubmitLimit } from "@/lib/vip/api-guards";
 import { partnerAccountStatusLabels } from "@/lib/vip/status";
+import { getPartnerIdentifierError, normalizePartnerIdentifier } from "@/lib/vip/partner-identifier";
 
 export const runtime = "nodejs";
-
-function cleanIdentifier(value: string) {
-  return value.trim().replace(/\s+/g, "");
-}
 
 export async function POST(request: NextRequest) {
   const session = await auth();
@@ -29,9 +26,10 @@ export async function POST(request: NextRequest) {
     userNote?: string;
   };
 
-  const partnerSlug = body.partnerSlug?.trim();
-  const externalIdentifier = cleanIdentifier(body.externalIdentifier ?? "");
-  const userNote = body.userNote?.trim() || null;
+  const partnerSlug = typeof body.partnerSlug === "string" ? body.partnerSlug.trim() : "";
+  const rawIdentifier = typeof body.externalIdentifier === "string" ? body.externalIdentifier : "";
+  const externalIdentifier = normalizePartnerIdentifier(partnerSlug, rawIdentifier);
+  const userNote = typeof body.userNote === "string" ? body.userNote.trim() : "";
 
   if (!partnerSlug || !externalIdentifier) {
     return NextResponse.json(
@@ -40,9 +38,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (externalIdentifier.length < 3 || externalIdentifier.length > 80) {
+  const identifierError = getPartnerIdentifierError(partnerSlug, rawIdentifier);
+  if (identifierError) {
     return NextResponse.json(
-      { ok: false, message: "UID / 账户标识长度需要在 3 到 80 个字符之间。" },
+      { ok: false, message: identifierError },
+      { status: 400 }
+    );
+  }
+
+  if (!userNote) {
+    return NextResponse.json(
+      { ok: false, message: "请填写补充说明，并注明账户注册 / 开户时间后再提交。" },
       { status: 400 }
     );
   }

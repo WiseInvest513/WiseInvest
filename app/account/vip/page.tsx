@@ -25,6 +25,7 @@ import { CommunityDialogButton } from "@/components/community-dialog-button";
 import { CopyTextButton } from "@/components/copy-text-button";
 import { Button } from "@/components/ui/button";
 import { requireWiseUser } from "@/lib/identity/current-user";
+import { perks } from "@/lib/perks-data";
 import {
   getEntitlementBenefitDisplays,
   getEntitlementDisplay,
@@ -141,6 +142,10 @@ function partnerFormProps(partners: EnabledPartner[]) {
     referralCode: partner.referralCode,
     identifierLabel: partner.identifierLabel,
     identifierPlaceholder: partner.identifierPlaceholder,
+    tutorialHref: partner.type === "EXCHANGE"
+      ? perks.find((perk) => perk.category === "Crypto" && perk.id === partner.slug)
+          ?.tutorialLink?.replace(/^https:\/\/www\.wise-invest\.org(?=\/)/, "") ?? null
+      : null,
   }));
 }
 
