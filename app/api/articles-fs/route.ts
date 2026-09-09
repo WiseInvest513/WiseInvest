@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getContentViewerTier } from "@/lib/identity/content-viewer";
 import { loadFsArticles } from "@/lib/articles-fs";
 import { getArticleRoute } from "@/lib/articles";
-import { canReadContentAccess, createContentPreview } from "@/lib/content-access";
+import { canReadContentAccess } from "@/lib/content-access";
+import { createArticlePreview } from "@/lib/article-preview";
 import { getResolvedContentAccessRules } from "@/lib/content-access-server";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +20,7 @@ export async function GET() {
 
     return {
       ...article,
-      content: createContentPreview(article.content),
+      content: createArticlePreview(article),
     };
   });
 

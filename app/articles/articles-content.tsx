@@ -33,6 +33,7 @@ interface ArticlesPageProps {
   lockedContent?: {
     reason: string;
     loginHref: string;
+    previewPercentage?: number;
   };
 }
 
@@ -697,9 +698,9 @@ export function ArticlesContent({
                 </section>
               )}
 
-              <div className={cn("mt-6 md:mt-8", lockedContent && "relative max-h-[720px] overflow-hidden")}>
+              <div className={cn("mt-6 md:mt-8", lockedContent && !lockedContent.previewPercentage && "relative max-h-[720px] overflow-hidden")}>
                 {renderedContent}
-                {lockedContent && (
+                {lockedContent && !lockedContent.previewPercentage && (
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90" />
                 )}
               </div>
@@ -713,12 +714,14 @@ export function ArticlesContent({
                       </div>
                       <div>
                         <p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700 dark:text-amber-300">Wise ID</p>
-                        <h2 className="mt-2 text-xl font-black text-slate-950 dark:text-white">登录后继续阅读完整内容</h2>
+                        <h2 className="mt-2 text-xl font-black text-slate-950 dark:text-white">{lockedContent.previewPercentage ? "剩余内容仅限 Wise VIP 阅读" : "登录后继续阅读完整内容"}</h2>
                         <p className="mt-2 text-sm font-semibold leading-7 text-slate-600 dark:text-slate-300">
-                          {lockedContent.reason}。登录或注册后会自动回到这篇文章。
+                          {lockedContent.previewPercentage
+                            ? `已展示本文约 ${lockedContent.previewPercentage}% 的内容，成为 Wise VIP 后可继续阅读余下全文。`
+                            : `${lockedContent.reason}。登录或注册后会自动回到这篇文章。`}
                         </p>
                         <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                          {["保留当前预览", "登录回到原文", "可收藏和继续学习"].map((item) => (
+                          {(lockedContent.previewPercentage ? ["完整市场手记", "VIP 社群交流", "查看加入方式"] : ["保留当前预览", "登录回到原文", "可收藏和继续学习"]).map((item) => (
                             <span key={item} className="rounded-xl border border-amber-100 bg-white px-3 py-2 text-xs font-black text-slate-600 dark:border-amber-900/40 dark:bg-slate-950 dark:text-slate-300">
                               {item}
                             </span>
@@ -727,10 +730,10 @@ export function ArticlesContent({
                       </div>
                     </div>
                     <Link
-                      href={lockedContent.loginHref}
+                      href={lockedContent.previewPercentage ? "/vip" : lockedContent.loginHref}
                       className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
                     >
-                      登录阅读全文
+                      {lockedContent.previewPercentage ? "了解 VIP，继续阅读" : "登录阅读全文"}
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>

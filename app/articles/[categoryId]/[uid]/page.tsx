@@ -15,8 +15,8 @@ import { ArticlesContent } from "@/app/articles/articles-content";
 import {
   buildLoginHref,
   canReadContentAccess,
-  createContentPreview,
 } from "@/lib/content-access";
+import { createArticlePreview, getArticlePreviewPercentage } from "@/lib/article-preview";
 import { getResolvedContentAccessRule } from "@/lib/content-access-server";
 
 // 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
@@ -78,7 +78,7 @@ export default async function ArticleUidPage(
     ? article
     : {
         ...article,
-        content: createContentPreview(article.content),
+        content: createArticlePreview(article),
       };
   const url = siteConfig.url(getArticleRoute(article));
   const image = getArticlePrimaryImage(article);
@@ -178,6 +178,7 @@ export default async function ArticleUidPage(
             : {
                 reason: accessRule.reason,
                 loginHref: buildLoginHref(articleRoute),
+                previewPercentage: getArticlePreviewPercentage(article),
               }
         }
       />

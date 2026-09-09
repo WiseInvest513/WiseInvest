@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Target, Send, type LucideIcon } from "lucide-react";
+import { Twitter, Youtube, Video, Instagram, MessageCircle, ArrowUpRight, TrendingUp, Bitcoin, BookOpen, Crown, Target, Send, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -393,9 +393,9 @@ export default function AboutMe() {
                   <MessageCircle className="w-4 h-4" /> 加入社群
                 </button>
                 <Link
-                  href="/resources"
+                  href="/vip"
                   className="inline-flex items-center gap-2 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 md:px-6 md:py-2.5 rounded-xl font-semibold text-xs md:text-sm hover:border-amber-400 hover:text-amber-600 transition-all">
-                  <BookOpen className="w-4 h-4" /> 资料库
+                  <Crown className="w-4 h-4" aria-hidden="true" /> 加入 VIP
                 </Link>
               </div>
             </div>
