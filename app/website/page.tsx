@@ -18,6 +18,50 @@ type WiseSite = {
 
 const sites: WiseSite[] = [
   {
+    name: "Wise ETF",
+    url: "https://www.wise-etf.com/",
+    desc: "ETF 指数投资",
+    eyebrow: "指数配置",
+    image: "/images/websites/wise-etf-tech.jpg",
+    accent: "#38bdf8",
+    accentText: "text-sky-300",
+    accentBorder: "group-hover:border-sky-400/70",
+    glow: "from-sky-500/35",
+  },
+  {
+    name: "Wise IPO",
+    url: "https://www.wise-ipo.com/",
+    desc: "港美 A 股 IPO 信息",
+    eyebrow: "新股情报",
+    image: "/images/websites/wise-ipo-tech.jpg",
+    accent: "#fb7185",
+    accentText: "text-rose-300",
+    accentBorder: "group-hover:border-rose-400/70",
+    glow: "from-rose-500/35",
+  },
+  {
+    name: "Wise Chain",
+    url: "https://chain.wise-invest.org/",
+    desc: "热门产业链数据",
+    eyebrow: "产业链数据",
+    image: "/images/websites/wise-chain-tech.jpg",
+    accent: "#22d3ee",
+    accentText: "text-cyan-300",
+    accentBorder: "group-hover:border-cyan-400/70",
+    glow: "from-cyan-500/35",
+  },
+  {
+    name: "Wise Crypto",
+    url: "https://crypto.wise-invest.org/",
+    desc: "BTC / ETH 行情与交易工具",
+    eyebrow: "加密市场",
+    image: "/images/websites/wise-crypto-tech.jpg",
+    accent: "#fbbf24",
+    accentText: "text-amber-300",
+    accentBorder: "group-hover:border-amber-400/70",
+    glow: "from-amber-500/35",
+  },
+  {
     name: "Wise Sim",
     url: "https://www.wise-sim.org/",
     desc: "手机卡购买平台",
@@ -50,46 +94,15 @@ const sites: WiseSite[] = [
     accentBorder: "group-hover:border-emerald-400/70",
     glow: "from-emerald-500/35",
   },
-  {
-    name: "Wise ETF",
-    url: "https://www.wise-etf.com/",
-    desc: "ETF 指数投资",
-    eyebrow: "指数配置",
-    image: "/images/websites/wise-etf-tech.jpg",
-    accent: "#38bdf8",
-    accentText: "text-sky-300",
-    accentBorder: "group-hover:border-sky-400/70",
-    glow: "from-sky-500/35",
-  },
-  {
-    name: "Wise IPO",
-    url: "https://www.wise-ipo.com/",
-    desc: "港美 A 股 IPO 信息",
-    eyebrow: "新股情报",
-    image: "/images/websites/wise-ipo-tech.jpg",
-    accent: "#fb7185",
-    accentText: "text-rose-300",
-    accentBorder: "group-hover:border-rose-400/70",
-    glow: "from-rose-500/35",
-  },
-  {
-    name: "Wise Chain",
-    desc: "热门产业链数据",
-    eyebrow: "产业链数据",
-    image: "/images/websites/wise-chain-tech.jpg",
-    accent: "#22d3ee",
-    accentText: "text-cyan-300",
-    accentBorder: "group-hover:border-cyan-400/70",
-    glow: "from-cyan-500/35",
-    comingSoon: true,
-  },
 ];
+
+const siteImageSizes = "(min-width: 1600px) 367px, (min-width: 1280px) calc((100vw - 132px) / 4), (min-width: 768px) calc((100vw - 76px) / 2), (min-width: 640px) calc((100vw - 52px) / 2), calc(100vw - 32px)";
 
 function SiteCard({ site, priority, index }: { site: WiseSite; priority: boolean; index: number }) {
   const displayUrl = site.url ?? "网址筹备中";
   const card = (
     <div
-      className="wise-site-card-float relative aspect-[4/3] w-full rounded-[1.7rem]"
+      className="wise-site-card-float relative aspect-[4/3] min-h-[320px] w-full rounded-[1.7rem]"
       style={{
         perspective: "1200px",
         animationDelay: `${index * 0.6}s`,
@@ -114,7 +127,7 @@ function SiteCard({ site, priority, index }: { site: WiseSite; priority: boolean
             alt={`${site.name} 产品场景`}
             fill
             priority={priority}
-            sizes="(min-width: 1024px) 352px, (min-width: 640px) 50vw, 100vw"
+            sizes={siteImageSizes}
             className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045] ${site.comingSoon ? "saturate-[0.82]" : ""}`}
           />
 
@@ -169,7 +182,7 @@ function SiteCard({ site, priority, index }: { site: WiseSite; priority: boolean
           className="absolute inset-0 overflow-hidden rounded-[1.7rem] border border-white/15 bg-[#070912] text-white shadow-[0_22px_60px_rgba(15,23,42,0.34)]"
           style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          <Image src={site.image} alt="" fill sizes="(min-width: 1024px) 352px, (min-width: 640px) 50vw, 100vw" className="scale-110 object-cover opacity-[0.12] blur-[2px]" />
+          <Image src={site.image} alt="" fill priority={priority} sizes={siteImageSizes} className="scale-110 object-cover opacity-[0.12] blur-[2px]" />
           <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(2,6,23,0.98),rgba(9,12,25,0.92)_52%,rgba(15,23,42,0.82))]" />
           <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px)] [background-size:28px_28px]" />
           <div className="absolute -right-16 -top-20 h-52 w-52 rounded-full opacity-20 blur-3xl" style={{ backgroundColor: site.accent }} />
@@ -215,7 +228,7 @@ function SiteCard({ site, priority, index }: { site: WiseSite; priority: boolean
     </div>
   );
 
-  const wrapperClass = "group block rounded-[1.7rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-950";
+  const wrapperClass = `group block min-w-0 rounded-[1.7rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-slate-950 xl:col-span-2 ${index === 4 ? "xl:col-start-2" : ""}`;
 
   if (site.url) {
     return (
@@ -278,7 +291,7 @@ export default function WebsitePage() {
         <div className="absolute inset-0 opacity-[0.28] dark:opacity-[0.08] [background-image:linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)] [background-size:48px_48px] [mask-image:linear-gradient(to_bottom,black,transparent_78%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="relative z-10 mx-auto w-full max-w-[1600px] px-4 md:px-6">
         <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
           <div className="mb-3 flex items-center justify-center gap-2">
             <Globe2 className="h-5 w-5 text-amber-500" />
@@ -286,13 +299,13 @@ export default function WebsitePage() {
           </div>
           <h1 className="text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-5xl">Wise 系列网站</h1>
           <p className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400 md:text-base">
-            六个独立产品，同一套 WiseInvest 科技生态
+            {sites.length} 个独立产品，同一套 WiseInvest 科技生态
           </p>
         </header>
 
-        <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-7" aria-label="Wise 系列产品">
+        <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-8 md:gap-7" aria-label="Wise 系列产品">
           {sites.map((site, index) => (
-            <SiteCard key={site.name} site={site} priority={index < 3} index={index} />
+            <SiteCard key={site.name} site={site} priority={index < 4} index={index} />
           ))}
         </section>
 
