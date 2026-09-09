@@ -460,7 +460,7 @@ export default function CardPageClient() {
     setRecommendationOpen(true);
   }, []);
 
-  const recommendedCard = virtualCardProducts.find((card) => card.id === "bitget-wallet-card");
+  const recommendedCard = virtualCardProducts.find((card) => card.id === "gate-card");
 
   const filteredCards = useMemo(() => {
     const keyword = query.trim().toLowerCase();
@@ -491,8 +491,8 @@ export default function CardPageClient() {
           <div className="relative w-full max-w-md rounded-3xl border border-amber-200 bg-white p-6 shadow-2xl dark:border-amber-800 dark:bg-slate-900">
             <button type="button" onClick={() => setRecommendationOpen(false)} className="absolute right-4 top-4 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800" aria-label="关闭推荐弹窗"><X className="h-4 w-4" /></button>
             <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-amber-600"><Sparkles className="h-4 w-4" /> 当下推荐</div>
-            <h2 className="mt-3 text-2xl font-black text-slate-950 dark:text-white">现在最推荐：Bitget Wallet Card</h2>
-            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">适合先用来完成日常消费、AI 订阅和资金流转。点击下方按钮查看详情与申请入口。</p>
+            <h2 className="mt-3 text-2xl font-black text-slate-950 dark:text-white">现在最推荐：{recommendedCard.name}</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">{recommendedCard.usage} 点击下方按钮查看详情与申请入口。</p>
             <div className="mt-5 flex gap-3">
               <button type="button" onClick={() => setRecommendationOpen(false)} className="flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">先看看其他卡</button>
               <a href={recommendedCard.tutorialLink ?? recommendedCard.issuerUrl} target="_blank" rel="noopener noreferrer" className="flex-1 rounded-xl bg-amber-500 px-4 py-3 text-center text-sm font-black text-white hover:bg-amber-600">查看推荐卡</a>
