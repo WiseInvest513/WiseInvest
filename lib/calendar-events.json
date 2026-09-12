@@ -958,5 +958,125 @@
     "category": "宏观",
     "impact": "low",
     "description": "关注赤字、利息支出和融资需求变化，对美债供给预期有边际影响"
+  },
+  {
+    "date": "2026-09-15",
+    "time": "全天",
+    "title": "美联储9月FOMC会议开始",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注会前利率定价、通胀韧性和就业降温如何影响会议声明与点阵图预期"
+  },
+  {
+    "date": "2026-09-15",
+    "time": "20:30",
+    "title": "纽约联储9月Empire State制造业指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注新订单、就业和价格支付分项，判断制造业景气是否在FOMC周继续分化"
+  },
+  {
+    "date": "2026-09-15",
+    "time": "盘后",
+    "title": "Trip.com（TCOM）Q2财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注出境游、酒店和机票预订、利润率及管理层对中国消费与跨境旅游需求的判断"
+  },
+  {
+    "date": "2026-09-16",
+    "time": "20:30",
+    "title": "美国8月进口和出口价格指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注进口燃料、非燃料进口和出口农产品价格，评估外部价格对通胀的传导"
+  },
+  {
+    "date": "2026-09-16",
+    "time": "20:30",
+    "title": "美国8月零售销售",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注控制组、汽车与餐饮分项，判断高利率和能源价格对消费韧性的影响"
+  },
+  {
+    "date": "2026-09-16",
+    "time": "22:00",
+    "title": "美国7月商业库存和销售",
+    "category": "经济数据",
+    "impact": "low",
+    "description": "关注库存销售比和批零库存变化，判断企业补库是否支撑后续产出"
+  },
+  {
+    "date": "2026-09-16",
+    "time": "22:30",
+    "title": "EIA周度石油库存报告",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注原油、汽油和馏分油库存以及炼厂开工率，对能源通胀和能源股有即时影响"
+  },
+  {
+    "date": "2026-09-16",
+    "time": "盘后",
+    "title": "Lennar（LEN）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注新订单、交付、毛利率和激励力度，验证高按揭利率下住房需求与建商定价"
+  },
+  {
+    "date": "2026-09-17",
+    "time": "02:00",
+    "title": "美联储9月利率决议和新闻发布会",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注利率决定、声明措辞、点阵图和主席问答对未来降息或加息路径的重新定价"
+  },
+  {
+    "date": "2026-09-17",
+    "time": "04:00",
+    "title": "美国7月TIC国际资本流动",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注海外官方和私人部门对美债及长期证券的需求，影响长端利率和美元流动性叙事"
+  },
+  {
+    "date": "2026-09-17",
+    "time": "20:30",
+    "title": "费城联储9月制造业调查",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注新订单、就业、交付和价格分项，与Empire State共同验证制造业动能"
+  },
+  {
+    "date": "2026-09-17",
+    "time": "20:30",
+    "title": "美国8月新屋开工和营建许可",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注开工、许可和独栋住宅分项，衡量按揭利率对住房供给和建商股的压力"
+  },
+  {
+    "date": "2026-09-17",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请和续请是否显示劳动力市场转弱，为FOMC后利率路径提供高频验证"
+  },
+  {
+    "date": "2026-09-18",
+    "time": "21:15",
+    "title": "美国8月工业产出和产能利用率",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注制造业产出、矿业和公用事业分项，判断实体需求与能源扰动对经济增长的影响"
+  },
+  {
+    "date": "2026-09-18",
+    "time": "21:30",
+    "title": "美联储副主席Bowman讲话",
+    "category": "宏观",
+    "impact": "low",
+    "description": "关注其对银行压力测试和监管资本的表述，评估金融股监管预期的边际变化"
   }
 ]
