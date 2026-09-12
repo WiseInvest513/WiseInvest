@@ -15,6 +15,8 @@ import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
 import { ArticleExportButton } from "@/components/article-export-button";
 import { CommunityDialog } from "@/components/community-dialog";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
+import { ArticleVipInvitation } from "@/components/article-vip-invitation";
+import { getArticleVipInvitation } from "@/lib/article-vip-invitation";
 
 type ArticleItem = ArticleListItem & { content?: string };
 type ArticleGuideProfile = {
@@ -263,6 +265,8 @@ export function ArticlesContent({
       .filter(a => a.id !== selectedArticle.id && a.categoryId === selectedArticle.categoryId)
       .slice(0, 4);
   }, [allArticles, selectedArticle]);
+  const vipInvitation = lockedContent ? null : getArticleVipInvitation(selectedArticle);
+  const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation;
   const topicLinks = useMemo(
     () => selectedArticle ? getTopicLinks(selectedArticle) : [],
     [selectedArticle]
@@ -768,7 +772,7 @@ export function ArticlesContent({
 
               {(relatedArticles.length > 0 || topicLinks.length > 0) && (
                 <section className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
-                  {relatedArticles.length > 0 && (
+                  {showRelatedArticles && (
                     <div>
                       <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                         相关阅读
@@ -797,7 +801,7 @@ export function ArticlesContent({
                   )}
 
                   {topicLinks.length > 0 && (
-                    <div className={relatedArticles.length > 0 ? "mt-8" : ""}>
+                    <div className={showRelatedArticles ? "mt-8" : ""}>
                       <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                         下一步操作
                       </h2>
@@ -846,6 +850,7 @@ export function ArticlesContent({
                   </div>
                 </section>
               )}
+              {vipInvitation && <ArticleVipInvitation invitation={vipInvitation} />}
             </article>
           ) : (
             <div className="h-full flex flex-col items-center justify-center px-4 md:px-8 py-10 md:py-16">
