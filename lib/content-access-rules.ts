@@ -49,6 +49,12 @@ export const vipArticleAccessRules: ArticleAccessRuleConfig[] = [
     access: "VIP",
     reason: "Wise VIP 会员专属内容",
   },
+  {
+    articleId: "VIP002",
+    categoryId: "VIP",
+    access: "VIP",
+    reason: "Wise VIP 会员专属内容",
+  },
 ];
 
 export const publicRoadmapDetailAccessRules: RoadmapAccessRuleConfig[] = [

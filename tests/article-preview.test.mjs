@@ -72,7 +72,7 @@ test('VIP001 gets a complete-block prefix close to 35%, with the remaining text 
 });
 
 test('all other articles preserve their existing preview behavior', () => {
-  for (const article of articles.filter(item => item.id !== journal.id)) {
+  for (const article of articles.filter(item => item.id !== journal.id && !(item.id === 'VIP002' && item.categoryId === 'VIP'))) {
     assert.equal(getArticlePreviewPercentage(article), undefined);
     assert.equal(createArticlePreview(article), createContentPreview(article.content), article.id);
   }
@@ -119,7 +119,7 @@ test('SSR and JSON API agree for guests, members, VIP and SVIP without leaking l
       assert.ok(!JSON.stringify(tree).includes(secretEnding), `RSC ${tier} hidden suffix`);
       assert.ok(!JSON.stringify(response.body).includes(secretEnding), `API ${tier} hidden suffix`);
     }
-    for (const article of articles.filter(item => item.id !== journal.id)) {
+    for (const article of articles.filter(item => item.id !== journal.id && !(item.id === 'VIP002' && item.categoryId === 'VIP'))) {
       const originalRule = getContentAccessRule(getArticleRoute(article));
       const expected = canReadContentAccess(originalRule.access, tier) ? article.content : createContentPreview(article.content);
       assert.equal(response.body.find(item => item.id === article.id).content, expected, `${tier}: unchanged ${article.id}`);

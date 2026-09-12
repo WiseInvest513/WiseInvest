@@ -1,8 +1,11 @@
 import { createContentPreview } from "@/lib/content-access";
+import { getArticleRelease } from "@/lib/article-release";
 
 type PreviewArticle = { id: string; categoryId: string; content: string };
 
 export function getArticlePreviewPercentage(article: Pick<PreviewArticle, "id" | "categoryId">) {
+  const release = getArticleRelease(article);
+  if (release) return release.previewPercentage;
   return article.id === "VIP001" && article.categoryId === "VIP" ? 35 : undefined;
 }
 

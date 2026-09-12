@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
   Library, ArrowRight, Search, Menu, CheckCircle2, ExternalLink, MessageCircle, ShieldCheck, LockKeyhole,
@@ -17,6 +17,7 @@ import { CommunityDialog } from "@/components/community-dialog";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
 import { ArticleVipInvitation } from "@/components/article-vip-invitation";
 import { getArticleVipInvitation } from "@/lib/article-vip-invitation";
+import { ArticleReleaseCountdown, type ArticleLimitedRelease } from "@/components/article-release-countdown";
 
 type ArticleItem = ArticleListItem & { content?: string };
 type ArticleGuideProfile = {
@@ -32,6 +33,7 @@ interface ArticlesPageProps {
   initialArticleId?: string;
   initialCategoryId?: string;
   initialFaqs?: ArticleFaqItem[];
+  limitedRelease?: ArticleLimitedRelease;
   lockedContent?: {
     reason: string;
     loginHref: string;
@@ -186,8 +188,10 @@ export function ArticlesContent({
   initialCategoryId,
   initialFaqs,
   lockedContent,
+  limitedRelease,
 }: ArticlesPageProps = {}) {
   const pathname = usePathname();
+  const router = useRouter();
   const [openCategories, setOpenCategories] = useState<Set<string>>(() => new Set([
     "web",
     "VIP",
@@ -201,6 +205,7 @@ export function ArticlesContent({
   const [communityOpen, setCommunityOpen] = useState(false);
   const [favoriteHrefs, setFavoriteHrefs] = useState<Set<string>>(() => new Set());
   const [favoriteBusy, setFavoriteBusy] = useState(false);
+  const [expiredReleaseKey, setExpiredReleaseKey] = useState<string | null>(null);
   const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
   const contentRef = useRef<HTMLDivElement>(null);
   const [allArticles, setAllArticles] = useState<ArticleItem[]>(() => {
@@ -217,8 +222,41 @@ export function ArticlesContent({
     !initialArticle && /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(pathname)
   );
 
+  const activeLimitedRelease = selectedArticleId === initialArticleId ? limitedRelease : undefined;
+  const releaseKey = activeLimitedRelease ? `${initialArticleId}:${activeLimitedRelease.endsAt}` : null;
+  const releaseExpired = Boolean(activeLimitedRelease && (
+    expiredReleaseKey === releaseKey || activeLimitedRelease.serverNow >= Date.parse(activeLimitedRelease.endsAt)
+  ));
+  const effectiveLockedContent = useMemo(() => {
+    if (activeLimitedRelease && releaseExpired && !activeLimitedRelease.canReadAfterExpiry) {
+      return {
+        reason: "剩余内容仅限 Wise VIP 阅读",
+        loginHref: "/vip",
+        previewPercentage: 30,
+      };
+    }
+    return lockedContent;
+  }, [activeLimitedRelease, lockedContent, releaseExpired]);
+
+  const handleReleaseExpire = useCallback(() => {
+    if (!releaseKey) return;
+    // Immediately close the current view; the server refresh is a resync, not
+    // the mechanism that hides content already loaded during the public period.
+    setExpiredReleaseKey(releaseKey);
+    if (limitedRelease && !limitedRelease.canReadAfterExpiry) {
+      setAllArticles((articles) => articles.map((article) => article.id === initialArticleId
+        ? { ...article, content: limitedRelease.previewContent }
+        : article));
+    }
+    router.refresh();
+  }, [initialArticleId, limitedRelease, releaseKey, router]);
+
+  const handleReleaseResume = useCallback(() => {
+    router.refresh();
+  }, [router]);
+
   useEffect(() => {
-    if (lockedContent) {
+    if (effectiveLockedContent || activeLimitedRelease) {
       setIsLoadingArticle(false);
       return;
     }
@@ -248,14 +286,21 @@ export function ArticlesContent({
         setIsLoadingArticle(false);
       })
       .catch(() => setIsLoadingArticle(false));
-  }, [lockedContent]);
+  }, [activeLimitedRelease, effectiveLockedContent]);
 
-  const selectedArticle = useMemo(() => allArticles.find(a => a.id === selectedArticleId) ?? null, [selectedArticleId, allArticles]);
+  const selectedArticle = useMemo(() => {
+    // This article's server payload can change at the timed access boundary.
+    // Do not retain its pre-refresh body in the initial useState cache.
+    if (activeLimitedRelease && initialArticle?.id === selectedArticleId) return initialArticle;
+    return allArticles.find(a => a.id === selectedArticleId) ?? null;
+  }, [activeLimitedRelease, allArticles, initialArticle, selectedArticleId]);
   const selectedArticleHref = useMemo(
     () => selectedArticle ? getArticleHref(selectedArticle) : "",
     [selectedArticle]
   );
-  const selectedContent = selectedArticle?.content ?? "";
+  const selectedContent = activeLimitedRelease && releaseExpired && !activeLimitedRelease.canReadAfterExpiry
+    ? activeLimitedRelease.previewContent
+    : selectedArticle?.content ?? "";
   const toc = useMemo(() => selectedContent ? extractToc(selectedContent) : [], [selectedContent]);
   const activeId = useActiveToc(toc);
   const relatedArticles = useMemo(() => {
@@ -265,7 +310,7 @@ export function ArticlesContent({
       .filter(a => a.id !== selectedArticle.id && a.categoryId === selectedArticle.categoryId)
       .slice(0, 4);
   }, [allArticles, selectedArticle]);
-  const vipInvitation = lockedContent ? null : getArticleVipInvitation(selectedArticle);
+  const vipInvitation = effectiveLockedContent ? null : getArticleVipInvitation(selectedArticle);
   const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation;
   const topicLinks = useMemo(
     () => selectedArticle ? getTopicLinks(selectedArticle) : [],
@@ -317,18 +362,18 @@ export function ArticlesContent({
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        eventType: lockedContent ? "PREVIEW_LOCKED" : "VIEW",
+        eventType: effectiveLockedContent ? "PREVIEW_LOCKED" : "VIEW",
         href: selectedArticleHref,
         title: selectedArticle.title,
         summary: selectedArticle.summary,
         metadata: {
           categoryId: selectedArticle.categoryId,
-          locked: Boolean(lockedContent),
+          locked: Boolean(effectiveLockedContent),
         },
       }),
       keepalive: true,
     }).catch(() => {});
-  }, [lockedContent, selectedArticle, selectedArticleHref]);
+  }, [effectiveLockedContent, selectedArticle, selectedArticleHref]);
 
   useEffect(() => {
     if (!selectedArticleHref) return;
@@ -619,7 +664,7 @@ export function ArticlesContent({
                   {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
                 </span>
-                {!lockedContent && (
+                {!effectiveLockedContent && (
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
@@ -662,6 +707,18 @@ export function ArticlesContent({
                 <span className="hidden items-center gap-1.5 md:flex"><ShieldCheck className="w-3.5 h-3.5" />持续维护</span>
               </div>
 
+              {activeLimitedRelease && (
+                <ArticleReleaseCountdown
+                  key={`${releaseKey}:${activeLimitedRelease.serverNow}`}
+                  endsAt={activeLimitedRelease.endsAt}
+                  serverNow={activeLimitedRelease.serverNow}
+                  canReadAfterExpiry={activeLimitedRelease.canReadAfterExpiry}
+                  expired={releaseExpired}
+                  onExpire={handleReleaseExpire}
+                  onResume={handleReleaseResume}
+                />
+              )}
+
               {shouldShowGuideProfile && (
                 <section className="mt-6 grid gap-3 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:grid-cols-[1fr_1fr_0.9fr]">
                   <div>
@@ -702,14 +759,14 @@ export function ArticlesContent({
                 </section>
               )}
 
-              <div className={cn("mt-6 md:mt-8", lockedContent && !lockedContent.previewPercentage && "relative max-h-[720px] overflow-hidden")}>
+              <div className={cn("mt-6 md:mt-8", effectiveLockedContent && !effectiveLockedContent.previewPercentage && "relative max-h-[720px] overflow-hidden")}>
                 {renderedContent}
-                {lockedContent && !lockedContent.previewPercentage && (
+                {effectiveLockedContent && !effectiveLockedContent.previewPercentage && (
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90" />
                 )}
               </div>
 
-              {lockedContent && (
+              {effectiveLockedContent && (
                 <section className="mt-8 overflow-hidden rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white p-5 shadow-sm dark:border-amber-900/60 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-950 md:p-6">
                   <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-start gap-4">
@@ -718,14 +775,14 @@ export function ArticlesContent({
                       </div>
                       <div>
                         <p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700 dark:text-amber-300">Wise ID</p>
-                        <h2 className="mt-2 text-xl font-black text-slate-950 dark:text-white">{lockedContent.previewPercentage ? "剩余内容仅限 Wise VIP 阅读" : "登录后继续阅读完整内容"}</h2>
+                        <h2 className="mt-2 text-xl font-black text-slate-950 dark:text-white">{effectiveLockedContent.previewPercentage ? "剩余内容仅限 Wise VIP 阅读" : "登录后继续阅读完整内容"}</h2>
                         <p className="mt-2 text-sm font-semibold leading-7 text-slate-600 dark:text-slate-300">
-                          {lockedContent.previewPercentage
-                            ? `已展示本文约 ${lockedContent.previewPercentage}% 的内容，成为 Wise VIP 后可继续阅读余下全文。`
-                            : `${lockedContent.reason}。登录或注册后会自动回到这篇文章。`}
+                          {effectiveLockedContent.previewPercentage
+                            ? `已展示本文约 ${effectiveLockedContent.previewPercentage}% 的内容，成为 Wise VIP 后可继续阅读余下全文。`
+                            : `${effectiveLockedContent.reason}。登录或注册后会自动回到这篇文章。`}
                         </p>
                         <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                          {(lockedContent.previewPercentage ? ["完整市场手记", "VIP 社群交流", "查看加入方式"] : ["保留当前预览", "登录回到原文", "可收藏和继续学习"]).map((item) => (
+                          {(effectiveLockedContent.previewPercentage ? ["完整市场手记", "VIP 社群交流", "查看加入方式"] : ["保留当前预览", "登录回到原文", "可收藏和继续学习"]).map((item) => (
                             <span key={item} className="rounded-xl border border-amber-100 bg-white px-3 py-2 text-xs font-black text-slate-600 dark:border-amber-900/40 dark:bg-slate-950 dark:text-slate-300">
                               {item}
                             </span>
@@ -734,17 +791,17 @@ export function ArticlesContent({
                       </div>
                     </div>
                     <Link
-                      href={lockedContent.previewPercentage ? "/vip" : lockedContent.loginHref}
+                      href={effectiveLockedContent.previewPercentage ? "/vip" : effectiveLockedContent.loginHref}
                       className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-slate-950 px-5 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
                     >
-                      {lockedContent.previewPercentage ? "了解 VIP，继续阅读" : "登录阅读全文"}
+                      {effectiveLockedContent.previewPercentage ? "了解 VIP，继续阅读" : "登录阅读全文"}
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </section>
               )}
 
-              {!lockedContent && visibleFaqs.length > 0 && (
+              {!effectiveLockedContent && visibleFaqs.length > 0 && (
                 <section className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-amber-500" />

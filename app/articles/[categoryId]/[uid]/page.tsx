@@ -18,6 +18,7 @@ import {
 } from "@/lib/content-access";
 import { createArticlePreview, getArticlePreviewPercentage } from "@/lib/article-preview";
 import { getResolvedContentAccessRule } from "@/lib/content-access-server";
+import { getArticleRelease, getArticleReleaseAccessRule } from "@/lib/article-release";
 
 // 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
 export const dynamic = "force-dynamic";
@@ -69,10 +70,13 @@ export default async function ArticleUidPage(
 
   const allArticles = getAllArticles();
   const articleRoute = getArticleRoute(article);
-  const [membershipTier, accessRule] = await Promise.all([
+  const [membershipTier, resolvedAccessRule] = await Promise.all([
     getContentViewerTier(),
     getResolvedContentAccessRule(articleRoute),
   ]);
+  const serverNow = Date.now();
+  const release = getArticleRelease(article);
+  const accessRule = getArticleReleaseAccessRule(articleRoute, serverNow) ?? resolvedAccessRule;
   const canReadFullArticle = canReadContentAccess(accessRule.access, membershipTier);
   const visibleArticle = canReadFullArticle
     ? article
@@ -172,6 +176,12 @@ export default async function ArticleUidPage(
         initialArticles={allArticles.map(toArticleListItem)}
         initialCategoryId={article.categoryId}
         initialFaqs={articleFaqs}
+        limitedRelease={release ? {
+          endsAt: release.endsAt,
+          serverNow,
+          canReadAfterExpiry: canReadContentAccess("VIP", membershipTier),
+          previewContent: createArticlePreview(article),
+        } : undefined}
         lockedContent={
           canReadFullArticle
             ? undefined
