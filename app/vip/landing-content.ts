@@ -20,7 +20,7 @@ export const brokerageChannels = [
   { name: "腾达证券", href: "/articles/broker/4k1kTctf", cta: "查看教程" },
   { name: "致富证券", href: "/articles/broker/GaobLP0X", cta: "查看教程" },
   { name: "复星证券", href: "/articles/broker/sQSbLRe8", cta: "查看教程" },
-  { name: "BBAE 证券", href: null, cta: "教程筹备中" },
+  { name: "BBAE 证券", href: `/articles/broker/${genUid("BBAE")}`, cta: "查看教程" },
 ];
 export const exchangeOrder = ["binance", "bitget", "bybit", "gate", "okx"];
 export const joinSteps = [
