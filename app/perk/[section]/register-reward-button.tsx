@@ -44,7 +44,7 @@ export function CexRewardDialog() {
         <DialogHeader className="sr-only">
           <DialogTitle>交易所福利说明</DialogTitle>
           <DialogDescription>
-            使用邀请码注册任意交易所，完成 100U 入金、保留 UID 记录并交易任意金额后，可加入 VIP 群并领取现金红包奖励。
+            使用邀请码注册任意交易所，完成 300U 入金、保留 UID 记录并交易任意金额后，可加入 VIP 群并领取现金红包奖励。
           </DialogDescription>
         </DialogHeader>
 
@@ -61,7 +61,7 @@ export function CexRewardDialog() {
               交易所专属福利说明
             </h3>
             <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-              使用页面里的邀请码注册任意交易所，入金 <span className="font-black text-slate-950 dark:text-white">100U</span>
+              使用页面里的邀请码注册任意交易所，入金 <span className="font-black text-slate-950 dark:text-white">300U</span>
               、保留 UID 记录，并交易任意金额后，
               可加入 VIP 群，并且可找 Wise 领取
               <span className="font-black text-amber-600 dark:text-amber-300"> 5U 现金红包奖励</span>。
@@ -71,7 +71,7 @@ export function CexRewardDialog() {
           <div className="mt-5 grid gap-2">
             {[
               { icon: Ticket, label: "使用页面里的专属邀请码完成注册" },
-              { icon: Banknote, label: "完成 100U 入金后保留 UID / 记录" },
+              { icon: Banknote, label: "完成 300U 入金后保留 UID / 记录" },
               { icon: TrendingUp, label: "交易任意金额，完成福利领取条件" },
               { icon: Users, label: "联系 Wise 加入 VIP 群并领取 5U 红包" },
             ].map((item) => {

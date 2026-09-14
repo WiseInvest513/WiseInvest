@@ -617,7 +617,7 @@ export const virtualCardProducts: VirtualCardProduct[] = [
       detail: "Gate 已发布 Apple Pay 和 Google Pay 绑定说明；你实测支付宝、美团可用，微信暂不支持。",
     },
     status: "实测推荐",
-    usage: "教程覆盖 Gate 注册、100U 入金奖励、Gate Card 申请、支付宝绑定和美团消费测试；适合作为交易所账户内衔接日常消费的虚拟 U 卡。",
+    usage: "教程覆盖 Gate 注册与平台充值奖励、入金 300U 后申请 Wise VIP、Gate Card 申请、支付宝绑定和美团消费测试；适合作为交易所账户内衔接日常消费的虚拟 U 卡。",
     bestFor: ["交易所卡", "支付宝", "美团消费", "开卡简单"],
     feeSummary:
       "Gate Card 对大陆用户的申请门槛较低：交易所注册可用中国身份证完成，卡片申请按教程填写即可。经典 / 铂金卡虚拟卡发行、年费、月费及不活跃费均为 0；加密资产兑换 0.9%，非美元换汇 0.4%。",

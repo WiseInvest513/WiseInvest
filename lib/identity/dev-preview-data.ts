@@ -7,7 +7,7 @@ export const devPreviewPartnerAccounts = [
     id: "dev_review_001",
     externalIdentifier: "UID-88990011",
     status: "PENDING" as const,
-    userNote: "通过 WiseInvest 邀请码注册，已完成 100U 入金和一笔小额交易。",
+    userNote: "通过 WiseInvest 邀请码注册，已完成 300U 入金和一笔小额交易。",
     reviewNote: null,
     submittedAt: now,
     user: {

@@ -426,7 +426,7 @@ export const perkSections: Perks2Section[] = [
             id: "gate",
             title: "Gate",
             description: "老牌加密货币交易所，币种覆盖广，也能衔接 Gate Card、充值奖励和美股交易入口。",
-            benefit: "交易返现 & 100U 入金奖励",
+            benefit: "交易返现 & 300U 入金达标申请 VIP",
             benefitLabel: "返佣比例",
             highlightValue: "20%",
             code: "WISEGATE",

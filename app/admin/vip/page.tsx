@@ -133,6 +133,9 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
           <p className="mt-2 text-slate-500 dark:text-slate-400">
             审核通过后系统会服务端刷新用户会员状态；驳回或要求补充时，审核说明会直接展示给用户。
           </p>
+          <p className="mt-2 text-sm font-semibold text-amber-800 dark:text-amber-200">
+            交易所账户审核标准：确认 Wise 邀请关系、入金 300U，并完成任意金额交易后，方可通过 VIP 资格核验。
+          </p>
           {isMockAdmin && !isDatabaseConfigured() && (
             <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200">
               本地预览数据：审核操作会返回成功，但不会写入数据库。

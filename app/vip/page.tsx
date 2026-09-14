@@ -125,7 +125,7 @@ export default async function VipPage() {
                 return <li key={partner.slug}><span>{partner.name}</span>{href ? <Link href={href} className={styles.textLink} aria-label={`${partner.name}：查看教程`}>查看教程<ArrowUpRight size={12} /></Link> : null}</li>;
               })}</ul>
               {exchangePartners.length === 0 ? <p className={styles.sectionIntro}>交易所账户核验暂未开放，请以账户中心为准。</p> : null}
-              <div className={styles.conditions}><strong>申请条件</strong><p>账户必须<strong className="!inline">绑定 Wise 邀请关系</strong>，并<strong className="!inline">入金 100U、完成任意金额交易</strong>后，再提交核验。</p></div><Link href="/perk/crypto" className={styles.textLink}>了解交易所合作渠道<ArrowUpRight size={15} /></Link>
+              <div className={styles.conditions}><strong>申请条件</strong><p>账户必须<strong className="!inline">绑定 Wise 邀请关系</strong>，并<strong className="!inline">入金 300U、完成任意金额交易</strong>后，再提交核验。</p></div><Link href="/perk/crypto" className={styles.textLink}>了解交易所合作渠道<ArrowUpRight size={15} /></Link>
             </article>
           </div>
           <h3 className={styles.stepsTitle}>加入流程，只需 5 步。</h3><ol className={styles.steps}>{joinSteps.map(([title, description], index) => <li key={title}><span className={styles.stepNumber}>{String(index + 1).padStart(2, "0")}</span><h4>{title}</h4><p>{description}</p></li>)}</ol>

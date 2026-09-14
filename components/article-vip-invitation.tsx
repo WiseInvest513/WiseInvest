@@ -23,7 +23,7 @@ export function ArticleVipInvitation({ invitation }: { invitation: Invitation })
       </p>
       <p className="mt-3 text-sm leading-7 text-slate-500 dark:text-slate-400">
         {isExchange
-          ? "交易所账户需绑定 Wise 邀请关系、入金 100 U 并完成任意金额交易。"
+          ? "交易所账户需绑定 Wise 邀请关系、入金 300 U 并完成任意金额交易。"
           : "券商账户需通过 Wise 合作渠道开户，完成入金并激活账户。"}
         满足条件后提交账户资料，通过核验即可加入 VIP。
       </p>

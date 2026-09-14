@@ -37,7 +37,7 @@ imageLayout: portrait
 
 或者直接点击链接：`https://partner.dhxrcw.cn/bg/8ax9wf4r` 直接跳转到 Web 端进行注册。
 
-> 填写我的邀请码，并且成功入金 100U 之后，可凭借 UID 找我进入私人 VIP 群，享受 Wise 专属 VIP 服务，为大家的投资之路保驾护航。
+> 填写我的邀请码，并且成功入金 300U 之后，可凭借 UID 找我进入私人 VIP 群，享受 Wise 专属 VIP 服务，为大家的投资之路保驾护航。
 
 ![填写账号密码与邀请码 wise5130](./3.png)
 
