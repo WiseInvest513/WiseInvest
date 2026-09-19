@@ -20,6 +20,11 @@ const categorySeo: Record<string, { title: string; description: string; keywords
     description: "Wise Invest 加密交易所教程合集，覆盖 Binance 币安、OKX 欧易、Bybit、Bitget 的注册、KYC、C2C 入金、买币和理财使用。",
     keywords: ["币安注册", "OKX 注册", "Bybit 注册", "Bitget 注册", "C2C 入金", "USDT", "KYC"],
   },
+  predict: {
+    title: "预测市场入门：Predict.fun、BTC 5 分钟预测与风险指南",
+    description: "Wise Invest 预测市场文章合集，介绍 Predict.fun、BTC 5 分钟预测、市场价格与概率、结算规则、资金准备和地区限制，帮助读者理解机制与风险。",
+    keywords: ["预测市场", "Predict.fun", "BTC 5 分钟预测", "预测市场入门", "结算规则", "交易风险"],
+  },
   broker: {
     title: "港美股券商开户教程：盈透证券、嘉信证券、复星、致富开户和入金指南",
     description: "Wise Invest 港美股券商开户教程合集，整理盈透证券 IBKR、嘉信证券 Schwab、复星、致富、第一证券等开户、入金和账户使用流程。",

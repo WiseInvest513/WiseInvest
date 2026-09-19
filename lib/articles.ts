@@ -43,6 +43,7 @@ export function getArticleSeoKeywords(article: Pick<Article, "title" | "summary"
   const categoryKeywords: Record<string, string[]> = {
     vcard: ["虚拟 U 卡", "U 卡教程", "Apple Pay", "支付宝", "微信支付", "AI 订阅"],
     crypto: ["加密交易所", "交易所注册", "C2C 入金", "USDT", "BTC", "KYC"],
+    predict: ["预测市场", "Predict.fun", "BTC 5 分钟预测", "市场概率", "结算规则", "交易风险"],
     broker: ["美股券商", "港美股开户", "券商开户", "美股入金", "护照开户"],
     bank: ["境外银行", "香港银行", "跨境收款", "见证开户", "美元账户"],
     index: ["指数基金", "ETF", "标普500", "纳斯达克100", "定投"],
@@ -83,6 +84,16 @@ export function getArticleFaqs(article: Pick<Article, "title" | "summary" | "cat
       {
         question: "C2C 入金和买币最需要注意什么？",
         answer: "优先小额测试，核对商家信誉、付款信息、到账时间和平台风控提示，不要脱离平台聊天或线下转账。",
+      },
+    ],
+    predict: [
+      {
+        question: "预测市场的价格可以直接当作真实概率吗？",
+        answer: "不宜直接画等号。价格反映参与者的交易判断，也会受到流动性、价差、手续费和市场规则影响，并不保证事件结果。",
+      },
+      {
+        question: "了解预测市场时，应该先看哪些规则？",
+        answer: "先读具体合约的事件定义、结算来源、截止时间与争议处理方式，再核对平台的服务地区、身份验证和资金规则。不要绕过地区限制，也不要把预测交易当作保本收益。",
       },
     ],
     broker: [
