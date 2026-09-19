@@ -68,7 +68,7 @@ const sectionTrustDefaults: Record<string, Pick<Perks2Product, "lastVerified" | 
   },
   broker: {
     lastVerified: "2026-08-25",
-    availability: "待确认",
+    availability: "已确认",
     bestFor: "港美股开户、美元入金、长期持仓和仓位管理",
     riskNote: "开户资格、佣金和入金路径会变化，提交资料前以券商页面为准。",
   },
@@ -160,7 +160,7 @@ export async function generateMetadata(
   const sectionKeywords: Record<string, string[]> = {
     bank: ["境外银行开户", "香港银行开户", "新加坡银行开户", "Wise 注册", "见证开户"],
     crypto: ["交易所返佣", "币安邀请码", "OKX 邀请码", "Bybit 邀请码", "Bitget 邀请码", "CEX 注册"],
-    broker: ["美股券商开户", "盈透证券开户", "嘉信证券开户", "港美股开户", "券商入金"],
+    broker: ["美股券商开户", "BBAE 证券开户", "盈透证券开户", "嘉信证券开户", "港美股开户", "券商入金"],
     ipo: ["港股打新", "美股 IPO", "IPO 申购", "打新教程"],
     "global-access": ["海外手机号", "出海账号", "eSIM", "国际网络", "海外应用注册"],
     "other-resources": ["AI 订阅", "海外工具", "API 中转", "虚拟 U 卡"],
@@ -198,7 +198,9 @@ function ProductCard({
   wide?: boolean;
 }) {
   const stars = Array.from({ length: 5 });
-  const score = Math.max(0, Math.min(5, product.recommendation));
+  const score = product.recommendation === undefined
+    ? null
+    : Math.max(0, Math.min(5, product.recommendation));
   const tutorialIsExternal = product.tutorialLink ? isExternalUrl(product.tutorialLink) : false;
   const isLongCode = (product.code?.length ?? 0) > 10;
   const trustMeta = getProductTrustMeta(product, sectionSlug);
@@ -297,7 +299,8 @@ function ProductCard({
 
   return (
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)] ring-1 ring-white/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/80 hover:shadow-[0_18px_42px_rgba(245,158,11,0.16)] dark:border-slate-800/80 dark:bg-slate-950 dark:ring-white/5 dark:hover:border-amber-700/80 dark:hover:shadow-amber-950/20 ${
+      id={`product-${product.id}`}
+      className={`group relative flex h-full scroll-mt-28 flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)] ring-1 ring-white/80 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-300/80 hover:shadow-[0_18px_42px_rgba(245,158,11,0.16)] dark:border-slate-800/80 dark:bg-slate-950 dark:ring-white/5 dark:hover:border-amber-700/80 dark:hover:shadow-amber-950/20 ${
         wide ? "min-h-[176px] lg:col-span-2" : "min-h-[244px]"
       }`}
     >
@@ -314,6 +317,7 @@ function ProductCard({
             iconUrl={product.iconUrl}
             name={product.title}
             size={44}
+            className="shrink-0"
             rounded
           />
           <div className="min-w-0">
@@ -327,14 +331,18 @@ function ProductCard({
               <span className="inline-flex items-center gap-1 rounded-full border border-amber-200/80 bg-amber-50/90 px-2.5 py-0.5 text-[11px] font-black text-amber-700 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300">
                 <ShieldCheck className="h-3 w-3" />
                 {product.recommendationText}
-                <span className="mx-0.5 h-3 w-px bg-amber-200 dark:bg-amber-800" />
-                {stars.map((_, index) => (
-                  <Star
-                    key={index}
-                    className={`h-3 w-3 ${index < score ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700"}`}
-                  />
-                ))}
-                {score.toFixed(1)}
+                {score !== null && (
+                  <>
+                    <span className="mx-0.5 h-3 w-px bg-amber-200 dark:bg-amber-800" />
+                    {stars.map((_, index) => (
+                      <Star
+                        key={index}
+                        className={`h-3 w-3 ${index < score ? "fill-amber-400 text-amber-400" : "text-slate-200 dark:text-slate-700"}`}
+                      />
+                    ))}
+                    {score.toFixed(1)}
+                  </>
+                )}
               </span>
             </div>
             <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">

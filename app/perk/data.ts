@@ -35,7 +35,7 @@ export type Perks2Product = {
   registerLabel?: string;
   contactWeChat?: boolean;
   tutorialLink: string | null;
-  recommendation: number;
+  recommendation?: number;
   recommendationText: string;
   badge?: string;
   claimedCount?: number;
@@ -43,7 +43,7 @@ export type Perks2Product = {
   imageUrl?: string;
   imageAlt?: string;
   lastVerified?: string;
-  availability?: "可用" | "待确认" | "暂不可用";
+  availability?: "已确认" | "可用" | "待确认" | "暂不可用";
   bestFor?: string;
   riskNote?: string;
   feeDetails?: Perks2FeeDetails;
@@ -356,8 +356,25 @@ export const perkSections: Perks2Section[] = [
         slug: "uex-exchange",
         title: "CEX 交易所",
         description: "中心化交易所福利与注册入口。",
-        slots: 5,
+        slots: 6,
         products: [
+          {
+            id: "weex",
+            title: "WEEX",
+            description: "加密货币交易平台，可从注册入口了解账户设置、基础操作与交易规则，供新手入门学习参考。",
+            benefit: "通过 Wise 邀请渠道注册，享交易手续费返佣",
+            benefitLabel: "返佣比例",
+            highlightValue: "20%",
+            code: "wiseweex",
+            registerLink: "https://wpewehx.site/zh-CN/register?vipCode=wiseweex",
+            tutorialLink: "https://wpewehx.site/zh-CN/register?vipCode=wiseweex",
+            recommendationText: "新手学习",
+            badge: "新接入",
+            iconUrl: "/images/perks/weex.png",
+            lastVerified: "待核验",
+            bestFor: "希望了解交易所注册与基础操作的新手用户。",
+            riskNote: "请先了解账户安全与交易风险，返佣条件及可用服务以平台页面为准。",
+          },
           {
             id: "binance",
             title: "Binance 币安",
@@ -550,9 +567,26 @@ export const perkSections: Perks2Section[] = [
       {
         slug: "us-broker",
         title: "美资券商",
-        description: "嘉信、第一、盈透等美国券商开户、入金和福利。",
-        slots: 3,
+        description: "BBAE、嘉信、第一、盈透等美国券商开户、入金和福利。",
+        slots: 4,
         products: [
+          {
+            id: "bbae",
+            title: "BBAE 证券",
+            description: "开户入金教程已上线，包含 App 注册、邀请码填写、身份认证、银行入金和转仓操作。",
+            benefit: "完整开户入金教程与 Wise 专属邀请码",
+            benefitLabel: "学习入口",
+            highlightValue: "开户入金",
+            code: "stiibsmu3",
+            registerLink: "/articles/broker/I0AIBXus",
+            registerLabel: "开户教程",
+            tutorialLink: "/articles/broker/I0AIBXus",
+            recommendationText: "教程已上线",
+            badge: "新补充",
+            iconUrl: "https://www.bbae.com",
+            lastVerified: "2026-09-19",
+            bestFor: "了解 BBAE 开户材料、Wise 邀请码、银行入金和转仓流程",
+          },
           {
             id: "charles-schwab",
             title: "嘉信理财",

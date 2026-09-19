@@ -37,6 +37,7 @@ function loadLocalModule(relativePath) {
 const { loadFsArticles } = loadLocalModule('lib/articles-fs.ts');
 const { genUid } = loadLocalModule('lib/article-uid.ts');
 const { brokerageChannels } = loadLocalModule('app/vip/landing-content.ts');
+const { getPerks2Section } = loadLocalModule('app/perk/data.ts');
 const articles = loadFsArticles();
 const article = articles.find(item => item.id === 'BBAE');
 
@@ -78,6 +79,61 @@ test('adding the BBAE tutorial preserves the other four brokerage links and thei
     { name: '致富证券', href: '/articles/broker/GaobLP0X', cta: '查看教程' },
     { name: '复星证券', href: '/articles/broker/sQSbLRe8', cta: '查看教程' },
   ]);
+});
+
+test('broker perks place BBAE first and both entry buttons point to its real tutorial', () => {
+  const broker = getPerks2Section('broker');
+  const usBroker = broker.subcategories.find(category => category.slug === 'us-broker');
+  const bbae = usBroker.products[0];
+  assert.equal(bbae.id, 'bbae');
+  assert.equal(bbae.title, 'BBAE 证券');
+  const tutorialHref = `/articles/${article.categoryId}/${genUid(article.id)}`;
+  assert.equal(bbae.tutorialLink, tutorialHref);
+  assert.equal(bbae.registerLink, tutorialHref);
+  assert.equal(bbae.registerLabel, '开户教程');
+  assert.equal(bbae.code, 'stiibsmu3');
+  assert.ok(article.content.includes(`\`${bbae.code}\``));
+  assert.equal(bbae.claimedCount, undefined, 'Do not invent a claim count for a newly added tutorial');
+  assert.equal(bbae.recommendation, undefined, 'Do not invent a numeric rating for a newly added tutorial');
+});
+
+test('BBAE updates broker counts without removing or rerouting existing US broker entries', () => {
+  const broker = getPerks2Section('broker');
+  const usBroker = broker.subcategories.find(category => category.slug === 'us-broker');
+  assert.equal(usBroker.slots, 4);
+  assert.equal(usBroker.products.length, 4);
+  assert.match(usBroker.description, /^BBAE、嘉信、第一、盈透/);
+  assert.equal(broker.subcategories.reduce((total, category) => total + category.slots, 0), 15);
+  assert.deepEqual(usBroker.products.slice(1).map(({ id, tutorialLink, registerLink, recommendation }) => ({
+    id, tutorialLink, registerLink, recommendation,
+  })), [
+    {
+      id: 'charles-schwab', tutorialLink: '/articles/broker/MWyWMwwN',
+      registerLink: 'https://international.schwab.com/open-account-intro/open-account?country=CH&branchCode=EO', recommendation: 4.7,
+    },
+    {
+      id: 'diyi-securities', tutorialLink: '/articles/broker/eKIyMXl8',
+      registerLink: 'https://www.firstrade.com/content/zh-tw/accounttypes', recommendation: 4.6,
+    },
+    {
+      id: 'interactive-brokers', tutorialLink: '/articles/broker/2Uh6hvvZ',
+      registerLink: 'https://ibkr.com/referral/fengyang247', recommendation: 4.9,
+    },
+  ]);
+  assert.equal(broker.subcategories.flatMap(category => category.products ?? []).filter(product => product.id === 'bbae').length, 1);
+});
+
+test('broker verification badges are confirmed without changing dates or other section statuses', () => {
+  const page = fs.readFileSync(path.join(root, 'app/perk/[section]/page.tsx'), 'utf8');
+  const brokerDefaults = page.match(/\bbroker: \{[\s\S]*?\n  \}/)?.[0];
+  assert.ok(brokerDefaults);
+  assert.match(brokerDefaults, /availability: "已确认"/);
+  assert.match(brokerDefaults, /lastVerified: "2026-08-25"/);
+  for (const section of ['crypto', 'bank', 'ipo']) {
+    const defaults = page.match(new RegExp(`\\b${section}: \\{[\\s\\S]*?\\n  \\}`))?.[0];
+    assert.match(defaults, /availability: "待确认"/);
+  }
+  assert.match(page, /availability: product\.availability \?\? defaults\.availability/);
 });
 
 test('all 14 image references resolve in order to existing public assets, including 17.jpeg', () => {
