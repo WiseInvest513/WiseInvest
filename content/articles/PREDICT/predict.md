@@ -150,7 +150,7 @@ TradingView 的 Basic 免费方案目前支持**每张图表 2 个指标**，具
 
 **想一起学习预测市场、交流使用中遇到的问题，可以扫描下面的二维码，进入 Wise 预测市场交流群。**
 
-![portrait: Wise 预测市场官方群，微信扫码查看进群入口](/content/articles/PREDICT/01-community-qr.png)
+![portrait: Wise 猪脚饭官方群，微信扫码查看进群入口](/content/articles/PREDICT/01-community-qr-20260920.png)
 
 还没有注册的朋友，入口再放一次：[进入 Predict，核对邀请码 05JQU](https://predict.fun?ref=05JQU)。
 
