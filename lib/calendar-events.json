@@ -1078,5 +1078,133 @@
     "category": "宏观",
     "impact": "low",
     "description": "关注其对银行压力测试和监管资本的表述，评估金融股监管预期的边际变化"
+  },
+  {
+    "date": "2026-09-21",
+    "time": "23:00",
+    "title": "纽约联储SCE家庭支出调查",
+    "category": "经济数据",
+    "impact": "low",
+    "description": "关注家庭支出增速、收入预期和信用压力，辅助判断消费韧性是否继续支撑软着陆叙事"
+  },
+  {
+    "date": "2026-09-22",
+    "time": "盘前",
+    "title": "AutoZone（AZO）Q4 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注同店销售、商用业务、毛利率和回购节奏，判断汽配防御性需求能否抵消消费放缓"
+  },
+  {
+    "date": "2026-09-22",
+    "time": "22:00",
+    "title": "里士满联储9月制造业调查",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注新订单、就业和价格分项，补充观察制造业景气是否从区域调查中继续分化"
+  },
+  {
+    "date": "2026-09-22",
+    "time": "22:05",
+    "title": "美债市场年会：Williams与Jefferson讲话",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注美债流动性、中央清算、回购市场和政策传导表述，判断长端利率波动是否有金融稳定线索"
+  },
+  {
+    "date": "2026-09-22",
+    "time": "盘后",
+    "title": "KB Home（KBH）Q3 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注订单、交付、取消率和毛利率指引，观察降息预期下住宅需求与房建股基本面的衔接"
+  },
+  {
+    "date": "2026-09-23",
+    "time": "盘前",
+    "title": "Cintas（CTAS）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注有机收入增长、毛利率和服务需求，作为企业用工、外包服务和中小企业景气的观察窗口"
+  },
+  {
+    "date": "2026-09-23",
+    "time": "盘前",
+    "title": "General Mills（GIS）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注北美零售销量、价格投资和宠物食品表现，判断食品消费防御板块是否仍受成本和需求夹击"
+  },
+  {
+    "date": "2026-09-23",
+    "time": "盘前",
+    "title": "Paychex（PAYX）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注小企业薪资处理客户数、利息收入和利润率，辅助判断就业市场降温是否传导到服务需求"
+  },
+  {
+    "date": "2026-09-23",
+    "time": "21:45",
+    "title": "美国9月标普全球PMI初值",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注制造业与服务业新订单、就业和价格分项，判断增长韧性与通胀压力是否重新改变利率预期"
+  },
+  {
+    "date": "2026-09-24",
+    "time": "盘前",
+    "title": "Darden Restaurants（DRI）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注同店销售、客流和食品人工成本，判断中高端餐饮消费是否出现更明显分层"
+  },
+  {
+    "date": "2026-09-24",
+    "time": "盘前",
+    "title": "TD SYNNEX（SNX）Q3 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注AI基础设施、Hyve业务、毛利率和现金流，观察企业IT分销链条的真实需求强度"
+  },
+  {
+    "date": "2026-09-24",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请与续请是否继续上行，判断劳动力市场降温速度和降息交易的持续性"
+  },
+  {
+    "date": "2026-09-24",
+    "time": "22:00",
+    "title": "美国8月新屋销售",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注销量、库存和价格变化，验证抵押贷款利率回落是否开始改善新房需求"
+  },
+  {
+    "date": "2026-09-24",
+    "time": "盘后",
+    "title": "Costco（COST）Q4 FY2026财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注会员费收入、同店销售、客单价和毛利率，判断高估值零售龙头的消费韧性是否足够"
+  },
+  {
+    "date": "2026-09-25",
+    "time": "20:30",
+    "title": "美国8月耐用品订单初值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注核心资本品订单和出货，判断企业资本开支是否继续支撑制造业与工业股预期"
+  },
+  {
+    "date": "2026-09-25",
+    "time": "22:00",
+    "title": "美国9月密歇根大学消费者信心终值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注一年期和长期通胀预期修正，判断消费者情绪是否给利率和消费股估值带来扰动"
   }
 ]
