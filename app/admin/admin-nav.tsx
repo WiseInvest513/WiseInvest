@@ -21,9 +21,10 @@ import { cn } from "@/lib/utils";
 const adminGroups = [
   {
     label: "核心管理",
-    description: "用户和 VIP 核验",
+    description: "点位计划、用户和 VIP 核验",
     links: [
       { href: "/admin", label: "总览", icon: LayoutDashboard, exact: true },
+      { href: "/admin/point", label: "点位管理", icon: FileChartColumnIncreasing },
       { href: "/admin/vip", label: "VIP 审核", icon: ClipboardCheck },
       { href: "/admin/users", label: "用户管理", icon: Users },
       { href: "/admin/vip-management", label: "VIP 管理", icon: BadgeDollarSign },
@@ -43,7 +44,6 @@ const adminGroups = [
     links: [
       { href: "/admin/partners", label: "合作方", icon: Waypoints },
       { href: "/admin/dca", label: "DCA 数据", icon: BarChart3 },
-      { href: "/admin/point", label: "点位管理", icon: FileChartColumnIncreasing },
     ],
   },
   {
