@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Twitter, MessageCircle, Send } from "lucide-react";
 import { getSafeExternalUrl } from "@/lib/security/external-links";
 import {
@@ -17,6 +18,9 @@ export function Footer() {
   const [xIconFailed, setXIconFailed] = useState(false);
   const [telegramIconFailed, setTelegramIconFailed] = useState(false);
   const [wechatIconFailed, setWechatIconFailed] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname === "/admin/point" || pathname.startsWith("/admin/point/")) return null;
 
   return (
     <>

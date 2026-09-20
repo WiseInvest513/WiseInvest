@@ -7,6 +7,7 @@ import {
   BarChart3,
   ClipboardCheck,
   FileLock2,
+  FileChartColumnIncreasing,
   History,
   KeyRound,
   LayoutDashboard,
@@ -42,6 +43,7 @@ const adminGroups = [
     links: [
       { href: "/admin/partners", label: "合作方", icon: Waypoints },
       { href: "/admin/dca", label: "DCA 数据", icon: BarChart3 },
+      { href: "/admin/point", label: "点位管理", icon: FileChartColumnIncreasing },
     ],
   },
   {

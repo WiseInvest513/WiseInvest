@@ -413,3 +413,58 @@ model SsoAuthorizationCode {
   @@index([userId, createdAt])
   @@map("sso_authorization_codes")
 }
+
+enum PointPlanStatus {
+  DRAFT
+  PUBLISHED
+  WITHDRAWN
+  CLOSED
+}
+
+enum PointRevisionAction {
+  CREATED
+  UPDATED
+  PUBLISHED
+  WITHDRAWN
+  CLOSED
+}
+
+// Current materialized snapshot. Every mutation also appends an immutable revision.
+model PointPlan {
+  id          String          @id @default(cuid())
+  symbol      String
+  category    String
+  status      PointPlanStatus @default(DRAFT)
+  version     Int             @default(1)
+  snapshot    Json
+  publishedAt DateTime?       @map("published_at")
+  validFrom   DateTime        @map("valid_from")
+  validUntil  DateTime        @map("valid_until")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  revisions PointRevision[]
+
+  @@index([status, publishedAt])
+  @@index([symbol, publishedAt])
+  @@index([category, status, validUntil])
+  @@map("point_plans")
+}
+
+model PointRevision {
+  id          String              @id @default(cuid())
+  planId      String              @map("plan_id")
+  version     Int
+  action      PointRevisionAction
+  reason      String              @db.Text
+  actorUserId String              @map("actor_user_id")
+  snapshot    Json
+  createdAt   DateTime            @default(now()) @map("created_at")
+
+  plan PointPlan @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@unique([planId, version])
+  @@index([planId, createdAt])
+  @@index([actorUserId, createdAt])
+  @@map("point_revisions")
+}

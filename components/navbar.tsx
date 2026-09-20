@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X, Search, UserCircle } from "lucide-react";
+import { Gift, Sparkles, Calendar as CalendarIcon, ChevronDown, BookOpen, Youtube, Menu, X, Search, UserCircle, Crosshair } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { EventCalendar } from "@/components/EventCalendar";
 import { DailyRecommendation } from "@/components/business/DailyRecommendation";
@@ -41,6 +41,7 @@ const navItemsAfter = [
 
 const contentItems = [
   { label: "文章", href: "/articles", icon: BookOpen, desc: "投资教程与深度文章" },
+  { label: "点位观察", href: "/point", icon: Crosshair, desc: "VIP 参考点位与历史记录" },
   { label: "视频", href: "/videos", icon: Youtube, desc: "YouTube 视频内容" },
 ];
 
@@ -104,6 +105,10 @@ export function Navbar() {
     };
   }, [pathname]);
 
+  // Point management has its own full-page navigation; the sticky public bar
+  // must not cover the editor or intercept clicks on its controls.
+  if (pathname === "/admin/point" || pathname.startsWith("/admin/point/")) return null;
+
   return (
     <>
       <nav className="sticky top-0 z-50 w-full flex justify-center px-4 pt-3 pb-1 pointer-events-none">
@@ -114,10 +119,10 @@ export function Navbar() {
             Wise Invest
           </Link>
 
-          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2 shrink-0 hidden md:block" />
+          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2 shrink-0 hidden xl:block" />
 
           {/* Nav items - desktop only */}
-          <div className="hidden md:flex flex-1 items-center justify-center gap-0.5">
+          <div className="hidden xl:flex flex-1 items-center justify-center gap-0.5 whitespace-nowrap">
             {navItemsBefore.map((item) => {
               const active = isActive(item.href);
               return (
@@ -205,11 +210,13 @@ export function Navbar() {
           </div>
 
           {/* Mobile: spacer + hamburger */}
-          <div className="flex-1 md:hidden" />
+          <div className="flex-1 xl:hidden" />
           <button
-            className="md:hidden p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors mr-1"
+            className="xl:hidden p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors mr-1"
             onClick={() => setMobileMenuOpen(v => !v)}
             aria-label="菜单"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileMenuOpen
               ? <X className="h-4 w-4 text-slate-600 dark:text-slate-400" />
@@ -217,22 +224,22 @@ export function Navbar() {
             }
           </button>
 
-          <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1 shrink-0" />
+          <div className="hidden min-[380px]:block w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1 shrink-0" />
 
           {/* Right actions */}
           <div className="flex items-center gap-0.5 shrink-0">
-            <button onClick={() => setSearchOpen(true)} className="hidden items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 md:inline-flex" title="搜索全站">
+            <button onClick={() => setSearchOpen(true)} className="hidden items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 xl:inline-flex" title="搜索全站">
               <Search className="h-4 w-4 text-amber-600 dark:text-amber-400" />
               <span>搜索</span>
               <kbd className="rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px] text-slate-400 dark:border-slate-700 dark:bg-slate-900">⌘K</kbd>
             </button>
-            <button onClick={() => setSearchOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors md:hidden" title="搜索全站">
+            <button onClick={() => setSearchOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors xl:hidden" title="搜索全站">
               <Search className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
-            <button onClick={() => setEventCalendarOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="重要事件日历">
+            <button onClick={() => setEventCalendarOpen(true)} className="hidden min-[380px]:inline-flex p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="重要事件日历">
               <CalendarIcon className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
-            <button onClick={() => setRecommendationOpen(true)} className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="今日精选">
+            <button onClick={() => setRecommendationOpen(true)} className="hidden min-[380px]:inline-flex p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="今日精选">
               <Gift className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </button>
             <Link
@@ -258,7 +265,7 @@ export function Navbar() {
 
       {/* Mobile menu dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed top-[64px] left-0 right-0 z-40 mx-3 mt-1 rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl shadow-lg overflow-hidden">
+        <div id="mobile-navigation" className="xl:hidden fixed top-[64px] left-0 right-0 z-40 mx-3 mt-1 max-h-[calc(100dvh-80px)] overflow-y-auto rounded-2xl border border-slate-200/70 dark:border-slate-700/60 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl shadow-lg">
           <div className="py-2">
             {navItemsBefore.map(item => (
               <Link
@@ -314,6 +321,14 @@ export function Navbar() {
                 </Link>
               );
             })}
+            <div className="min-[380px]:hidden border-t border-slate-200 dark:border-slate-700 mt-2 pt-2">
+              <button className="flex items-center gap-3 w-full px-5 py-3 text-sm text-slate-700 dark:text-slate-300" onClick={() => { setMobileMenuOpen(false); setEventCalendarOpen(true); }}>
+                <CalendarIcon className="h-4 w-4" />重要事件日历
+              </button>
+              <button className="flex items-center gap-3 w-full px-5 py-3 text-sm text-slate-700 dark:text-slate-300" onClick={() => { setMobileMenuOpen(false); setRecommendationOpen(true); }}>
+                <Gift className="h-4 w-4" />今日精选
+              </button>
+            </div>
           </div>
         </div>
       )}

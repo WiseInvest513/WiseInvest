@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { usePathname } from "next/navigation";
 import { Gift, BookOpen, Scissors } from "lucide-react";
 import {
   Dialog,
@@ -69,6 +70,8 @@ interface DailyRecommendationProps {
 }
 
 export function DailyRecommendation({ open: controlledOpen, onOpenChange: controlledOnOpenChange }: DailyRecommendationProps = {}) {
+  const pathname = usePathname();
+  const suppressAutomatic = pathname === "/point" || pathname.startsWith("/point/") || pathname === "/admin" || pathname.startsWith("/admin/");
   const [internalOpen, setInternalOpen] = useState(false);
   const [communityChannel, setCommunityChannel] = useState<"telegram" | "wechat">("telegram");
   const recommendations: RecommendationItem[] = useMemo(
@@ -77,12 +80,12 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
   );
 
   // 使用受控或非受控模式
-  const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const open = controlledOpen !== undefined ? controlledOpen : !suppressAutomatic && internalOpen;
   const setOpen = controlledOnOpenChange || setInternalOpen;
 
   useEffect(() => {
     // 如果是受控模式（手动触发），不自动显示
-    if (controlledOpen !== undefined) {
+    if (controlledOpen !== undefined || suppressAutomatic) {
       return;
     }
 
@@ -99,7 +102,7 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
         lastShownTime: Date.now(),
       });
     }
-  }, [recommendations, controlledOpen]);
+  }, [recommendations, controlledOpen, suppressAutomatic]);
 
   const handleClose = () => {
     setOpen(false);
