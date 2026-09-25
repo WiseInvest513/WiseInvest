@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
-import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
+import { isDatabaseConfigured } from "@/lib/prisma";
 import {
   getDevPreviewRole,
   getDevPreviewTier,
@@ -29,12 +29,10 @@ export async function getPointViewer(): Promise<PointViewer> {
   try {
     const session = await auth();
     if (!session?.user?.id) return pointViewerFromUser(null);
-    // Do not trust role/tier cached in a JWT or the frontend: revocations apply immediately.
-    const user = await getPrisma().user.findUnique({
-      where: { id: session.user.id },
-      select: { id: true, role: true, membershipTier: true },
-    });
-    return pointViewerFromUser(user);
+    // Server auth() has just refreshed role/tier in auth.ts's JWT callback.
+    // Reuse that same-request result, not a frontend session or decoded JWT.
+    // There is no shared user cache: revocation still applies on the next request.
+    return pointViewerFromUser(session.user);
   } catch {
     // Fail closed; callers can still display the public locked/empty state.
     return pointViewerFromUser(null);

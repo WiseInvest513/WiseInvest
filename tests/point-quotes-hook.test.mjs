@@ -30,6 +30,8 @@ const quote = (price) => ({
 // Run the actual hook and effect closures with React-compatible state/dependency
 // semantics. Deferred JSON can still arrive after abort, as in the browser race.
 function harness(initialOptions = {}) {
+  let elapsed = 0;
+  const started = Date.now();
   let options = { symbols: ["BTCUSDT"], enabled: true, ...initialOptions };
   let cursor = 0;
   let dirty = false;
@@ -69,15 +71,15 @@ function harness(initialOptions = {}) {
     listeners.get(name).add(callback);
   };
   const removeEventListener = (name, callback) => listeners.get(name)?.delete(callback);
-  const timer = (callback) => {
+  const timer = (callback, delay, interval = false) => {
     const id = ++timerId;
-    timers.set(id, callback);
+    timers.set(id, { callback, at: elapsed + delay, interval: interval ? delay : 0 });
     return id;
   };
   const localWindow = {
     setTimeout: timer,
     clearTimeout: (id) => timers.delete(id),
-    setInterval: timer,
+    setInterval: (callback, delay) => timer(callback, delay, true),
     clearInterval: (id) => timers.delete(id),
     addEventListener,
     removeEventListener,
@@ -90,7 +92,7 @@ function harness(initialOptions = {}) {
     return headers.promise;
   };
   const loadedModule = { exports: {} };
-  new Function("require", "module", "exports", "window", "document", "fetch", source)(
+  new Function("require", "module", "exports", "window", "document", "fetch", "Date", source)(
     (name) => {
       if (name === "react") return { useState, useEffect };
       if (name === "@/lib/point/presentation") return presentation;
@@ -101,6 +103,7 @@ function harness(initialOptions = {}) {
     localWindow,
     localDocument,
     fetchMock,
+    class extends Date { static now() { return started + elapsed; } },
   );
   function render() {
     cursor = 0;
@@ -123,6 +126,22 @@ function harness(initialOptions = {}) {
     requests,
     output: () => output,
     denied: () => denied,
+    flush,
+    document: localDocument,
+    fire(name) {
+      for (const callback of listeners.get(name) ?? []) callback();
+    },
+    advance(duration) {
+      const target = elapsed + duration;
+      let next;
+      while ((next = [...timers.entries()].sort((a, b) => a[1].at - b[1].at)[0]) && next[1].at <= target) {
+        elapsed = next[1].at;
+        if (next[1].interval) next[1].at += next[1].interval;
+        else timers.delete(next[0]);
+        next[1].callback();
+      }
+      elapsed = target;
+    },
     update(next) {
       options = { ...options, ...next };
       render();
@@ -217,4 +236,47 @@ test("a failed new endpoint never reveals prior-source prices and an auth denial
   } finally {
     h.unmount();
   }
+});
+
+test("quote foreground events coalesce in flight and reuse a successful batch for one minute", async () => {
+  const h = harness();
+  try {
+    h.fire("focus");
+    h.fire("visibilitychange");
+    assert.equal(h.requests.length, 1);
+    await h.respond(0, [quote("100")]);
+    h.fire("focus");
+    h.fire("visibilitychange");
+    assert.equal(h.requests.length, 1);
+    h.advance(59_999);
+    h.fire("focus");
+    assert.equal(h.requests.length, 1);
+    h.advance(1);
+    h.fire("visibilitychange");
+    h.fire("focus");
+    assert.equal(h.requests.length, 2);
+    await h.respond(1, [quote("101")]);
+    assert.equal(h.output().quotes.BTCUSDT.price, "101");
+    h.advance(239_000);
+    h.fire("focus");
+    await h.respond(2, [quote("102")]);
+    h.advance(1_000);
+    assert.equal(h.requests.length, 4, "five-minute poll bypasses the foreground TTL");
+  } finally { h.unmount(); }
+});
+
+test("quote TTL does not keep an expired quote fresh or poll while hidden", async () => {
+  const h = harness();
+  try {
+    await h.respond(0, [quote("100")]);
+    h.document.hidden = true;
+    h.advance(300_000);
+    await h.flush();
+    assert.equal(h.requests.length, 1);
+    assert.equal(h.output().quotes.BTCUSDT.status, "stale");
+    h.document.hidden = false;
+    h.fire("visibilitychange");
+    h.fire("focus");
+    assert.equal(h.requests.length, 2);
+  } finally { h.unmount(); }
 });

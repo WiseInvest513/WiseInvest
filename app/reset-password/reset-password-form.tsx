@@ -8,6 +8,7 @@ import { CheckCircle2, Loader2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { notifyNavSessionChanged } from "@/lib/auth/nav-session-client";
 
 type ResetPasswordFormProps = {
   callbackUrl: string;
@@ -96,6 +97,7 @@ export function ResetPasswordForm({ callbackUrl, databaseConfigured }: ResetPass
         return;
       }
 
+      notifyNavSessionChanged();
       router.push(callbackUrl);
       router.refresh();
     });

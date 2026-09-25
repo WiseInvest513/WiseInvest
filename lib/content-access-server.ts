@@ -1,24 +1,14 @@
 import { getContentAccessRule, resolveContentItem, type ContentAccessLevel } from "@/lib/content-access";
-import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { getArticleReleaseAccessRule } from "@/lib/article-release";
+import { getCachedContentPermissions } from "@/lib/content-permission-cache";
 
 export async function getResolvedContentAccessRules(hrefs: string[]) {
   const rules = new Map(hrefs.map((href) => [href, getContentAccessRule(href)]));
 
-  if (isDatabaseConfigured() && hrefs.length > 0) {
+  if (hrefs.length > 0) {
+    const items = hrefs.map((href) => ({ ...resolveContentItem(href), href }));
     try {
-      const items = hrefs.map((href) => ({ ...resolveContentItem(href), href }));
-      const permissions = await getPrisma().contentPermission.findMany({
-        where: {
-          OR: items.map(({ contentType, contentKey }) => ({ contentType, contentKey })),
-        },
-        select: {
-          contentType: true,
-          contentKey: true,
-          access: true,
-          reason: true,
-        },
-      });
+      const permissions = await getCachedContentPermissions();
 
       const byKey = new Map(permissions.map((permission) => [
         `${permission.contentType}:${permission.contentKey}`, permission,
@@ -31,7 +21,11 @@ export async function getResolvedContentAccessRules(hrefs: string[]) {
         });
       }
     } catch (error) {
-      console.warn("[content-access] failed to load DB rule", error);
+      // Falling back to a default PUBLIC/MEMBER policy could expose content
+      // restricted by the database. Only the authoritative scheduled-release
+      // policies below can be safely resolved without the stored configuration.
+      if (items.some(({ contentKey }) => !getArticleReleaseAccessRule(contentKey))) throw error;
+      console.warn("[content-access] using authoritative release rule after DB failure");
     }
   }
 

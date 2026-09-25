@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { ImageIcon, Save, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { notifyNavSessionChanged } from "@/lib/auth/nav-session-client";
 
 type ProfileSettingsFormProps = {
   name: string | null;
@@ -32,6 +33,7 @@ export function ProfileSettingsForm({ name, email, image }: ProfileSettingsFormP
         }),
       });
       const data = (await response.json().catch(() => null)) as { ok?: boolean; message?: string } | null;
+      if (response.ok && data?.ok) notifyNavSessionChanged();
       setMessage(data?.message ?? (response.ok ? "个人资料已更新。" : "更新失败，请稍后再试。"));
     });
   };

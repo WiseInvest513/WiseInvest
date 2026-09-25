@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -40,11 +40,18 @@ function LegacyConditions({
   );
 }
 
-export function PointDetail({ initial }: { initial: PointDetailResponse }) {
+export function PointDetail({
+  initial,
+  initialLoadedAt = 0,
+}: {
+  initial: PointDetailResponse;
+  initialLoadedAt?: number;
+}) {
   const [data, setData] = useState<PointDetailResponse | null>(initial);
   const [error, setError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const id = initial.plan.id;
+  const lastSuccess = useRef({ id, refreshKey: 0, at: initialLoadedAt });
   const onDenied = useCallback(() => {
     setData(null);
     setRefreshKey((k) => k + 1);
@@ -53,9 +60,15 @@ export function PointDetail({ initial }: { initial: PointDetailResponse }) {
     let disposed = false;
     let controller: AbortController | null = null;
     let requestVersion = 0;
-    const refresh = async () => {
-      if (document.hidden) return;
-      controller?.abort();
+    const refresh = async (scheduled = false) => {
+      if (document.hidden || (controller && !controller.signal.aborted)) return;
+      if (
+        !scheduled &&
+        lastSuccess.current.id === id &&
+        lastSuccess.current.refreshKey === refreshKey &&
+        Date.now() - lastSuccess.current.at < 60_000
+      )
+        return;
       const request = new AbortController();
       controller = request;
       const version = ++requestVersion;
@@ -83,6 +96,7 @@ export function PointDetail({ initial }: { initial: PointDetailResponse }) {
           version === requestVersion &&
           !request.signal.aborted
         ) {
+          lastSuccess.current = { id, refreshKey, at: Date.now() };
           setData(next);
           setError("");
         }
@@ -97,18 +111,20 @@ export function PointDetail({ initial }: { initial: PointDetailResponse }) {
           );
       } finally {
         clearTimeout(timeout);
+        if (version === requestVersion) controller = null;
       }
     };
     void refresh();
-    const timer = setInterval(refresh, 300_000);
-    window.addEventListener("focus", refresh);
-    document.addEventListener("visibilitychange", refresh);
+    const foregroundRefresh = () => void refresh();
+    const timer = setInterval(() => void refresh(true), 300_000);
+    window.addEventListener("focus", foregroundRefresh);
+    document.addEventListener("visibilitychange", foregroundRefresh);
     return () => {
       disposed = true;
       controller?.abort();
       clearInterval(timer);
-      window.removeEventListener("focus", refresh);
-      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("focus", foregroundRefresh);
+      document.removeEventListener("visibilitychange", foregroundRefresh);
     };
   }, [id, refreshKey]);
   const vip = data?.access === "vip";

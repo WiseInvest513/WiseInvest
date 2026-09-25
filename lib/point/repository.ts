@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { revalidateTag, unstable_cache } from "next/cache";
 import type { Prisma } from "@prisma/client";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { getBinanceInstrument, getBinanceQuotes } from "./binance";
@@ -70,10 +71,21 @@ function previewPlans(viewer: PointViewer): PointPlan[] {
   return structuredClone([...getPointPreviewStore(viewer).plans.values()]);
 }
 
-/** Public reads never materialize the append-forever collection, even on the server. */
-async function fixedPreview(viewer: PointViewer): Promise<PointPreview[]> {
-  if (viewer.previewMode) return getFixedPointPreview(previewPlans(viewer));
-  if (!isDatabaseConfigured()) return [];
+const POINT_PUBLIC_DATA_TAG = "point-public-data-v1";
+const POINT_CACHE_SECONDS = 60;
+
+function invalidatePointPublicData() {
+  try {
+    revalidateTag(POINT_PUBLIC_DATA_TAG);
+  } catch {
+    // A committed write must not be reported as failed because cache eviction
+    // failed. The strict time-bucket key still bounds the old public data to 60s.
+    console.warn("[point] Public-data cache invalidation failed; using the 60s expiry fallback.");
+  }
+}
+
+/** Cache only viewer-independent data, never a viewer, permission, or response. */
+async function readFixedPreview(): Promise<PointPreview[]> {
   const rows = await getPrisma().pointPlan.findMany({
     where: publishedWhere,
     orderBy: publishedOrder,
@@ -81,6 +93,40 @@ async function fixedPreview(viewer: PointViewer): Promise<PointPreview[]> {
     select: { snapshot: true },
   });
   return getFixedPointPreview(rows.map((row) => storedPlan(row.snapshot)));
+}
+
+async function readPublishedQuoteSymbols(): Promise<string[]> {
+  // GROUP BY is database-side distinct; only symbol scalars cross the DB boundary.
+  const rows = await getPrisma().pointPlan.groupBy({
+    by: ["symbol"],
+    where: publishedWhere,
+  });
+  return rows.map((row) => row.symbol);
+}
+
+const cachedFixedPreview = unstable_cache(
+  async (_bucket: number) => readFixedPreview(),
+  ["point-fixed-preview-v1"],
+  { revalidate: POINT_CACHE_SECONDS, tags: [POINT_PUBLIC_DATA_TAG] },
+);
+const cachedPublishedQuoteSymbols = unstable_cache(
+  async (_bucket: number) => readPublishedQuoteSymbols(),
+  ["point-published-symbols-v1"],
+  { revalidate: POINT_CACHE_SECONDS, tags: [POINT_PUBLIC_DATA_TAG] },
+);
+
+// Next's time revalidation permits a stale-while-revalidate result. A time-bucket
+// key additionally prevents serving an entry from an earlier 60-second window.
+const pointCacheBucket = () =>
+  Math.floor(Date.now() / (POINT_CACHE_SECONDS * 1000));
+
+/** Public reads never materialize the append-forever collection, even on the server. */
+async function fixedPreview(viewer: PointViewer): Promise<PointPreview[]> {
+  if (viewer.previewMode) return getFixedPointPreview(previewPlans(viewer));
+  if (!isDatabaseConfigured()) return [];
+  return viewer.isAdmin
+    ? readFixedPreview()
+    : cachedFixedPreview(pointCacheBucket());
 }
 
 function listWhere(options: PointListOptions): Prisma.PointPlanWhereInput {
@@ -309,12 +355,9 @@ export async function getPointQuoteSymbols(
       ),
     ];
   if (!isDatabaseConfigured()) return [];
-  // GROUP BY is database-side distinct; only symbol scalars cross the DB boundary.
-  const rows = await getPrisma().pointPlan.groupBy({
-    by: ["symbol"],
-    where: publishedWhere,
-  });
-  return rows.map((row) => row.symbol);
+  return viewer.isAdmin
+    ? readPublishedQuoteSymbols()
+    : cachedPublishedQuoteSymbols(pointCacheBucket());
 }
 
 async function resolveInstrument(
@@ -511,10 +554,11 @@ export async function createPointPlan(
         data: revisionData(revision, viewer.userId!),
       });
     });
-    return plan;
   } catch (error) {
     return databaseConflict(error);
   }
+  invalidatePointPublicData();
+  return plan;
 }
 
 export async function updatePointPlan(
@@ -579,8 +623,9 @@ export async function updatePointPlan(
         data: revisionData(revision, viewer.userId!),
       });
     });
-    return plan;
   } catch (error) {
     return databaseConflict(error);
   }
+  invalidatePointPublicData();
+  return plan;
 }

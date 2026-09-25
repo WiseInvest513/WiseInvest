@@ -18,5 +18,5 @@ export default async function PointDetailPage({
   const viewer = await getPointViewer();
   const initial = await getPointDetail(viewer, id);
   if (!initial) notFound();
-  return <PointDetail initial={initial} />;
+  return <PointDetail initial={initial} initialLoadedAt={Date.now()} />;
 }

@@ -10,6 +10,7 @@ import { DailyRecommendation } from "@/components/business/DailyRecommendation";
 import { SearchCommand } from "@/components/search-command";
 import { type Tool } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { clearNavSession, readNavSession, subscribeNavSession, type NavSession } from "@/lib/auth/nav-session-client";
 import {
   Dialog,
   DialogContent,
@@ -18,14 +19,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { CompoundInterestCalc } from "@/components/tools/CompoundInterestCalc";
-
-type NavSession = {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-} | null;
 
 const navItemsBefore = [
   { label: "首页", href: "/" },
@@ -55,6 +48,7 @@ export function Navbar() {
   const [accountUser, setAccountUser] = useState<NonNullable<NavSession>["user"] | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const isPointAdmin = pathname === "/admin/point" || pathname.startsWith("/admin/point/");
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -89,25 +83,22 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    let active = true;
-    fetch("/api/auth/session", { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() as Promise<NavSession> : null))
-      .then((session) => {
-        if (!active) return;
-        setAccountUser(session?.user ?? null);
-      })
-      .catch(() => {
-        if (active) setAccountUser(null);
-      });
+    if (isPointAdmin) return;
+    return subscribeNavSession((session) => setAccountUser(session?.user ?? null));
+  }, [isPointAdmin]);
 
-    return () => {
-      active = false;
-    };
-  }, [pathname]);
+  useEffect(() => {
+    if (isPointAdmin) {
+      // No hidden-navbar session requests or retained avatar while editing.
+      clearNavSession();
+      return;
+    }
+    void readNavSession().catch(() => {});
+  }, [pathname, isPointAdmin]);
 
   // Point management has its own full-page navigation; the sticky public bar
   // must not cover the editor or intercept clicks on its controls.
-  if (pathname === "/admin/point" || pathname.startsWith("/admin/point/")) return null;
+  if (isPointAdmin) return null;
 
   return (
     <>

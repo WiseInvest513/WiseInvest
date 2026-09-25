@@ -8,6 +8,7 @@ import { Loader2, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { notifyNavSessionChanged } from "@/lib/auth/nav-session-client";
 
 type LoginFormProps = {
   callbackUrl: string;
@@ -55,6 +56,7 @@ export function LoginForm({
         return;
       }
 
+      notifyNavSessionChanged();
       router.push(callbackUrl);
       router.refresh();
     });

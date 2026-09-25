@@ -81,30 +81,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       const userId = user?.id ?? token.sub;
 
-      if (userId && databaseConfigured) {
-        const persistedUser = await getPrisma().user.findUnique({
-          where: { id: userId },
-          select: {
-            id: true,
-            wiseUserId: true,
-            membershipTier: true,
-            role: true,
-            email: true,
-            name: true,
-            image: true,
-          },
-        });
+      // Every authenticated request refreshes authority from the database. Never
+      // retain old VIP/admin claims when the database or the user is absent.
+      if (!userId || !databaseConfigured) return null;
 
-        if (persistedUser) {
-          token.sub = persistedUser.id;
-          token.wiseUserId = persistedUser.wiseUserId;
-          token.membershipTier = persistedUser.membershipTier;
-          token.role = persistedUser.role;
-          token.email = persistedUser.email;
-          token.name = persistedUser.name;
-          token.picture = persistedUser.image;
-        }
-      }
+      const persistedUser = await getPrisma().user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          wiseUserId: true,
+          membershipTier: true,
+          role: true,
+          email: true,
+          name: true,
+          image: true,
+        },
+      });
+
+      if (!persistedUser) return null;
+      token.sub = persistedUser.id;
+      token.wiseUserId = persistedUser.wiseUserId;
+      token.membershipTier = persistedUser.membershipTier;
+      token.role = persistedUser.role;
+      token.email = persistedUser.email;
+      token.name = persistedUser.name;
+      token.picture = persistedUser.image;
 
       return token;
     },

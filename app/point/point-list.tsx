@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -33,9 +33,11 @@ import s from "./point.module.css";
 export function PointList({
   initial,
   isAdmin,
+  initialLoadedAt = 0,
 }: {
   initial: PointListResponse;
   isAdmin: boolean;
+  initialLoadedAt?: number;
 }) {
   const [data, setData] = useState(initial);
   const [scope, setScope] = useState<"active" | "all">("active");
@@ -47,6 +49,10 @@ export function PointList({
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const lastSuccess = useRef({
+    key: JSON.stringify(["active", "ALL", "ALL", "", 1, 0]),
+    at: initial.unavailable ? 0 : initialLoadedAt,
+  });
   const accessDenied = useCallback(() => {
     setData((previous) => ({
       access: "preview",
@@ -69,9 +75,19 @@ export function PointList({
     let disposed = false;
     let controller: AbortController | null = null;
     let requestVersion = 0;
-    const refresh = async () => {
-      if (document.hidden) return;
-      controller?.abort();
+    const requestKey = JSON.stringify([
+      scope, category, direction, query, page, refreshKey,
+    ]);
+    const refresh = async (scheduled = false) => {
+      if (document.hidden || (controller && !controller.signal.aborted)) return;
+      // SSR already loaded the initial view. Refocus/visibility events within a
+      // minute reuse it; filters, explicit retries and the 5-minute poll do not.
+      if (
+        !scheduled &&
+        lastSuccess.current.key === requestKey &&
+        Date.now() - lastSuccess.current.at < 60_000
+      )
+        return;
       const request = new AbortController();
       controller = request;
       const version = ++requestVersion;
@@ -113,6 +129,13 @@ export function PointList({
           version === requestVersion &&
           !request.signal.aborted
         ) {
+          if (!next.unavailable)
+            lastSuccess.current = {
+              key: JSON.stringify([
+                scope, category, direction, query, next.page, refreshKey,
+              ]),
+              at: Date.now(),
+            };
           setData(next);
           setPage(next.page);
           setError("");
@@ -126,19 +149,23 @@ export function PointList({
           setError("暂时无法更新观察列表，请稍后重试。");
       } finally {
         clearTimeout(timeout);
-        if (!disposed && version === requestVersion) setBusy(false);
+        if (!disposed && version === requestVersion) {
+          controller = null;
+          setBusy(false);
+        }
       }
     };
     void refresh();
-    const timer = setInterval(refresh, 300_000);
-    window.addEventListener("focus", refresh);
-    document.addEventListener("visibilitychange", refresh);
+    const foregroundRefresh = () => void refresh();
+    const timer = setInterval(() => void refresh(true), 300_000);
+    window.addEventListener("focus", foregroundRefresh);
+    document.addEventListener("visibilitychange", foregroundRefresh);
     return () => {
       disposed = true;
       controller?.abort();
       clearInterval(timer);
-      window.removeEventListener("focus", refresh);
-      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("focus", foregroundRefresh);
+      document.removeEventListener("visibilitychange", foregroundRefresh);
     };
   }, [scope, category, direction, query, page, refreshKey]);
   const vip = data.access === "vip";

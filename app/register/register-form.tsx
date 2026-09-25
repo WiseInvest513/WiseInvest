@@ -8,6 +8,7 @@ import { CheckCircle2, Loader2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { notifyNavSessionChanged } from "@/lib/auth/nav-session-client";
 
 type RegisterFormProps = {
   callbackUrl: string;
@@ -104,6 +105,7 @@ export function RegisterForm({ callbackUrl, databaseConfigured, googleEnabled, g
         return;
       }
 
+      notifyNavSessionChanged();
       router.push(callbackUrl);
       router.refresh();
     });

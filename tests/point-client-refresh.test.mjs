@@ -115,7 +115,7 @@ const find = (node, predicate) => {
 /** Runs the real component functions and effect closures, with deterministic React
  * state/effect dependency semantics and a transport that can deliver a JSON body
  * after abort. No copied refresh algorithm or source-pattern-only assertions. */
-function harness(kind, initial = responseFor(kind)) {
+function harness(kind, initial = responseFor(kind), initialLoadedAt = 0) {
   let elapsed = 0;
   let timerId = 0;
   let cursor = 0;
@@ -123,6 +123,7 @@ function harness(kind, initial = responseFor(kind)) {
   let mounted = true;
   let tree;
   let writesAfterUnmount = 0;
+  let denyQuotes;
   const slots = [];
   const pendingEffects = [];
   const timers = new Map();
@@ -157,6 +158,11 @@ function harness(kind, initial = responseFor(kind)) {
     if (!same(slots[index]?.deps, deps))
       slots[index] = { type: "callback", deps, callback };
     return slots[index].callback;
+  };
+  const useRef = (value) => {
+    const index = cursor++;
+    if (!slots[index]) slots[index] = { current: value };
+    return slots[index];
   };
   const useEffect = (effect, deps) => {
     const index = cursor++;
@@ -215,7 +221,7 @@ function harness(kind, initial = responseFor(kind)) {
   const module = { exports: {} };
   const requireMock = (name) => {
     if (name === "react")
-      return { useState, useCallback, useEffect, Fragment: "fragment" };
+      return { useState, useCallback, useEffect, useRef, Fragment: "fragment" };
     if (name === "react/jsx-runtime")
       return {
         jsx: (type, props) => ({ type, props }),
@@ -226,7 +232,10 @@ function harness(kind, initial = responseFor(kind)) {
       return new Proxy({}, { get: (_target, key) => String(key) });
     if (name === "@/lib/point/presentation") return presentation;
     if (name === "./use-point-quotes")
-      return { usePointQuotes: () => ({ quotes: {}, now: NOW + elapsed }) };
+      return { usePointQuotes: (_symbols, _enabled, onDenied) => {
+        denyQuotes = onDenied;
+        return { quotes: {}, now: NOW + elapsed };
+      } };
     if (name.endsWith(".css"))
       return { default: new Proxy({}, { get: (_target, key) => String(key) }) };
     throw new Error(`Unexpected module: ${name}`);
@@ -242,6 +251,7 @@ function harness(kind, initial = responseFor(kind)) {
     "window",
     "document",
     "fetch",
+    "Date",
     compiled[kind],
   )(
     requireMock,
@@ -254,10 +264,11 @@ function harness(kind, initial = responseFor(kind)) {
     localWindow,
     localDocument,
     fetchMock,
+    class extends Date { static now() { return NOW + elapsed; } },
   );
   const Component =
     module.exports[kind === "list" ? "PointList" : "PointDetail"];
-  const props = { initial, isAdmin: false };
+  const props = { initial, isAdmin: false, initialLoadedAt };
   const render = () => {
     cursor = 0;
     dirty = false;
@@ -278,6 +289,7 @@ function harness(kind, initial = responseFor(kind)) {
     document: localDocument,
     flush,
     data: () => slots[0].value,
+    denyQuotes: () => denyQuotes(),
     text: () => text(tree),
     control: (label, type = "button") =>
       find(
@@ -526,11 +538,63 @@ test("list: ordinary preview never exposes direction controls, including after V
 });
 
 for (const kind of ["list", "detail"]) {
+  test(`${kind}: fresh SSR skips hydration reads and foreground bursts coalesce without delaying the five-minute poll`, async () => {
+    const h = harness(kind, responseFor(kind), NOW);
+    await h.flush();
+    assert.equal(h.requests.length, 0);
+    h.fire("focus");
+    h.fire("visibilitychange");
+    assert.equal(h.requests.length, 0);
+    h.advance(60_000);
+    h.fire("focus");
+    h.fire("visibilitychange");
+    h.fire("focus");
+    assert.equal(h.requests.length, 1, "only one foreground request may be in flight");
+    assert.equal(h.requests[0].signal.aborted, false);
+    h.headers(0);
+    h.body(0, responseFor(kind, "vip", 2));
+    await h.flush();
+    h.fire("focus");
+    h.fire("visibilitychange");
+    assert.equal(h.requests.length, 1, "recent success survives repeated refocus events");
+    h.advance(239_000);
+    h.fire("focus");
+    h.headers(1);
+    h.body(1, responseFor(kind, "vip", 3));
+    await h.flush();
+    h.advance(1_000);
+    assert.equal(h.requests.length, 3, "scheduled poll is not postponed by foreground TTL");
+    h.cleanup();
+    await h.flush();
+  });
+
+  test(`${kind}: a stale SSR payload refreshes immediately`, async () => {
+    const h = harness(kind, responseFor(kind), NOW - 60_000);
+    assert.equal(h.requests.length, 1);
+    h.cleanup();
+    await h.flush();
+  });
+
+  test(`${kind}: quote authorization denial bypasses the fresh-SSR TTL and immediately hides private content`, async () => {
+    const h = harness(kind, responseFor(kind), NOW);
+    h.denyQuotes();
+    await h.flush();
+    assert.equal(h.requests.length, 1);
+    assert.doesNotMatch(h.text(), /PRIVATE_|80,00[123]|79,000|85,000/);
+    h.headers(0);
+    h.body(0, responseFor(kind, "preview"));
+    await h.flush();
+    assert.equal(h.data().access, "preview");
+    h.cleanup();
+    await h.flush();
+  });
+
   test(`${kind}: a delayed old JSON response cannot overwrite a newer version`, async () => {
     const h = harness(kind);
     h.headers(0);
     await h.flush();
     assert.equal(h.requests[0].jsonRead, true);
+    h.advance(15_000);
     h.fire("focus");
     assert.equal(h.requests[0].signal.aborted, true);
     h.headers(1);
@@ -551,6 +615,7 @@ for (const kind of ["list", "detail"]) {
       const h = harness(kind);
       h.headers(0);
       await h.flush();
+      h.advance(15_000);
       h.fire("focus");
       h.headers(1, denial === 403 ? 403 : 200);
       if (denial === "preview") h.body(1, responseFor(kind, "preview"));

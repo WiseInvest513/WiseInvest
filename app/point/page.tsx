@@ -17,5 +17,11 @@ export default async function PointPage() {
     category: "ALL",
     page: 1,
   });
-  return <PointList initial={initial} isAdmin={viewer.isAdmin} />;
+  return (
+    <PointList
+      initial={initial}
+      isAdmin={viewer.isAdmin}
+      initialLoadedAt={Date.now()}
+    />
+  );
 }

@@ -727,6 +727,10 @@ function repositoryHarness({ configured = true } = {}) {
   let userFailure = false;
   const data = { plans: new Map(), revisions: new Map() };
   const queries = [];
+  const cacheEntries = new Map();
+  const cacheDefinitions = [];
+  const invalidations = [];
+  let invalidationFailure = false;
   let queue = Promise.resolve();
   let failRevision = false;
   const scalar = (value) => (value instanceof Date ? value.getTime() : value);
@@ -923,6 +927,7 @@ function repositoryHarness({ configured = true } = {}) {
     },
   };
   const provider = {
+    isPointBinanceSymbol: load("binance").isPointBinanceSymbol,
     getBinanceInstrument: async (symbol) => {
       providerCalls++;
       const item = preview
@@ -942,6 +947,24 @@ function repositoryHarness({ configured = true } = {}) {
       })),
   };
   const mockLoad = modules({
+    "next/cache": {
+      unstable_cache: (callback, keyParts, options) => {
+        cacheDefinitions.push({ keyParts, options });
+        return async (...args) => {
+          const key = JSON.stringify([keyParts, args]);
+          if (!cacheEntries.has(key))
+            cacheEntries.set(key, { tags: options.tags, value: await callback(...args) });
+          // Persisted Next data is JSON serialized, never a shared mutable object.
+          return structuredClone(cacheEntries.get(key).value);
+        };
+      },
+      revalidateTag: (tag) => {
+        invalidations.push(tag);
+        if (invalidationFailure) throw new Error("PRIVATE_CACHE_FAILURE");
+        for (const [key, entry] of cacheEntries)
+          if (entry.tags.includes(tag)) cacheEntries.delete(key);
+      },
+    },
     "@/lib/prisma": {
       isDatabaseConfigured: () => configured,
       getPrisma: () => prisma,
@@ -950,9 +973,11 @@ function repositoryHarness({ configured = true } = {}) {
     "@/auth": {
       auth: async () => {
         if (sessionFailure) throw new Error("PRIVATE_SESSION_DETAILS");
-        return {
-          user: { id: "signed-in", role: "ADMIN", membershipTier: "VIP_PLUS" },
-        };
+        if (!configured) return null;
+        // auth.ts hydrates JWT claims from the database on every auth() call.
+        // Keep this boundary faithful; actual callbacks are covered separately.
+        const user = await prisma.user.findUnique();
+        return user ? { user } : null;
       },
     },
     "next/headers": {
@@ -970,6 +995,8 @@ function repositoryHarness({ configured = true } = {}) {
     route: (route) => mockLoad(`../../app/api/${route}/route`),
     data,
     queries,
+    cacheDefinitions,
+    invalidations,
     counts: () => ({ databaseCalls, providerCalls }),
     setCookie: (value) => {
       cookie = value;
@@ -988,6 +1015,9 @@ function repositoryHarness({ configured = true } = {}) {
     },
     failAudit: () => {
       failRevision = true;
+    },
+    failInvalidation: () => {
+      invalidationFailure = true;
     },
   };
 }
@@ -1016,7 +1046,7 @@ test("preview with DATABASE_URL configured never calls production DB/provider; d
   assert.deepEqual(harness.counts(), { databaseCalls: 0, providerCalls: 0 });
 });
 
-test("production auth ignores preview cookies and stale JWT admin/tier in favor of current DB", async () => {
+test("production point auth ignores preview cookies and uses freshly hydrated session privileges", async () => {
   const environment = process.env.NODE_ENV;
   process.env.NODE_ENV = "production";
   try {
@@ -1025,15 +1055,30 @@ test("production auth ignores preview cookies and stale JWT admin/tier in favor 
     const viewer = await harness.auth.getPointViewer();
     assert.equal(viewer.previewMode, false);
     assert.equal(viewer.access, "preview");
+    assert.equal(viewer.isAdmin, false);
+    assert.equal(harness.counts().databaseCalls, 1);
     await assert.rejects(harness.auth.requirePointAdmin(), /仅管理员/);
+    assert.equal(harness.counts().databaseCalls, 2);
     harness.setUser({
       id: "signed-in",
       role: "ADMIN",
       membershipTier: "MEMBER",
     });
     assert.equal((await harness.auth.requirePointAdmin()).isAdmin, true);
+    assert.equal(harness.counts().databaseCalls, 3);
+    harness.setUser({
+      id: "signed-in",
+      role: "USER",
+      membershipTier: "MEMBER",
+    });
+    await assert.rejects(harness.auth.requirePointAdmin(), /仅管理员/);
+    assert.equal(harness.counts().databaseCalls, 4);
     harness.setUser(null);
-    assert.equal((await harness.auth.getPointViewer()).access, "preview");
+    const deleted = await harness.auth.getPointViewer();
+    assert.equal(deleted.access, "preview");
+    assert.equal(deleted.userId, null);
+    assert.equal(deleted.isAdmin, false);
+    assert.equal(harness.counts().databaseCalls, 5);
     assert.throws(() => preview.getPointPreviewStore(admin), /生产环境/);
     await assert.rejects(
       harness.repository.createPointPlan(admin, body),
@@ -1588,6 +1633,123 @@ test("quote allowlist uses database-side symbol grouping, while admin retains ev
   assert.equal(managed.items.length, 41);
   assert.ok(managed.items.some((plan) => plan.id === "private-draft"));
   assert.equal(harness.queries[1].args.take, undefined);
+});
+
+test("public preview and symbol reads share 60-second tagged data, never viewer-specific payloads", async (t) => {
+  let time = Math.floor(now / 60_000) * 60_000;
+  t.mock.method(Date, "now", () => time);
+  const h = repositoryHarness();
+  const plans = queryFixtures(h);
+  const realMember = { ...member, previewMode: false };
+  const realVip = { ...vip, previewMode: false };
+  const first = await h.repository.getPointList(realMember);
+  await h.repository.getPointList({ ...realMember, userId: "another-member" });
+  await h.repository.getPointDetail(realMember, plans[0].id);
+  assert.equal(h.queries.length, 1, "list + list + detail reuse one fixed-three DB read");
+  assert.ok(!JSON.stringify(first).includes("SECRET_RATIONALE"));
+  const symbols = await h.repository.getPointQuoteSymbols(realVip);
+  await h.repository.getPointQuoteSymbols({ ...realVip, userId: "another-vip" });
+  assert.equal(h.queries.length, 2, "two VIPs reuse one symbol query");
+  assert.equal(symbols.length, 4);
+  assert.equal(h.cacheDefinitions.length, 2);
+  for (const { options } of h.cacheDefinitions) {
+    assert.equal(options.revalidate, 60);
+    assert.deepEqual(options.tags, ["point-public-data-v1"]);
+  }
+  time += 59_999;
+  await h.repository.getPointList(realMember);
+  await h.repository.getPointQuoteSymbols(realVip);
+  assert.equal(h.queries.length, 2);
+  time++;
+  await h.repository.getPointList(realMember);
+  await h.repository.getPointQuoteSymbols(realVip);
+  assert.equal(h.queries.length, 4, "new bucket cannot serve stale-while-revalidate data");
+});
+
+test("admins and demo viewers never consume the shared point cache", async () => {
+  const h = repositoryHarness();
+  queryFixtures(h);
+  const realAdmin = { ...admin, previewMode: false };
+  await h.repository.getPointQuoteSymbols(realAdmin);
+  await h.repository.getPointQuoteSymbols(realAdmin);
+  assert.equal(h.queries.length, 2);
+  await h.repository.getPointList(member);
+  await h.repository.getPointQuoteSymbols(vip);
+  assert.equal(h.queries.length, 2, "demo reads stay isolated from real database/cache");
+  await h.repository.createPointPlan(admin, body);
+  assert.equal(h.invalidations.length, 0, "demo mutations cannot evict real data");
+});
+
+test("committed create/update/withdraw invalidate both caches; failed transactions do not", async () => {
+  const h = repositoryHarness();
+  const realAdmin = { ...admin, previewMode: false };
+  const realMember = { ...member, previewMode: false };
+  const realVip = { ...vip, previewMode: false };
+  assert.equal((await h.repository.getPointList(realMember)).total, 0);
+  assert.deepEqual(await h.repository.getPointQuoteSymbols(realVip), []);
+  const created = await h.repository.createPointPlan(realAdmin, body);
+  assert.equal(h.invalidations.length, 1);
+  assert.equal((await h.repository.getPointList(realMember)).total, 1);
+  assert.deepEqual(await h.repository.getPointQuoteSymbols(realVip), ["BTCUSDT"]);
+  await h.repository.updatePointPlan(realAdmin, created.id, {
+    ...body, expectedVersion: 1, publicSummary: "new public summary",
+  });
+  assert.equal(h.invalidations.length, 2);
+  assert.equal((await h.repository.getPointList(realMember)).items[0].publicSummary, "new public summary");
+  await h.repository.getPointQuoteSymbols(realVip);
+  await h.repository.updatePointPlan(realAdmin, created.id, { action: "withdraw", expectedVersion: 2 });
+  assert.equal(h.invalidations.length, 3);
+  const readsBefore = h.queries.length;
+  await h.repository.getPointList(realMember);
+  await h.repository.getPointQuoteSymbols(realVip);
+  assert.equal(h.queries.length, readsBefore + 2);
+  h.failAudit();
+  await assert.rejects(h.repository.createPointPlan(realAdmin, body), /保存失败/);
+  assert.equal(h.invalidations.length, 3);
+  assert.equal((await h.repository.getPointList(realMember)).total, 1);
+});
+
+test("warm symbol data never caches VIP authorization across HTTP requests", async () => {
+  const h = repositoryHarness();
+  queryFixtures(h);
+  h.setUser({ id: "signed-in", role: "USER", membershipTier: "VIP" });
+  const request = new Request("https://wise.example/api/point/quotes?symbols=BTCUSDT");
+  Object.defineProperty(request, "nextUrl", { value: new URL(request.url) });
+  const route = h.route("point/quotes");
+  assert.equal((await route.GET(request)).status, 200);
+  assert.equal((await route.GET(request)).status, 200);
+  assert.equal(h.queries.filter(({ method }) => method === "groupBy").length, 1);
+  h.setUser({ id: "signed-in", role: "USER", membershipTier: "MEMBER" });
+  const denied = await route.GET(request);
+  assert.equal(denied.status, 403);
+  assert.equal((await denied.json()).quotes, undefined);
+  assert.match(denied.headers.get("cache-control"), /private, no-store/);
+});
+
+test("cache eviction failure cannot turn a committed mutation into a failed save, and expires within 60s", async (t) => {
+  let time = Math.floor(now / 60_000) * 60_000;
+  t.mock.method(Date, "now", () => time);
+  const warnings = [];
+  t.mock.method(console, "warn", (message) => warnings.push(message));
+  const h = repositoryHarness();
+  const realAdmin = { ...admin, previewMode: false };
+  const realMember = { ...member, previewMode: false };
+  assert.equal((await h.repository.getPointList(realMember)).total, 0);
+  h.failInvalidation();
+  const created = await h.repository.createPointPlan(realAdmin, body);
+  assert.equal(created.version, 1);
+  assert.equal(h.data.plans.get(created.id).version, 1);
+  const revised = await h.repository.updatePointPlan(realAdmin, created.id, {
+    ...body, expectedVersion: 1, publicSummary: "updated after commit",
+  });
+  assert.equal(revised.version, 2);
+  assert.equal(h.data.plans.get(created.id).version, 2);
+  assert.equal(h.data.revisions.get(created.id).length, 2);
+  assert.equal(warnings.length, 2);
+  assert.ok(warnings.every((warning) => !warning.includes("PRIVATE_")));
+  assert.equal((await h.repository.getPointList(realMember)).total, 0);
+  time += 60_000;
+  assert.equal((await h.repository.getPointList(realMember)).items[0].publicSummary, "updated after commit");
 });
 
 test("HTTP read routes never serialize VIP fields for MEMBERs and direct hidden IDs stay 404", async () => {

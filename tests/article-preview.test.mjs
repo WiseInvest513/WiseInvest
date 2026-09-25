@@ -28,6 +28,7 @@ function loadModule(relativePath) {
   const requireMock = (name) => {
     if (name === 'fs') return fs;
     if (name === 'path') return path;
+    if (name === 'next/cache') return { unstable_cache: (callback) => callback };
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };
     if (name === 'next/navigation') return { notFound: () => { throw new Error('not found'); } };
     if (name === 'next/server') return { NextResponse: { json: (body, init) => ({ body, ...init }) } };

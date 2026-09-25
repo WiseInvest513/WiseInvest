@@ -21,16 +21,19 @@ export function usePointQuotes(
     if (!enabled || !key) return;
     let disposed = false;
     let controller: AbortController | null = null;
-    const refresh = async () => {
+    let lastSuccess = 0;
+    const refresh = async (scheduled = false) => {
       if (document.hidden || controller) return;
+      if (!scheduled && Date.now() - lastSuccess < 60_000) return;
       controller = new AbortController();
-      const timeout = window.setTimeout(() => controller?.abort(), 15_000);
+      const request = controller;
+      const timeout = window.setTimeout(() => request.abort(), 15_000);
       try {
         const response = await fetch(
           `${endpoint}?symbols=${encodeURIComponent(key)}`,
           { cache: "no-store", signal: controller.signal },
         );
-        if (disposed) return;
+        if (disposed || request.signal.aborted) return;
         if (response.status === 401 || response.status === 403) {
           setResult({ key: "", quotes: {} });
           onDenied();
@@ -39,11 +42,13 @@ export function usePointQuotes(
         if (!response.ok) throw new Error("行情暂不可用");
         const body = (await response.json()) as { quotes: PointQuote[] };
         if (!Array.isArray(body.quotes)) throw new Error("行情暂不可用");
-        if (!disposed)
+        if (!disposed && !request.signal.aborted) {
+          lastSuccess = Date.now();
           setResult({
             key: `${endpoint}:${key}`,
             quotes: Object.fromEntries(body.quotes.map((q) => [q.symbol, q])),
           });
+        }
       } catch {
         if (!disposed)
           setResult((previous) => ({
@@ -62,17 +67,21 @@ export function usePointQuotes(
       }
     };
     void refresh();
-    const interval = window.setInterval(refresh, 300_000);
+    const foregroundRefresh = () => {
+      setNow(Date.now());
+      void refresh();
+    };
+    const interval = window.setInterval(() => void refresh(true), 300_000);
     const clock = window.setInterval(() => setNow(Date.now()), 30_000);
-    document.addEventListener("visibilitychange", refresh);
-    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", foregroundRefresh);
+    window.addEventListener("focus", foregroundRefresh);
     return () => {
       disposed = true;
       controller?.abort();
       window.clearInterval(interval);
       window.clearInterval(clock);
-      document.removeEventListener("visibilitychange", refresh);
-      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", foregroundRefresh);
+      window.removeEventListener("focus", foregroundRefresh);
     };
   }, [key, enabled, onDenied, endpoint]);
   const quotes =

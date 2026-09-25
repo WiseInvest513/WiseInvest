@@ -5,6 +5,7 @@ import type { ContentAccessLevel, ContentItemType } from "@/lib/content-access";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewAdminCookieValue } from "@/lib/identity/dev-preview";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { checkAdminMutationLimit } from "@/lib/vip/api-guards";
+import { invalidateContentPermissionCache } from "@/lib/content-permission-cache";
 
 export const runtime = "nodejs";
 
@@ -93,6 +94,10 @@ export async function POST(request: NextRequest) {
         access: true,
       },
     });
+
+    // The permission is already persisted even if the separate audit write fails.
+    // Expire cached PUBLIC policies immediately after the successful mutation.
+    invalidateContentPermissionCache();
 
     await prisma.auditLog.create({
       data: {
