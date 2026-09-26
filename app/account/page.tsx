@@ -232,7 +232,16 @@ export default async function AccountPage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col">
+            {user.role === "ADMIN" ? (
+              <Button asChild className="h-12 rounded-xl bg-amber-400 px-5 font-bold text-slate-950 hover:bg-amber-300">
+                <Link href="/admin">
+                  <ShieldCheck className="mr-2 h-4 w-4" aria-hidden="true" />
+                  管理后台
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            ) : null}
             <Button asChild className="h-12 rounded-xl bg-slate-950 px-5 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100">
               <Link href={hero.primaryHref}>
                 {hero.primaryLabel}
@@ -360,21 +369,6 @@ export default async function AccountPage() {
             </div>
             <ArrowRight className="h-4 w-4 text-slate-400" />
           </Link>
-          {user.role === "ADMIN" ? (
-            <Link
-              href="/admin"
-              className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-amber-200 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-amber-900/60"
-            >
-              <div className="flex items-center gap-3">
-                <ShieldCheck className="h-5 w-5 text-amber-500" />
-                <div>
-                  <p className="font-black">管理后台</p>
-                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">处理用户核验和合作方配置。</p>
-                </div>
-              </div>
-              <ArrowRight className="h-4 w-4 text-slate-400" />
-            </Link>
-          ) : null}
         </section>
 
         <div className="flex justify-end">
