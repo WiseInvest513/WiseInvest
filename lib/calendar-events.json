@@ -1206,5 +1206,149 @@
     "category": "经济数据",
     "impact": "medium",
     "description": "关注一年期和长期通胀预期修正，判断消费者情绪是否给利率和消费股估值带来扰动"
+  },
+  {
+    "date": "2026-09-28",
+    "time": "22:30",
+    "title": "达拉斯联储9月制造业调查",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注产出、新订单、就业和价格分项，判断能源与制造业权重较高地区的需求和成本压力"
+  },
+  {
+    "date": "2026-09-29",
+    "time": "盘前",
+    "title": "嘉年华（CCL）Q3 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注净收益率、预订价格、船上消费、燃油成本和债务下降，验证旅游需求与消费者可选支出韧性"
+  },
+  {
+    "date": "2026-09-29",
+    "time": "盘前",
+    "title": "CarMax（KMX）Q2 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注二手车销量、单车利润、信贷损失和融资业务表现，观察消费者购车能力与汽车信贷压力"
+  },
+  {
+    "date": "2026-09-29",
+    "time": "22:00",
+    "title": "美国8月JOLTS职位空缺",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注职位空缺、招聘率和离职率，判断劳动力需求降温速度，并为周五非农和利率预期提供线索"
+  },
+  {
+    "date": "2026-09-29",
+    "time": "22:00",
+    "title": "Conference Board 9月消费者信心指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注预期指数、就业感受和通胀预期，判断消费者支出意愿及劳动力市场体感是否继续转弱"
+  },
+  {
+    "date": "2026-09-30",
+    "time": "盘前",
+    "title": "Jabil（JBL）Q4 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注AI基础设施相关收入、订单、利润率和FY2027指引，验证数据中心硬件制造链的需求强度"
+  },
+  {
+    "date": "2026-09-30",
+    "time": "20:15",
+    "title": "美国9月ADP就业人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注私营部门就业、行业分布和薪资变化，作为周五非农前的辅助信号并观察小企业用工"
+  },
+  {
+    "date": "2026-09-30",
+    "time": "20:30",
+    "title": "美国8月商品贸易逆差和批零库存初值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注贸易缺口及零售、批发库存变化，评估净出口和库存对第三季度GDP的边际贡献"
+  },
+  {
+    "date": "2026-09-30",
+    "time": "20:30",
+    "title": "美国8月PCE物价指数和个人收支",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注核心PCE环比、服务通胀、实际消费和储蓄率，是判断通胀路径与居民需求的关键输入"
+  },
+  {
+    "date": "2026-09-30",
+    "time": "20:30",
+    "title": "美国Q2 GDP终值及企业利润",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注消费、企业投资和利润修正，判断增长质量及上市公司盈利是否与经济总量变化一致"
+  },
+  {
+    "date": "2026-09-30",
+    "time": "盘后",
+    "title": "美光科技（MU）Q4 FY2026财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注HBM供需、DRAM与NAND定价、毛利率、资本开支和下一季指引，是AI存储产业链的核心验证点"
+  },
+  {
+    "date": "2026-10-01",
+    "time": "盘前",
+    "title": "埃森哲（ACN）Q4 FY2026财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注新签订单、生成式AI收入、咨询与托管服务增速、利润率和FY2027指引，判断企业IT预算方向"
+  },
+  {
+    "date": "2026-10-01",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请和续请是否升温，为非农前一天提供劳动力市场高频线索，并影响短端利率波动"
+  },
+  {
+    "date": "2026-10-01",
+    "time": "22:00",
+    "title": "美国8月建筑支出",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注住宅、非住宅和制造业建设支出，判断高利率下地产链及AI、制造业资本开支韧性"
+  },
+  {
+    "date": "2026-10-01",
+    "time": "22:00",
+    "title": "美国9月ISM制造业PMI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注新订单、就业、价格和供应商交付分项，判断制造业需求、成本压力和周期股盈利预期"
+  },
+  {
+    "date": "2026-10-01",
+    "time": "盘后",
+    "title": "耐克（NKE）Q1 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注北美与大中华区销售、库存、毛利率和全年指引，判断运动消费、促销压力与品牌复苏进度"
+  },
+  {
+    "date": "2026-10-02",
+    "time": "20:30",
+    "title": "美国9月非农就业报告",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注新增非农、失业率、劳动参与率、时薪和前值修正，是影响利率路径与风险资产定价的核心就业数据"
+  },
+  {
+    "date": "2026-10-02",
+    "time": "22:00",
+    "title": "美国8月工厂订单",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注总订单、核心资本品和出货修正，判断企业资本开支、制造业库存周期和工业板块盈利动能"
   }
 ]
