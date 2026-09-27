@@ -24,11 +24,18 @@ export function CommunityGallery() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [enlargedIndex, setEnlargedIndex] = useState(0);
   const [open, setOpen] = useState(false);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const previewTouchRef = useRef<{ x: number; y: number; vertical: boolean } | null>(null);
+  const suppressPreviewClickUntilRef = useRef(0);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const selectedImage = communityImages[enlargedIndex];
 
   function movePreview(direction: number) {
+    // Cards leave the DOM as the preview moves; keep keyboard focus on the carousel.
+    if (stageRef.current?.contains(document.activeElement)) {
+      stageRef.current.focus({ preventScroll: true });
+    }
     setActiveIndex((current) => wrapIndex(current + direction));
   }
 
@@ -38,8 +45,63 @@ export function CommunityGallery() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <figure className={styles.gallery} aria-label="Wise VIP 群聊内容预览">
-        <div className={styles.stage} role="group" aria-roledescription="轮播" aria-label="点击群聊图片放大查看">
+      <figure
+        className={styles.gallery}
+        aria-label="Wise VIP 群聊内容预览"
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+            movePreview(event.key === "ArrowLeft" ? -1 : 1);
+          }
+        }}
+      >
+        <div
+          ref={stageRef}
+          className={styles.stage}
+          role="group"
+          aria-roledescription="轮播"
+          aria-label="群聊截图轮播，可左右滑动或使用方向键切换，点击图片放大"
+          tabIndex={0}
+          onTouchStart={(event) => {
+            const touch = event.touches[0];
+            suppressPreviewClickUntilRef.current = 0;
+            previewTouchRef.current = event.touches.length === 1
+              ? { x: touch.clientX, y: touch.clientY, vertical: false }
+              : null;
+          }}
+          onTouchMove={(event) => {
+            const start = previewTouchRef.current;
+            const touch = event.touches[0];
+            if (!start || !touch || event.touches.length !== 1) {
+              previewTouchRef.current = null;
+              return;
+            }
+            const deltaX = Math.abs(touch.clientX - start.x);
+            const deltaY = Math.abs(touch.clientY - start.y);
+            if (deltaY > 10 && deltaY > deltaX) start.vertical = true;
+          }}
+          onTouchEnd={(event) => {
+            const start = previewTouchRef.current;
+            const end = event.changedTouches[0];
+            previewTouchRef.current = null;
+            if (!start || !end || event.touches.length > 0) return;
+            const deltaX = end.clientX - start.x;
+            const deltaY = end.clientY - start.y;
+            if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+              suppressPreviewClickUntilRef.current = Date.now() + 500;
+            }
+            if (!start.vertical && Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+              movePreview(deltaX < 0 ? 1 : -1);
+            }
+          }}
+          onTouchCancel={() => { previewTouchRef.current = null; }}
+          onClickCapture={(event) => {
+            if (event.detail !== 0 && Date.now() < suppressPreviewClickUntilRef.current) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+          }}
+        >
           {([-1, 0, 1] as const).map((position) => {
             const index = wrapIndex(activeIndex + position);
             const item = communityImages[index];
@@ -95,14 +157,15 @@ export function CommunityGallery() {
             ><span /></button>
           ))}
         </div>
-        <figcaption className={styles.caption}>{caption}</figcaption>
+        <figcaption className={styles.caption}>左右滑动 · 点击放大<br />{caption}</figcaption>
       </figure>
 
       <DialogContent
         className="max-h-[calc(100dvh-1.5rem)] w-[calc(100%-1.5rem)] max-w-2xl gap-3 overflow-y-auto rounded-2xl bg-white p-4 text-slate-950 motion-reduce:animate-none motion-reduce:transition-none sm:p-5 dark:bg-slate-900 dark:text-white"
         onCloseAutoFocus={(event) => {
           event.preventDefault();
-          triggerRef.current?.focus();
+          const focusTarget = triggerRef.current?.isConnected ? triggerRef.current : stageRef.current;
+          focusTarget?.focus({ preventScroll: true });
           touchStartRef.current = null;
         }}
         onKeyDown={(event) => {

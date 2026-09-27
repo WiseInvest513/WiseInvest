@@ -7,9 +7,12 @@
 
 .stage {
   position: relative;
-  height: 480px;
+  height: 368px;
   overflow: clip;
+  touch-action: pan-y pinch-zoom;
 }
+
+.stage:focus-visible { outline: 2px solid var(--vip-gold, #99722a); outline-offset: -3px; border-radius: 12px; }
 
 .card {
   --fan-x: 0px;
@@ -17,11 +20,11 @@
   --fan-y: -4px;
   position: absolute;
   left: 50%;
-  bottom: 40px;
+  bottom: 24px;
   z-index: 3;
   display: block;
-  width: 220px;
-  height: 420px;
+  width: 172px;
+  height: 326px;
   padding: 5px;
   border: 1px solid #e9e9e7;
   border-radius: 13px;
@@ -34,16 +37,16 @@
 }
 
 .card[data-position="-1"] {
-  --fan-x: -65px;
-  --fan-angle: -13deg;
-  --fan-y: 0px;
+  --fan-x: -76px;
+  --fan-angle: -11deg;
+  --fan-y: 9px;
   z-index: 1;
 }
 
 .card[data-position="1"] {
-  --fan-x: 65px;
-  --fan-angle: 13deg;
-  --fan-y: 0px;
+  --fan-x: 76px;
+  --fan-angle: 11deg;
+  --fan-y: 9px;
   z-index: 2;
 }
 
@@ -251,7 +254,7 @@
 
 @container (max-width: 500px) {
   .stage {
-    height: 358px;
+    height: 342px;
   }
 
   .card {
@@ -259,16 +262,16 @@
     height: 306px;
     padding: 4px;
     border-radius: 11px;
-    bottom: 32px;
+    bottom: 22px;
   }
 
   .card[data-position="-1"] {
-    --fan-x: -28px;
+    --fan-x: -52px;
     --fan-angle: -11deg;
   }
 
   .card[data-position="1"] {
-    --fan-x: 28px;
+    --fan-x: 52px;
     --fan-angle: 11deg;
   }
 
@@ -288,12 +291,12 @@
   }
 
   .card[data-position="-1"] {
-    --fan-x: -20px;
+    --fan-x: -36px;
     --fan-angle: -9deg;
   }
 
   .card[data-position="1"] {
-    --fan-x: 20px;
+    --fan-x: 36px;
     --fan-angle: 9deg;
   }
 }

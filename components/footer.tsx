@@ -27,7 +27,7 @@ export function Footer() {
       <footer className="w-full bg-white dark:bg-slate-900 border-t-2 border-slate-200 dark:border-slate-700 mt-12 py-6 relative z-10 shadow-[0_-1px_12px_rgba(0,0,0,0.06)]">
         <div className="max-w-[1600px] mx-auto px-6">
           {/* Top Section: Multi-column Grid */}
-          <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
             {/* Column 1: Brand */}
             <div className="space-y-2">
               <div>
@@ -95,38 +95,7 @@ export function Footer() {
               </div>
             </div>
 
-          {/* Column 2: Tools Links */}
-          <div>
-            <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">实用工具</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/tools/compound-calculator"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  复利计算器
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tools/fear-greed"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  贪婪恐慌指数
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/tools/position-calculator"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  仓位管理
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Resources Links */}
+          {/* Column 2: Popular Tutorials */}
           <div>
             <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">热门教程</h3>
             <ul className="space-y-2">
@@ -173,7 +142,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Recommendations */}
+          {/* Column 3: Site Navigation */}
           <div>
             <h3 className="font-bold text-slate-900 dark:text-slate-50 mb-2">站内导航</h3>
             <ul className="space-y-2">
@@ -203,47 +172,19 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/articles"
+                  href="/vip"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
-                  精选文章
+                  VIP 中心
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/card"
+                  href="/point"
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
-                  虚拟 U 卡资料库
+                  点位观察
                 </Link>
-              </li>
-              <li>
-                <Link
-                  href="/resources"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  资料库
-                </Link>
-              </li>
-              <li>
-                <a
-                  href={getSafeExternalUrl("https://www.wise-hold.com/")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  📈 Wise Hold
-                </a>
-              </li>
-              <li>
-                <a
-                  href={getSafeExternalUrl("https://www.wise-etf.com/")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  📈 ETF 投资指南
-                </a>
               </li>
             </ul>
           </div>

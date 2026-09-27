@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { AmbientSurface } from "./ambient-surface";
 import styles from "./vip.module.css";
 
 const sections = [
@@ -156,14 +157,15 @@ export function LandingExperience({ hero, children }: { hero: ReactNode; childre
       {hero}
       <aside className={styles.sidebar}>
         <nav className={styles.index} aria-label="VIP 页面目录">
-          {sections.map(([id, label]) => (
+          <span className={styles.indexTitle}>本页目录</span>
+          {sections.map(([id, label], index) => (
             <a key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined}>
-              {label}
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{label}
             </a>
           ))}
         </nav>
       </aside>
-      <div className={styles.content}>{children}</div>
+      <AmbientSurface className={styles.content}>{children}</AmbientSurface>
     </div>
   );
 }

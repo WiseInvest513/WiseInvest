@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Bitcoin, BookOpen, Building2, CalendarDays, CandlestickChart, Check, Crown, FileClock, LockKeyhole, MessageCircle, Plus, ShieldCheck, Video } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, Building2, CandlestickChart, Check, Crown, LockKeyhole, MessageCircle, Plus, ShieldCheck } from "lucide-react";
 import { CommunityDialogButton } from "@/components/community-dialog-button";
 import { CopyTextButton } from "@/components/copy-text-button";
 import { getContentViewerTier } from "@/lib/identity/content-viewer";
@@ -10,6 +10,8 @@ import { perks } from "@/lib/perks-data";
 import { LandingExperience } from "./landing-experience";
 import { WebsitePreview } from "./preview-media";
 import { HistoryShowcase } from "./history-showcase";
+import { CommunityGallery } from "./community-gallery";
+import { ServiceSymbol } from "./service-symbol";
 import { brokerageChannels, exchangeOrder, faqs, featuredArticle, introductionHref, joinSteps } from "./landing-content";
 import styles from "./vip.module.css";
 
@@ -19,6 +21,27 @@ export const metadata: Metadata = {
   description: "以群聊为主，研究工具为辅。了解 Wise VIP 的美股与加密讨论、历史案例展示、每周观察清单、每月直播对谈与点位观察系统，以及会员加入方式。",
   alternates: { canonical: "/vip" },
 };
+
+const discussionTopics = [
+  {
+    id: "industry", title: "美股与产业", lead: "从产业变化，看到值得研究的公司",
+    image: "/images/vip/topic-industry.png", alt: "芯片、机械臂、航天火箭与核电设施的立体产业模型",
+    tags: ["AI · 半导体", "存储", "航天", "核电", "机器人"],
+    description: "聊产业链、重点公司与财报，理解增长从哪里来，也看清预期和风险。",
+  },
+  {
+    id: "crypto", title: "加密与市场", lead: "不只看涨跌，更看市场为什么变化",
+    image: "/images/vip/topic-crypto.png", alt: "比特币、以太坊与市场网络的立体研究模型",
+    tags: ["BTC / ETH", "市场结构", "关键位置", "风险管理"],
+    description: "围绕加密市场交流观察思路，关注资金、潜在催化与关键位置，讨论机会与风险。",
+  },
+  {
+    id: "review", title: "跟踪与复盘", lead: "让每次讨论，都留下判断的过程",
+    image: "/images/vip/topic-review.png", alt: "研究笔记、放大镜与时间线的立体复盘模型",
+    tags: ["观点跟踪", "条件变化", "历史记录"],
+    description: "对照原始观点与后续变化，讨论哪些依据仍然成立、哪里需要修正，而不是只看结果。",
+  },
+] as const;
 
 export default async function VipPage() {
   const [tier, partners] = await Promise.all([getContentViewerTier(), getEnabledVipPartners()]);
@@ -44,23 +67,16 @@ export default async function VipPage() {
             </div>
             <p className={styles.heroFootnote}>群内交流为主 · 网站与点位工具辅助</p>
           </div>
-          <div className={styles.heroVisual}>
-            <div className={styles.chatFrame}><Image src="/images/vip/community-market.png" alt="Wise 历史微信群聊片段，展示市场交流形式，并非当前建议" width={377} height={757} sizes="(max-width: 767px) 155px, 205px" priority /></div>
-            <div className={styles.conversationCard}>
-              <span className={styles.smallLabel}><MessageCircle size={14} />群聊里的日常</span>
-              <h2>这里聊的，<br />是判断的过程。</h2>
-              <dl><div><dt>关注什么</dt><dd>看好与看空的依据</dd></div><div><dt>等什么</dt><dd>催化事件与关键变化</dd></div><div><dt>怎么复盘</dt><dd>跟踪进展与判断修正</dd></div></dl>
-            </div>
-            <span className={styles.visualCaption}>历史群聊片段 · 非当前建议</span>
-          </div>
+          <div className={styles.heroGallery}><CommunityGallery /></div>
         </section>
       }>
         <section id="vip-community" tabIndex={-1} aria-labelledby="vip-community-title" className={styles.section}>
           <div className={styles.sectionHeader}><div><p className={styles.eyebrow}>01 / 社群交流</p><h2 id="vip-community-title" className={styles.sectionHeading}>进群之后，我们聊什么？</h2><p className={styles.sectionIntro}>把值得关注的方向聊清楚，也把判断变化留下来。</p></div><span className={styles.sectionAside}>不是只给一个答案，<br />而是一起理解为什么。</span></div>
           <div className={styles.topicGrid}>
-            <article><span className={styles.topicIcon}><CandlestickChart size={21} /></span><h3>美股与产业</h3><p className={styles.topicLead}>公司、财报与行业变化</p><p>从 AI、存储到机器人、太空经济与核电，讨论值得关注的公司，以及产业变化背后的逻辑。</p></article>
-            <article><span className={styles.topicIcon}><Bitcoin size={21} /></span><h3>加密与市场</h3><p className={styles.topicLead}>市场结构、关键位置与风险</p><p>围绕 BTC、ETH 与市场变化，交流观察思路、潜在催化与风险，不只盯着一时的涨跌。</p></article>
-            <article><span className={styles.topicIcon}><FileClock size={21} /></span><h3>跟踪与复盘</h3><p className={styles.topicLead}>原有判断如何更新</p><p>对照当时的观点和后续变化，讨论哪些依据仍然成立、哪里需要修正，留下可回看的记录。</p></article>
+            {discussionTopics.map(topic => <article key={topic.id}>
+              <div className={styles.topicArtwork}><Image src={topic.image} alt={topic.alt} fill sizes="96px" /></div>
+              <div className={styles.topicCopy}><h3>{topic.title}</h3><p className={styles.topicLead}>{topic.lead}</p><ul className={styles.topicTags} aria-label={`${topic.title}讨论方向`}>{topic.tags.map(tag => <li key={tag}>{tag}</li>)}</ul><p>{topic.description}</p></div>
+            </article>)}
           </div>
           <Link href={featuredArticle.href} className={styles.readingStrip}><BookOpen size={18} /><span><small>先读一篇市场手记</small>{featuredArticle.title}</span><span className={styles.readingAction}>{isVip ? "阅读全文" : "免费试读"}<ArrowUpRight size={16} /></span></Link>
         </section>
@@ -76,9 +92,9 @@ export default async function VipPage() {
         <section id="vip-services" tabIndex={-1} aria-labelledby="vip-services-title" className={`${styles.section} ${styles.servicesSection}`}>
           <div className={styles.sectionHeader}><div><p className={styles.eyebrow}>04 / 服务体系</p><h2 id="vip-services-title" className={styles.sectionHeading}>有节奏的交流，持续发生。</h2><p className={styles.sectionIntro}>不只是进一个群，而是持续参与市场的讨论。</p></div><span className={styles.sectionAside}>具体时间与安排<br />以群内公告为准</span></div>
           <div className={styles.serviceGrid}>
-            <article><MessageCircle size={21} /><span>平时</span><h3>群内交流与观点更新</h3><p>聊市场变化、重点公司与研究思路，有进展继续跟踪，有变化一起复盘。</p></article>
-            <article><CalendarDays size={21} /><span>每周日</span><h3>下周重点事件与观察清单</h3><p>在群里同步下周值得关注的大事件，提前梳理财报、经济数据与潜在催化。</p></article>
-            <article><Video size={21} /><span>每月 1–2 场</span><h3>线上直播对谈</h3><p>围绕近期市场、产业与公司展开交流，把值得深入聊的问题放在一起讨论。</p></article>
+            <article><div className={styles.serviceTop}><ServiceSymbol kind="discussion" /><span>平时 · 持续交流</span></div><h3>群内交流与观点更新</h3><p>聊市场变化、重点公司与研究思路，有进展继续跟踪，有变化一起复盘。</p></article>
+            <article><div className={styles.serviceTop}><ServiceSymbol kind="calendar" /><span>每周日 · 提前准备</span></div><h3>下周重点事件与观察清单</h3><p>在群里同步下周值得关注的大事件，提前梳理财报、经济数据与潜在催化。</p></article>
+            <article><div className={styles.serviceTop}><ServiceSymbol kind="live" /><span>每月 1–2 场 · 深入对谈</span></div><h3>线上直播对谈</h3><p>围绕近期市场、产业与公司展开交流，把值得深入聊的问题放在一起讨论。</p></article>
           </div>
         </section>
         <section id="vip-point" tabIndex={-1} aria-labelledby="vip-point-title" className={styles.pointSection}>
@@ -99,7 +115,7 @@ export default async function VipPage() {
                 return <li key={partner.slug}><span>{partner.name}</span>{href ? <Link href={href} className={styles.textLink} aria-label={`${partner.name}：查看教程`}>查看教程<ArrowUpRight size={12} /></Link> : null}</li>;
               })}</ul>
               {exchangePartners.length === 0 ? <p className={styles.sectionIntro}>交易所账户核验暂未开放，请以账户中心为准。</p> : null}
-              <div className={styles.conditions}><strong>申请条件</strong><p>账户必须<strong className="!inline">绑定 Wise 邀请关系</strong>，并<strong className="!inline">入金 1000U、完成 300U 杠杆交易</strong>后，再提交核验。</p></div><Link href="/perk/crypto" className={styles.textLink}>了解交易所合作渠道<ArrowUpRight size={15} /></Link>
+              <div className={styles.conditions}><strong>申请条件</strong><p>账户必须<strong className="!inline">绑定 Wise 邀请关系</strong>，并<strong className="!inline">入金 100U、完成 10000U 合约交易</strong>后，再提交核验。</p></div><Link href="/perk/crypto" className={styles.textLink}>了解交易所合作渠道<ArrowUpRight size={15} /></Link>
             </article>
           </div>
           <h3 className={styles.stepsTitle}>加入流程，只需 5 步。</h3><ol className={styles.steps}>{joinSteps.map(([title, description], index) => <li key={title}><span className={styles.stepNumber}>{String(index + 1).padStart(2, "0")}</span><h4>{title}</h4><p>{description}</p></li>)}</ol>

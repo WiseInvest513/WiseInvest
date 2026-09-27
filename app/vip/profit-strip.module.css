@@ -1,0 +1,31 @@
+.root { min-width: 0; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; font-size: 12px; color: var(--vip-muted, #657083); }
+.controls { display: flex; align-items: center; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.controls button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; width: 34px; height: 34px; flex-shrink: 0; border: 1px solid var(--vip-line, #e5e8ee); border-radius: 50%; background: var(--vip-bg, #fff); color: var(--vip-text, #202630); cursor: pointer; }
+.controls button:hover { border-color: var(--vip-gold, #a68149); }
+.controls .playButton { width: auto; min-width: 66px; padding: 0 10px; border-radius: 20px; }
+.controls button:disabled { cursor: default; opacity: .65; }
+.viewport { width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; overflow-anchor: none; border-radius: 12px; mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent); }
+.viewport::-webkit-scrollbar { display: none; }
+.track { display: flex; width: max-content; padding: 7px 0 12px; }
+.group { display: flex; flex-shrink: 0; gap: 16px; padding-right: 16px; }
+.card { position: relative; display: flex; align-items: center; justify-content: center; flex: 0 0 252px; width: 252px; height: 264px; padding: 0; overflow: hidden; border: 1px solid #25282c; border-radius: 12px; background: #080808; box-shadow: 0 5px 12px rgb(0 0 0 / 5%); cursor: zoom-in; }
+.image { display: block; width: 100%; height: 100%; object-fit: contain; }
+.expand { position: absolute; right: 9px; bottom: 9px; display: inline-flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #ffffff40; border-radius: 7px; color: #fff; background: #17191dcc; font-size: 10px; }
+.expand span { display: none; }
+.card:hover .expand span, .card:focus-visible .expand span { display: inline; }
+.card:focus-visible, .viewport:focus-visible, .controls button:focus-visible, .original:focus-visible { outline: 2px solid var(--vip-gold, #a68149); outline-offset: -3px; }
+.note { margin: 9px 0 0; max-width: 920px; color: var(--vip-muted, #657083); font-size: 11px; line-height: 1.8; }
+.enlargedFrame { display: flex; align-items: center; justify-content: center; height: min(62dvh, 660px); overflow: hidden; border-radius: 10px; background: #080808; touch-action: pan-y pinch-zoom; }
+.enlargedImage { display: block; width: 100%; height: 100%; object-fit: contain; }
+.dialogFooter { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.original { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; text-underline-offset: 3px; }
+.original:hover { text-decoration: underline; }
+@media (max-width: 640px) {
+  .hint { display: none; }
+  .card { flex-basis: 216px; width: 216px; height: 236px; border-radius: 10px; }
+  .group { gap: 12px; padding-right: 12px; }
+  .viewport { mask-image: linear-gradient(to right, transparent, #000 2%, #000 98%, transparent); }
+  .enlargedFrame { height: 54dvh; }
+  .note { font-size: 10px; }
+}

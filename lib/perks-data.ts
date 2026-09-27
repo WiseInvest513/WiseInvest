@@ -86,7 +86,7 @@ export const perks: Perk[] = [
     platform: "Gate",
     category: "Crypto",
     description: "老牌加密货币交易所，覆盖现货、合约、理财、Web3、Gate Card 和美股交易入口",
-    benefit: "交易返现 & 入金 1000U 并完成 300U 杠杆交易后申请 VIP",
+    benefit: "交易返现 & 入金 100U 并完成 10000U 合约交易后申请 VIP",
     highlightValue: "20%",
     badge: "新上线",
     claimedCount: 560,

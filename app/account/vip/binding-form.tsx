@@ -65,7 +65,7 @@ function buildBindingOptions(partners: PartnerOption[]): BindingOption[] {
       value: partner.slug,
       submitSlug: partner.slug,
       optionLabel: `${partner.name} · 交易所`,
-      helperText: "交易所账户需绑定 Wise 邀请关系、入金 1000U 并完成 300U 杠杆交易。请选择具体平台，填写该交易所后台显示的 UID 后提交核验。",
+      helperText: "交易所账户需绑定 Wise 邀请关系、入金 100U 并完成 10000U 合约交易。请选择具体平台，填写该交易所后台显示的 UID 后提交核验。",
     }));
 
   return [...brokerageOption, ...exchangeOptions];

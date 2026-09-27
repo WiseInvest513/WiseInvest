@@ -1,99 +1,43 @@
-"use client";
-
-import Image from "next/image";
-import { Expand, ArrowUpRight } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { HistoryGallery } from "./history-gallery";
+import { ProfitStrip } from "./profit-strip";
 import styles from "./history-showcase.module.css";
 
-const previewImage = "/images/vip/community-research.png";
-const reviewSteps = [
-  { title: "当时观点", description: "待补充原始观点、判断依据与适用条件。" },
-  { title: "后续跟踪", description: "待补充后续记录，核对观点如何随信息变化。" },
-  { title: "复盘结论", description: "待核对结果与局限，完整保留有效和失效的判断。" },
-] as const;
+const discussedProducts = ["INTC", "BE", "MRVL", "AVGO", "SNDK", "MU", "SKHY", "BTC", "ETH", "RKLB", "SPCX", "TQQQ", "SOXL"] as const;
 
 export function HistoryShowcase() {
   return (
     <section id="vip-history" tabIndex={-1} aria-labelledby="vip-history-title" className={styles.section}>
       <header className={styles.header}>
-        <h2 id="vip-history-title">历史战绩</h2>
-        <p>看原始记录，再看后续变化。</p>
+        <h2 id="vip-history-title">盈利截图</h2>
+        <p>一些阶段性的收益记录，保留截图中的原始信息。</p>
       </header>
 
-      <article className={styles.featured} aria-label="首条历史案例的素材预览，案例信息待补充">
+      <ProfitStrip />
+
+      <header className={`${styles.header} ${styles.caseHeader}`}>
+        <h3>历史战绩</h3>
+        <p>过去的讨论与反馈，留在原始记录里。</p>
+      </header>
+
+      <article className={styles.featured} aria-label="历史群聊记录与反馈">
         <div className={styles.details}>
-          <span className={styles.eyebrow}>首条案例 · 素材预览</span>
-          <h3>从一个观点，到一次完整复盘</h3>
-          <p className={styles.introduction}>判断的过程和结果，都留在原始记录里。</p>
+          <span className={styles.eyebrow}>群内讨论 · 群友反馈</span>
+          <h3>聊过的机会，<br />留下的记录。</h3>
+          <p className={styles.introduction}>
+            过去，我们在群内讨论、跟踪过这些标的，也曾带领群友在其中一些机会中，取得不错的阶段性结果。
+          </p>
 
-          <dl className={styles.metadata}>
-            <div><dt>产品 / 标的</dt><dd>待补充</dd></div>
-            <div><dt>首次分享</dt><dd>待核对</dd></div>
-            <div><dt>后续结果</dt><dd>待核对</dd></div>
-          </dl>
-
-          <ol className={styles.steps}>
-            {reviewSteps.map((step, index) => (
-              <li key={step.title}>
-                <span className={styles.stepNumber} aria-hidden="true">0{index + 1}</span>
-                <div>
-                  <h4>{step.title}<span>{index === 2 ? "待核对" : "待补充"}</span></h4>
-                  <p>{step.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <ul className={styles.products} aria-label="过去群内讨论过的标的">
+            {discussedProducts.map((product) => <li key={product}>{product}</li>)}
+          </ul>
+          <p className={styles.recordNote}>从当时的观点，到后续的跟踪与反馈。<br />翻一翻截图，看看我们是怎么聊的。</p>
         </div>
 
-        <Dialog>
-          <figure className={styles.preview}>
-            <DialogTrigger asChild>
-              <button className={styles.imageButton} type="button" aria-label="放大查看群聊素材示意，不作为历史战绩证明">
-                <Image
-                  src={previewImage}
-                  alt="群聊素材示意：投研交流截图，仅用于展示版式，不作为历史战绩证明"
-                  width={360}
-                  height={631}
-                  sizes="230px"
-                  unoptimized
-                  className={styles.previewImage}
-                />
-                <span className={styles.expandHint}><Expand size={13} aria-hidden="true" />点击放大</span>
-              </button>
-            </DialogTrigger>
-            <figcaption>群聊素材示意</figcaption>
-          </figure>
-
-          <DialogContent className={styles.dialog}>
-            <DialogTitle className={styles.dialogTitle}>群聊素材示意</DialogTitle>
-            <DialogDescription className={styles.dialogDescription}>
-              当前图片仅演示展示方式，不作为历史战绩证明。最终案例以核对后的原始记录为准。
-            </DialogDescription>
-            <div className={styles.enlargedFrame}>
-              <Image
-                src={previewImage}
-                alt="投研交流群聊素材完整原图，仅为版式示意，非已核实的历史案例"
-                width={360}
-                height={631}
-                unoptimized
-                className={styles.enlargedImage}
-              />
-            </div>
-            <a href={previewImage} target="_blank" rel="noopener noreferrer" className={styles.originalLink}>
-              打开原图<ArrowUpRight size={14} aria-hidden="true" />
-            </a>
-          </DialogContent>
-        </Dialog>
+        <HistoryGallery />
       </article>
 
       <div className={styles.disclaimer}>
-        <p>当前图片仅演示展示方式，不作为历史战绩证明。最终案例以核对后的原始记录为准。</p>
+        <p>以上为部分历史聊天记录与群友反馈，并非完整交易记录，个别结果不代表所有成员的表现。</p>
         <p>历史表现不代表未来收益，不构成投资建议。</p>
       </div>
     </section>

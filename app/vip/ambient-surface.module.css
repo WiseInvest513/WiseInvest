@@ -1,0 +1,152 @@
+.surface {
+  --ambient-base: #f5f6f7;
+  --ambient-grain: #53627408;
+  --ambient-line: #e8ebee;
+  --ambient-ink: #727b88;
+  --ambient-glow: #9eb6cf5c;
+  --ambient-warm: #dfc59142;
+  --ambient-particle: #71869e66;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  border: 1px solid var(--ambient-line);
+  border-radius: 24px;
+  background-color: var(--ambient-base);
+  /* Static, tiny tiles add texture without promoting the long page to a GPU layer. */
+  background-image: radial-gradient(var(--ambient-grain) .55px, transparent .7px);
+  background-size: 4px 4px;
+}
+
+.decoration {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: clip;
+  border-radius: inherit;
+  pointer-events: none;
+  contain: paint;
+}
+
+/* A viewport-sized moving layer follows the reader, never a full-page GPU texture. */
+.viewport {
+  position: sticky;
+  top: 80px;
+  height: min(800px, calc(100dvh - 80px));
+  overflow: hidden;
+  mask-image: linear-gradient(transparent, #000 12%, #000 75%, transparent);
+}
+
+.drift {
+  position: absolute;
+  top: 0;
+  width: 72%;
+  height: 100%;
+  background-image:
+    radial-gradient(ellipse at 65% 25%, var(--ambient-glow), transparent 66%),
+    radial-gradient(ellipse at 35% 60%, var(--ambient-warm), transparent 62%),
+    radial-gradient(var(--ambient-particle) 1px, transparent 1.45px);
+  background-size: auto, auto, 19px 23px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, #0009 48%, transparent 75%);
+  animation-duration: 12s;
+  animation-delay: -3s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+
+.left {
+  left: 0;
+  animation-name: drift-left;
+}
+
+.right {
+  right: 0;
+  animation-name: drift-right;
+}
+
+.surface[data-ambient-playing="true"] .drift {
+  animation-play-state: running;
+}
+
+.toggle {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--ambient-ink);
+  background: transparent;
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.toggle:hover:not(:disabled) {
+  border-color: var(--ambient-line);
+  background: var(--ambient-base);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--vip-gold, #a45c13);
+  outline-offset: 3px;
+}
+
+.toggle:disabled {
+  cursor: default;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:global(.dark) .surface {
+  --ambient-base: #151e2e;
+  --ambient-grain: #c4d3e608;
+  --ambient-line: #263145;
+  --ambient-ink: #98a4b6;
+  --ambient-glow: #608fb752;
+  --ambient-warm: #b197653b;
+  --ambient-particle: #bed2ec59;
+}
+
+@keyframes drift-left {
+  0% { transform: translateX(26%); opacity: 0; }
+  15% { opacity: .9; }
+  75% { opacity: .8; }
+  100% { transform: translateX(-38%); opacity: 0; }
+}
+
+@keyframes drift-right {
+  0% { transform: translateX(-26%); opacity: 0; }
+  15% { opacity: .9; }
+  75% { opacity: .8; }
+  100% { transform: translateX(38%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift,
+  .surface[data-ambient-playing="true"] .drift {
+    animation: none;
+    transform: none;
+    opacity: .35;
+  }
+}
+
+@media (max-width: 767px) {
+  .toggle { top: 12px; right: 12px; }
+}
