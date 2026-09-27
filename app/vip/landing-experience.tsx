@@ -4,17 +4,16 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import styles from "./vip.module.css";
 
 const sections = [
-  ["invitation", "邀请"],
-  ["why-vip", "为什么加入"],
-  ["vip-services", "VIP 服务"],
-  ["vip-reports", "投研样例"],
-  ["how-it-works", "如何加入"],
-  ["svip", "SVIP"],
-  ["vip-faq", "常见问题"],
+  ["vip-community", "社群交流"],
+  ["vip-history", "历史战绩"],
+  ["vip-tools", "研究工具"],
+  ["vip-services", "服务体系"],
+  ["vip-point", "点位观察"],
+  ["how-it-works", "加入方式"],
 ] as const;
 
 /** A small client island: content and access decisions stay on the server. */
-export function LandingExperience({ children }: { children: ReactNode }) {
+export function LandingExperience({ hero, children }: { hero: ReactNode; children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>("invitation");
 
@@ -154,12 +153,12 @@ export function LandingExperience({ children }: { children: ReactNode }) {
 
   return (
     <div className={styles.shell} ref={root}>
+      {hero}
       <aside className={styles.sidebar}>
         <nav className={styles.index} aria-label="VIP 页面目录">
-          <span className={styles.indexTitle}>WISE VIP</span>
-          {sections.map(([id, label], index) => (
+          {sections.map(([id, label]) => (
             <a key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{label}
+              {label}
             </a>
           ))}
         </nav>

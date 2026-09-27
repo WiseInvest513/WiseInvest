@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, BookOpen, Building2, CandlestickChart, Check, Crown, MessageCircle, Plus, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight, Bitcoin, BookOpen, Building2, CalendarDays, CandlestickChart, Check, Crown, FileClock, LockKeyhole, MessageCircle, Plus, ShieldCheck, Video } from "lucide-react";
 import { CommunityDialogButton } from "@/components/community-dialog-button";
 import { CopyTextButton } from "@/components/copy-text-button";
 import { getContentViewerTier } from "@/lib/identity/content-viewer";
 import { getEnabledVipPartners } from "@/lib/vip/partners";
 import { perks } from "@/lib/perks-data";
 import { LandingExperience } from "./landing-experience";
-import { ReportPreview, WebsitePreview } from "./preview-media";
-import { CommunityGallery } from "./community-gallery";
-import { brokerageChannels, exchangeOrder, faqs, featuredArticle, introductionHref, joinSteps, problems } from "./landing-content";
+import { WebsitePreview } from "./preview-media";
+import { HistoryShowcase } from "./history-showcase";
+import { brokerageChannels, exchangeOrder, faqs, featuredArticle, introductionHref, joinSteps } from "./landing-content";
 import styles from "./vip.module.css";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Wise VIP | 5 条产业链持续跟踪，让投资判断多一份依据",
-  description: "欢迎加入 Wise VIP。通过社群交流、AI 工具、产业信息与每日投研，建立自己的投资思路。了解真实服务、内容样例、合作账户申请条件与加入流程。",
+  title: "Wise VIP | 和认真关注市场的人，把投资聊透",
+  description: "以群聊为主，研究工具为辅。了解 Wise VIP 的美股与加密讨论、历史案例展示、每周观察清单、每月直播对谈与点位观察系统，以及会员加入方式。",
   alternates: { canonical: "/vip" },
 };
 
@@ -31,85 +32,58 @@ export default async function VipPage() {
   });
   return (
     <div className={styles.page}>
-      <LandingExperience>
+      <LandingExperience hero={
         <section id="invitation" tabIndex={-1} aria-labelledby="vip-title" className={styles.hero}>
-          <div data-vip-reveal>
-            <p className={styles.welcome}><Crown size={18} aria-hidden="true" />欢迎加入 Wise VIP</p>
-            <h1 id="vip-title"><span>5 条产业链持续跟踪，</span><span>让投资判断，多一份依据。</span></h1>
-          </div>
-          <div className={styles.heroAside} data-vip-reveal>
-            <h2>与认真关注市场的人同行</h2>
-            <p className={styles.heroDescription}>从每日市场复盘、重点公司观察，到研究工具与社群交流，把零散消息整理成值得关注的方向。</p>
+          <div className={styles.heroCopy}>
+            <p className={styles.welcome}><Crown size={16} aria-hidden="true" />WISE VIP<span>一起关注，也一起复盘</span></p>
+            <h1 id="vip-title">看懂机会，也看清风险。<br /><span>和 Wise 一起，把投资聊透。</span></h1>
+            <p className={styles.heroDescription}>从美股到加密，在群里持续讨论、跟踪与复盘。<br />有值得关注的方向，也有一起推敲判断的人。</p>
             <div className={styles.actions}>
-              {isVip ? <Link className={styles.primary} href="/account/vip">进入我的 VIP 中心<ArrowRight /></Link> : <a className={styles.primary} href="#vip-services">了解 VIP 服务<ArrowRight /></a>}
-              <a className={styles.secondary} href="#how-it-works">查看加入方式</a>
+              {isVip ? <Link className={styles.primary} href="/account/vip">进入我的 VIP 中心<ArrowRight /></Link> : <a className={styles.primary} href="#how-it-works">了解加入方式<ArrowRight /></a>}
+              <a className={styles.secondary} href="#vip-history">先看历史战绩<ArrowUpRight size={15} /></a>
             </div>
+            <p className={styles.heroFootnote}>群内交流为主 · 网站与点位工具辅助</p>
           </div>
-          <dl className={styles.heroStats} aria-label="VIP 服务概览" data-vip-reveal>
-            <div>
-              <dt><strong>5</strong><span>条产业链</span></dt>
-              <dd>AI、存储、机器人、太空经济、核电</dd>
+          <div className={styles.heroVisual}>
+            <div className={styles.chatFrame}><Image src="/images/vip/community-market.png" alt="Wise 历史微信群聊片段，展示市场交流形式，并非当前建议" width={377} height={757} sizes="(max-width: 767px) 155px, 205px" priority /></div>
+            <div className={styles.conversationCard}>
+              <span className={styles.smallLabel}><MessageCircle size={14} />群聊里的日常</span>
+              <h2>这里聊的，<br />是判断的过程。</h2>
+              <dl><div><dt>关注什么</dt><dd>看好与看空的依据</dd></div><div><dt>等什么</dt><dd>催化事件与关键变化</dd></div><div><dt>怎么复盘</dt><dd>跟踪进展与判断修正</dd></div></dl>
             </div>
-            <div>
-              <dt><strong>2</strong><span>个研究网站</span></dt>
-              <dd>CHAIN 产业跟踪 · Crypto 加密市场工具</dd>
-            </div>
-            <div>
-              <dt><strong>每日</strong><span>投研复盘</span></dt>
-              <dd>市场变化、重点个股、次日观察清单</dd>
-            </div>
-          </dl>
+            <span className={styles.visualCaption}>历史群聊片段 · 非当前建议</span>
+          </div>
         </section>
-        <section id="why-vip" tabIndex={-1} aria-labelledby="vip-problems-title" className={styles.section}>
-          <div data-vip-reveal><h2 id="vip-problems-title" className={styles.sectionHeading}>是不是经常遇到这些情况？</h2><div className={styles.goldRule} /></div>
-          <div className={styles.problems}>
-            {problems.map((problem, index) => <article key={problem.title} data-vip-reveal><span className={styles.problemNumber}>{String(index + 1).padStart(2, "0")}</span><h3>{problem.title}</h3><p>{problem.text}</p></article>)}
+      }>
+        <section id="vip-community" tabIndex={-1} aria-labelledby="vip-community-title" className={styles.section}>
+          <div className={styles.sectionHeader}><div><p className={styles.eyebrow}>01 / 社群交流</p><h2 id="vip-community-title" className={styles.sectionHeading}>进群之后，我们聊什么？</h2><p className={styles.sectionIntro}>把值得关注的方向聊清楚，也把判断变化留下来。</p></div><span className={styles.sectionAside}>不是只给一个答案，<br />而是一起理解为什么。</span></div>
+          <div className={styles.topicGrid}>
+            <article><span className={styles.topicIcon}><CandlestickChart size={21} /></span><h3>美股与产业</h3><p className={styles.topicLead}>公司、财报与行业变化</p><p>从 AI、存储到机器人、太空经济与核电，讨论值得关注的公司，以及产业变化背后的逻辑。</p></article>
+            <article><span className={styles.topicIcon}><Bitcoin size={21} /></span><h3>加密与市场</h3><p className={styles.topicLead}>市场结构、关键位置与风险</p><p>围绕 BTC、ETH 与市场变化，交流观察思路、潜在催化与风险，不只盯着一时的涨跌。</p></article>
+            <article><span className={styles.topicIcon}><FileClock size={21} /></span><h3>跟踪与复盘</h3><p className={styles.topicLead}>原有判断如何更新</p><p>对照当时的观点和后续变化，讨论哪些依据仍然成立、哪里需要修正，留下可回看的记录。</p></article>
           </div>
-          <div className={styles.whyAnswer} data-vip-reveal>
-            <h2>为什么加入 Wise VIP？<br />让<span>信息有脉络</span>，让<span>交流有价值</span>。</h2>
-            <p>更多有依据的信息参考，更有价值的沟通。<br />不是替你做决定，而是让你逐步形成自己的判断。</p>
+          <Link href={featuredArticle.href} className={styles.readingStrip}><BookOpen size={18} /><span><small>先读一篇市场手记</small>{featuredArticle.title}</span><span className={styles.readingAction}>{isVip ? "阅读全文" : "免费试读"}<ArrowUpRight size={16} /></span></Link>
+        </section>
+        <HistoryShowcase />
+        <section id="vip-tools" tabIndex={-1} aria-labelledby="vip-tools-title" className={`${styles.section} ${styles.toolsSection}`}>
+          <div><p className={styles.eyebrow}>03 / 研究工具</p><h2 id="vip-tools-title" className={styles.sectionHeading}>讨论在群里，<br />研究有工具。</h2><p className={styles.sectionIntro}>CHAIN 跟踪产业与公司，Crypto 辅助查看加密市场。把群里的讨论，延伸到自己的研究里。</p><p className={styles.caption}>公开工具可先体验；会员内容以各页面权限说明为准。</p><Link href="/website" className={styles.textLink}>查看全部网站<ArrowUpRight size={15} /></Link></div>
+          <div className={styles.toolsWell}>
+            <article><WebsitePreview name="Wise CHAIN" src="/images/vip/chain-overview.png" href="https://chain.wise-invest.org/" /><div className={styles.toolCopy}><div><h3>CHAIN</h3><p>产业、公司与关键事件</p></div><a href="https://chain.wise-invest.org/" target="_blank" rel="noopener noreferrer" aria-label="打开 CHAIN" className={styles.toolArrow}><ArrowUpRight size={18} /></a></div></article>
+            <article><WebsitePreview name="Wise Crypto" src="/images/vip/crypto-overview.png" href="https://crypto.wise-invest.org/" /><div className={styles.toolCopy}><div><h3>Crypto</h3><p>行情观察与风险工具</p></div><a href="https://crypto.wise-invest.org/" target="_blank" rel="noopener noreferrer" aria-label="打开 Crypto" className={styles.toolArrow}><ArrowUpRight size={18} /></a></div></article>
+            <p className={styles.toolsCaption}>网站界面截图 · 非实时行情</p>
           </div>
         </section>
         <section id="vip-services" tabIndex={-1} aria-labelledby="vip-services-title" className={`${styles.section} ${styles.servicesSection}`}>
-          <div data-vip-reveal><h2 id="vip-services-title" className={`${styles.sectionHeading} ${styles.servicesHeading}`}>把投资做下去，需要的不止一份教程</h2><p className={styles.sectionIntro}>信息有出处，工具能用，问题有人一起讨论。</p></div>
+          <div className={styles.sectionHeader}><div><p className={styles.eyebrow}>04 / 服务体系</p><h2 id="vip-services-title" className={styles.sectionHeading}>有节奏的交流，持续发生。</h2><p className={styles.sectionIntro}>不只是进一个群，而是持续参与市场的讨论。</p></div><span className={styles.sectionAside}>具体时间与安排<br />以群内公告为准</span></div>
           <div className={styles.serviceGrid}>
-            <article className={styles.service}>
-              <div className={styles.serviceCopy} data-vip-reveal><span className={styles.serviceNumber}>01 / 社群交流</span><h3>从一个人的判断，<br />到一群人的思考。</h3>
-                <p className={styles.serviceDescription}>在群里交流市场变化、研究逻辑与实际问题。不是只看一个点位，更重要的是理解为什么。</p><p className={styles.serviceDescription}>讨论机会，也讨论风险；分享依据，也容得下不同的判断。</p>
-                <a href="#how-it-works" className={styles.textLink}>了解如何加入<ArrowRight size={15} /></a>
-              </div>
-              <div className={styles.serviceMedia} data-vip-parallax><CommunityGallery /></div>
-            </article>
-            <article className={styles.service}>
-              <div className={styles.serviceCopy} data-vip-reveal><span className={styles.serviceNumber}>02 / AI 工具与定制</span><h3>把重复的工作，<br />交给更适合的工具。</h3>
-                <p className={styles.serviceDescription}>我们已经开发了多个网站和工具，用 AI 减少重复工作。也可以围绕你的研究流程与个人需求，沟通更适合的工具和定制方案。</p>
-                <Link href="/website" className={styles.textLink}>查看已有网站与工具<ArrowUpRight size={15} /></Link><p className={styles.caption}>具体定制范围、时间与费用，按需求沟通确认。</p>
-              </div>
-              <div className={styles.serviceMedia} data-vip-parallax><WebsitePreview name="Wise 工具与网站" src="/images/vip/tools-overview.png" href="https://www.wise-invest.org/website" height={900} /></div>
-            </article>
-            <article className={styles.service}>
-              <div className={styles.serviceCopy} data-vip-reveal><span className={styles.serviceNumber}>03 / 产业与事件</span><h3>CHAIN：<br />把每天的关注点理清。</h3>
-                <p className={styles.serviceDescription}>不知道每天看什么？从 AI（含半导体）、存储、机器人、太空经济、核电五条产业链开始，把产业、公司、事件与财报放在一起，建立自己的观察主线。</p>
-                <a href="https://chain.wise-invest.org/" target="_blank" rel="noopener noreferrer" className={styles.textLink}>打开 CHAIN<ArrowUpRight size={15} /></a><p className={styles.caption}>网站实景 · 部分内容需 Wise ID</p>
-              </div>
-              <div className={styles.serviceMedia} data-vip-parallax><WebsitePreview name="WiseChain" src="/images/vip/chain-overview.png" href="https://chain.wise-invest.org/" /></div>
-            </article>
-            <article className={styles.service}>
-              <div className={styles.serviceCopy} data-vip-reveal><span className={styles.serviceNumber}>04 / 加密市场工具</span><h3>Crypto：<br />先有计划，再做交易。</h3>
-                <p className={styles.serviceDescription}>看不清 BTC、ETH 的位置与风险？从行情、均线区间和 K 线开始，配合仓位、风险回报与杠杆工具，先理清计划，再决定是否参与。</p>
-                <a href="https://crypto.wise-invest.org/" target="_blank" rel="noopener noreferrer" className={styles.textLink}>打开 Crypto<ArrowUpRight size={15} /></a><p className={styles.caption}>工具可先体验 · 人工策略尚未发布</p>
-              </div>
-              <div className={styles.serviceMedia} data-vip-parallax><WebsitePreview name="Wise Crypto" src="/images/vip/crypto-overview.png" href="https://crypto.wise-invest.org/" /></div>
-            </article>
+            <article><MessageCircle size={21} /><span>平时</span><h3>群内交流与观点更新</h3><p>聊市场变化、重点公司与研究思路，有进展继续跟踪，有变化一起复盘。</p></article>
+            <article><CalendarDays size={21} /><span>每周日</span><h3>下周重点事件与观察清单</h3><p>在群里同步下周值得关注的大事件，提前梳理财报、经济数据与潜在催化。</p></article>
+            <article><Video size={21} /><span>每月 1–2 场</span><h3>线上直播对谈</h3><p>围绕近期市场、产业与公司展开交流，把值得深入聊的问题放在一起讨论。</p></article>
           </div>
         </section>
-        <section id="vip-reports" tabIndex={-1} aria-labelledby="vip-reports-title" className={`${styles.section} ${styles.reportSection}`}>
-          <div className={styles.reportRow}>
-            <div className={styles.reportHeader} data-vip-reveal><div><span className={styles.serviceNumber}>05 / 每日投研</span><h2 id="vip-reports-title">先复盘昨天，<br />再准备明天。</h2><p>每天推送上一交易日的市场投研报告。整理市场要闻、财报、行业变化和重点个股，把“发生了什么”变成“接下来关注什么”。</p></div></div>
-            <div className={styles.serviceMedia} data-vip-parallax><ReportPreview /></div>
-          </div>
-          <article className={styles.articleStrip} data-vip-reveal><div><span className={styles.articleEyebrow}><BookOpen size={15} />Wise VIP 市场手记 · Vol.01</span><h3>{featuredArticle.title}</h3><p>{featuredArticle.summary}<br /><time dateTime={featuredArticle.date}>{featuredArticle.date}</time> · 约 30 分钟阅读</p></div><Link href={featuredArticle.href} className={styles.textLink}>{isVip ? "阅读全文" : "免费试读约 35%"}<ArrowUpRight size={16} /></Link></article>
-          <p className={styles.caption}>部分工具目前可公开体验；后续新增的 VIP 专属内容与功能，将按各页面说明开放。</p>
+        <section id="vip-point" tabIndex={-1} aria-labelledby="vip-point-title" className={styles.pointSection}>
+          <div><p className={styles.eyebrow}>05 / 点位观察</p><h2 id="vip-point-title">把讨论，变成<br />可跟踪的计划。</h2><p>参考区间、止损止盈、更新时间与有效期，一起查看。保留历史版本，方便回看判断的变化。</p><Link href="/point" className={styles.primary}>查看点位系统<ArrowRight /></Link></div>
+          <div className={styles.pointPreview}><div className={styles.pointPreviewHeader}><span><CandlestickChart size={16} />点位观察</span><span><LockKeyhole size={12} />VIP 完整内容</span></div><div className={styles.pointColumns} aria-hidden="true"><span>产品 / 合约</span><span>观察参考</span><span>更新时间</span></div><div className={styles.pointPlaceholder}><div><span>加密合约</span><i /><i /></div><div><span>美股合约</span><i /><i /></div></div><div className={styles.pointPreviewFooter}><ShieldCheck size={14} />先看时间，再看点位</div><p className={styles.pointCaption}>仅作界面示意，非实时行情或交易建议。普通用户可查看少量摘要，VIP 查看完整计划。参考位置不是精确成交承诺，需结合当时行情判断。</p></div>
         </section>
         <section id="how-it-works" tabIndex={-1} aria-labelledby="vip-join-title" className={`${styles.section} ${styles.joining}`}>
           <div data-vip-reveal><h2 id="vip-join-title" className={styles.sectionHeading}>想加入，从你的真实账户开始。</h2><p className={styles.sectionIntro}>通过账户核验加入 Wise VIP，面向通过 Wise 合作渠道开户、符合条件的真实用户。我们希望与认真关注市场的朋友长期同行。也可以选择下方的付费 SVIP 方式，无需提交合作账户资料。</p></div>
