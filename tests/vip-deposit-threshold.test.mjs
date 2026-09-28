@@ -3,8 +3,8 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const read = file => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
-const oldThreshold = /(?:入金(?:了)?\s*(?:\*\*)?(?:1000|300)\s*U\b|(?<!\d)(?:1000|300)\s*U\s*入金)/i;
-const newThreshold = /(?<![\d,.])100\s*U\b/i;
+const oldThreshold = /(?:入金(?:了)?\s*(?:\*\*)?(?:100|300)\s*U\b|(?<![\d,.])(?:100|300)\s*U\s*入金)/i;
+const newThreshold = /(?<![\d,.])1000\s*U\b/i;
 const requiredTrade = /(?<![\d,.])10000\s*U\s*合约交易/i;
 const oldTrade = /(?<!\d)300\s*U\s*杠杆交易/i;
 
@@ -20,15 +20,21 @@ const surfaces = [
   'app/admin/vip/page.tsx',
 ];
 
-test('threshold assertions distinguish the 100U deposit from 10000U trading volume', () => {
-  assert.match('入金 100U', newThreshold);
-  assert.doesNotMatch('入金 1000U、完成 10000U 合约交易', newThreshold);
-  assert.doesNotMatch('入金 1100U', newThreshold);
+test('threshold assertions distinguish the 1000U deposit from other amounts and 10000U trading volume', () => {
+  assert.match('入金 1000U、完成 10000U 合约交易', newThreshold);
+  for (const amount of ['100', '11000', '10000', '1,1000', '1.1000']) {
+    assert.doesNotMatch(`入金 ${amount}U`, newThreshold);
+  }
   assert.match('完成 10000U 合约交易', requiredTrade);
-  assert.doesNotMatch('完成 110000U 合约交易', requiredTrade);
+  for (const amount of ['100', '1000', '11000', '110000', '1,10000', '1.10000']) {
+    assert.doesNotMatch(`完成 ${amount}U 合约交易`, requiredTrade);
+  }
+  assert.match('入金 100U', oldThreshold);
+  assert.match('300U 入金', oldThreshold);
+  assert.doesNotMatch('入金 1000U、完成 10000U 合约交易', oldThreshold);
 });
 
-test('all Wise VIP eligibility surfaces require 100U deposit and 10000U contract trading', () => {
+test('all Wise VIP eligibility surfaces require 1000U deposit and 10000U contract trading', () => {
   for (const file of surfaces) {
     const source = read(file);
     assert.match(source, newThreshold, file);
@@ -38,10 +44,10 @@ test('all Wise VIP eligibility surfaces require 100U deposit and 10000U contract
     assert.doesNotMatch(source, /交易任意金额|任意金额交易/, file);
   }
   const popup = read('app/perk/[section]/register-reward-button.tsx');
-  assert.equal((popup.match(/(?<!\d)100U\b/g) || []).length, 3, 'Accessible dialog description, body and deposit step must agree');
-  assert.equal((popup.match(/(?<!\d)10000U 合约交易/g) || []).length, 3, 'Accessible dialog description, body and trading step must agree');
+  assert.equal((popup.match(/(?<![\d,.])1000U\b/g) || []).length, 3, 'Accessible dialog description, body and deposit step must agree');
+  assert.equal((popup.match(/(?<![\d,.])10000U 合约交易/g) || []).length, 3, 'Accessible dialog description, body and trading step must agree');
   assert.match(popup, /5U 现金红包奖励/);
-  assert.match(read('app/card/data.ts'), /Gate 注册与平台充值奖励、入金 100U 并完成 10000U 合约交易后申请 Wise VIP/);
+  assert.match(read('app/card/data.ts'), /Gate 注册与平台充值奖励、入金 1000U 并完成 10000U 合约交易后申请 Wise VIP/);
 });
 
 test('all six tutorial referral/VIP notes reflect the new conditions without rewriting deposit walkthroughs', () => {
@@ -82,7 +88,7 @@ test('broker requirements, USD300 SVIP payment, UID validation and pending manua
   assert.match(read('content/articles/VIP/web.md'), /付费 300U 的方式/);
   assert.match(read('components/article-vip-invitation.tsx'), /券商账户需通过 Wise 合作渠道开户，完成入金并激活账户/);
   assert.match(read('app/vip/page.tsx'), /绑定 Wise 邀请关系/);
-  assert.match(read('app/vip/page.tsx'), /入金 100U、完成 10000U 合约交易/);
+  assert.match(read('app/vip/page.tsx'), /入金 1000U、完成 10000U 合约交易/);
   assert.match(read('lib/vip/partners.ts'), /vipPlusVolumeThreshold: "50000"/);
   const api = read('app/api/account/partner-accounts/route.ts');
   assert.match(api, /getPartnerIdentifierError\(partnerSlug, rawIdentifier\)/);
