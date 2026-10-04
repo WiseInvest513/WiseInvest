@@ -1350,5 +1350,101 @@
     "category": "经济数据",
     "impact": "medium",
     "description": "关注总订单、核心资本品和出货修正，判断企业资本开支、制造业库存周期和工业板块盈利动能"
+  },
+  {
+    "date": "2026-10-05",
+    "time": "22:00",
+    "title": "美国9月ISM服务业PMI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注商业活动、新订单、就业和价格分项，服务业通胀黏性会直接影响利率路径预期"
+  },
+  {
+    "date": "2026-10-06",
+    "time": "20:30",
+    "title": "美国8月贸易帐",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注进口需求、出口动能和贸易逆差变化，用来校验消费韧性与GDP净出口拖累"
+  },
+  {
+    "date": "2026-10-06",
+    "time": "盘后",
+    "title": "Constellation Brands（STZ）Q2 FY2027财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注啤酒销量、Modelo/Corona需求、利润率和全年指引，判断高端消费品定价能力"
+  },
+  {
+    "date": "2026-10-07",
+    "time": "23:00",
+    "title": "纽约联储9月消费者预期调查",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注一年与三年通胀预期、就业风险和家庭财务预期，辅助判断通胀预期是否脱锚"
+  },
+  {
+    "date": "2026-10-08",
+    "time": "02:00",
+    "title": "美联储9月FOMC会议纪要",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注委员对通胀、就业和10月会议政策路径的分歧，影响利率和成长股估值"
+  },
+  {
+    "date": "2026-10-08",
+    "time": "03:00",
+    "title": "美联储8月消费信贷",
+    "category": "经济数据",
+    "impact": "low",
+    "description": "关注循环信贷和非循环信贷变化，观察家庭杠杆、消费延续性和信用压力"
+  },
+  {
+    "date": "2026-10-08",
+    "time": "盘前",
+    "title": "百事可乐（PEP）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注北美饮料与零食销量、价格/组合、毛利率和全年指引，映射消费必需品需求"
+  },
+  {
+    "date": "2026-10-08",
+    "time": "16:30",
+    "title": "美联储理事Waller发表经济展望讲话",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注其对通胀回落、就业降温和10月议息倾向的表述，可能影响日内利率定价"
+  },
+  {
+    "date": "2026-10-08",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请与续请是否显示就业继续降温，是非农后校验劳动力市场的高频指标"
+  },
+  {
+    "date": "2026-10-08",
+    "time": "22:00",
+    "title": "美国8月批发库存和销售",
+    "category": "经济数据",
+    "impact": "low",
+    "description": "关注库存销售比和批发销售变化，判断企业补库节奏和GDP库存项压力"
+  },
+  {
+    "date": "2026-10-09",
+    "time": "盘前",
+    "title": "达美航空（DAL）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注单位收入、燃油成本、利润率和四季度需求指引，验证出行消费和航空板块景气"
+  },
+  {
+    "date": "2026-10-09",
+    "time": "22:00",
+    "title": "美国10月密歇根大学消费者信心初值",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注现况、预期和短长期通胀预期，判断消费者信心与通胀预期对利率定价的扰动"
   }
 ]
