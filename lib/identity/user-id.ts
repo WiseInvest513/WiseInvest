@@ -1,7 +1,7 @@
 import { customAlphabet } from "nanoid";
 
 const makeId = customAlphabet("23456789ABCDEFGHJKLMNPQRSTUVWXYZ", 12);
-const builtInAdminAssistantEmails = ["maycopey@gmail.com"];
+const builtInAdminAssistantEmails = ["maycopey@gmail.com", "lswithyou2026@gmail.com"];
 
 export function generateWiseUserId() {
   return `Y${makeId()}`;
