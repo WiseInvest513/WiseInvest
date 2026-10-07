@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { auth } from "@/auth";
+import { isAdminAssistantRole, isAdminStaffRole } from "@/lib/auth/admin-roles";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewAdminCookieValue } from "@/lib/identity/dev-preview";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { checkAdminMutationLimit } from "@/lib/vip/api-guards";
@@ -28,9 +29,10 @@ type RouteContext = {
 export async function PATCH(request: NextRequest, context: RouteContext) {
   const session = await auth();
   const isDevAdmin = isDevPreviewAdminCookieValue(request.cookies.get(WISE_DEV_PREVIEW_COOKIE)?.value);
-  if ((!session?.user?.id || session.user.role !== "ADMIN") && !isDevAdmin) {
+  if ((!session?.user?.id || !isAdminStaffRole(session.user.role)) && !isDevAdmin) {
     return NextResponse.json({ ok: false, message: "Forbidden" }, { status: 403 });
   }
+  const isAssistant = isAdminAssistantRole(session?.user?.role);
 
   const adminUserId = session?.user?.id ?? "dev_admin_user";
   const limitedResponse = await checkAdminMutationLimit(request, adminUserId);
@@ -78,6 +80,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
           select: {
             email: true,
             wechatId: true,
+            wechatCity: true,
           },
         },
         partner: {
@@ -93,6 +96,10 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 
     if (!current) {
       throw new Error("Partner account not found.");
+    }
+
+    if (isAssistant && current.status === "VERIFIED") {
+      throw new Error("管理员助理不能操作已审核通过的绑定记录。");
     }
 
     const updated = await tx.partnerAccount.update({
@@ -133,6 +140,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
             partnerAccountId: current.id,
             email: current.user.email ?? "",
             wechatId: current.user.wechatId,
+            wechatCity: current.user.wechatCity,
             platform: current.partner.name,
             uid: current.externalIdentifier,
             source: "VERIFIED_ACCOUNT",
@@ -141,6 +149,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
             userId: current.userId,
             email: current.user.email ?? "",
             wechatId: current.user.wechatId,
+            wechatCity: current.user.wechatCity,
             platform: current.partner.name,
             uid: current.externalIdentifier,
           },

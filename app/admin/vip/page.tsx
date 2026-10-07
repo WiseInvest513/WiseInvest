@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { PartnerAccountStatus, PartnerType } from "@prisma/client";
 import { AlertTriangle, CheckCircle2, Clock3, ShieldCheck, XCircle } from "lucide-react";
 import { AdminShell } from "@/app/admin/admin-shell";
 import { CopyButton } from "@/app/admin/vip/copy-button";
-import { requireAdminUser } from "@/lib/identity/current-user";
+import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
+import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { devPreviewPartnerAccounts } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
@@ -38,6 +40,38 @@ const statusFilters = [
 ] as const;
 
 type StatusFilterKey = (typeof statusFilters)[number]["key"];
+type ReviewStatus = Exclude<StatusFilterKey, "ALL">;
+type ReviewAccountRow = {
+  id: string;
+  externalIdentifier: string;
+  status: PartnerAccountStatus;
+  userNote: string | null;
+  reviewNote: string | null;
+  submittedAt: Date;
+  user: {
+    name?: string | null;
+    email: string | null;
+    wiseUserId: string;
+    membershipTier: string;
+  };
+  partner: {
+    name: string;
+    slug: string;
+    type: PartnerType;
+    vipEligible: boolean;
+    vipPlusEligible: boolean;
+  };
+};
+type StatusCountRow = {
+  status: PartnerAccountStatus;
+  _count: {
+    status: number;
+  };
+};
+
+function isReviewStatus(value: StatusFilterKey): value is ReviewStatus {
+  return value !== "ALL";
+}
 
 function getStatusTone(status: string) {
   if (status === "VERIFIED") return "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300";
@@ -55,22 +89,29 @@ function getReviewUserName(user: { name?: string | null; email: string | null; w
 }
 
 export default async function AdminVipPage({ searchParams }: AdminVipPageProps) {
-  await requireAdminUser();
+  const adminUser = await requireAdminStaffUser();
+  const isAssistant = isAdminAssistantRole(adminUser.role);
   const { status } = await searchParams;
-  const selectedStatus = statusFilters.some((filter) => filter.key === status) ? (status as StatusFilterKey) : "PENDING";
+  const visibleStatusFilters = isAssistant
+    ? statusFilters.filter((filter) => filter.key === "PENDING" || filter.key === "NEEDS_REVIEW" || filter.key === "REJECTED")
+    : statusFilters;
+  const selectedStatus = visibleStatusFilters.some((filter) => filter.key === status) ? (status as StatusFilterKey) : "PENDING";
 
   const isMockAdmin = await isDevPreviewAdminSession();
-  const statusList = statusFilters.filter((filter) => filter.key !== "ALL").map((filter) => filter.key);
+  const statusList = visibleStatusFilters.map((filter) => filter.key).filter(isReviewStatus);
+  const dbStatusList: PartnerAccountStatus[] = statusList;
   const allMockAccounts = devPreviewPartnerAccounts;
   const visibleMockAccounts =
     selectedStatus === "ALL" ? allMockAccounts : allMockAccounts.filter((account) => account.status === selectedStatus);
 
   const prisma = isMockAdmin && !isDatabaseConfigured() ? null : getPrisma();
-  const [reviewAccounts, groupedCounts] = prisma
-    ? await Promise.all([
-        prisma.partnerAccount.findMany({
+  let reviewAccounts: ReviewAccountRow[] = [];
+  let groupedCounts: StatusCountRow[] = [];
+
+  if (prisma) {
+    reviewAccounts = await prisma.partnerAccount.findMany({
           where: {
-            status: selectedStatus === "ALL" ? { in: statusList } : selectedStatus,
+            status: selectedStatus === "ALL" ? { in: dbStatusList } : (selectedStatus as ReviewStatus),
           },
           select: {
             id: true,
@@ -101,21 +142,31 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
             submittedAt: "desc",
           },
           take: 80,
-        }),
-        prisma.partnerAccount.groupBy({
+        });
+
+    if (!isAssistant) {
+      const grouped = await prisma.partnerAccount.groupBy({
           by: ["status"],
-          where: { status: { in: statusList } },
+          where: { status: { in: dbStatusList } },
           _count: { status: true },
-        }),
-      ])
-    : [visibleMockAccounts, []];
+        });
+      groupedCounts = grouped.map((item) => ({
+        status: item.status,
+        _count: {
+          status: item._count.status,
+        },
+      }));
+    }
+  } else {
+    reviewAccounts = visibleMockAccounts;
+  }
 
   const statusCounts = Object.fromEntries(statusList.map((key) => [key, 0])) as Record<(typeof statusList)[number], number>;
-  if (prisma) {
+  if (prisma && !isAssistant) {
     groupedCounts.forEach((item) => {
       statusCounts[item.status as keyof typeof statusCounts] = item._count.status;
     });
-  } else {
+  } else if (!isAssistant) {
     allMockAccounts.forEach((account) => {
       if (account.status in statusCounts) statusCounts[account.status as keyof typeof statusCounts] += 1;
     });
@@ -123,15 +174,17 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
   const allCount = Object.values(statusCounts).reduce((sum, count) => sum + count, 0);
 
   return (
-    <AdminShell>
+    <AdminShell role={adminUser.role}>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/30 dark:text-amber-200">
             <ShieldCheck className="h-3.5 w-3.5" />
-            Admin
+            {isAssistant ? "Admin Assistant" : "Admin"}
           </div>
           <h1 className="font-heading text-3xl font-black md:text-4xl">VIP 绑定审核</h1>
           <p className="mt-2 text-slate-500 dark:text-slate-400">
-            审核通过后系统会服务端刷新用户会员状态；驳回或要求补充时，审核说明会直接展示给用户。
+            {isAssistant
+              ? "处理新的 VIP 绑定审核。助理角色不会看到已审核通过列表和审核总量。"
+              : "审核通过后系统会服务端刷新用户会员状态；驳回或要求补充时，审核说明会直接展示给用户。"}
           </p>
           <p className="mt-2 text-sm font-semibold text-amber-800 dark:text-amber-200">
             交易所账户审核标准：确认 Wise 邀请关系、入金 1000U，并完成 10000U 合约交易后，方可通过 VIP 资格核验。
@@ -144,7 +197,7 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
         </section>
 
         <section className="flex flex-wrap gap-2">
-          {statusFilters.map((filter) => {
+          {visibleStatusFilters.map((filter) => {
             const Icon = filter.icon;
             const active = filter.key === selectedStatus;
             const count = filter.key === "ALL" ? allCount : statusCounts[filter.key];
@@ -160,13 +213,13 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
               >
                 <Icon className="h-4 w-4" />
                 {filter.label}
-                <span className={`rounded-full px-2 py-0.5 text-xs ${active ? "bg-white/10" : "bg-slate-100 dark:bg-slate-800"}`}>{count}</span>
+                {!isAssistant && <span className={`rounded-full px-2 py-0.5 text-xs ${active ? "bg-white/10" : "bg-slate-100 dark:bg-slate-800"}`}>{count}</span>}
               </Link>
             );
           })}
         </section>
 
-        <section className="grid gap-3 md:grid-cols-4">
+        {!isAssistant && <section className="grid gap-3 md:grid-cols-4">
           {statusFilters.filter((filter) => filter.key !== "ALL").map((filter) => {
             const Icon = filter.icon;
             const active = filter.key === selectedStatus;
@@ -200,7 +253,7 @@ export default async function AdminVipPage({ searchParams }: AdminVipPageProps) 
               </Link>
             );
           })}
-        </section>
+        </section>}
 
         {reviewAccounts.length === 0 ? (
           <section className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-sm leading-7 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">

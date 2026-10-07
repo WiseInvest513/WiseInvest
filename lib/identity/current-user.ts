@@ -1,8 +1,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
+import { isAdminStaffRole, isSuperAdminRole } from "@/lib/auth/admin-roles";
 import { getPrisma } from "@/lib/prisma";
 import { WISE_DEV_PREVIEW_COOKIE, getDevPreviewRole, getDevPreviewTier } from "@/lib/identity/dev-preview";
+import { isAdminAssistantEmail } from "@/lib/identity/user-id";
 
 function createDevPreviewUser(membershipTier: "MEMBER" | "VIP" | "VIP_PLUS") {
   const now = new Date();
@@ -16,6 +18,7 @@ function createDevPreviewUser(membershipTier: "MEMBER" | "VIP" | "VIP_PLUS") {
     emailVerified: now,
     image: null,
     wechatId: membershipTier === "MEMBER" ? null : "WisePreview520",
+    wechatCity: membershipTier === "MEMBER" ? null : "上海",
     name: "Wise 本地预览用户",
     membershipTier,
     role: "USER" as const,
@@ -137,7 +140,7 @@ export async function getCurrentWiseUser() {
 
   if (!session?.user?.id) return null;
 
-  return getPrisma().user.findUnique({
+  const user = await getPrisma().user.findUnique({
     where: { id: session.user.id },
     select: {
       id: true,
@@ -146,6 +149,7 @@ export async function getCurrentWiseUser() {
       emailVerified: true,
       image: true,
       wechatId: true,
+      wechatCity: true,
       name: true,
       membershipTier: true,
       role: true,
@@ -187,6 +191,13 @@ export async function getCurrentWiseUser() {
       },
     },
   });
+
+  if (!user) return null;
+
+  return {
+    ...user,
+    role: isAdminAssistantEmail(user.email) && user.role !== "ADMIN" ? ("ADMIN_ASSISTANT" as const) : user.role,
+  };
 }
 
 export async function requireWiseUser() {
@@ -197,6 +208,12 @@ export async function requireWiseUser() {
 
 export async function requireAdminUser() {
   const user = await requireWiseUser();
-  if (user.role !== "ADMIN") redirect("/account");
+  if (!isSuperAdminRole(user.role)) redirect("/account");
+  return user;
+}
+
+export async function requireAdminStaffUser() {
+  const user = await requireWiseUser();
+  if (!isAdminStaffRole(user.role)) redirect("/account");
   return user;
 }

@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { auth } from "@/auth";
+import { isAdminAssistantRole, isAdminStaffRole } from "@/lib/auth/admin-roles";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewAdminCookieValue } from "@/lib/identity/dev-preview";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { checkAdminMutationLimit } from "@/lib/vip/api-guards";
@@ -28,9 +29,10 @@ function isMembershipTier(value: string): value is MembershipTier {
 export async function PATCH(request: NextRequest, context: RouteContext) {
   const session = await auth();
   const isDevAdmin = isDevPreviewAdminCookieValue(request.cookies.get(WISE_DEV_PREVIEW_COOKIE)?.value);
-  if ((!session?.user?.id || session.user.role !== "ADMIN") && !isDevAdmin) {
+  if ((!session?.user?.id || !isAdminStaffRole(session.user.role)) && !isDevAdmin) {
     return NextResponse.json({ ok: false, message: "Forbidden" }, { status: 403 });
   }
+  const isAssistant = isAdminAssistantRole(session?.user?.role);
 
   const adminUserId = session?.user?.id ?? "dev_admin_user";
   const limitedResponse = await checkAdminMutationLimit(request, adminUserId);
@@ -44,6 +46,10 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 
   if (!membershipTier || !isMembershipTier(membershipTier)) {
     return NextResponse.json({ ok: false, message: "Invalid membership tier." }, { status: 400 });
+  }
+
+  if (isAssistant && membershipTier !== "VIP") {
+    return NextResponse.json({ ok: false, message: "管理员助理只能把用户升级为 Wise VIP。" }, { status: 403 });
   }
 
   if (isDevAdmin && !isDatabaseConfigured()) {
@@ -69,6 +75,10 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 
     if (!current) {
       throw new Error("User not found.");
+    }
+
+    if (isAssistant && current.membershipTier === "VIP_PLUS") {
+      throw new Error("管理员助理不能调整 Wise SVIP 用户。");
     }
 
     await setUserMembership(tx, id, membershipTier);

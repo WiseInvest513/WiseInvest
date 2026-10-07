@@ -9,11 +9,18 @@ import { membershipTierLabels } from "@/lib/vip/status";
 type MembershipFormProps = {
   userId: string;
   currentTier: keyof typeof membershipTierLabels;
+  mode?: "full" | "vip-only";
 };
 
-export function MembershipForm({ userId, currentTier }: MembershipFormProps) {
+export function MembershipForm({ userId, currentTier, mode = "full" }: MembershipFormProps) {
   const router = useRouter();
-  const [membershipTier, setMembershipTier] = useState(currentTier);
+  const canEdit = mode === "full" || currentTier !== "VIP_PLUS";
+  const options = mode === "vip-only"
+    ? (currentTier === "VIP_PLUS" ? [["VIP_PLUS", membershipTierLabels.VIP_PLUS]] : [["VIP", membershipTierLabels.VIP]] as const)
+    : Object.entries(membershipTierLabels);
+  const [membershipTier, setMembershipTier] = useState<keyof typeof membershipTierLabels>(
+    mode === "vip-only" && currentTier !== "VIP_PLUS" ? "VIP" : currentTier
+  );
   const [note, setNote] = useState("");
   const [message, setMessage] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -45,9 +52,10 @@ export function MembershipForm({ userId, currentTier }: MembershipFormProps) {
         <select
           value={membershipTier}
           onChange={(event) => setMembershipTier(event.target.value as keyof typeof membershipTierLabels)}
+          disabled={!canEdit}
           className="mt-2 h-12 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-amber-400 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
         >
-          {Object.entries(membershipTierLabels).map(([value, label]) => (
+          {options.map(([value, label]) => (
             <option key={value} value={value}>
               {label}
             </option>
@@ -57,19 +65,21 @@ export function MembershipForm({ userId, currentTier }: MembershipFormProps) {
       <textarea
         value={note}
         onChange={(event) => setNote(event.target.value)}
-        placeholder="内部备注，可选"
+        placeholder={mode === "vip-only" ? "升级 VIP 备注，可选" : "内部备注，可选"}
         rows={3}
+        disabled={!canEdit}
         className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-amber-400 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
       />
       <Button
         type="button"
-        disabled={isPending}
+        disabled={isPending || !canEdit}
         onClick={submit}
         className="h-12 w-full rounded-xl bg-slate-950 text-amber-300 hover:bg-slate-900 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
       >
         {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-        保存会员状态
+        {mode === "vip-only" ? "升级为 Wise VIP" : "保存会员状态"}
       </Button>
+      {!canEdit && <p className="text-sm text-slate-500 dark:text-slate-400">管理员助理不能调整 SVIP 用户。</p>}
       {message && <p className="text-sm text-rose-600 dark:text-rose-300">{message}</p>}
     </div>
   );

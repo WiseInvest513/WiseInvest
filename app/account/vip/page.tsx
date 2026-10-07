@@ -334,6 +334,7 @@ export default async function AccountVipPage() {
 
         <VipPagePrompts
           initialWechatId={user.wechatId}
+          initialWechatCity={user.wechatCity}
           isVip={currentTier === "VIP" || currentTier === "VIP_PLUS"}
           rejection={
             latestRejectedAccount

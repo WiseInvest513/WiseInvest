@@ -1,6 +1,7 @@
 export type VipExchangeRecordPayload = {
   email?: unknown;
   wechatId?: unknown;
+  wechatCity?: unknown;
   platform?: unknown;
   uid?: unknown;
   note?: unknown;
@@ -22,9 +23,14 @@ export function parseVipExchangeRecordPayload(payload: VipExchangeRecordPayload)
   }
 
   const wechatId = normalizeText(payload.wechatId, "微信号", 64, false) || null;
+  const normalizedWechatId = wechatId?.toLowerCase() ?? null;
+  if (normalizedWechatId === "wiseinvest520" || normalizedWechatId?.startsWith("wxid_")) {
+    throw new Error("请填写用户自己的个人微信号，不要填写 WiseInvest520 或 wxid_ 开头的原始微信号。");
+  }
+  const wechatCity = normalizeText(payload.wechatCity, "城市", 32, false) || null;
   const platform = normalizeText(payload.platform, "所属平台", 80);
   const uid = normalizeText(payload.uid, "UID", 128);
   const note = normalizeText(payload.note, "备注", 1000, false) || null;
 
-  return { email, wechatId, platform, uid, note };
+  return { email, wechatId, wechatCity, platform, uid, note };
 }

@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import { AdminShell } from "@/app/admin/admin-shell";
 import { MembershipForm } from "@/app/admin/users/[id]/membership-form";
 import { CopyButton } from "@/app/admin/vip/copy-button";
+import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
-import { requireAdminUser } from "@/lib/identity/current-user";
+import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { getDevPreviewUserDetail } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
@@ -28,7 +29,8 @@ type AdminUserDetailPageProps = {
 };
 
 export default async function AdminUserDetailPage({ params }: AdminUserDetailPageProps) {
-  await requireAdminUser();
+  const adminUser = await requireAdminStaffUser();
+  const isAssistant = isAdminAssistantRole(adminUser.role);
   const { id } = await params;
   const isMockAdmin = await isDevPreviewAdminSession();
   const user =
@@ -42,6 +44,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
             email: true,
             name: true,
             wechatId: true,
+            wechatCity: true,
             membershipTier: true,
             role: true,
             createdAt: true,
@@ -101,7 +104,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
   if (!user) notFound();
 
   return (
-    <AdminShell>
+    <AdminShell role={adminUser.role}>
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h1 className="font-heading text-3xl font-black md:text-4xl">{user.name ?? user.email ?? "用户详情"}</h1>
           <p className="mt-2 break-all text-sm text-slate-500 dark:text-slate-400">{user.email ?? "未绑定邮箱"}</p>
@@ -116,11 +119,11 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
                 当前：<span className="font-black text-slate-950 dark:text-white">{membershipTierLabels[user.membershipTier]}</span>
               </p>
               <div className="mt-4">
-                <MembershipForm userId={user.id} currentTier={user.membershipTier} />
+                <MembershipForm userId={user.id} currentTier={user.membershipTier} mode={isAssistant ? "vip-only" : "full"} />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            {!isAssistant && <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <h2 className="text-xl font-black">登录方式</h2>
               <div className="mt-4 flex flex-wrap gap-2">
                 {getLoginProviderLabels(user.accounts ?? []).length > 0 ? (
@@ -136,7 +139,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
               <p className="mt-3 text-xs leading-5 text-slate-400">
                 OAuth 登录会自动记录 Google / GitHub；邮箱注册成功后会记录邮箱密码登录方式。
               </p>
-            </div>
+            </div>}
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <h2 className="text-xl font-black">VIP 联系方式</h2>
@@ -145,6 +148,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
                   <div className="min-w-0">
                     <p className="text-xs font-bold text-slate-400">微信号</p>
                     <p className="mt-1 truncate font-mono font-black text-slate-950 dark:text-white">{user.wechatId}</p>
+                    <p className="mt-1 text-xs font-bold text-slate-500 dark:text-slate-400">城市：{user.wechatCity ?? "未填写"}</p>
                   </div>
                   <CopyButton value={user.wechatId} />
                 </div>
@@ -154,7 +158,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
               <p className="mt-3 text-xs leading-5 text-slate-400">仅用于 VIP 服务联系及未来周边发放前确认收件信息。</p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            {!isAssistant && <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <h2 className="text-xl font-black">权益</h2>
               <div className="mt-4 space-y-3">
                 {user.entitlements.map((entitlement) => (
@@ -170,11 +174,11 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
                 ))}
                 {user.entitlements.length === 0 && <p className="text-sm text-slate-500 dark:text-slate-400">暂无权益。</p>}
               </div>
-            </div>
+            </div>}
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            {!isAssistant && <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <h2 className="text-xl font-black">合作账户绑定</h2>
               <div className="mt-4 space-y-3">
                 {user.partnerAccounts.map((account) => (
@@ -195,9 +199,9 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
                 ))}
                 {user.partnerAccounts.length === 0 && <p className="text-sm text-slate-500 dark:text-slate-400">暂无绑定。</p>}
               </div>
-            </div>
+            </div>}
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            {!isAssistant && <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <h2 className="text-xl font-black">最近审计</h2>
               <div className="mt-4 space-y-3">
                 {user.targetAuditLogs.map((log) => (
@@ -211,7 +215,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
                 ))}
                 {user.targetAuditLogs.length === 0 && <p className="text-sm text-slate-500 dark:text-slate-400">暂无审计记录。</p>}
               </div>
-            </div>
+            </div>}
           </div>
         </section>
     </AdminShell>

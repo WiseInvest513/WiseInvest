@@ -16,6 +16,7 @@ import {
   Users,
   Waypoints,
 } from "lucide-react";
+import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
 import { cn } from "@/lib/utils";
 
 const adminGroups = [
@@ -23,10 +24,10 @@ const adminGroups = [
     label: "核心管理",
     description: "点位计划、用户和 VIP 核验",
     links: [
-      { href: "/admin", label: "总览", icon: LayoutDashboard, exact: true },
+      { href: "/admin", label: "总览", icon: LayoutDashboard, exact: true, assistant: true },
       { href: "/admin/point", label: "点位管理", icon: FileChartColumnIncreasing },
-      { href: "/admin/vip", label: "VIP 审核", icon: ClipboardCheck },
-      { href: "/admin/users", label: "用户管理", icon: Users },
+      { href: "/admin/vip", label: "VIP 审核", icon: ClipboardCheck, assistant: true },
+      { href: "/admin/users", label: "用户查询", icon: Users, assistant: true },
       { href: "/admin/vip-management", label: "VIP 管理", icon: BadgeDollarSign },
     ],
   },
@@ -56,28 +57,37 @@ const adminGroups = [
   },
 ];
 
-export function AdminNav() {
+export function AdminNav({ role = "ADMIN" }: { role?: string }) {
   const pathname = usePathname();
+  const isAssistant = isAdminAssistantRole(role);
+  const visibleGroups = adminGroups
+    .map((group) => ({
+      ...group,
+      links: isAssistant ? group.links.filter((item) => item.assistant) : group.links,
+    }))
+    .filter((group) => group.links.length > 0);
 
   return (
     <nav className="rounded-3xl border border-slate-200 bg-white/90 p-3 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/90">
       <div className="mb-3 hidden rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-4 dark:border-amber-900/50 dark:from-amber-950/30 dark:to-slate-950 lg:block">
         <div className="flex items-center gap-2 text-xs font-black uppercase text-amber-700 dark:text-amber-200">
           <ShieldCheck className="h-4 w-4" />
-          Wise Admin
+          {isAssistant ? "Wise Assistant" : "Wise Admin"}
         </div>
         <p className="mt-2 text-sm font-black text-slate-950 dark:text-white">控制台</p>
         <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
-          管理账户、权限、合作方与关键配置。
+          {isAssistant ? "处理用户 VIP 升级与绑定审核。" : "管理账户、权限、合作方与关键配置。"}
         </p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
-        {adminGroups.map((group) => (
+        {visibleGroups.map((group) => (
           <div key={group.label} className="min-w-[210px] lg:min-w-0">
             <div className="hidden px-2 py-2 lg:block">
               <p className="text-[11px] font-black uppercase tracking-[0.08em] text-slate-400">{group.label}</p>
-              <p className="mt-0.5 text-[11px] font-bold text-slate-400">{group.description}</p>
+              <p className="mt-0.5 text-[11px] font-bold text-slate-400">
+                {isAssistant && group.label === "核心管理" ? "用户查询和 VIP 审核" : group.description}
+              </p>
             </div>
             <div className="space-y-1">
               {group.links.map((item) => {

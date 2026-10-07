@@ -6,6 +6,7 @@ import { WechatIdForm } from "@/app/account/vip/wechat-id-form";
 
 type VipPagePromptsProps = {
   initialWechatId: string | null;
+  initialWechatCity?: string | null;
   isVip: boolean;
   rejection: {
     partnerName: string;
@@ -14,7 +15,7 @@ type VipPagePromptsProps = {
   } | null;
 };
 
-export function VipPagePrompts({ initialWechatId, isVip, rejection }: VipPagePromptsProps) {
+export function VipPagePrompts({ initialWechatId, initialWechatCity = null, isVip, rejection }: VipPagePromptsProps) {
   const [reviewOpen, setReviewOpen] = useState(Boolean(rejection));
 
   return (
@@ -28,7 +29,13 @@ export function VipPagePrompts({ initialWechatId, isVip, rejection }: VipPagePro
           onOpenChange={setReviewOpen}
         />
       )}
-      {isVip && <WechatIdForm initialWechatId={initialWechatId} autoPrompt={!reviewOpen} />}
+      {isVip && (
+        <WechatIdForm
+          initialWechatId={initialWechatId}
+          initialWechatCity={initialWechatCity}
+          autoPrompt={!reviewOpen && (!initialWechatId || !initialWechatCity)}
+        />
+      )}
     </>
   );
 }

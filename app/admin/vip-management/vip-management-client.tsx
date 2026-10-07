@@ -31,6 +31,7 @@ export type VipExchangeRecordView = {
   id: string;
   email: string;
   wechatId: string | null;
+  wechatCity: string | null;
   platform: string;
   uid: string;
   source: "VERIFIED_ACCOUNT" | "MANUAL";
@@ -45,6 +46,7 @@ export type VipExchangeRecordView = {
 type FormValues = {
   email: string;
   wechatId: string;
+  wechatCity: string;
   platform: string;
   uid: string;
   note: string;
@@ -53,6 +55,7 @@ type FormValues = {
 const emptyValues: FormValues = {
   email: "",
   wechatId: "",
+  wechatCity: "",
   platform: "",
   uid: "",
   note: "",
@@ -93,7 +96,7 @@ export function VipManagementClient({
       const matchesPlatform = platform === "ALL" || record.platform === platform;
       const matchesQuery =
         !normalized ||
-        [record.email, record.wechatId, record.platform, record.uid, record.user?.wiseUserId, record.user?.name]
+        [record.email, record.wechatId, record.wechatCity, record.platform, record.uid, record.user?.wiseUserId, record.user?.name]
           .filter(Boolean)
           .some((value) => value!.toLowerCase().includes(normalized));
       return matchesPlatform && matchesQuery;
@@ -122,6 +125,7 @@ export function VipManagementClient({
     setValues({
       email: record.email,
       wechatId: record.wechatId ?? "",
+      wechatCity: record.wechatCity ?? "",
       platform: record.platform,
       uid: record.uid,
       note: record.note ?? "",
@@ -221,16 +225,17 @@ export function VipManagementClient({
 
         <div className="overflow-x-auto">
           <div className="min-w-[1040px]">
-            <div className="grid grid-cols-[1.35fr_1fr_0.85fr_1fr_0.72fr_0.6fr] gap-4 border-b border-slate-200 px-5 py-3 text-xs font-black text-slate-400 dark:border-slate-800">
+            <div className="grid grid-cols-[1.25fr_0.9fr_0.7fr_0.85fr_1fr_0.72fr_0.6fr] gap-4 border-b border-slate-200 px-5 py-3 text-xs font-black text-slate-400 dark:border-slate-800">
               <span>用户邮箱</span>
               <span>微信号</span>
+              <span>城市</span>
               <span>所属平台</span>
               <span>UID</span>
               <span>来源 / 更新</span>
               <span className="text-right">操作</span>
             </div>
             {filteredRecords.map((record) => (
-              <div key={record.id} className="grid grid-cols-[1.35fr_1fr_0.85fr_1fr_0.72fr_0.6fr] items-center gap-4 border-b border-slate-100 px-5 py-4 text-sm last:border-0 dark:border-slate-800">
+              <div key={record.id} className="grid grid-cols-[1.25fr_0.9fr_0.7fr_0.85fr_1fr_0.72fr_0.6fr] items-center gap-4 border-b border-slate-100 px-5 py-4 text-sm last:border-0 dark:border-slate-800">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 shrink-0 text-slate-400" />
@@ -242,6 +247,7 @@ export function VipManagementClient({
                   <span className="truncate font-mono text-xs font-bold text-slate-600 dark:text-slate-300">{record.wechatId ?? "未填写"}</span>
                   {record.wechatId && <CopyButton value={record.wechatId} label="" />}
                 </div>
+                <span className="truncate text-xs font-bold text-slate-500 dark:text-slate-400">{record.wechatCity ?? "未填写"}</span>
                 <span className="w-fit rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-black text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">{record.platform}</span>
                 <div className="flex min-w-0 items-center gap-2">
                   <span className="truncate font-mono text-xs font-black" title={record.uid}>{record.uid}</span>
@@ -290,6 +296,10 @@ export function VipManagementClient({
             <label className="text-sm font-black text-slate-700 dark:text-slate-200">
               微信号
               <Input value={values.wechatId} onChange={(event) => setValue("wechatId", event.target.value)} placeholder="可稍后补充" className="mt-2 h-11 rounded-xl" />
+            </label>
+            <label className="text-sm font-black text-slate-700 dark:text-slate-200">
+              城市
+              <Input value={values.wechatCity} onChange={(event) => setValue("wechatCity", event.target.value)} placeholder="例如：上海" className="mt-2 h-11 rounded-xl" />
             </label>
             <label className="text-sm font-black text-slate-700 dark:text-slate-200">
               所属平台

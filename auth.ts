@@ -6,6 +6,7 @@ import authConfig from "@/auth.config";
 import { createOAuthProxyFetch } from "@/lib/auth/oauth-proxy-fetch";
 import { verifyPassword } from "@/lib/auth/password";
 import { WisePrismaAdapter } from "@/lib/auth/wise-prisma-adapter";
+import { isAdminAssistantEmail } from "@/lib/identity/user-id";
 import { findPasswordUser } from "@/lib/identity/users";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 
@@ -99,10 +100,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       });
 
       if (!persistedUser) return null;
+      const runtimeRole = isAdminAssistantEmail(persistedUser.email) && persistedUser.role !== "ADMIN"
+        ? "ADMIN_ASSISTANT"
+        : persistedUser.role;
+
       token.sub = persistedUser.id;
       token.wiseUserId = persistedUser.wiseUserId;
       token.membershipTier = persistedUser.membershipTier;
-      token.role = persistedUser.role;
+      token.role = runtimeRole;
       token.email = persistedUser.email;
       token.name = persistedUser.name;
       token.picture = persistedUser.image;

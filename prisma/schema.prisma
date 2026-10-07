@@ -14,6 +14,7 @@ enum MembershipTier {
 
 enum UserRole {
   USER
+  ADMIN_ASSISTANT
   ADMIN
 }
 
@@ -106,6 +107,7 @@ model User {
   emailVerified  DateTime?      @map("email_verified")
   image          String?
   wechatId       String?        @map("wechat_id")
+  wechatCity     String?        @map("wechat_city")
   passwordHash   String?        @map("password_hash") @db.Text
   membershipTier MembershipTier @default(MEMBER) @map("membership_tier")
   role           UserRole       @default(USER)
@@ -240,6 +242,7 @@ model VipExchangeRecord {
   partnerAccountId String?                 @unique @map("partner_account_id")
   email            String
   wechatId         String?                 @map("wechat_id")
+  wechatCity       String?                 @map("wechat_city")
   platform         String
   uid              String
   source           VipExchangeRecordSource @default(MANUAL)
@@ -253,6 +256,7 @@ model VipExchangeRecord {
   @@index([platform, uid])
   @@index([email])
   @@index([wechatId])
+  @@index([wechatCity])
   @@index([platform])
   @@index([userId])
   @@map("vip_exchange_records")

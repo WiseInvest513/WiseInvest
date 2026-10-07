@@ -13,7 +13,9 @@ import {
   XCircle,
 } from "lucide-react";
 import { SignOutButton } from "@/app/account/sign-out-button";
+import { WechatIdForm } from "@/app/account/vip/wechat-id-form";
 import { Button } from "@/components/ui/button";
+import { isAdminStaffRole } from "@/lib/auth/admin-roles";
 import { requireWiseUser } from "@/lib/identity/current-user";
 import {
   getNextTier,
@@ -201,6 +203,7 @@ export default async function AccountPage() {
   const verifiedAccounts = user.partnerAccounts.filter((account) => account.status === "VERIFIED");
   const hero = getHeroCopy(currentTier, verifiedAccounts.length);
   const contentLibrary = await getUserContentLibrary(user.id);
+  const isVip = currentTier === "VIP" || currentTier === "VIP_PLUS";
 
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-white">
@@ -233,7 +236,7 @@ export default async function AccountPage() {
             </div>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col">
-            {user.role === "ADMIN" ? (
+            {isAdminStaffRole(user.role) ? (
               <Button asChild className="h-12 rounded-xl bg-amber-400 px-5 font-bold text-slate-950 hover:bg-amber-300">
                 <Link href="/admin">
                   <ShieldCheck className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -256,6 +259,14 @@ export default async function AccountPage() {
             </Button>
           </div>
         </section>
+
+        {isVip ? (
+          <WechatIdForm
+            initialWechatId={user.wechatId}
+            initialWechatCity={user.wechatCity}
+            autoPrompt={!user.wechatId || !user.wechatCity}
+          />
+        ) : null}
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-8">
           <h2 className="text-2xl font-black">会员升级路径</h2>
