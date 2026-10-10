@@ -109,6 +109,11 @@ const nextConfig: NextConfig = {
   // 优化页面加载性能
   compress: true,
   poweredByHeader: false,
+  images: {
+    minimumCacheTTL: 3600,
+    qualities: [60, 75],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1536, 1920, 2048, 2560, 3840],
+  },
   async redirects() {
     return [
       {
@@ -125,6 +130,11 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // Cache only public illustrations, never account pages or API responses.
+      ...(process.env.NODE_ENV === "production" ? ["home", "websites", "articles", "perks/overview"].map((directory) => ({
+        source: `/images/${directory}/:path*`,
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600, must-revalidate" }],
+      })) : []),
       {
         source: "/(.*)",
         headers: sharedSecurityHeaders,

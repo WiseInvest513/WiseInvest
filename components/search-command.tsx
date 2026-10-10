@@ -37,6 +37,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { useContentAccessGate } from "@/components/content-access-gate";
+import { DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { isWiseInvestHref, toWiseInvestRelativeHref } from "@/lib/content-access";
 
 // Icon mapping
@@ -433,6 +434,8 @@ export function SearchCommand({
     <>
     {contentGateDialog}
     <CommandDialog open={open} onOpenChange={onOpenChange}>
+      <DialogTitle className="sr-only">搜索全站</DialogTitle>
+      <DialogDescription className="sr-only">搜索文章、产品和投资工具。</DialogDescription>
       <CommandInput
         placeholder="搜索文章、福利、虚拟卡、工具..."
         value={search}

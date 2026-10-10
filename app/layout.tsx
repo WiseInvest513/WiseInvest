@@ -5,7 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import { DailyRecommendation } from "@/components/business/DailyRecommendation";
+import { AutomaticRecommendation } from "@/components/business/automatic-recommendation";
 // 春节烟花效果，下次春节再启用
 // import { SingleFireworkOverlay } from "@/components/effects/Fireworks";
 import { siteConfig } from "@/lib/config";
@@ -127,7 +127,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
-          <DailyRecommendation />
+          <AutomaticRecommendation />
           <Toaster position="bottom-right" richColors />
           <Analytics />
         </ThemeProvider>

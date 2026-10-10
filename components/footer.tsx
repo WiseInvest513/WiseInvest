@@ -13,6 +13,23 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+function HomeFooter() {
+  return (
+    <footer className="bg-white px-6 py-7 dark:bg-[#181a1d]">
+      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-8 gap-y-5">
+        <div>
+          <Link href="/" className="font-heading text-xl font-extrabold text-[#282d32] dark:text-white">Wise <span className="text-[#a97919] dark:text-[#d3ac64]">Invest</span></Link>
+          <p className="mt-1 text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">从学习到实践，找到自己的节奏。</p>
+        </div>
+        <div className="text-xs leading-loose text-neutral-500 sm:text-right dark:text-neutral-400">
+          <p>© {new Date().getFullYear()} Wise Invest</p>
+          <p>内容仅供学习与交流，不构成投资建议。</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 export function Footer() {
   const [wechatDialogOpen, setWechatDialogOpen] = useState(false);
   const [xIconFailed, setXIconFailed] = useState(false);
@@ -21,6 +38,7 @@ export function Footer() {
   const pathname = usePathname();
 
   if (pathname === "/admin/point" || pathname.startsWith("/admin/point/")) return null;
+  if (pathname === "/") return <HomeFooter />;
 
   return (
     <>

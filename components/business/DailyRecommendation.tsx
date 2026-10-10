@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { openSafeExternalUrl } from "@/lib/security/external-links";
 import { dailyRecommendations, type RecommendationItem } from "@/lib/daily-recommendations";
+import { suppressAutomaticRecommendation } from "@/lib/recommendation-visibility";
 
 interface RecommendationLog {
   lastShownTime: number;
@@ -71,7 +72,7 @@ interface DailyRecommendationProps {
 
 export function DailyRecommendation({ open: controlledOpen, onOpenChange: controlledOnOpenChange }: DailyRecommendationProps = {}) {
   const pathname = usePathname();
-  const suppressAutomatic = pathname === "/point" || pathname.startsWith("/point/") || pathname === "/admin" || pathname.startsWith("/admin/");
+  const suppressAutomatic = suppressAutomaticRecommendation(pathname);
   const [internalOpen, setInternalOpen] = useState(false);
   const [communityChannel, setCommunityChannel] = useState<"telegram" | "wechat">("telegram");
   const recommendations: RecommendationItem[] = useMemo(

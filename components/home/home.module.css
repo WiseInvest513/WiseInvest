@@ -1,0 +1,353 @@
+.home {
+  --home-text: #282d32;
+  --home-muted: #687078;
+  --home-line: #dfe2e5;
+  --home-gold: #a97919;
+  --home-surface: #fff;
+  --home-soft: #f5f6f7;
+  --home-primary: #282d32;
+  --home-primary-text: #fff;
+  --home-frame-gutter: 96px;
+  --home-content-gutter: 96px;
+  color: var(--home-text);
+  background: var(--home-surface);
+  font-family: var(--font-inter), "PingFang SC", "Microsoft YaHei", sans-serif;
+  letter-spacing: 0;
+}
+:global(.dark) .home {
+  --home-text: #f2f3f4;
+  --home-muted: #b1b6bc;
+  --home-line: #373a3e;
+  --home-gold: #d3ac64;
+  --home-surface: #181a1d;
+  --home-soft: #202327;
+  --home-primary: #f2f3f4;
+  --home-primary-text: #282d32;
+}
+:global(html):has(.home) { scroll-behavior: smooth; }
+.home section[id] { scroll-margin-top: 88px; }
+.container { width: min(1120px, calc(100% - var(--home-frame-gutter) - var(--home-content-gutter))); margin-inline: auto; }
+.hero, .etfVisual, .stockScene, .globalChapter, .vipVisual, .exploreBand {
+  width: min(1280px, calc(100% - var(--home-frame-gutter)));
+  margin-inline: auto;
+}
+.stockScene .container, .globalChapter .container, .exploreBand .container {
+  width: min(1120px, calc(100% - var(--home-content-gutter)));
+}
+.home h1, .home h2, .home h3, .vipBrand {
+  font-family: var(--font-nunito), "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+.home a:focus-visible { outline: 3px solid #c29335; outline-offset: 5px; }
+.home svg { flex-shrink: 0; }
+.hero {
+  --home-text: #282d32;
+  --home-muted: #687078;
+  --home-gold: #a97919;
+  --home-primary: #282d32;
+  --home-primary-text: #fff;
+  position: relative;
+  margin: 12px auto 0;
+  height: min(620px, calc(100svh - 240px));
+  min-height: 440px;
+  color: #282d32;
+  background: #fff;
+  overflow: hidden;
+}
+.heroArt { object-fit: cover; object-position: center bottom; }
+.heroContent { position: relative; z-index: 1; width: min(960px, calc(100% - 48px)); margin-inline: auto; padding-top: 58px; text-align: center; }
+.heroContent h1 { font-size: 80px; line-height: 1.15; font-weight: 900; }
+.heroContent h1 span, .vipBrand span { color: var(--home-gold); }
+.heroContent h2 { margin-top: 12px; font-size: 60px; line-height: 1.3; font-weight: 850; }
+.heroContent > p { margin-top: 20px; color: var(--home-muted); font-size: 18px; line-height: 1.8; }
+.directions { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 10px; gap: 5px 0; color: var(--home-muted); font-size: 16px; line-height: 1.7; }
+.directions a { padding: 3px 12px; }
+.directions a:not(:last-child)::after { content: "·"; position: relative; left: 12px; color: #8c9196; }
+.directions a:hover { color: var(--home-gold); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 26px; margin-top: 26px; }
+.heroContent .actions { justify-content: center; }
+.primaryAction, .textAction { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; font-size: 15px; line-height: 1.6; font-weight: 600; }
+.primaryAction { padding: 12px 22px; border-radius: 8px; color: var(--home-primary-text); background: var(--home-primary); border: 1px solid var(--home-primary); transition: background 160ms ease, color 160ms ease; }
+.primaryAction:hover { background: #42484e; border-color: #42484e; color: #fff; }
+.textAction { justify-content: flex-start; color: var(--home-gold); padding-block: 4px; transition: color 160ms ease; }
+.textAction:hover { color: var(--home-text); }
+.heroContent .textAction { justify-content: center; padding: 12px 22px; border: 1px solid #a97919; border-radius: 8px; color: #282d32; background: #e3c481; transition: background 160ms ease, border-color 160ms ease; }
+.heroContent .textAction:hover { border-color: #956c1d; color: #282d32; background: #d3b268; }
+.chapterMarker { color: var(--home-gold); font-size: 15px; line-height: 1.7; font-weight: 500; }
+.chapterMarker > span { margin-inline: 6px; }
+.chapterTitle { margin-top: 18px; font-size: 48px; line-height: 1.4; font-weight: 850; }
+.description { margin-top: 16px; color: var(--home-muted); font-size: 16px; line-height: 1.9; }
+.etfChapter { padding-top: 64px; }
+.etfHeading { display: grid; grid-template-columns: 1fr 1.45fr; align-items: center; gap: 48px; }
+.steps { display: flex; align-items: flex-start; gap: 24px; }
+.steps li { position: relative; display: flex; align-items: center; flex: 1; min-width: 0; gap: 12px; font-size: 15px; line-height: 1.7; }
+.stepNumber { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: var(--home-soft); color: var(--home-text); font-weight: 600; }
+.steps li:not(:last-child)::after { content: ""; width: 22px; height: 1px; margin-left: auto; background: #c4a05a; flex-shrink: 0; }
+.etfRoute .description { margin-top: 26px; }
+.etfVisual { position: relative; aspect-ratio: 4 / 1; margin: 30px auto 22px; color: #343a3f; background: #fff; overflow: hidden; }
+.etfArt { object-fit: cover; }
+.etfLabels { position: absolute; top: 9%; height: 89%; width: 13%; display: grid; grid-template-rows: repeat(5, 1fr); align-items: center; text-align: center; font-size: 14px; line-height: 1.5; }
+.etfMarketLabels { left: 3.5%; }
+.etfIdeaLabels { right: 3.5%; }
+.etfCenter { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-nunito), sans-serif; font-size: 28px; font-weight: 850; color: #a97919; }
+.etfChoices { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding-bottom: 38px; }
+.etfChoices > div { min-width: 0; padding: 8px 0; }
+.etfChoices > div:last-child { padding-left: 40px; border-left: 1px solid var(--home-line); }
+.etfChoices h3 { font-size: 28px; line-height: 1.5; }
+.etfChoices h3::before { content: ""; display: block; width: 32px; height: 2px; margin-bottom: 17px; background: var(--home-gold); }
+.etfChoices .actions { margin-top: 20px; }
+.toolBar { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 36px; border-top: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); padding: 20px 0; }
+.toolBar > h3 { flex-shrink: 0; font-size: 21px; line-height: 1.5; }
+.toolLinks { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; flex: 1; gap: 14px 26px; }
+.toolLink { display: flex; min-width: 0; align-items: center; gap: 15px; }
+.toolLink > svg { color: var(--home-gold); }
+.toolLink .textAction { color: var(--home-text); font-weight: 500; }
+.toolLink .textAction:hover { color: var(--home-gold); }
+.chapterTransition { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 66px; font-size: 14px; color: var(--home-gold); }
+.chapterTransition > span { display: inline-flex; align-items: center; gap: 8px; }
+.chapterTransition:hover { color: var(--home-text); }
+.stockScene { position: relative; height: 520px; overflow: hidden; background: #191c20; color: #fff; }
+.stockArt { object-fit: cover; object-position: center top; }
+.stockIntro { position: relative; z-index: 1; padding-top: 32px; text-align: center; }
+.stockIntro .chapterMarker { color: #d4b367; }
+.stockIntro .chapterTitle { margin-top: 18px; line-height: 1.25; }
+.stockIntro .chapterTitle > span { display: block; text-wrap: balance; }
+.stockIntro > p:not(.chapterMarker) { margin-top: 16px; font-size: 17px; line-height: 1.8; color: #e0e3e6; }
+.stockIntro > p:last-child { margin-top: 3px; font-size: 15px; }
+.companyLabels { position: absolute; z-index: 1; top: 56%; inset-inline: 6%; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 16px; line-height: 1.7; }
+.companyLabels span::after { content: ""; display: block; width: 1px; height: 36px; margin: 5px auto 0; background: #c4a05a; }
+.companyLabels b { margin-left: 7px; font-weight: 500; }
+.stockChoices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; padding: 42px 0 32px; }
+.stockChoices > div { min-width: 0; }
+.stockChoices > div:not(:first-child) { border-left: 1px solid var(--home-line); padding-left: 36px; }
+.choiceMarker { display: flex; align-items: center; gap: 18px; color: var(--home-muted); font-size: 15px; line-height: 1.7; }
+.choiceMarker span { color: var(--home-gold); }
+.stockChoices h3 { font-size: 28px; line-height: 1.5; margin-top: 13px; }
+.stockChoices .description { min-height: 62px; margin-top: 12px; }
+.stockChoices > div > .textAction, .stockChoices > div > .primaryAction, .stackedActions { margin-top: 10px; }
+.stackedActions { display: flex; flex-direction: column; align-items: flex-start; }
+.stackedActions .textAction { min-height: 36px; }
+.stocksChapter .toolBar { justify-content: center; }
+.stocksChapter .toolLinks { flex: 0 1 auto; gap: 40px; }
+.cryptoChapter { padding-top: 74px; }
+.cryptoIntro { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 32px; align-items: center; }
+.cryptoCopy { position: relative; z-index: 1; }
+.cryptoCopy > .description { margin-top: 28px; }
+.cryptoCopy > .primaryAction { margin-top: 26px; }
+.cryptoVisual { position: relative; width: min(540px, 100%); aspect-ratio: 1; margin-inline: auto; }
+.cryptoArt { object-fit: contain; }
+.cryptoQuestions { margin-top: 32px; }
+.cryptoQuestions > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; padding: 12px 0; border-top: 1px solid var(--home-line); }
+.cryptoQuestions > div:last-child { border-bottom: 1px solid var(--home-line); }
+.cryptoQuestions h3 { font-size: 14px; line-height: 1.7; font-weight: 700; }
+.cryptoQuestions .textAction { color: var(--home-muted); font-size: 13px; font-weight: 500; }
+.cryptoQuestions .textAction:hover { color: var(--home-gold); }
+.cryptoPractice { padding: 34px 0 4px; margin-top: 22px; border-top: 1px solid var(--home-line); }
+.cryptoPractice > h3 { font-size: 26px; line-height: 1.5; }
+.cryptoPractice .toolBar { padding-block: 20px 8px; border: 0; }
+.notice { margin-top: 16px; font-size: 12px; line-height: 1.9; color: var(--home-muted); }
+.globalChapter { padding: 72px 0 50px; background: var(--home-soft); }
+.centerIntro { text-align: center; }
+.centerIntro .description { margin-top: 18px; font-size: 17px; }
+.globalVisual { position: relative; height: 340px; margin-top: 20px; }
+.globalArt { object-fit: contain; }
+.serviceRow { display: grid; grid-template-columns: 30px 205px minmax(0, 1fr) 330px; align-items: center; gap: 24px; padding: 25px 0; border-top: 1px solid var(--home-line); }
+.serviceNumber { color: var(--home-gold); font-size: 17px; }
+.serviceRow h3 { font-size: 21px; line-height: 1.5; }
+.serviceRow > p { color: var(--home-muted); font-size: 13px; line-height: 1.9; }
+.serviceActions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; }
+.serviceActions .textAction { font-size: 13px; color: var(--home-text); }
+.serviceActions .textAction:hover { color: var(--home-gold); }
+.serviceActions .primaryAction { font-size: 13px; padding-inline: 16px; }
+.globalChapter .notice { text-align: center; }
+.vipChapter { padding: 62px 0 54px; }
+.vipBrand { margin-top: 20px; font-size: 60px; line-height: 1.2; font-weight: 900; }
+.vipChapter .chapterTitle { margin-top: 15px; }
+.vipChapter .chapterTitle > span { display: inline-block; }
+.vipVisual { position: relative; height: 170px; margin-top: 26px; overflow: hidden; background: #fff; }
+.vipArt { object-fit: cover; object-position: center 76%; mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 72%, transparent); }
+.vipBenefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; padding: 28px 0 32px; }
+.vipBenefit { display: flex; align-items: flex-start; gap: 20px; min-width: 0; }
+.vipBenefit:not(:first-child) { padding-left: 30px; border-left: 1px solid var(--home-line); }
+.vipBenefit > svg { color: var(--home-gold); }
+.vipBenefit h3 { font-size: 19px; line-height: 1.5; }
+.vipBenefit p { color: var(--home-muted); font-size: 13px; line-height: 1.9; margin-top: 7px; }
+.joining { border-top: 1px solid var(--home-line); padding-top: 34px; }
+.joining > h3 { font-size: 28px; line-height: 1.5; }
+.joining .steps { margin-top: 26px; }
+.joining .actions { justify-content: center; margin-top: 32px; }
+.joining .notice { text-align: center; }
+.exploreBand { background: var(--home-soft); padding: 28px 0; }
+.exploreBand h2 { font-size: 23px; line-height: 1.5; }
+.exploreLinks { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px 22px; margin-top: 16px; font-size: 13px; line-height: 1.7; }
+.exploreLinks a { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; }
+.exploreLinks a:hover { color: var(--home-gold); }
+.courseLinks { display: flex; align-items: center; gap: 3px; }
+
+@media (max-width: 1199px) {
+  .home { --home-content-gutter: 56px; }
+  .etfHeading { gap: 28px; }
+  .etfRoute .steps { gap: 12px; }
+  .etfRoute .steps li { gap: 9px; font-size: 13px; }
+  .etfRoute .steps li::after { width: 12px; }
+  .etfChoices { gap: 28px; }
+  .etfChoices > div:last-child { padding-left: 28px; }
+  .stockChoices { gap: 26px; }
+  .stockChoices > div:not(:first-child) { padding-left: 26px; }
+  .cryptoIntro { gap: 20px; }
+  .cryptoIntro .chapterTitle { font-size: 36px; }
+  .serviceRow { grid-template-columns: 24px 180px minmax(0, 1fr); gap: 22px; }
+  .serviceActions { grid-column: 3; justify-content: flex-start; }
+  .serviceRow > p { grid-column: 3; }
+  .serviceRow h3, .serviceNumber { grid-row: 1 / span 2; }
+  .joining .steps { gap: 18px; }
+  .joining .steps li { font-size: 13px; gap: 10px; }
+  .joining .steps li::after { width: 12px; }
+}
+@media (max-width: 899px) {
+  .home { --home-frame-gutter: 56px; }
+  .chapterTitle { font-size: 36px; }
+  .heroContent h1 { font-size: 64px; }
+  .heroContent h2 { font-size: 44px; }
+  .etfHeading { grid-template-columns: 1fr; gap: 24px; }
+  .etfRoute { max-width: 620px; }
+  .etfRoute .steps li { font-size: 14px; }
+  .etfVisual { margin-top: 20px; }
+  .etfLabels { font-size: 11px; }
+  .etfCenter { font-size: 23px; }
+  .etfChoices h3, .stockChoices h3 { font-size: 25px; }
+  .toolLinks { gap: 12px 18px; }
+  .toolLink { gap: 10px; }
+  .toolLink .textAction { font-size: 13px; }
+  .stockScene { height: 460px; }
+  .stockArt { object-fit: contain; object-position: center bottom; }
+  .companyLabels { font-size: 14px; }
+  .stockChoices { grid-template-columns: 1fr; gap: 0; padding-block: 12px; }
+  .stockChoices > div { padding: 26px 0; }
+  .stockChoices > div:not(:first-child) { padding-left: 0; border-left: 0; border-top: 1px solid var(--home-line); }
+  .stockChoices .description { min-height: 0; }
+  .stackedActions { flex-direction: row; flex-wrap: wrap; gap: 24px; }
+  .cryptoIntro { grid-template-columns: 1fr; gap: 0; }
+  .cryptoQuestions { max-width: 620px; }
+  .cryptoVisual { margin: 0 auto; }
+  .cryptoPractice { margin-top: 0; padding-top: 24px; }
+  .cryptoPractice .toolLinks { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+  .globalVisual { height: 260px; }
+  .serviceRow { grid-template-columns: 24px 160px minmax(0, 1fr); gap: 12px 20px; }
+  .serviceActions { gap: 10px 24px; }
+  .vipBenefits { gap: 20px; }
+  .vipBenefit { gap: 12px; }
+  .vipBenefit:not(:first-child) { padding-left: 20px; }
+  .vipBenefit > svg { width: 27px; }
+  .joining .steps { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .joining .steps li::after { display: none; }
+  .exploreLinks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+}
+@media (max-width: 599px) {
+  .home { --home-frame-gutter: 32px; --home-content-gutter: 8px; }
+  .home section[id] { scroll-margin-top: 78px; }
+  .hero { height: min(520px, calc(100svh - 210px)); min-height: 410px; }
+  .heroContent { width: calc(100% - 32px); padding-top: 44px; }
+  .heroContent h1 { font-size: 48px; }
+  .heroContent h2 { font-size: 32px; line-height: 1.45; margin-top: 10px; }
+  .heroContent > p { max-width: 290px; margin: 16px auto 0; font-size: 14px; line-height: 1.8; }
+  .directions { font-size: 12px; max-width: 340px; margin: 9px auto 0; }
+  .directions a { padding-inline: 7px; }
+  .directions a:not(:last-child)::after { left: 7px; }
+  .heroContent .actions { margin-top: 23px; gap: 12px; }
+  .heroContent .textAction { padding: 10px 16px; }
+  .primaryAction, .textAction { font-size: 13px; min-height: 44px; gap: 8px; }
+  .primaryAction { padding: 10px 16px; }
+  .chapterMarker { font-size: 12px; }
+  .chapterTitle, .cryptoIntro .chapterTitle { font-size: 30px; line-height: 1.5; margin-top: 13px; }
+  .description, .centerIntro .description { font-size: 14px; margin-top: 14px; line-height: 1.9; }
+  .etfChapter { padding-top: 46px; }
+  .etfHeading { gap: 22px; }
+  .steps { gap: 16px; }
+  .etfRoute .steps { flex-direction: column; gap: 15px; }
+  .etfRoute .steps li { width: 100%; font-size: 14px; }
+  .etfRoute .steps li::after { display: none; }
+  .stepNumber { width: 32px; height: 32px; }
+  .etfRoute .description { margin-top: 20px; }
+  .etfVisual { height: 180px; aspect-ratio: auto; margin: 12px auto; }
+  .etfArt { object-fit: cover; }
+  .etfLabels { display: none; }
+  .etfCenter { font-size: 22px; }
+  .etfChoices { grid-template-columns: 1fr; gap: 22px; padding-bottom: 28px; }
+  .etfChoices > div:last-child { padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--home-line); }
+  .etfChoices h3 { font-size: 24px; }
+  .etfChoices h3::before { margin-bottom: 12px; }
+  .etfChoices .actions { margin-top: 14px; gap: 8px 18px; }
+  .toolBar { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px 0; }
+  .toolBar > h3 { font-size: 20px; }
+  .toolLinks { flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; }
+  .toolLink { width: 100%; gap: 14px; }
+  .toolLink .textAction { flex: 1; justify-content: space-between; font-size: 13px; }
+  .toolLink > svg { width: 24px; }
+  .chapterTransition { min-height: 60px; font-size: 12px; }
+  .stockArt { object-fit: contain; object-position: center bottom; }
+  .stockIntro { padding-top: 32px; }
+  .stockIntro .chapterTitle { font-size: 27px; line-height: 1.5; }
+  .stockIntro > p:not(.chapterMarker) { font-size: 13px; margin-top: 15px; }
+  .stockIntro > p:last-child { font-size: 12px; margin-top: 6px; }
+  .companyLabels { top: auto; bottom: 124px; inset-inline: 10px; font-size: 11px; gap: 8px; }
+  .companyLabels span::after { height: 22px; }
+  .companyLabels b { display: block; margin: 0; font-size: 10px; }
+  .stockChoices h3 { font-size: 24px; }
+  .choiceMarker { font-size: 13px; gap: 14px; }
+  .stockChoices .description { margin-top: 8px; }
+  .stocksChapter .toolLinks { flex-direction: column; gap: 6px; width: 100%; }
+  .cryptoChapter { padding-top: 44px; }
+  .cryptoCopy > .description { margin-top: 20px; }
+  .cryptoCopy > .primaryAction { margin-top: 20px; }
+  .cryptoQuestions { margin-top: 24px; }
+  .cryptoQuestions > div { align-items: flex-start; flex-direction: column; gap: 1px; }
+  .cryptoVisual { width: 100%; margin-top: 14px; }
+  .cryptoPractice > h3 { font-size: 23px; line-height: 1.6; }
+  .cryptoPractice .toolLinks { display: flex; flex-direction: column; }
+  .notice { font-size: 11px; margin-top: 12px; }
+  .globalChapter { padding: 44px 0 34px; }
+  .globalVisual { height: 160px; margin-top: 22px; }
+  .serviceRow { grid-template-columns: 26px minmax(0, 1fr); gap: 10px 10px; padding: 23px 0; }
+  .serviceNumber, .serviceRow h3 { grid-row: 1; }
+  .serviceRow h3 { font-size: 20px; }
+  .serviceRow > p { grid-column: 2; font-size: 13px; }
+  .serviceActions { grid-column: 2; gap: 7px 20px; }
+  .serviceActions .textAction { min-height: 40px; }
+  .globalChapter .notice { text-align: left; }
+  .vipChapter { padding: 44px 0 36px; }
+  .vipBrand { font-size: 46px; margin-top: 14px; }
+  .vipChapter .chapterTitle { font-size: 28px; line-height: 1.5; }
+  .vipVisual { height: 110px; margin-top: 22px; }
+  .vipBenefits { grid-template-columns: 1fr; gap: 0; padding: 10px 0 20px; }
+  .vipBenefit { padding: 20px 0; gap: 18px; }
+  .vipBenefit:not(:first-child) { padding-left: 0; border-left: 0; border-top: 1px solid var(--home-line); }
+  .vipBenefit > svg { width: 32px; }
+  .vipBenefit h3 { font-size: 19px; }
+  .vipBenefit p { margin-top: 4px; font-size: 13px; }
+  .joining { padding-top: 25px; }
+  .joining > h3 { font-size: 24px; }
+  .joining .steps { grid-template-columns: 1fr; margin-top: 20px; gap: 17px; }
+  .joining .steps li { font-size: 14px; gap: 13px; }
+  .joining .actions { margin-top: 26px; justify-content: flex-start; gap: 10px; }
+  .joining .notice { text-align: left; }
+  .exploreBand { padding: 24px 0; }
+  .exploreBand h2 { font-size: 22px; }
+  .exploreLinks { grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+}
+@media (max-width: 359px) {
+  .home { --home-content-gutter: 0px; }
+  .heroContent h1 { font-size: 42px; }
+  .heroContent h2 { font-size: 29px; }
+  .heroContent { padding-top: 32px; }
+  .heroContent > p { max-width: 270px; }
+  .chapterTitle, .cryptoIntro .chapterTitle { font-size: 27px; }
+  .stockIntro .chapterTitle { font-size: 25px; }
+  .vipChapter .chapterTitle { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :global(html):has(.home) { scroll-behavior: auto; }
+  .primaryAction, .textAction { transition: none; }
+}

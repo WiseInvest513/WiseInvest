@@ -4,8 +4,8 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  ChevronDown, ChevronRight, BookOpen, Clock, Calendar,
-  Library, ArrowRight, Search, Menu, CheckCircle2, ExternalLink, MessageCircle, ShieldCheck, LockKeyhole,
+  ChevronRight, BookOpen, Clock, Calendar, X,
+  Library, ArrowRight, Search, Menu, CheckCircle2, ShieldCheck, LockKeyhole,
   Bookmark, BookmarkCheck,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
@@ -13,11 +13,11 @@ import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
 import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
 import { ArticleExportButton } from "@/components/article-export-button";
-import { CommunityDialog } from "@/components/community-dialog";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
 import { ArticleVipInvitation } from "@/components/article-vip-invitation";
 import { getArticleVipInvitation } from "@/lib/article-vip-invitation";
 import { ArticleReleaseCountdown, type ArticleLimitedRelease } from "@/components/article-release-countdown";
+import { ArticleCard } from "@/components/article-card";
 
 type ArticleItem = ArticleListItem & { content?: string };
 type ArticleGuideProfile = {
@@ -32,6 +32,8 @@ interface ArticlesPageProps {
   initialArticle?: ArticleItem & { content: string };
   initialArticleId?: string;
   initialCategoryId?: string;
+  initialSubcategoryId?: string;
+  showAllArticles?: boolean;
   initialFaqs?: ArticleFaqItem[];
   limitedRelease?: ArticleLimitedRelease;
   lockedContent?: {
@@ -186,23 +188,17 @@ export function ArticlesContent({
   initialArticle,
   initialArticleId,
   initialCategoryId,
+  initialSubcategoryId,
+  showAllArticles = false,
   initialFaqs,
   lockedContent,
   limitedRelease,
 }: ArticlesPageProps = {}) {
   const pathname = usePathname();
   const router = useRouter();
-  const [openCategories, setOpenCategories] = useState<Set<string>>(() => new Set([
-    "web",
-    "VIP",
-    initialCategoryId ?? "",
-    "broker:us-broker", "broker:hk-broker",
-    "bank:physical-bank", "bank:virtual-bank", "bank:digital-bank", "bank:jianzheng",
-  ].filter(Boolean)));
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(initialArticleId ?? null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [communityOpen, setCommunityOpen] = useState(false);
   const [favoriteHrefs, setFavoriteHrefs] = useState<Set<string>>(() => new Set());
   const [favoriteBusy, setFavoriteBusy] = useState(false);
   const [expiredReleaseKey, setExpiredReleaseKey] = useState<string | null>(null);
@@ -256,6 +252,11 @@ export function ArticlesContent({
   }, [router]);
 
   useEffect(() => {
+    // Category pages need only public metadata, never every article's body.
+    if (initialArticles && !initialArticleId) {
+      setIsLoadingArticle(false);
+      return;
+    }
     if (effectiveLockedContent || activeLimitedRelease) {
       setIsLoadingArticle(false);
       return;
@@ -268,7 +269,9 @@ export function ArticlesContent({
       .then(r => r.json())
       .then((fsArticles: Article[]) => {
         const fsIds = new Set(fsArticles.map(a => a.id));
-        const merged = [...hardcodedArticles.filter(a => !fsIds.has(a.id)), ...fsArticles];
+        const coverById = new Map(initialArticles?.map(article => [article.id, article.coverImage]));
+        const merged = [...hardcodedArticles.filter(a => !fsIds.has(a.id)), ...fsArticles]
+          .map(article => ({ ...article, coverImage: coverById.get(article.id) }));
 
         if (urlMatch) {
           const [, catId, uid] = urlMatch;
@@ -277,7 +280,6 @@ export function ArticlesContent({
             // All in one batch — React 18 automatic batching, single re-render
             setAllArticles(merged);
             setSelectedArticleId(found.id);
-            setOpenCategories(prev => new Set([...prev, catId]));
             setIsLoadingArticle(false);
             return;
           }
@@ -286,7 +288,7 @@ export function ArticlesContent({
         setIsLoadingArticle(false);
       })
       .catch(() => setIsLoadingArticle(false));
-  }, [activeLimitedRelease, effectiveLockedContent]);
+  }, [activeLimitedRelease, effectiveLockedContent, initialArticles, initialArticleId]);
 
   const selectedArticle = useMemo(() => {
     // This article's server payload can change at the timed access boundary.
@@ -345,15 +347,30 @@ export function ArticlesContent({
 
   const filteredArticles = useMemo(() => {
     if (!searchQuery.trim()) return allArticles;
-    const q = searchQuery.toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
     return allArticles.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q));
   }, [searchQuery, allArticles]);
 
   const articlesByCategory = useMemo(() => {
     const map = new Map<string, ArticleItem[]>();
-    filteredArticles.forEach(a => { if (!map.has(a.categoryId)) map.set(a.categoryId, []); map.get(a.categoryId)!.push(a); });
+    allArticles.forEach(a => { if (!map.has(a.categoryId)) map.set(a.categoryId, []); map.get(a.categoryId)!.push(a); });
     return map;
-  }, [filteredArticles]);
+  }, [allArticles]);
+
+  const activeCategoryId = initialCategoryId ?? selectedArticle?.categoryId;
+  const activeCategory = categories.find((category) => category.id === activeCategoryId);
+  const activeSubcategoryId = initialSubcategoryId ?? selectedArticle?.subcategoryId;
+  const activeSubcategory = subcategories.find((subcategory) => subcategory.id === activeSubcategoryId);
+  const isSearching = Boolean(searchQuery.trim());
+  const browserArticles = useMemo(() => {
+    const scoped = filteredArticles
+      .filter((article) => !activeCategoryId || article.categoryId === activeCategoryId)
+      .filter((article) => !activeSubcategoryId || article.subcategoryId === activeSubcategoryId);
+    if (activeCategoryId !== "crypto") return scoped;
+    const priorityIds = ["biance-guide", "okx-guide"];
+    const rank = (id: string) => priorityIds.includes(id) ? priorityIds.indexOf(id) : priorityIds.length;
+    return scoped.sort((a, b) => rank(a.id) - rank(b.id));
+  }, [activeCategoryId, activeSubcategoryId, filteredArticles]);
 
   useEffect(() => {
     if (!selectedArticle || !selectedArticleHref) return;
@@ -386,10 +403,6 @@ export function ArticlesContent({
       })
       .catch(() => {});
   }, [selectedArticleHref]);
-
-  const toggleCategory = (id: string) => {
-    setOpenCategories(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  };
 
   const selectArticle = (id: string, catId: string) => {
     const href = `/articles/${catId}/${genUid(id)}`;
@@ -447,7 +460,6 @@ export function ArticlesContent({
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      <CommunityDialog open={communityOpen} onOpenChange={setCommunityOpen} />
       {contentGateDialog}
 
       <div className="w-full flex h-[calc(100vh-64px)]">
@@ -460,144 +472,79 @@ export function ArticlesContent({
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}>
           <div className="px-5 pt-6 pb-4">
-            <h1 className="text-base font-bold text-slate-900 dark:text-white tracking-tight mb-4">文章</h1>
+            <div className="mb-4 flex items-center justify-between">
+              <p className="text-base font-bold text-slate-900 dark:text-white">文章目录</p>
+              <button type="button" onClick={() => setSidebarOpen(false)} aria-label="关闭文章分类" className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 md:hidden dark:hover:bg-slate-800"><X className="h-4 w-4" /></button>
+            </div>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
               <input
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="搜索文章..."
+                aria-label="搜索文章"
                 className="w-full h-9 pl-9 pr-3 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all"
               />
             </div>
           </div>
           <div className="mx-5 h-px bg-slate-100 dark:bg-slate-800" />
           <nav className="flex-1 overflow-y-auto py-3 scrollbar-hide">
+            <Link
+              href="/articles?view=all"
+              onClick={() => setSidebarOpen(false)}
+              aria-current={!activeCategoryId && showAllArticles ? "page" : undefined}
+              className={cn(
+                "mx-3 mb-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                !activeCategoryId && showAllArticles
+                  ? "bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300"
+                  : "text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/50"
+              )}
+            >
+              <BookOpen className="h-4 w-4 text-slate-400" />
+              <span className="flex-1">全部文章</span>
+              <span className="text-xs tabular-nums text-slate-400">{allArticles.length}</span>
+            </Link>
             {categories.map(cat => {
               const catArticles = articlesByCategory.get(cat.id) ?? [];
-              const isOpen = openCategories.has(cat.id);
-              const hasSelected = catArticles.some(a => a.id === selectedArticleId);
-              const catSubcategories = subcategories.filter(s => s.categoryId === cat.id);
-
-              // Split articles: those in a subcategory vs standalone
-              const subArticleIds = new Set(
-                catArticles.filter(a => (a as Article & { subcategoryId?: string }).subcategoryId).map(a => a.id)
-              );
-              const standaloneArticles = catArticles.filter(a => !subArticleIds.has(a.id));
-
+              const isActive = activeCategoryId === cat.id;
+              const catSubcategories = subcategories.filter(sub => sub.categoryId === cat.id);
               return (
                 <div key={cat.id} className="mb-0.5">
-                  <button
-                    onClick={() => toggleCategory(cat.id)}
+                  <Link
+                    href={`/articles/${cat.id}`}
+                    onClick={() => setSidebarOpen(false)}
+                    aria-current={isActive && !activeSubcategoryId && !selectedArticle ? "page" : undefined}
                     className={cn(
-                      "w-full flex items-center gap-3 px-5 py-2.5 text-sm font-medium transition-colors",
-                      hasSelected
-                        ? "text-amber-700 dark:text-amber-400"
-                        : "text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                      "relative mx-3 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300"
+                        : "text-slate-700 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800/50 dark:hover:text-white"
                     )}
                   >
-                    <span className="text-base leading-none">{cat.emoji}</span>
-                    <span className="flex-1 text-left">{cat.name}</span>
-                    {catArticles.length > 0 && (
-                      <span className={cn(
-                        "text-[11px] font-medium tabular-nums px-1.5 py-0.5 rounded-full",
-                        hasSelected
-                          ? "bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-400"
-                      )}>{catArticles.length}</span>
-                    )}
-                    <span className="text-slate-400 dark:text-slate-600">
-                      {isOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className="mb-1">
-                      {/* Subcategory groups */}
-                      {catSubcategories.map(sub => {
-                        const subArticles = catArticles.filter(
-                          a => (a as Article & { subcategoryId?: string }).subcategoryId === sub.id
-                        );
-                        // always show subcategory even if empty
-                        const isSubOpen = openCategories.has(`${cat.id}:${sub.id}`);
-                        const subHasSelected = subArticles.some(a => a.id === selectedArticleId);
-                        return (
-                          <div key={sub.id}>
-                            <button
-                              onClick={() => toggleCategory(`${cat.id}:${sub.id}`)}
-                              className={cn(
-                                "w-full flex items-center gap-2 px-5 pl-[3.25rem] py-2 text-xs font-semibold transition-colors",
-                                subHasSelected
-                                  ? "text-amber-600 dark:text-amber-400"
-                                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
-                              )}
-                            >
-                              <span className="flex-1 text-left">{sub.name}</span>
-                              {subArticles.length > 0 && (
-                                <span className={cn(
-                                  "tabular-nums px-1.5 py-0.5 rounded-full text-[10px]",
-                                  subHasSelected
-                                    ? "bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400"
-                                    : "bg-slate-100 dark:bg-slate-800 text-slate-400"
-                                )}>{subArticles.length}</span>
-                              )}
-                              {isSubOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-                            </button>
-                            {isSubOpen && (
-                              <div className="ml-[3.5rem] border-l border-slate-200 dark:border-slate-700/60 mb-1">
-                                {subArticles.length === 0 && (
-                                  <p className="pl-4 py-2 text-xs text-slate-400 dark:text-slate-600 italic">暂无文章</p>
-                                )}
-                                {subArticles.map(art => {
-                                  const isActive = selectedArticleId === art.id;
-                                  return (
-                                    <button
-                                      key={art.id}
-                                      onClick={() => void selectArticle(art.id, cat.id)}
-                                      className={cn(
-                                        "w-full text-left pl-4 pr-4 py-2.5 text-sm transition-all duration-150 relative",
-                                        isActive
-                                          ? "text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/15 font-medium"
-                                          : "text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/40"
-                                      )}
-                                    >
-                                      {isActive && <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-amber-400 rounded-r-full" />}
-                                      <span className="line-clamp-2 leading-snug">{art.title}</span>
-                                      <span className="flex items-center gap-1 mt-1 text-[11px] text-slate-400 dark:text-slate-600">
-                                        <Clock className="w-2.5 h-2.5" />{art.readTime} 分钟
-                                      </span>
-                                    </button>
-                                  );
-                                })}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                      {/* Standalone articles (not in any subcategory) */}
-                      {standaloneArticles.map(art => {
-                        const isActive = selectedArticleId === art.id;
-                        return (
-                          <button
-                            key={art.id}
-                            onClick={() => void selectArticle(art.id, cat.id)}
-                            className={cn(
-                              "w-full text-left px-5 pl-[3.25rem] py-2.5 text-sm transition-all duration-150 relative",
-                              isActive
-                                ? "text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/15 font-medium"
-                                : "text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/40"
-                            )}
-                          >
-                            {isActive && <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-amber-400 rounded-r-full" />}
-                            <span className="line-clamp-2 leading-snug">{art.title}</span>
-                            <span className="flex items-center gap-1 mt-1 text-[11px] text-slate-400 dark:text-slate-600">
-                              <Clock className="w-2.5 h-2.5" />{art.readTime} 分钟
-                            </span>
-                          </button>
-                        );
-                      })}
-                      {catArticles.length === 0 && (
-                        <p className="pl-[3.25rem] py-2 text-xs text-slate-400 italic">暂无匹配</p>
-                      )}
+                    <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
+                    <span className="flex-1">{cat.name}</span>
+                    <span className="min-w-5 text-center text-xs tabular-nums text-slate-400">{catArticles.length}</span>
+                    <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                  </Link>
+                  {isActive && catSubcategories.length > 0 && (
+                    <div className="my-1 ml-9 mr-4 border-l border-slate-200 dark:border-slate-700">
+                      {catSubcategories.map(sub => (
+                        <Link
+                          key={sub.id}
+                          href={`/articles/${cat.id}?subcategory=${sub.id}`}
+                          onClick={() => setSidebarOpen(false)}
+                          aria-current={activeSubcategoryId === sub.id && !selectedArticle ? "page" : undefined}
+                          className={cn(
+                            "flex items-center justify-between gap-2 py-2 pl-4 pr-2 text-xs transition-colors",
+                            activeSubcategoryId === sub.id
+                              ? "font-semibold text-amber-800 dark:text-amber-300"
+                              : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+                          )}
+                        >
+                          {sub.name}
+                          <span className="text-slate-400 tabular-nums">{catArticles.filter(article => article.subcategoryId === sub.id).length}</span>
+                        </Link>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -630,12 +577,13 @@ export function ArticlesContent({
           <div className="md:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-12 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
             <button
               onClick={() => setSidebarOpen(true)}
+              aria-label="打开文章分类"
               className="p-1.5 -ml-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
             >
               <Menu className="w-5 h-5 text-slate-600 dark:text-slate-400" />
             </button>
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate flex-1">
-              {selectedArticle ? selectedArticle.title : "文章"}
+              {selectedArticle && !isSearching ? selectedArticle.title : activeSubcategory?.name ?? activeCategory?.name ?? "文章"}
             </span>
           </div>
 
@@ -657,13 +605,14 @@ export function ArticlesContent({
                 ))}
               </div>
             </div>
-          ) : selectedArticle ? (
+          ) : selectedArticle && !isSearching ? (
             <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-12">
               <div className="flex items-center justify-between gap-2 mb-5">
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                <Link href={`/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                  <ArrowRight className="h-3.5 w-3.5 rotate-180" />
                   {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
                   {categories.find(c => c.id === selectedArticle.categoryId)?.name}
-                </span>
+                </Link>
                 {!effectiveLockedContent && (
                   <div className="flex items-center gap-2">
                     <button
@@ -884,31 +833,35 @@ export function ArticlesContent({
                     </div>
                   )}
 
-                  <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-                          内容反馈和群聊
-                        </h2>
-                        <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                          如果链接失效、费率变了，或者开户 / 入金 / 用卡过程中遇到问题，可以通过邀请链接进入群聊。
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setCommunityOpen(true)}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-amber-300 transition-colors hover:bg-amber-400 hover:text-slate-950 dark:bg-amber-400 dark:text-slate-950 dark:hover:bg-amber-300"
-                      >
-                        <MessageCircle className="h-4 w-4" />
-                        加入群聊提问
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  </div>
                 </section>
               )}
-              {vipInvitation && <ArticleVipInvitation invitation={vipInvitation} />}
+              <ArticleVipInvitation invitation={vipInvitation} />
             </article>
+          ) : activeCategory || isSearching || showAllArticles ? (
+            <section className="mx-auto w-full max-w-[960px] px-4 py-7 md:px-8 md:py-10" aria-label="文章列表">
+              <div className="mb-7 flex flex-wrap items-end justify-between gap-3 border-b border-slate-200/80 pb-6 dark:border-slate-800">
+                <div className="min-w-0">
+                  <p className="mb-2 text-xs font-medium text-amber-800 dark:text-amber-300">{activeCategory?.name ?? "Wise Invest"}</p>
+                  <h1 className="text-2xl font-bold leading-tight text-slate-900 dark:text-white md:text-3xl">{isSearching ? "搜索结果" : activeSubcategory?.name ?? activeCategory?.name ?? "全部文章"}</h1>
+                </div>
+                <p className="text-sm tabular-nums text-slate-500 dark:text-slate-400" aria-live="polite">{browserArticles.length} 篇文章</p>
+              </div>
+              <div className="relative mb-6 md:hidden">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} aria-label="搜索当前分类文章" placeholder="搜索文章..." className="h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" />
+              </div>
+              {browserArticles.length > 0 ? (
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                  {browserArticles.map((article, index) => <ArticleCard key={article.id} article={article} priority={index < 2} />)}
+                </div>
+              ) : (
+                <div className="flex min-h-64 flex-col items-center justify-center gap-4 text-center text-slate-500 dark:text-slate-400">
+                  <BookOpen className="h-8 w-8 text-slate-300 dark:text-slate-600" />
+                  <p className="text-sm">{isSearching ? "没有找到匹配的文章" : "这个分类暂时还没有文章"}</p>
+                  {isSearching && <button type="button" onClick={() => setSearchQuery("")} className="inline-flex items-center gap-2 text-sm font-medium text-amber-800 hover:text-amber-600 dark:text-amber-300"><X className="h-4 w-4" />清除搜索</button>}
+                </div>
+              )}
+            </section>
           ) : (
             <div className="h-full flex flex-col items-center justify-center px-4 md:px-8 py-10 md:py-16">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-amber-200 dark:shadow-amber-900/30">
@@ -967,7 +920,7 @@ export function ArticlesContent({
         </main>
 
         {/* ══ RIGHT TOC ══════════════════════════════════ */}
-        <aside className="w-72 shrink-0 border-l border-slate-200/80 dark:border-slate-800 hidden lg:flex flex-col bg-white dark:bg-slate-900">
+        {selectedArticle && !isSearching && <aside className="w-72 shrink-0 border-l border-slate-200/80 dark:border-slate-800 hidden lg:flex flex-col bg-white dark:bg-slate-900">
           <div className="px-5 pt-6 pb-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-slate-900 dark:text-slate-100">本页目录</p>
           </div>
@@ -1001,7 +954,7 @@ export function ArticlesContent({
               </p>
             )}
           </nav>
-        </aside>
+        </aside>}
 
       </div>
     </div>

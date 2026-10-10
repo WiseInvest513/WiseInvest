@@ -198,6 +198,7 @@ export function useContentAccessGate() {
 
 type ProtectedContentLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   href: string;
+  prefetch?: boolean;
   children: ReactNode;
   className?: string;
 };
@@ -207,6 +208,7 @@ export function ProtectedContentLink({
   children,
   className,
   onClick,
+  prefetch,
   ...props
 }: ProtectedContentLinkProps) {
   const [blocked, setBlocked] = useState<{ href: string; reason?: string } | null>(null);
@@ -241,7 +243,7 @@ export function ProtectedContentLink({
 
   return (
     <>
-      <Link href={navigationHref} className={cn(className)} onClick={handleClick} {...props}>
+      <Link href={navigationHref} prefetch={prefetch} className={cn(className)} onClick={handleClick} {...props}>
         {children}
       </Link>
       <LoginRequiredDialog

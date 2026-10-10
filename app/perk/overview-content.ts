@@ -9,7 +9,7 @@ export type OverviewEntry = {
   action: string;
   image?: string;
   marks?: { src: string; name: string }[];
-  icon?: "document" | "sim" | "tools";
+  icon?: "document" | "sim" | "tools" | "broker" | "onchain" | "market" | "ipo";
   kind?: "card" | "resource";
   highlighted?: boolean;
 };
@@ -71,7 +71,7 @@ export const overviewTopics: OverviewTopic[] = [
     id: "brokers", title: "券商开户", nav: "开证券账户", description: "港美股与 A 股开户指南",
     allHref: "/perk/broker", allLabel: "查看全部券商",
     entries: [
-      { id: "bbae", title: "BBAE 证券", description: "开户、入金与转仓", href: tutorial("broker", "bbae"), action: "开户教程", image: "/images/perks/overview/bbae-mark.webp" },
+      { id: "bbae", title: "BBAE 证券", description: "开户、入金与转仓", href: tutorial("broker", "bbae"), action: "开户教程", icon: "broker" },
       { id: "schwab", title: "嘉信证券", description: "账户申请指南", href: tutorial("broker", "charles-schwab"), action: "开户教程", image: "/images/capital-flow/schwab.jpeg" },
       { id: "firstrade", title: "第一证券", description: "开户流程与材料", href: tutorial("broker", "diyi-securities"), action: "开户教程", image: "/images/capital-flow/firstrade.jpeg" },
     ],
@@ -89,18 +89,18 @@ export const overviewTopics: OverviewTopic[] = [
     id: "cards", title: "虚拟 U 卡", nav: "选虚拟 U 卡", description: "订阅支付与日常消费",
     allHref: "/card", allLabel: "对比全部卡片",
     entries: [
-      { id: "gate-card", title: "Gate Card", href: cardTutorial("gate-card"), action: "查看详情", image: "/images/perks/overview/gate-card.webp", kind: "card" },
-      { id: "bitget-card", title: "Bitget Wallet Card", href: cardTutorial("bitget-wallet-card"), action: "查看详情", image: "/images/perks/overview/bitget-card.webp", kind: "card" },
-      { id: "safepal-card", title: "SafePal Card", href: cardTutorial("safepal-card"), action: "查看详情", image: "/images/perks/overview/safepal-card.webp", kind: "card" },
+      { id: "gate-card", title: "Gate Card", href: cardTutorial("gate-card"), action: "查看详情", image: "/images/perks/overview/gate-card-studio.webp", kind: "card" },
+      { id: "bitget-card", title: "Bitget Wallet Card", href: cardTutorial("bitget-wallet-card"), action: "查看详情", image: "/images/perks/overview/bitget-card-studio.webp", kind: "card" },
+      { id: "safepal-card", title: "SafePal Card", href: cardTutorial("safepal-card"), action: "查看详情", image: "/images/perks/overview/safepal-card-studio.webp", kind: "card" },
     ],
   },
   {
     id: "ipo", title: "打新", nav: "参与打新", description: "申购流程与门槛说明",
     allHref: "/perk/ipo", allLabel: "查看全部打新",
     entries: [
-      { id: "traditional-broker-ipo", title: "港美股打新", description: "传统券商申购", href: "/perk/ipo#traditional-broker-ipo", action: "查看指南" },
-      { id: "onchain-broker-ipo", title: "链上打新", description: "链上券商入口", href: "/perk/ipo#onchain-broker-ipo", action: "查看指南" },
-      { id: "a-share-ipo", title: "A 股打新", description: "账户准备与申购", href: "/perk/ipo#a-share-ipo", action: "查看指南" },
+      { id: "traditional-broker-ipo", title: "港美股打新", description: "传统券商申购", href: "/perk/ipo#traditional-broker-ipo", action: "查看指南", icon: "ipo" },
+      { id: "onchain-broker-ipo", title: "链上打新", description: "链上券商入口", href: "/perk/ipo#onchain-broker-ipo", action: "查看指南", icon: "onchain" },
+      { id: "a-share-ipo", title: "A 股打新", description: "账户准备与申购", href: "/perk/ipo#a-share-ipo", action: "查看指南", icon: "market" },
     ],
   },
   {

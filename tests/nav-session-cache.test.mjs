@@ -358,6 +358,7 @@ test("the real Navbar does not fetch while hidden on /admin/point and route navi
     if (name === "react") return react;
     if (name === "react/jsx-runtime") return { jsx, jsxs: jsx, Fragment: "fragment" };
     if (name === "next/navigation") return { usePathname: () => pathname };
+    if (name === "next/dynamic") return { __esModule: true, default: () => () => null };
     if (name === "@/lib/auth/nav-session-client") return h.api;
     if (name === "@/lib/utils") return { cn: (...args) => args.filter(Boolean).join(" ") };
     return new Proxy({}, { get: (_target, key) => key });

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, FileText, Cpu, Wrench } from "lucide-react";
+import { ArrowRight, ArrowUpRight, FileText, Globe2, Wrench, Building2, Blocks, CandlestickChart, ChartNoAxesColumnIncreasing, Crown } from "lucide-react";
 import { ProtectedContentLink } from "@/components/content-access-gate";
 import { siteConfig } from "@/lib/config";
 import { perkSections } from "./data";
@@ -26,25 +26,25 @@ export const metadata: Metadata = {
   },
 };
 
-const entryIcons = { document: FileText, sim: Cpu, tools: Wrench };
+const entryIcons = { document: FileText, sim: Globe2, tools: Wrench, broker: Building2, onchain: Blocks, market: CandlestickChart, ipo: ChartNoAxesColumnIncreasing };
 
 function EntryContent({ entry }: { entry: OverviewEntry }) {
   const Icon = entry.icon ? entryIcons[entry.icon] : null;
   return <>
+    {entry.kind === "card" && entry.image && <div className={styles.cardArt}>
+      <Image src={entry.image} alt={entry.title + " 卡面示意"} fill sizes="(max-width: 599px) calc(100vw - 40px), (max-width: 1099px) 30vw, 300px" />
+    </div>}
     <div className={styles.entryHeading}>
-      {entry.image && !entry.kind && <Image src={entry.image} alt="" width={52} height={52} className={styles.brandMark} />}
+      {entry.image && !entry.kind && <Image src={entry.image} alt="" width={40} height={40} className={styles.brandMark} />}
+      {Icon && <Icon className={styles.entryIcon} strokeWidth={1.5} aria-hidden="true" />}
       <h3>{entry.title}</h3>
     </div>
-    {entry.kind === "card" && entry.image && <div className={styles.cardArt}>
-      <Image src={entry.image} alt={entry.title + " 卡面示意"} width={360} height={240} sizes="(max-width: 640px) 240px, 280px" />
-    </div>}
     {entry.marks && <div className={styles.bankMarks} aria-hidden="true">
       {entry.marks.map((mark) => <span key={mark.name}>
         <Image src={mark.src} alt="" width={36} height={36} />
         <b>{mark.name}</b>
       </span>)}
     </div>}
-    {Icon && <Icon className={styles.entryIcon} strokeWidth={1.4} aria-hidden="true" />}
     {entry.description && <p>{entry.description}</p>}
     <span className={styles.entryAction}>{entry.action}<ArrowRight size={20} aria-hidden="true" /></span>
   </>;
@@ -60,23 +60,17 @@ function EntryCard({ entry }: { entry: OverviewEntry }) {
   return <Link href={entry.href} prefetch={false} className={className}>{content}</Link>;
 }
 
-function FeaturedCard({ item }: { item: (typeof featuredPerks)[number] }) {
-  const className = styles.feature + " " + styles[item.id];
+function FeaturedCard({ item, priority }: { item: (typeof featuredPerks)[number]; priority: boolean }) {
+  const images = { binance: "binance-studio", bbae: "broker-studio", gate: "gate-card-studio" };
+  const className = styles.feature;
   const content = <>
+    <div className={styles.featureArt} aria-hidden="true">
+      <Image src={`/images/perks/overview/${images[item.id]}.webp`} alt="" fill sizes="(max-width: 599px) calc(100vw - 40px), (max-width: 1295px) 31vw, 390px" priority={priority} />
+    </div>
     <div className={styles.featureCopy}>
-      <h3>{item.id === "binance" && <Image src="/images/perks/overview/binance.svg" alt="" width={38} height={38} />}{item.title}</h3>
+      <h3>{item.title}</h3>
       <p>{item.description}</p>
       <span className={styles.featureAction}>{item.action}<ArrowRight size={19} aria-hidden="true" /></span>
-    </div>
-    <div className={styles.featureArt} aria-hidden="true">
-      {item.id === "binance" ? <>
-        <Image src="/images/perks/overview/binance.svg" alt="" width={66} height={66} />
-        <span>BINANCE</span>
-      </> : <Image
-        src={"/images/perks/overview/" + (item.id === "bbae" ? "bbae-mark" : "gate-card") + ".webp"}
-        alt="" width={item.id === "bbae" ? 140 : 260} height={180}
-        sizes="(max-width: 640px) 160px, 200px" priority
-      />}
     </div>
   </>;
   return item.href.startsWith("/articles/")
@@ -103,7 +97,7 @@ export default function PerkPage() {
 
         <section aria-labelledby="featured-perks" className={styles.featured}>
           <h2 id="featured-perks">精选入口</h2>
-          <div className={styles.featureGrid}>{featuredPerks.map((item) => <FeaturedCard key={item.id} item={item} />)}</div>
+          <div className={styles.featureGrid}>{featuredPerks.map((item, index) => <FeaturedCard key={item.id} item={item} priority={index === 0} />)}</div>
         </section>
 
         <PerkTopicNav items={overviewTopics.map((topic) => ({ id: topic.id, label: topic.nav }))} />
@@ -122,8 +116,9 @@ export default function PerkPage() {
         </div>
 
         <section className={styles.vip} aria-labelledby="perk-vip-title">
-          <div><h2 id="perk-vip-title">已通过 Wise 合作渠道开户？</h2><p>查看 VIP 申请条件，核验通过后解锁更多服务。</p></div>
-          <Link href="/vip#how-it-works" className={styles.vipAction}>了解 Wise VIP<ArrowRight size={19} aria-hidden="true" /></Link>
+          <Crown className={styles.vipIcon} size={36} strokeWidth={1.5} aria-hidden="true" />
+          <div className={styles.vipCopy}><h2 id="perk-vip-title">已通过 Wise 合作渠道开户？</h2><p>查看 VIP 申请条件，核验通过后解锁更多服务。</p></div>
+          <a href="https://vip.wise-invest.org/join" target="_blank" rel="noopener noreferrer" className={styles.vipAction}>了解 Wise VIP<ArrowUpRight size={19} aria-hidden="true" /></a>
         </section>
         <p className={styles.notice}>合作福利与申请条件以各平台页面为准。</p>
       </div>

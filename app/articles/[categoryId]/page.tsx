@@ -1,11 +1,9 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowRight, BookOpen, Calendar, Clock } from "lucide-react";
 import { categories, subcategories } from "@/lib/articles-data";
-import { getAllArticles, getArticleRoute } from "@/lib/articles";
+import { getAllArticles, getArticleRoute, toArticleListItem } from "@/lib/articles";
 import { siteConfig } from "@/lib/config";
-import { ProtectedContentLink } from "@/components/content-access-gate";
+import { ArticlesContent } from "../articles-content";
 
 export const dynamicParams = false;
 
@@ -43,10 +41,7 @@ const categorySeo: Record<string, { title: string; description: string; keywords
 };
 
 export function generateStaticParams() {
-  const articleCategoryIds = new Set(getAllArticles().map((article) => article.categoryId));
-  return categories
-    .filter((category) => articleCategoryIds.has(category.id))
-    .map((category) => ({ categoryId: category.id }));
+  return categories.map((category) => ({ categoryId: category.id }));
 }
 
 export async function generateMetadata(
@@ -86,14 +81,19 @@ export async function generateMetadata(
 }
 
 export default async function CategoryPage(
-  { params }: { params: Promise<{ categoryId: string }> }
+  { params, searchParams }: {
+    params: Promise<{ categoryId: string }>;
+    searchParams: Promise<{ subcategory?: string }>;
+  }
 ) {
   const { categoryId } = await params;
   const category = categories.find((item) => item.id === categoryId);
   if (!category) notFound();
 
-  const articles = getAllArticles().filter((article) => article.categoryId === category.id);
-  if (articles.length === 0) notFound();
+  const { subcategory: subcategoryId } = await searchParams;
+  const subcategory = subcategories.find((item) => item.id === subcategoryId && item.categoryId === category.id);
+  const allArticles = getAllArticles();
+  const articles = allArticles.filter((article) => article.categoryId === category.id);
 
   const seo = categorySeo[category.id] ?? {
     title: `${category.name}文章教程合集`,
@@ -134,79 +134,12 @@ export default async function CategoryPage(
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
       />
-      <main className="min-h-screen bg-slate-50 px-4 py-8 dark:bg-slate-950 md:px-6 md:py-10">
-        <section className="mx-auto max-w-6xl">
-          <Link
-            href="/articles"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:border-amber-300 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-amber-700 dark:hover:text-amber-300"
-          >
-            <ArrowRight className="h-4 w-4 rotate-180" />
-            全部文章
-          </Link>
-
-          <div className="mt-6 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_16px_42px_rgba(15,23,42,0.06)] dark:border-slate-800 dark:bg-slate-900 md:p-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-black text-amber-700 dark:border-amber-800/60 dark:bg-amber-900/20 dark:text-amber-300">
-              <BookOpen className="h-3.5 w-3.5" />
-              {category.emoji} {category.name}
-            </div>
-            <h1 className="mt-4 max-w-4xl text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-4xl">
-              {seo.title}
-            </h1>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300 md:text-base">
-              {seo.description}
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {(categorySeo[category.id]?.keywords ?? [category.name]).slice(0, 8).map((keyword) => (
-                <span
-                  key={keyword}
-                  className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-400"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {articles.map((article) => {
-              const subcategory = subcategories.find((item) => item.id === article.subcategoryId);
-              return (
-                <ProtectedContentLink
-                  key={article.id}
-                  href={getArticleRoute(article)}
-                  className="group rounded-2xl border border-slate-200/80 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-[0_16px_36px_rgba(245,158,11,0.12)] dark:border-slate-800 dark:bg-slate-900 dark:hover:border-amber-700"
-                >
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
-                    {subcategory && (
-                      <span className="rounded-full bg-slate-100 px-2 py-1 font-semibold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                        {subcategory.name}
-                      </span>
-                    )}
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-3.5 w-3.5" />
-                      {article.date}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" />
-                      约 {article.readTime} 分钟
-                    </span>
-                  </div>
-                  <h2 className="mt-3 line-clamp-2 text-lg font-black leading-7 text-slate-900 transition-colors group-hover:text-amber-700 dark:text-white dark:group-hover:text-amber-300">
-                    {article.title}
-                  </h2>
-                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                    {article.summary}
-                  </p>
-                  <div className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-amber-700 dark:text-amber-300">
-                    阅读教程
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                  </div>
-                </ProtectedContentLink>
-              );
-            })}
-          </div>
-        </section>
-      </main>
+      <ArticlesContent
+        key={`${category.id}:${subcategory?.id ?? "all"}`}
+        initialArticles={allArticles.map(toArticleListItem)}
+        initialCategoryId={category.id}
+        initialSubcategoryId={subcategory?.id}
+      />
     </>
   );
 }

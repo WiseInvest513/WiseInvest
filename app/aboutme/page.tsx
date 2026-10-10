@@ -38,13 +38,13 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 };
 
 const socialCounts = {
-  twitter: 47500,
-  youtube: 3130,
+  twitter: 53500,
+  youtube: 3390,
   bilibili: 12873,
   xiaohongshu: 28159,
 } as const;
 
-const totalFollowers = Object.values(socialCounts).reduce((sum, count) => sum + count, 0);
+const totalFollowersDisplay = "10W+";
 
 // ─── 社媒增长数据（从 25年8月 开始） ──────────────────────
 const growthData = [
@@ -59,7 +59,8 @@ const growthData = [
   { month: "26/04", twitter: 34020,youtube: 2040,bilibili: 12873,xiaohongshu: 18302},
   { month: "26/05", twitter: 36363,youtube: 2310,bilibili: 12873,xiaohongshu: 19528},
   { month: "26/06", twitter: 42670,youtube: 2490,bilibili: 12873,xiaohongshu: 28159},
-  { month: "26/08", ...socialCounts },
+  { month: "26/08", twitter: 47500,youtube: 3130,bilibili: 12873,xiaohongshu: 28159},
+  { month: "26/10", ...socialCounts },
 ];
 
 // ─── 社媒数据 ──────────────────────────────────────────────
@@ -345,7 +346,7 @@ export default function AboutMe() {
                   <span className="text-lg">📈</span>
                   <div>
                     <div className="text-[10px] md:text-xs text-slate-400">全网粉丝</div>
-                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">{totalFollowers.toLocaleString()}</div>
+                    <div className="text-xs md:text-sm font-bold text-slate-800 dark:text-slate-100">{totalFollowersDisplay}</div>
                   </div>
                 </div>
               </div>
@@ -373,7 +374,7 @@ export default function AboutMe() {
                 {[
                   { value: "8", unit: "个月", label: "从零到万粉" },
                   { value: "5", unit: "个平台", label: "同步更新" },
-                  { value: totalFollowers.toLocaleString(), unit: "", label: "全网粉丝" },
+                  { value: totalFollowersDisplay, unit: "", label: "全网粉丝" },
                 ].map((stat, i) => (
                   <div key={i} className="bg-white dark:bg-slate-900 rounded-xl p-2.5 md:p-4 border border-slate-100 dark:border-slate-800 text-center shadow-sm">
                     <div className="text-lg md:text-2xl font-black text-slate-900 dark:text-white">{stat.value}<span className="text-sm font-medium text-slate-400 ml-0.5">{stat.unit}</span></div>
@@ -403,7 +404,80 @@ export default function AboutMe() {
         </div>
       </section>
 
-      {/* ══ SECTION 2: 增长曲线 ══════════════════════════════ */}
+      {/* ══ SECTION 2: 社媒数字 ══════════════════════════════ */}
+      <section className="py-10 md:py-20 bg-white dark:bg-slate-900/50">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div
+            ref={socialFade.ref}
+            className={`transition-all duration-1000 ${socialFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            <div className="mb-6 md:mb-10">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">全网社媒分布</h2>
+              <p className="text-slate-500 dark:text-slate-400">点击任意平台卡片，直接访问对应主页</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+              {socials.map((item, idx) => {
+                const isModal = "isModal" in item && item.isModal;
+                const cardClass = `group relative overflow-hidden p-5 md:p-8 rounded-3xl border ${item.cardTone} transition-all duration-300 hover:-translate-y-1 ${item.color} shadow-sm hover:shadow-xl w-full text-left`;
+
+                const cardInner = (
+                  <>
+                    <div className="relative z-10">
+                      <div className="flex justify-between items-start mb-5 md:mb-8">
+                        <div className={`p-3 rounded-2xl transition-colors ${item.bg} ${item.text}`}>
+                          <item.Icon className="w-6 h-6" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {item.name === "WeChat Group" && (
+                            <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/40 px-2 py-0.5 text-[10px] font-bold tracking-wide text-green-700 dark:text-green-300">LIVE</span>
+                          )}
+                          <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors" />
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
+                          {"displayValue" in item && item.displayValue ? (
+                            <span className="text-2xl md:text-3xl">{item.displayValue}</span>
+                          ) : (
+                            <AnimatedNumber value={item.count} />
+                          )}
+                        </div>
+                        <div className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
+                          {item.label}
+                          {item.name === "WeChat Group" ? (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 font-semibold">微信扫码进群</span>
+                          ) : (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">{item.name}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    {item.pngPath && (
+                      <img src={item.pngPath} alt="" className="absolute -bottom-12 -right-12 w-48 h-48 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none grayscale group-hover:grayscale-0" />
+                    )}
+                  </>
+                );
+
+                if (isModal) {
+                  return (
+                    <button key={idx} onClick={() => setWechatGroupOpen(true)} className={cardClass}>
+                      {cardInner}
+                    </button>
+                  );
+                }
+
+                return (
+                  <a key={idx} href={getSafeExternalUrl((item as any).link)} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                    {cardInner}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ SECTION 3: 增长曲线 ══════════════════════════════ */}
       <section className="py-10 md:py-20 bg-white dark:bg-slate-900/50">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div
@@ -416,7 +490,7 @@ export default function AboutMe() {
                 <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">Growth Story</span>
               </div>
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">从零开始的增长轨迹</h2>
-              <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，目前全网累计 {totalFollowers.toLocaleString()} 位关注者</p>
+              <p className="text-slate-500 dark:text-slate-400">2025 年 8 月从零粉丝起步，目前全网累计 {totalFollowersDisplay} 位关注者</p>
             </div>
 
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm">
@@ -459,7 +533,7 @@ export default function AboutMe() {
         </div>
       </section>
 
-      {/* ══ SECTION 3: 在坚持的事 ════════════════════════════ */}
+      {/* ══ SECTION 4: 在坚持的事 ════════════════════════════ */}
       <section className="py-10 md:py-20">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div
@@ -536,79 +610,6 @@ export default function AboutMe() {
                       </div>
                     </div>
                   </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══ SECTION 4: 社媒数字 ══════════════════════════════ */}
-      <section className="py-10 md:py-20 bg-white dark:bg-slate-900/50">
-        <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div
-            ref={socialFade.ref}
-            className={`transition-all duration-1000 ${socialFade.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-          >
-            <div className="mb-6 md:mb-10">
-              <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-3">全网社媒分布</h2>
-              <p className="text-slate-500 dark:text-slate-400">点击任意平台卡片，直接访问对应主页</p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-              {socials.map((item, idx) => {
-                const isModal = "isModal" in item && item.isModal;
-                const cardClass = `group relative overflow-hidden p-5 md:p-8 rounded-3xl border ${item.cardTone} transition-all duration-300 hover:-translate-y-1 ${item.color} shadow-sm hover:shadow-xl w-full text-left`;
-
-                const cardInner = (
-                  <>
-                    <div className="relative z-10">
-                      <div className="flex justify-between items-start mb-5 md:mb-8">
-                        <div className={`p-3 rounded-2xl transition-colors ${item.bg} ${item.text}`}>
-                          <item.Icon className="w-6 h-6" />
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {item.name === "WeChat Group" && (
-                            <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/40 px-2 py-0.5 text-[10px] font-bold tracking-wide text-green-700 dark:text-green-300">LIVE</span>
-                          )}
-                          <ArrowUpRight className="w-5 h-5 text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors" />
-                        </div>
-                      </div>
-                      <div className="space-y-1">
-                        <div className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-50 tracking-tight">
-                          {"displayValue" in item && item.displayValue ? (
-                            <span className="text-2xl md:text-3xl">{item.displayValue}</span>
-                          ) : (
-                            <AnimatedNumber value={item.count} />
-                          )}
-                        </div>
-                        <div className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
-                          {item.label}
-                          {item.name === "WeChat Group" ? (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 font-semibold">微信扫码进群</span>
-                          ) : (
-                            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500">{item.name}</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    {item.pngPath && (
-                      <img src={item.pngPath} alt="" className="absolute -bottom-12 -right-12 w-48 h-48 opacity-[0.08] rotate-12 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:opacity-[0.12] z-0 pointer-events-none grayscale group-hover:grayscale-0" />
-                    )}
-                  </>
-                );
-
-                if (isModal) {
-                  return (
-                    <button key={idx} onClick={() => setWechatGroupOpen(true)} className={cardClass}>
-                      {cardInner}
-                    </button>
-                  );
-                }
-
-                return (
-                  <a key={idx} href={getSafeExternalUrl((item as any).link)} target="_blank" rel="noopener noreferrer" className={cardClass}>
-                    {cardInner}
-                  </a>
                 );
               })}
             </div>

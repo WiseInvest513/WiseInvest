@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Search, X } from "lucide-react";
+import { ArrowRight, Search, X, Coins, ChartNoAxesColumnIncreasing, CreditCard, Wallet, Sparkles, BriefcaseBusiness } from "lucide-react";
 import type { PerkSearchEntry } from "./overview-content";
 import styles from "./overview.module.css";
 
@@ -47,6 +47,11 @@ export function PerkSearch({ entries }: { entries: PerkSearchEntry[] }) {
   );
 }
 
+const topicIcons: Record<string, typeof Coins> = {
+  exchanges: Coins, brokers: ChartNoAxesColumnIncreasing, banking: CreditCard,
+  cards: Wallet, ipo: Sparkles, tools: BriefcaseBusiness,
+};
+
 export function PerkTopicNav({ items }: { items: { id: string; label: string }[] }) {
   const [active, setActive] = useState(items[0]?.id);
 
@@ -57,7 +62,8 @@ export function PerkTopicNav({ items }: { items: { id: string; label: string }[]
       frame = 0;
       // Use the top reading position, not whichever section happens to enter
       // the bottom of a tall viewport during smooth scrolling.
-      const threshold = window.innerWidth <= 760 ? 180 : 210;
+      // Allow for fractional-pixel rounding at the scroll-margin boundary.
+      const threshold = window.innerWidth <= 760 ? 152 : 166;
       let current = sections[0]?.id;
       for (const section of sections) {
         if (section.getBoundingClientRect().top <= threshold) current = section.id;
@@ -76,7 +82,9 @@ export function PerkTopicNav({ items }: { items: { id: string; label: string }[]
   }, [items]);
 
   return <nav aria-label="按需求浏览福利" className={styles.topicNav}>
-    {items.map(({ id, label }) => <a
+    {items.map(({ id, label }) => {
+      const Icon = topicIcons[id];
+      return <a
       key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined}
       onClick={(event) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -87,6 +95,7 @@ export function PerkTopicNav({ items }: { items: { id: string; label: string }[]
         window.history.replaceState(null, "", `#${id}`);
         section.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
       }}
-    >{label}</a>)}
+    >{Icon && <Icon size={23} strokeWidth={1.5} aria-hidden="true" />}{label}</a>;
+    })}
   </nav>;
 }

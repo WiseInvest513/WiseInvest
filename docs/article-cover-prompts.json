@@ -1,0 +1,588 @@
+{
+  "style": "wise-silver-glass",
+  "method": "built-in image_gen",
+  "aspectRatio": "16:9",
+  "output": {
+    "format": "webp",
+    "width": 1400,
+    "height": 788,
+    "maxBytes": 150000
+  },
+  "references": [
+    "public/images/articles/crypto/binance-guide-cover.webp",
+    "public/images/profile/avatar.png"
+  ],
+  "commonPrompt": "Use case: stylized-concept. Asset type: a single 16:9 Chinese editorial article cover for the Wise Invest article gallery. Input image 1 is the approved Binance cover, a STYLE REFERENCE ONLY: inherit its clean neutral-white daylight, realistic silver metal, thick optical glass, restrained champagne-gold details and typography hierarchy, not its topic, phone branding or Bitcoin unless requested. Input image 2 is the real author's portrait: use an accurate circular crop of the sunglasses-wearing man, preserve identity; place this small portrait at the TOP RIGHT next to exact black text WiseInvest, matching the reference signature. Create ONE standalone full-bleed cover, no page UI, no collage. Large readable dark-charcoal Chinese headline in the left 53%, the second line in understated champagne gold, short smaller gray subtitle below. Subject remains in the right half and bottom; text must never overlap subject or author signature. Use 5% safe outer margins. Bright neutral white and silver, soft architectural daylight, precise realistic contact shadows and physically credible materials, subtle pale blue glass edge allowed. Maintain reference's sophisticated daylight photographic/3D editorial aesthetic, not a fantasy or toy. No yellow background, black-gold theme, neon, gradients, giant coins, performance claims, fake charts, fake product branding, invented extra text, watermarks or buttons. Only the exact requested headline, subtitle, and author signature appear as text; objects may carry explicitly requested minimal marks.",
+  "assets": [
+    {
+      "id": "VIP002",
+      "category": "VIP",
+      "reason": "missing",
+      "file": "fed-assets-cover",
+      "headline": [
+        "读懂美联储",
+        "看清资产的变化"
+      ],
+      "subtitle": "政策预期 · 利率 · 资产定价",
+      "scene": "A small realistic white neoclassical central-bank building with no fabricated official seals, a tiny engraved Bitcoin coin, two modest gold bars and a treasury research notebook on a clear glass table. Architectural daylight, thoughtful editorial finance still life, no rising chart.",
+      "topics": [
+        "美联储",
+        "利率",
+        "资产定价"
+      ],
+      "src": "/images/articles/VIP/fed-assets-cover.webp",
+      "originalGeneratedImage": "exec-7bf373c7-b40d-4709-87e2-5f434d127139.png"
+    },
+    {
+      "id": "VIP001",
+      "category": "VIP",
+      "reason": "missing",
+      "file": "market-friction-cover",
+      "headline": [
+        "市场没结束",
+        "估值摩擦期"
+      ],
+      "subtitle": "市场手记 Vol.01 · AI · 利率",
+      "scene": "A silver AI processor and two realistic server-tower architectural models separated by a transparent glass plane, with one restrained Bitcoin coin and a small gold ingot. The composition suggests balancing technology growth and asset valuations, not a promised return. Bright white architectural interior.",
+      "topics": [
+        "市场手记",
+        "AI",
+        "估值"
+      ],
+      "src": "/images/articles/VIP/market-friction-cover.webp",
+      "originalGeneratedImage": "exec-899ca00d-deae-4ce6-8a99-cd6b3412a827.png"
+    },
+    {
+      "id": "google-id",
+      "category": "outside",
+      "reason": "broken",
+      "file": "google-account-cover",
+      "headline": [
+        "Google 账号",
+        "注册与安全设置"
+      ],
+      "subtitle": "邮箱 · 手机验证 · 账号保护",
+      "scene": "An open silver laptop with a minimal generic email envelope symbol, a frosted-glass account identity tile and a small metal security key, sitting on a white desk. A restrained four-color detail may allude to Google; do not invent a Google device, dashboard, bypass method or official endorsement.",
+      "topics": [
+        "Google",
+        "注册",
+        "账号安全"
+      ],
+      "src": "/images/articles/outside/google-account-cover.webp",
+      "originalGeneratedImage": "exec-97a28055-8a2d-465c-bc80-74d8e7ddad78.png"
+    },
+    {
+      "id": "index-qa-2",
+      "category": "index",
+      "reason": "missing",
+      "file": "index-qa-2-cover",
+      "headline": [
+        "标普 / 纳指答疑",
+        "资金配置与复利"
+      ],
+      "subtitle": "问答第二期 · 投资周期 · 风险管理",
+      "scene": "An elegant silver calculator, an open white financial notebook and three transparent glass allocation blocks of different sizes resting on a desk, no performance bars or return numbers. Calm educational investment still life, small champagne-gold divider, neutral outcomes.",
+      "topics": [
+        "问答第二期",
+        "资金配置",
+        "复利"
+      ],
+      "src": "/images/articles/index/index-qa-2-cover.webp",
+      "originalGeneratedImage": "exec-d395a3ae-f7b3-4256-9c3e-aa8ed42e1c94.png"
+    },
+    {
+      "id": "ifast-guide",
+      "category": "bank",
+      "reason": "missing",
+      "file": "ifast-account-cover",
+      "headline": [
+        "iFAST 英国银行",
+        "开户与入金教程"
+      ],
+      "subtitle": "账户申请 · 多币种 · 跨境转账",
+      "scene": "A generic silver smartphone with a simple account document icon, a translucent envelope and small clean metal currency tokens marked GBP and USD on a bright glass desk. A tiny distant London architectural silhouette is optional. No invented branded card, bank app UI, eligibility guarantee or rate.",
+      "topics": [
+        "iFAST",
+        "开户",
+        "入金"
+      ],
+      "src": "/images/articles/bank/ifast-account-cover.webp",
+      "originalGeneratedImage": "exec-edf4d715-ea61-4870-ba7b-e49d2f0cc5c4.png"
+    },
+    {
+      "id": "zhifu",
+      "category": "broker",
+      "reason": "yellow-text",
+      "file": "zhifu-account-cover",
+      "headline": [
+        "致富证券",
+        "开户与入金教程"
+      ],
+      "subtitle": "账户申请 · 港美股 · 基础交易",
+      "scene": "White account-application papers, a clear glass identity tile and a silver desktop trading screen showing only abstract non-directional candlestick shapes, with a small Hong Kong urban architectural model at right. No official invented logo, price data or welcome reward.",
+      "topics": [
+        "致富证券",
+        "开户",
+        "入金"
+      ],
+      "src": "/images/articles/broker/zhifu-account-cover.webp",
+      "originalGeneratedImage": "exec-8e4a5b72-a396-4f63-966c-f39b77b7cb8c.png"
+    },
+    {
+      "id": "jiaxin",
+      "category": "broker",
+      "reason": "yellow-text",
+      "file": "schwab-account-cover",
+      "headline": [
+        "嘉信证券 Schwab",
+        "美股账户申请"
+      ],
+      "subtitle": "材料准备 · 开户审核 · 入金",
+      "scene": "A realistic silver pen across neatly stacked blank account application documents and a generic dark passport with no personal data, with a clear glass review-check tile on a bright white desk. Subtle pale-blue accent, no fake Schwab logo or guarantee of approval.",
+      "topics": [
+        "Schwab",
+        "申请材料",
+        "账户审核"
+      ],
+      "src": "/images/articles/broker/schwab-account-cover.webp",
+      "originalGeneratedImage": "exec-b3c02013-30a4-4b0a-9ab5-b93d2c350104.png"
+    },
+    {
+      "id": "aomenmayi-register",
+      "category": "bank",
+      "reason": "yellow-text",
+      "file": "ant-macau-cover",
+      "headline": [
+        "澳门蚂蚁银行",
+        "开户与账户使用"
+      ],
+      "subtitle": "材料准备 · 账户申请 · 入金",
+      "scene": "A silver phone bearing a simple generic identity-document icon beside frosted account papers and a small realistic Macau skyline model with recognizable tower silhouette. Bright white desk, fine champagne-gold trim, no fabricated Ant Bank logo, card or bank UI.",
+      "topics": [
+        "澳门蚂蚁银行",
+        "开户",
+        "账户使用"
+      ],
+      "src": "/images/articles/bank/ant-macau-cover.webp",
+      "originalGeneratedImage": "exec-7175cced-a8d4-4c2a-92de-5d51e8c02470.png"
+    },
+    {
+      "id": "predict",
+      "category": "predict",
+      "reason": "body-image",
+      "file": "predict-intro-cover",
+      "headline": [
+        "Predict 预测市场",
+        "从认识到上手"
+      ],
+      "subtitle": "注册 · 充值 · 风险理解",
+      "scene": "Two transparent glass decision tiles with engraved YES and NO resting beside a silver phone and a tiny Bitcoin coin. Neutral educational decision-market still life, no bet payouts, price trends or winning signals. Open airy white studio, no fantasy crystal ball.",
+      "topics": [
+        "Predict",
+        "注册",
+        "风险理解"
+      ],
+      "src": "/images/articles/predict/predict-intro-cover.webp",
+      "originalGeneratedImage": "exec-930b1d21-5dcd-4f5f-82f4-552fd8376bad.png"
+    },
+    {
+      "id": "BBAE",
+      "category": "broker",
+      "reason": "body-image",
+      "file": "bbae-account-cover",
+      "headline": [
+        "BBAE 证券",
+        "开户与入金指南"
+      ],
+      "subtitle": "平台介绍 · 账户申请 · 资金转入",
+      "scene": "An open silver laptop with a clean generic account document symbol, a clear glass identity-check tile and a tidy silver pen, in a white financial study. Subtle cool-gray architectural background, no fabricated official BBAE app or logo, no regulatory exemption or fast-approval promise.",
+      "topics": [
+        "BBAE",
+        "账户申请",
+        "入金"
+      ],
+      "src": "/images/articles/broker/bbae-account-cover.webp",
+      "originalGeneratedImage": "exec-9f08f13b-16b0-4a48-a5c3-995c9d440e09.png"
+    },
+    {
+      "id": "immersive-translate-guide",
+      "category": "ai",
+      "reason": "body-image",
+      "file": "immersive-translate-cover",
+      "headline": [
+        "沉浸式翻译",
+        "打开双语信息世界"
+      ],
+      "subtitle": "网页翻译 · 双语字幕 · 输入翻译",
+      "scene": "An open silver laptop with two elegant parallel generic text columns represented by gray typesetting lines and a tiny A/文 translation symbol. A pair of light silver headphones beside the laptop subtly represents video subtitles. Thick clear glass desktop, no fabricated product interface, no neon holograms.",
+      "topics": [
+        "沉浸式翻译",
+        "双语字幕",
+        "网页翻译"
+      ],
+      "src": "/images/articles/ai/immersive-translate-cover.webp",
+      "originalGeneratedImage": "exec-a3f0c0f3-f80b-44c0-a931-f13f95ef2aa8.png"
+    },
+    {
+      "id": "passive-millionaire",
+      "category": "index",
+      "reason": "body-image",
+      "file": "recurring-investment-cover",
+      "headline": [
+        "长期定投",
+        "读懂时间与复利"
+      ],
+      "subtitle": "持续投入 · 复利计算 · 投资周期",
+      "scene": "A silver mechanical calendar with simple unnumbered pages, a refined calculator and transparent nested glass circles placed flat on a desk to express repeated contributions over time. No increasing stairs, growth arrows, millionaire promise, guaranteed return or numeric performance chart.",
+      "topics": [
+        "长期定投",
+        "复利",
+        "投资周期"
+      ],
+      "src": "/images/articles/index/recurring-investment-cover.webp",
+      "originalGeneratedImage": "exec-f65db5c9-a21b-4c6e-a5a2-a60aaedce912.png"
+    },
+    {
+      "id": "safepal-vcard",
+      "category": "vcard",
+      "reason": "body-image",
+      "file": "safepal-card-cover",
+      "headline": [
+        "SafePal 虚拟卡",
+        "申请与充值教程"
+      ],
+      "subtitle": "身份认证 · 充值激活 · 支付绑定",
+      "scene": "A generic silver smartphone showing a minimal card-outline icon, a clear glass identity-document tile and a small unbranded security key. Do not fabricate a physical SafePal bank card or cold-wallet product; this is a conceptual virtual-card tutorial scene. Modest light violet accent only.",
+      "topics": [
+        "SafePal",
+        "认证",
+        "充值激活"
+      ],
+      "src": "/images/articles/vcard/safepal-card-cover.webp",
+      "originalGeneratedImage": "exec-1fa34c41-b5f0-48fe-b693-770b299488cf.png"
+    },
+    {
+      "id": "bybit-vcard",
+      "category": "vcard",
+      "reason": "body-image",
+      "file": "bybit-card-cover",
+      "headline": [
+        "Bybit Card",
+        "申请与入金教程"
+      ],
+      "subtitle": "账户准备 · 卡片申请 · 使用场景",
+      "scene": "A silver phone with a generic virtual-card-outline symbol, a translucent account document and a small plain payment terminal on a white desk. Fine champagne-gold edges, no invented real Bybit card face, cashback percentages or official app UI.",
+      "topics": [
+        "Bybit Card",
+        "申请",
+        "入金"
+      ],
+      "src": "/images/articles/vcard/bybit-card-cover.webp",
+      "originalGeneratedImage": "exec-f8fa4705-bf98-4cf8-bcee-6074d1339b10.png"
+    },
+    {
+      "id": "AppleID",
+      "category": "outside",
+      "reason": "body-image",
+      "file": "apple-account-cover",
+      "headline": [
+        "Apple 账号",
+        "美区注册与港区切换"
+      ],
+      "subtitle": "账号准备 · 地区设置 · App 下载",
+      "scene": "A realistic unbranded silver smartphone and a tablet bearing a simple generic account-person icon and a small geographic-pin symbol, with translucent account documents on a bright white desk. No invented Apple product, fake official app UI or guaranteed access. Crisp restrained product photography mood.",
+      "topics": [
+        "Apple 账号",
+        "美区注册",
+        "地区设置"
+      ],
+      "src": "/images/articles/outside/apple-account-cover.webp",
+      "originalGeneratedImage": "exec-ec185426-d21e-43c3-aad0-c808595bd083.png"
+    },
+    {
+      "id": "index-guide",
+      "category": "index",
+      "reason": "body-image",
+      "file": "index-investment-guide-cover",
+      "headline": [
+        "标普 500 · 纳指 100",
+        "指数投资完整指南"
+      ],
+      "subtitle": "ETF · QDII · 产品比较",
+      "scene": "Several differently shaped silver-white architectural company models arranged inside a clear glass basket, representing diversified index holdings, next to a simple research notebook. No company logos, performance chart or guaranteed gains. Photoreal optical glass and soft daylight.",
+      "topics": [
+        "ETF",
+        "QDII",
+        "指数投资"
+      ],
+      "src": "/images/articles/index/index-investment-guide-cover.webp",
+      "originalGeneratedImage": "exec-1ffc9c0e-0933-4722-869a-905d141d7135.png"
+    },
+    {
+      "id": "index-practice",
+      "category": "index",
+      "reason": "body-image",
+      "file": "index-fund-practice-cover",
+      "headline": [
+        "标普 / 纳指基金",
+        "购买实操与费用"
+      ],
+      "subtitle": "基金名称 · A/C 份额 · 持有成本",
+      "scene": "A silver phone beside two frosted-glass fund documents marked A and C, with a precise silver calculator and a simple paper receipt with unreadable neutral lines. Educational fund-cost comparison, no fake payment app UI or recommended numeric allocations.",
+      "topics": [
+        "基金购买",
+        "A/C 份额",
+        "持有成本"
+      ],
+      "src": "/images/articles/index/index-fund-practice-cover.webp",
+      "originalGeneratedImage": "exec-cc9a68e6-a95f-4ae5-b35d-18a8f971f771.png"
+    },
+    {
+      "id": "index-qa-1",
+      "category": "index",
+      "reason": "body-image",
+      "file": "index-qa-1-cover",
+      "headline": [
+        "标普 / 纳指答疑",
+        "新手常见问题"
+      ],
+      "subtitle": "问答第一期 · 定投 · 基金选择",
+      "scene": "An open white study notebook with a small elegant question-mark embossed on a clear glass bookmark, a silver pen and a compact calculator. A few neatly stacked reference books nearby. Calm beginner educational still life, no performance predictions.",
+      "topics": [
+        "问答第一期",
+        "定投",
+        "基金选择"
+      ],
+      "src": "/images/articles/index/index-qa-1-cover.webp",
+      "originalGeneratedImage": "exec-1031b047-b475-41aa-bc1b-f6bf8ff1d650.png"
+    },
+    {
+      "id": "indexStock",
+      "category": "index",
+      "reason": "body-image",
+      "file": "investment-basics-cover",
+      "headline": [
+        "股票 · 国债 · 基金",
+        "一次读懂投资基础"
+      ],
+      "subtitle": "资产类型 · 指数 · 利率",
+      "scene": "Three balanced tangible objects on a white study desk: a small silver company-building model, a rolled white bond certificate with no official seal, and a transparent basket holding several glass company forms. Clear educational composition rather than a chart, no money rain or yield promise.",
+      "topics": [
+        "股票",
+        "国债",
+        "基金"
+      ],
+      "src": "/images/articles/index/investment-basics-cover.webp",
+      "originalGeneratedImage": "exec-0f8f7d00-fbed-4209-91e4-dd75dfbd3bb6.png"
+    },
+    {
+      "id": "idifferentIndex",
+      "category": "index",
+      "reason": "body-image",
+      "file": "fund-comparison-cover",
+      "headline": [
+        "场内与场外基金",
+        "看懂 ETF 的区别"
+      ],
+      "subtitle": "交易机制 · 费用 · 流动性",
+      "scene": "Two matching clear glass portfolios arranged side by side with a modest metallic divider: one contains a silver trading-screen symbol, the other a neatly bound application document. A small silver calculator in front. Educational comparison with balanced equal emphasis, no performance advantage chart.",
+      "topics": [
+        "ETF",
+        "场内场外",
+        "交易费用"
+      ],
+      "src": "/images/articles/index/fund-comparison-cover.webp",
+      "originalGeneratedImage": "exec-e761c53a-29fb-4009-a532-9dbd9ac0323a.png"
+    },
+    {
+      "id": "bitget-exchange",
+      "category": "crypto",
+      "reason": "body-image",
+      "file": "bitget-guide-cover",
+      "headline": [
+        "Bitget 交易所",
+        "注册 · 入金 · 买币"
+      ],
+      "subtitle": "KYC 认证 · 账户安全 · 功能入门",
+      "scene": "A generic silver smartphone with the plain word Bitget on screen, a clear glass identity-check tile and one restrained Bitcoin coin, on a white reflective study desk. Tiny cyan accent, no fabricated Bitget logo, trading screen, profit figures or official endorsement.",
+      "topics": [
+        "Bitget",
+        "KYC",
+        "账户安全"
+      ],
+      "src": "/images/articles/crypto/bitget-guide-cover.webp",
+      "originalGeneratedImage": "exec-245f6ce3-c38f-4e71-9b6c-88ddf25aa9c3.png"
+    },
+    {
+      "id": "diyi",
+      "category": "broker",
+      "reason": "body-image",
+      "file": "firstrade-account-cover",
+      "headline": [
+        "第一证券 Firstrade",
+        "美股开户指南"
+      ],
+      "subtitle": "材料准备 · 账户申请 · 审核",
+      "scene": "Neatly arranged blank account paperwork, a fine silver pen, a generic closed passport and a translucent review tile, with an understated silver Manhattan architectural model behind. No invented company logo, zero-fee promise, tax exemption or approval guarantee.",
+      "topics": [
+        "Firstrade",
+        "开户材料",
+        "审核"
+      ],
+      "src": "/images/articles/broker/firstrade-account-cover.webp",
+      "originalGeneratedImage": "exec-a9abcc2c-97bf-4246-830e-ef14320047cc.png"
+    },
+    {
+      "id": "xianggangmayi-register",
+      "category": "bank",
+      "reason": "body-image",
+      "file": "ant-hong-kong-cover",
+      "headline": [
+        "蚂蚁银行（香港）",
+        "注册开户教程"
+      ],
+      "subtitle": "材料准备 · 身份认证 · 账户申请",
+      "scene": "A silver smartphone with a generic identity-document symbol and clear glass application papers against a small airy Hong Kong skyline model. A restrained cool cyan edge accent, no fabricated Ant Bank app, logo, physical card or approval guarantee.",
+      "topics": [
+        "香港蚂蚁银行",
+        "身份认证",
+        "开户"
+      ],
+      "src": "/images/articles/bank/ant-hong-kong-cover.webp",
+      "originalGeneratedImage": "exec-7ca63d6a-06b0-4382-855e-8decc137f1b1.png"
+    },
+    {
+      "id": "huifeng-register",
+      "category": "bank",
+      "reason": "body-image",
+      "file": "hsbc-one-account-cover",
+      "headline": [
+        "汇丰 One 账户",
+        "线上开户教程"
+      ],
+      "subtitle": "开户材料 · 信息填写 · 注意事项",
+      "scene": "A silver phone with a generic application-document icon, a tidy travel-document folder and a fine silver pen on a bright desk with a subtle Hong Kong architectural backdrop. One small muted-red document tab, no HSBC official logo or invented bank card. No promise of approval.",
+      "topics": [
+        "汇丰 One",
+        "开户材料",
+        "信息填写"
+      ],
+      "src": "/images/articles/bank/hsbc-one-account-cover.webp",
+      "originalGeneratedImage": "exec-2bdba3b1-f7f1-4c4c-b3b3-7109709cb35b.png"
+    },
+    {
+      "id": "tianxing-register",
+      "category": "bank",
+      "reason": "body-image",
+      "file": "airstar-account-cover",
+      "headline": [
+        "天星银行",
+        "注册与身份认证"
+      ],
+      "subtitle": "开户准备 · 资料填写 · 申请流程",
+      "scene": "A clean silver smartphone bearing a generic account-person outline with a translucent identity document and an open white application notebook. Subtle pale violet trim in a neutral white studio, no fabricated Airstar logo, card, app interface or eligibility promise.",
+      "topics": [
+        "天星银行",
+        "注册",
+        "身份认证"
+      ],
+      "src": "/images/articles/bank/airstar-account-cover.webp",
+      "originalGeneratedImage": "exec-d4a5c627-c337-4599-afaf-eaa7a9d454a2.png"
+    },
+    {
+      "id": "zhongan-register",
+      "category": "bank",
+      "reason": "body-image",
+      "file": "za-bank-account-cover",
+      "headline": [
+        "众安银行 ZA Bank",
+        "注册开户教程"
+      ],
+      "subtitle": "材料准备 · 身份认证 · 账户设置",
+      "scene": "A silver phone with a simple generic account settings icon beside clear glass identity papers and a small metal security key. Tiny fresh green accent only; do not fabricate a ZA Bank product, logo, official app UI or bank-card face. Bright daylight with realistic shadows.",
+      "topics": [
+        "ZA Bank",
+        "开户",
+        "账户设置"
+      ],
+      "src": "/images/articles/bank/za-bank-account-cover.webp",
+      "originalGeneratedImage": "exec-f065f125-201c-4758-bb1c-259ce4aedeed.png"
+    },
+    {
+      "id": "zhongying-register",
+      "category": "bank",
+      "reason": "body-image",
+      "file": "boc-hong-kong-cover",
+      "headline": [
+        "中银香港",
+        "注册开户指南"
+      ],
+      "subtitle": "申请资料 · 信息填写 · 安全设置",
+      "scene": "A generic silver smartphone with an account-document icon, a neat folder and a small silver security key on a white glass desk. A subtle Hong Kong skyline model at right with a restrained muted-red accent. No fake BOCHK logo, card, official UI or guarantee.",
+      "topics": [
+        "中银香港",
+        "申请资料",
+        "安全设置"
+      ],
+      "src": "/images/articles/bank/boc-hong-kong-cover.webp",
+      "originalGeneratedImage": "exec-38e80abf-62b8-42a7-9ae6-cc58ff4b10bd.png"
+    },
+    {
+      "id": "wise-register",
+      "category": "bank",
+      "reason": "body-image",
+      "file": "wise-account-cover",
+      "headline": [
+        "Wise 账户",
+        "注册与跨境收款"
+      ],
+      "subtitle": "身份认证 · 多币种 · 账户设置",
+      "scene": "A slim silver laptop with a generic multi-currency document, two translucent account envelopes connected by a fine silver rail, and small flat currency tokens marked USD and HKD. A restrained pale green accent. No invented Wise card or dashboard, fees, eligibility or transfer speed promises.",
+      "topics": [
+        "Wise",
+        "账户注册",
+        "跨境收款"
+      ],
+      "src": "/images/articles/bank/wise-account-cover.webp",
+      "originalGeneratedImage": "exec-11e12e7f-f7de-4c36-ad47-f281f773cf40.png"
+    },
+    {
+      "id": "gamsgo-guide",
+      "category": "ai",
+      "reason": "body-image",
+      "file": "gamsgo-subscription-cover",
+      "headline": [
+        "GamsGo 订阅站",
+        "AI 工具使用指南"
+      ],
+      "subtitle": "工具选择 · 订阅购买 · 使用流程",
+      "scene": "A silver laptop, a compact notebook and three clear glass tool tiles engraved AI, 文, and a simple design-grid icon on a bright desk. Restrained muted coral detail, no third-party official logo, fake interface, promotional pricing or guaranteed subscription availability.",
+      "topics": [
+        "GamsGo",
+        "AI 工具",
+        "订阅使用"
+      ],
+      "src": "/images/articles/ai/gamsgo-subscription-cover.webp",
+      "originalGeneratedImage": "exec-3d78f6ae-6fa6-4eb8-8f36-db13280d2e03.png"
+    },
+    {
+      "id": "domestic-hk-us-guide",
+      "category": "domestic",
+      "reason": "body-image",
+      "file": "hong-kong-us-investment-cover",
+      "headline": [
+        "港美股投资入门",
+        "从开户到资金路径"
+      ],
+      "subtitle": "银行账户 · 券商 · 入金",
+      "scene": "A transparent folder containing generic bank-account and broker-account documents linked by a fine silver rail, with a small silver Hong Kong skyline and a modest Manhattan tower model on opposite sides. No regulatory exemption, tax claim, price chart or promised gains. Bright clear white editorial studio.",
+      "topics": [
+        "港美股",
+        "银行账户",
+        "资金路径"
+      ],
+      "src": "/images/articles/domestic/hong-kong-us-investment-cover.webp",
+      "originalGeneratedImage": "exec-443f9fc2-a05f-48a6-994c-3b7ee8c42c9e.png"
+    }
+  ]
+}
