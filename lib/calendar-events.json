@@ -1446,5 +1446,197 @@
     "category": "经济数据",
     "impact": "medium",
     "description": "关注现况、预期和短长期通胀预期，判断消费者信心与通胀预期对利率定价的扰动"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "盘前",
+    "title": "富国银行（WFC）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注净息差、存款成本、贷款需求和费用控制是否支撑盈利质量"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "盘前",
+    "title": "高盛（GS）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注投行手续费、股票和固收交易收入以及资产财富管理资金流"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "盘前",
+    "title": "花旗（C）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注服务业务增长、信用成本和重组进展对大型银行风险偏好的影响"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "盘前",
+    "title": "联合健康（UNH）Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注医疗成本率、Optum增长和全年指引对医疗保健板块的定价影响"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "盘前",
+    "title": "摩根大通（JPM）Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注净利息收入、投行业务、交易收入和信用拨备对银行股估值的影响"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "盘前",
+    "title": "强生（JNJ）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注创新药销售、医疗科技需求和全年指引对防御型资产偏好的影响"
+  },
+  {
+    "date": "2026-10-13",
+    "time": "22:00",
+    "title": "美国9月成屋销售",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注销量、库存和房价能否缓解高按揭利率对住房链条的压力"
+  },
+  {
+    "date": "2026-10-14",
+    "time": "盘前",
+    "title": "贝莱德（BLK）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注长期资金流、ETF需求、费率压力和私募市场业务增长"
+  },
+  {
+    "date": "2026-10-14",
+    "time": "盘前",
+    "title": "美国银行（BAC）Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注净利息收入、证券组合浮亏、信用拨备和消费信贷质量"
+  },
+  {
+    "date": "2026-10-14",
+    "time": "盘前",
+    "title": "摩根士丹利（MS）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注财富管理净流入、投行活动和交易业务对资本市场情绪的反馈"
+  },
+  {
+    "date": "2026-10-14",
+    "time": "盘前",
+    "title": "ASML（ASML）Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注新增订单、EUV/High-NA节奏和中国需求对半导体设备周期的指引"
+  },
+  {
+    "date": "2026-10-14",
+    "time": "20:30",
+    "title": "美国9月CPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注核心服务、住房和能源传导，决定市场对10月FOMC前通胀压力的定价"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "02:00",
+    "title": "美联储褐皮书",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注各地区对价格、工资、消费和企业投资的描述是否改变政策路径预期"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "盘前",
+    "title": "台积电（TSM）Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注AI/HPC需求、毛利率、先进制程产能和资本开支对半导体链条的指引"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "20:30",
+    "title": "美国10月费城联储制造业指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注订单、就业和支付价格，验证制造业是否仍受成本和需求拉扯"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "20:30",
+    "title": "美国10月纽约联储制造业指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注新订单、就业和价格分项，作为10月制造业景气的早期信号"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "20:30",
+    "title": "美国9月零售销售",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注控制组、汽车和餐饮分项，判断高利率下消费韧性是否仍能支撑盈利"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "20:30",
+    "title": "美国9月PPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注最终需求服务和贸易服务分项，判断企业端价格压力会否传导至PCE"
+  },
+  {
+    "date": "2026-10-15",
+    "time": "20:30",
+    "title": "美国初请失业金人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请和续请是否延续低位，检验就业降温是否开始扩散"
+  },
+  {
+    "date": "2026-10-16",
+    "time": "11:30",
+    "title": "美联储主席Warsh与IMF总裁对话",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注其对通胀、金融条件和全球风险的措辞是否改变利率路径预期"
+  },
+  {
+    "date": "2026-10-16",
+    "time": "20:30",
+    "title": "美国9月进出口价格指数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注能源、进口商品和美元传导，判断外部价格压力对通胀的贡献"
+  },
+  {
+    "date": "2026-10-16",
+    "time": "21:15",
+    "title": "美国9月工业产出与产能利用率",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注制造业、采矿和公用事业产出，验证实体需求与资本开支温度"
+  },
+  {
+    "date": "2026-10-17",
+    "time": "全天",
+    "title": "10月FOMC会前静默期开始",
+    "category": "宏观",
+    "impact": "low",
+    "description": "关注官员公开表态减少后，CPI和财报数据对利率预期的主导作用"
+  },
+  {
+    "date": "2026-10-17",
+    "time": "04:00",
+    "title": "美国8月TIC国际资本流动",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注海外资金对美债和美股的配置变化，尤其是长端利率压力来源"
   }
 ]
