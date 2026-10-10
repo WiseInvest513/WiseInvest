@@ -112,6 +112,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/vip",
+        destination: "https://vip.wise-invest.org/join",
+        permanent: true,
+      },
+      {
         source: "/tools/dca-zone",
         destination: "/DCA",
         permanent: true,
