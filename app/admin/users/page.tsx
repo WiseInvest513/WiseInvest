@@ -8,6 +8,7 @@ import { getLoginProviderLabels } from "@/lib/auth/provider-display";
 import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { devPreviewUsers } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
+import { formatRegistrationTimestamp, getRegistrationWindows } from "@/lib/identity/registration-stats";
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
 import { membershipTierLabels } from "@/lib/vip/status";
 
@@ -97,6 +98,9 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
   const prisma = isMockAdmin && !isDatabaseConfigured() ? null : getPrisma();
   let users: AdminUserRow[] = [];
   let groupedCounts: TierCountRow[] = [];
+  const registrationWindows = getRegistrationWindows();
+  let monthRegistrations = 0;
+  let yesterdayRegistrations = 0;
 
   if (prisma) {
     const searchFields = query
@@ -113,8 +117,9 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
         ]
       : undefined;
 
-    users = shouldSearchUsers
-      ? await prisma.user.findMany({
+    [users, groupedCounts, monthRegistrations, yesterdayRegistrations] = await Promise.all([
+      shouldSearchUsers
+      ? prisma.user.findMany({
           where: {
             ...(searchFields ? { OR: searchFields } : {}),
             ...(selectedTier !== "ALL" ? { membershipTier: selectedTier } : {}),
@@ -146,20 +151,24 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
           },
           take: isAssistant ? 10 : 50,
         })
-      : [];
-
-    if (!isAssistant) {
-      const grouped = await prisma.user.groupBy({
+      : Promise.resolve([]),
+      !isAssistant
+        ? prisma.user.groupBy({
           by: ["membershipTier"],
           _count: { membershipTier: true },
-        });
-      groupedCounts = grouped.map((item) => ({
-        membershipTier: item.membershipTier,
-        _count: {
-          membershipTier: item._count.membershipTier,
-        },
-      }));
-    }
+        })
+        : Promise.resolve([]),
+      !isAssistant
+        ? prisma.user.count({
+          where: { createdAt: { gte: registrationWindows.monthStart, lte: registrationWindows.now } },
+        })
+        : Promise.resolve(0),
+      !isAssistant
+        ? prisma.user.count({
+          where: { createdAt: { gte: registrationWindows.yesterdayStart, lt: registrationWindows.todayStart } },
+        })
+        : Promise.resolve(0),
+    ]);
   } else if (shouldSearchUsers) {
     users = devPreviewUsers.filter((user) => {
       const normalizedQuery = query.toLowerCase();
@@ -182,6 +191,8 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
   } else if (!isAssistant) {
     devPreviewUsers.forEach((user) => {
       if (user.membershipTier in tierCounts) tierCounts[user.membershipTier as keyof typeof tierCounts] += 1;
+      if (user.createdAt >= registrationWindows.monthStart && user.createdAt <= registrationWindows.now) monthRegistrations += 1;
+      if (user.createdAt >= registrationWindows.yesterdayStart && user.createdAt < registrationWindows.todayStart) yesterdayRegistrations += 1;
     });
   }
   const allCount = Object.values(tierCounts).reduce((sum, count) => sum + count, 0);
@@ -189,7 +200,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
   const getProviders = (accounts: { provider: string }[] = []) => getLoginProviderLabels(accounts);
   const gridClass = isAssistant
     ? "grid-cols-[1.45fr_1.25fr_1fr_0.75fr_0.45fr]"
-    : "grid-cols-[1.45fr_1.25fr_1fr_0.75fr_0.9fr_0.4fr_0.4fr]";
+    : "grid-cols-[1.3fr_1.2fr_1fr_0.85fr_1fr_0.7fr_0.35fr_0.35fr]";
 
   return (
     <AdminShell role={adminUser.role}>
@@ -200,6 +211,28 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
               输入用户邮箱后查询账户，并将符合条件的普通用户升级为 Wise VIP。助理角色不会展示全站用户数量或会员分布。
             </p>
           ) : null}
+          {!isAssistant && (
+            <div className="mt-5">
+              <dl aria-label="注册统计" className="grid grid-cols-2 gap-3">
+                {[
+                  { label: "本月注册", count: monthRegistrations, period: `${formatRegistrationTimestamp(registrationWindows.monthStart).date} 至今` },
+                  { label: "昨日注册", count: yesterdayRegistrations, period: formatRegistrationTimestamp(registrationWindows.yesterdayStart).date },
+                ].map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 dark:border-slate-800 dark:bg-slate-950/50">
+                    <dt className="text-sm font-bold text-slate-500 dark:text-slate-400">{stat.label}</dt>
+                    <dd className="mt-2">
+                      <span className="flex items-baseline gap-1.5">
+                        <span className="text-3xl font-black tabular-nums">{stat.count.toLocaleString("zh-CN")}</span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400">人</span>
+                      </span>
+                      <span className="mt-1 block text-xs text-slate-500 dark:text-slate-400">{stat.period}</span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">全站注册统计 · 北京时间，不受搜索和会员筛选影响。</p>
+            </div>
+          )}
           <form className="mt-5 flex flex-col gap-3 sm:flex-row">
             <label className="relative flex-1">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -243,12 +276,14 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
             <span>邮箱</span>
             <span>Wise ID</span>
             <span>会员</span>
+            {!isAssistant && <span>注册时间<span className="mt-1 block text-[10px] font-normal">北京时间</span></span>}
             {!isAssistant && <span>登录方式</span>}
             {!isAssistant && <span>绑定</span>}
             <span>操作</span>
           </div>
           {users.map((user) => {
             const providers = getProviders(user.accounts ?? []);
+            const registeredAt = formatRegistrationTimestamp(user.createdAt);
 
             return (
             <div key={user.id} className={`grid ${gridClass} gap-4 border-b border-slate-100 px-5 py-4 text-sm last:border-0 dark:border-slate-800`}>
@@ -272,6 +307,10 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
                 </p>
                 {!isAssistant && <p className="mt-1 text-xs text-slate-400">{getUserRoleLabel(user.role)}</p>}
               </div>
+              {!isAssistant && <time dateTime={user.createdAt.toISOString()} className="text-xs font-medium tabular-nums text-slate-500 dark:text-slate-400">
+                <span className="block whitespace-nowrap">{registeredAt.date}</span>
+                <span className="mt-1 block whitespace-nowrap text-slate-400 dark:text-slate-500">{registeredAt.time}</span>
+              </time>}
               {!isAssistant && <div className="flex flex-wrap gap-1.5">
                 {providers.length > 0 ? (
                   providers.map((provider) => (
