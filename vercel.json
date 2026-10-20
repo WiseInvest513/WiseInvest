@@ -1,9 +1,11 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run prisma:migrate:deploy && npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install --legacy-peer-deps",
   "framework": "nextjs",
-  "regions": ["hkg1"],
+  "regions": [
+    "hkg1"
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

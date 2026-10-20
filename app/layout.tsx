@@ -5,7 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import { AutomaticRecommendation } from "@/components/business/automatic-recommendation";
+import Script from "next/script";
 // 春节烟花效果，下次春节再启用
 // import { SingleFireworkOverlay } from "@/components/effects/Fireworks";
 import { siteConfig } from "@/lib/config";
@@ -127,7 +127,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
-          <AutomaticRecommendation />
+          <Script id="wise-global-popup-script" src="/wise-popup.js" strategy="afterInteractive" data-site="main" data-config-url="/api/public/popup" />
           <Toaster position="bottom-right" richColors />
           <Analytics />
         </ThemeProvider>

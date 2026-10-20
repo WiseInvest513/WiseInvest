@@ -21,6 +21,8 @@ function NavPanelLoading() {
   return <div role="status" className="fixed bottom-6 right-6 z-[120] rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-md dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">正在加载...</div>;
 }
 
+const CommunityDialog = dynamic(() => import("@/components/business/community-dialog").then(module => module.CommunityDialog), { ssr: false });
+
 const SearchCommand = dynamic(() => import("@/components/search-command").then((module) => module.SearchCommand), { ssr: false, loading: NavPanelLoading });
 const EventCalendar = dynamic(() => import("@/components/EventCalendar").then((module) => module.EventCalendar), { ssr: false, loading: NavPanelLoading });
 const DailyRecommendation = dynamic(() => import("@/components/business/DailyRecommendation").then((module) => module.DailyRecommendation), { ssr: false, loading: NavPanelLoading });
@@ -39,6 +41,18 @@ const navItemsAfter = [
 ];
 
 export function Navbar() {
+  const [communityOpen, setCommunityOpen] = useState(false);
+  const openCommunity = () => {
+    window.dispatchEvent(new Event("wise-community:opening"));
+    setRecommendationOpen(false);
+    setCommunityOpen(true);
+  };
+  const openVote = () => {
+    setCommunityOpen(false);
+    setRecommendationOpen(false);
+    window.dispatchEvent(new Event("wise-popup:open"));
+  };
+
   const [eventCalendarOpen, setEventCalendarOpen] = useState(false);
   const [recommendationOpen, setRecommendationOpen] = useState(false);
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
@@ -92,6 +106,12 @@ export function Navbar() {
     }
     void readNavSession().catch(() => {});
   }, [pathname, isPointAdmin]);
+
+  useEffect(() => {
+    const closeOther = () => { setCommunityOpen(false); setRecommendationOpen(false); };
+    window.addEventListener("wise-popup:opening", closeOther);
+    return () => window.removeEventListener("wise-popup:opening", closeOther);
+  }, []);
 
   // Point management has its own full-page navigation; the sticky public bar
   // must not cover the editor or intercept clicks on its controls.
@@ -180,6 +200,8 @@ export function Navbar() {
 
           {/* Right actions */}
           <div className="flex items-center gap-0.5 shrink-0">
+            <button type="button" onClick={openCommunity} className="hidden lg:inline-flex items-center rounded-lg px-2.5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800">加入群聊</button>
+            <button type="button" onClick={openVote} className="inline-flex items-center rounded-lg border border-amber-600/25 bg-amber-50 px-2.5 py-2 text-xs font-semibold text-amber-800 hover:bg-amber-100 dark:bg-amber-950/30 dark:text-amber-200">为 Wise 投票</button>
             <button onClick={() => setSearchOpen(true)} className="hidden items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 xl:inline-flex" title="搜索全站">
               <Search className="h-4 w-4 text-amber-600 dark:text-amber-400" />
               <span>搜索</span>
@@ -254,6 +276,7 @@ export function Navbar() {
               );
             })}
             <div className="border-t border-slate-200 dark:border-slate-700 mt-2 pt-2">
+              <button type="button" className="flex w-full items-center gap-3 px-5 py-3 text-sm text-slate-700 dark:text-slate-300 lg:hidden" onClick={() => { setMobileMenuOpen(false); openCommunity(); }}>加入群聊</button>
               <button className="flex items-center gap-3 w-full px-5 py-3 text-sm text-slate-700 dark:text-slate-300 sm:hidden" onClick={() => { setMobileMenuOpen(false); setSearchOpen(true); }}>
                 <Search className="h-4 w-4" />搜索全站
               </button>
@@ -271,6 +294,7 @@ export function Navbar() {
         </div>
       )}
 
+      {communityOpen && <CommunityDialog open={communityOpen} onOpenChange={setCommunityOpen} />}
       {(searchOpen || requestedPanels.search) && <SearchCommand open={searchOpen} onOpenChange={setSearchOpen} />}
       {(eventCalendarOpen || requestedPanels.calendar) && <EventCalendar open={eventCalendarOpen} onOpenChange={setEventCalendarOpen} />}
       {(recommendationOpen || requestedPanels.recommendation) && <DailyRecommendation open={recommendationOpen} onOpenChange={setRecommendationOpen} />}

@@ -1,0 +1,8 @@
+ALTER TYPE "AuditAction" ADD VALUE IF NOT EXISTS 'POPUP_CAMPAIGN_UPDATED';
+CREATE TABLE "popup_campaigns" (
+  "id" TEXT NOT NULL,
+  "config" JSONB NOT NULL,
+  "revision" INTEGER NOT NULL DEFAULT 0,
+  "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "popup_campaigns_pkey" PRIMARY KEY ("id")
+);

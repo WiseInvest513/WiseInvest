@@ -75,6 +75,7 @@ enum QualificationMetricSource {
 }
 
 enum AuditAction {
+  POPUP_CAMPAIGN_UPDATED
   USER_CREATED
   PARTNER_ACCOUNT_SUBMITTED
   PARTNER_ACCOUNT_APPROVED
@@ -471,4 +472,13 @@ model PointRevision {
   @@index([planId, createdAt])
   @@index([actorUserId, createdAt])
   @@map("point_revisions")
+}
+
+// Central public marketing configuration; private writes are admin-only.
+model PopupCampaign {
+  id String @id
+  config Json
+  revision Int @default(0)
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("popup_campaigns")
 }

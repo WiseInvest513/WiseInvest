@@ -43,6 +43,7 @@ const adminGroups = [
     label: "运营配置",
     description: "合作方和实盘数据",
     links: [
+      { href: "/admin/popup", label: "全站弹窗", icon: LayoutDashboard },
       { href: "/admin/partners", label: "合作方", icon: Waypoints },
       { href: "/admin/dca", label: "DCA 数据", icon: BarChart3 },
     ],
