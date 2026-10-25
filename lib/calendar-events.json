@@ -1742,5 +1742,85 @@
     "category": "经济数据",
     "impact": "medium",
     "description": "关注一年期与长期通胀预期、现况和预期分项，评估消费前景及利率预期的变化"
+  },
+  {
+    "date": "2026-10-27",
+    "time": "20:30",
+    "title": "美国9月耐用品订单",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注核心资本品订单及运输设备波动，判断企业投资与制造业需求的后续动能"
+  },
+  {
+    "date": "2026-10-27",
+    "time": "22:00",
+    "title": "美国9月新屋销售",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注销量、库存与售价变化，观察高利率环境下住房需求及居民购买力"
+  },
+  {
+    "date": "2026-10-28",
+    "time": "20:30",
+    "title": "美国9月先进经济指标报告",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注商品贸易、零售和批发库存的初值，评估其对季度增长与企业库存周期的影响"
+  },
+  {
+    "date": "2026-10-28",
+    "time": "盘后",
+    "title": "Visa（V）FY2026 Q4及全年财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注支付额、跨境交易量、消费者支出趋势及费用率，判断全球消费和数字支付景气度"
+  },
+  {
+    "date": "2026-10-29",
+    "time": "02:00",
+    "title": "美联储利率决议与新闻发布会",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注政策利率、声明措辞、投票分歧及主席对通胀、就业和后续路径的表述"
+  },
+  {
+    "date": "2026-10-29",
+    "time": "盘前",
+    "title": "Mastercard（MA）Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注支付网络交易额、跨境消费、支出增速及服务业务，交叉验证消费与旅行需求"
+  },
+  {
+    "date": "2026-10-29",
+    "time": "20:30",
+    "title": "美国9月个人收入与支出（含核心PCE）",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注核心PCE月度变化、服务通胀、实际消费与储蓄率，评估美联储通胀目标进展"
+  },
+  {
+    "date": "2026-10-29",
+    "time": "20:30",
+    "title": "美国Q3 GDP初值",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注消费、企业投资、库存和净出口对增长的贡献，以及价格指数对利率预期的影响"
+  },
+  {
+    "date": "2026-10-29",
+    "time": "盘后",
+    "title": "微软（MSFT）FY2027 Q1财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注Azure增速、AI服务变现、资本开支与云业务利润率，衡量企业AI需求和投入节奏"
+  },
+  {
+    "date": "2026-10-30",
+    "time": "20:30",
+    "title": "美国Q3就业成本指数（ECI）",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注工资与福利成本增速，判断劳动力成本压力及其对服务通胀和货币政策的含义"
   }
 ]
