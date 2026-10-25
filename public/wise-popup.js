@@ -75,6 +75,7 @@
       .profile,.vote{justify-content:center;min-height:60px;background:linear-gradient(180deg,#fffaf0,#f7ecd4);color:#73521b;border:1px solid #d8bf88;padding:14px 16px;font-size:16px;font-weight:700;border-radius:12px;box-shadow:inset 0 1px 0 #fff,0 3px 9px #9272380c;transition:background .18s,border-color .18s,box-shadow .18s,transform .18s}.profile:hover,.vote:hover{background:linear-gradient(180deg,#fff6e4,#f0dfb9);border-color:#b58b3b;color:#614213;box-shadow:inset 0 1px 0 #fff,0 6px 16px #9272381c;transform:translateY(-2px)}.profile:active,.vote:active{transform:translateY(0);box-shadow:inset 0 1px 3px #92723818}
       .profile .arrow,.vote .arrow{color:var(--gold)}
       .registration{margin:-8px 0 24px;color:var(--muted);font-size:13px;line-height:1.8}.registration a{display:inline;min-height:0;padding:0;border-radius:2px;font-size:inherit;font-weight:600;color:var(--gold);text-decoration:underline;text-underline-offset:3px}.registration a:hover{color:var(--text)}
+      .vote-thanks{margin:0 0 24px;padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:var(--soft);text-align:center}.vote-thanks p{margin:0;color:var(--muted);font-size:13px;line-height:1.9}.vote-thanks strong{display:block;margin:7px 0;color:var(--gold);font-size:21px;font-weight:750;letter-spacing:.035em;user-select:all}.vote-thanks .thanks-title{color:var(--text);font-size:14px;font-weight:600}
       .foot{margin:0 -36px;padding:16px 36px;border-top:1px solid var(--line);background:var(--soft);color:var(--muted);font-size:12px;line-height:1.7}
       button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
       :host([data-dark]){color-scheme:dark;--text:#f2f3f4;--muted:#b1b6bc;--line:#373a3e;--gold:#d3ac64;--surface:#181a1d;--soft:#202327;--primary:#f2f3f4;--on-primary:#282d32}
@@ -89,6 +90,7 @@
       <h2 id="vote-title" tabindex="-1"></h2><p class="subtitle"></p><p class="message" id="vote-message"></p>
       <div class="actions"><a class="vote" target="_blank" rel="noopener noreferrer"><span></span><span class="arrow" aria-hidden="true">↗</span></a><a class="profile" target="_blank" rel="noopener noreferrer"><span></span><span class="arrow" aria-hidden="true">↗</span></a></div>
       <p class="registration">如果还没有币安账号，可<a href="https://www.wise-invest.org/articles/crypto/GaM38JYk" target="_blank" rel="noopener noreferrer">查看教程注册 ↗</a></p>
+      <div class="vote-thanks"><p class="thanks-title">感谢每一位投票的朋友</p><p>欢迎添加 Wise 微信</p><strong>wiseinvest520</strong><p>Wise 准备了周边好礼，感谢大家的支持 ✦</p></div>
       <p class="foot">关闭后，可随时点击右上角「为 Wise 投票」再次打开</p>
     </div></dialog>`;
     document.body.append(host);
