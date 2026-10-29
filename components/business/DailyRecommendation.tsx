@@ -155,23 +155,23 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         className={cn(
-          "w-[calc(100vw-32px)] max-w-[340px] max-h-[calc(100dvh-32px)] overflow-y-auto p-5 gap-4",
-          "bg-white dark:bg-slate-800",
-          "border border-slate-200 dark:border-slate-700 shadow-[0_24px_60px_rgba(0,0,0,0.30)]",
+          "max-w-2xl sm:max-w-3xl max-h-[90vh] overflow-y-auto",
+          "bg-white/90 backdrop-blur-xl",
+          "border border-gray-100 shadow-2xl",
           "rounded-2xl",
           "animate-in fade-in-0 zoom-in-95 duration-300"
         )}
       >
-        <DialogHeader className="space-y-1 text-left"><p className="text-[11px] font-semibold tracking-widest text-sky-600">WISEINVEST 社区</p>
-          <DialogTitle className="text-[18px] font-semibold text-slate-900 dark:text-slate-50">
+        <DialogHeader className="space-y-2">
+          <DialogTitle className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 tracking-tight">
             今日精选
           </DialogTitle>
-          <DialogDescription className="text-[13px] text-slate-500 dark:text-slate-400">
+          <DialogDescription className="text-sm text-gray-500 font-sans">
             为您精心挑选的优质内容，不容错过
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-3 py-0">
+        <div className="space-y-3 py-6">
           {recommendations.length === 0 ? (
             <div className="text-center py-12">
               <Gift className="h-16 w-16 mx-auto text-gray-300 mb-4" />
@@ -190,12 +190,12 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                 key={index}
                 onClick={() => handleCardClick(item.link)}
                 className={cn(
-                  "group relative flex flex-col items-start gap-3 p-3",
-                  "bg-white dark:bg-slate-800 rounded-xl border cursor-pointer transition-colors",
-                  "hover:border-slate-300",
-                  "",
-                  "",
-                  item.featured ? "border-slate-200 dark:border-slate-700 hover:border-sky-300" : "border-slate-200 dark:border-slate-700 hover:border-sky-300",
+                  "group relative flex items-center gap-4 p-4 sm:p-5",
+                  "bg-white rounded-xl border-2 cursor-pointer transition-all duration-300",
+                  "hover:scale-[1.02] hover:shadow-lg",
+                  "active:scale-[0.98]",
+                  "animate-in fade-in-0 slide-in-from-bottom-2",
+                  item.featured ? "border-red-300 bg-red-50/30 hover:border-red-400" : "border-gray-100 hover:border-gray-200",
                   config.hoverBorder
                 )}
                 style={{
@@ -207,7 +207,7 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                 {/* Left: Icon Container */}
                 <div
                   className={cn(
-                    "hidden",
+                    "flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center",
                     config.iconBg
                   )}
                 >
@@ -215,26 +215,26 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                 </div>
 
                 {/* Middle: Title + Description */}
-                <div className="w-full min-w-0">
-                  <h3 className="text-[15px] font-semibold text-slate-900 dark:text-slate-50 mb-1">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 line-clamp-1">
                     {item.title}
                   </h3>
-                  <p className="text-[13px] text-slate-500 dark:text-slate-400">
+                  <p className="text-sm text-gray-500 line-clamp-1">
                     {item.desc}
                   </p>
                   {item.title === "Wise Invest 官方社群" && (
-                    <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-slate-50 dark:bg-slate-700 p-1" onClick={(event) => event.stopPropagation()}>
+                    <div className="mt-3 flex flex-wrap items-center gap-2" onClick={(event) => event.stopPropagation()}>
                       <button
                         type="button"
                         onClick={() => setCommunityChannel("wechat")}
-                        className={cn("rounded-lg px-2 py-2 text-[13px] font-semibold transition-colors", communityChannel === "wechat" ? "bg-[#07c160] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200")}
+                        className={cn("rounded-full px-3 py-1 text-xs font-medium transition-colors", communityChannel === "wechat" ? "bg-emerald-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200")}
                       >
                         微信群
                       </button>
                       <button
                         type="button"
                         onClick={() => setCommunityChannel("telegram")}
-                        className={cn("rounded-lg px-2 py-2 text-[13px] font-semibold transition-colors", communityChannel === "telegram" ? "bg-[#0284c7] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200")}
+                        className={cn("rounded-full px-3 py-1 text-xs font-medium transition-colors", communityChannel === "telegram" ? "bg-sky-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200")}
                       >
                         Telegram 群
                       </button>
@@ -243,16 +243,16 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                           立即加入 →
                         </button>
                       ) : (
-                        <div className="col-span-2 mt-3 flex w-full flex-col items-center gap-2">
+                        <div className="mt-2 flex w-full flex-col items-start gap-2">
                           <a
-                            href="/草料图片.png"
+                            href="/群聊.png"
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(event) => event.stopPropagation()}
                             className="block rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400"
                             title="点击查看微信群二维码大图"
                           >
-                            <img src="/草料图片.png" alt="微信群二维码（点击查看大图）" className="h-auto w-full rounded-xl border border-emerald-100 object-contain" />
+                            <img src="/群聊.png" alt="微信群二维码（点击查看大图）" className="h-40 w-40 rounded-md border border-gray-100 object-cover transition-transform hover:scale-105" />
                           </a>
                           <span className="text-xs text-gray-500">打开微信扫码加入</span>
                         </div>
@@ -262,9 +262,9 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
                 </div>
 
                 {/* Right: Tag Pill & Featured Badge */}
-                <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex-shrink-0 flex flex-col gap-2 items-end">
                   {item.featured && (
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-500 text-white animate-pulse">
                       ★ 推荐
                     </span>
                   )}
@@ -284,9 +284,9 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
             className={cn(
               "w-full sm:w-auto",
               "bg-gray-900 hover:bg-gray-800 text-white",
-              "rounded-xl px-5 py-2.5",
+              "rounded-full px-8 py-2.5",
               "font-medium transition-all duration-200",
-              ""
+              "hover:scale-105 active:scale-95"
             )}
           >
             知道了
