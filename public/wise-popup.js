@@ -1,4 +1,4 @@
-/* Wise community popup. Each visit opens the community invitation; no saved cooldown. */
+/* Shared Wise community dialog. CHAIN is the visual reference for every site. */
 (() => {
   "use strict";
   if (window.WiseCommunityPopup) return;
@@ -8,40 +8,40 @@
   const controls = document.createElement("style");
   controls.textContent = `[data-wise-community]{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 10px;border:1px solid #c9a65e55;border-radius:8px;background:#a9791910;color:#987025;font:600 12px/1.4 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;white-space:nowrap;cursor:pointer;flex-shrink:0}[data-wise-community]:hover{background:#a9791926;border-color:#b58b3b}[data-wise-community]:focus-visible{outline:2px solid #b58b3b;outline-offset:3px}.wise-popup-actions{display:inline-flex;align-items:center;gap:6px;flex-shrink:0}.dark [data-wise-community],[data-theme="dark"] [data-wise-community]{color:#e3c481}@media(max-width:600px){[data-wise-community]{padding:7px;font-size:11px}.wise-popup-actions{gap:4px}}`;
   document.head.append(controls);
-  let dialog, host, previousFocus, previousOverflow;
+  let dialog, host, previousFocus, previousOverflow, opened = false;
   function close() { if (dialog?.open) dialog.close(); }
   function open() {
     if (blockedRoute()) return;
+    opened = true;
     if (!dialog) {
       host = document.createElement("wise-community-popup");
       const shadow = host.attachShadow({ mode: "open" });
       shadow.innerHTML = `<style>
-      :host{font-family:var(--font-inter),-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color-scheme:light;--text:#282d32;--muted:#687078;--line:#dfe2e5;--gold:#a97919;--surface:#fff;--soft:#f5f6f7;--primary:#282d32;--on-primary:#fff}
-      *{box-sizing:border-box} dialog{margin:auto;padding:0;border:1px solid var(--line);border-radius:18px;width:calc(100vw - 32px);max-width:560px;max-height:calc(100dvh - 32px);overflow:auto;color:var(--text);background:var(--surface);box-shadow:0 24px 80px #151a2433;outline:none}
-      dialog::backdrop{background:#18202b66;backdrop-filter:blur(4px)}
-      dialog[open]{animation:arrive .2s ease-out}.card{padding:28px 36px 0;text-align:center;position:relative}
-      .brand{padding:0 44px 22px;border-bottom:1px solid var(--line);font-family:var(--font-nunito),sans-serif;font-size:22px;font-weight:850;letter-spacing:-.04em;line-height:1.5}.brand span{color:var(--gold)}
-      .close{position:absolute;right:22px;top:25px;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:8px;background:var(--soft);color:var(--muted);cursor:pointer;font-size:24px;line-height:1}.close:hover{color:var(--text);background:var(--line)}
-      h2{outline:none;margin:0;font-family:var(--font-nunito),"PingFang SC","Microsoft YaHei",sans-serif;font-size:36px;font-weight:850;line-height:1.35;letter-spacing:-.035em;overflow-wrap:anywhere;text-wrap:balance}
-      .message{margin:20px 0 0;color:var(--muted);font-size:15px;line-height:1.8}
-      .actions{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;gap:12px;margin:30px 0 28px}a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 18px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;line-height:1.6;transition:background .15s,color .15s}
-      a span{overflow-wrap:anywhere}.arrow{font-size:19px;font-weight:400;flex-shrink:0}
-      .profile,.community-link{justify-content:center;min-height:60px;background:linear-gradient(180deg,#fffaf0,#f7ecd4);color:#73521b;border:1px solid #d8bf88;padding:14px 16px;font-size:16px;font-weight:700;border-radius:12px;box-shadow:inset 0 1px 0 #fff,0 3px 9px #9272380c;transition:background .18s,border-color .18s,box-shadow .18s,transform .18s}.profile:hover,.community-link:hover{background:linear-gradient(180deg,#fff6e4,#f0dfb9);border-color:#b58b3b;color:#614213;box-shadow:inset 0 1px 0 #fff,0 6px 16px #9272381c;transform:translateY(-2px)}.profile:active,.community-link:active{transform:translateY(0);box-shadow:inset 0 1px 3px #92723818}
-      .profile .arrow,.community-link .arrow{color:var(--gold)}
-      button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
-      :host([data-dark]){color-scheme:dark;--text:#f2f3f4;--muted:#b1b6bc;--line:#373a3e;--gold:#d3ac64;--surface:#181a1d;--soft:#202327;--primary:#f2f3f4;--on-primary:#282d32}
-      :host([data-dark]) .profile,:host([data-dark]) .community-link{background:linear-gradient(180deg,#342f24,#29261f);border-color:#77623b;color:#ead3a0;box-shadow:inset 0 1px 0 #ffffff0d,0 3px 9px #0002}:host([data-dark]) .profile:hover,:host([data-dark]) .community-link:hover{background:#3c3425;border-color:#b58b3b;color:#f5dfad}
-      .profile[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
-      @media(max-width:480px){.card{padding:22px 24px 0}.brand{font-size:20px;padding-bottom:18px}.close{right:16px;top:19px}.actions{gap:8px;margin:24px 0}.profile,.community-link{min-height:48px;padding:12px 8px;font-size:14px}}
-      @media(prefers-reduced-motion:reduce){dialog[open]{animation:none}a{transition:none}.profile:hover,.community-link:hover{transform:none}}
-      @keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    </style><dialog aria-labelledby="wise-community-title"><div class="card" style="padding-bottom:28px"><button type="button" class="close" aria-label="关闭群聊弹窗">×</button><div class="brand">Wise <span>Invest</span></div><h2 id="wise-community-title" tabindex="-1" style="font-size:26px;margin-top:26px">加入 WiseInvest 社群</h2><p class="message">选择 Telegram 群或微信群，与大家交流。</p><div class="actions"><button type="button" class="profile" data-channel="telegram" aria-pressed="true">Telegram 群</button><button type="button" class="profile" data-channel="wechat" aria-pressed="false">微信群</button></div><div data-panel="telegram"><a class="community-link" href="https://t.me/WiseInvest513Chat" target="_blank" rel="noopener noreferrer">加入 Telegram 群 ↗</a></div><div data-panel="wechat" hidden><img src="https://www.wise-invest.org/群聊.png" alt="WiseInvest 微信群二维码" style="display:block;width:240px;max-width:100%;height:auto;margin:0 auto;border-radius:12px"><p class="message">打开微信扫码加入</p></div></div></dialog>`;
+        :host{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;--surface:#fff;--elevated:#f8fafc;--border:#e2e8f0;--text:#0f172a;--muted:#64748b;--quiet:#64748b;color-scheme:light}
+        :host([data-dark]){--surface:#1e293b;--elevated:#334155;--border:#334155;--text:#f8fafc;--muted:#94a3b8;--quiet:#94a3b8;color-scheme:dark}
+        *{box-sizing:border-box}dialog{padding:0;margin:auto;width:calc(100vw - 32px);max-width:340px;max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--text);box-shadow:0 24px 60px #0000004d;outline:none}
+        dialog::backdrop{background:#0008;backdrop-filter:blur(4px)}dialog[open]{animation:arrive .22s ease}
+        .card{position:relative}.heading{padding:20px 20px 16px}.eyebrow{color:#0284c7;font-size:11px;font-weight:600;letter-spacing:.1em;margin:0 0 4px;line-height:1.5}h2{font-size:18px;font-weight:600;line-height:1.5;margin:0;outline:none}
+        button,a{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button{border:0}button:focus-visible,a:focus-visible{outline:2px solid #0284c7;outline-offset:3px}
+        .close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:var(--elevated);color:var(--muted);display:grid;place-items:center;padding:0}.close svg{width:14px;height:14px}.close:hover,.dismiss:hover{opacity:.7}
+        .tabs{display:flex;margin:0 20px 16px;padding:4px;gap:4px;border-radius:12px;background:var(--elevated)}.tab{flex:1;padding:8px 0;border-radius:8px;background:transparent;color:var(--muted);font-size:13px;line-height:1.5;font-weight:600;transition:background .15s}.tab[aria-pressed="true"]{background:var(--channel);color:white;box-shadow:0 2px 8px color-mix(in srgb,var(--channel) 25%,transparent)}
+        .qr{margin:0 20px;border:1.5px solid color-mix(in srgb,var(--channel) 15%,transparent);border-radius:12px;overflow:hidden;background:#fff}.qr img{display:block;width:100%;height:auto}.description{margin:0;padding:12px 20px 4px;text-align:center;color:var(--muted);font-size:13px;line-height:1.5}.actions{padding:8px 20px 20px;display:flex;flex-direction:column;gap:8px}.join{display:block;text-align:center;text-decoration:none;color:#fff;background:linear-gradient(135deg,#0284c7,#0ea5e9);padding:12px;border-radius:12px;font-size:15px;font-weight:600}.dismiss{padding:4px;background:transparent;color:var(--quiet);font-size:13px;line-height:1.5}
+        [hidden]{display:none!important}@media(prefers-reduced-motion:reduce){dialog[open]{animation:none}.tab{transition:none}}@keyframes arrive{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+      </style><dialog aria-labelledby="community-title"><div class="card">
+        <button type="button" class="close" aria-label="关闭社群弹窗"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button>
+        <div class="heading"><p class="eyebrow">WISEINVEST 社区</p><h2 id="community-title" tabindex="-1">加入我们的社群</h2></div>
+        <div class="tabs"><button type="button" class="tab" style="--channel:#07c160" data-channel="wechat" aria-pressed="true">微信群聊</button><button type="button" class="tab" style="--channel:#0284c7" data-channel="telegram" aria-pressed="false">电报群聊</button></div>
+        <div data-panel="wechat" style="--channel:#07c160"><div class="qr"><img src="/草料图片.png" alt="微信群聊二维码"></div><p class="description">扫码加入官方微信群聊，与国内投资者交流</p></div>
+        <div data-panel="telegram" style="--channel:#0284c7" hidden><div class="qr"><img src="/电报图片.png" alt="电报群聊二维码"></div><p class="description">扫码或点击按钮加入 Telegram 群，与全球投资者交流</p></div>
+        <div class="actions"><a class="join" href="https://t.me/WiseInvest513Chat" target="_blank" rel="noopener noreferrer" hidden>点击加入群聊 →</a><button type="button" class="dismiss">暂时关闭</button></div>
+      </div></dialog>`;
       document.body.append(host);
       dialog = shadow.querySelector("dialog");
-      dialog.querySelector(".close").addEventListener("click", close);
+      dialog.querySelectorAll(".close,.dismiss").forEach(b => b.addEventListener("click", close));
       dialog.addEventListener("close", () => {
         document.documentElement.style.overflow = previousOverflow;
         if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+        window.dispatchEvent(new Event("wise-community:closed"));
       });
       dialog.addEventListener("click", e => {
         if (e.target !== dialog) return;
@@ -51,9 +51,11 @@
       dialog.querySelectorAll("[data-channel]").forEach(button => button.addEventListener("click", () => {
         dialog.querySelectorAll("[data-channel]").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
         dialog.querySelectorAll("[data-panel]").forEach(panel => { panel.hidden = panel.dataset.panel !== button.dataset.channel; });
+        dialog.querySelector(".join").hidden = button.dataset.channel !== "telegram";
       }));
     }
     if (dialog.open) return;
+    window.dispatchEvent(new Event("wise-community:opening"));
     host.toggleAttribute("data-dark", document.documentElement.classList.contains("dark") || document.documentElement.dataset.theme === "dark");
     previousFocus = document.activeElement;
     previousOverflow = document.documentElement.style.overflow;
@@ -63,23 +65,20 @@
   }
   window.WiseCommunityPopup = { open, close };
   document.addEventListener("click", event => {
-    if (event.target instanceof Element && event.target.closest("[data-wise-community]")) {
-      event.preventDefault(); open();
-    }
+    if (event.target instanceof Element && event.target.closest("[data-wise-community]")) { event.preventDefault(); open(); }
   });
+  window.addEventListener("open-community-modal", open);
+  window.addEventListener("wise-community:request", open);
+  window.addEventListener("wise-community:close", close);
   window.addEventListener("popstate", close);
-  // These sites use the shared community UI. Other sites open their original modal on mount.
+  window.dispatchEvent(new Event("wise-community:ready"));
+  // Original promotional windows remain on main/IPO; ETF coordinates its disclaimer first.
   function start() {
-    if (!["vip", "crypto", "ipo"].includes(site) || blockedRoute()) return;
+    if (["main", "ipo", "etf"].includes(site) || blockedRoute() || opened) return;
     if (document.visibilityState === "hidden") {
-      const visible = () => {
-        if (document.visibilityState !== "visible") return;
-        document.removeEventListener("visibilitychange", visible);
-        open();
-      };
+      const visible = () => { if (document.visibilityState === "visible") { document.removeEventListener("visibilitychange", visible); if (!opened) open(); } };
       document.addEventListener("visibilitychange", visible);
     } else open();
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true });
-  else start();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true }); else start();
 })();

@@ -103,7 +103,7 @@ export function Navbar() {
   }, [pathname, isPointAdmin]);
 
   useEffect(() => {
-    if (!/^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(window.location.pathname)) setCommunityOpen(true);
+    if (!/^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(window.location.pathname)) setRecommendationOpen(true);
   }, []);
 
   // Point management has its own full-page navigation; the sticky public bar
