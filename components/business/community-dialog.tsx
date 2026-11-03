@@ -9,8 +9,9 @@ export function CommunityDialog({ open, onOpenChange }: { open: boolean; onOpenC
     const closed = () => onChange.current(false);
     window.addEventListener("wise-community:ready", show);
     window.addEventListener("wise-community:closed", closed);
-    show();
+    const timer = window.setTimeout(show, 0);
     return () => {
+      window.clearTimeout(timer);
       window.removeEventListener("wise-community:ready", show);
       window.removeEventListener("wise-community:closed", closed);
       window.dispatchEvent(new Event("wise-community:close"));

@@ -17,53 +17,7 @@ import { openSafeExternalUrl } from "@/lib/security/external-links";
 import { dailyRecommendations, type RecommendationItem } from "@/lib/daily-recommendations";
 import { suppressAutomaticRecommendation } from "@/lib/recommendation-visibility";
 
-interface RecommendationLog {
-  lastShownTime: number;
-}
-
-const STORAGE_KEY = "wise_invest_recommendation_log";
-const DEFAULT_INTERVAL = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
-
-// 读取 localStorage 日志
-function getRecommendationLog(): RecommendationLog {
-  if (typeof window === "undefined") {
-    return { lastShownTime: 0 };
-  }
-
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return { lastShownTime: 0 };
-
-    const parsed = JSON.parse(stored);
-    return {
-      lastShownTime: parsed.lastShownTime || 0,
-    };
-  } catch (error) {
-    console.warn("[DailyRecommendation] Failed to read log:", error);
-    return { lastShownTime: 0 };
-  }
-}
-
-// 保存到 localStorage
-function saveRecommendationLog(log: RecommendationLog): void {
-  if (typeof window === "undefined") return;
-
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(log));
-  } catch (error) {
-    console.warn("[DailyRecommendation] Failed to save log:", error);
-  }
-}
-
-// 判断是否应该显示弹窗
-function shouldShowModal(): boolean {
-  const log = getRecommendationLog();
-  const now = Date.now();
-  const timeSinceLastShown = now - log.lastShownTime;
-
-  // 12小时规则
-  return timeSinceLastShown >= DEFAULT_INTERVAL;
-}
+import { recordPopupShown, shouldShowAutomaticPopup } from "@/lib/popup-cooldown";
 
 interface DailyRecommendationProps {
   open?: boolean;
@@ -93,26 +47,23 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
     // 如果没有推荐内容，不自动显示（但手动点击仍可显示）
     if (recommendations.length === 0) return;
 
-    // 检查是否应该显示（12小时规则）
-    if (shouldShowModal()) {
+    if (shouldShowAutomaticPopup()) {
+      recordPopupShown();
       setInternalOpen(true);
-      // 更新显示时间
-      const log = getRecommendationLog();
-      saveRecommendationLog({
-        ...log,
-        lastShownTime: Date.now(),
-      });
     }
   }, [recommendations, controlledOpen, suppressAutomatic]);
 
-  const handleClose = () => {
-    setOpen(false);
-    const log = getRecommendationLog();
-    saveRecommendationLog({
-      ...log,
-      lastShownTime: Date.now(),
-    });
-  };
+  useEffect(() => {
+    if (controlledOpen) recordPopupShown();
+  }, [controlledOpen]);
+
+  useEffect(() => {
+    const hideForCommunity = () => setInternalOpen(false);
+    window.addEventListener("wise-community:opening", hideForCommunity);
+    return () => window.removeEventListener("wise-community:opening", hideForCommunity);
+  }, []);
+
+  const handleClose = () => setOpen(false);
 
   const handleCardClick = (link: string) => {
     if (link.startsWith("/")) {

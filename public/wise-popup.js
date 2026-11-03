@@ -5,13 +5,48 @@
   const script = document.getElementById("wise-global-popup-script") || document.currentScript;
   const site = script?.dataset.site || "main";
   const blockedRoute = () => /^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(location.pathname);
+  const POPUP_SHOWN_AT_KEY = "wise-popup-last-shown-at-v1";
+  const POPUP_INTERVAL_MS = 3 * 60 * 60 * 1000;
+
+  // Shared by automatic recommendations and the manual community entry on this site.
+  function getPopupShownAt() {
+    let latest = window.__wisePopupShownAt || 0;
+    for (const storageName of ["localStorage", "sessionStorage"]) {
+      try {
+        const storage = window[storageName];
+        const values = [
+          Number(storage.getItem(POPUP_SHOWN_AT_KEY)),
+          Number(storage.getItem("wise-ipo-stockcoin-promo-dismissed-at")),
+        ];
+        try {
+          values.push(Number(JSON.parse(storage.getItem("wise_invest_recommendation_log") || "null")?.lastShownTime));
+        } catch { /* Ignore an invalid legacy record. */ }
+        for (const value of values) {
+          if (Number.isFinite(value) && value > 0 && value <= Date.now()) latest = Math.max(latest, value);
+        }
+      } catch { /* Storage may be unavailable in a restricted browser. */ }
+    }
+    return latest;
+  }
+
+  function shouldShowAutomaticPopup() {
+    return Date.now() - getPopupShownAt() >= POPUP_INTERVAL_MS;
+  }
+
+  function recordPopupShown() {
+    const now = Date.now();
+    window.__wisePopupShownAt = now;
+    for (const storageName of ["localStorage", "sessionStorage"]) {
+      try { window[storageName].setItem(POPUP_SHOWN_AT_KEY, String(now)); } catch { /* Keep the in-page fallback. */ }
+    }
+  }
   const controls = document.createElement("style");
   controls.textContent = `[data-wise-community]{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 10px;border:1px solid #c9a65e55;border-radius:8px;background:#a9791910;color:#987025;font:600 12px/1.4 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;white-space:nowrap;cursor:pointer;flex-shrink:0}[data-wise-community]:hover{background:#a9791926;border-color:#b58b3b}[data-wise-community]:focus-visible{outline:2px solid #b58b3b;outline-offset:3px}.wise-popup-actions{display:inline-flex;align-items:center;gap:6px;flex-shrink:0}.dark [data-wise-community],[data-theme="dark"] [data-wise-community]{color:#e3c481}@media(max-width:600px){[data-wise-community]{padding:7px;font-size:11px}.wise-popup-actions{gap:4px}}`;
   document.head.append(controls);
   let dialog, host, previousFocus, previousOverflow, opened = false;
   function close() { if (dialog?.open) dialog.close(); }
   function open() {
-    if (blockedRoute()) return;
+    if (blockedRoute()) return false;
     opened = true;
     if (!dialog) {
       host = document.createElement("wise-community-popup");
@@ -54,16 +89,22 @@
         dialog.querySelector(".join").hidden = button.dataset.channel !== "telegram";
       }));
     }
-    if (dialog.open) return;
+    if (dialog.open) return true;
     window.dispatchEvent(new Event("wise-community:opening"));
     host.toggleAttribute("data-dark", document.documentElement.classList.contains("dark") || document.documentElement.dataset.theme === "dark");
     previousFocus = document.activeElement;
     previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = "hidden";
     dialog.showModal();
+    recordPopupShown();
     dialog.querySelector("h2").focus({ preventScroll: true });
+    return true;
   }
-  window.WiseCommunityPopup = { open, close };
+  function openAutomatic() {
+    if (!shouldShowAutomaticPopup()) return false;
+    return open();
+  }
+  window.WiseCommunityPopup = { open, close, openAutomatic };
   document.addEventListener("click", event => {
     if (event.target instanceof Element && event.target.closest("[data-wise-community]")) { event.preventDefault(); open(); }
   });
@@ -76,9 +117,9 @@
   function start() {
     if (["main", "ipo", "etf"].includes(site) || blockedRoute() || opened) return;
     if (document.visibilityState === "hidden") {
-      const visible = () => { if (document.visibilityState === "visible") { document.removeEventListener("visibilitychange", visible); if (!opened) open(); } };
+      const visible = () => { if (document.visibilityState === "visible") { document.removeEventListener("visibilitychange", visible); if (!opened) openAutomatic(); } };
       document.addEventListener("visibilitychange", visible);
-    } else open();
+    } else openAutomatic();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true }); else start();
 })();

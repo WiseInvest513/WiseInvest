@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { shouldShowAutomaticPopup } from "@/lib/popup-cooldown";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
@@ -103,7 +104,7 @@ export function Navbar() {
   }, [pathname, isPointAdmin]);
 
   useEffect(() => {
-    if (!/^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(window.location.pathname)) setRecommendationOpen(true);
+    if (!/^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(window.location.pathname) && shouldShowAutomaticPopup()) setRecommendationOpen(true);
   }, []);
 
   // Point management has its own full-page navigation; the sticky public bar
