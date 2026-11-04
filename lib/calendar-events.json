@@ -1822,5 +1822,45 @@
     "category": "经济数据",
     "impact": "high",
     "description": "关注工资与福利成本增速，判断劳动力成本压力及其对服务通胀和货币政策的含义"
+  },
+  {
+    "date": "2026-11-09",
+    "time": "23:00",
+    "title": "美国9月批发贸易销售与库存",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注库存销售比及批发库存修正，评估企业补库节奏及其对季度增长的影响"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "21:30",
+    "title": "美国10月CPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注核心CPI环比、住房与服务通胀，以及能源价格传导对利率预期的影响"
+  },
+  {
+    "date": "2026-11-13",
+    "time": "21:30",
+    "title": "美国10月PPI",
+    "category": "经济数据",
+    "impact": "high",
+    "description": "关注最终需求与核心服务价格变化，观察上游成本向消费者通胀传导的压力"
+  },
+  {
+    "date": "2026-11-13",
+    "time": "盘后",
+    "title": "应用材料（AMAT）FY2026 Q4及全年财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "关注晶圆厂设备订单、先进制程与存储需求、地区收入和订单指引，评估半导体资本开支周期"
+  },
+  {
+    "date": "2026-11-13",
+    "time": "盘后",
+    "title": "Cisco（CSCO）FY2027 Q1财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "关注网络设备订单、AI基础设施需求、企业IT支出及下一季度指引，判断企业网络投资景气度"
   }
 ]
