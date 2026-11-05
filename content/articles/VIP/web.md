@@ -10,7 +10,7 @@ summary: Wise VIP 体系已经构建完毕，打通从出海入门到投资精�
 
 > **Author:** WiseInvest　·　**Version:** 1.0.1　·　**Updated:** 2026-09-03　·　**Changes:** 初始化所有内容
 
-![Wise VIP 体系总览](./0.png)
+![Wise VIP 体系总览](./0.webp)
 
 ## 一、写在前面
 哈喽，大家好，这里是 **WiseInvest**，我是你们的老朋友 **Wise**！

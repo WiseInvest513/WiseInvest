@@ -7,8 +7,6 @@ readTime: 10
 summary: 专为国内用户整理的港美股投资入门指南，涵盖港卡开户、券商开立、Web3 交易所、虚拟 U 卡、手机卡等核心内容全攻略。
 ---
 
-![封面](./0.jpeg)
-
 ## 一、写在前面
 
 哈喽啊，今天就是五一假期了，Wise 在这里预祝大家五一假期可以玩的开心了！
@@ -149,6 +147,8 @@ ok，话不多说，我们就即刻开始吧。
 港资券商其实可以开户的还是比较多的，例如**致富、盈立、卓锐、胜利、复星**等券商。咱们也制作了致富、盈立、复星等教程，教程分别如下。
 
 **1️⃣ 复星证券开户 & 入金教程**
+
+> [注册 复星证券 账户](https://h5.fotechwealth.com/pages/startAccount.html?channel=030005&aeCode=B2&invitationCode=AGVPK3&langType=zhCn) · 邀请码：**AGVPK3** · 福利：入金等值 10,000 港币，解锁免佣
 
 [复星证券开户教程](https://www.wise-invest.org/articles/broker/sQSbLRe8)
 

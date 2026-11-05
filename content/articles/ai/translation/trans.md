@@ -127,7 +127,9 @@ summary: 沉浸式翻译使用教程，帮助打破语言墙，获取更加优�
 
 ![沉浸式翻译支持多种不同使用场景](./4.jpeg)
 
-是不是非常牛呢？大家如果使用翻译软件，感兴趣的话可以点击如下的链接进行注册和使用了，我也给大家申请了九折的优惠：九折优惠点击这里：[https://immersivetranslate.com/zh-Hans/?via=wise-invest](https://immersivetranslate.com/zh-Hans/?via=wise-invest)
+感兴趣的朋友可以使用下方的邀请入口注册和使用沉浸式翻译。原稿介绍过九折优惠，具体适用套餐和有效期以购买页面显示为准。
+
+> [注册 沉浸式翻译 账户](https://immersivetranslate.com/zh-Hans/?via=wise-invest) · 邀请链接
 
 ok，以上就是今天的全部内容了，给大家详细介绍了此产品，同时进行了实操演示，帮助大家上手使用。
 

@@ -38,7 +38,7 @@ function cardHarness() {
     react: { useState: () => [failed, (value) => { failed = value; }] },
     'next/image': { __esModule: true, default: Image },
     '@/components/content-access-gate': { ProtectedContentLink },
-    '@/lib/article-covers': { articleCovers: { covered: { src: '/images/articles/crypto/binance-guide-cover.webp', alt: 'Binance guide', topics: ['Crypto'] } } },
+    '@/lib/article-covers': { ARTICLE_COVER_WIDTH: 640, ARTICLE_COVER_HEIGHT: 360, articleCovers: { covered: { src: '/images/articles/covers/biance-guide.webp', alt: 'Binance guide', topics: ['Crypto'] } } },
     '@/lib/article-uid': { genUid: () => 'existing-uid' },
     '@/lib/articles-data': { categories: [{ id: 'crypto', name: 'Crypto' }], subcategories: [] },
   });
@@ -46,7 +46,7 @@ function cardHarness() {
   return { render: (overrides = {}, priority = false) => ArticleCard({ article: { ...article, ...overrides }, priority }) };
 }
 
-test('local article covers use responsive optimized images without prefetching entire articles', () => {
+test('small list thumbnails are lazy-loaded directly without upscaling, re-encoding or article prefetch', () => {
   const tree = cardHarness().render();
   assert.equal(tree.type, ProtectedContentLink);
   assert.equal(tree.props.prefetch, false);
@@ -56,8 +56,12 @@ test('local article covers use responsive optimized images without prefetching e
   assert.equal(image.props.priority, false);
   const props = getImageProps(image.props).props;
   assert.equal(props.loading, 'lazy');
-  assert.ok(props.srcSet.includes('/_next/image?'));
-  assert.ok(props.srcSet.includes('w=640'));
+  assert.equal(props.src, '/images/articles/covers/biance-guide.webp');
+  assert.equal(props.srcSet, undefined);
+  assert.equal(image.props.width, 640);
+  assert.equal(image.props.height, 360);
+  assert.equal(image.props.unoptimized, true);
+  assert.ok(image.props.className.includes('object-contain'));
   assert.equal(image.props.alt, 'Binance guide');
 });
 
@@ -70,10 +74,10 @@ test('first visible article covers retain priority and failed images retain thei
   assert.equal(nodes(h.render()).some(node => node.type === Image || node.type === 'img'), false);
 });
 
-test('legacy local article PNG covers receive responsive optimization too', () => {
-  const tree = cardHarness().render({ id: 'legacy', coverImage: '/content/articles/crypto/bybit/0.png' });
+test('legacy local article covers retain responsive optimization', () => {
+  const tree = cardHarness().render({ id: 'legacy', coverImage: '/content/articles/crypto/bybit/0.webp' });
   const image = nodes(tree).find(node => node.type === Image);
-  assert.equal(image.props.src, '/content/articles/crypto/bybit/0.png');
+  assert.equal(image.props.src, '/content/articles/crypto/bybit/0.webp');
   assert.ok(getImageProps(image.props).props.srcSet.includes('/_next/image?'));
   assert.equal(getImageProps(image.props).props.loading, 'lazy');
 });
@@ -113,7 +117,7 @@ test('development keeps public illustrations immediately revalidatable', async (
 
 test('navbar panels are deferred until requested and retain state after closing', () => {
   const slots = [];
-  const panels = [];
+  const panels = new Map();
   const effects = [];
   let cursor = 0;
   const react = {
@@ -130,11 +134,13 @@ test('navbar panels are deferred until requested and retain state after closing'
       }
     },
   };
-  const dynamic = (_loader, options) => {
+  const dynamic = (loader, options) => {
     assert.equal(options.ssr, false);
-    assert.equal(typeof options.loading, 'function');
+    if (options.loading !== undefined) assert.equal(typeof options.loading, 'function');
+    const name = loader.toString().match(/module\.(\w+)/)?.[1];
+    assert.ok(name, 'identify each deferred module independently of declaration order');
     const panel = () => null;
-    panels.push(panel);
+    panels.set(name, { component: panel, options });
     return panel;
   };
   const { Navbar } = load('components/navbar.tsx', {
@@ -143,7 +149,8 @@ test('navbar panels are deferred until requested and retain state after closing'
     'next/navigation': { usePathname: () => '/' },
     '@/lib/utils': { cn: (...values) => values.filter(Boolean).join(' ') },
     '@/lib/auth/nav-session-client': { subscribeNavSession: () => () => {}, readNavSession: async () => null },
-  }, { window: { addEventListener() {}, removeEventListener() {} } });
+    '@/lib/popup-cooldown': { shouldShowAutomaticPopup: () => false },
+  }, { window: { location: { pathname: '/' }, addEventListener() {}, removeEventListener() {} } });
   const render = () => {
     cursor = 0;
     const tree = Navbar();
@@ -151,15 +158,20 @@ test('navbar panels are deferred until requested and retain state after closing'
     return tree;
   };
   let tree = render();
-  assert.equal(nodes(tree).some(node => panels.includes(node.type)), false);
-  for (const [index, title] of ['搜索全站', '重要事件日历', '今日精选'].entries()) {
+  const deferred = [...panels.values()].map(panel => panel.component);
+  assert.equal(nodes(tree).some(node => deferred.includes(node.type)), false);
+  for (const [name, title] of [['SearchCommand', '搜索全站'], ['EventCalendar', '重要事件日历'], ['DailyRecommendation', '今日精选']]) {
+    const deferredPanel = panels.get(name);
+    assert.ok(deferredPanel, `${name} must remain a deferred module`);
+    assert.equal(typeof deferredPanel.options.loading, 'function', `${name} retains its loading feedback`);
+    assert.equal(nodes(tree).some(node => node.type === deferredPanel.component), false, `${name} is absent before its first request`);
     nodes(tree).find(node => node.props?.title === title).props.onClick();
     tree = render();
-    const panel = nodes(tree).find(node => node.type === panels[index]);
+    const panel = nodes(tree).find(node => node.type === deferredPanel.component);
     assert.equal(panel.props.open, true);
     panel.props.onOpenChange(false);
     tree = render();
-    assert.equal(nodes(tree).find(node => node.type === panels[index]).props.open, false);
+    assert.equal(nodes(tree).find(node => node.type === deferredPanel.component).props.open, false);
   }
 });
 

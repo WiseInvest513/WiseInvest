@@ -43,7 +43,7 @@ test('VIP article images use static URLs without changing article metadata', () 
   const articles = module.exports.loadFsArticles();
   const intro = articles.find(article => article.id === 'VIP');
   const journal = articles.find(article => article.id === 'VIP001');
-  assert.ok(intro?.content.includes('/content/articles/VIP/0.png'));
+  assert.ok(intro?.content.includes('/content/articles/VIP/0.webp'));
   assert.ok(articles.every(article => !article.content.includes('/api/content/articles/')));
   assert.equal(journal?.categoryId, 'VIP');
   assert.ok(journal.content.includes('真正做成一个属于自己的丰收之年'));

@@ -9,7 +9,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const markdownPath = path.join(root, 'content/articles/broker/BBAE/IBKR.md');
 const markdown = fs.readFileSync(markdownPath, 'utf8');
 const expectedTitle = '不用 CRS，不用地址证明、只需一天即可开户的 BBAE 证券，最全介绍、开户入金教程来了……';
-const expectedImages = ['3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '10.png', '11.png', '12.png', '13.png', '14.png', '16.png', '17.jpeg', '18.png'];
+const expectedImages = ['3.webp', '4.webp', '5.webp', '6.webp', '7.webp', '8.webp', '10.webp', '11.webp', '12.webp', '13.webp', '14.webp', '16.webp', '17.jpeg', '18.webp'];
 
 // Run the real loader, UID helper and landing metadata with only local access.
 // A future database/network dependency must fail instead of running in this test.
@@ -81,10 +81,10 @@ test('adding the BBAE tutorial preserves the other four brokerage links and thei
   ]);
 });
 
-test('broker perks place BBAE first and both entry buttons point to its real tutorial', () => {
+test('broker perks retain BBAE tutorial links after BIT becomes the first entry', () => {
   const broker = getPerks2Section('broker');
   const usBroker = broker.subcategories.find(category => category.slug === 'us-broker');
-  const bbae = usBroker.products[0];
+  const bbae = usBroker.products[1];
   assert.equal(bbae.id, 'bbae');
   assert.equal(bbae.title, 'BBAE 证券');
   const tutorialHref = `/articles/${article.categoryId}/${genUid(article.id)}`;
@@ -97,14 +97,22 @@ test('broker perks place BBAE first and both entry buttons point to its real tut
   assert.equal(bbae.recommendation, undefined, 'Do not invent a numeric rating for a newly added tutorial');
 });
 
-test('BBAE updates broker counts without removing or rerouting existing US broker entries', () => {
+test('BIT leads broker perks without removing or rerouting existing US broker entries', () => {
   const broker = getPerks2Section('broker');
   const usBroker = broker.subcategories.find(category => category.slug === 'us-broker');
-  assert.equal(usBroker.slots, 4);
-  assert.equal(usBroker.products.length, 4);
-  assert.match(usBroker.description, /^BBAE、嘉信、第一、盈透/);
-  assert.equal(broker.subcategories.reduce((total, category) => total + category.slots, 0), 15);
-  assert.deepEqual(usBroker.products.slice(1).map(({ id, tutorialLink, registerLink, recommendation }) => ({
+  assert.equal(usBroker.slots, 5);
+  assert.equal(usBroker.products.length, 5);
+  assert.match(usBroker.description, /^BIT、BBAE、嘉信、第一、盈透/);
+  assert.equal(broker.subcategories.reduce((total, category) => total + category.slots, 0), 17);
+  const bit = usBroker.products[0];
+  assert.equal(bit.id, 'bit-account-guide');
+  assert.equal(bit.tutorialLink, '/articles/broker/YgNQGO57');
+  assert.equal(bit.code, 'WISE666');
+  assert.match(bit.benefit, /\$1,500/);
+  assert.match(bit.benefit, /\$200/);
+  assert.match(bit.bestFor, /USDT/);
+  assert.match(bit.riskNote, /30 天/);
+  assert.deepEqual(usBroker.products.slice(2).map(({ id, tutorialLink, registerLink, recommendation }) => ({
     id, tutorialLink, registerLink, recommendation,
   })), [
     {

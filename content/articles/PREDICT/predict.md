@@ -21,7 +21,7 @@ Predict 是一个建立在 **BNB Chain** 上的预测市场平台。按照[官�
 
 首页可以看到**体育、政治、加密货币、电子竞技、金融**等分类。先从自己看得懂的内容入手，不用每个市场都参与。
 
-![Predict 首页：通过顶部分类查看体育、政治、加密货币、电子竞技和金融等市场](/content/articles/PREDICT/06-market-overview.png)
+![Predict 首页：通过顶部分类查看体育、政治、加密货币、电子竞技和金融等市场](/content/articles/PREDICT/06-market-overview.webp)
 
 > **先提醒一句：** 判断正确有机会获利，判断错误也可能损失全部投入。参与前请确认自己符合平台的年龄、地区及使用条件，具体见[官方使用条款](https://docs.predict.fun/terms-of-service)。这篇是入门教程，不是收益保证。
 
@@ -29,9 +29,9 @@ Predict 是一个建立在 **BNB Chain** 上的预测市场平台。按照[官�
 
 ### 1、从这里进入注册页面
 
-[点击进入 Predict 注册](https://predict.fun?ref=05JQU)
+> [注册 Predict 账户](https://predict.fun?ref=05JQU) · 邀请码：**05JQU**
 
-Wise 邀请码：**05JQU**。注意第一位是数字 **0**，不是字母 O。
+填写邀请码 **05JQU**，可享 **10% 交易手续费减免**。注意第一位是数字 **0**，不是字母 O。
 
 这是 Wise 的邀请链接。进入后，按照网站提示选择登录或注册方式。官方教程介绍了邮箱、Google、X 等方式，实际可选项以页面显示为准。[官方注册与充值指南](https://predict.fun/learn/how-to-deposit-bnb-chain-prediction-markets)
 
@@ -51,7 +51,7 @@ Wise 邀请码：**05JQU**。注意第一位是数字 **0**，不是字母 O。
 
 下面图片中的两个箭头，就是操作顺序。
 
-![充值第一步：点击右上角充值，再选择转账加密货币](/content/articles/PREDICT/02-deposit-entry.png)
+![充值第一步：点击右上角充值，再选择转账加密货币](/content/articles/PREDICT/02-deposit-entry.webp)
 
 ### 2、核对币种、网络和自己的充值地址
 
@@ -59,7 +59,7 @@ Wise 邀请码：**05JQU**。注意第一位是数字 **0**，不是字母 O。
 
 > **不要向本文截图中的地址转账，也不要扫描截图里的充值码。** 请打开你自己账户的充值页面，复制自己页面上的地址；交易所提现时，币种和网络都必须与该页面一致。
 
-![充值第二步：在自己的账户中核对币种、网络和地址；本图仅作界面演示](/content/articles/PREDICT/03-deposit-address.png)
+![充值第二步：在自己的账户中核对币种、网络和地址；本图仅作界面演示](/content/articles/PREDICT/03-deposit-address.webp)
 
 打开你的交易所，进入**提币 / 链上提现**页面，再依次完成下面几步：
 
@@ -75,14 +75,16 @@ Wise 邀请码：**05JQU**。注意第一位是数字 **0**，不是字母 O。
 
 如果你还没有 CEX 交易所账户，可以从下面的 Wise 合作入口了解并注册。**已有可用账户就不必重复开户**，先检查所在地区是否支持、完成必要验证，再确认该平台当前能否使用所需的提现网络。
 
-| 交易所 | Wise 邀请码 | 注册入口 |
-| --- | --- | --- |
-| Binance 币安 | `WISEBNB1` | [前往 Binance](https://www.bsmkweb.cc/register?ref=WISEBNB1) |
-| Bybit | `WISE6666` | [前往 Bybit](https://partner.bybit.com/b/WISE6666) |
-| Bitget | `wise5130` | [前往 Bitget](https://partner.bitget.cafe/bg/8ax9wf4r) |
-| OKX 欧易 | `WISE6666` | [前往 OKX](https://www.vmutkhamuut.com/join/WISE6666) |
-| WEEX | `wiseweex` | [前往 WEEX](https://wpewehx.site/zh-CN/register?vipCode=wiseweex) |
-| Gate | `WISEGATE` | [查看 Gate 注册教程](https://www.wise-invest.org/articles/vcard/GUhygjYV) |
+| 交易所 | Wise 邀请码 | 邀请福利 | 注册入口 |
+| --- | --- | --- | --- |
+| Binance 币安 | `WISEBNB1` | 永久 20% 交易手续费返佣 | [前往 Binance](https://www.bsmkweb.cc/register?ref=WISEBNB1) |
+| Bybit | `WISE6666` | 永久 20% 交易手续费返佣 | [前往 Bybit](https://partner.bybit.com/b/WISE6666) |
+| Bitget | `wise5130` | 永久 20% 交易手续费返佣 | [前往 Bitget](https://partner.bitget.cafe/bg/8ax9wf4r) |
+| OKX 欧易 | `WISE6666` | 永久 20% 交易手续费返佣 | [前往 OKX](https://www.vmutkhamuut.com/join/WISE6666) |
+| WEEX | `wiseweex` | 永久 20% 交易手续费返佣 | [前往 WEEX](https://wpewehx.site/zh-CN/register?vipCode=wiseweex) |
+| Gate | `WISEGATE` | 永久 20% 交易手续费返佣 | [查看 Gate 注册教程](https://www.wise-invest.org/articles/vcard/GUhygjYV) |
+
+注册前核对表中对应邀请码，未自动填入时手动填写。这里的返佣属于交易所邀请渠道，与 Predict 的邀请码 **05JQU**、预测市场收益及各平台新手活动分开。
 
 需要更完整的注册教程和合作信息，也可以去看[交易所福利页面](/perk/crypto)。
 
@@ -90,7 +92,7 @@ Wise 邀请码：**05JQU**。注意第一位是数字 **0**，不是字母 O。
 
 我们目前主要关注的是 **“BTC 涨或跌 5 分”**，也就是下面这个市场。
 
-![BTC 5 分钟涨跌市场：先看场次、目标价、剩余时间，再看涨跌两边的价格](/content/articles/PREDICT/05-btc-5m.png)
+![BTC 5 分钟涨跌市场：先看场次、目标价、剩余时间，再看涨跌两边的价格](/content/articles/PREDICT/05-btc-5m.webp)
 
 别急着点买入，先把这几个位置看明白：
 
@@ -152,6 +154,6 @@ TradingView 的 Basic 免费方案目前支持**每张图表 2 个指标**，具
 
 ![portrait: Wise 猪脚饭官方群，微信扫码查看进群入口](/content/articles/PREDICT/01-community-qr-20260920.png)
 
-还没有注册的朋友，入口再放一次：[进入 Predict，核对邀请码 05JQU](https://predict.fun?ref=05JQU)。
+还没有注册的朋友，可以回到本文的[注册步骤](#h-1)，复制邀请码并打开邀请链接。
 
 先把规则看懂，再决定是否参与。群里一起交流，慢慢熟悉起来。

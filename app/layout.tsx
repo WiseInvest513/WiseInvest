@@ -55,9 +55,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/favicon.ico", type: "image/x-icon", sizes: "any" }],
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: [{ url: "/wise-invest-icon.svg", type: "image/svg+xml", sizes: "any" }],
+    shortcut: "/wise-invest-icon.svg",
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     title: `${siteConfig.name} - 专业的投资内容平台`,
@@ -84,7 +84,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.baseUrl,
-    logo: siteConfig.url("/favicon.ico"),
+    logo: siteConfig.url("/wise-invest-icon.svg"),
     sameAs: ["https://x.com/WiseInvest513", "https://t.me/WiseInvest513Chat"],
   };
 

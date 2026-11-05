@@ -1,0 +1,50 @@
+{
+  "articleId": "bitget-referral",
+  "createdAt": "2026-11-05",
+  "tool": "built-in image_gen.imagegen",
+  "mode": "precise-object-edit / compositing",
+  "prompt": "Use case: precise-object-edit and compositing.\nAsset type: Wise Invest ARTICLE LIST thumbnail, landscape 16:9.\nCreate the Bitget referral companion to Image 1, which is the approved Binance article cover. Maintain the same clean white/silver architectural studio, dark navy left title typography, restrained champagne divider line, realistic glass and polished silver materials, soft daylight and readable small-thumbnail layout. Replace the Binance logo and all topic copy; do not copy the Binance geometric shape.\nImage 2 is the genuine local Bitget EXCHANGE logo reference. It is the exchange mark, NOT Bitget Wallet: exactly two broad opposed folded/angular chevrons with offset arrangement, black on a bright Bitget turquoise square. Preserve this exact trademark silhouette and relative positions. Re-render the existing emblem as a crisp physically credible sculptural Bitget object in the right half. Keep the supplied black double-chevron geometry on a translucent Bitget cyan/turquoise glass body with subtle silver bevel, front-facing with only slight depth. The cyan shape/material may be a refined sculptural rounded square as in the supplied actual asset. Make the actual exchange mark readable and unmistakable, not a generic link, not a letter B, not Binance diamonds. No official app interface.\nImage 3 is the ONLY original Wise brand insert: actual complete '@Wise Invest' text plus complete man on right and bottom fine rule. Insert this exact full bitmap without redrawing, replacing, cropping or approximating. White rounded badge in upper-right, about16–18% canvas width, corner radius20% badge height, original proportions, 4% safe top/right margins. Never a circular headshot.\nComposition: confident left headline taking up to58% width, right large Bitget emblem but separate from text and small Wise badge. Keep emblem fully in safe area, clearly recognizable at640px. One understated small silver two-link connector at its base may suggest account relation. No account card, calendar, bank, phone, coins, trophies, charts or generic stock objects. Do not imply guaranteed approval.\nEXACT TITLE in TWO LINES:\n\"Bitget 邀请码\"\n\"忘填或换绑怎么办\"\nEXACT smaller subtitle below thin muted-gold rule:\n\"联系 Wise · 核对条件 · 确认结果\"\nNo other text. No URLs, timings, numbers, three-day guarantee,24h guarantee, fees or rewards. Retain all four safe margins. This is a distinct Bitget branded cover in the same Wise visual family, not a generic recycled account card.",
+  "references": [
+    {
+      "path": "assets/source-images/article-covers/binance-referral.png",
+      "role": "approved silver-white studio, typography and small Wise signature placement"
+    },
+    {
+      "path": "public/images/capital-flow/bitget.jpeg",
+      "role": "actual Bitget exchange mark geometry and turquoise/black identity; not Bitget Wallet"
+    },
+    {
+      "path": "public/images/brand/wise-invest-signature.png",
+      "role": "only Wise brand source, complete text, person and baseline"
+    }
+  ],
+  "source": {
+    "path": "assets/source-images/article-covers/bitget-referral.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 1621829
+  },
+  "web": {
+    "path": "public/images/articles/covers/bitget-referral.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 17186,
+    "format": "webp",
+    "quality": 60,
+    "effort": 6,
+    "smartSubsample": true
+  },
+  "validation": {
+    "title": "Bitget 邀请码 / 忘填或换绑怎么办",
+    "subtitle": "联系 Wise · 核对条件 · 确认结果",
+    "smallImageViewed": true,
+    "platformLogoGeometryVerified": true,
+    "platformLogoNotes": "已对照本地 Bitget 交易所图标：保留两枚偏移的黑色反向折角及青绿底色；不是钱包图标，不使用 Binance 形状。",
+    "completeBrandInUpperRight": true,
+    "brandNotes": "原图和 640×360 小图均已查看，右上角完整 @Wise Invest 文字与人物组合，圆角白底小标识，未遮挡标题或主体；品牌源文件未修改。",
+    "noRebindingOrReopeningTimePromises": true,
+    "noFakeAccountUi": true,
+    "listOnly": true,
+    "existingBitgetExchangeCoverUntouched": true
+  }
+}

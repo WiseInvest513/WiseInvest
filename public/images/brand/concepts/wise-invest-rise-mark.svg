@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Wise Invest Rise Mark</title>
+  <desc id="desc">A simple yellow investment mark shaped like a rising W line.</desc>
+  <rect width="512" height="512" rx="118" fill="#F2B233"/>
+  <path d="M96 142 181 362 256 234 331 362 426 142" fill="none" stroke="#161616" stroke-linecap="round" stroke-linejoin="round" stroke-width="56"/>
+  <circle cx="426" cy="142" r="28" fill="#161616"/>
+</svg>

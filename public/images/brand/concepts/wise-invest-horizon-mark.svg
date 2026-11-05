@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Wise Invest Horizon Mark</title>
+  <desc id="desc">A minimal black forward window with a golden investment horizon.</desc>
+  <rect width="512" height="512" rx="118" fill="#181818"/>
+  <path d="M112 346V166c0-30 24-54 54-54h180c30 0 54 24 54 54v72h-56v-62c0-5-4-9-9-9H177c-5 0-9 4-9 9v160c0 5 4 9 9 9h92v56H166c-30 0-54-24-54-54Z" fill="#F2B233"/>
+  <path d="m224 322 62-62 42 42 90-94" fill="none" stroke="#F2B233" stroke-linecap="round" stroke-linejoin="round" stroke-width="38"/>
+  <path d="M380 208h38v38" fill="none" stroke="#F2B233" stroke-linecap="round" stroke-linejoin="round" stroke-width="38"/>
+</svg>

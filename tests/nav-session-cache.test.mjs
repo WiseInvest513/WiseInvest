@@ -328,6 +328,7 @@ test("timeout rejects a hung session read and a later retry can recover", async 
 test("the real Navbar does not fetch while hidden on /admin/point and route navigation reuses the cache", async () => {
   const h = harness();
   let pathname = "/admin/point";
+  h.window.location = { get pathname() { return pathname; } };
   let cursor = 0;
   const slots = [];
   const effects = [];

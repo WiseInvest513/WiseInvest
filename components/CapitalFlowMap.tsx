@@ -19,6 +19,8 @@ import {
 import { cn } from "@/lib/utils";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
 import { getLockedContentHint } from "@/lib/content-access";
+import { getMapArticleSeries, getSeriesReadingState, type SeriesArticle } from "@/lib/article-series";
+import { RoadmapLearning } from "@/components/roadmap-learning";
 
 type NodeKind =
   | "domestic-bank"
@@ -1068,9 +1070,12 @@ function RouteLines({ route }: { route: RoutePreset }) {
 
 type CapitalFlowMapProps = {
   mode?: "full" | "visual";
+  articles?: SeriesArticle[];
 };
 
-export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
+const noArticles: SeriesArticle[] = [];
+
+export default function CapitalFlowMap({ mode = "full", articles = noArticles }: CapitalFlowMapProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -1088,6 +1093,15 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
   }, [activeNodeIds, overview]);
   const canvasWidth = overview ? overviewSize : graphWidth;
   const canvasHeight = overview ? overviewSize : graphHeight;
+  const seriesArticleLinks = useMemo(() => {
+    const series = getMapArticleSeries(selectedRoute.id);
+    if (!series) return new Map<string, string>();
+    const reading = getSeriesReadingState(series, articles, undefined, selectedRoute.id);
+    return new Map(reading.chapters.flatMap(chapter => chapter.href ? [[chapter.href.split("?")[0], chapter.href]] : []));
+  }, [articles, selectedRoute.id]);
+  const relatedArticles = useMemo(() => Array.from(new Map(visibleNodes
+    .filter(node => activeNodeIds.has(node.id) && node.href?.startsWith("/articles/"))
+    .map(node => [node.href!, { title: `${node.label}教程`, href: node.href! }])).values()), [activeNodeIds, visibleNodes]);
 
   useEffect(() => {
     setSelectedRouteId(resolveRouteId(requestedRouteId));
@@ -1148,18 +1162,18 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
     <div
       className={cn(
         "relative overflow-hidden bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950",
-        visualOnly ? "h-[520px] min-h-[420px] rounded-[28px]" : "h-[calc(100vh-64px)]"
+        visualOnly ? "h-[520px] min-h-[420px] rounded-[28px]" : "min-h-[calc(100vh-64px)] xl:h-[calc(100vh-64px)]"
       )}
     >
       {contentGateDialog}
       <div
         className={cn(
-          "relative z-[1] grid h-full w-full",
-          visualOnly ? "grid-cols-1 p-0" : "gap-3 px-3 py-3 xl:grid-cols-[minmax(0,1fr)_286px]"
+          "relative z-[1] grid w-full",
+          visualOnly ? "h-full grid-cols-1 p-0" : "gap-3 px-3 py-3 xl:h-full xl:grid-cols-[286px_minmax(0,1fr)]"
         )}
       >
-        <section className="min-h-0 overflow-hidden rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5">
-          <div className="relative h-full w-full overflow-hidden bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] [background-size:22px_22px]">
+        <section aria-label="资金路径地图" className={cn("min-w-0 rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5", visualOnly ? "min-h-0 overflow-hidden" : "order-2 h-[560px] overflow-auto xl:h-auto xl:min-h-0 xl:overflow-hidden")}>
+          <div className={cn("relative overflow-hidden bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] [background-size:22px_22px]", visualOnly ? "h-full w-full" : "h-[760px] w-[1000px] xl:h-full xl:w-full")}>
             {!visualOnly ? (
               <Link
                 href="/book/nasdaq"
@@ -1201,7 +1215,7 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
               <div className="absolute left-1/2 top-1/2 z-[4] flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-amber-200 bg-white/88 text-center shadow-[0_20px_58px_rgba(15,23,42,0.10)] ring-1 ring-white/90 backdrop-blur-xl dark:border-amber-800/60 dark:bg-slate-950/88">
                 <div className="text-xs font-black uppercase tracking-[0.18em] text-amber-600">WiseInvest</div>
                 <div className="mt-1 px-5 text-lg font-black leading-6 text-slate-950 dark:text-white">资金路径地图</div>
-                <div className="mt-2 text-[11px] font-bold text-slate-400">右侧选择链路</div>
+                <div className="mt-2 text-[11px] font-bold text-slate-400">选择资金路线</div>
               </div>
             ) : null}
 
@@ -1210,7 +1224,7 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
               return (
                 <FlowNodeCard
                   key={node.id}
-                  node={node}
+                  node={node.href && seriesArticleLinks.has(node.href) ? { ...node, href: seriesArticleLinks.get(node.href) } : node}
                   point={getNodePoint(node, selectedRoute)}
                   active={!overview && active}
                   dimmed={!overview && !active}
@@ -1226,7 +1240,7 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
         </section>
 
         {!visualOnly && (
-        <aside className="min-h-0 overflow-y-auto rounded-[26px] border border-slate-200/90 bg-white/92 p-3 shadow-[0_18px_54px_rgba(15,23,42,0.07)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/92 dark:ring-white/5">
+        <aside className="order-1 min-h-0 min-w-0 overflow-y-auto rounded-[26px] border border-slate-200/90 bg-white/92 p-3 shadow-[0_18px_54px_rgba(15,23,42,0.07)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/92 dark:ring-white/5">
           <div className="mb-3">
             <label className="mb-1.5 block text-[11px] font-black text-slate-400">选择资金路线</label>
             <div ref={routeMenuRef} className="relative z-50">
@@ -1297,16 +1311,20 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-950/70">
+          {!overview && <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-950/70">
             <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white px-2.5 py-1 text-[10px] font-black text-amber-700 dark:border-amber-800/60 dark:bg-slate-950 dark:text-amber-300">
               <span className="h-2 w-2 rounded-full" style={{ backgroundColor: routeTones[selectedRoute.tone].stroke }} />
               {routeTones[selectedRoute.tone].label}
             </div>
             <h2 className="text-base font-black leading-6 text-slate-950 dark:text-white">{selectedRoute.label}</h2>
             <p className="mt-2 text-xs font-medium leading-6 text-slate-600 dark:text-slate-300">{selectedRoute.description}</p>
-          </div>
+          </div>}
 
-          <div className="mt-3 space-y-2">
+          <RoadmapLearning routeId={selectedRoute.id} articles={articles} relatedArticles={relatedArticles} />
+
+          {!overview && <details className="mt-5 border-t border-slate-200 pt-3 dark:border-slate-800">
+          <summary className="cursor-pointer py-2 text-xs font-bold text-slate-600 dark:text-slate-300">图示步骤</summary>
+          <div className="mt-2 space-y-2">
             {selectedRoute.steps.map((step, index) => (
               <div key={step} className="flex gap-2 rounded-2xl border border-slate-200/80 bg-white/70 p-2.5 dark:border-slate-800 dark:bg-slate-950/60">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-slate-950 font-mono text-[10px] font-black text-amber-300 dark:bg-amber-400 dark:text-slate-950">
@@ -1316,6 +1334,7 @@ export default function CapitalFlowMap({ mode = "full" }: CapitalFlowMapProps) {
               </div>
             ))}
           </div>
+          </details>}
         </aside>
         )}
       </div>

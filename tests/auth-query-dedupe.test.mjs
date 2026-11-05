@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import ts from "typescript";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
+const requirePackage = createRequire(import.meta.url);
 
 // Execute the real auth callbacks and point guard together. Only the Auth.js
 // transport, providers, cookies and DB are mocked; no authority rules are copied.
@@ -56,6 +58,7 @@ function harness({ configured = true } = {}) {
     }).outputText;
     new Function("require", "module", "exports", compiled)((name) => {
       if (Object.hasOwn(mocks, name)) return mocks[name];
+      if (!name.startsWith("@/") && !name.startsWith(".")) return requirePackage(name);
       const resolved = name.startsWith("@/")
         ? path.resolve(root, name.slice(2)) : path.resolve(path.dirname(filename), name);
       return load(resolved + ".ts");

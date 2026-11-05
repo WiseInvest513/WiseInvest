@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-05",
+  "style": "wise-editorial-3d",
+  "brandRule": "Small icons have no signature or portrait, per user instruction.",
+  "output": "public/images/articles/category-icons/{id}-ivory.webp",
+  "source": "assets/source-images/article-category-icons/{id}-ivory.png",
+  "format": "256x256 WebP with alpha, quality 78",
+  "reused": [
+    {
+      "id": "domestic",
+      "source": "/Users/balala/.codex/skills/wise-editorial-3d/assets/wallet.png",
+      "method": "reuse existing skill artwork without modification; downscale web copy"
+    },
+    {
+      "id": "bank",
+      "source": "/Users/balala/.codex/skills/wise-editorial-3d/assets/bank.png",
+      "method": "reuse existing skill artwork without modification; downscale web copy"
+    },
+    {
+      "id": "broker",
+      "source": "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+      "method": "reuse existing skill artwork without modification; downscale web copy"
+    },
+    {
+      "id": "crypto",
+      "source": "/Users/balala/.codex/skills/wise-editorial-3d/assets/token.png",
+      "method": "reuse existing skill artwork without modification; downscale web copy"
+    },
+    {
+      "id": "VIP",
+      "source": "/Users/balala/.codex/skills/wise-editorial-3d/assets/certificate.png",
+      "method": "reuse existing skill artwork without modification; downscale web copy"
+    }
+  ],
+  "generated": [
+    {
+      "id": "index",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: An ivory rectangular desktop chart plaque with three raised navy and fresh blue bars and one slim upward curve, on a very small practical foot. Represents index investing, not guaranteed returns.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-84fce026-1997-4c9f-8ccf-121b2ca45fa7.png"
+    },
+    {
+      "id": "strategy",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: A single open ivory ceramic pocket compass, dark navy face, a clean blue and coral directional needle, restrained champagne rim. Represents planning and direction.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-c8a01542-e605-4f03-86ab-1faa25e9c285.png"
+    },
+    {
+      "id": "predict",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: A single physical ivory probability dial instrument on a small foot, navy round face with two clearly separated teal and coral semicircular sectors, a slim pointer, small ivory check and cross marks. No numbers, no lettering, no crystal ball or gambling dice.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-7597154e-89a8-474f-9a8e-09fe730b6dbd.png"
+    },
+    {
+      "id": "onchain",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: One thick ivory stock certificate tile with a small raised blue bar chart, paired with two interlocking navy and ivory chain links at its lower corner. Clear simple silhouette expressing securities and a blockchain link, no lettering.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-fc635838-bb8a-4538-91ba-5ed107c9d22a.png"
+    },
+    {
+      "id": "ai",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: A compact ivory laptop slightly open, navy matte screen with one simple raised four-point blue sparkle, a small ivory microchip resting at the front-right corner. A practical AI and translation tool metaphor, not a robot or face.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-a8fee7b1-62c6-4c23-afc3-e306aa5cd790.png"
+    },
+    {
+      "id": "outside",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: A small navy textured account booklet with an ivory embossed globe symbol on the front, and one ivory account access card slightly peeking from behind with a small blue key symbol. No passport country emblem or letters; represents overseas digital accounts, not travel tickets.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-4e12e79d-b440-442b-9561-73a7ca027fd3.png"
+    },
+    {
+      "id": "web",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: A compact ivory ceramic browser window with a thick navy inner panel carrying an ivory-and-blue raised globe, two small blue and teal tab dots along its top edge. One clean object representing a family of websites, not a desktop monitor. No stand.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-c4d0339d-81c0-49df-883c-3c9d10ea788c.png"
+    },
+    {
+      "id": "vcard",
+      "method": "built-in image_gen",
+      "prompt": "Use case: stylized-concept. Produce ONE small website category icon on a square genuinely alpha-transparent canvas. Attached phone and terminal are STYLE REFERENCES only, not subjects to copy. Tactile matte ivory ceramic/thick paper, muted navy enamel, tiny champagne metal accents, with restrained fresh blue or teal details. Slight frontal three-quarter view, full silhouette occupying 75–85% canvas, soft studio light, short contact shadow. Believable miniature object, not glossy toy. No glass, chrome, neon, pedestal, captions, watermark, brand signature or people. No text or numbers. Subject: Two physical rounded payment-card-shaped objects leaning together. Foreground ivory card with tiny champagne chip and a fresh blue contactless-wave embossing, rear navy matte card with a slim teal stripe. No letters, account numbers, network logos or signature. Full card silhouettes, no wallet, no extra coins.",
+      "references": [
+        "/Users/balala/.codex/skills/wise-editorial-3d/assets/broker.png",
+        "assets/source-images/article-category-icons/simcard-ivory.png"
+      ],
+      "original": "/Users/balala/.codex/generated_images/01a09510-5d13-7350-8932-7297c6e069d8/exec-4d1b4bc6-a47b-49f9-999e-ba0cba206e29.png"
+    }
+  ],
+  "pilot": "simcard: see simcard-category-icon.md"
+}

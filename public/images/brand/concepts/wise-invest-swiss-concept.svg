@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Wise Invest — 现代瑞士风研究标识</title>
+  <desc id="desc">A disciplined Swiss-style investment research identity with an editorial grid and a gold coordinate point.</desc>
+  <defs>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0H0V56" fill="none" stroke="#DEE0DE" stroke-width="1"/>
+    </pattern>
+    <clipPath id="signatureClip">
+      <rect x="968" y="30" width="192" height="53" rx="11"/>
+    </clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="#F8F8F6"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity=".8"/>
+  <rect x="56" y="54" width="1088" height="522" fill="#F8F8F6" stroke="#171717" stroke-width="3"/>
+  <text x="88" y="129" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="800" letter-spacing="-4">WISE</text>
+  <text x="88" y="187" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="66" font-weight="300" letter-spacing="-4">INVEST</text>
+  <text x="89" y="228" fill="#6B6B67" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" letter-spacing="3">INDEPENDENT MARKET RESEARCH</text>
+  <line x1="88" y1="281" x2="1096" y2="281" stroke="#171717" stroke-width="3"/>
+  <line x1="605" y1="316" x2="605" y2="527" stroke="#171717" stroke-width="2"/>
+  <line x1="355" y1="421" x2="922" y2="421" stroke="#171717" stroke-width="2"/>
+  <path d="M407 478L505 431 602 455 689 374 808 392" fill="none" stroke="#171717" stroke-width="9" stroke-linecap="square" stroke-linejoin="miter"/>
+  <circle cx="689" cy="374" r="17" fill="#C59A45"/>
+  <text x="88" y="527" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" letter-spacing="2">OBSERVE · FRAME · DECIDE</text>
+  <text x="1096" y="527" text-anchor="end" fill="#6B6B67" font-family="Arial, Helvetica, sans-serif" font-size="17" letter-spacing="2">EST. 2025</text>
+  <image href="/images/brand/wise-invest-signature.png" x="968" y="30" width="192" height="53" preserveAspectRatio="xMidYMid meet" clip-path="url(#signatureClip)"/>
+</svg>

@@ -1,0 +1,217 @@
+{
+  "method": "built-in image_gen",
+  "style": "wise-silver-glass",
+  "createdAt": "2026-11-05",
+  "references": [
+    "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/bybit-guide.png",
+    "/Users/balala/Persona/Blog/MyBlog/public/images/brand/wise-invest-signature.png"
+  ],
+  "approvedSamples": [
+    "assets/source-images/article-covers/us-guide.png",
+    "assets/source-images/article-covers/bybit-guide.png"
+  ],
+  "brandOriginal": "public/images/brand/wise-invest-signature.png",
+  "webExport": {
+    "width": 640,
+    "format": "webp",
+    "quality": 60,
+    "effort": 6,
+    "smartSubsample": true,
+    "fit": "width-only proportional resize; no stretch or crop",
+    "maxBytes": 25000
+  },
+  "notes": [
+    "Six distinct conceptual illustrations, not official product-card photography.",
+    "BIT articles and all Markdown bodies/registry/shared source code untouched.",
+    "BitgetNew/bitget.md is draftId-only; the live article is content/articles/vcard/Bitget/bitget.md with id bitget-vcard.",
+    "Every raw image is preserved alongside its WebP output."
+  ],
+  "assets": [
+    {
+      "id": "MP-vcard",
+      "headline": [
+        "MPCard",
+        "申请与使用教程"
+      ],
+      "subtitle": "注册认证 · 充值开卡 · 支付绑定",
+      "scene": "An unbranded silver smartphone standing at a gentle angle, with two plain navy and frosted-glass payment-card shapes in front, a tiny unbranded contactless icon embossed without text. The scene represents prepaid card application and mobile payment, not an official MPCard product. No invented balance or phone UI.",
+      "alt": "MPCard 申请与使用教程，注册认证、充值开卡和支付绑定",
+      "topics": [
+        "MPCard",
+        "充值开卡",
+        "支付绑定"
+      ],
+      "source": "content/articles/vcard/MP/MP.md",
+      "prompt": "Use case: stylized-concept.\nAsset type: One standalone 16:9 landscape Chinese editorial cover for a Wise Invest article, not a website screenshot.\nInput image 1 is the user-approved style and layout reference ONLY: inherit its neutral silver-white architectural studio, tangible optical glass, navy typography, thin restrained champagne-gold rule, softly lit real 3D objects, and generous whitespace. Do not copy the Bybit name, phone content or specific topic.\nInput image 2 is the EXACT supplied Wise signature artwork as a compositing insert. Place a complete faithful copy of it at the UPPER RIGHT, including the full \"@Wise Invest\" lettering, sunglasses-wearing man and thin bottom rule. Preserve original aspect ratio, all text and the person. White badge width about 17% of the full canvas, safe margins about 4.5%, rounded corners radius about 20% of badge HEIGHT. Do not replace it with a circular portrait, redraw the person, spell new lettering, enlarge it, crop it, or create a second logo. The signature should be small, subordinate, intact and crisp, like the approved reference.\nLayout: two-line dark navy headline in the clear left 55%, a fine short champagne-gold separator below, one smaller gray subtitle. Three-dimensional concept subject on the right lower half, full objects inside safe margins, with optical glass and silver metal having realistic thickness, highlights and contact shadows. Bright neutral daylight; white remains neutral not cream or yellow. Match the approved cover's camera height and polished editorial design. Very subtle gold only. No webpage cards or CTA.\nOnly render the requested title and subtitle verbatim plus the supplied original signature. Other objects have NO written labels, invented interface or logos. This is an unbranded conceptual illustration, NOT an official photograph or official card design.\nAvoid: fake brand card faces, fake card numbers, Visa/Mastercard/Apple/Google/bank logos, guaranteed returns, interest rates, fee claims, KYC claims, free offers, giant coins, arrows implying profit, neon, exaggerated gold, stock performance charts, unnecessary props or illegible text.\nHeadline line 1 (verbatim): \"MPCard\".\nHeadline line 2 (verbatim): \"申请与使用教程\".\nSmall gray subtitle (verbatim): \"注册认证 · 充值开卡 · 支付绑定\".\nTopic-specific subject: An unbranded silver smartphone standing at a gentle angle, with two plain navy and frosted-glass payment-card shapes in front, a tiny unbranded contactless icon embossed without text. The scene represents prepaid card application and mobile payment, not an official MPCard product. No invented balance or phone UI.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad1-e536-7a21-a0d7-6c96a531e992/exec-d86356b6-7b4c-479f-89a3-d68f7f5eaab5.png",
+      "originalPath": "assets/source-images/article-covers/MP-vcard.png",
+      "finalPath": "public/images/articles/covers/MP-vcard.webp",
+      "src": "/images/articles/covers/MP-vcard.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 13622,
+      "visualInspection": "Passed: complete two-line title and subtitle, right-upper full supplied rounded signature, no official-product branding on illustrative objects, all essential content inside frame; 640px output checked."
+    },
+    {
+      "id": "Gate-vcard",
+      "headline": [
+        "Gate 与 Gate Card",
+        "注册与开卡教程"
+      ],
+      "subtitle": "账户注册 · 身份认证 · 卡片申请",
+      "scene": "A plain silver smartphone beside an unbranded navy payment-card-shaped object resting against a thick clear glass identity-document tile, with a small champagne-gold security lock. This editorial still life represents account registration and card application; no Gate logo on any object, no fake official Gate card.",
+      "alt": "Gate 与 Gate Card 注册与开卡教程，账户注册、身份认证和卡片申请",
+      "topics": [
+        "Gate Card",
+        "账户注册",
+        "卡片申请"
+      ],
+      "source": "content/articles/vcard/Gate/Gate.md",
+      "prompt": "Use case: stylized-concept.\nAsset type: One standalone 16:9 landscape Chinese editorial cover for a Wise Invest article, not a website screenshot.\nInput image 1 is the user-approved style and layout reference ONLY: inherit its neutral silver-white architectural studio, tangible optical glass, navy typography, thin restrained champagne-gold rule, softly lit real 3D objects, and generous whitespace. Do not copy the Bybit name, phone content or specific topic.\nInput image 2 is the EXACT supplied Wise signature artwork as a compositing insert. Place a complete faithful copy of it at the UPPER RIGHT, including the full \"@Wise Invest\" lettering, sunglasses-wearing man and thin bottom rule. Preserve original aspect ratio, all text and the person. White badge width about 17% of the full canvas, safe margins about 4.5%, rounded corners radius about 20% of badge HEIGHT. Do not replace it with a circular portrait, redraw the person, spell new lettering, enlarge it, crop it, or create a second logo. The signature should be small, subordinate, intact and crisp, like the approved reference.\nLayout: two-line dark navy headline in the clear left 55%, a fine short champagne-gold separator below, one smaller gray subtitle. Three-dimensional concept subject on the right lower half, full objects inside safe margins, with optical glass and silver metal having realistic thickness, highlights and contact shadows. Bright neutral daylight; white remains neutral not cream or yellow. Match the approved cover's camera height and polished editorial design. Very subtle gold only. No webpage cards or CTA.\nOnly render the requested title and subtitle verbatim plus the supplied original signature. Other objects have NO written labels, invented interface or logos. This is an unbranded conceptual illustration, NOT an official photograph or official card design.\nAvoid: fake brand card faces, fake card numbers, Visa/Mastercard/Apple/Google/bank logos, guaranteed returns, interest rates, fee claims, KYC claims, free offers, giant coins, arrows implying profit, neon, exaggerated gold, stock performance charts, unnecessary props or illegible text.\nHeadline line 1 (verbatim): \"Gate 与 Gate Card\".\nHeadline line 2 (verbatim): \"注册与开卡教程\".\nSmall gray subtitle (verbatim): \"账户注册 · 身份认证 · 卡片申请\".\nTopic-specific subject: A plain silver smartphone beside an unbranded navy payment-card-shaped object resting against a thick clear glass identity-document tile, with a small champagne-gold security lock. This editorial still life represents account registration and card application; no Gate logo on any object, no fake official Gate card.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad1-e536-7a21-a0d7-6c96a531e992/exec-53df0257-3c84-4b91-a210-1fa83dbeb0fb.png",
+      "originalPath": "assets/source-images/article-covers/Gate-vcard.png",
+      "finalPath": "public/images/articles/covers/Gate-vcard.webp",
+      "src": "/images/articles/covers/Gate-vcard.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 14840,
+      "visualInspection": "Passed: complete two-line title and subtitle, right-upper full supplied rounded signature, no official-product branding on illustrative objects, all essential content inside frame; 640px output checked."
+    },
+    {
+      "id": "bitget-vcard",
+      "headline": [
+        "Bitget Wallet Card",
+        "申请与使用教程"
+      ],
+      "subtitle": "钱包创建 · 地址证明 · 支付绑定",
+      "scene": "A small refined navy wallet, one unbranded silver payment-card shape and a translucent identity-document tile resting together on a clear glass desk. A plain document sheet suggests address proof without any personal data or written labels. No Bitget logo on the concepts, no fake official product design.",
+      "alt": "Bitget Wallet Card 申请与使用教程，钱包创建、地址证明和支付绑定",
+      "topics": [
+        "Bitget Wallet",
+        "地址证明",
+        "支付绑定"
+      ],
+      "source": "content/articles/vcard/Bitget/bitget.md",
+      "prompt": "Use case: stylized-concept.\nAsset type: One standalone 16:9 landscape Chinese editorial cover for a Wise Invest article, not a website screenshot.\nInput image 1 is the user-approved style and layout reference ONLY: inherit its neutral silver-white architectural studio, tangible optical glass, navy typography, thin restrained champagne-gold rule, softly lit real 3D objects, and generous whitespace. Do not copy the Bybit name, phone content or specific topic.\nInput image 2 is the EXACT supplied Wise signature artwork as a compositing insert. Place a complete faithful copy of it at the UPPER RIGHT, including the full \"@Wise Invest\" lettering, sunglasses-wearing man and thin bottom rule. Preserve original aspect ratio, all text and the person. White badge width about 17% of the full canvas, safe margins about 4.5%, rounded corners radius about 20% of badge HEIGHT. Do not replace it with a circular portrait, redraw the person, spell new lettering, enlarge it, crop it, or create a second logo. The signature should be small, subordinate, intact and crisp, like the approved reference.\nLayout: two-line dark navy headline in the clear left 55%, a fine short champagne-gold separator below, one smaller gray subtitle. Three-dimensional concept subject on the right lower half, full objects inside safe margins, with optical glass and silver metal having realistic thickness, highlights and contact shadows. Bright neutral daylight; white remains neutral not cream or yellow. Match the approved cover's camera height and polished editorial design. Very subtle gold only. No webpage cards or CTA.\nOnly render the requested title and subtitle verbatim plus the supplied original signature. Other objects have NO written labels, invented interface or logos. This is an unbranded conceptual illustration, NOT an official photograph or official card design.\nAvoid: fake brand card faces, fake card numbers, Visa/Mastercard/Apple/Google/bank logos, guaranteed returns, interest rates, fee claims, KYC claims, free offers, giant coins, arrows implying profit, neon, exaggerated gold, stock performance charts, unnecessary props or illegible text.\nHeadline line 1 (verbatim): \"Bitget Wallet Card\".\nHeadline line 2 (verbatim): \"申请与使用教程\".\nSmall gray subtitle (verbatim): \"钱包创建 · 地址证明 · 支付绑定\".\nTopic-specific subject: A small refined navy wallet, one unbranded silver payment-card shape and a translucent identity-document tile resting together on a clear glass desk. A plain document sheet suggests address proof without any personal data or written labels. No Bitget logo on the concepts, no fake official product design.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad1-e536-7a21-a0d7-6c96a531e992/exec-7bae566a-b133-4685-91bf-b2958a12e6e8.png",
+      "originalPath": "assets/source-images/article-covers/bitget-vcard.png",
+      "finalPath": "public/images/articles/covers/bitget-vcard.webp",
+      "src": "/images/articles/covers/bitget-vcard.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 15472,
+      "visualInspection": "Passed: complete two-line title and subtitle, right-upper full supplied rounded signature, no official-product branding on illustrative objects, all essential content inside frame; 640px output checked."
+    },
+    {
+      "id": "StarryBlu-vcard",
+      "headline": [
+        "StarryBlu",
+        "开户与转账教程"
+      ],
+      "subtitle": "账户申请 · 资金转入 · 转账使用",
+      "scene": "A plain navy account folder and a brushed-silver smartphone beside two connected thick-glass document trays, linked by one thin champagne-gold line. The small still life suggests account setup and transferring funds. Do not show OCBC or bank logos, currencies, amounts or guaranteed approval; no official-looking card.",
+      "alt": "StarryBlu 开户与转账教程，账户申请、资金转入和转账使用",
+      "topics": [
+        "StarryBlu",
+        "账户申请",
+        "转账使用"
+      ],
+      "source": "content/articles/vcard/StarryBlu/StarryBlu.md",
+      "prompt": "Use case: stylized-concept.\nAsset type: One standalone 16:9 landscape Chinese editorial cover for a Wise Invest article, not a website screenshot.\nInput image 1 is the user-approved style and layout reference ONLY: inherit its neutral silver-white architectural studio, tangible optical glass, navy typography, thin restrained champagne-gold rule, softly lit real 3D objects, and generous whitespace. Do not copy the Bybit name, phone content or specific topic.\nInput image 2 is the EXACT supplied Wise signature artwork as a compositing insert. Place a complete faithful copy of it at the UPPER RIGHT, including the full \"@Wise Invest\" lettering, sunglasses-wearing man and thin bottom rule. Preserve original aspect ratio, all text and the person. White badge width about 17% of the full canvas, safe margins about 4.5%, rounded corners radius about 20% of badge HEIGHT. Do not replace it with a circular portrait, redraw the person, spell new lettering, enlarge it, crop it, or create a second logo. The signature should be small, subordinate, intact and crisp, like the approved reference.\nLayout: two-line dark navy headline in the clear left 55%, a fine short champagne-gold separator below, one smaller gray subtitle. Three-dimensional concept subject on the right lower half, full objects inside safe margins, with optical glass and silver metal having realistic thickness, highlights and contact shadows. Bright neutral daylight; white remains neutral not cream or yellow. Match the approved cover's camera height and polished editorial design. Very subtle gold only. No webpage cards or CTA.\nOnly render the requested title and subtitle verbatim plus the supplied original signature. Other objects have NO written labels, invented interface or logos. This is an unbranded conceptual illustration, NOT an official photograph or official card design.\nAvoid: fake brand card faces, fake card numbers, Visa/Mastercard/Apple/Google/bank logos, guaranteed returns, interest rates, fee claims, KYC claims, free offers, giant coins, arrows implying profit, neon, exaggerated gold, stock performance charts, unnecessary props or illegible text.\nHeadline line 1 (verbatim): \"StarryBlu\".\nHeadline line 2 (verbatim): \"开户与转账教程\".\nSmall gray subtitle (verbatim): \"账户申请 · 资金转入 · 转账使用\".\nTopic-specific subject: A plain navy account folder and a brushed-silver smartphone beside two connected thick-glass document trays, linked by one thin champagne-gold line. The small still life suggests account setup and transferring funds. Do not show OCBC or bank logos, currencies, amounts or guaranteed approval; no official-looking card.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad1-e536-7a21-a0d7-6c96a531e992/exec-a1169ba6-058e-4193-93ec-47c5cf4a176e.png",
+      "originalPath": "assets/source-images/article-covers/StarryBlu-vcard.png",
+      "finalPath": "public/images/articles/covers/StarryBlu-vcard.webp",
+      "src": "/images/articles/covers/StarryBlu-vcard.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 15570,
+      "visualInspection": "Passed: complete two-line title and subtitle, right-upper full supplied rounded signature, no official-product branding on illustrative objects, all essential content inside frame; 640px output checked."
+    },
+    {
+      "id": "UUWallet-vcard",
+      "headline": [
+        "UU Wallet",
+        "开卡与支付教程"
+      ],
+      "subtitle": "钱包注册 · 充值开卡 · 日常支付",
+      "scene": "A small navy wallet with one plain silver payment-card shape gently emerging from it, plus a compact unbranded glass contactless payment terminal. Simple wallet-to-payment concept, no currencies, amounts, logos or invented UI. Keep the wallet and card comfortably sized and physically grounded.",
+      "alt": "UU Wallet 开卡与支付教程，钱包注册、充值开卡和日常支付",
+      "topics": [
+        "UU Wallet",
+        "充值开卡",
+        "日常支付"
+      ],
+      "source": "content/articles/vcard/UUWallet/BenPay.md",
+      "prompt": "Use case: stylized-concept.\nAsset type: One standalone 16:9 landscape Chinese editorial cover for a Wise Invest article, not a website screenshot.\nInput image 1 is the user-approved style and layout reference ONLY: inherit its neutral silver-white architectural studio, tangible optical glass, navy typography, thin restrained champagne-gold rule, softly lit real 3D objects, and generous whitespace. Do not copy the Bybit name, phone content or specific topic.\nInput image 2 is the EXACT supplied Wise signature artwork as a compositing insert. Place a complete faithful copy of it at the UPPER RIGHT, including the full \"@Wise Invest\" lettering, sunglasses-wearing man and thin bottom rule. Preserve original aspect ratio, all text and the person. White badge width about 17% of the full canvas, safe margins about 4.5%, rounded corners radius about 20% of badge HEIGHT. Do not replace it with a circular portrait, redraw the person, spell new lettering, enlarge it, crop it, or create a second logo. The signature should be small, subordinate, intact and crisp, like the approved reference.\nLayout: two-line dark navy headline in the clear left 55%, a fine short champagne-gold separator below, one smaller gray subtitle. Three-dimensional concept subject on the right lower half, full objects inside safe margins, with optical glass and silver metal having realistic thickness, highlights and contact shadows. Bright neutral daylight; white remains neutral not cream or yellow. Match the approved cover's camera height and polished editorial design. Very subtle gold only. No webpage cards or CTA.\nOnly render the requested title and subtitle verbatim plus the supplied original signature. Other objects have NO written labels, invented interface or logos. This is an unbranded conceptual illustration, NOT an official photograph or official card design.\nAvoid: fake brand card faces, fake card numbers, Visa/Mastercard/Apple/Google/bank logos, guaranteed returns, interest rates, fee claims, KYC claims, free offers, giant coins, arrows implying profit, neon, exaggerated gold, stock performance charts, unnecessary props or illegible text.\nHeadline line 1 (verbatim): \"UU Wallet\".\nHeadline line 2 (verbatim): \"开卡与支付教程\".\nSmall gray subtitle (verbatim): \"钱包注册 · 充值开卡 · 日常支付\".\nTopic-specific subject: A small navy wallet with one plain silver payment-card shape gently emerging from it, plus a compact unbranded glass contactless payment terminal. Simple wallet-to-payment concept, no currencies, amounts, logos or invented UI. Keep the wallet and card comfortably sized and physically grounded.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad1-e536-7a21-a0d7-6c96a531e992/exec-b7317d5f-0a79-4e66-b465-80be1fb6fd0e.png",
+      "originalPath": "assets/source-images/article-covers/UUWallet-vcard.png",
+      "finalPath": "public/images/articles/covers/UUWallet-vcard.webp",
+      "src": "/images/articles/covers/UUWallet-vcard.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 13712,
+      "visualInspection": "Passed: complete two-line title and subtitle, right-upper full supplied rounded signature, no official-product branding on illustrative objects, all essential content inside frame; 640px output checked."
+    },
+    {
+      "id": "Benpay-vcard",
+      "headline": [
+        "BenPay",
+        "开卡与订阅教程"
+      ],
+      "subtitle": "卡片申请 · 账户充值 · 订阅支付",
+      "scene": "An unbranded thin silver laptop partly open, a plain navy payment-card shape and a small optical-glass calendar with only simple blank grids. The composition represents online subscription payments without any AI service logo, card brand, rate, claims or invented interface. Elegant grounded product still life.",
+      "alt": "BenPay 开卡与订阅教程，卡片申请、账户充值和订阅支付",
+      "topics": [
+        "BenPay",
+        "卡片申请",
+        "订阅支付"
+      ],
+      "source": "content/articles/vcard/BenPay/BenPay.md",
+      "prompt": "Use case: stylized-concept.\nAsset type: One standalone 16:9 landscape Chinese editorial cover for a Wise Invest article, not a website screenshot.\nInput image 1 is the user-approved style and layout reference ONLY: inherit its neutral silver-white architectural studio, tangible optical glass, navy typography, thin restrained champagne-gold rule, softly lit real 3D objects, and generous whitespace. Do not copy the Bybit name, phone content or specific topic.\nInput image 2 is the EXACT supplied Wise signature artwork as a compositing insert. Place a complete faithful copy of it at the UPPER RIGHT, including the full \"@Wise Invest\" lettering, sunglasses-wearing man and thin bottom rule. Preserve original aspect ratio, all text and the person. White badge width about 17% of the full canvas, safe margins about 4.5%, rounded corners radius about 20% of badge HEIGHT. Do not replace it with a circular portrait, redraw the person, spell new lettering, enlarge it, crop it, or create a second logo. The signature should be small, subordinate, intact and crisp, like the approved reference.\nLayout: two-line dark navy headline in the clear left 55%, a fine short champagne-gold separator below, one smaller gray subtitle. Three-dimensional concept subject on the right lower half, full objects inside safe margins, with optical glass and silver metal having realistic thickness, highlights and contact shadows. Bright neutral daylight; white remains neutral not cream or yellow. Match the approved cover's camera height and polished editorial design. Very subtle gold only. No webpage cards or CTA.\nOnly render the requested title and subtitle verbatim plus the supplied original signature. Other objects have NO written labels, invented interface or logos. This is an unbranded conceptual illustration, NOT an official photograph or official card design.\nAvoid: fake brand card faces, fake card numbers, Visa/Mastercard/Apple/Google/bank logos, guaranteed returns, interest rates, fee claims, KYC claims, free offers, giant coins, arrows implying profit, neon, exaggerated gold, stock performance charts, unnecessary props or illegible text.\nHeadline line 1 (verbatim): \"BenPay\".\nHeadline line 2 (verbatim): \"开卡与订阅教程\".\nSmall gray subtitle (verbatim): \"卡片申请 · 账户充值 · 订阅支付\".\nTopic-specific subject: An unbranded thin silver laptop partly open, a plain navy payment-card shape and a small optical-glass calendar with only simple blank grids. The composition represents online subscription payments without any AI service logo, card brand, rate, claims or invented interface. Elegant grounded product still life.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad1-e536-7a21-a0d7-6c96a531e992/exec-8c71a274-da69-495e-a60e-b7ab80b09791.png",
+      "originalPath": "assets/source-images/article-covers/Benpay-vcard.png",
+      "finalPath": "public/images/articles/covers/Benpay-vcard.webp",
+      "src": "/images/articles/covers/Benpay-vcard.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 12534,
+      "visualInspection": "Passed: complete two-line title and subtitle, right-upper full supplied rounded signature, no official-product branding on illustrative objects, all essential content inside frame; 640px output checked."
+    }
+  ]
+}

@@ -53,6 +53,8 @@ ok，那我们就开始吧。
 
 输入自己的邮箱，填写邀请码之后，就会进入身份验证界面。
 
+> [注册 Bitget Wallet Card 账户](https://web3.bitget.com/invite/card/Wise6666?channel=Copylink&utm_source=newInviteRebate&inviteCode=Wise6666) · 邀请码：**Wise6666**
+
 在这个界面里，我们需要有两个东西：
 
 - **身份认证方式**：这里选择自己的护照。我最近也发现，护照管控这一块好像加强了，所以大家为了以防万一，可以先去注册一个护照备用。
@@ -97,7 +99,7 @@ ok，那我们就开始吧。
 - **姓名**：修改为自己拼音的缩写，例如你是「张三」，修改成为 `ZHANG SAN`。
 - **账单时间**：这张账单的时间不在最近 3 个月内，你可能需要将具体信息修改为最近 3 个月的信息。
 
-![地址证明参考样式](/content/articles/vcard/BitgetNew/8.png)
+![地址证明参考样式](/content/articles/vcard/BitgetNew/8.webp)
 
 如果大家有需求的话，私信我，我发你，就不公开对外了。
 

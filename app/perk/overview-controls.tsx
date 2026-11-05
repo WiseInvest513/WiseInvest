@@ -28,11 +28,19 @@ export function PerkSearch({ entries }: { entries: PerkSearchEntry[] }) {
           ref={inputRef} id="perk-search" type="search" value={query} autoComplete="off"
           placeholder="搜索平台或你需要的福利" aria-controls={visible ? "perk-search-results" : undefined}
           onFocus={() => setOpen(true)} onChange={(event) => { setQuery(event.target.value); setOpen(true); }}
-          onKeyDown={(event) => { if (event.key === "Escape") setOpen(false); }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setOpen(false);
+            if (event.key === "ArrowDown" && visible) {
+              event.preventDefault();
+              document.querySelector<HTMLAnchorElement>("#perk-search-results a")?.focus();
+            }
+          }}
         />
         {query && <button type="button" aria-label="清空福利搜索" onClick={() => { setQuery(""); inputRef.current?.focus(); }}><X size={17} /></button>}
       </form>
-      {visible && <div id="perk-search-results" className={styles.searchResults}>
+      {visible && <div id="perk-search-results" className={styles.searchResults} onKeyDown={(event) => {
+        if (event.key === "Escape") { inputRef.current?.focus(); setOpen(false); }
+      }}>
         <p role="status">{results.length ? `找到 ${results.length} 个相关入口` : "暂未找到相关福利，试试平台名称或分类。"}</p>
         <ul>
           {results.map((entry) => <li key={entry.id}>
@@ -54,6 +62,14 @@ const topicIcons: Record<string, typeof Coins> = {
 
 export function PerkTopicNav({ items }: { items: { id: string; label: string }[] }) {
   const [active, setActive] = useState(items[0]?.id);
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    const current = nav?.querySelector<HTMLElement>('[aria-current="location"]');
+    if (!nav || !current || nav.scrollWidth <= nav.clientWidth) return;
+    nav.scrollTo({ left: current.offsetLeft - (nav.clientWidth - current.offsetWidth) / 2, behavior: "instant" });
+  }, [active]);
 
   useEffect(() => {
     const sections = items.map(({ id }) => document.getElementById(id)).filter((section): section is HTMLElement => Boolean(section));
@@ -63,7 +79,7 @@ export function PerkTopicNav({ items }: { items: { id: string; label: string }[]
       // Use the top reading position, not whichever section happens to enter
       // the bottom of a tall viewport during smooth scrolling.
       // Allow for fractional-pixel rounding at the scroll-margin boundary.
-      const threshold = window.innerWidth <= 760 ? 152 : 166;
+      const threshold = sections[0] ? parseFloat(getComputedStyle(sections[0]).scrollMarginTop) + 2 : 166;
       let current = sections[0]?.id;
       for (const section of sections) {
         if (section.getBoundingClientRect().top <= threshold) current = section.id;
@@ -81,7 +97,7 @@ export function PerkTopicNav({ items }: { items: { id: string; label: string }[]
     };
   }, [items]);
 
-  return <nav aria-label="按需求浏览福利" className={styles.topicNav}>
+  return <nav ref={navRef} aria-label="按需求浏览福利" className={styles.topicNav}>
     {items.map(({ id, label }) => {
       const Icon = topicIcons[id];
       return <a

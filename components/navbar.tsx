@@ -117,8 +117,14 @@ export function Navbar() {
         <div className={`pointer-events-auto w-full max-w-[1400px] flex items-center px-3 border border-slate-200/70 dark:border-slate-700/60 backdrop-blur-xl ${pathname === "/" ? "h-14 sm:h-16 rounded-[22px] bg-white/95 dark:bg-[#202327]/95 shadow-[0_4px_20px_rgba(40,45,50,0.06)]" : "h-12 rounded-2xl bg-slate-50/95 dark:bg-slate-800/95 shadow-md shadow-slate-300/30 dark:shadow-slate-950/60"}`}>
 
           {/* Logo */}
-          <Link href="/" prefetch={true} className="font-heading text-base font-bold text-slate-900 dark:text-white px-2 shrink-0">
-            Wise <span className={pathname === "/" ? "text-[#a97919] dark:text-[#d3ac64]" : undefined}>Invest</span>
+          <Link href="/" prefetch={true} className="font-heading flex items-center gap-1.5 px-2 text-base font-bold text-slate-900 dark:text-white shrink-0 max-[360px]:gap-1 max-[360px]:px-0 max-[360px]:text-sm">
+            <img
+              src="/wise-invest-icon.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-7 w-7 shrink-0 rounded-[7px] max-[360px]:h-6 max-[360px]:w-6"
+            />
+            <span>Wise <span className={pathname === "/" ? "text-[#a97919] dark:text-[#d3ac64]" : undefined}>Invest</span></span>
           </Link>
 
           <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2 shrink-0 hidden xl:block" />

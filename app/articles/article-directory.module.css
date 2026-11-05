@@ -1,0 +1,443 @@
+.desktop,
+.drawer {
+  --directory-text: #131c2d;
+  --directory-muted: #57657b;
+  --directory-rule: #e6eaf0;
+  --directory-accent: #95600a;
+  --directory-selected: #fcf6e9;
+  --directory-hover: #f6f7f9;
+  color: var(--directory-text);
+  background: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.desktop {
+  display: none;
+  width: clamp(240px, 20vw, 300px);
+  height: 100%;
+  min-height: 0;
+  flex: 0 0 auto;
+  padding: 42px 20px 32px 32px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #e0e5ec transparent;
+}
+
+.title {
+  margin: 0 0 20px;
+  padding-left: 6px;
+  color: var(--directory-text);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.navigation {
+  width: 100%;
+}
+
+.primaryLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navigationLink,
+.groupButton {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 42px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--directory-text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.groupButton {
+  gap: 10px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.topicGroup {
+  --topic-color: #5377a5;
+  --topic-tint: rgb(83 119 165 / 9%);
+}
+
+.topicGroup[data-topic="crypto"] {
+  --topic-color: #368578;
+  --topic-tint: rgb(54 133 120 / 9%);
+}
+
+.topicGroup[data-topic="accounts"] {
+  --topic-color: #a17629;
+  --topic-tint: rgb(161 118 41 / 10%);
+}
+
+.topicGroup[data-topic="tools"] {
+  --topic-color: #8170a9;
+  --topic-tint: rgb(129 112 169 / 9%);
+}
+
+.topicGroup[data-topic="wise"] {
+  --topic-color: #568599;
+  --topic-tint: rgb(86 133 153 / 9%);
+}
+
+.groupIcon {
+  display: flex;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--topic-tint);
+  color: var(--topic-color);
+}
+
+.groupIcon .icon {
+  width: 17px;
+  height: 17px;
+  flex-basis: 17px;
+}
+
+.groupButton[data-active="true"] {
+  color: var(--directory-accent);
+}
+
+.navigationLink:hover,
+.groupButton:hover,
+.categoryLink:hover {
+  background: var(--directory-hover);
+}
+
+.navigationLink[aria-current="page"],
+.categoryLink[aria-current="page"] {
+  background: var(--directory-selected);
+  color: var(--directory-accent);
+}
+
+.navigationLink[aria-current="page"]::before,
+.categoryLink[aria-current="page"]::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 2px;
+  height: 24px;
+  border-radius: 2px;
+  background: var(--directory-accent);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.navigationLink:focus-visible,
+.groupButton:focus-visible,
+.categoryLink:focus-visible,
+.closeButton:focus-visible {
+  outline: 2px solid var(--directory-accent);
+  outline-offset: 3px;
+}
+
+.icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.topics {
+  margin-top: 23px;
+  padding-top: 21px;
+  border-top: 1px solid var(--directory-rule);
+}
+
+.sectionLabel {
+  margin: 0 0 9px;
+  padding-left: 8px;
+  color: var(--directory-muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.topicGroup + .topicGroup {
+  margin-top: 2px;
+}
+
+.chevron {
+  display: block;
+  margin-left: auto;
+  transition: transform 160ms ease;
+}
+
+.chevron[data-expanded="true"] {
+  transform: rotate(90deg);
+}
+
+.categoryList {
+  position: relative;
+  margin: 1px 0 10px 21px;
+  padding: 0 0 0 12px;
+  list-style: none;
+}
+
+.categoryList[hidden] {
+  display: none;
+}
+
+.categoryList::before {
+  position: absolute;
+  top: 0;
+  bottom: 18px;
+  left: 0;
+  width: 1px;
+  background: var(--directory-rule);
+  content: "";
+}
+
+.categoryLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border-radius: 5px;
+  color: var(--directory-muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.categoryIcon {
+  display: block;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  color: var(--topic-color);
+}
+
+.categoryCount {
+  color: var(--directory-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.categoryLink[aria-current="page"] .categoryCount {
+  color: inherit;
+}
+
+.categoryLink[aria-current="page"] .categoryIcon,
+.groupButton[data-active="true"] .groupIcon {
+  color: var(--directory-accent);
+}
+
+.categoryLink::before {
+  position: absolute;
+  top: 50%;
+  left: -14px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #d5dbe4;
+  content: "";
+  transform: translateY(-50%);
+}
+
+.categoryLink[aria-current="page"]::before {
+  background: var(--directory-accent);
+}
+
+.classics {
+  margin-top: 23px;
+  padding-top: 17px;
+  border-top: 1px solid var(--directory-rule);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgb(15 23 42 / 30%);
+}
+
+.drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 81;
+  width: min(304px, calc(100vw - 40px));
+  max-height: 100dvh;
+  padding: max(24px, env(safe-area-inset-top)) 20px max(28px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 12px 0 36px rgb(15 23 42 / 10%);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.drawerHeader .title {
+  margin: 0;
+}
+
+.closeButton {
+  display: flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--directory-muted);
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background: var(--directory-hover);
+  color: var(--directory-text);
+}
+
+.overlay[data-state="open"] {
+  animation: overlayIn 160ms ease-out;
+}
+
+.overlay[data-state="closed"] {
+  animation: overlayOut 140ms ease-in;
+}
+
+.drawer[data-state="open"] {
+  animation: drawerIn 180ms ease-out;
+}
+
+.drawer[data-state="closed"] {
+  animation: drawerOut 160ms ease-in;
+}
+
+:global(.dark) .desktop,
+:global(.dark) .drawer {
+  --directory-text: #e2e8f0;
+  --directory-muted: #9aa9bf;
+  --directory-rule: #263245;
+  --directory-accent: #dec28b;
+  --directory-selected: #2b261c;
+  --directory-hover: #1a2537;
+  background: #0f172a;
+  scrollbar-color: #334155 transparent;
+}
+
+:global(.dark) .categoryLink::before {
+  background: #475569;
+}
+
+:global(.dark) .topicGroup {
+  --topic-color: #91afd3;
+  --topic-tint: rgb(145 175 211 / 12%);
+}
+
+:global(.dark) .topicGroup[data-topic="crypto"] {
+  --topic-color: #79b6a9;
+  --topic-tint: rgb(121 182 169 / 12%);
+}
+
+:global(.dark) .topicGroup[data-topic="accounts"] {
+  --topic-color: #d5b67d;
+  --topic-tint: rgb(213 182 125 / 12%);
+}
+
+:global(.dark) .topicGroup[data-topic="tools"] {
+  --topic-color: #b5a1d4;
+  --topic-tint: rgb(181 161 212 / 12%);
+}
+
+:global(.dark) .topicGroup[data-topic="wise"] {
+  --topic-color: #8fbacb;
+  --topic-tint: rgb(143 186 203 / 12%);
+}
+
+:global(.dark) .categoryLink[aria-current="page"]::before {
+  background: var(--directory-accent);
+}
+
+@media (min-width: 768px) {
+  .desktop {
+    display: block;
+  }
+}
+
+@media (max-width: 1023px) {
+  .desktop {
+    padding-right: 16px;
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navigationLink,
+  .groupButton,
+  .categoryLink {
+    min-height: 44px;
+  }
+
+  .categoryLink {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navigationLink,
+  .groupButton,
+  .categoryLink,
+  .chevron {
+    transition: none;
+  }
+
+  .overlay,
+  .drawer {
+    animation: none !important;
+  }
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes overlayOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes drawerIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes drawerOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}

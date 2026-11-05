@@ -13,7 +13,6 @@ const surfaces = [
   'app/vip/landing-content.ts',
   'components/article-vip-invitation.tsx',
   'app/perk/[section]/register-reward-button.tsx',
-  'app/perk/data.ts',
   'lib/perks-data.ts',
   'lib/identity/dev-preview-data.ts',
   'app/account/vip/binding-form.tsx',
@@ -48,14 +47,15 @@ test('all Wise VIP eligibility surfaces require 1000U deposit and 10000U contrac
   assert.equal((popup.match(/(?<![\d,.])10000U 合约交易/g) || []).length, 3, 'Accessible dialog description, body and trading step must agree');
   assert.match(popup, /5U 现金红包奖励/);
   assert.match(read('app/card/data.ts'), /Gate 注册与平台充值奖励、入金 1000U 并完成 10000U 合约交易后申请 Wise VIP/);
+  assert.doesNotMatch(read('app/perk/data.ts'), /Wise\s*VIP/i, 'Product benefits do not imply automatic Wise VIP eligibility');
 });
 
 test('all six tutorial referral/VIP notes reflect the new conditions without rewriting deposit walkthroughs', () => {
   const notes = [
     ['content/articles/VIP/web.md', '如果你是对于加密感兴趣'],
-    ['content/articles/crypto/Bitget/bitget.md', '> 填写我的邀请码'],
-    ['content/articles/crypto/bybit/bybit.md', '> 如果你通过我的邀请码注册了 Bybit'],
-    ['content/articles/crypto/biance/biance.md', '**3、** 在「是否有邀请人」'],
+    ['content/articles/crypto/Bitget/bitget.md', '> **Wise VIP 服务群另有条件：**'],
+    ['content/articles/crypto/bybit/bybit.md', '> **Wise VIP 服务群另有条件：**'],
+    ['content/articles/crypto/biance/biance.md', '> **Wise VIP 服务群另有条件：**'],
     ['content/articles/vcard/Gate/Gate.md', '那同时大家如果说注册了 Gate'],
     ['content/articles/vcard/MP/MP.md', '同时，如果大家通过我的邀请码进行注册，入金'],
   ];
@@ -78,7 +78,11 @@ test('official promotions, card fees, actual transfer examples and regular inves
   assert.match(read('content/articles/crypto/Bitget/bitget.md'), /!\[成功充值 100U 到 Bitget\]\(\.\/22.png\)/);
   assert.match(read('content/articles/crypto/bybit/bybit.md'), /充值入金 100U，并且交易量大于 10U/);
   assert.match(read('content/articles/crypto/bybit/bybit.md'), /如果你放里面 300U，两天之后可以收获 9U 左右/);
-  assert.match(read('content/articles/crypto/okx/okx.md'), /价值 100U 的新手奖励/);
+  const okxReward = read('content/articles/crypto/okx/okx.md').split('\n').find(line => /价值 100U (?:的)?新手奖励/.test(line));
+  assert.ok(okxReward, 'The historical OKX reward amount remains recorded');
+  assert.match(okxReward, /限时活动/);
+  assert.match(okxReward, /需要另行完成任务/);
+  assert.match(okxReward, /不等于注册即送/);
   assert.match(read('content/articles/crypto/biance/biance.md'), /每周 100U 的 BTC\/ETH/);
   assert.match(read('app/practice/dca-investment/page.tsx'), /每周末定投 BTC \/ ETH 各 100U/);
 });

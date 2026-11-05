@@ -93,7 +93,7 @@ test('six full-size topics retain both international-access and other-resource d
 });
 
 test('curated broker and card tutorials are derived from existing product configuration', () => {
-  const brokerIds = ['bbae', 'charles-schwab', 'diyi-securities'];
+  const brokerIds = ['bit-account-guide', 'bbae', 'charles-schwab', 'diyi-securities'];
   const cardIds = ['gate-card', 'bitget-wallet-card', 'safepal-card'];
   const brokers = overviewTopics.find(topic => topic.id === 'brokers');
   const cards = overviewTopics.find(topic => topic.id === 'cards');
@@ -229,12 +229,17 @@ test('the new Binance mark is a self-contained SVG with a valid view box and pat
   assert.doesNotMatch(svg, /<script|<foreignObject|<image|\bon\w+\s*=|(?:href|xlink:href)\s*=|<!DOCTYPE|<!ENTITY/i);
 });
 
-test('existing BBAE article, VIP link, broker priority, and confirmed status are preserved', () => {
+test('BIT leads the broker overview while the existing BBAE article and status are preserved', () => {
   const broker = perkSections.find(section => section.slug === 'broker');
   const usBrokers = broker.subcategories.find(category => category.slug === 'us-broker');
-  assert.deepEqual(usBrokers.products.map(product => product.id), ['bbae', 'charles-schwab', 'diyi-securities', 'interactive-brokers']);
-  assert.equal(usBrokers.slots, 4);
-  const bbae = usBrokers.products[0];
+  assert.deepEqual(usBrokers.products.map(product => product.id), ['bit-account-guide', 'bbae', 'charles-schwab', 'diyi-securities', 'interactive-brokers']);
+  assert.equal(usBrokers.slots, 5);
+  const bit = usBrokers.products[0];
+  assert.equal(bit.tutorialLink, '/articles/broker/YgNQGO57');
+  assert.equal(bit.code, 'WISE666');
+  assert.match(bit.benefit, /\$1,500/);
+  assert.match(bit.riskNote, /30 天/);
+  const bbae = usBrokers.products[1];
   assert.equal(bbae.registerLink, '/articles/broker/I0AIBXus');
   assert.equal(bbae.tutorialLink, '/articles/broker/I0AIBXus');
   assert.equal(bbae.registerLabel, '开户教程');

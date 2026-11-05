@@ -14,8 +14,11 @@ import {
 } from "lucide-react";
 import { CopyTextButton } from "@/components/copy-text-button";
 import { siteConfig } from "@/lib/config";
+import { genUid } from "@/lib/article-uid";
 
-const pageUrl = `${siteConfig.url}/guide/exchange-referral`;
+const pageUrl = siteConfig.url("/guide/exchange-referral");
+const binanceArticleHref = `/articles/crypto/${genUid("binance-referral")}?series=exchange-referral`;
+const bitgetArticleHref = `/articles/crypto/${genUid("bitget-referral")}?series=exchange-referral`;
 
 export const metadata: Metadata = {
   title: "交易所绑定了他人邀请码怎么办 | Wise Invest",
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
   alternates: { canonical: pageUrl },
   openGraph: {
     title: "交易所绑定了他人邀请码怎么办",
-    description: "根据交易所和账户使用状态，判断是否可以补绑、注销后重开或需要更换账户。",
+    description: "先核对已有邀请关系，再按账户状态查看官方补绑资格、申请步骤和生效条件。",
     url: pageUrl,
     type: "article",
   },
@@ -34,27 +37,27 @@ const binanceRoutes = [
     step: "01",
     title: "新注册且从未使用过账户",
     tag: "注册 30 天内",
-    description: "适用于注册后没有交易、充值、持有资产，也没有使用过任何产品的新账户。符合条件时，可尝试直接补绑。",
-    condition: "账户无交易、无充值、无资产、无产品使用记录",
+    description: "须无现有邀请关系、无入金和交易记录，使用主账户；KYC 信息近 180 天未用于其他账户，且未被标记为刷量交易者。",
+    condition: "以上条件须同时满足，不是注册 30 天内都能补绑",
     href: "https://www.binance.com/zh-CN/activity/referral/bind-ref",
     action: "打开币安补绑页面",
   },
   {
     step: "02",
     title: "近期有交易但交易量较低",
-    tag: "近 3 个月不超过 5,000 美元",
-    description: "符合条件的账户可提交补绑申请；绑定后 30 天内需要完成 15 万 U 交易量，达到平台要求后才会正式生效。",
-    condition: "补绑后 30 天内完成 15 万 U 交易量",
-    href: "https://www.bsmkweb.cc/activity/referral/bind-ref",
-    action: "打开补绑申请入口",
+    tag: "近 90 天低于 5,000 美元",
+    description: "无邀请人的合资格主账户，完成 KYC 与账户审核后，向邀请方获取 Rebind 专用申请链接。提交当天起 30 天内累计达到 15 万美元有效交易量，才会正式建立关系。",
+    condition: "提交申请不等于绑定成功；不建议为补绑额外交易或加杠杆",
+    href: binanceArticleHref,
+    action: "查看补绑申请步骤",
   },
   {
     step: "03",
     title: "注册较久但近期完全未使用",
-    tag: "注册超过 3 个月",
-    description: "适用于最近三个月没有交易，也没有使用任何产品的账户。登录一次下方链接，检查是否可以完成邀请关系补绑。",
-    condition: "最近 3 个月无交易、无产品使用记录",
-    href: "https://www.binance.com/zh-CN/join?ref=WISEBNB1",
+    tag: "注册超过 90 天",
+    description: "从未绑定邀请人，且过去 90 天没有交易、没有使用任何币安产品。通过新版召回链接登录原账户，核对并主动确认绑定。",
+    condition: "少用不等于没用；打开链接不等于已绑定，地区须支持",
+    href: "https://www.binance.com/join?ref=WISEBNB1",
     action: "使用 Wise 邀请链接登录",
   },
 ];
@@ -68,7 +71,7 @@ const faqJsonLd = {
       name: "币安账户已经绑定他人邀请码还能修改吗？",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "先向币安官方客服核验当前邀请关系和账户使用记录。部分符合条件的账户可以申请补绑；已经确认绑定其他邀请人的账户通常不能直接覆盖原关系。",
+        text: "币安已经建立的邀请关系不能更改或解除。只有没有现有邀请关系、且符合对应账户条件的用户，才可核对自助补绑、Rebind 或 Recall 资格。不要借用他人身份或为邀请福利注销后重开。",
       },
     },
     {
@@ -76,7 +79,7 @@ const faqJsonLd = {
       name: "Bitget 绑定了他人邀请码怎么办？",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "可先向 Bitget 官方客服确认账户注销、KYC 释放和重新注册条件，完成注销后再按平台当前规则重新注册。",
+        text: "注册三天内可先联系 Wise 协助核对补绑或换绑，结果以平台确认为准。已绑定其他邀请人的老账户不要直接注销，先确认处理方案并迁移资金。据 Wise 反馈，注销完成后通常 24 小时即可重新注册，并非 Wise 专属渠道待遇；官方公开指南仍写同手机号、邮箱或身份证需等待 30 天，注销前确认本人账户是否适用，以实际处理结果为准。",
       },
     },
     {
@@ -151,6 +154,10 @@ export default function ExchangeReferralGuidePage() {
             <div>
               <p className="text-xs font-black uppercase text-amber-600 dark:text-amber-300">Binance</p>
               <h2 className="mt-1 text-2xl font-black">币安：按账户使用状态选择</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                已有邀请关系不能更改或解除。没有邀请人，再核对下面三种方式；不要借用他人身份或为邀请福利注销后重开。
+                <Link href={binanceArticleHref} className="ml-1 font-bold text-amber-700 underline underline-offset-4 dark:text-amber-300">阅读完整币安补绑指南</Link>
+              </p>
             </div>
           </div>
 
@@ -187,23 +194,35 @@ export default function ExchangeReferralGuidePage() {
               </article>
             ))}
           </div>
+          <p className="mt-4 text-xs leading-6 text-slate-500 dark:text-slate-400">
+            币安规则核验于 2026-11-05：
+            <a href="https://www.binance.com/en/support/faq/detail/6233094e540b4ea4ac50387d1518911b" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">自助补绑与邀请关系规则</a> · {" "}
+            <a href="https://www.binance.com/en/support/faq/detail/185520b0cb3d43d2a1ab0d12ba223d35" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Rebind 申请规则</a> · {" "}
+            <a href="https://www.binance.com/en/support/faq/detail/a502d59af1f74566a983a6a011aec371" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Recall 召回规则</a>。以本人账户的官方审核结果为准。
+          </p>
         </section>
 
         <section className="mt-9 grid gap-5 md:grid-cols-2">
           <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <RefreshCcw className="h-6 w-6 text-amber-600 dark:text-amber-300" />
             <p className="mt-4 text-xs font-black uppercase text-amber-600 dark:text-amber-300">Bitget</p>
-            <h2 className="mt-1 text-xl font-black">先确认注销与重新注册条件</h2>
+            <h2 className="mt-1 text-xl font-black">两种情况，都先联系 Wise 核对</h2>
             <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-              如果 Bitget 账户绑定了其他邀请人，可先联系官方客服确认账户注销、邀请关系释放和 KYC 释放条件。确认完成后，再通过 Wise 邀请渠道重新注册。
+              注册三天内发现邀请码漏填或绑定不符，可联系 Wise 协助向平台核对是否能处理。已绑定其他邀请人的老账户，先确认方案；只有平台确认适用后，才考虑迁移资金、注销和重新注册。
             </p>
+            <p className="mt-3 text-xs leading-6 text-slate-500 dark:text-slate-400">
+              据 Wise 反馈，注销完成后通常 24 小时即可重新注册，并非 Wise 专属渠道待遇。官方公开指南仍写同手机号、邮箱或身份证需等待 30 天；注销前确认本人账户是否适用，以实际处理结果为准。
+            </p>
+            <Link href={bitgetArticleHref} className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-amber-700 underline underline-offset-4 dark:text-amber-300">
+              阅读完整 Bitget 处理指南 <ArrowUpRight className="h-4 w-4" />
+            </Link>
           </article>
           <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <XCircle className="h-6 w-6 text-rose-500" />
             <p className="mt-4 text-xs font-black uppercase text-amber-600 dark:text-amber-300">OKX</p>
             <h2 className="mt-1 text-xl font-black">原邀请关系通常无法修改</h2>
             <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-              OKX 邀请关系通常在注册时确定，完成注册或认证后一般不能直接更换。是否可以使用其他身份重新认证，应先咨询官方客服并遵守平台规则。
+              OKX 邀请关系通常在注册时确定，完成注册或认证后一般不能直接更换。当前账户可采用何种处理方式，应先咨询官方客服，不要使用他人身份资料。
             </p>
           </article>
         </section>

@@ -11,6 +11,7 @@ const markdown = fs.readFileSync(markdownPath, 'utf8');
 const moduleCache = new Map();
 const localDependencies = new Map([
   ['./article-uid', 'lib/article-uid.ts'],
+  ['./article-covers', 'lib/article-covers.ts'],
   ['./articles-data', 'lib/articles-data.ts'],
   ['./articles-fs', 'lib/articles-fs.ts'],
 ]);

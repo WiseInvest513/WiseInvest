@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId, useRef } from "react";
+import { ArticleRegistrationCard } from "@/components/article-registration-card";
+import { parseRegistrationCallout } from "@/lib/article-registration";
 
 // ─── Image Lightbox ────────────────────────────────────────
 function ImageLightbox({ src, alt }: { src: string; alt: string }) {
@@ -44,6 +46,66 @@ function ImageLightbox({ src, alt }: { src: string; alt: string }) {
   );
 }
 
+// Long tutorial screenshots keep their original source and can be expanded
+// inline or read in a scrollable dialog, without dominating the whole article.
+function GuideImage({ src, caption }: { src: string; caption: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const [canExpand, setCanExpand] = useState(false);
+  const [previewHeight, setPreviewHeight] = useState<number>();
+  const imageRef = useRef<HTMLImageElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const previewId = useId();
+  const captionId = useId();
+  const dialogTitleId = useId();
+
+  useEffect(() => {
+    const preview = previewRef.current;
+    const image = imageRef.current;
+    if (!preview || !image) return;
+    const measure = () => {
+      if (!image.naturalWidth) return;
+      const limit = parseFloat(getComputedStyle(preview).getPropertyValue("--guide-preview-height"));
+      const height = image.getBoundingClientRect().height + 16;
+      setCanExpand(height > limit + 1);
+      setPreviewHeight(Math.min(height, limit));
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(image);
+    observer.observe(preview);
+    measure();
+    return () => observer.disconnect();
+  }, [src]);
+
+  return (
+    <figure aria-labelledby={captionId} className="my-7 mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+      <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 text-xs dark:border-slate-800">
+        <span className="shrink-0 font-semibold text-slate-500 dark:text-slate-400">操作图解</span>
+        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2">
+          {canExpand ? <button type="button" aria-expanded={expanded} aria-controls={previewId} onClick={() => setExpanded(value => !value)} className="font-semibold text-amber-700 hover:text-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-amber-400">
+            {expanded ? "收起图解" : "展开完整图解"} <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
+          </button> : null}
+          <a href={src} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-slate-400 dark:hover:text-slate-200">查看原图 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div ref={previewRef} id={previewId} style={{ height: expanded ? undefined : previewHeight ?? "var(--guide-preview-height)" }} className="relative overflow-hidden [--guide-preview-height:352px] sm:[--guide-preview-height:448px]">
+        <button type="button" onClick={() => dialogRef.current?.showModal()} aria-label={`放大查看：${caption}`} className={`block w-full cursor-zoom-in overflow-hidden p-2 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-500 ${expanded ? "" : "max-h-[var(--guide-preview-height)]"}`}>
+          <img ref={imageRef} src={src} alt={caption} className="h-auto w-full rounded-lg" loading="lazy" />
+        </button>
+        {canExpand && !expanded ? <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 flex h-16 items-end justify-center bg-gradient-to-t from-white via-white/80 to-transparent pb-2 text-[11px] text-slate-500 dark:from-slate-900 dark:via-slate-900/80 dark:text-slate-400">长图预览 · 展开后查看全部步骤</div> : null}
+      </div>
+      <figcaption id={captionId} className="border-t border-slate-100 px-4 py-3 text-center text-xs leading-5 text-slate-500 dark:border-slate-800 dark:text-slate-400">{caption}</figcaption>
+      <dialog ref={dialogRef} aria-labelledby={dialogTitleId} className="fixed m-auto h-[90dvh] w-[96vw] max-w-6xl overflow-auto rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl backdrop:bg-black/70 dark:border-slate-700 dark:bg-slate-900">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
+          <div><p id={dialogTitleId} className="text-sm font-semibold text-slate-800 dark:text-slate-100">{caption}</p><p className="mt-1 text-xs text-slate-500 dark:text-slate-400">向下滚动查看完整图解</p></div>
+          <button type="button" onClick={() => dialogRef.current?.close()} aria-label="关闭图解" className="shrink-0 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 dark:text-slate-300 dark:hover:bg-slate-800">关闭</button>
+        </div>
+        <div className="p-3"><img src={src} alt={caption} loading="lazy" className="h-auto w-full rounded-lg" /></div>
+      </dialog>
+    </figure>
+  );
+}
+
 // ─── UID generation ────────────────────────────────────────
 export { genUid } from "@/lib/article-uid";
 
@@ -59,16 +121,20 @@ export function extractToc(content: string) {
 }
 
 // ─── Inline markdown (bold / code / link) ─────────────────
-export function renderInline(text: string): React.ReactNode {
+export function renderInline(text: string, allowLinks = true): React.ReactNode {
   const parts: React.ReactNode[] = [];
   const regex = /\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|`(.+?)`|(https?:\/\/[^\s<>\]\)"']+[^\s<>,;.)\]"'])/g;
   let lastIdx = 0; let key = 0;
   let match: RegExpExecArray | null;
   while ((match = regex.exec(text)) !== null) {
     if (match.index > lastIdx) parts.push(<span key={key++}>{text.slice(lastIdx, match.index)}</span>);
-    if (match[1] != null) parts.push(<a key={key++} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1])}</a>);
+    // Link labels can contain formatting or a URL, but never another anchor.
+    if (match[1] != null) parts.push(allowLinks
+      ? <a key={key++} href={match[2]} target="_blank" rel="noopener noreferrer" className="[overflow-wrap:anywhere] text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1], false)}</a>
+      : <span key={key++}>{renderInline(match[1], false)}</span>);
     else if (match[3] != null) parts.push(<strong key={key++} className="font-semibold">{match[3]}</strong>);
-    else if (match[4] != null) parts.push(<code key={key++} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-400">{match[4]}</code>);
+    else if (match[4] != null) parts.push(<code key={key++} className="[overflow-wrap:anywhere] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-400">{match[4]}</code>);
+    else if (match[5] != null && !allowLinks) parts.push(<span key={key++}>{match[5]}</span>);
     else if (match[5] != null) {
       const href = match[5];
       parts.push(
@@ -77,7 +143,7 @@ export function renderInline(text: string): React.ReactNode {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+          className="[overflow-wrap:anywhere] text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
         >
           {href}
         </a>
@@ -133,6 +199,13 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
 
     // blockquote
     if (trimmed.startsWith("> ")) {
+      const registration = parseRegistrationCallout(trimmed);
+      if (registration) {
+        elements.push(
+          <ArticleRegistrationCard key={k++} {...registration} />
+        );
+        i++; continue;
+      }
       elements.push(
         <blockquote key={k++} className="my-5 pl-5 border-l-4 border-amber-400 bg-amber-50/50 dark:bg-amber-900/10 py-3 pr-4 rounded-r-lg text-slate-600 dark:text-slate-400 italic">
           {renderInline(trimmed.slice(2))}
@@ -191,6 +264,10 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       const [, alt, src] = imgMatch;
       const isPortrait = imageLayout === "portrait" || alt.startsWith("portrait:");
       const caption = alt.replace(/^portrait:\s*/, "");
+      if (imageLayout === "guide") {
+        elements.push(<GuideImage key={k++} src={src} caption={caption} />);
+        i++; continue;
+      }
       elements.push(
         <figure key={k++} className={isPortrait ? "my-6 mx-auto w-fit" : "my-6 max-w-4xl mx-auto"}>
           <div className={isPortrait ? "rounded-2xl bg-slate-100 dark:bg-slate-800 p-2 w-[260px]" : "rounded-2xl bg-slate-100 dark:bg-slate-800 p-3"}>
@@ -210,9 +287,12 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       while (i < lines.length && lines[i].trim().startsWith("|")) {
         rows.push(lines[i].trim().split("|").filter(Boolean).map(c => c.trim())); i++;
       }
+      const wideGuideTable = imageLayout === "guide" && headerCells.length >= 3;
       elements.push(
-        <div key={k++} className="my-5 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <table className="w-full text-sm">
+        <div key={k++} className="my-5">
+          {wideGuideTable ? <p className="mb-2 text-xs text-slate-500 dark:text-slate-400 sm:hidden">左右滑动查看完整表格</p> : null}
+          <div role={wideGuideTable ? "region" : undefined} aria-label={wideGuideTable ? "可横向滑动的对比表" : undefined} tabIndex={wideGuideTable ? 0 : undefined} className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500">
+          <table className={`w-full text-sm ${wideGuideTable ? "min-w-[640px]" : ""}`}>
             <thead className="bg-slate-50 dark:bg-slate-800/80">
               <tr>{headerCells.map((h,j) => <th key={j} className="px-5 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{h}</th>)}</tr>
             </thead>
@@ -224,6 +304,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       );
       continue;

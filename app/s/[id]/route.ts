@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { genUid } from "@/lib/article-uid";
+import { getAllArticles, getArticleRoute } from "@/lib/articles";
 import { getOriginalUrl, isRedisConfigured } from "@/lib/short-url";
 import { getRedirectLimit, getClientIp } from "@/lib/ratelimit";
 
@@ -15,6 +17,14 @@ export async function GET(
 
   if (!id) {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // Article IDs are already deterministic eight-character identifiers. Resolve
+  // them before Redis so every published article has a shareable short link,
+  // including local previews and deployments without the optional URL service.
+  const article = getAllArticles().find((item) => genUid(item.id) === id);
+  if (article) {
+    return NextResponse.redirect(new URL(getArticleRoute(article), request.url), 302);
   }
 
   if (!isRedisConfigured()) {

@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "status": "style-approved-list-thumbnails-connected",
+  "date": "2026-11-05",
+  "generationMode": "built-in image_gen, one call per cover",
+  "requestedAspectRatio": "16:9",
+  "actualAspectRatioNote": "Raw outputs are 1672x941 (approximately 16:9). List-only WebP thumbnails preserve proportions at 640x360 (nearest integer height); no cropping or non-uniform stretching.",
+  "optimization": {
+    "usage": "Article list thumbnails only; do not insert into article bodies or other surfaces by default.",
+    "method": "Mechanical proportional resize from original PNG using Sharp; no regeneration or visual redesign.",
+    "width": 640,
+    "quality": 60,
+    "effort": 6,
+    "smartSubsample": true,
+    "targetBytes": 20000,
+    "maxBytes": 25000,
+    "previousWebpTotalBytes": 211468,
+    "optimizedWebpTotalBytes": 43802,
+    "originals": "Archived outside public/ with unchanged SHA-256 hashes."
+  },
+  "references": {
+    "style": "public/images/articles/series/binance-wise-cover-v3.webp",
+    "signature": "public/images/brand/wise-invest-signature.png"
+  },
+  "brandRequirements": {
+    "location": "upper-right within bitmap",
+    "width": "about 16% of canvas, visually ~18% in these generated samples",
+    "cornerRadius": "approximately 20% of signature height",
+    "invariants": "Complete supplied @Wise Invest lettering and sunglasses person, original aspect ratio, no replacement avatar; original signature source remains unchanged."
+  },
+  "samples": [
+    {
+      "id": "us-guide",
+      "sourceArticle": "content/articles/domestic/meigu/index.md",
+      "title": "港美股入门\n开户与资金路径",
+      "subtitle": "港卡 · 券商 · Web3 · 出海准备",
+      "alt": "港美股入门与开户资金路径：玻璃银行、证券文件和连接路线的银白概念封面",
+      "topics": [
+        "港美股入门",
+        "港卡",
+        "券商",
+        "Web3",
+        "出海准备"
+      ],
+      "subject": "A refined thick-glass bank-entrance architectural form with thin silver trim, a slim deep-navy securities/document folder and a discreet short champagne-gold connecting path. One main bank form, two supporting elements only. No smartphone, no real bank logos, no official seals, no yield charts or invented financial figures.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, around 1600x900. This is a conceptual cover, NOT an official product photo or an actual financial dashboard.\nREFERENCE ROLES: image 1 is the approved Wise article cover STYLE/COMPOSITION reference only; image 2 is the actual mandatory Wise signature INSERT asset, to composite faithfully, not to redraw.\nSTYLE: Match reference 1 white temperature, clean silver-white architectural studio, tangible thick clear glass with refraction, silver aluminum, navy-black text, very fine champagne-gold trim, large soft neutral studio light, realistic contact shadows. Premium mature restrained editorial product visualization. Mostly white negative space, no neon, no dramatic fake growth charts, no giant gold coins, no invented rates/profits/benefits. Never borrow reference 1's Binance subject or logo.\nLAYOUT: A balanced horizontal scene. Left half reserved for large readable dark navy heading in 2 short lines, a fine short gold rule, and small muted gray subtitle. Right/lower-right real-material subject, modest size and recognizable at thumbnail, complete safe margins. Background simple, no webpage frame, no navigation.\nBRAND INVARIANT: At the UPPER-RIGHT of the bitmap, place the COMPLETE exact supplied image 2 (@Wise Invest text AND the full sunglasses person on its right AND bottom thin rule), as a small white rounded rectangular signature. Use supplied raster itself, do not redraw, reinterpret, replace person with avatar, crop any letters/person, or stretch. Width about 16% of canvas, proportional height, rounded corners about 20% of badge height, safe top/right margin about 4% of canvas. Branding subordinate to the subject and title.\n\nSUBJECT: A refined thick-glass bank-entrance architectural form with thin silver trim, a slim deep-navy securities/document folder and a discreet short champagne-gold connecting path. One main bank form, two supporting elements only. No smartphone, no real bank logos, no official seals, no yield charts or invented financial figures.\nEXACT TEXT ONLY: heading on left: \"港美股入门\n开户与资金路径\". Subtitle below gold line: \"港卡 · 券商 · Web3 · 出海准备\". Keep title crisp and accurate; nothing else except the small supplied Wise signature and subject brand word specified above.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-0c79c9e5-2140-407b-aa3f-91a6f6bc5de0.png",
+      "originalPath": "assets/source-images/article-covers/us-guide.png",
+      "path": "public/images/articles/covers/us-guide.webp",
+      "rawDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "webpBytes": 16078,
+      "webpQuality": 60,
+      "visualReview": "Passed: correct headline/subtitle; silver-white glass family; distinct relevant conceptual subject; complete small rounded signature in upper-right; no rate/return/official product claims. Does not assert pixel-identical signature reproduction by image generation."
+    },
+    {
+      "id": "bybit-guide",
+      "sourceArticle": "content/articles/crypto/bybit/bybit.md",
+      "title": "Bybit\n注册与使用指南",
+      "subtitle": "注册认证 · 入金操作 · 账户安全",
+      "alt": "Bybit 开户与使用教程：手机和玻璃账户安全凭证的银白概念封面",
+      "topics": [
+        "Bybit",
+        "注册",
+        "KYC",
+        "入金",
+        "账户安全"
+      ],
+      "subject": "A silver smartphone with a quiet near-black screen carrying only the word Bybit in simple clean white type, alongside a transparent glass account/document block with a small understated metal lock. No extra invented corporate logo, no trading charts, no financial numbers. These are generic conceptual objects, not Bybit official hardware.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, around 1600x900. This is a conceptual cover, NOT an official product photo or an actual financial dashboard.\nREFERENCE ROLES: image 1 is the approved Wise article cover STYLE/COMPOSITION reference only; image 2 is the actual mandatory Wise signature INSERT asset, to composite faithfully, not to redraw.\nSTYLE: Match reference 1 white temperature, clean silver-white architectural studio, tangible thick clear glass with refraction, silver aluminum, navy-black text, very fine champagne-gold trim, large soft neutral studio light, realistic contact shadows. Premium mature restrained editorial product visualization. Mostly white negative space, no neon, no dramatic fake growth charts, no giant gold coins, no invented rates/profits/benefits. Never borrow reference 1's Binance subject or logo.\nLAYOUT: A balanced horizontal scene. Left half reserved for large readable dark navy heading in 2 short lines, a fine short gold rule, and small muted gray subtitle. Right/lower-right real-material subject, modest size and recognizable at thumbnail, complete safe margins. Background simple, no webpage frame, no navigation.\nBRAND INVARIANT: At the UPPER-RIGHT of the bitmap, place the COMPLETE exact supplied image 2 (@Wise Invest text AND the full sunglasses person on its right AND bottom thin rule), as a small white rounded rectangular signature. Use supplied raster itself, do not redraw, reinterpret, replace person with avatar, crop any letters/person, or stretch. Width about 16% of canvas, proportional height, rounded corners about 20% of badge height, safe top/right margin about 4% of canvas. Branding subordinate to the subject and title.\n\nSUBJECT: A silver smartphone with a quiet near-black screen carrying only the word Bybit in simple clean white type, alongside a transparent glass account/document block with a small understated metal lock. No extra invented corporate logo, no trading charts, no financial numbers. These are generic conceptual objects, not Bybit official hardware.\nEXACT TEXT ONLY: heading on left: \"Bybit\n注册与使用指南\". Subtitle below gold line: \"注册认证 · 入金操作 · 账户安全\". Keep title crisp and accurate; nothing else except the small supplied Wise signature and subject brand word specified above.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-b5b0715a-3991-4fc7-b8c9-8f2b21e98f1e.png",
+      "originalPath": "assets/source-images/article-covers/bybit-guide.png",
+      "path": "public/images/articles/covers/bybit-guide.webp",
+      "rawDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "webpBytes": 14054,
+      "webpQuality": 60,
+      "visualReview": "Passed: correct headline/subtitle; silver-white glass family; distinct relevant conceptual subject; complete small rounded signature in upper-right; no rate/return/official product claims. Does not assert pixel-identical signature reproduction by image generation."
+    },
+    {
+      "id": "biyapay",
+      "sourceArticle": "content/articles/OnChain/Biyapay/stablestock.md",
+      "title": "BiyaPay\n港美股与支付入门",
+      "subtitle": "账户开通 · 虚拟卡 · 资金流转",
+      "alt": "BiyaPay 港美股与支付入门：银白钱包、概念支付卡与账户连接的封面",
+      "topics": [
+        "BiyaPay",
+        "开户",
+        "港美股",
+        "虚拟卡",
+        "资金流转"
+      ],
+      "subject": "A refined silver-white wallet with a dark-navy inner lining, one clear glass generic blank payment card partially inserted, and a small transparent account document block connected by one very fine champagne-gold line. One wallet main subject, two small supports only. No phone. No made-up official card design or official logo, no Visa/Mastercard marks, no card numbers, no invented rates, yield charts or benefits. Realistic premium wallet material, conceptual account connection, no toys.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, around 1600x900. This is a conceptual cover, NOT an official product photo or an actual financial dashboard.\nREFERENCE ROLES: image 1 is the approved Wise article cover STYLE/COMPOSITION reference only; image 2 is the actual mandatory Wise signature INSERT asset, to composite faithfully, not to redraw.\nSTYLE: Match reference 1 white temperature, clean silver-white architectural studio, tangible thick clear glass with refraction, silver aluminum, navy-black text, very fine champagne-gold trim, large soft neutral studio light, realistic contact shadows. Premium mature restrained editorial product visualization. Mostly white negative space, no neon, no dramatic fake growth charts, no giant gold coins, no invented rates/profits/benefits. Never borrow reference 1's Binance subject or logo.\nLAYOUT: A balanced horizontal scene. Left half reserved for large readable dark navy heading in 2 short lines, a fine short gold rule, and small muted gray subtitle. Right/lower-right real-material subject, modest size and recognizable at thumbnail, complete safe margins. Background simple, no webpage frame, no navigation.\nBRAND INVARIANT: At the UPPER-RIGHT of the bitmap, place the COMPLETE exact supplied image 2 (@Wise Invest text AND the full sunglasses person on its right AND bottom thin rule), as a small white rounded rectangular signature. Use supplied raster itself, do not redraw, reinterpret, replace person with avatar, crop any letters/person, or stretch. Width about 16% of canvas, proportional height, rounded corners about 20% of badge height, safe top/right margin about 4% of canvas. Branding subordinate to the subject and title.\n\nSUBJECT: A refined silver-white wallet with a dark-navy inner lining, one clear glass generic blank payment card partially inserted, and a small transparent account document block connected by one very fine champagne-gold line. One wallet main subject, two small supports only. No phone. No made-up official card design or official logo, no Visa/Mastercard marks, no card numbers, no invented rates, yield charts or benefits. Realistic premium wallet material, conceptual account connection, no toys.\nEXACT TEXT ONLY: heading on left: \"BiyaPay\n港美股与支付入门\". Subtitle below gold line: \"账户开通 · 虚拟卡 · 资金流转\". Keep title crisp and accurate; nothing else except the small supplied Wise signature and subject brand word specified above.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-840c3c97-8ec0-4637-b8eb-2534c6e6530e.png",
+      "originalPath": "assets/source-images/article-covers/biyapay.png",
+      "path": "public/images/articles/covers/biyapay.webp",
+      "rawDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "webpBytes": 13670,
+      "webpQuality": 60,
+      "visualReview": "Passed: correct headline/subtitle; silver-white glass family; distinct relevant conceptual subject; complete small rounded signature in upper-right; no rate/return/official product claims. Does not assert pixel-identical signature reproduction by image generation."
+    }
+  ]
+}

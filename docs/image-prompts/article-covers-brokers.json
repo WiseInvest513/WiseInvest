@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "date": "2026-11-05",
+  "scope": "Article-list thumbnail assets only. No article body, registry or application code edits.",
+  "generationMode": "Built-in image_gen, one independent call per article, no API or CLI fallback.",
+  "references": {
+    "style": "assets/source-images/article-covers/us-guide.png",
+    "signature": "public/images/brand/wise-invest-signature.png"
+  },
+  "aspectRatio": "Requested 16:9; actual originals 1672x941; width-only proportional compression to 640x360 with integer rounding. No deliberate cropping or stretching.",
+  "compression": {
+    "quality": 60,
+    "effort": 6,
+    "smartSubsample": true,
+    "maxBytes": 25000
+  },
+  "brandRule": "Complete supplied @Wise Invest text and sunglasses person at upper-right, proportional white rounded rectangle, width about 16–18%, corner radius about 20% of badge height. Original signature source untouched.",
+  "visualQA": "All originals and compressed 640px thumbnails inspected: readable accurate titles, complete signature, consistent silver-white glass/navy/gold family. Generic account-opening concepts, no claims of official physical products, eligibility, offers, fees or returns. futu-broker deliberately depicts 复星证券, not 富途.",
+  "assets": [
+    {
+      "id": "IBKR",
+      "sourceArticle": "content/articles/broker/IBKR/IBKR.md",
+      "headline": "盈透证券 IBKR\n开户与使用",
+      "subtitle": "账户申请 · 入金路径 · 交易准备",
+      "alt": "盈透证券 IBKR 开户与使用：手机、账户申请资料及文件夹的银白概念封面",
+      "topics": [
+        "IBKR",
+        "盈透证券",
+        "开户",
+        "入金",
+        "交易准备"
+      ],
+      "subject": "A clean silver smartphone with a plain navy screen bearing only simple white text IBKR, a transparent glass account application document tile and a small dark-navy document sleeve. No official hardware product, fake ID details, passport emblems, compliance stamps, profit chart, prices or promotion claims.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, approximately 1600x900, for a small article list thumbnail. Reference 1 is the approved Wise article cover STYLE only (do not copy its bank or its title). Reference 2 is the actual mandatory Wise signature INSERT, not to redraw.\nVISUAL FAMILY: Match reference 1 pure silver-white architectural studio, tangible thick clear glass, polished silver aluminum, minimal champagne-gold structural details, deep navy type, large soft neutral light and realistic contact shadows. Clean refined mature premium 3D, no cartoon or generic neon wallpaper. Mostly white negative space. One principal subject with up to two small supporting objects, relevant to the actual topic; no fake growth charts, yields, prices, dates or invented benefits.\nCOMPOSITION: On left, two short lines of large readable dark navy headline, slim gold rule underneath and one small gray subtitle. On lower right, coherent unbranded conceptual objects; plenty of breathing room. All important content within safe margins, designed for 640px thumbnail downscale. No web UI, navigation, buttons, fake official app screenshots, official endorsements or made-up corporate emblems.\nMANDATORY BRAND: In bitmap UPPER-RIGHT, insert the COMPLETE EXACT supplied image 2, original @Wise Invest lettering AND complete sunglasses man on right AND thin bottom line. Use the actual supplied raster, not redrawing/reinterpreting face or words. Keep native proportions, no cropping, no stretching, no circular avatar replacement. Small white rounded rectangular badge about 16–18% canvas width, radius about 20% badge height, 4% canvas safe right/top margin. Signature remains subordinate and all lettering/person intact.\n\nSUBJECT: A clean silver smartphone with a plain navy screen bearing only simple white text IBKR, a transparent glass account application document tile and a small dark-navy document sleeve. No official hardware product, fake ID details, passport emblems, compliance stamps, profit chart, prices or promotion claims.\nEXACT TEXT ONLY: Heading left in two lines \"盈透证券 IBKR\n开户与使用\". Subtitle under gold rule \"账户申请 · 入金路径 · 交易准备\". Ensure accurate crisp spelling and Chinese characters. Nothing else beyond supplied signature and explicitly permitted subject text.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-6a68c998-728c-4e00-9eb9-6ac5dbdde92a.png",
+      "originalPath": "assets/source-images/article-covers/IBKR.png",
+      "path": "public/images/articles/covers/IBKR.webp",
+      "url": "/images/articles/covers/IBKR.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 16034,
+      "quality": 60,
+      "reviewStatus": "passed"
+    },
+    {
+      "id": "tengda-broker",
+      "sourceArticle": "content/articles/broker/腾达/腾达.md",
+      "headline": "腾达证券\n开户与入金",
+      "subtitle": "产品认识 · 账户申请 · 资金准备",
+      "alt": "腾达证券开户与入金：笔记本电脑、账户凭证与文件夹的银白概念封面",
+      "topics": [
+        "腾达证券",
+        "GigaMoney",
+        "开户",
+        "入金",
+        "账户准备"
+      ],
+      "subject": "A refined compact silver laptop with a blank navy screen, a simple clear-glass account tile in front and one slim navy document folder at its side. A minimal fine champagne-gold connection between laptop and account. No official platform UI, invented logos, opening offers, prices or trading gains. A contemporary account preparation concept.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, approximately 1600x900, for a small article list thumbnail. Reference 1 is the approved Wise article cover STYLE only (do not copy its bank or its title). Reference 2 is the actual mandatory Wise signature INSERT, not to redraw.\nVISUAL FAMILY: Match reference 1 pure silver-white architectural studio, tangible thick clear glass, polished silver aluminum, minimal champagne-gold structural details, deep navy type, large soft neutral light and realistic contact shadows. Clean refined mature premium 3D, no cartoon or generic neon wallpaper. Mostly white negative space. One principal subject with up to two small supporting objects, relevant to the actual topic; no fake growth charts, yields, prices, dates or invented benefits.\nCOMPOSITION: On left, two short lines of large readable dark navy headline, slim gold rule underneath and one small gray subtitle. On lower right, coherent unbranded conceptual objects; plenty of breathing room. All important content within safe margins, designed for 640px thumbnail downscale. No web UI, navigation, buttons, fake official app screenshots, official endorsements or made-up corporate emblems.\nMANDATORY BRAND: In bitmap UPPER-RIGHT, insert the COMPLETE EXACT supplied image 2, original @Wise Invest lettering AND complete sunglasses man on right AND thin bottom line. Use the actual supplied raster, not redrawing/reinterpreting face or words. Keep native proportions, no cropping, no stretching, no circular avatar replacement. Small white rounded rectangular badge about 16–18% canvas width, radius about 20% badge height, 4% canvas safe right/top margin. Signature remains subordinate and all lettering/person intact.\n\nSUBJECT: A refined compact silver laptop with a blank navy screen, a simple clear-glass account tile in front and one slim navy document folder at its side. A minimal fine champagne-gold connection between laptop and account. No official platform UI, invented logos, opening offers, prices or trading gains. A contemporary account preparation concept.\nEXACT TEXT ONLY: Heading left in two lines \"腾达证券\n开户与入金\". Subtitle under gold rule \"产品认识 · 账户申请 · 资金准备\". Ensure accurate crisp spelling and Chinese characters. Nothing else beyond supplied signature and explicitly permitted subject text.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-0616f68b-60d0-42b7-961b-776248d1d540.png",
+      "originalPath": "assets/source-images/article-covers/tengda-broker.png",
+      "path": "public/images/articles/covers/tengda-broker.webp",
+      "url": "/images/articles/covers/tengda-broker.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 14848,
+      "quality": 60,
+      "reviewStatus": "passed"
+    },
+    {
+      "id": "ifas-fuxing",
+      "sourceArticle": "content/articles/broker/复星入金/fuxing-deposit.md",
+      "headline": "复星证券\n银行入金指南",
+      "subtitle": "众安 · iFAST · 资金转入",
+      "alt": "复星证券银行入金指南：两路银行账户连接证券账户的银白玻璃概念封面",
+      "topics": [
+        "复星证券",
+        "入金",
+        "众安",
+        "iFAST",
+        "银行转账"
+      ],
+      "subject": "Two small transparent glass bank/account blocks in the lower right foreground connect along two fine champagne-gold paths into one upright navy securities account dossier. One dossier main subject, two glass support blocks; no arrows implying investment growth, no bank logos, no transfer amounts, no guarantee of timing or fees. This is a simple bank-to-broker funding concept.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, approximately 1600x900, for a small article list thumbnail. Reference 1 is the approved Wise article cover STYLE only (do not copy its bank or its title). Reference 2 is the actual mandatory Wise signature INSERT, not to redraw.\nVISUAL FAMILY: Match reference 1 pure silver-white architectural studio, tangible thick clear glass, polished silver aluminum, minimal champagne-gold structural details, deep navy type, large soft neutral light and realistic contact shadows. Clean refined mature premium 3D, no cartoon or generic neon wallpaper. Mostly white negative space. One principal subject with up to two small supporting objects, relevant to the actual topic; no fake growth charts, yields, prices, dates or invented benefits.\nCOMPOSITION: On left, two short lines of large readable dark navy headline, slim gold rule underneath and one small gray subtitle. On lower right, coherent unbranded conceptual objects; plenty of breathing room. All important content within safe margins, designed for 640px thumbnail downscale. No web UI, navigation, buttons, fake official app screenshots, official endorsements or made-up corporate emblems.\nMANDATORY BRAND: In bitmap UPPER-RIGHT, insert the COMPLETE EXACT supplied image 2, original @Wise Invest lettering AND complete sunglasses man on right AND thin bottom line. Use the actual supplied raster, not redrawing/reinterpreting face or words. Keep native proportions, no cropping, no stretching, no circular avatar replacement. Small white rounded rectangular badge about 16–18% canvas width, radius about 20% badge height, 4% canvas safe right/top margin. Signature remains subordinate and all lettering/person intact.\n\nSUBJECT: Two small transparent glass bank/account blocks in the lower right foreground connect along two fine champagne-gold paths into one upright navy securities account dossier. One dossier main subject, two glass support blocks; no arrows implying investment growth, no bank logos, no transfer amounts, no guarantee of timing or fees. This is a simple bank-to-broker funding concept.\nEXACT TEXT ONLY: Heading left in two lines \"复星证券\n银行入金指南\". Subtitle under gold rule \"众安 · iFAST · 资金转入\". Ensure accurate crisp spelling and Chinese characters. Nothing else beyond supplied signature and explicitly permitted subject text.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-93d920f9-b679-496f-9589-df072d3dff2f.png",
+      "originalPath": "assets/source-images/article-covers/ifas-fuxing.png",
+      "path": "public/images/articles/covers/ifas-fuxing.webp",
+      "url": "/images/articles/covers/ifas-fuxing.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 14084,
+      "quality": 60,
+      "reviewStatus": "passed"
+    },
+    {
+      "id": "futu-broker",
+      "sourceArticle": "content/articles/broker/fuxing/fuxing.md",
+      "headline": "复星证券\n开户使用指南",
+      "subtitle": "产品认识 · 账户开通 · 基础功能",
+      "alt": "复星证券开户使用指南：开户文件、账户凭证与签字笔的银白概念封面",
+      "topics": [
+        "复星证券",
+        "开户",
+        "产品认识",
+        "账户",
+        "基础功能"
+      ],
+      "subject": "A slim navy securities application folder lying open with clean blank pages, a thick clear-glass identity/account card with generic human silhouette only and a polished silver pen. Restrained professional account-opening preparation. This topic is FOSUN securities, not Futu; never use 富途, FUTU, moomoo or orange cartoon logos. No official card designs, personal details or return claims.",
+      "prompt": "Use case: stylized-concept. Create ONE standalone landscape 16:9 editorial article cover, approximately 1600x900, for a small article list thumbnail. Reference 1 is the approved Wise article cover STYLE only (do not copy its bank or its title). Reference 2 is the actual mandatory Wise signature INSERT, not to redraw.\nVISUAL FAMILY: Match reference 1 pure silver-white architectural studio, tangible thick clear glass, polished silver aluminum, minimal champagne-gold structural details, deep navy type, large soft neutral light and realistic contact shadows. Clean refined mature premium 3D, no cartoon or generic neon wallpaper. Mostly white negative space. One principal subject with up to two small supporting objects, relevant to the actual topic; no fake growth charts, yields, prices, dates or invented benefits.\nCOMPOSITION: On left, two short lines of large readable dark navy headline, slim gold rule underneath and one small gray subtitle. On lower right, coherent unbranded conceptual objects; plenty of breathing room. All important content within safe margins, designed for 640px thumbnail downscale. No web UI, navigation, buttons, fake official app screenshots, official endorsements or made-up corporate emblems.\nMANDATORY BRAND: In bitmap UPPER-RIGHT, insert the COMPLETE EXACT supplied image 2, original @Wise Invest lettering AND complete sunglasses man on right AND thin bottom line. Use the actual supplied raster, not redrawing/reinterpreting face or words. Keep native proportions, no cropping, no stretching, no circular avatar replacement. Small white rounded rectangular badge about 16–18% canvas width, radius about 20% badge height, 4% canvas safe right/top margin. Signature remains subordinate and all lettering/person intact.\n\nSUBJECT: A slim navy securities application folder lying open with clean blank pages, a thick clear-glass identity/account card with generic human silhouette only and a polished silver pen. Restrained professional account-opening preparation. This topic is FOSUN securities, not Futu; never use 富途, FUTU, moomoo or orange cartoon logos. No official card designs, personal details or return claims.\nEXACT TEXT ONLY: Heading left in two lines \"复星证券\n开户使用指南\". Subtitle under gold rule \"产品认识 · 账户开通 · 基础功能\". Ensure accurate crisp spelling and Chinese characters. Nothing else beyond supplied signature and explicitly permitted subject text.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-3ca1-7821-9e0b-a7ff40b5c22d/exec-521233e0-7fd5-4813-96ea-c64c60054012.png",
+      "originalPath": "assets/source-images/article-covers/futu-broker.png",
+      "path": "public/images/articles/covers/futu-broker.webp",
+      "url": "/images/articles/covers/futu-broker.webp",
+      "originalDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "dimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 16200,
+      "quality": 60,
+      "reviewStatus": "passed"
+    }
+  ]
+}

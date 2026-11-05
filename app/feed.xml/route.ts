@@ -40,7 +40,7 @@ export async function GET() {
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <image>
-      <url>${baseUrl}/favicon.ico</url>
+      <url>${baseUrl}/wise-invest-icon.svg</url>
       <title>${siteName}</title>
       <link>${baseUrl}</link>
     </image>

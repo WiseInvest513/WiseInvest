@@ -37,8 +37,6 @@ summary: 低价拼团共享 ChatGPT、Gemini、Canva 等海外工具，支持支
 
 ![详细界面](./1.jpeg)
 
-具体链接：[https://gamsgo.com/partner/GwZjT](https://gamsgo.com/partner/GwZjT)
-
 ---
 
 ## 三、套利赚钱
@@ -63,11 +61,13 @@ summary: 低价拼团共享 ChatGPT、Gemini、Canva 等海外工具，支持支
 
 ![付款截图](./2.jpeg)
 
-大家可以点击此链接快去试一试：[https://gamsgo.com/partner/GwZjT](https://gamsgo.com/partner/GwZjT)
-
 ---
 
 ## 四、购买
+
+准备购买时，可通过下方邀请链接注册 GamsGo，再选择适合自己的订阅方案。
+
+> [注册 GamsGo 账户](https://gamsgo.com/partner/GwZjT) · 邀请链接
 
 普通用户在购买的时候一般都会购买 **ChatGPT** 等，但是如果你的网络节点是**香港/新加坡**的话可能检索不到 **ChatGPT**，所以大家记得把自己的节点**切换到美国节点**，才可以进行正常的购买！
 

@@ -4,9 +4,10 @@
   "aspectRatio": "16:9",
   "output": {
     "format": "webp",
-    "width": 1400,
-    "height": 788,
-    "maxBytes": 150000
+    "width": 640,
+    "height": 360,
+    "quality": 60,
+    "maxBytes": 25000
   },
   "references": [
     "public/images/articles/crypto/binance-guide-cover.webp",
@@ -30,7 +31,8 @@
         "利率",
         "资产定价"
       ],
-      "src": "/images/articles/VIP/fed-assets-cover.webp",
+      "src": "/images/articles/covers/VIP002.webp",
+      "originalWebSrc": "/images/articles/VIP/fed-assets-cover.webp",
       "originalGeneratedImage": "exec-7bf373c7-b40d-4709-87e2-5f434d127139.png"
     },
     {
@@ -49,7 +51,8 @@
         "AI",
         "估值"
       ],
-      "src": "/images/articles/VIP/market-friction-cover.webp",
+      "src": "/images/articles/covers/VIP001.webp",
+      "originalWebSrc": "/images/articles/VIP/market-friction-cover.webp",
       "originalGeneratedImage": "exec-899ca00d-deae-4ce6-8a99-cd6b3412a827.png"
     },
     {
@@ -68,7 +71,8 @@
         "注册",
         "账号安全"
       ],
-      "src": "/images/articles/outside/google-account-cover.webp",
+      "src": "/images/articles/covers/google-id.webp",
+      "originalWebSrc": "/images/articles/outside/google-account-cover.webp",
       "originalGeneratedImage": "exec-97a28055-8a2d-465c-bc80-74d8e7ddad78.png"
     },
     {
@@ -87,7 +91,8 @@
         "资金配置",
         "复利"
       ],
-      "src": "/images/articles/index/index-qa-2-cover.webp",
+      "src": "/images/articles/covers/index-qa-2.webp",
+      "originalWebSrc": "/images/articles/index/index-qa-2-cover.webp",
       "originalGeneratedImage": "exec-d395a3ae-f7b3-4256-9c3e-aa8ed42e1c94.png"
     },
     {
@@ -106,7 +111,8 @@
         "开户",
         "入金"
       ],
-      "src": "/images/articles/bank/ifast-account-cover.webp",
+      "src": "/images/articles/covers/ifast-guide.webp",
+      "originalWebSrc": "/images/articles/bank/ifast-account-cover.webp",
       "originalGeneratedImage": "exec-edf4d715-ea61-4870-ba7b-e49d2f0cc5c4.png"
     },
     {
@@ -125,7 +131,8 @@
         "开户",
         "入金"
       ],
-      "src": "/images/articles/broker/zhifu-account-cover.webp",
+      "src": "/images/articles/covers/zhifu.webp",
+      "originalWebSrc": "/images/articles/broker/zhifu-account-cover.webp",
       "originalGeneratedImage": "exec-8e4a5b72-a396-4f63-966c-f39b77b7cb8c.png"
     },
     {
@@ -144,7 +151,8 @@
         "申请材料",
         "账户审核"
       ],
-      "src": "/images/articles/broker/schwab-account-cover.webp",
+      "src": "/images/articles/covers/jiaxin.webp",
+      "originalWebSrc": "/images/articles/broker/schwab-account-cover.webp",
       "originalGeneratedImage": "exec-b3c02013-30a4-4b0a-9ab5-b93d2c350104.png"
     },
     {
@@ -163,7 +171,8 @@
         "开户",
         "账户使用"
       ],
-      "src": "/images/articles/bank/ant-macau-cover.webp",
+      "src": "/images/articles/covers/aomenmayi-register.webp",
+      "originalWebSrc": "/images/articles/bank/ant-macau-cover.webp",
       "originalGeneratedImage": "exec-7175cced-a8d4-4c2a-92de-5d51e8c02470.png"
     },
     {
@@ -182,7 +191,8 @@
         "注册",
         "风险理解"
       ],
-      "src": "/images/articles/predict/predict-intro-cover.webp",
+      "src": "/images/articles/covers/predict.webp",
+      "originalWebSrc": "/images/articles/predict/predict-intro-cover.webp",
       "originalGeneratedImage": "exec-930b1d21-5dcd-4f5f-82f4-552fd8376bad.png"
     },
     {
@@ -201,7 +211,8 @@
         "账户申请",
         "入金"
       ],
-      "src": "/images/articles/broker/bbae-account-cover.webp",
+      "src": "/images/articles/covers/BBAE.webp",
+      "originalWebSrc": "/images/articles/broker/bbae-account-cover.webp",
       "originalGeneratedImage": "exec-9f08f13b-16b0-4a48-a5c3-995c9d440e09.png"
     },
     {
@@ -220,7 +231,8 @@
         "双语字幕",
         "网页翻译"
       ],
-      "src": "/images/articles/ai/immersive-translate-cover.webp",
+      "src": "/images/articles/covers/immersive-translate-guide.webp",
+      "originalWebSrc": "/images/articles/ai/immersive-translate-cover.webp",
       "originalGeneratedImage": "exec-a3f0c0f3-f80b-44c0-a931-f13f95ef2aa8.png"
     },
     {
@@ -239,7 +251,8 @@
         "复利",
         "投资周期"
       ],
-      "src": "/images/articles/index/recurring-investment-cover.webp",
+      "src": "/images/articles/covers/passive-millionaire.webp",
+      "originalWebSrc": "/images/articles/index/recurring-investment-cover.webp",
       "originalGeneratedImage": "exec-f65db5c9-a21b-4c6e-a5a2-a60aaedce912.png"
     },
     {
@@ -258,7 +271,8 @@
         "认证",
         "充值激活"
       ],
-      "src": "/images/articles/vcard/safepal-card-cover.webp",
+      "src": "/images/articles/covers/safepal-vcard.webp",
+      "originalWebSrc": "/images/articles/vcard/safepal-card-cover.webp",
       "originalGeneratedImage": "exec-1fa34c41-b5f0-48fe-b693-770b299488cf.png"
     },
     {
@@ -277,7 +291,8 @@
         "申请",
         "入金"
       ],
-      "src": "/images/articles/vcard/bybit-card-cover.webp",
+      "src": "/images/articles/covers/bybit-vcard.webp",
+      "originalWebSrc": "/images/articles/vcard/bybit-card-cover.webp",
       "originalGeneratedImage": "exec-f8fa4705-bf98-4cf8-bcee-6074d1339b10.png"
     },
     {
@@ -296,7 +311,8 @@
         "美区注册",
         "地区设置"
       ],
-      "src": "/images/articles/outside/apple-account-cover.webp",
+      "src": "/images/articles/covers/AppleID.webp",
+      "originalWebSrc": "/images/articles/outside/apple-account-cover.webp",
       "originalGeneratedImage": "exec-ec185426-d21e-43c3-aad0-c808595bd083.png"
     },
     {
@@ -315,7 +331,8 @@
         "QDII",
         "指数投资"
       ],
-      "src": "/images/articles/index/index-investment-guide-cover.webp",
+      "src": "/images/articles/covers/index-guide.webp",
+      "originalWebSrc": "/images/articles/index/index-investment-guide-cover.webp",
       "originalGeneratedImage": "exec-1ffc9c0e-0933-4722-869a-905d141d7135.png"
     },
     {
@@ -334,7 +351,8 @@
         "A/C 份额",
         "持有成本"
       ],
-      "src": "/images/articles/index/index-fund-practice-cover.webp",
+      "src": "/images/articles/covers/index-practice.webp",
+      "originalWebSrc": "/images/articles/index/index-fund-practice-cover.webp",
       "originalGeneratedImage": "exec-cc9a68e6-a95f-4ae5-b35d-18a8f971f771.png"
     },
     {
@@ -353,7 +371,8 @@
         "定投",
         "基金选择"
       ],
-      "src": "/images/articles/index/index-qa-1-cover.webp",
+      "src": "/images/articles/covers/index-qa-1.webp",
+      "originalWebSrc": "/images/articles/index/index-qa-1-cover.webp",
       "originalGeneratedImage": "exec-1031b047-b475-41aa-bc1b-f6bf8ff1d650.png"
     },
     {
@@ -372,7 +391,8 @@
         "国债",
         "基金"
       ],
-      "src": "/images/articles/index/investment-basics-cover.webp",
+      "src": "/images/articles/covers/indexStock.webp",
+      "originalWebSrc": "/images/articles/index/investment-basics-cover.webp",
       "originalGeneratedImage": "exec-0f8f7d00-fbed-4209-91e4-dd75dfbd3bb6.png"
     },
     {
@@ -391,7 +411,8 @@
         "场内场外",
         "交易费用"
       ],
-      "src": "/images/articles/index/fund-comparison-cover.webp",
+      "src": "/images/articles/covers/idifferentIndex.webp",
+      "originalWebSrc": "/images/articles/index/fund-comparison-cover.webp",
       "originalGeneratedImage": "exec-e761c53a-29fb-4009-a532-9dbd9ac0323a.png"
     },
     {
@@ -410,7 +431,8 @@
         "KYC",
         "账户安全"
       ],
-      "src": "/images/articles/crypto/bitget-guide-cover.webp",
+      "src": "/images/articles/covers/bitget-exchange.webp",
+      "originalWebSrc": "/images/articles/crypto/bitget-guide-cover.webp",
       "originalGeneratedImage": "exec-245f6ce3-c38f-4e71-9b6c-88ddf25aa9c3.png"
     },
     {
@@ -429,7 +451,8 @@
         "开户材料",
         "审核"
       ],
-      "src": "/images/articles/broker/firstrade-account-cover.webp",
+      "src": "/images/articles/covers/diyi.webp",
+      "originalWebSrc": "/images/articles/broker/firstrade-account-cover.webp",
       "originalGeneratedImage": "exec-a9abcc2c-97bf-4246-830e-ef14320047cc.png"
     },
     {
@@ -448,7 +471,8 @@
         "身份认证",
         "开户"
       ],
-      "src": "/images/articles/bank/ant-hong-kong-cover.webp",
+      "src": "/images/articles/covers/xianggangmayi-register.webp",
+      "originalWebSrc": "/images/articles/bank/ant-hong-kong-cover.webp",
       "originalGeneratedImage": "exec-7ca63d6a-06b0-4382-855e-8decc137f1b1.png"
     },
     {
@@ -467,7 +491,8 @@
         "开户材料",
         "信息填写"
       ],
-      "src": "/images/articles/bank/hsbc-one-account-cover.webp",
+      "src": "/images/articles/covers/huifeng-register.webp",
+      "originalWebSrc": "/images/articles/bank/hsbc-one-account-cover.webp",
       "originalGeneratedImage": "exec-2bdba3b1-f7f1-4c4c-b3b3-7109709cb35b.png"
     },
     {
@@ -486,7 +511,8 @@
         "注册",
         "身份认证"
       ],
-      "src": "/images/articles/bank/airstar-account-cover.webp",
+      "src": "/images/articles/covers/tianxing-register.webp",
+      "originalWebSrc": "/images/articles/bank/airstar-account-cover.webp",
       "originalGeneratedImage": "exec-d4a5c627-c337-4599-afaf-eaa7a9d454a2.png"
     },
     {
@@ -505,7 +531,8 @@
         "开户",
         "账户设置"
       ],
-      "src": "/images/articles/bank/za-bank-account-cover.webp",
+      "src": "/images/articles/covers/zhongan-register.webp",
+      "originalWebSrc": "/images/articles/bank/za-bank-account-cover.webp",
       "originalGeneratedImage": "exec-f065f125-201c-4758-bb1c-259ce4aedeed.png"
     },
     {
@@ -524,7 +551,8 @@
         "申请资料",
         "安全设置"
       ],
-      "src": "/images/articles/bank/boc-hong-kong-cover.webp",
+      "src": "/images/articles/covers/zhongying-register.webp",
+      "originalWebSrc": "/images/articles/bank/boc-hong-kong-cover.webp",
       "originalGeneratedImage": "exec-38e80abf-62b8-42a7-9ae6-cc58ff4b10bd.png"
     },
     {
@@ -543,7 +571,8 @@
         "账户注册",
         "跨境收款"
       ],
-      "src": "/images/articles/bank/wise-account-cover.webp",
+      "src": "/images/articles/covers/wise-register.webp",
+      "originalWebSrc": "/images/articles/bank/wise-account-cover.webp",
       "originalGeneratedImage": "exec-11e12e7f-f7de-4c36-ad47-f281f773cf40.png"
     },
     {
@@ -562,7 +591,8 @@
         "AI 工具",
         "订阅使用"
       ],
-      "src": "/images/articles/ai/gamsgo-subscription-cover.webp",
+      "src": "/images/articles/covers/gamsgo-guide.webp",
+      "originalWebSrc": "/images/articles/ai/gamsgo-subscription-cover.webp",
       "originalGeneratedImage": "exec-3d78f6ae-6fa6-4eb8-8f36-db13280d2e03.png"
     },
     {
@@ -581,7 +611,8 @@
         "银行账户",
         "资金路径"
       ],
-      "src": "/images/articles/domestic/hong-kong-us-investment-cover.webp",
+      "src": "/images/articles/covers/domestic-hk-us-guide.webp",
+      "originalWebSrc": "/images/articles/domestic/hong-kong-us-investment-cover.webp",
       "originalGeneratedImage": "exec-443f9fc2-a05f-48a6-994c-3b7ee8c42c9e.png"
     }
   ]

@@ -25,7 +25,7 @@ function loadModule(filename, overrides = {}) {
   const localRequire = (name) => {
     if (Object.hasOwn(overrides, name)) return overrides[name];
     if (name === "next/link") return { default: "a" };
-    if (name === "@/lib/vip/display" || name === "@/lib/vip/status") {
+    if (["@/lib/vip/display", "@/lib/vip/status", "@/lib/auth/admin-roles"].includes(name)) {
       return loadModule(`${name.slice(2)}.ts`, overrides);
     }
     if (name.startsWith("@/")) throw new Error(`Unexpected project import: ${name}`);
@@ -44,6 +44,9 @@ function loadAccount({ role = "USER", tier = "MEMBER", deny = false } = {}) {
   const { default: AccountPage } = loadModule("app/account/page.tsx", {
     "@/app/account/sign-out-button": {
       SignOutButton: () => createElement("button", null, "退出登录"),
+    },
+    "@/app/account/vip/wechat-id-form": {
+      WechatIdForm: () => createElement("form", { "aria-label": "微信信息" }),
     },
     "@/components/ui/button": {
       Button: ({ asChild, children, className }) =>

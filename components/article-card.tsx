@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ArrowRight, BookOpen, Calendar, Clock } from "lucide-react";
 import { ProtectedContentLink } from "@/components/content-access-gate";
-import { articleCovers } from "@/lib/article-covers";
+import { ARTICLE_COVER_HEIGHT, ARTICLE_COVER_WIDTH, articleCovers } from "@/lib/article-covers";
 import { genUid } from "@/lib/article-uid";
 import { categories, subcategories } from "@/lib/articles-data";
 import type { ArticleListItem } from "@/lib/articles";
@@ -13,6 +13,7 @@ export function ArticleCard({ article, priority = false }: { article: ArticleLis
   const [imageFailed, setImageFailed] = useState(false);
   const cover = articleCovers[article.id];
   const image = cover?.src ?? article.coverImage;
+  const isListThumbnail = image?.startsWith("/images/articles/covers/") ?? false;
   const isLocalCover = image?.startsWith("/images/") || image?.startsWith("/content/articles/");
   const category = categories.find((item) => item.id === article.categoryId);
   const subcategory = subcategories.find((item) => item.id === article.subcategoryId);
@@ -29,12 +30,14 @@ export function ArticleCard({ article, priority = false }: { article: ArticleLis
           <Image
             src={image}
             alt={cover?.alt ?? article.title}
-            width={1672}
-            height={940}
+            width={ARTICLE_COVER_WIDTH}
+            height={ARTICLE_COVER_HEIGHT}
+            // Already compressed to ~10–25 KB; avoid re-encoding or upscaling these thumbnails.
+            unoptimized={isListThumbnail}
             sizes="(min-width: 1248px) 436px, (min-width: 1024px) calc((100vw - 376px) / 2), (min-width: 768px) calc(100vw - 352px), calc(100vw - 32px)"
             priority={priority}
             onError={() => setImageFailed(true)}
-            className="h-full w-full object-cover"
+            className={`h-full w-full ${isListThumbnail ? "object-contain" : "object-cover"}`}
           />
         ) : image && !imageFailed ? (
           // Article images can include existing external sources as well as local covers.

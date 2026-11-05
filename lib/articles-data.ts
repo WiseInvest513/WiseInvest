@@ -8,6 +8,7 @@ export interface Article {
   summary: string;
   content: string;
   imageLayout?: string;
+  tocDepth?: 2 | 3 | 4;
 }
 
 export interface Category {
@@ -25,6 +26,7 @@ export interface Subcategory {
 export const subcategories: Subcategory[] = [
   { id: "us-broker",        categoryId: "broker", name: "美股券商" },
   { id: "hk-broker",       categoryId: "broker", name: "港股券商" },
+  { id: "digital-broker",  categoryId: "broker", name: "数字券商" },
   { id: "physical-bank",   categoryId: "bank",   name: "实体银行" },
   { id: "virtual-bank",    categoryId: "bank",   name: "虚拟银行" },
   { id: "digital-bank",    categoryId: "bank",   name: "数字银行" },

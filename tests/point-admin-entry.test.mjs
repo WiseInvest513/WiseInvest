@@ -25,6 +25,7 @@ function loadComponent(filename, overrides = {}) {
   const localRequire = (name) => {
     if (Object.hasOwn(overrides, name)) return overrides[name];
     if (name === "next/link") return { default: "a" };
+    if (name === "@/lib/auth/admin-roles") return loadComponent("../../lib/auth/admin-roles.ts", overrides);
     if (name.startsWith("@/")) throw new Error(`Unexpected project import: ${name}`);
     return require(name);
   };
@@ -58,7 +59,7 @@ function loadOverview({ deny = false } = {}) {
       AdminShell: ({ children }) => createElement("main", null, children),
     },
     "@/lib/identity/current-user": {
-      async requireAdminUser() {
+      async requireAdminStaffUser() {
         calls.push("authorize");
         if (deny) throw new Error("ADMIN_REQUIRED");
         authorized = true;

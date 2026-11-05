@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Download, ExternalLink, FileText, Github, ListTree, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Download, ExternalLink, FileText, Github, ListTree, ShieldCheck } from "lucide-react";
 import { getNasdaqBook, type BookNavigationTarget } from "@/lib/book-loader";
 import { siteConfig } from "@/lib/config";
 import "./book.css";
@@ -74,6 +74,7 @@ function BookUnavailable() {
         <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
           书籍正文托管在 WiseInvest 的公开书库。当前网络没有成功读取固定版本内容，稍后刷新即可重试。
         </p>
+        <Link href="/articles/series/nasdaq-investing" className="mt-4 flex items-center gap-2 text-sm text-amber-700 dark:text-amber-300"><ArrowLeft size={16} />返回纳指学习路线</Link>
         <a
           href="https://github.com/WiseInvest513/book"
           target="_blank"
@@ -135,10 +136,10 @@ export default async function NasdaqBookPage() {
         <div className="mx-auto grid max-w-[1480px] gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <Link
-              href="/"
+              href="/articles/series/nasdaq-investing"
               className="mb-5 inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-black text-slate-500 transition-colors hover:border-amber-300 hover:text-amber-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:border-amber-700 dark:hover:text-amber-300"
             >
-              Wise Invest Book
+              <ArrowLeft className="mr-2 h-3.5 w-3.5" aria-hidden="true" />返回纳指学习路线
             </Link>
             <h1 className="max-w-4xl text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-5xl">
               {manifest.title}
@@ -237,6 +238,11 @@ export default async function NasdaqBookPage() {
             className="book-document"
             dangerouslySetInnerHTML={{ __html: html }}
           />
+
+          <nav aria-label="继续纳指学习路线" className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6 text-sm dark:border-slate-800">
+            <Link href="/articles/series/nasdaq-investing" className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-300"><ArrowLeft size={16} aria-hidden="true" />返回路线目录</Link>
+            <Link href="/articles/series/nasdaq-investing#stage-compare" className="inline-flex items-center gap-2 font-semibold text-amber-700 dark:text-amber-300">下一阶段：比较投资方式<ArrowRight size={16} aria-hidden="true" /></Link>
+          </nav>
 
           <div className="mt-10 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
             <div className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300">

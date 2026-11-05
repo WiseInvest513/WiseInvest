@@ -19,6 +19,7 @@ import {
 import { createArticlePreview, getArticlePreviewPercentage } from "@/lib/article-preview";
 import { getResolvedContentAccessRule } from "@/lib/content-access-server";
 import { getArticleRelease, getArticleReleaseAccessRule } from "@/lib/article-release";
+import { getArticleSeries, getSeriesArticleHref } from "@/lib/article-series";
 
 // 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
 export const dynamic = "force-dynamic";
@@ -62,11 +63,14 @@ export async function generateMetadata(
 }
 
 export default async function ArticleUidPage(
-  { params }: { params: Promise<{ categoryId: string; uid: string }> }
+  { params, searchParams }: { params: Promise<{ categoryId: string; uid: string }>; searchParams: Promise<{ series?: string | string[]; route?: string | string[] }> }
 ) {
   const { categoryId, uid } = await params;
   const article = getArticleByRoute(categoryId, uid);
   if (!article) notFound();
+  const query = await searchParams;
+  const series = getArticleSeries(query?.series, article.id);
+  const mapRouteId = typeof query?.route === "string" ? query.route : undefined;
 
   const allArticles = getAllArticles();
   const articleRoute = getArticleRoute(article);
@@ -171,6 +175,9 @@ export default async function ArticleUidPage(
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <ArticlesContent
+        key={`${article.id}:${series?.id ?? "article"}`}
+        initialSeriesId={series?.id}
+        initialMapRouteId={mapRouteId}
         initialArticle={visibleArticle}
         initialArticleId={article.id}
         initialArticles={allArticles.map(toArticleListItem)}
@@ -187,7 +194,7 @@ export default async function ArticleUidPage(
             ? undefined
             : {
                 reason: accessRule.reason,
-                loginHref: buildLoginHref(articleRoute),
+                loginHref: buildLoginHref(series ? getSeriesArticleHref(series.id, article, mapRouteId) : articleRoute),
                 previewPercentage: getArticlePreviewPercentage(article),
               }
         }

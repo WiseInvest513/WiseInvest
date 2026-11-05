@@ -1,0 +1,64 @@
+{
+  "articleId": "binance-referral",
+  "createdAt": "2026-11-05",
+  "tool": "built-in image_gen.imagegen",
+  "mode": "compositing / stylized-concept",
+  "prompt": "Use case: precise-object-edit and compositing.\nAsset type: Wise Invest article LIST cover, landscape 16:9. Edit Image 1, preserving its clean dark navy Chinese headline layout, white studio, silver glass material family and typography.\nInput roles: Image 1 is the current Binance referral cover to revise. Image 2 is the real Binance logo rasterized without alteration from our existing SVG: preserve EXACT geometry, gold color and arrangement. It is NOT five isolated diamonds: retain the actual top chevron, bottom chevron, central diamond, left and right diamonds exactly as this supplied logo. Image 3 is the ONLY original @Wise Invest signature source, including complete text, complete right-hand man, and baseline: reuse it as an actual insert, never redraw or approximate it. Image 4 is approved Bybit cover style reference only.\nPRIMARY CHANGE: completely remove the generic account card and calendar from Image 1. Make the unmistakable supplied Binance logo the main right-side object. Express that exact supplied outline as a beautifully machined sculptural gold/silver-and-glass emblem, front face facing the viewer with only very slight perspective, with realistic restrained depth and bevel. Keep the front gold hue true to Binance, not reflective to unreadability. Build the geometry faithfully; no extra pieces, altered strokes, or generic diamonds. It should occupy about 26% of canvas width and be clearly recognizable at a 640px-wide thumbnail. Optional supporting object: one understated two-link silver/glass chain near its bottom, much smaller than logo, to suggest linking. NO ID cards, calendars, phones, coin, trophy, giant circular pedestal or fake UI.\nScene: refined neutral-white studio, subtle silver-white architectural planes, clear thick glass edges, soft large studio daylight, realistic contact shadows, restrained champagne accents. Remove the huge gold arch if it competes with the logo. Composition purposeful and airy, logo right lower/middle below the Wise signature, headline left, no overlap.\nText must read EXACTLY, two headline lines:\n\"币安邀请码\"\n\"忘填后如何补绑\"\nSubtitle beneath thin muted-gold rule:\n\"资格判断 · 三种情况 · 操作说明\"\nNo other captions, referral codes, web URLs, promise, percentage, approval check or metrics.\nBRANDING INVARIANT: Image 3 complete original bitmap on a small rounded white badge in upper-right, width 16–18% of whole canvas, radius 20% of badge height, safe margin top/right about 4%. Preserve original ratio and full man/text, never use a circular avatar, never render Wise branding too large.\nKeep all headline/logo/brand inside safe margins. The final should immediately say Binance, while still belonging to the approved Wise silver-white glass visual family. No generic stock concept.",
+  "references": [
+    {
+      "path": "assets/source-images/article-covers/binance-referral-v1-generic.png",
+      "role": "edit target: keep title layout, replace generic account/calendar subject"
+    },
+    {
+      "path": "public/images/perks/overview/binance.svg",
+      "role": "authoritative existing Binance logo, mechanically rasterized to PNG for image_gen reference"
+    },
+    {
+      "path": "public/images/brand/wise-invest-signature.png",
+      "role": "only Wise brand source: complete text, person and baseline"
+    },
+    {
+      "path": "assets/source-images/article-covers/bybit-guide.png",
+      "role": "approved silver-white glass material/typography family reference"
+    }
+  ],
+  "source": {
+    "path": "assets/source-images/article-covers/binance-referral.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 1694447
+  },
+  "web": {
+    "path": "public/images/articles/covers/binance-referral.webp",
+    "width": 640,
+    "height": 360,
+    "bytes": 16330,
+    "format": "webp",
+    "quality": 60,
+    "effort": 6,
+    "smartSubsample": true
+  },
+  "validation": {
+    "title": "币安邀请码 / 忘填后如何补绑",
+    "subtitle": "资格判断 · 三种情况 · 操作说明",
+    "smallImageViewed": true,
+    "completeBrandInUpperRight": true,
+    "brandNotes": "在原稿和实际 640×360 WebP 中查看：右上角完整 @Wise Invest 文字与右侧人物可见，圆角白底小标识未遮挡标题或 Binance 主体，品牌源文件未修改。",
+    "noInventedAccountUi": true,
+    "noClaimedRewardsOrApproval": true,
+    "listOnly": true,
+    "platformLogoGeometryVerified": true,
+    "platformLogoNotes": "已对照现有 SVG：上、下折角及中、左、右菱形组合和金色均正确；仅增加玻璃银边与立体材质。",
+    "genericAccountAndCalendarRemoved": true
+  },
+  "revision": 2,
+  "revisionHistory": [
+    {
+      "revision": 1,
+      "reason": "用户要求真实平台标志为主体，避免通用账户卡与日历造成千篇一律。",
+      "archivedSource": "assets/source-images/article-covers/binance-referral-v1-generic.png",
+      "webBytes": 14622,
+      "prompt": "Use case: compositing, stylized-concept.\nAsset type: Wise Invest website ARTICLE LIST thumbnail only, landscape 16:9.\nCreate a new themed cover by adapting the first provided reference cover. Image 1 (bybit-guide) is the approved layout/material/light/typography family reference, not the new subject. Image 2 is the ONLY authoritative brand insert: preserve this entire actual bitmap, @Wise Invest text plus right-hand man plus fine bottom rule, its original ratio and identity. Do not redraw, replace, crop the man/text, or invent a circular avatar. Place this exact source as a small top-right white rounded badge approximately 16% of canvas width with radius about 20% of badge height, 4% right/top safe margins. It must be part of the image, not a web overlay.\nKeep the same neutral white/silver architectural glass studio, physically credible thick optical glass, subtle polished silver, extremely restrained champagne gold structural trim, soft studio daylight, readable clean dark-navy Chinese typography, strong thumbnail readability, abundant clean space. Avoid busy decorations.\nReplace Bybit phone with one generic thick transparent glass account credential and a smaller silver calendar tile, connected by a short elegant small champagne-gold chain-link shape. These are only conceptual objects, NOT realistic Binance UI, no real KYC form, no digits, no person information, no tick claiming approval. Compose objects in the right lower half; do not cover branding.\nLeft headline, EXACT TWO LINES:\n\"币安邀请码\"\n\"忘填后如何补绑\"\nSmaller single subtitle beneath a thin subtle champagne line:\n\"资格判断 · 三种情况 · 官方入口\"\nChinese text must be accurate; no other captions, no guarantee, no rates, no referral code. Do not add literal 'Binance' unless inherent in an actual supplied logo (none supplied). Main title approx same visual scale as reference but fit complete. Top-right logo stays small and discreet, text and man complete. No giant logo, no coins, no rising charts, no trophy, no neon, no beige, no gradient wallpaper. 16:9 full canvas, keep all title and key objects inside 6% safe margins."
+    }
+  ]
+}

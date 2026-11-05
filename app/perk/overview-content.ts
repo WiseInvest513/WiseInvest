@@ -71,6 +71,7 @@ export const overviewTopics: OverviewTopic[] = [
     id: "brokers", title: "券商开户", nav: "开证券账户", description: "港美股与 A 股开户指南",
     allHref: "/perk/broker", allLabel: "查看全部券商",
     entries: [
+      { id: "bit-account-guide", title: "BIT 美股账户", description: "稳定币或银行资金配置美股", href: tutorial("broker", "bit-account-guide"), action: "开户教程", image: "/images/registration/bit.jpeg", highlighted: true },
       { id: "bbae", title: "BBAE 证券", description: "开户、入金与转仓", href: tutorial("broker", "bbae"), action: "开户教程", icon: "broker" },
       { id: "schwab", title: "嘉信证券", description: "账户申请指南", href: tutorial("broker", "charles-schwab"), action: "开户教程", image: "/images/capital-flow/schwab.jpeg" },
       { id: "firstrade", title: "第一证券", description: "开户流程与材料", href: tutorial("broker", "diyi-securities"), action: "开户教程", image: "/images/capital-flow/firstrade.jpeg" },

@@ -1,0 +1,491 @@
+{
+  "purpose": "Existing 32 approved silver-glass artworks retained; list-only optimized copies. Old URLs retained for compatibility; no article-body or OG changes.",
+  "format": "webp",
+  "width": 640,
+  "height": 360,
+  "quality": 60,
+  "effort": 6,
+  "smartSubsample": true,
+  "assets": [
+    {
+      "id": "biance-guide",
+      "src": "/images/articles/covers/biance-guide.webp",
+      "alt": "币安 Binance：注册、入金、买币，KYC 认证、账户安全与理财入门",
+      "topics": [
+        "Binance",
+        "KYC",
+        "C2C 入金"
+      ],
+      "previousSrc": "/images/articles/crypto/binance-guide-cover.webp",
+      "previousBytes": 98434,
+      "bytes": 18092,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "okx-guide",
+      "src": "/images/articles/covers/okx-guide.webp",
+      "alt": "欧易 OKX：注册、入金、买币，KYC 认证、C2C 入金与 BTC 入门",
+      "topics": [
+        "OKX",
+        "C2C 入金",
+        "BTC"
+      ],
+      "previousSrc": "/images/articles/crypto/okx-guide-cover.webp",
+      "previousBytes": 95692,
+      "bytes": 17864,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "VIP002",
+      "src": "/images/articles/covers/VIP002.webp",
+      "alt": "读懂美联储：看清资产的变化，政策预期 · 利率 · 资产定价",
+      "topics": [
+        "美联储",
+        "利率",
+        "资产定价"
+      ],
+      "previousSrc": "/images/articles/VIP/fed-assets-cover.webp",
+      "previousBytes": 138160,
+      "bytes": 23716,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "VIP001",
+      "src": "/images/articles/covers/VIP001.webp",
+      "alt": "市场没结束：估值摩擦期，市场手记 Vol.01 · AI · 利率",
+      "topics": [
+        "市场手记",
+        "AI",
+        "估值"
+      ],
+      "previousSrc": "/images/articles/VIP/market-friction-cover.webp",
+      "previousBytes": 132800,
+      "bytes": 22640,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "google-id",
+      "src": "/images/articles/covers/google-id.webp",
+      "alt": "Google 账号：注册与安全设置，邮箱 · 手机验证 · 账号保护",
+      "topics": [
+        "Google",
+        "注册",
+        "账号安全"
+      ],
+      "previousSrc": "/images/articles/outside/google-account-cover.webp",
+      "previousBytes": 91676,
+      "bytes": 18256,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "index-qa-2",
+      "src": "/images/articles/covers/index-qa-2.webp",
+      "alt": "标普 / 纳指答疑：资金配置与复利，问答第二期 · 投资周期 · 风险管理",
+      "topics": [
+        "问答第二期",
+        "资金配置",
+        "复利"
+      ],
+      "previousSrc": "/images/articles/index/index-qa-2-cover.webp",
+      "previousBytes": 108772,
+      "bytes": 20554,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "ifast-guide",
+      "src": "/images/articles/covers/ifast-guide.webp",
+      "alt": "iFAST 英国银行：开户与入金教程，账户申请 · 多币种 · 跨境转账",
+      "topics": [
+        "iFAST",
+        "开户",
+        "入金"
+      ],
+      "previousSrc": "/images/articles/bank/ifast-account-cover.webp",
+      "previousBytes": 112620,
+      "bytes": 20440,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "zhifu",
+      "src": "/images/articles/covers/zhifu.webp",
+      "alt": "致富证券：开户与入金教程，账户申请 · 港美股 · 基础交易",
+      "topics": [
+        "致富证券",
+        "开户",
+        "入金"
+      ],
+      "previousSrc": "/images/articles/broker/zhifu-account-cover.webp",
+      "previousBytes": 108290,
+      "bytes": 20332,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "jiaxin",
+      "src": "/images/articles/covers/jiaxin.webp",
+      "alt": "嘉信证券 Schwab：美股账户申请，材料准备 · 开户审核 · 入金",
+      "topics": [
+        "Schwab",
+        "申请材料",
+        "账户审核"
+      ],
+      "previousSrc": "/images/articles/broker/schwab-account-cover.webp",
+      "previousBytes": 110590,
+      "bytes": 19468,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "aomenmayi-register",
+      "src": "/images/articles/covers/aomenmayi-register.webp",
+      "alt": "澳门蚂蚁银行：开户与账户使用，材料准备 · 账户申请 · 入金",
+      "topics": [
+        "澳门蚂蚁银行",
+        "开户",
+        "账户使用"
+      ],
+      "previousSrc": "/images/articles/bank/ant-macau-cover.webp",
+      "previousBytes": 124818,
+      "bytes": 22250,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "predict",
+      "src": "/images/articles/covers/predict.webp",
+      "alt": "Predict 预测市场：从认识到上手，注册 · 充值 · 风险理解",
+      "topics": [
+        "Predict",
+        "注册",
+        "风险理解"
+      ],
+      "previousSrc": "/images/articles/predict/predict-intro-cover.webp",
+      "previousBytes": 100470,
+      "bytes": 18618,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "BBAE",
+      "src": "/images/articles/covers/BBAE.webp",
+      "alt": "BBAE 证券：开户与入金指南，平台介绍 · 账户申请 · 资金转入",
+      "topics": [
+        "BBAE",
+        "账户申请",
+        "入金"
+      ],
+      "previousSrc": "/images/articles/broker/bbae-account-cover.webp",
+      "previousBytes": 94250,
+      "bytes": 18150,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "immersive-translate-guide",
+      "src": "/images/articles/covers/immersive-translate-guide.webp",
+      "alt": "沉浸式翻译：打开双语信息世界，网页翻译 · 双语字幕 · 输入翻译",
+      "topics": [
+        "沉浸式翻译",
+        "双语字幕",
+        "网页翻译"
+      ],
+      "previousSrc": "/images/articles/ai/immersive-translate-cover.webp",
+      "previousBytes": 103878,
+      "bytes": 20370,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "passive-millionaire",
+      "src": "/images/articles/covers/passive-millionaire.webp",
+      "alt": "长期定投：读懂时间与复利，持续投入 · 复利计算 · 投资周期",
+      "topics": [
+        "长期定投",
+        "复利",
+        "投资周期"
+      ],
+      "previousSrc": "/images/articles/index/recurring-investment-cover.webp",
+      "previousBytes": 106698,
+      "bytes": 19486,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "safepal-vcard",
+      "src": "/images/articles/covers/safepal-vcard.webp",
+      "alt": "SafePal 虚拟卡：申请与充值教程，身份认证 · 充值激活 · 支付绑定",
+      "topics": [
+        "SafePal",
+        "认证",
+        "充值激活"
+      ],
+      "previousSrc": "/images/articles/vcard/safepal-card-cover.webp",
+      "previousBytes": 92422,
+      "bytes": 18592,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "bybit-vcard",
+      "src": "/images/articles/covers/bybit-vcard.webp",
+      "alt": "Bybit Card：申请与入金教程，账户准备 · 卡片申请 · 使用场景",
+      "topics": [
+        "Bybit Card",
+        "申请",
+        "入金"
+      ],
+      "previousSrc": "/images/articles/vcard/bybit-card-cover.webp",
+      "previousBytes": 92992,
+      "bytes": 18284,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "AppleID",
+      "src": "/images/articles/covers/AppleID.webp",
+      "alt": "Apple 账号：美区注册与港区切换，账号准备 · 地区设置 · App 下载",
+      "topics": [
+        "Apple 账号",
+        "美区注册",
+        "地区设置"
+      ],
+      "previousSrc": "/images/articles/outside/apple-account-cover.webp",
+      "previousBytes": 95774,
+      "bytes": 19084,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "index-guide",
+      "src": "/images/articles/covers/index-guide.webp",
+      "alt": "标普 500 · 纳指 100：指数投资完整指南，ETF · QDII · 产品比较",
+      "topics": [
+        "ETF",
+        "QDII",
+        "指数投资"
+      ],
+      "previousSrc": "/images/articles/index/index-investment-guide-cover.webp",
+      "previousBytes": 136358,
+      "bytes": 23652,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "index-practice",
+      "src": "/images/articles/covers/index-practice.webp",
+      "alt": "标普 / 纳指基金：购买实操与费用，基金名称 · A/C 份额 · 持有成本",
+      "topics": [
+        "基金购买",
+        "A/C 份额",
+        "持有成本"
+      ],
+      "previousSrc": "/images/articles/index/index-fund-practice-cover.webp",
+      "previousBytes": 94540,
+      "bytes": 18982,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "index-qa-1",
+      "src": "/images/articles/covers/index-qa-1.webp",
+      "alt": "标普 / 纳指答疑：新手常见问题，问答第一期 · 定投 · 基金选择",
+      "topics": [
+        "问答第一期",
+        "定投",
+        "基金选择"
+      ],
+      "previousSrc": "/images/articles/index/index-qa-1-cover.webp",
+      "previousBytes": 109638,
+      "bytes": 20784,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "indexStock",
+      "src": "/images/articles/covers/indexStock.webp",
+      "alt": "股票 · 国债 · 基金：一次读懂投资基础，资产类型 · 指数 · 利率",
+      "topics": [
+        "股票",
+        "国债",
+        "基金"
+      ],
+      "previousSrc": "/images/articles/index/investment-basics-cover.webp",
+      "previousBytes": 111946,
+      "bytes": 19970,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "idifferentIndex",
+      "src": "/images/articles/covers/idifferentIndex.webp",
+      "alt": "场内与场外基金：看懂 ETF 的区别，交易机制 · 费用 · 流动性",
+      "topics": [
+        "ETF",
+        "场内场外",
+        "交易费用"
+      ],
+      "previousSrc": "/images/articles/index/fund-comparison-cover.webp",
+      "previousBytes": 106418,
+      "bytes": 19576,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "bitget-exchange",
+      "src": "/images/articles/covers/bitget-exchange.webp",
+      "alt": "Bitget 交易所：注册 · 入金 · 买币，KYC 认证 · 账户安全 · 功能入门",
+      "topics": [
+        "Bitget",
+        "KYC",
+        "账户安全"
+      ],
+      "previousSrc": "/images/articles/crypto/bitget-guide-cover.webp",
+      "previousBytes": 99150,
+      "bytes": 18904,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "diyi",
+      "src": "/images/articles/covers/diyi.webp",
+      "alt": "第一证券 Firstrade：美股开户指南，材料准备 · 账户申请 · 审核",
+      "topics": [
+        "Firstrade",
+        "开户材料",
+        "审核"
+      ],
+      "previousSrc": "/images/articles/broker/firstrade-account-cover.webp",
+      "previousBytes": 110454,
+      "bytes": 20014,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "xianggangmayi-register",
+      "src": "/images/articles/covers/xianggangmayi-register.webp",
+      "alt": "蚂蚁银行（香港）：注册开户教程，材料准备 · 身份认证 · 账户申请",
+      "topics": [
+        "香港蚂蚁银行",
+        "身份认证",
+        "开户"
+      ],
+      "previousSrc": "/images/articles/bank/ant-hong-kong-cover.webp",
+      "previousBytes": 119748,
+      "bytes": 21860,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "huifeng-register",
+      "src": "/images/articles/covers/huifeng-register.webp",
+      "alt": "汇丰 One 账户：线上开户教程，开户材料 · 信息填写 · 注意事项",
+      "topics": [
+        "汇丰 One",
+        "开户材料",
+        "信息填写"
+      ],
+      "previousSrc": "/images/articles/bank/hsbc-one-account-cover.webp",
+      "previousBytes": 105566,
+      "bytes": 18384,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "tianxing-register",
+      "src": "/images/articles/covers/tianxing-register.webp",
+      "alt": "天星银行：注册与身份认证，开户准备 · 资料填写 · 申请流程",
+      "topics": [
+        "天星银行",
+        "注册",
+        "身份认证"
+      ],
+      "previousSrc": "/images/articles/bank/airstar-account-cover.webp",
+      "previousBytes": 91618,
+      "bytes": 16944,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "zhongan-register",
+      "src": "/images/articles/covers/zhongan-register.webp",
+      "alt": "众安银行 ZA Bank：注册开户教程，材料准备 · 身份认证 · 账户设置",
+      "topics": [
+        "ZA Bank",
+        "开户",
+        "账户设置"
+      ],
+      "previousSrc": "/images/articles/bank/za-bank-account-cover.webp",
+      "previousBytes": 97678,
+      "bytes": 19080,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "zhongying-register",
+      "src": "/images/articles/covers/zhongying-register.webp",
+      "alt": "中银香港：注册开户指南，申请资料 · 信息填写 · 安全设置",
+      "topics": [
+        "中银香港",
+        "申请资料",
+        "安全设置"
+      ],
+      "previousSrc": "/images/articles/bank/boc-hong-kong-cover.webp",
+      "previousBytes": 108182,
+      "bytes": 19480,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "wise-register",
+      "src": "/images/articles/covers/wise-register.webp",
+      "alt": "Wise 账户：注册与跨境收款，身份认证 · 多币种 · 账户设置",
+      "topics": [
+        "Wise",
+        "账户注册",
+        "跨境收款"
+      ],
+      "previousSrc": "/images/articles/bank/wise-account-cover.webp",
+      "previousBytes": 100458,
+      "bytes": 18704,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "gamsgo-guide",
+      "src": "/images/articles/covers/gamsgo-guide.webp",
+      "alt": "GamsGo 订阅站：AI 工具使用指南，工具选择 · 订阅购买 · 使用流程",
+      "topics": [
+        "GamsGo",
+        "AI 工具",
+        "订阅使用"
+      ],
+      "previousSrc": "/images/articles/ai/gamsgo-subscription-cover.webp",
+      "previousBytes": 93078,
+      "bytes": 17562,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "id": "domestic-hk-us-guide",
+      "src": "/images/articles/covers/domestic-hk-us-guide.webp",
+      "alt": "港美股投资入门：从开户到资金路径，银行账户 · 券商 · 入金",
+      "topics": [
+        "港美股",
+        "银行账户",
+        "资金路径"
+      ],
+      "previousSrc": "/images/articles/domestic/hong-kong-us-investment-cover.webp",
+      "previousBytes": 113122,
+      "bytes": 20298,
+      "width": 640,
+      "height": 360
+    }
+  ]
+}

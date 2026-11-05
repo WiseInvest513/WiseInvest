@@ -4,20 +4,27 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  ChevronRight, BookOpen, Clock, Calendar, X,
-  Library, ArrowRight, Search, Menu, CheckCircle2, ShieldCheck, LockKeyhole,
+  BookOpen, Clock, Calendar, X,
+  ArrowRight, Search, Menu, CheckCircle2, ShieldCheck, LockKeyhole,
   Bookmark, BookmarkCheck,
+  ArrowUpRight, Compass,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
 import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
 import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
+import { hasRegistrationCallout } from "@/lib/article-registration";
 import { ArticleExportButton } from "@/components/article-export-button";
+import { ArticleShareButton } from "@/components/article-share-button";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
 import { ArticleVipInvitation } from "@/components/article-vip-invitation";
 import { getArticleVipInvitation } from "@/lib/article-vip-invitation";
 import { ArticleReleaseCountdown, type ArticleLimitedRelease } from "@/components/article-release-countdown";
-import { ArticleCard } from "@/components/article-card";
+import { ArticleDirectory } from "./article-directory";
+import { ArticleLibrary, type ArticleLibraryView } from "./article-library";
+import styles from "./article-library.module.css";
+import { getArticleSeries, getSeriesReadingState, isTopicSeriesArticle } from "@/lib/article-series";
+import { LearningPathLinks, SeriesOverview, SeriesPagination } from "./series-reader";
 
 type ArticleItem = ArticleListItem & { content?: string };
 type ArticleGuideProfile = {
@@ -28,12 +35,15 @@ type ArticleGuideProfile = {
 };
 
 interface ArticlesPageProps {
+  initialSeriesId?: string;
+  initialMapRouteId?: string;
   initialArticles?: ArticleItem[];
   initialArticle?: ArticleItem & { content: string };
   initialArticleId?: string;
   initialCategoryId?: string;
   initialSubcategoryId?: string;
   showAllArticles?: boolean;
+  showSeries?: boolean;
   initialFaqs?: ArticleFaqItem[];
   limitedRelease?: ArticleLimitedRelease;
   lockedContent?: {
@@ -164,32 +174,61 @@ function getVisibleArticleFaqs(article: ArticleItem | null, initialFaqs?: Articl
 }
 
 // ─── Active TOC hook ───────────────────────────────────────
-function useActiveToc(toc: { id: string }[]) {
+function useActiveToc(toc: { id: string }[], enabled: boolean, contentRef: { current: HTMLElement | null }) {
   const [activeId, setActiveId] = useState("");
   useEffect(() => {
-    if (!toc.length) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        let best = { id: "", ratio: 0 };
-        entries.forEach(e => { if (e.isIntersecting && e.intersectionRatio > best.ratio) best = { id: e.target.id, ratio: e.intersectionRatio }; });
-        if (best.id) setActiveId(best.id);
-      },
-      { rootMargin: "-15% 0px -60% 0px", threshold: [0, 0.5, 1] }
-    );
-    toc.forEach(({ id }) => { const el = document.getElementById(id); if (el) obs.observe(el); });
-    return () => obs.disconnect();
-  }, [toc]);
+    if (!enabled || !toc.length) {
+      setActiveId("");
+      return;
+    }
+    const headings = toc.flatMap(({ id }) => {
+      const element = document.getElementById(id);
+      return element ? [element] : [];
+    });
+    const content = contentRef.current;
+    let frame = 0;
+    const update = () => {
+      const threshold = Math.max(0, content?.getBoundingClientRect().top ?? 0) + 128;
+      let currentId = headings[0]?.id ?? "";
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top > threshold) break;
+        currentId = heading.id;
+      }
+      setActiveId(currentId);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(() => { frame = 0; update(); });
+    };
+    // Read positions after every scroll, including jumps that skip an observer band.
+    update();
+    content?.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    const article = content?.querySelector("article");
+    const resizeObserver = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(schedule);
+    if (article) resizeObserver?.observe(article);
+    return () => {
+      cancelAnimationFrame(frame);
+      content?.removeEventListener("scroll", schedule);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      resizeObserver?.disconnect();
+    };
+  }, [toc, enabled, contentRef]);
   return activeId;
 }
 
 // ─── Main Component ────────────────────────────────────────
 export function ArticlesContent({
+  initialSeriesId,
+  initialMapRouteId,
   initialArticles,
   initialArticle,
   initialArticleId,
   initialCategoryId,
   initialSubcategoryId,
   showAllArticles = false,
+  showSeries = false,
   initialFaqs,
   lockedContent,
   limitedRelease,
@@ -204,6 +243,7 @@ export function ArticlesContent({
   const [expiredReleaseKey, setExpiredReleaseKey] = useState<string | null>(null);
   const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
   const contentRef = useRef<HTMLDivElement>(null);
+  const detailSearchRef = useRef<HTMLInputElement>(null);
   const [allArticles, setAllArticles] = useState<ArticleItem[]>(() => {
     if (!initialArticles) return hardcodedArticles;
     if (!initialArticle) return initialArticles;
@@ -212,10 +252,23 @@ export function ArticlesContent({
     byId.set(initialArticle.id, initialArticle);
     return Array.from(byId.values());
   });
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const article of allArticles) {
+      counts[article.categoryId] = (counts[article.categoryId] ?? 0) + 1;
+    }
+    return counts;
+  }, [allArticles]);
+  const activeSeries = getArticleSeries(initialSeriesId, initialArticleId);
+  const seriesContext = activeSeries ? {
+    series: activeSeries,
+    reading: getSeriesReadingState(activeSeries, allArticles, selectedArticleId ?? undefined, initialMapRouteId),
+    articleId: selectedArticleId ?? undefined,
+  } : undefined;
 
   // Detect URL article target on first paint — show skeleton instead of empty state
   const [isLoadingArticle, setIsLoadingArticle] = useState(() =>
-    !initialArticle && /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(pathname)
+    !initialArticle && !initialSeriesId && /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(pathname)
   );
 
   const activeLimitedRelease = selectedArticleId === initialArticleId ? limitedRelease : undefined;
@@ -252,6 +305,11 @@ export function ArticlesContent({
   }, [router]);
 
   useEffect(() => {
+    // Series navigation uses the access-checked server payload for one chapter.
+    if (initialSeriesId && initialArticle) {
+      setIsLoadingArticle(false);
+      return;
+    }
     // Category pages need only public metadata, never every article's body.
     if (initialArticles && !initialArticleId) {
       setIsLoadingArticle(false);
@@ -288,14 +346,14 @@ export function ArticlesContent({
         setIsLoadingArticle(false);
       })
       .catch(() => setIsLoadingArticle(false));
-  }, [activeLimitedRelease, effectiveLockedContent, initialArticles, initialArticleId]);
+  }, [activeLimitedRelease, effectiveLockedContent, initialArticles, initialArticleId, initialSeriesId, initialArticle]);
 
   const selectedArticle = useMemo(() => {
     // This article's server payload can change at the timed access boundary.
     // Do not retain its pre-refresh body in the initial useState cache.
-    if (activeLimitedRelease && initialArticle?.id === selectedArticleId) return initialArticle;
+    if ((activeLimitedRelease || initialSeriesId) && initialArticle?.id === selectedArticleId) return initialArticle;
     return allArticles.find(a => a.id === selectedArticleId) ?? null;
-  }, [activeLimitedRelease, allArticles, initialArticle, selectedArticleId]);
+  }, [activeLimitedRelease, allArticles, initialArticle, selectedArticleId, initialSeriesId]);
   const selectedArticleHref = useMemo(
     () => selectedArticle ? getArticleHref(selectedArticle) : "",
     [selectedArticle]
@@ -304,7 +362,13 @@ export function ArticlesContent({
     ? activeLimitedRelease.previewContent
     : selectedArticle?.content ?? "";
   const toc = useMemo(() => selectedContent ? extractToc(selectedContent) : [], [selectedContent]);
-  const activeId = useActiveToc(toc);
+  // Keep every heading in `toc` for stable body anchors; only navigation is condensed.
+  const navigationToc = useMemo(() => {
+    const depth = selectedArticle?.tocDepth;
+    return depth ? toc.filter(item => item.level <= depth) : toc;
+  }, [selectedArticle?.tocDepth, toc]);
+  const isSearching = Boolean(searchQuery.trim());
+  const activeId = useActiveToc(navigationToc, Boolean(selectedArticle) && !isSearching, contentRef);
   const relatedArticles = useMemo(() => {
     if (!selectedArticle) return [];
 
@@ -314,6 +378,9 @@ export function ArticlesContent({
   }, [allArticles, selectedArticle]);
   const vipInvitation = effectiveLockedContent ? null : getArticleVipInvitation(selectedArticle);
   const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation;
+  const sidebarRecommendations = useMemo(() => {
+    return relatedArticles.slice(0, 2);
+  }, [relatedArticles]);
   const topicLinks = useMemo(
     () => selectedArticle ? getTopicLinks(selectedArticle) : [],
     [selectedArticle]
@@ -322,55 +389,20 @@ export function ArticlesContent({
     () => getArticleGuideProfile(selectedArticle),
     [selectedArticle]
   );
-  const shouldShowGuideProfile = selectedArticle?.id !== "VIP";
+  const shouldShowGuideProfile = selectedArticle?.id !== "VIP"
+    && !isTopicSeriesArticle(selectedArticle?.id)
+    && !hasRegistrationCallout(selectedContent);
   const visibleFaqs = useMemo(
     () => getVisibleArticleFaqs(selectedArticle, selectedArticle?.id === initialArticleId ? initialFaqs : undefined),
     [initialArticleId, initialFaqs, selectedArticle]
   );
 
-  const featuredArticles = useMemo(() => {
-    const vip = allArticles.find(a => a.id === "VIP");
-    const guide = allArticles.find(a => a.id === "web-guide");
-    const used = new Set<string>();
-    const prioritized: ArticleItem[] = [];
-
-    [vip, guide].forEach((article) => {
-      if (article && !used.has(article.id)) {
-        prioritized.push(article);
-        used.add(article.id);
-      }
-    });
-
-    const rest = allArticles.filter(a => !used.has(a.id));
-    return [...prioritized, ...rest].slice(0, 5);
-  }, [allArticles]);
-
-  const filteredArticles = useMemo(() => {
-    if (!searchQuery.trim()) return allArticles;
-    const q = searchQuery.trim().toLowerCase();
-    return allArticles.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q));
-  }, [searchQuery, allArticles]);
-
-  const articlesByCategory = useMemo(() => {
-    const map = new Map<string, ArticleItem[]>();
-    allArticles.forEach(a => { if (!map.has(a.categoryId)) map.set(a.categoryId, []); map.get(a.categoryId)!.push(a); });
-    return map;
-  }, [allArticles]);
-
   const activeCategoryId = initialCategoryId ?? selectedArticle?.categoryId;
   const activeCategory = categories.find((category) => category.id === activeCategoryId);
   const activeSubcategoryId = initialSubcategoryId ?? selectedArticle?.subcategoryId;
   const activeSubcategory = subcategories.find((subcategory) => subcategory.id === activeSubcategoryId);
-  const isSearching = Boolean(searchQuery.trim());
-  const browserArticles = useMemo(() => {
-    const scoped = filteredArticles
-      .filter((article) => !activeCategoryId || article.categoryId === activeCategoryId)
-      .filter((article) => !activeSubcategoryId || article.subcategoryId === activeSubcategoryId);
-    if (activeCategoryId !== "crypto") return scoped;
-    const priorityIds = ["biance-guide", "okx-guide"];
-    const rank = (id: string) => priorityIds.includes(id) ? priorityIds.indexOf(id) : priorityIds.length;
-    return scoped.sort((a, b) => rank(a.id) - rank(b.id));
-  }, [activeCategoryId, activeSubcategoryId, filteredArticles]);
+  const libraryView: ArticleLibraryView = showSeries ? "series" : showAllArticles ? "all" : "recommended";
+  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
   useEffect(() => {
     if (!selectedArticle || !selectedArticleHref) return;
@@ -403,11 +435,6 @@ export function ArticlesContent({
       })
       .catch(() => {});
   }, [selectedArticleHref]);
-
-  const selectArticle = (id: string, catId: string) => {
-    const href = `/articles/${catId}/${genUid(id)}`;
-    window.location.assign(href);
-  };
 
   const toggleFavorite = async () => {
     if (!selectedArticle || !selectedArticleHref || favoriteBusy) return;
@@ -444,7 +471,17 @@ export function ArticlesContent({
     }
   };
 
-  useEffect(() => { contentRef.current?.scrollTo({ top: 0, behavior: "smooth" }); }, [selectedArticleId]);
+  useEffect(() => {
+    const anchorId = window.location.hash.slice(1);
+    const anchor = anchorId ? document.getElementById(anchorId) : null;
+    // Section links should open at their target instead of being reset to the article top.
+    if (anchor && contentRef.current?.contains(anchor)) {
+      anchor.scrollIntoView({ block: "start", behavior: "instant" });
+    } else {
+      contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+      if (initialSeriesId && window.matchMedia("(max-width: 767px)").matches) window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [selectedArticleId, selectedContent, initialSeriesId]);
 
   const renderedContent = useMemo(
     () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout) : null,
@@ -452,140 +489,75 @@ export function ArticlesContent({
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* Mobile backdrop */}
-      {sidebarOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+    <div className={styles.shell}>
       {contentGateDialog}
 
-      <div className="w-full flex h-[calc(100vh-64px)]">
+      <div className={styles.frame}>
+        <ArticleDirectory
+          seriesContext={seriesContext}
+          categoryCounts={categoryCounts}
+          activeView={activeCategoryId || initialArticleId ? null : libraryView}
+          activeCategoryId={activeCategoryId}
+          mobileOpen={sidebarOpen}
+          onMobileClose={closeSidebar}
+        />
 
-        {/* ══ LEFT SIDEBAR ═══════════════════════════════ */}
-        <aside className={cn(
-          "shrink-0 flex flex-col border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900",
-          "fixed md:relative top-[64px] md:top-auto left-0 bottom-0 md:bottom-auto z-50 md:z-auto",
-          "w-[280px] md:w-72 transition-transform duration-300 ease-in-out",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        )}>
-          <div className="px-5 pt-6 pb-4">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-base font-bold text-slate-900 dark:text-white">文章目录</p>
-              <button type="button" onClick={() => setSidebarOpen(false)} aria-label="关闭文章分类" className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 md:hidden dark:hover:bg-slate-800"><X className="h-4 w-4" /></button>
-            </div>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-              <input
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="搜索文章..."
-                aria-label="搜索文章"
-                className="w-full h-9 pl-9 pr-3 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all"
-              />
-            </div>
-          </div>
-          <div className="mx-5 h-px bg-slate-100 dark:bg-slate-800" />
-          <nav className="flex-1 overflow-y-auto py-3 scrollbar-hide">
-            <Link
-              href="/articles?view=all"
-              onClick={() => setSidebarOpen(false)}
-              aria-current={!activeCategoryId && showAllArticles ? "page" : undefined}
-              className={cn(
-                "mx-3 mb-2 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                !activeCategoryId && showAllArticles
-                  ? "bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300"
-                  : "text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/50"
-              )}
-            >
-              <BookOpen className="h-4 w-4 text-slate-400" />
-              <span className="flex-1">全部文章</span>
-              <span className="text-xs tabular-nums text-slate-400">{allArticles.length}</span>
-            </Link>
-            {categories.map(cat => {
-              const catArticles = articlesByCategory.get(cat.id) ?? [];
-              const isActive = activeCategoryId === cat.id;
-              const catSubcategories = subcategories.filter(sub => sub.categoryId === cat.id);
-              return (
-                <div key={cat.id} className="mb-0.5">
-                  <Link
-                    href={`/articles/${cat.id}`}
-                    onClick={() => setSidebarOpen(false)}
-                    aria-current={isActive && !activeSubcategoryId && !selectedArticle ? "page" : undefined}
-                    className={cn(
-                      "relative mx-3 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-amber-50 text-amber-800 dark:bg-amber-950/30 dark:text-amber-300"
-                        : "text-slate-700 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800/50 dark:hover:text-white"
-                    )}
-                  >
-                    <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
-                    <span className="flex-1">{cat.name}</span>
-                    <span className="min-w-5 text-center text-xs tabular-nums text-slate-400">{catArticles.length}</span>
-                    <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
-                  </Link>
-                  {isActive && catSubcategories.length > 0 && (
-                    <div className="my-1 ml-9 mr-4 border-l border-slate-200 dark:border-slate-700">
-                      {catSubcategories.map(sub => (
-                        <Link
-                          key={sub.id}
-                          href={`/articles/${cat.id}?subcategory=${sub.id}`}
-                          onClick={() => setSidebarOpen(false)}
-                          aria-current={activeSubcategoryId === sub.id && !selectedArticle ? "page" : undefined}
-                          className={cn(
-                            "flex items-center justify-between gap-2 py-2 pl-4 pr-2 text-xs transition-colors",
-                            activeSubcategoryId === sub.id
-                              ? "font-semibold text-amber-800 dark:text-amber-300"
-                              : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
-                          )}
-                        >
-                          {sub.name}
-                          <span className="text-slate-400 tabular-nums">{catArticles.filter(article => article.subcategoryId === sub.id).length}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            <div className="px-4 mt-4 mb-2">
-              <div className="h-px bg-slate-100 dark:bg-slate-800 mb-4" />
-              <a
-                href="https://www.wise-hold.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl border border-indigo-100 dark:border-indigo-900/60 bg-gradient-to-br from-indigo-50 to-indigo-50/30 dark:from-indigo-950/40 dark:to-slate-900 text-indigo-700 dark:text-indigo-400 hover:border-indigo-300 dark:hover:border-indigo-700 hover:from-indigo-100 transition-all duration-200 group"
-              >
-                <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/60 flex items-center justify-center shrink-0">
-                  <Library className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold leading-tight">经典文集</div>
-                  <div className="text-[11px] text-indigo-500/70 dark:text-indigo-500 mt-0.5 truncate">段永平 · 查理芒格 · 巴菲特</div>
-                </div>
-                <ArrowRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-80 group-hover:translate-x-0.5 transition-all" />
-              </a>
-            </div>
-          </nav>
-        </aside>
-
-        {/* ══ CENTER CONTENT ═════════════════════════════ */}
-        <main ref={contentRef} className="flex-1 min-w-0 overflow-y-auto" style={{ backgroundImage: "radial-gradient(circle, rgba(148,163,184,0.25) 1.5px, transparent 1.5px)", backgroundSize: "22px 22px" }}>
-          {/* Mobile top bar */}
-          <div className="md:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-12 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+        <section
+          ref={contentRef}
+          className={styles.content}
+          aria-label="文章内容"
+          style={selectedArticle && !isSearching ? {
+            backgroundImage: "radial-gradient(circle, rgba(148,163,184,0.25) 1.5px, transparent 1.5px)",
+            backgroundSize: "22px 22px",
+          } : undefined}
+        >
+          <div className={cn(styles.mobileBar, activeSeries && styles.seriesMobileBar)}>
             <button
+              id="article-directory-trigger"
+              type="button"
               onClick={() => setSidebarOpen(true)}
-              aria-label="打开文章分类"
-              className="p-1.5 -ml-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0"
+              aria-label={activeSeries ? activeSeries.kind === "topic" ? "打开系列内容" : "打开系列章节" : "打开文章目录"}
+              aria-haspopup="dialog"
+              aria-expanded={sidebarOpen}
+              aria-controls="article-directory-drawer"
             >
-              <Menu className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+              <Menu className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+              <span>{activeSeries ? activeSeries.kind === "topic" ? "内容" : "章节" : "目录"}</span>
             </button>
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate flex-1">
-              {selectedArticle && !isSearching ? selectedArticle.title : activeSubcategory?.name ?? activeCategory?.name ?? "文章"}
+            <span className="min-w-0 flex-1 truncate">
+              {selectedArticle && !isSearching
+                ? selectedArticle.title
+                : activeSeries?.title ?? activeSubcategory?.name ?? activeCategory?.name ?? (showSeries ? "系列内容" : showAllArticles ? "全部文章" : "文章中心")}
             </span>
           </div>
+
+          {selectedArticle && !activeSeries && (
+            <div className="mx-auto w-full max-w-6xl px-4 pt-6 md:px-8 md:pt-8">
+              <div className={cn(styles.search, "ml-auto max-w-[360px]")} role="search">
+                <Search size={17} strokeWidth={1.5} aria-hidden="true" />
+                <input
+                  ref={detailSearchRef}
+                  type="search"
+                  value={searchQuery}
+                  onChange={event => setSearchQuery(event.target.value)}
+                  aria-label="搜索文章、产品或系列"
+                  placeholder="搜索文章、产品或系列…"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    aria-label="清除搜索"
+                    onClick={() => {
+                      setSearchQuery("");
+                      detailSearchRef.current?.focus({ preventScroll: true });
+                    }}
+                  >
+                    <X size={15} aria-hidden="true" />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
 
           {isLoadingArticle && !selectedArticle ? (
             /* ── Article skeleton shown while fetch is in-flight ── */
@@ -606,15 +578,17 @@ export function ArticlesContent({
               </div>
             </div>
           ) : selectedArticle && !isSearching ? (
-            <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-12">
+            <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-8">
+              {seriesContext ? <SeriesPagination {...seriesContext} compact /> : <LearningPathLinks articleId={selectedArticle.id} />}
               <div className="flex items-center justify-between gap-2 mb-5">
-                <Link href={`/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                <Link href={activeSeries ? "/articles?view=series" : `/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
                   <ArrowRight className="h-3.5 w-3.5 rotate-180" />
-                  {categories.find(c => c.id === selectedArticle.categoryId)?.emoji}
-                  {categories.find(c => c.id === selectedArticle.categoryId)?.name}
+                  {activeSeries ? "全部系列" : <>{categories.find(c => c.id === selectedArticle.categoryId)?.emoji}{categories.find(c => c.id === selectedArticle.categoryId)?.name}</>}
                 </Link>
-                {!effectiveLockedContent && (
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  <ArticleShareButton uid={genUid(selectedArticle.id)} />
+                  {!effectiveLockedContent && (
+                    <>
                     <button
                       type="button"
                       onClick={() => void toggleFavorite()}
@@ -641,8 +615,9 @@ export function ArticlesContent({
                       categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
                       content={selectedContent}
                     />
-                  </div>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
               <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
                 {selectedArticle.title}
@@ -668,7 +643,7 @@ export function ArticlesContent({
                 />
               )}
 
-              {shouldShowGuideProfile && (
+              {shouldShowGuideProfile && !activeSeries && (
                 <section className="mt-6 grid gap-3 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:grid-cols-[1fr_1fr_0.9fr]">
                   <div>
                     <div className="mb-2 flex items-center gap-2 text-sm font-black text-slate-900 dark:text-white">
@@ -749,6 +724,8 @@ export function ArticlesContent({
                   </div>
                 </section>
               )}
+
+              {seriesContext && <SeriesPagination {...seriesContext} />}
 
               {!effectiveLockedContent && visibleFaqs.length > 0 && (
                 <section className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
@@ -837,98 +814,35 @@ export function ArticlesContent({
               )}
               <ArticleVipInvitation invitation={vipInvitation} />
             </article>
-          ) : activeCategory || isSearching || showAllArticles ? (
-            <section className="mx-auto w-full max-w-[960px] px-4 py-7 md:px-8 md:py-10" aria-label="文章列表">
-              <div className="mb-7 flex flex-wrap items-end justify-between gap-3 border-b border-slate-200/80 pb-6 dark:border-slate-800">
-                <div className="min-w-0">
-                  <p className="mb-2 text-xs font-medium text-amber-800 dark:text-amber-300">{activeCategory?.name ?? "Wise Invest"}</p>
-                  <h1 className="text-2xl font-bold leading-tight text-slate-900 dark:text-white md:text-3xl">{isSearching ? "搜索结果" : activeSubcategory?.name ?? activeCategory?.name ?? "全部文章"}</h1>
-                </div>
-                <p className="text-sm tabular-nums text-slate-500 dark:text-slate-400" aria-live="polite">{browserArticles.length} 篇文章</p>
-              </div>
-              <div className="relative mb-6 md:hidden">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} aria-label="搜索当前分类文章" placeholder="搜索文章..." className="h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200" />
-              </div>
-              {browserArticles.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                  {browserArticles.map((article, index) => <ArticleCard key={article.id} article={article} priority={index < 2} />)}
-                </div>
-              ) : (
-                <div className="flex min-h-64 flex-col items-center justify-center gap-4 text-center text-slate-500 dark:text-slate-400">
-                  <BookOpen className="h-8 w-8 text-slate-300 dark:text-slate-600" />
-                  <p className="text-sm">{isSearching ? "没有找到匹配的文章" : "这个分类暂时还没有文章"}</p>
-                  {isSearching && <button type="button" onClick={() => setSearchQuery("")} className="inline-flex items-center gap-2 text-sm font-medium text-amber-800 hover:text-amber-600 dark:text-amber-300"><X className="h-4 w-4" />清除搜索</button>}
-                </div>
-              )}
-            </section>
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center px-4 md:px-8 py-10 md:py-16">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center mb-4 md:mb-6 shadow-lg shadow-amber-200 dark:shadow-amber-900/30">
-                <BookOpen className="w-10 h-10 text-white" />
-              </div>
-              <h2 className="text-xl md:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2 tracking-tight">推荐阅读</h2>
-              <p className="text-sm text-slate-400 dark:text-slate-500 max-w-sm text-center leading-relaxed mb-8 md:mb-12">
-                第一次来到 Wise，可以先从网站合集开始，快速知道每个工具应该在什么场景使用。
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl mb-6">
-                {featuredArticles.map(art => {
-                  const cat = categories.find(c => c.id === art.categoryId);
-                  const isFeatured = art.id === "VIP" || art.id === "web-guide";
-                  return (
-                    <button
-                      key={art.id}
-                      onClick={() => void selectArticle(art.id, art.categoryId)}
-                  className={cn(
-                        "text-left p-5 rounded-2xl border bg-white dark:bg-slate-900 hover:border-amber-300 dark:hover:border-amber-700 hover:shadow-md hover:shadow-amber-100/50 dark:hover:shadow-amber-900/20 transition-all duration-200 group",
-                        isFeatured
-                          ? "border-amber-300 dark:border-amber-700 bg-gradient-to-br from-amber-50 to-white dark:from-amber-950/30 dark:to-slate-900"
-                          : "border-slate-200 dark:border-slate-700/80"
-                      )}
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="text-2xl">{cat?.emoji}</div>
-                        {art.id === "VIP" && (
-                          <span className="rounded-full border border-amber-200 bg-white/70 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:border-amber-700/70 dark:bg-amber-950/50 dark:text-amber-300">
-                            先读这篇
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors leading-snug mb-2">{art.title}</div>
-                      <div className="text-[11px] text-slate-400 dark:text-slate-600 flex items-center gap-1"><Clock className="w-3 h-3" />{art.readTime} 分钟</div>
-                    </button>
-                  );
-                })}
-              </div>
-              <a
-                href="https://www.wise-hold.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 w-full max-w-xl p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800/60 bg-gradient-to-r from-indigo-50 to-white dark:from-indigo-950/30 dark:to-slate-900 hover:border-indigo-400 dark:hover:border-indigo-700 hover:shadow-md transition-all duration-200 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/60 flex items-center justify-center shrink-0">
-                  <Library className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-indigo-800 dark:text-indigo-300 mb-0.5">经典文集</div>
-                  <div className="text-xs text-indigo-500/80 dark:text-indigo-500">段永平 · 查理芒格 · 巴菲特 · 经典演讲与著作</div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
+          ) : seriesContext && !isSearching ? <SeriesOverview {...seriesContext} /> : (
+            <ArticleLibrary
+              articles={allArticles}
+              view={libraryView}
+              categoryId={activeCategoryId}
+              subcategoryId={activeSubcategoryId}
+              searchQuery={searchQuery}
+              onSearchChange={value => {
+                setSearchQuery(value);
+                if (!value && selectedArticle) {
+                  detailSearchRef.current?.focus({ preventScroll: true });
+                }
+              }}
+              showSearch={!selectedArticle}
+            />
           )}
-        </main>
+        </section>
 
         {/* ══ RIGHT TOC ══════════════════════════════════ */}
-        {selectedArticle && !isSearching && <aside className="w-72 shrink-0 border-l border-slate-200/80 dark:border-slate-800 hidden lg:flex flex-col bg-white dark:bg-slate-900">
-          <div className="px-5 pt-6 pb-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-900 dark:text-slate-100">本页目录</p>
+        {selectedArticle && !isSearching && <aside className="w-72 shrink-0 overflow-y-auto border-l border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-900 hidden lg:block scrollbar-hide">
+          <div className="px-5 pt-6 pb-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">阅读导航</p>
+            <p className="mt-1 text-sm font-black text-slate-900 dark:text-slate-100">本页目录</p>
           </div>
-          <nav className="flex-1 overflow-y-auto pb-8 scrollbar-hide">
-            {toc.length > 0 ? (
+          <nav aria-label="本页目录" className="pb-5">
+            {navigationToc.length > 0 ? (
               <div className="relative">
                 <div className="absolute left-5 top-0 bottom-0 w-px bg-slate-100 dark:bg-slate-800" />
-                {toc.map(item => (
+                {navigationToc.map(item => (
                   <a
                     key={item.id}
                     href={`#${item.id}`}
@@ -954,6 +868,40 @@ export function ArticlesContent({
               </p>
             )}
           </nav>
+          {(sidebarRecommendations.length > 0 || topicLinks.length > 0) && (
+            <div className="mx-4 mb-7 border-t border-slate-100 pt-5 dark:border-slate-800">
+              <div className="rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50 via-white to-amber-50/40 p-4 dark:border-amber-900/60 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900">
+                <div className="flex items-center gap-2 text-amber-700 dark:text-amber-300">
+                  <Compass className="h-4 w-4" />
+                  <p className="text-xs font-black">猜你还想学习</p>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">把纳指的配置、定投节奏和长期执行串起来看。</p>
+                <div className="mt-3 space-y-2">
+                  {sidebarRecommendations.map((article) => (
+                    <ProtectedContentLink
+                      key={article.id}
+                      href={getArticleHref(article)}
+                      className="group flex items-start gap-2 rounded-xl border border-white/80 bg-white/80 px-3 py-2.5 transition-colors hover:border-amber-300 hover:bg-white dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-amber-800"
+                    >
+                      <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <span className="line-clamp-2 text-xs font-bold leading-5 text-slate-700 dark:text-slate-200">{article.title}</span>
+                    </ProtectedContentLink>
+                  ))}
+                </div>
+                <div className="mt-4 border-t border-amber-200/70 pt-3 dark:border-amber-900/50">
+                  <p className="text-[11px] font-black text-amber-700 dark:text-amber-300">继续练习</p>
+                  <div className="mt-2 space-y-1">
+                    {topicLinks.slice(0, 2).map((link) => (
+                      <ProtectedContentLink key={link.href} href={link.href} className="group flex items-center justify-between gap-2 py-1 text-xs font-semibold text-slate-600 hover:text-amber-700 dark:text-slate-300 dark:hover:text-amber-300">
+                        <span>{link.title}</span>
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-amber-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </ProtectedContentLink>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </aside>}
 
       </div>

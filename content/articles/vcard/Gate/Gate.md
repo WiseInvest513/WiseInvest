@@ -35,36 +35,38 @@ OK，交易所的基本情况我们介绍完了，接下来就不再讲理论了
 
 首先，我们打开 App Store，检索Gate，如图所示。我们点击获取，进来之后点击注册，创建自己的账户。居住国家这里，我们选择中国即可。
 
-![Gate 开户流程截图 1](/content/articles/vcard/Gate/1.png)
+![Gate 开户流程截图 1](/content/articles/vcard/Gate/1.webp)
 
 我们填写自己的邮箱或手机号，任选其一即可。这里请大家注意一下，在邀请码处可以输入“WISEGATE”。都是大写。
 
-![Gate 开户流程截图 2](/content/articles/vcard/Gate/2.png)
+> 注册 Gate 交易所 账户 · 邀请码：**WISEGATE** · 福利：永久 20% 交易手续费返佣
 
-这里和大家多讲一句，填写了邀请码之后，大家可以终身享受 20% 的交易返现。
+![Gate 开户流程截图 2](/content/articles/vcard/Gate/2.webp)
+
+填写交易所邀请码 **WISEGATE** 后，可享**永久 20% 交易手续费返佣**。这项权益属于 Gate 交易所，与 Gate Card 的消费积分和卡片奖励分开计算。
 那同时大家如果说注册了 Gate并且入金了 1000U、完成 10000U 合约交易之后，可以私信我加入我的 VIP 群，除了大家能够正常领取 Gate 相关的奖励之外，我个人也会额外为通过我邀请码开户的朋友赠送 5U 的现金奖励，直接打到大家的 Gate 账户中。
 所以说，如果大家看到此教程，在开户的时候可以顺手填写此邀请码，在领取奖励的同时，也可以加入我个人的 VIP 群。
 输入自己的登录密码，进来之后，系统会提示进行身份验证。我们选择居住国和国籍都是中国，证件类型选择身份证即可。
 
-![Gate 开户流程截图 3](/content/articles/vcard/Gate/3.png)
+![Gate 开户流程截图 3](/content/articles/vcard/Gate/3.webp)
 
 接着就是验证自己的身份证和人脸信息。验证完毕之后，话题会提示我们在审核中，这个基本上不会很慢，基本上 5 分钟就可以完成这个整个申请开户。
 
-![Gate 开户流程截图 4](/content/articles/vcard/Gate/4.png)
+![Gate 开户流程截图 4](/content/articles/vcard/Gate/4.webp)
 
 开户完成之后，我们就可以点击如何领取各种奖励。如图 2 所示，在注册身份认证时，都可以领取到不同的奖励。当然，在首笔充值大于 100U 之后，也可以领取到额外的 50U 奖励，大家进行正常的充值入金领取奖励即可。
 开户完毕之后，我们就可以进行正常的入金操作。我们可以通过多种方式入金，包括 C2C 交易以及链上入金。这里我给大家演示一下，如何通过链上进行入金。
 
-![Gate 开户流程截图 5](/content/articles/vcard/Gate/5.png)
+![Gate 开户流程截图 5](/content/articles/vcard/Gate/5.webp)
 
 我们打开充值，选择充值 USD，然后选择对应的币种，这里选择充值 USDT。
 网络方面，我们建议大家选择 BSC 链。完成之后，就可以得到一个充值地址（如图 2 所示）。接着，我们打开 BN，点击“提现资产”，选择 USDT。
 
-![Gate 开户流程截图 6](/content/articles/vcard/Gate/6.png)
+![Gate 开户流程截图 6](/content/articles/vcard/Gate/6.webp)
 
 接着把地址复制进来，充值资金即可。充值完毕之后，我们就可以领取这个奖励，
 
-![Gate 开户流程截图 7](/content/articles/vcard/Gate/7.png)
+![Gate 开户流程截图 7](/content/articles/vcard/Gate/7.webp)
 
 现在对于 Gate 来说，也可以正常交易美股，大家按照流程开通美股账户即可。
 关于 Gate 美股的详细介绍及注意事项，我们在本期教程中就不深入讲解了。等到下期，我们会再出一期详细的教程，为大家介绍 Gate 交易所更多交易的细节。
@@ -75,17 +77,20 @@ OK，我们在聊完了这个交易所注册之后，我们就来聊一聊 gate 
 那整体的开通也比较简单，我们首先进入首页。
 点击滑动框，选中“get card”，点击“立即申请”，选择“直接申请卡片”，选择居住地址为“其他”，最后选择“申请新卡”。
 
-![Gate Card 开卡流程截图 8](/content/articles/vcard/Gate/8.png)
+![Gate Card 开卡流程截图 8](/content/articles/vcard/Gate/8.webp)
 
-然后我们记得绑定自己的一个手机号码和自己的邮箱地址，接着在邀请码这里我们同样输入WiSEGATE 即可，然后在填写信息这里，如果大家不会填写的话，可以按照我如图 2 所示的信息进行填写，接着选择提交即可申请此卡。
+然后我们绑定自己的手机号码和邮箱地址，在开卡页面填写邀请码 **WISEGATE**，注意全部大写。可先复制下方邀请码，再填写其余信息并提交申请。
+
+> 申请 Gate Card · 邀请码：**WISEGATE**
+
 这个过程不会花费我们太长时间，大概 5 分钟即可审核通过。如图所示，我们即得到了我们的 gate Card
 
-![Gate Card 开卡流程截图 9](/content/articles/vcard/Gate/9.png)
+![Gate Card 开卡流程截图 9](/content/articles/vcard/Gate/9.webp)
 
 我这里给大家简单测试一下具体的消费。我在美团上购买了一个 96.6 人民币的 Get 卡产品，同时支付是 14.62 U。
 这个笔费用同时包含了账单金额以及对应的手续费。但是我们消费之后，也会返还给我们对应的积分，这相当于等同于一个现金奖励。所以算下来，其实还是非常划算的，基本上等同于零损耗。
 
-![Gate Card 开卡流程截图 10](/content/articles/vcard/Gate/10.png)
+![Gate Card 开卡流程截图 10](/content/articles/vcard/Gate/10.webp)
 
 ## 五、总结
 

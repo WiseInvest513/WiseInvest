@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-05",
+  "method": "built-in image_gen",
+  "scope": "Article list thumbnails only; no body content or shared registry changes.",
+  "styleReferences": [
+    "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/us-guide.png",
+    "/Users/balala/Persona/Blog/MyBlog/public/images/brand/wise-invest-signature.png"
+  ],
+  "encoding": {
+    "width": 640,
+    "format": "webp",
+    "quality": 60,
+    "effort": 6,
+    "smartSubsample": true,
+    "noCropping": true,
+    "noStretching": true
+  },
+  "covers": [
+    {
+      "id": "SGB-register",
+      "title": "SGB 银行\n开户指南",
+      "subtitle": "账户申请 · 资料准备 · 资金路径",
+      "subject": "A solid navy document wallet and a thick glass bank building connected to a small silver globe by one fine champagne-gold path. These are unbranded conceptual objects, no official product mockup.",
+      "alt": "SGB 银行开户指南，玻璃银行与账户资料夹",
+      "topics": [
+        "SGB银行",
+        "开户",
+        "资金路径"
+      ],
+      "prompt": "Use case: stylized-concept. Create one standalone Wise Invest article-list thumbnail cover, horizontal 16:9, intended 640x360 display. Input image 1 is the approved style/composition anchor ONLY; do not reuse its topic. Input image 2 is the exact original branding insert: reuse its whole @Wise Invest lettering, thin bottom line, and sunglasses-person photograph intact, not redrawn or approximated. Place that full insert in upper right at 16-18% canvas width, original aspect ratio, white badge with corner radius 20% of badge height, safe top/right margins, unobtrusive. Match reference's pure silver-white bright studio, physically credible thick clear glass and silver aluminum, fine champagne-gold lines, soft natural controlled reflections, dark navy-black large Chinese two-line heading on left, thin gold separator and restrained grey small subtitle. Generous breathing space. Theme-specific coherent 3D conceptual object on right, clean recognizable silhouette. No giant logos, no excessive props, no invented official bank card or app screen, no upward profit charts, no numerical financial claims, no guaranteed benefits, no CRS/tax claims, no site UI. Do not add unrelated words. Keep all title and signature within safe margins. Exact left heading (two lines): \"SGB 银行\n开户指南\". Exact grey subtitle: \"账户申请 · 资料准备 · 资金路径\". Right-hand subject: A solid navy document wallet and a thick glass bank building connected to a small silver globe by one fine champagne-gold path. These are unbranded conceptual objects, no official product mockup.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-7de9-7f40-9d82-4a6c78234b2e/exec-4f98a2a7-ca30-4c70-986e-aae277a84dd3.png",
+      "sourcePath": "assets/source-images/article-covers/SGB-register.png",
+      "publicPath": "public/images/articles/covers/SGB-register.webp",
+      "sourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 15412,
+      "visualQA": "Passed at 640x360: full heading and subtitle legible; intact small rounded @Wise Invest text/person signature at top right; theme appropriate; no fabricated benefits or data."
+    },
+    {
+      "id": "jianzheng",
+      "title": "香港银行\n见证开户",
+      "subtitle": "材料准备 · 银行选择 · 办理流程",
+      "subject": "A navy paper document folder with visible white sheets and a silver fountain pen beside a clear optical-glass bank doorway, a fine champagne-gold approval seal as a simple abstract object, no real bank logo or invented documents.",
+      "alt": "香港银行见证开户，资料夹与玻璃银行入口",
+      "topics": [
+        "香港银行",
+        "见证开户",
+        "材料准备"
+      ],
+      "prompt": "Use case: stylized-concept. Create one standalone Wise Invest article-list thumbnail cover, horizontal 16:9, intended 640x360 display. Input image 1 is the approved style/composition anchor ONLY; do not reuse its topic. Input image 2 is the exact original branding insert: reuse its whole @Wise Invest lettering, thin bottom line, and sunglasses-person photograph intact, not redrawn or approximated. Place that full insert in upper right at 16-18% canvas width, original aspect ratio, white badge with corner radius 20% of badge height, safe top/right margins, unobtrusive. Match reference's pure silver-white bright studio, physically credible thick clear glass and silver aluminum, fine champagne-gold lines, soft natural controlled reflections, dark navy-black large Chinese two-line heading on left, thin gold separator and restrained grey small subtitle. Generous breathing space. Theme-specific coherent 3D conceptual object on right, clean recognizable silhouette. No giant logos, no excessive props, no invented official bank card or app screen, no upward profit charts, no numerical financial claims, no guaranteed benefits, no CRS/tax claims, no site UI. Do not add unrelated words. Keep all title and signature within safe margins. Exact left heading (two lines): \"香港银行\n见证开户\". Exact grey subtitle: \"材料准备 · 银行选择 · 办理流程\". Right-hand subject: A navy paper document folder with visible white sheets and a silver fountain pen beside a clear optical-glass bank doorway, a fine champagne-gold approval seal as a simple abstract object, no real bank logo or invented documents.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-7de9-7f40-9d82-4a6c78234b2e/exec-c9d74d2b-b643-4247-b36a-d53447a629f1.png",
+      "sourcePath": "assets/source-images/article-covers/jianzheng.png",
+      "publicPath": "public/images/articles/covers/jianzheng.webp",
+      "sourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 16546,
+      "visualQA": "Passed at 640x360: full heading and subtitle legible; intact small rounded @Wise Invest text/person signature at top right; theme appropriate; no fabricated benefits or data."
+    },
+    {
+      "id": "huili",
+      "title": "汇立银行\n开户与转账",
+      "subtitle": "账户开通 · 转账操作 · 使用指南",
+      "subject": "An unbranded navy smartphone and two clear glass account blocks joined by a fine champagne-gold transfer path, with a minimal pale silver document card. No fake app interface, no fabricated debit card.",
+      "alt": "汇立银行开户与转账，手机与玻璃账户连接",
+      "topics": [
+        "汇立银行",
+        "开户",
+        "转账"
+      ],
+      "prompt": "Use case: stylized-concept. Create one standalone Wise Invest article-list thumbnail cover, horizontal 16:9, intended 640x360 display. Input image 1 is the approved style/composition anchor ONLY; do not reuse its topic. Input image 2 is the exact original branding insert: reuse its whole @Wise Invest lettering, thin bottom line, and sunglasses-person photograph intact, not redrawn or approximated. Place that full insert in upper right at 16-18% canvas width, original aspect ratio, white badge with corner radius 20% of badge height, safe top/right margins, unobtrusive. Match reference's pure silver-white bright studio, physically credible thick clear glass and silver aluminum, fine champagne-gold lines, soft natural controlled reflections, dark navy-black large Chinese two-line heading on left, thin gold separator and restrained grey small subtitle. Generous breathing space. Theme-specific coherent 3D conceptual object on right, clean recognizable silhouette. No giant logos, no excessive props, no invented official bank card or app screen, no upward profit charts, no numerical financial claims, no guaranteed benefits, no CRS/tax claims, no site UI. Do not add unrelated words. Keep all title and signature within safe margins. Exact left heading (two lines): \"汇立银行\n开户与转账\". Exact grey subtitle: \"账户开通 · 转账操作 · 使用指南\". Right-hand subject: An unbranded navy smartphone and two clear glass account blocks joined by a fine champagne-gold transfer path, with a minimal pale silver document card. No fake app interface, no fabricated debit card.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-7de9-7f40-9d82-4a6c78234b2e/exec-2700bf09-cf9a-4d5d-a9e1-478fa6a40862.png",
+      "sourcePath": "assets/source-images/article-covers/huili.png",
+      "publicPath": "public/images/articles/covers/huili.webp",
+      "sourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 14936,
+      "visualQA": "Passed at 640x360: full heading and subtitle legible; intact small rounded @Wise Invest text/person signature at top right; theme appropriate; no fabricated benefits or data."
+    },
+    {
+      "id": "jianhang",
+      "title": "建行亚洲\n开户指南",
+      "subtitle": "资料准备 · 账户开通 · 两地连接",
+      "subject": "Two elegant glass bank entrance structures linked by a narrow champagne-gold bridge with a navy passport-sized document folder in the foreground, conceptual mainland-Hong Kong banking linkage, no fake bank card or bank logo.",
+      "alt": "建行亚洲开户指南，两地银行账户连接",
+      "topics": [
+        "建行亚洲",
+        "开户",
+        "两地账户"
+      ],
+      "prompt": "Use case: stylized-concept. Create one standalone Wise Invest article-list thumbnail cover, horizontal 16:9, intended 640x360 display. Input image 1 is the approved style/composition anchor ONLY; do not reuse its topic. Input image 2 is the exact original branding insert: reuse its whole @Wise Invest lettering, thin bottom line, and sunglasses-person photograph intact, not redrawn or approximated. Place that full insert in upper right at 16-18% canvas width, original aspect ratio, white badge with corner radius 20% of badge height, safe top/right margins, unobtrusive. Match reference's pure silver-white bright studio, physically credible thick clear glass and silver aluminum, fine champagne-gold lines, soft natural controlled reflections, dark navy-black large Chinese two-line heading on left, thin gold separator and restrained grey small subtitle. Generous breathing space. Theme-specific coherent 3D conceptual object on right, clean recognizable silhouette. No giant logos, no excessive props, no invented official bank card or app screen, no upward profit charts, no numerical financial claims, no guaranteed benefits, no CRS/tax claims, no site UI. Do not add unrelated words. Keep all title and signature within safe margins. Exact left heading (two lines): \"建行亚洲\n开户指南\". Exact grey subtitle: \"资料准备 · 账户开通 · 两地连接\". Right-hand subject: Two elegant glass bank entrance structures linked by a narrow champagne-gold bridge with a navy passport-sized document folder in the foreground, conceptual mainland-Hong Kong banking linkage, no fake bank card or bank logo.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-7de9-7f40-9d82-4a6c78234b2e/exec-6d9c9f70-61b0-4604-8949-b2e4b9ef12fe.png",
+      "sourcePath": "assets/source-images/article-covers/jianhang.png",
+      "publicPath": "public/images/articles/covers/jianhang.webp",
+      "sourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 16538,
+      "visualQA": "Passed at 640x360: full heading and subtitle legible; intact small rounded @Wise Invest text/person signature at top right; theme appropriate; no fabricated benefits or data."
+    },
+    {
+      "id": "pingan",
+      "title": "平安数字银行\n开户指南",
+      "subtitle": "资料准备 · 身份验证 · 账户使用",
+      "subject": "An unbranded navy smartphone standing beside a thick transparent glass identity-verification card with only a plain human silhouette and a small gold check shape, no app UI and no real bank card.",
+      "alt": "平安数字银行开户指南，手机与身份验证卡",
+      "topics": [
+        "平安数字银行",
+        "开户",
+        "身份验证"
+      ],
+      "prompt": "Use case: stylized-concept. Create one standalone Wise Invest article-list thumbnail cover, horizontal 16:9, intended 640x360 display. Input image 1 is the approved style/composition anchor ONLY; do not reuse its topic. Input image 2 is the exact original branding insert: reuse its whole @Wise Invest lettering, thin bottom line, and sunglasses-person photograph intact, not redrawn or approximated. Place that full insert in upper right at 16-18% canvas width, original aspect ratio, white badge with corner radius 20% of badge height, safe top/right margins, unobtrusive. Match reference's pure silver-white bright studio, physically credible thick clear glass and silver aluminum, fine champagne-gold lines, soft natural controlled reflections, dark navy-black large Chinese two-line heading on left, thin gold separator and restrained grey small subtitle. Generous breathing space. Theme-specific coherent 3D conceptual object on right, clean recognizable silhouette. No giant logos, no excessive props, no invented official bank card or app screen, no upward profit charts, no numerical financial claims, no guaranteed benefits, no CRS/tax claims, no site UI. Do not add unrelated words. Keep all title and signature within safe margins. Exact left heading (two lines): \"平安数字银行\n开户指南\". Exact grey subtitle: \"资料准备 · 身份验证 · 账户使用\". Right-hand subject: An unbranded navy smartphone standing beside a thick transparent glass identity-verification card with only a plain human silhouette and a small gold check shape, no app UI and no real bank card.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-7de9-7f40-9d82-4a6c78234b2e/exec-4ab3a462-4953-4e02-878d-ecd432d2cab5.png",
+      "sourcePath": "assets/source-images/article-covers/pingan.png",
+      "publicPath": "public/images/articles/covers/pingan.webp",
+      "sourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 14942,
+      "visualQA": "Passed at 640x360: full heading and subtitle legible; intact small rounded @Wise Invest text/person signature at top right; theme appropriate; no fabricated benefits or data."
+    },
+    {
+      "id": "zhongan-intro",
+      "title": "众安银行\n使用指南",
+      "subtitle": "开户 · 转账 · 消费 · 投资",
+      "subject": "A navy smartphone, translucent glass wallet and small silver ledger document arranged as a cohesive digital banking still life, with restrained gold connecting trim; no official bank card, no fake app screen.",
+      "alt": "众安银行使用指南，数字银行与钱包概念",
+      "topics": [
+        "众安银行",
+        "开户",
+        "转账",
+        "消费",
+        "投资"
+      ],
+      "prompt": "Use case: stylized-concept. Create one standalone Wise Invest article-list thumbnail cover, horizontal 16:9, intended 640x360 display. Input image 1 is the approved style/composition anchor ONLY; do not reuse its topic. Input image 2 is the exact original branding insert: reuse its whole @Wise Invest lettering, thin bottom line, and sunglasses-person photograph intact, not redrawn or approximated. Place that full insert in upper right at 16-18% canvas width, original aspect ratio, white badge with corner radius 20% of badge height, safe top/right margins, unobtrusive. Match reference's pure silver-white bright studio, physically credible thick clear glass and silver aluminum, fine champagne-gold lines, soft natural controlled reflections, dark navy-black large Chinese two-line heading on left, thin gold separator and restrained grey small subtitle. Generous breathing space. Theme-specific coherent 3D conceptual object on right, clean recognizable silhouette. No giant logos, no excessive props, no invented official bank card or app screen, no upward profit charts, no numerical financial claims, no guaranteed benefits, no CRS/tax claims, no site UI. Do not add unrelated words. Keep all title and signature within safe margins. Exact left heading (two lines): \"众安银行\n使用指南\". Exact grey subtitle: \"开户 · 转账 · 消费 · 投资\". Right-hand subject: A navy smartphone, translucent glass wallet and small silver ledger document arranged as a cohesive digital banking still life, with restrained gold connecting trim; no official bank card, no fake app screen.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1aad4-7de9-7f40-9d82-4a6c78234b2e/exec-861ae62b-efa2-4231-8528-5a29e494018d.png",
+      "sourcePath": "assets/source-images/article-covers/zhongan-intro.png",
+      "publicPath": "public/images/articles/covers/zhongan-intro.webp",
+      "sourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "webDimensions": {
+        "width": 640,
+        "height": 360
+      },
+      "bytes": 14946,
+      "visualQA": "Passed at 640x360: full heading and subtitle legible; intact small rounded @Wise Invest text/person signature at top right; theme appropriate; no fabricated benefits or data."
+    }
+  ]
+}

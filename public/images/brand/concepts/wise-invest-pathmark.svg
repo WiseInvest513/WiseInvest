@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Wise Invest Pathmark</title>
+  <desc id="desc">Four modular blocks create an open window and a forward path, with a single observation point at the center.</desc>
+  <rect x="80" y="76" width="262" height="76" rx="24" fill="#191919"/>
+  <path d="M360 112c0-20 16-36 36-36s36 16 36 36v218c0 20-16 36-36 36h-80v-76h44V152h-44v-40h44Z" fill="#191919"/>
+  <rect x="170" y="360" width="262" height="76" rx="24" fill="#191919"/>
+  <path d="M116 146h80v76h-44v138h44v76h-80c-20 0-36-16-36-36V182c0-20 16-36 36-36Z" fill="#191919"/>
+  <rect x="220" y="220" width="72" height="72" rx="22" fill="#FFFFFF"/>
+  <text x="256" y="270" text-anchor="middle" fill="#191919" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="800" letter-spacing="-4">W</text>
+</svg>

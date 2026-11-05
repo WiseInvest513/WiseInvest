@@ -1,7 +1,7 @@
 import { genUid } from "./article-uid";
 import { articles as hardcodedArticles, type Article } from "./articles-data";
 import { loadFsArticles, type FsArticle } from "./articles-fs";
-import { articleCovers } from "./article-covers";
+import { getArticleListCover } from "./article-covers";
 
 export type AnyArticle = Article | FsArticle;
 export type ArticleListItem = Omit<Article, "content"> & {
@@ -32,7 +32,7 @@ export function getArticleByRoute(categoryId: string, uid: string): AnyArticle |
 
 export function toArticleListItem(article: AnyArticle): ArticleListItem {
   const { content: _content, ...listItem } = article;
-  return { ...listItem, coverImage: articleCovers[article.id]?.src ?? getArticlePrimaryImage(article) };
+  return { ...listItem, coverImage: getArticleListCover(article.id) };
 }
 
 export function getArticlePrimaryImage(article: Pick<Article, "content">): string | undefined {

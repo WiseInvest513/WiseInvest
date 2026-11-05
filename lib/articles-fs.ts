@@ -65,6 +65,7 @@ export function loadFsArticles(): FsArticle[] {
       // basePath = relative path from content/articles, e.g. "broker/fuxing"
       const rel = path.relative(CONTENT_ROOT, path.dirname(file));
       const basePath = rel.split(path.sep).join("/");
+      const tocDepth = meta.tocDepth === "2" ? 2 : meta.tocDepth === "3" ? 3 : meta.tocDepth === "4" ? 4 : undefined;
 
       results.push({
         id: meta.id,
@@ -76,6 +77,7 @@ export function loadFsArticles(): FsArticle[] {
         summary: meta.summary ?? "",
         content: resolveImagePaths(content, basePath),
         imageLayout: meta.imageLayout,
+        tocDepth,
         basePath,
       });
     } catch {

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Wise Invest — 投资者签名字标</title>
+  <desc id="desc">Warm ivory editorial identity with a refined Wise Invest signature wordmark.</desc>
+  <defs>
+    <linearGradient id="paper" x1="40" y1="20" x2="1160" y2="610" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFDF9"/>
+      <stop offset="1" stop-color="#F3EBDD"/>
+    </linearGradient>
+    <clipPath id="signatureClip">
+      <rect x="968" y="30" width="192" height="53" rx="11"/>
+    </clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="url(#paper)"/>
+  <path d="M92 463H1108" stroke="#C7B69B" stroke-width="2"/>
+  <path d="M93 181H235" stroke="#B68C44" stroke-width="7" stroke-linecap="round"/>
+  <text x="91" y="125" fill="#9A8054" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="5">WISE INVEST · RESEARCH NOTES</text>
+  <text x="82" y="371" fill="#171513" font-family="Bodoni 72, Didot, Georgia, serif" font-size="240" font-style="italic" letter-spacing="-16">Wise</text>
+  <text x="699" y="370" fill="#171513" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="600" letter-spacing="18">INVEST</text>
+  <text x="95" y="524" fill="#7B7161" font-family="Arial, sans-serif" font-size="22" letter-spacing="1">Clarity for long-term capital.</text>
+  <circle cx="1090" cy="464" r="7" fill="#B68C44"/>
+  <image href="/images/brand/wise-invest-signature.png" x="968" y="30" width="192" height="53" preserveAspectRatio="xMidYMid meet" clip-path="url(#signatureClip)"/>
+</svg>

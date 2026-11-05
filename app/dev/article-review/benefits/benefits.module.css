@@ -1,0 +1,86 @@
+.page { min-height: 100vh; padding: 112px 24px 64px; background: #f6f8fb; color: #19283d; font-size: 13px; line-height: 1.75; }
+.container { max-width: 1320px; margin: 0 auto; }
+.header { max-width: 820px; margin-bottom: 26px; }
+.backLink { display: inline-block; color: #64748b; font-size: 12px; margin-bottom: 24px; }
+.backLink:hover { color: #254e7b; }
+.kicker { color: #8a6938; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+.header h1 { margin: 7px 0 10px; font-size: clamp(25px, 3vw, 34px); line-height: 1.4; letter-spacing: -.035em; font-weight: 700; }
+.header > p:last-child { color: #64748b; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: hidden; border: 1px solid #dfe5ed; border-radius: 14px; background: #fff; }
+.stats > div { display: flex; flex-direction: column-reverse; gap: 4px; padding: 19px 23px; border-right: 1px solid #e7ebf1; }
+.stats > div:last-child { border-right: 0; }
+.stats dt { color: #64748b; font-size: 12px; }
+.stats dd { font-size: 28px; line-height: 1.2; font-weight: 650; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.scope { color: #768298; font-size: 12px; margin: 16px 0 20px; max-width: 1000px; }
+.navigation { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 29px; }
+.navigation a { border: 1px solid #dce3ec; border-radius: 8px; background: #fff; padding: 8px 13px; color: #435872; }
+.navigation a:hover { border-color: #92a9c4; }
+.navigation strong { font-weight: 600; color: #1b3859; margin-left: 7px; }
+.group { scroll-margin-top: 90px; margin-top: 30px; }
+.groupHeading { margin: 0 0 13px; }
+.groupHeading h2 { font-size: 19px; font-weight: 650; }
+.groupHeading h2 span { font-size: 12px; color: #738397; font-weight: 400; margin-left: 5px; }
+.groupHeading p { font-size: 12px; color: #738397; margin-top: 3px; }
+.table { border: 1px solid #dce3ec; border-radius: 13px; background: #fff; overflow: hidden; }
+.columns { display: grid; grid-template-columns: minmax(145px, .85fr) minmax(0, 1.65fr) minmax(0, 1fr) minmax(0, 1.05fr); gap: 24px; padding: 21px; }
+.columns > div { min-width: 0; overflow-wrap: anywhere; }
+.tableHeading { padding-top: 11px; padding-bottom: 11px; background: #edf2f7; color: #6b7b90; font-size: 11px; }
+.row + .row { border-top: 1px solid #e7ebf1; }
+.productHeading { display: flex; align-items: center; gap: 9px; }
+.productHeading img { flex-shrink: 0; width: 32px; height: 32px; object-fit: contain; border: 1px solid #e3e9f0; border-radius: 9px; padding: 3px; background: #fff; }
+.productHeading h3 { font-size: 14px; line-height: 1.45; font-weight: 650; }
+.code { margin-top: 9px; font-size: 11px; color: #738397; }
+.code code { display: inline; font-size: 12px; font-weight: 650; color: #334e6b; }
+.presentBadge,.missingBadge { display: inline-flex; margin-top: 8px; border-radius: 4px; padding: 1px 6px; font-size: 10px; }
+.presentBadge { background: #edf5f1; color: #39745a; }
+.missingBadge { background: #fbf1e1; color: #946a29; }
+.benefitTitle { margin-bottom: 6px; color: #586c86; font-size: 11px; }
+.benefitTitle span { color: #7b899e; }
+.benefitList { display: flex; flex-direction: column; gap: 9px; }
+.benefitList strong { color: #243f62; font-size: 15px; font-weight: 700; margin-right: 3px; }
+.condition { color: #6e7d91; font-size: 12px; margin-top: 2px; }
+.note { color: #6e7d91; font-size: 11px; margin-top: 9px; }
+.gap { color: #936b31; font-size: 12px; }
+.muted { color: #8793a3; font-size: 12px; }
+.sources { display: flex; flex-direction: column; gap: 9px; font-size: 12px; }
+.sources a { color: #3b6a9b; text-decoration: underline; text-decoration-color: #d6e1ee; text-underline-offset: 3px; }
+.sources a:hover { color: #194d84; text-decoration-color: currentColor; }
+.preview { margin: 0 21px; padding: 0 0 13px; }
+.preview > summary { cursor: pointer; color: #728297; font-size: 11px; width: fit-content; }
+.preview[open] > summary { color: #355d89; }
+.previewContent { padding-top: 13px; }
+.previewContent > aside { margin: 0; }
+.mobileLabel { display: none; }
+.empty { padding: 25px 20px; border: 1px dashed #dce3ec; border-radius: 12px; color: #7a899d; }
+.page :is(a, summary):focus-visible { outline: 2px solid #527fb8; outline-offset: 3px; }
+:global(.dark) .page { background: #0d1420; color: #e4eaf3; }
+:global(.dark) .table,:global(.dark) .stats,:global(.dark) .navigation a { background: #141e2e; border-color: #2c3c52; }
+:global(.dark) .tableHeading { background: #1a273a; }
+:global(.dark) .row + .row,:global(.dark) .stats > div { border-color: #2c3c52; }
+:global(.dark) .benefitList strong,:global(.dark) .code code,:global(.dark) .navigation strong { color: #bdd3ee; }
+:global(.dark) .sources a { color: #97bce6; text-decoration-color: #344862; }
+:global(.dark) .presentBadge { background: #183c31; color: #9dceba; }
+:global(.dark) .missingBadge { background: #3c3020; color: #dfbb7c; }
+:global(.dark) .gap { color: #d1ad76; }
+:global(.dark) .navigation a { color: #b0bfd2; }
+:global(.dark) .condition,:global(.dark) .note,:global(.dark) .scope,:global(.dark) .muted { color: #9aaac0; }
+@media (max-width: 1000px) { .columns { gap: 16px; grid-template-columns: minmax(130px,.85fr) minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr); padding: 18px; } .preview { margin-right: 18px; margin-left: 18px; } }
+@media (max-width: 760px) {
+  .page { padding: 96px 14px 40px; }
+  .header { margin-bottom: 20px; }
+  .backLink { margin-bottom: 16px; }
+  .stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .stats > div { padding: 16px; border-bottom: 1px solid #e7ebf1; }
+  .stats > div:nth-child(2) { border-right: 0; }
+  .stats > div:nth-child(n+3) { border-bottom: 0; }
+  .stats dd { font-size: 25px; }
+  .columns { display: flex; flex-direction: column; gap: 16px; padding: 17px; }
+  .tableHeading { display: none; }
+  .mobileLabel { display: block; color: #8190a4; font-size: 10px; font-weight: 500; margin-bottom: 5px; }
+  .productHeading h3 { font-size: 16px; }
+  .gapCell { padding-top: 11px; border-top: 1px dashed #e3e9f0; }
+  .preview { margin-right: 10px; margin-left: 10px; padding-bottom: 16px; }
+  .preview > summary { margin-left: 7px; }
+  .sourceCell { padding-top: 1px; }
+  :global(.dark) .gapCell { border-color: #2c3c52; }
+}

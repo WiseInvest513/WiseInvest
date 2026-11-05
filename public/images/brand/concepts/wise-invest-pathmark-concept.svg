@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Wise Invest — Pathmark</title>
+  <desc id="desc">A modular geometric brand mark for Wise Invest.</desc>
+  <defs>
+    <clipPath id="signatureClip"><rect x="968" y="30" width="192" height="53" rx="11"/></clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="#F5F4F0"/>
+  <rect x="55" y="55" width="1090" height="520" rx="34" fill="#FFFFFF"/>
+  <rect x="92" y="92" width="446" height="446" rx="50" fill="#E5AA32"/>
+  <g transform="translate(131 131) scale(.75)">
+    <rect x="80" y="76" width="262" height="76" rx="24" fill="#191919"/>
+    <path d="M360 112c0-20 16-36 36-36s36 16 36 36v218c0 20-16 36-36 36h-80v-76h44V152h-44v-40h44Z" fill="#191919"/>
+    <rect x="170" y="360" width="262" height="76" rx="24" fill="#191919"/>
+    <path d="M116 146h80v76h-44v138h44v76h-80c-20 0-36-16-36-36V182c0-20 16-36 36-36Z" fill="#191919"/>
+    <rect x="220" y="220" width="72" height="72" rx="22" fill="#FFFFFF"/>
+    <text x="256" y="270" text-anchor="middle" fill="#191919" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="800" letter-spacing="-4">W</text>
+  </g>
+  <text x="621" y="242" fill="#191919" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="700" letter-spacing="7">WISE INVEST</text>
+  <text x="621" y="331" fill="#191919" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="700" letter-spacing="-3">PATHMARK</text>
+  <text x="621" y="382" fill="#74746F" font-family="Arial, Helvetica, sans-serif" font-size="22">由四个资本模块构成的观察窗口</text>
+  <line x1="621" y1="435" x2="1075" y2="435" stroke="#D9D9D3" stroke-width="2"/>
+  <text x="621" y="485" fill="#191919" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="2">OPEN · FRAME · ADVANCE</text>
+  <image href="/images/brand/wise-invest-signature.png" x="968" y="30" width="192" height="53" preserveAspectRatio="xMidYMid meet" clip-path="url(#signatureClip)"/>
+</svg>

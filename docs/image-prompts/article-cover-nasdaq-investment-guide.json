@@ -1,0 +1,22 @@
+{
+  "id": "nasdaq-investment-guide",
+  "method": "built-in image_gen",
+  "prompt": "Create a finished Chinese landscape 16:9 article cover, exactly 1600x900 if possible. Topic: six different ways to invest in Nasdaq exposure, comparing funds, broker-held ETFs and tokenized price exposure, NOT promising returns. Attached image is STYLE REFERENCE ONLY, don't reuse its words or its old signature. Use same bright white architectural studio, clear thick glass, brushed silver, tiny restrained champagne gold details, precise product visualization. Large crisp Chinese typography on left: first line '纳斯达克投资', second line '六条路径一次讲清'. Smaller subtitle '基金 · 券商 · 链上资产'. On right show a tasteful unified small cluster of a smartphone with an abstract fund sheet, an ETF document marked only 'ETF', and a clear linked token with no brand logo. The three objects represent different instruments, don't show an arrow sequence or claim they're equivalent. No actual financial chart, no performance figures, no upward arrow, no coins pile. Neutral navy titles with muted gold second line matching reference, generous safe margins, strongly readable as 640x360 thumbnail. Keep top-right area completely empty for an exact brand signature that will be composited later; do not generate a signature, person, avatar, logo or watermark yourself. Full edge-to-edge 16:9 scene, no outer card or frame. Simplify background to keep small WebP lightweight.",
+  "styleReference": "public/images/articles/covers/index-guide.webp",
+  "signatureSource": "public/images/brand/wise-invest-signature.png",
+  "signatureComposition": "Original pixels resized proportionally to 16% image width, rounded alpha mask radius 20% signature height, top margin 3.5%, right margin 2.5%; source unchanged.",
+  "source": "assets/source-images/article-covers/nasdaq-investment-guide.png",
+  "raw": "assets/source-images/article-covers/nasdaq-investment-guide-generated.png",
+  "sourceDimensions": [
+    1672,
+    941
+  ],
+  "web": "public/images/articles/covers/nasdaq-investment-guide.webp",
+  "webDimensions": [
+    640,
+    360
+  ],
+  "bytes": 22196,
+  "encoding": "WebP quality60 effort6 smartSubsample; contain fit, no crop or stretch",
+  "scope": "Article list cards only; no body or SEO image changes"
+}
