@@ -1,110 +1,10 @@
 "use client";
-import React, { useState, useEffect, useId, useRef } from "react";
+import React from "react";
+import { ArticleImage } from "@/components/article-image";
 import { ArticleRegistrationCard } from "@/components/article-registration-card";
+import { ArticleLinkCard, ArticleLinkCardGroup, type ArticleLinkMetadata, type ArticleSeriesLinkMetadata } from "@/components/article-link-card";
 import { parseRegistrationCallout } from "@/lib/article-registration";
-
-// ─── Image Lightbox ────────────────────────────────────────
-function ImageLightbox({ src, alt }: { src: string; alt: string }) {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [open]);
-
-  return (
-    <>
-      <img
-        src={src}
-        alt={alt}
-        className="w-full rounded-xl object-cover cursor-zoom-in"
-        loading="lazy"
-        onClick={() => setOpen(true)}
-      />
-      {open && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-          onClick={() => setOpen(false)}
-        >
-          <button
-            onClick={() => setOpen(false)}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors"
-          >
-            ✕
-          </button>
-          <img
-            src={src}
-            alt={alt}
-            className="max-w-[90vw] max-h-[90vh] rounded-xl object-contain shadow-2xl"
-            onClick={e => e.stopPropagation()}
-          />
-        </div>
-      )}
-    </>
-  );
-}
-
-// Long tutorial screenshots keep their original source and can be expanded
-// inline or read in a scrollable dialog, without dominating the whole article.
-function GuideImage({ src, caption }: { src: string; caption: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const [canExpand, setCanExpand] = useState(false);
-  const [previewHeight, setPreviewHeight] = useState<number>();
-  const imageRef = useRef<HTMLImageElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const previewId = useId();
-  const captionId = useId();
-  const dialogTitleId = useId();
-
-  useEffect(() => {
-    const preview = previewRef.current;
-    const image = imageRef.current;
-    if (!preview || !image) return;
-    const measure = () => {
-      if (!image.naturalWidth) return;
-      const limit = parseFloat(getComputedStyle(preview).getPropertyValue("--guide-preview-height"));
-      const height = image.getBoundingClientRect().height + 16;
-      setCanExpand(height > limit + 1);
-      setPreviewHeight(Math.min(height, limit));
-    };
-    const observer = new ResizeObserver(measure);
-    observer.observe(image);
-    observer.observe(preview);
-    measure();
-    return () => observer.disconnect();
-  }, [src]);
-
-  return (
-    <figure aria-labelledby={captionId} className="my-7 mx-auto max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
-      <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 text-xs dark:border-slate-800">
-        <span className="shrink-0 font-semibold text-slate-500 dark:text-slate-400">操作图解</span>
-        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2">
-          {canExpand ? <button type="button" aria-expanded={expanded} aria-controls={previewId} onClick={() => setExpanded(value => !value)} className="font-semibold text-amber-700 hover:text-amber-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-amber-400">
-            {expanded ? "收起图解" : "展开完整图解"} <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
-          </button> : null}
-          <a href={src} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-slate-400 dark:hover:text-slate-200">查看原图 <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-      <div ref={previewRef} id={previewId} style={{ height: expanded ? undefined : previewHeight ?? "var(--guide-preview-height)" }} className="relative overflow-hidden [--guide-preview-height:352px] sm:[--guide-preview-height:448px]">
-        <button type="button" onClick={() => dialogRef.current?.showModal()} aria-label={`放大查看：${caption}`} className={`block w-full cursor-zoom-in overflow-hidden p-2 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-500 ${expanded ? "" : "max-h-[var(--guide-preview-height)]"}`}>
-          <img ref={imageRef} src={src} alt={caption} className="h-auto w-full rounded-lg" loading="lazy" />
-        </button>
-        {canExpand && !expanded ? <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 flex h-16 items-end justify-center bg-gradient-to-t from-white via-white/80 to-transparent pb-2 text-[11px] text-slate-500 dark:from-slate-900 dark:via-slate-900/80 dark:text-slate-400">长图预览 · 展开后查看全部步骤</div> : null}
-      </div>
-      <figcaption id={captionId} className="border-t border-slate-100 px-4 py-3 text-center text-xs leading-5 text-slate-500 dark:border-slate-800 dark:text-slate-400">{caption}</figcaption>
-      <dialog ref={dialogRef} aria-labelledby={dialogTitleId} className="fixed m-auto h-[90dvh] w-[96vw] max-w-6xl overflow-auto rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl backdrop:bg-black/70 dark:border-slate-700 dark:bg-slate-900">
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900">
-          <div><p id={dialogTitleId} className="text-sm font-semibold text-slate-800 dark:text-slate-100">{caption}</p><p className="mt-1 text-xs text-slate-500 dark:text-slate-400">向下滚动查看完整图解</p></div>
-          <button type="button" onClick={() => dialogRef.current?.close()} aria-label="关闭图解" className="shrink-0 rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 dark:text-slate-300 dark:hover:bg-slate-800">关闭</button>
-        </div>
-        <div className="p-3"><img src={src} alt={caption} loading="lazy" className="h-auto w-full rounded-lg" /></div>
-      </dialog>
-    </figure>
-  );
-}
+import { genUid } from "@/lib/article-uid";
 
 // ─── UID generation ────────────────────────────────────────
 export { genUid } from "@/lib/article-uid";
@@ -156,9 +56,17 @@ export function renderInline(text: string, allowLinks = true): React.ReactNode {
 }
 
 // ─── Markdown Renderer ─────────────────────────────────────
-export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string) {
+export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string, linkedArticles: readonly ArticleLinkMetadata[] = [], linkedSeries: readonly ArticleSeriesLinkMetadata[] = []) {
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
+  const articlesByPath = new Map<string, ArticleLinkMetadata | ArticleSeriesLinkMetadata>(linkedArticles.map(({ id, categoryId, title, summary, readTime, coverImage }) => [
+    `/articles/${categoryId}/${genUid(id)}`,
+    { id, categoryId, title, summary, readTime, coverImage },
+  ]));
+  for (const { id, title, summary, articleCount, coverImage } of linkedSeries) {
+    articlesByPath.set(`/articles/series/${id}`, { kind: "series", id, title, summary, articleCount, coverImage });
+  }
+  const cardPattern = /^\[([^\]]+)\]\(([^)]+)\)\{card\}$/;
   let tocIdx = 0; let i = 0; let k = 0;
 
   while (i < lines.length) {
@@ -183,7 +91,15 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
     }
 
     // hr
-    if (trimmed === "---") { elements.push(<hr key={k++} className="my-8 border-slate-100 dark:border-slate-800" />); i++; continue; }
+    if (trimmed === "---") {
+      // Chapter headings already draw their separator; keep in-section rules.
+      let next = i + 1;
+      while (next < lines.length && !lines[next].trim()) next++;
+      if (!/^#{1,2}\s+/.test(lines[next]?.trim() ?? "")) {
+        elements.push(<hr key={k++} className="my-8 border-slate-100 dark:border-slate-800" />);
+      }
+      i++; continue;
+    }
 
     // code block
     if (trimmed.startsWith("```")) {
@@ -195,6 +111,37 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
         </pre>
       );
       i++; continue;
+    }
+
+    // Cards are an explicit author choice on a standalone line, never an
+    // automatic replacement for inline links, citations, or referral callouts.
+    const articleLink = trimmed.match(cardPattern);
+    if (articleLink) {
+      const cards: React.ReactNode[] = [];
+      let match: RegExpMatchArray | null = articleLink;
+      while (match) {
+        const [, label, rawHref] = match;
+        let href: string | undefined;
+        try {
+          const url = new URL(rawHref, "https://www.wise-invest.org");
+          if (url.origin === "https://www.wise-invest.org" && !url.username && !url.password) {
+            href = `${url.pathname}${url.search}${url.hash}`;
+          }
+        } catch { /* Invalid or unavailable targets keep a visible text fallback. */ }
+        const article = href ? articlesByPath.get(href.split(/[?#]/)[0]) : undefined;
+        if (article && href) {
+          cards.push(<ArticleLinkCard key={k++} article={article} href={href} />);
+        } else {
+          cards.push(<p key={k++} className="my-4 text-[16px] leading-8 text-slate-700 dark:text-slate-300">{renderInline(`[${label}](${rawHref})`)}</p>);
+        }
+        i++;
+        let next = i;
+        while (next < lines.length && !lines[next].trim()) next++;
+        match = lines[next]?.trim().match(cardPattern) ?? null;
+        if (match) i = next;
+      }
+      elements.push(cards.length > 1 ? <ArticleLinkCardGroup key={k++}>{cards}</ArticleLinkCardGroup> : cards[0]);
+      continue;
     }
 
     // blockquote
@@ -240,19 +187,28 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       }
     }
 
-    // image row (multiple images on one line → display side by side)
+    // Keep grouped steps together; mobile readers swipe through readable cards.
     const allImgMatches = [...trimmed.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)];
     if (allImgMatches.length > 1) {
       elements.push(
-        <div key={k++} className="my-6 flex gap-3 items-start">
-          {allImgMatches.map(([, alt, src], idx) => (
-            <figure key={idx} className="flex-1 min-w-0">
-              <div className="rounded-2xl bg-slate-100 dark:bg-slate-800 p-2">
-                <ImageLightbox src={src} alt={alt} />
-              </div>
-              {alt && <figcaption className="mt-1 text-center text-xs text-slate-400 dark:text-slate-500">{alt}</figcaption>}
-            </figure>
-          ))}
+        <div key={k++} data-article-image-gallery className="my-6 min-w-0 max-w-full">
+          <p className="mb-2 text-xs text-slate-500 dark:text-slate-400 sm:hidden">左右滑动查看步骤图 · 点击图片可放大</p>
+          <div
+            data-article-image-strip
+            role="region"
+            aria-label={`步骤配图，共 ${allImgMatches.length} 张，可横向滑动`}
+            tabIndex={0}
+            className="flex w-full min-w-0 max-w-full items-start gap-3 overflow-x-auto overscroll-x-contain snap-x snap-mandatory pb-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 sm:overflow-visible sm:snap-none sm:pb-0"
+          >
+            {allImgMatches.map(([, alt, src], idx) => (
+              <figure key={idx} className="m-0 min-w-0 shrink-0 basis-[85%] snap-start sm:flex-1">
+                <div className="rounded-2xl bg-slate-100 dark:bg-slate-800 p-2">
+                  <ArticleImage key={src} src={src} alt={alt.replace(/^portrait:\s*/, "")} />
+                </div>
+                {alt && <figcaption className="mt-1 text-center text-xs text-slate-400 dark:text-slate-500">{alt.replace(/^portrait:\s*/, "")}</figcaption>}
+              </figure>
+            ))}
+          </div>
         </div>
       );
       i++; continue;
@@ -264,14 +220,18 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       const [, alt, src] = imgMatch;
       const isPortrait = imageLayout === "portrait" || alt.startsWith("portrait:");
       const caption = alt.replace(/^portrait:\s*/, "");
+      // Explicit width keeps grid sizing independent of the folded image height.
       if (imageLayout === "guide") {
-        elements.push(<GuideImage key={k++} src={src} caption={caption} />);
+        elements.push(<figure key={k++} className="my-7 mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <ArticleImage key={src} src={src} alt={caption} guide />
+          {caption && <figcaption className="border-t border-slate-100 px-4 py-3 text-center text-xs leading-5 text-slate-500 dark:border-slate-800 dark:text-slate-400">{caption}</figcaption>}
+        </figure>);
         i++; continue;
       }
       elements.push(
-        <figure key={k++} className={isPortrait ? "my-6 mx-auto w-fit" : "my-6 max-w-4xl mx-auto"}>
+        <figure key={k++} className={isPortrait ? "my-6 mx-auto w-fit" : "my-6 w-full max-w-4xl mx-auto"}>
           <div className={isPortrait ? "rounded-2xl bg-slate-100 dark:bg-slate-800 p-2 w-[260px]" : "rounded-2xl bg-slate-100 dark:bg-slate-800 p-3"}>
-            <ImageLightbox src={src} alt={caption} />
+            <ArticleImage key={src} src={src} alt={caption} />
           </div>
           {caption && <figcaption className={`mt-1.5 text-center text-xs text-slate-400 dark:text-slate-500${isPortrait ? " w-[260px]" : ""}`}>{caption}</figcaption>}
         </figure>
@@ -287,7 +247,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       while (i < lines.length && lines[i].trim().startsWith("|")) {
         rows.push(lines[i].trim().split("|").filter(Boolean).map(c => c.trim())); i++;
       }
-      const wideGuideTable = imageLayout === "guide" && headerCells.length >= 3;
+      const wideGuideTable = headerCells.length >= 3;
       elements.push(
         <div key={k++} className="my-5">
           {wideGuideTable ? <p className="mb-2 text-xs text-slate-500 dark:text-slate-400 sm:hidden">左右滑动查看完整表格</p> : null}
@@ -339,7 +299,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       continue;
     }
 
-    if (!trimmed) { elements.push(<div key={k++} className="h-2" />); i++; continue; }
+    if (!trimmed) { elements.push(<div key={k++} data-markdown-spacer className="h-2" />); i++; continue; }
 
     elements.push(
       <p key={k++} className="my-3 text-[16px] text-slate-600 dark:text-slate-400 leading-8">{renderInline(trimmed)}</p>

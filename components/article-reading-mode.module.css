@@ -1,0 +1,99 @@
+.toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: color 150ms, border-color 150ms, background 150ms;
+}
+
+.toggle:hover { border-color: #d5b777; background: #fffbeb; color: #946117; }
+.toggle:focus-visible { outline: 2px solid #b98c3f; outline-offset: 4px; }
+.escapeHint { padding: 1px 4px; border: 1px solid #e5dfd3; border-radius: 4px; color: #8a7d66; font-size: 10px; font-weight: 400; }
+.toolbar { flex-wrap: wrap; }
+.actions { flex-wrap: wrap; }
+
+/* Scoped to the live reader: removing it also restores the surrounding site. */
+:global(body):has(.reader[data-immersive="true"]) { overflow: hidden; }
+:global(body):has(.reader[data-immersive="true"]) > :global(nav),
+:global(body):has(.reader[data-immersive="true"]) > :global(footer),
+:global(body):has(.reader[data-immersive="true"]) :global(#mobile-navigation),
+:global(body):has(.reader[data-immersive="true"]) :global(wise-community-popup) { display: none; }
+
+.reader[data-immersive="true"] {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: #fffefb;
+}
+
+.reader[data-immersive="true"] .frame { height: 100dvh; min-height: 0; max-width: none; }
+.reader[data-immersive="true"] .pane { overflow-y: auto; overscroll-behavior-y: contain; background-image: none !important; scrollbar-gutter: stable; }
+.reader[data-immersive="true"] [data-reading-chrome],
+.reader[data-immersive="true"] .frame > aside,
+.reader[data-immersive="true"] .actions > :not([data-reading-toggle]) { display: none; }
+.reader[data-immersive="true"] .toolbar { height: 0; margin: 0; }
+.reader[data-immersive="true"] .toggle {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(24px, env(safe-area-inset-right));
+  z-index: 61;
+  min-height: 40px;
+  border-color: #e5dfd3;
+  border-radius: 12px;
+  background: #fffefbf2;
+  color: #80602d;
+  box-shadow: 0 3px 14px #5b47200a;
+}
+
+.reader[data-immersive="true"] .article { width: 100%; max-width: 1080px; padding: 88px 48px 100px; }
+.reader[data-immersive="true"] .article > header { padding: 0 0 24px; border: 0; border-bottom: 1px solid #e9e5dc; border-radius: 0; background: none; box-shadow: none; }
+.reader[data-immersive="true"] .article > header::before { display: none; }
+.reader[data-immersive="true"] .article > header h1 { font-size: clamp(26px, 3vw, 38px); line-height: 1.5; }
+.reader[data-immersive="true"] .article > header p { margin-bottom: 0; padding: 0; border: 0; font-size: 17px; line-height: 1.9; }
+.reader[data-immersive="true"] .body { display: block; margin-top: 32px; }
+.reader[data-immersive="true"] .body > * { min-width: 0; }
+.reader[data-immersive="true"] .body > [data-markdown-spacer] { display: none; }
+.reader[data-immersive="true"] .body > p,
+.reader[data-immersive="true"] .body > blockquote,
+.reader[data-immersive="true"] .body > ul > li,
+.reader[data-immersive="true"] .body > div > div > span:last-child {
+  font-size: 19px;
+  line-height: 1.95;
+}
+.reader[data-immersive="true"] .body > p { margin-block: 0 24px; }
+.reader[data-immersive="true"] .body > :is(h1, h2) { margin-top: 48px; margin-bottom: 22px; font-size: 26px; line-height: 1.65; scroll-margin-top: 88px; }
+.reader[data-immersive="true"] .body > h3 { margin-top: 30px; margin-bottom: 14px; font-size: 21px; line-height: 1.7; scroll-margin-top: 88px; }
+.reader[data-immersive="true"] .body > h4 { font-size: 19px; scroll-margin-top: 88px; }
+
+:global(.dark) .toggle { border-color: #334155; background: #0f172a; color: #a5b1c2; }
+:global(.dark) .toggle:hover { border-color: #806534; background: #29251c; color: #e6c88f; }
+:global(.dark) .reader[data-immersive="true"] { background: #111827; }
+:global(.dark) .reader[data-immersive="true"] .toggle { border-color: #494333; background: #1b2331f2; color: #dfc99f; }
+:global(.dark) .reader[data-immersive="true"] .article > header { border-color: #303947; }
+:global(.dark) .reader[data-immersive="true"] .body > p { color: #b9c4d3; }
+:global(.dark) .escapeHint { border-color: #4b463a; color: #b9ac92; }
+
+@media (max-width: 767px) {
+  .toolbar { align-items: flex-start; gap: 12px; }
+  .actions { gap: 6px; }
+  .reader[data-immersive="true"] .article { padding: 80px 22px 64px; }
+  .reader[data-immersive="true"] .toggle { right: max(16px, env(safe-area-inset-right)); min-height: 42px; }
+  .escapeHint { display: none; }
+  .reader[data-immersive="true"] .body > p,
+  .reader[data-immersive="true"] .body > blockquote,
+  .reader[data-immersive="true"] .body > ul > li,
+  .reader[data-immersive="true"] .body > div > div > span:last-child { font-size: 18px; line-height: 1.9; }
+  .reader[data-immersive="true"] .body > :is(h1, h2) { font-size: 23px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .toggle { transition: none; } }

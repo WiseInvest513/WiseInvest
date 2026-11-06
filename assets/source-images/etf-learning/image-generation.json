@@ -1,0 +1,127 @@
+{
+  "date": "2026-11-06",
+  "generator": "built-in image_gen",
+  "signature": "public/images/brand/wise-invest-signature.png",
+  "images": [
+    {
+      "id": "etf-how-it-works",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/etf-how-it-works.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 14324,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-7c5ef47d-07e5-4280-a397-aa4fdaf74b5d.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/etf-how-it-works.png",
+      "prompt": "Create one standalone 16:9 landscape article COVER for Wise Invest, exact canvas ideally 1536x864. Theme: how an ETF works. Use the attached studio image ONLY as a material and lighting style reference, not its subject. A clear silver-white thick glass portfolio tray holds three distinct ivory securities/document objects, with one separate tradeable share certificate in front; coherent physical objects and subtle champagne-gold edge connections express a portfolio represented by fund shares. Bright neutral white studio, silver aluminium, thick optical glass, tiny warm gold accents, softly rounded realistic bevels, crisp contact shadows, medium-close three-quarter camera, 70% of usable height, generous clear margin. No upward chart, no profits, no coins, no logos invented. NO baked-in title or captions, no UI, no watermark. Keep the top-right 24% width by 16% height completely blank white, reserved for exact original Wise signature to be applied in the website asset export. Professional restrained tangible scene, thumbnail-readable silhouette, no plastic, no neon, no blue-purple background."
+    },
+    {
+      "id": "etf-major-products",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/etf-major-products.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 8952,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-9ceb6ba2-56a9-44ee-ac84-196701ae6785.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/etf-major-products.png",
+      "prompt": "Create ONE standalone 16:9 landscape editorial website cover, ideally 1536x864. Reference is ONLY the visual family (neutral white, silver glass, champagne-gold details), NOT its subject. A neatly spaced collection of three investment objects on one silver-white desk: an ivory portfolio binder holding small diverse company building silhouettes, a folded thick-paper bond certificate, and one modest small gold ingot. Their equal visual weight represents different asset classes, never a recommendation or ranking. Tangible high-end 3D still-life, complete clear objects with real thickness and soft contact shadows. Slight three-quarter camera. Thin champagne-gold detail only, less gold than reference, airy neutral white studio background. Subject fills central 65% of frame, safe margins. NO title, no subtitles, no UI, no fake brand logos or invented numbers, no coins pile, no trophy, no neon. Top-right 24% width x16% height must be empty clean white for original Wise signature applied in asset export. The scene must read clearly as a small article thumbnail."
+    },
+    {
+      "id": "etf-nasdaq-vs-sp500",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/etf-nasdaq-vs-sp500.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 10364,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-139b93a8-7aa0-4a9e-a3d7-5aa2200d56d6.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/etf-nasdaq-vs-sp500.png",
+      "prompt": "Create ONE standalone 16:9 landscape editorial website cover, ideally 1536x864. Reference is ONLY the visual family (neutral white, silver glass, champagne-gold details), NOT its subject. Two equal-size glass portfolio trays side by side, one holding a few larger stylized company blocks, the other holding a wider variety of smaller blocks. Three matching muted navy company shapes appear in BOTH trays to suggest overlap. No Venn diagram chart, no actual firm logos, no claim to exact weights. Tangible high-end 3D still-life, complete clear objects with real thickness and soft contact shadows. Slight three-quarter camera. Thin champagne-gold detail only, less gold than reference, airy neutral white studio background. Subject fills central 65% of frame, safe margins. NO title, no subtitles, no UI, no fake brand logos or invented numbers, no coins pile, no trophy, no neon. Top-right 24% width x16% height must be empty clean white for original Wise signature applied in asset export. The scene must read clearly as a small article thumbnail."
+    },
+    {
+      "id": "etf-premium-nav",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/etf-premium-nav.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 9622,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-72aa1c1a-286c-4080-bc27-44d89433eb48.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/etf-premium-nav.png",
+      "prompt": "Create ONE standalone 16:9 landscape editorial website cover, ideally 1536x864. Reference is ONLY the visual family (neutral white, silver glass, champagne-gold details), NOT its subject. A silver-white precision balance with a glass fund portfolio object on one side and an ivory market price-tag object on the other, slightly offset heights, accompanied by a small unobtrusive analogue clock. Express price and underlying value have different timestamps; no currency numbers, no guarantee of convergence. Tangible high-end 3D still-life, complete clear objects with real thickness and soft contact shadows. Slight three-quarter camera. Thin champagne-gold detail only, less gold than reference, airy neutral white studio background. Subject fills central 65% of frame, safe margins. NO title, no subtitles, no UI, no fake brand logos or invented numbers, no coins pile, no trophy, no neon. Top-right 24% width x16% height must be empty clean white for original Wise signature applied in asset export. The scene must read clearly as a small article thumbnail."
+    },
+    {
+      "id": "etf-understand-returns",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/etf-understand-returns.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 11062,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-47cf5c63-bb6e-42bd-ae8e-9616e769ae47.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/etf-understand-returns.png",
+      "prompt": "Create ONE standalone 16:9 landscape editorial website cover, ideally 1536x864. Reference is ONLY the visual family (neutral white, silver glass, champagne-gold details), NOT its subject. An ivory account ledger with three distinct shallow silver channels feeding its front edge: one simple dividend paper slip, one modest two-currency token pair with generic non-letter symbols, one fine gold fee ring. Clear physical layered composition communicates return has different components, no numeric growth chart or arrows promising profit. Tangible high-end 3D still-life, complete clear objects with real thickness and soft contact shadows. Slight three-quarter camera. Thin champagne-gold detail only, less gold than reference, airy neutral white studio background. Subject fills central 65% of frame, safe margins. NO title, no subtitles, no UI, no fake brand logos or invented numbers, no coins pile, no trophy, no neon. Top-right 24% width x16% height must be empty clean white for original Wise signature applied in asset export. The scene must read clearly as a small article thumbnail."
+    },
+    {
+      "id": "etf-historical-drawdowns",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/etf-historical-drawdowns.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 7794,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-ea56971b-8847-43ac-972a-cfc966d134b5.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/etf-historical-drawdowns.png",
+      "prompt": "Create ONE standalone 16:9 landscape editorial website cover, ideally 1536x864. Reference is ONLY the visual family (neutral white, silver glass, champagne-gold details), NOT its subject. A single sculptural silver ribbon running horizontally, descending into a shallow dip then returning to its starting height, beside a small ivory analogue clock. Thin gold edge and transparent glass supports. This is an abstract study of a decline and time to recover, not a real chart and not a prediction. No increasing final peak, no axis, no numbers. Tangible high-end 3D still-life, complete clear objects with real thickness and soft contact shadows. Slight three-quarter camera. Thin champagne-gold detail only, less gold than reference, airy neutral white studio background. Subject fills central 65% of frame, safe margins. NO title, no subtitles, no UI, no fake brand logos or invented numbers, no coins pile, no trophy, no neon. Top-right 24% width x16% height must be empty clean white for original Wise signature applied in asset export. The scene must read clearly as a small article thumbnail."
+    },
+    {
+      "id": "etf-mechanism-body",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-mechanism-body.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 29750,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-cf37f303-6a7d-49f3-ab2a-03db941e1061.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/etf-learning/etf-mechanism-body.png",
+      "prompt": "Generate ONE 16:9 landscape article-body explanatory illustration, ideally 1536x864. Explain ETF has two distinct transaction layers. A restrained tactile 3D diagram with two clearly separated horizontal rows. Top: two small ivory investor account documents, left and right, exchanging a single navy ETF share certificate, with a tiny two-way gold connector. Bottom: one ivory fund asset box filled with different small securities, and on its right a stack of navy ETF share certificates, connected by a modest two-way connector for creation/redemption. Top row label only '买卖份额'; bottom row label only '申购赎回'. No human figures. Do not connect an individual investor directly to underlying companies. Visually convey that exchange trading is not identical to changing fund size. Use reference 1 ONLY as a style guide: thick ivory paper/ceramic, restrained navy enamel, small brushed champagne-gold details, physical rounded bevels and soft short contact shadows. Light neutral white background, gentle three-quarter camera, restrained 2-4 meaningful objects with plenty of whitespace, readable labels small and flat, never a poster or title card. Reference 2 is the ORIGINAL Wise signature asset and must be placed complete in the upper-right at about 16% canvas width, preserve its aspect ratio, exact text and portrait, white rounded backing, small safety margin. Do not invent another logo, portrait or headline. No decorative arrows beyond specified relationships, no blurry effects, no neon, no dense typography. Whole content within margins, central objects use 55-65% canvas height."
+    },
+    {
+      "id": "etf-products-body",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-products-body.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 28742,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-1ad71bbb-b40c-4e5d-985c-27323e9c456a.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/etf-learning/etf-products-body.png",
+      "prompt": "Generate ONE 16:9 landscape article-body explanatory illustration, ideally 1536x864. Explain that ETF-like products can expose different assets. Three equal-weight groupings arranged left to right with generous separation: a small ivory portfolio container with two simplified company buildings (label '股票'); a thick paper bond document beside a small calendar (label '债券'); one small matte gold bar with an ivory ownership document (label '黄金'). No arrows, no coins, no implied ranking or promise. Same scale, no tray or card surrounding each grouping. Real tactile materials and clear silhouettes. Use reference 1 ONLY as a style guide: thick ivory paper/ceramic, restrained navy enamel, small brushed champagne-gold details, physical rounded bevels and soft short contact shadows. Light neutral white background, gentle three-quarter camera, restrained 2-4 meaningful objects with plenty of whitespace, readable labels small and flat, never a poster or title card. Reference 2 is the ORIGINAL Wise signature asset and must be placed complete in the upper-right at about 16% canvas width, preserve its aspect ratio, exact text and portrait, white rounded backing, small safety margin. Do not invent another logo, portrait or headline. No decorative arrows beyond specified relationships, no blurry effects, no neon, no dense typography. Whole content within margins, central objects use 55-65% canvas height."
+    },
+    {
+      "id": "etf-overlap-body",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-overlap-body.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 29600,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-12f15229-37e4-4e42-8159-8c923c9bea04.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/etf-learning/etf-overlap-body.png",
+      "prompt": "Generate ONE 16:9 landscape article-body explanatory illustration, ideally 1536x864. Explain that owning two funds can still own the same company twice. Two open ivory document folders side by side, each containing a large identical navy company tile embossed 'A' plus two distinct smaller ivory company tiles. A thin gold arc joins only the two matching A tiles to show common holding. Small labels only '基金一' and '基金二' beneath the folders; tiny caption '共同持仓' near arc. Keep both folders equal-sized. The companies and counts are illustrative, not actual holdings. No charts, no percentages. Use reference 1 ONLY as a style guide: thick ivory paper/ceramic, restrained navy enamel, small brushed champagne-gold details, physical rounded bevels and soft short contact shadows. Light neutral white background, gentle three-quarter camera, restrained 2-4 meaningful objects with plenty of whitespace, readable labels small and flat, never a poster or title card. Reference 2 is the ORIGINAL Wise signature asset and must be placed complete in the upper-right at about 16% canvas width, preserve its aspect ratio, exact text and portrait, white rounded backing, small safety margin. Do not invent another logo, portrait or headline. No decorative arrows beyond specified relationships, no blurry effects, no neon, no dense typography. Whole content within margins, central objects use 55-65% canvas height."
+    },
+    {
+      "id": "etf-premium-body",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-premium-body.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 23722,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-ce154d43-c9c2-4e4d-9b63-e56a51589883.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/etf-learning/etf-premium-body.png",
+      "prompt": "Generate ONE 16:9 landscape article-body explanatory illustration, ideally 1536x864. Explain quote time differs from NAV date. Two parallel physical objects, equal size: on the left a small navy trading quote screen displaying only '市价' and a compact ivory clock beside it; on the right a thick ivory fund valuation sheet displaying only '净值' and a simple ivory calendar beside it. A thin champagne-gold connection runs between them through a small magnifying glass. No numbers, dates or upward chart. This explains compare timestamps before calculating premium. No balance scale (cover already uses one). Use reference 1 ONLY as a style guide: thick ivory paper/ceramic, restrained navy enamel, small brushed champagne-gold details, physical rounded bevels and soft short contact shadows. Light neutral white background, gentle three-quarter camera, restrained 2-4 meaningful objects with plenty of whitespace, readable labels small and flat, never a poster or title card. Reference 2 is the ORIGINAL Wise signature asset and must be placed complete in the upper-right at about 16% canvas width, preserve its aspect ratio, exact text and portrait, white rounded backing, small safety margin. Do not invent another logo, portrait or headline. No decorative arrows beyond specified relationships, no blurry effects, no neon, no dense typography. Whole content within margins, central objects use 55-65% canvas height."
+    },
+    {
+      "id": "etf-returns-body",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-returns-body.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 32478,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-e6f6ee3b-9a06-49fb-ae40-8bc95be57c0d.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/etf-learning/etf-returns-body.png",
+      "prompt": "Generate ONE 16:9 landscape article-body explanatory illustration, ideally 1536x864. Explain return comparison requires tracing dividend, currency and costs. One open ivory ledger as focal object, with a clear central navy column and three small attached slips organized around it, not a flowchart. A dividend slip labeled '分红', a generic two-currency small exchange token pair labeled '汇率', a small fee receipt labeled '费用'. Subtle thin gold connectors point to distinct places of ledger, NOT additive plus signs since effects can be positive or negative. No real data or guaranteed growth. Use reference 1 ONLY as a style guide: thick ivory paper/ceramic, restrained navy enamel, small brushed champagne-gold details, physical rounded bevels and soft short contact shadows. Light neutral white background, gentle three-quarter camera, restrained 2-4 meaningful objects with plenty of whitespace, readable labels small and flat, never a poster or title card. Reference 2 is the ORIGINAL Wise signature asset and must be placed complete in the upper-right at about 16% canvas width, preserve its aspect ratio, exact text and portrait, white rounded backing, small safety margin. Do not invent another logo, portrait or headline. No decorative arrows beyond specified relationships, no blurry effects, no neon, no dense typography. Whole content within margins, central objects use 55-65% canvas height."
+    },
+    {
+      "id": "etf-drawdown-body",
+      "file": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-drawdown-body.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 17768,
+      "original": "/Users/balala/.codex/generated_images/01a15928-a715-7842-8e4e-3ec983ddb506/exec-9d2f2124-fb26-4da0-955b-005b706849a0.png",
+      "projectOriginal": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/etf-learning/etf-drawdown-body.png",
+      "prompt": "Generate ONE 16:9 landscape article-body explanatory illustration, ideally 1536x864. Explain drawdown depth and recovery duration are distinct. A single navy sculptural trough-shaped path, left and right ends at identical elevation, beside a restrained ivory hourglass on the ground. One fine gold vertical marker from initial elevation to trough labeled '跌幅'; one fine horizontal gold line below the path labeled '等待时间'. This is a CONCEPT model, not a market chart: no axis ticks, numeric rates, dates, stock logos, or projected rising future. Large clean silhouettes on white ground, path ends without an upward arrow. Use reference 1 ONLY as a style guide: thick ivory paper/ceramic, restrained navy enamel, small brushed champagne-gold details, physical rounded bevels and soft short contact shadows. Light neutral white background, gentle three-quarter camera, restrained 2-4 meaningful objects with plenty of whitespace, readable labels small and flat, never a poster or title card. Reference 2 is the ORIGINAL Wise signature asset and must be placed complete in the upper-right at about 16% canvas width, preserve its aspect ratio, exact text and portrait, white rounded backing, small safety margin. Do not invent another logo, portrait or headline. No decorative arrows beyond specified relationships, no blurry effects, no neon, no dense typography. Whole content within margins, central objects use 55-65% canvas height."
+    }
+  ]
+}

@@ -255,7 +255,19 @@ test('every visible category has a route, including empty categories; unknown ca
   assert.deepEqual(categoryPage.generateStaticParams(), categories.map(category => ({ categoryId: category.id })));
   const props = browserProps(await renderCategory('strategy'));
   assert.equal(props.initialCategoryId, 'strategy');
-  assert.equal(props.initialArticles.filter(article => article.categoryId === 'strategy').length, 0);
+  assert.deepEqual(
+    props.initialArticles.filter(article => article.categoryId === 'strategy').map(article => article.id),
+    articles.filter(article => article.categoryId === 'strategy').map(article => article.id),
+  );
+  // Explicitly exercise an empty category, independent of newly published articles.
+  categories.push({ id: 'empty-test-category', name: 'Empty test category', emoji: '' });
+  try {
+    const empty = browserProps(await renderCategory('empty-test-category'));
+    assert.equal(empty.initialCategoryId, 'empty-test-category');
+    assert.equal(empty.initialArticles.filter(article => article.categoryId === 'empty-test-category').length, 0);
+  } finally {
+    categories.pop();
+  }
   await assert.rejects(renderCategory('missing'), /not found/);
 });
 

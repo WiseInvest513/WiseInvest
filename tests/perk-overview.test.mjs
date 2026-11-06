@@ -9,6 +9,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const moduleCache = new Map();
 const allowedModules = new Set([
   'app/perk/overview-content.ts', 'app/perk/data.ts', 'app/card/data.ts',
+  'app/perk/overview-guides.ts',
   'lib/articles-fs.ts', 'lib/article-uid.ts', 'app/vip/landing-content.ts',
 ]);
 
@@ -42,6 +43,7 @@ function loadLocalModule(relativePath) {
 }
 
 const { featuredPerks, overviewTopics, perkSearchEntries } = loadLocalModule('app/perk/overview-content.ts');
+const { topicGuides, entryGuides } = loadLocalModule('app/perk/overview-guides.ts');
 const { perkSections } = loadLocalModule('app/perk/data.ts');
 const { virtualCardProducts } = loadLocalModule('app/card/data.ts');
 const { loadFsArticles } = loadLocalModule('lib/articles-fs.ts');
@@ -80,20 +82,21 @@ test('six full-size topics retain both international-access and other-resource d
   ]);
   assert.equal(new Set(overviewTopics.map(topic => topic.id)).size, 6);
   assert.deepEqual(overviewTopics.at(-1).entries.map(entry => [entry.title, entry.href]), [
-    ['国际互联', '/perk/global-access'],
+    ['境外手机卡', '/perk/global-access#esim'],
+    ['eSIM 工具卡', '/perk/global-access#esim-reader'],
     ['其他资源', '/perk/other-resources'],
   ]);
   assert.deepEqual(overviewTopics.slice(0, -1).map(topic => topic.allHref), [
     '/perk/crypto', '/perk/broker', '/perk/bank', '/card', '/perk/ipo',
   ]);
   for (const topic of overviewTopics) {
-    assert.ok(topic.entries.length >= 2, `${topic.title} must retain usable entries`);
+    assert.equal(topic.entries.length, 3, `${topic.title} must contain exactly three curated entries`);
     assert.equal(new Set(topic.entries.map(entry => entry.id)).size, topic.entries.length);
   }
 });
 
 test('curated broker and card tutorials are derived from existing product configuration', () => {
-  const brokerIds = ['bit-account-guide', 'bbae', 'charles-schwab', 'diyi-securities'];
+  const brokerIds = ['bit-account-guide', 'bbae', 'charles-schwab'];
   const cardIds = ['gate-card', 'bitget-wallet-card', 'safepal-card'];
   const brokers = overviewTopics.find(topic => topic.id === 'brokers');
   const cards = overviewTopics.find(topic => topic.id === 'cards');
@@ -167,6 +170,7 @@ test('CEX overview destinations keep users in the existing registration-benefit 
 });
 
 test('search includes every subcategory and product, not just the homepage selections', () => {
+  assert.ok(perkSearchEntries.some(entry => entry.id === 'broker-diyi-securities'));
   assert.equal(new Set(perkSearchEntries.map(entry => entry.id)).size, perkSearchEntries.length);
   const expectedCount = perkSections.reduce((sum, section) => sum + section.subcategories.reduce(
     (count, category) => count + 1 + (category.products?.length ?? 0), 0), 0) + virtualCardProducts.length;
@@ -189,6 +193,23 @@ test('search includes every subcategory and product, not just the homepage selec
   for (const card of virtualCardProducts) {
     assert.ok(perkSearchEntries.some(entry => entry.id === `card-${card.id}` && entry.title === card.name));
   }
+});
+
+test('every curated category and entry has useful editorial context and a native checklist', () => {
+  assert.deepEqual(Object.keys(topicGuides).sort(), overviewTopics.map(t => t.id).sort());
+  assert.deepEqual(Object.keys(entryGuides).sort(), curatedEntries.map(e => e.id).sort());
+  for (const topic of overviewTopics) {
+    assert.ok(topicGuides[topic.id].intro.length > 30);
+    assert.equal(topicGuides[topic.id].checks.length, 3);
+    for (const entry of topic.entries) {
+      const guide = entryGuides[entry.id];
+      assert.ok(guide.description.length > 25);
+      assert.ok(guide.purpose.length > 3);
+      assert.ok(guide.focus.length > 3);
+    }
+  }
+  assert.match(pageSource, /<details className=\{styles.checklist\}/);
+  assert.match(pageSource, /<summary>/);
 });
 
 test('all overview images exist, are nonempty, and stay below a combined 500 KB budget', () => {

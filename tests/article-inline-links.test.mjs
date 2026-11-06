@@ -12,7 +12,9 @@ const compiled = ts.transpileModule(source, {
 }).outputText;
 const module = { exports: {} };
 new Function('require', 'module', 'exports', compiled)(name => {
+  if (name === '@/components/article-image') return { ArticleImage: () => null };
   if (name === '@/components/article-registration-card') return { ArticleRegistrationCard: () => null };
+  if (name === '@/components/article-link-card') return { ArticleLinkCard: () => null };
   if (name === '@/lib/article-uid') return { genUid: id => id };
   if (name === '@/lib/article-registration') {
     const helper = { exports: {} };

@@ -1,0 +1,243 @@
+.pane {
+  --reading-page: #f4f3ef;
+  background-color: var(--reading-page);
+  background-image: radial-gradient(circle, rgb(148 163 184 / 8%) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+:global(.dark) .pane {
+  --reading-page: #151c28;
+}
+
+.header,
+.body {
+  --reading-border: #e4e6e9;
+  --reading-gold: #c59135;
+  --reading-paper: #fff;
+  --reading-tint: #fcfaf5;
+  --reading-head: #f7f1e4;
+  --reading-muted: #64748b;
+  --reading-ink: #334155;
+}
+
+.header {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 30px 22px;
+  border: 1px solid #e8ddc6;
+  border-radius: 20px;
+  background: linear-gradient(120deg, var(--reading-paper) 48%, var(--reading-tint));
+  box-shadow: 0 4px 18px rgb(82 65 28 / 4%);
+}
+
+.header::before {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  width: 48px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--reading-gold);
+  content: "";
+}
+
+.header > h1 {
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.header > p {
+  padding-left: 0;
+  border-left: 0;
+  line-height: 1.85;
+}
+
+.header > div {
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding-top: 16px;
+  padding-bottom: 0;
+  border-top: 1px solid var(--reading-border);
+  border-bottom: 0;
+  color: var(--reading-muted);
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow-wrap: anywhere;
+}
+
+.body > * {
+  grid-column: 1;
+  min-width: 0;
+}
+
+/* Markdown blank lines should not add spacer height on top of paragraph margins. */
+.body > [data-markdown-spacer] {
+  display: none;
+}
+
+.body > :is(p, ul, ol, blockquote, pre, div):not([data-reading-fade]) {
+  margin-block: 0 20px;
+}
+
+.body > :is(h1, h2, h3, h4, p, ul, ol) {
+  padding-right: 12px;
+}
+
+.body > :is(h1, h2) {
+  margin-block: 0 20px;
+  line-height: 1.65;
+}
+
+.body > h3 {
+  margin-block: 12px 12px;
+  line-height: 1.65;
+}
+
+.body > :is(h1, h2) ~ :is(h1, h2) {
+  position: relative;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--reading-border);
+}
+
+.body > :is(h1, h2) ~ :is(h1, h2)::before {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 36px;
+  height: 1px;
+  background: var(--reading-gold);
+  content: "";
+}
+
+.body > div:has(> div > table) {
+  grid-column: 1 / -1;
+  margin-block: 8px 28px;
+}
+
+.body div:has(> table) {
+  border-color: var(--reading-border);
+  border-radius: 16px;
+  background: var(--reading-paper);
+  box-shadow: 0 3px 12px rgb(15 23 42 / 3%);
+  scrollbar-width: thin;
+  scrollbar-color: #d5c29d var(--reading-tint);
+}
+
+.body table {
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--reading-ink);
+}
+
+.body table:has(th:nth-child(3)) {
+  min-width: 640px;
+}
+
+.body table:has(th:nth-child(5)) {
+  min-width: 800px;
+}
+
+.body thead {
+  background: var(--reading-head);
+}
+
+.body th {
+  padding: 16px 18px;
+  color: var(--reading-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.65;
+  letter-spacing: 0;
+  border-bottom: 1px solid var(--reading-border);
+}
+
+.body td {
+  padding: 18px;
+  border-top: 0;
+  color: var(--reading-ink);
+  line-height: 1.85;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.body tbody tr:nth-child(even) {
+  background: var(--reading-tint);
+}
+
+.body tbody tr + tr > td {
+  border-top: 1px solid var(--reading-border);
+}
+
+.body td:first-child {
+  font-weight: 600;
+}
+
+.body th + th,
+.body td + td {
+  border-left: 1px solid var(--reading-border);
+}
+
+.fade {
+  margin: 0;
+  background: linear-gradient(to top, var(--reading-page), transparent);
+}
+
+.toc a[data-level="3"],
+.toc a[data-level="4"] {
+  padding-block: 5px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.toc a[aria-current="location"],
+.toc a:hover {
+  color: #b7791f;
+}
+
+:global(.dark) .toc a[data-level="3"],
+:global(.dark) .toc a[data-level="4"] {
+  color: #94a3b8;
+}
+
+:global(.dark) .toc a[aria-current="location"],
+:global(.dark) .toc a:hover {
+  color: #fbbf24;
+}
+
+:global(.dark) .header,
+:global(.dark) .body {
+  --reading-border: #334155;
+  --reading-gold: #dbb569;
+  --reading-paper: #0f172a;
+  --reading-tint: #162033;
+  --reading-head: #2b2a28;
+  --reading-muted: #94a3b8;
+  --reading-ink: #e2e8f0;
+}
+
+:global(.dark) .header {
+  border-color: #544733;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 22px 20px 18px;
+    border-radius: 16px;
+  }
+
+  .header::before {
+    left: 20px;
+  }
+
+  .body > :is(h1, h2) ~ :is(h1, h2) {
+    margin-top: 20px;
+    padding-top: 24px;
+  }
+}

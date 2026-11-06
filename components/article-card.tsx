@@ -8,8 +8,9 @@ import { ARTICLE_COVER_HEIGHT, ARTICLE_COVER_WIDTH, articleCovers } from "@/lib/
 import { genUid } from "@/lib/article-uid";
 import { categories, subcategories } from "@/lib/articles-data";
 import type { ArticleListItem } from "@/lib/articles";
+import styles from "./article-card.module.css";
 
-export function ArticleCard({ article, priority = false }: { article: ArticleListItem; priority?: boolean }) {
+export function ArticleCard({ article, priority = false, variant = "default" }: { article: ArticleListItem; priority?: boolean; variant?: "default" | "compact" }) {
   const [imageFailed, setImageFailed] = useState(false);
   const cover = articleCovers[article.id];
   const image = cover?.src ?? article.coverImage;
@@ -17,6 +18,69 @@ export function ArticleCard({ article, priority = false }: { article: ArticleLis
   const isLocalCover = image?.startsWith("/images/") || image?.startsWith("/content/articles/");
   const category = categories.find((item) => item.id === article.categoryId);
   const subcategory = subcategories.find((item) => item.id === article.subcategoryId);
+  const compact = variant === "compact";
+  const thumbnail = image && !imageFailed && isLocalCover ? (
+    <Image
+      src={image}
+      alt={cover?.alt ?? article.title}
+      width={ARTICLE_COVER_WIDTH}
+      height={ARTICLE_COVER_HEIGHT}
+      // Already compressed to ~10–25 KB; avoid re-encoding or upscaling these thumbnails.
+      unoptimized={isListThumbnail}
+      sizes={compact ? "232px" : "(min-width: 1248px) 436px, (min-width: 1024px) calc((100vw - 376px) / 2), (min-width: 768px) calc(100vw - 352px), calc(100vw - 32px)"}
+      priority={priority}
+      onError={() => setImageFailed(true)}
+      className={`h-full w-full ${compact || isListThumbnail ? "object-contain" : "object-cover"}`}
+    />
+  ) : image && !imageFailed ? (
+    // Article images can include existing external sources as well as local covers.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={image}
+      alt={cover?.alt ?? article.title}
+      width={1672}
+      height={940}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      onError={() => setImageFailed(true)}
+      className={`h-full w-full ${compact ? "object-contain" : "object-cover"}`}
+    />
+  ) : (
+    <div className="flex h-full flex-col items-center justify-center gap-3 text-slate-400 dark:text-slate-600">
+      <BookOpen className="h-10 w-10" strokeWidth={1.25} />
+      <span className="text-sm">{subcategory?.name ?? category?.name}</span>
+    </div>
+  );
+
+  if (compact) {
+    return (
+      <ProtectedContentLink
+        href={`/articles/${article.categoryId}/${genUid(article.id)}`}
+        prefetch={false}
+        className={styles.compactCard}
+        aria-label={`阅读：${article.title}`}
+        data-article-card="compact"
+      >
+        <div className={styles.compactLayout}>
+          <div className={styles.compactMedia}>{thumbnail}</div>
+          <div className={styles.compactHeading}>
+            <div className={styles.compactMeta}>
+              <span><Calendar size={12} aria-hidden="true" /><time dateTime={article.date}>{article.date}</time></span>
+              <span><Clock size={12} aria-hidden="true" />{article.readTime} 分钟阅读</span>
+            </div>
+            <h2>{article.title}</h2>
+          </div>
+          <p className={styles.compactSummary}>{article.summary}</p>
+          <div className={styles.compactFooter}>
+            <div className={styles.compactTopics}>
+              {(cover?.topics ?? [subcategory?.name ?? category?.name ?? "文章"]).map((topic) => <span key={topic}>{topic}</span>)}
+            </div>
+            <span className={styles.compactAction}>阅读教程<ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></span>
+          </div>
+        </div>
+      </ProtectedContentLink>
+    );
+  }
 
   return (
     <ProtectedContentLink
@@ -26,38 +90,7 @@ export function ArticleCard({ article, priority = false }: { article: ArticleLis
       aria-label={`阅读：${article.title}`}
     >
       <div className="relative aspect-video shrink-0 overflow-hidden border-b border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
-        {image && !imageFailed && isLocalCover ? (
-          <Image
-            src={image}
-            alt={cover?.alt ?? article.title}
-            width={ARTICLE_COVER_WIDTH}
-            height={ARTICLE_COVER_HEIGHT}
-            // Already compressed to ~10–25 KB; avoid re-encoding or upscaling these thumbnails.
-            unoptimized={isListThumbnail}
-            sizes="(min-width: 1248px) 436px, (min-width: 1024px) calc((100vw - 376px) / 2), (min-width: 768px) calc(100vw - 352px), calc(100vw - 32px)"
-            priority={priority}
-            onError={() => setImageFailed(true)}
-            className={`h-full w-full ${isListThumbnail ? "object-contain" : "object-cover"}`}
-          />
-        ) : image && !imageFailed ? (
-          // Article images can include existing external sources as well as local covers.
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={image}
-            alt={cover?.alt ?? article.title}
-            width={1672}
-            height={940}
-            loading={priority ? "eager" : "lazy"}
-            decoding="async"
-            onError={() => setImageFailed(true)}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-3 text-slate-400 dark:text-slate-600">
-            <BookOpen className="h-10 w-10" strokeWidth={1.25} />
-            <span className="text-sm">{subcategory?.name ?? category?.name}</span>
-          </div>
-        )}
+        {thumbnail}
       </div>
       <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-500 dark:text-slate-400">

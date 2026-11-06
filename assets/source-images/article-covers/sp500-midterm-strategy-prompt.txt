@@ -1,0 +1,9 @@
+Use case: stylized-concept.
+Asset type: premium editorial article-list cover, landscape exactly 16:9, 1600x900 or equivalent.
+Create a clean Chinese investment-research cover about the S&P 500 and the US midterm-election cycle. The scene is a bright neutral silver-white architectural studio with thick optical glass, finely polished silver aluminum and very restrained champagne-gold accents, soft physically credible reflections, natural shadows, no overexposure. On the right lower half a large sculptural silver desk calendar with a few clean blank grid squares, accompanied by a thick clear-glass ribbon tracing a gently fluctuating market path, with both ups and downs, a neutral conceptual object without graph axes, numbers, profit arrows or fabricated data. Do not imply guaranteed upside.
+On the left half use beautifully clear editorial Chinese sans-serif typography, deep charcoal navy, generous spacing. Render these exact texts only:
+Main heading, very large: 标普 500
+Subtitle, medium-large: 中期选举后的投资窗口
+Small line below: 历史规律 · 回测口径 · 执行风险
+All text must be complete and readable at thumbnail size. The largest title dominates with a calm authoritative finance-publication tone. No text overlap with objects. Keep all elements within 6% safe margins.
+Reserve the entire upper-right 22% of the width by 15% of the height as clean pure-white empty space for a real brand signature to be composited later. Do not invent or render any logos, people, signatures, portraits or watermarks. Do not add other words or dates. No blue/purple neon, gold coins, rockets, trophies, garish marketing imagery, faux interface cards, flags, political candidates or charts claiming historical returns. The visual is a calm explanatory concept, not an actual data chart. Make the objects tangible and large enough to identify at 640x360. Final image is a single coherent polished composition, not a collage.

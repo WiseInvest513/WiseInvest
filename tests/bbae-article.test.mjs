@@ -8,7 +8,7 @@ import ts from 'typescript';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const markdownPath = path.join(root, 'content/articles/broker/BBAE/IBKR.md');
 const markdown = fs.readFileSync(markdownPath, 'utf8');
-const expectedTitle = '不用 CRS，不用地址证明、只需一天即可开户的 BBAE 证券，最全介绍、开户入金教程来了……';
+const expectedTitle = 'BBAE 必贝证券开户与入金教程：平台结构、申请和奖励条件';
 const expectedImages = ['3.webp', '4.webp', '5.webp', '6.webp', '7.webp', '8.webp', '10.webp', '11.webp', '12.webp', '13.webp', '14.webp', '16.webp', '17.jpeg', '18.webp'];
 
 // Run the real loader, UID helper and landing metadata with only local access.
@@ -41,10 +41,12 @@ const { getPerks2Section } = loadLocalModule('app/perk/data.ts');
 const articles = loadFsArticles();
 const article = articles.find(item => item.id === 'BBAE');
 
-test('BBAE loads from its real Markdown with the original title and brokerage metadata', () => {
+test('BBAE loads from its real Markdown with its edited title, summary and stable brokerage metadata', () => {
   assert.ok(article, 'The BBAE Markdown must be discoverable by loadFsArticles');
   assert.equal(article.title, expectedTitle);
-  assert.equal(article.summary, expectedTitle);
+  assert.notEqual(article.summary, expectedTitle);
+  assert.match(article.summary, /BBAE、Redbridge/);
+  assert.match(article.summary, /2,000 美元领取 20 美元/);
   assert.equal(article.categoryId, 'broker');
   assert.equal(article.subcategoryId, 'us-broker');
   assert.equal(article.basePath, 'broker/BBAE');
@@ -170,10 +172,11 @@ test('the Markdown keeps images out of the server content directory and has no c
   assert.doesNotMatch(article.content, /提供字幕/);
 });
 
-test('six primary sections and twelve subsections remain Markdown headings for the renderer and TOC', () => {
+test('seven primary sections and twelve subsections remain Markdown headings for the renderer and TOC', () => {
   const mainHeadings = [...article.content.matchAll(/^## (.+)$/gm)].map(match => match[1]);
   assert.deepEqual(mainHeadings, [
-    '一、写在前面', '二、产品介绍', '三、开户', '四、入金', '五、福利', '六、写在最后',
+    '一、BBAE 是什么，这篇教程适合谁？', '二、产品介绍', '三、开户', '四、入金', '五、福利',
+    '六、注意事项：现金、证券与转仓分别核对', '七、总结：开户只是开始，资金与权限要持续检查',
   ]);
   const subheadings = [...article.content.matchAll(/^### (.+)$/gm)].map(match => match[1]);
   assert.equal(subheadings.length, 12);
@@ -187,9 +190,9 @@ test('six primary sections and twelve subsections remain Markdown headings for t
 test('emphasis, invitation code and the SIPC note retain renderable Markdown syntax', () => {
   const strongPhrases = [...article.content.matchAll(/\*\*([^*\n]+)\*\*/g)].map(match => match[1]);
   assert.ok(strongPhrases.length >= 8);
-  assert.ok(strongPhrases.includes('身份证'));
+  assert.ok(strongPhrases.includes('确认信息无误后'));
   assert.ok(strongPhrases.includes('Wise VIP 独家服务群'));
-  assert.ok(strongPhrases.includes('付款附言'));
+  assert.ok(strongPhrases.includes('本人专属付款附言'));
   assert.match(article.content, /`stiibsmu3`/);
   assert.match(article.content, /^> \*\*需要注意：\*\* SIPC /m);
 });

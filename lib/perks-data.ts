@@ -361,7 +361,7 @@ export const perks: Perk[] = [
     code: null,
     link: "https://www.chinastock.com.cn/",
     iconUrl: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/9c/33/30/9c3330e7-b543-f9e6-65c3-bceeeac2d132/AppIcon-0-0-1x_U007emarketing-0-6-0-85-220.png/512x512bb.jpg",
-    tutorialLink: null,
+    tutorialLink: "/articles/domestic/o0RA5e1p",
     color: "#C8102E",
     contactWeChat: true,
     details: [

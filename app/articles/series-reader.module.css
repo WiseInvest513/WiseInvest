@@ -1,7 +1,14 @@
 .navigation { color: var(--directory-text); }
-.navStage { margin-top: 20px; }
-.navStage h3 { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; margin: 0 0 8px; color: var(--directory-muted); }
-.navStage h3 span { font-variant-numeric: tabular-nums; color: var(--directory-accent); }
+.navStage { margin-top: 8px; }
+.navStage h3 { font-size: 12px; font-weight: 600; margin: 0; color: var(--directory-muted); }
+.stageToggle { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 8px 10px; border-radius: 6px; text-align: left; line-height: 1.6; }
+.stageToggle > span:first-child { flex: none; font-variant-numeric: tabular-nums; color: var(--directory-accent); }
+.stageToggle > span:nth-child(2) { flex: 1; min-width: 0; }
+.stageToggle > svg { flex: none; transition: transform 160ms ease; }
+.stageToggle[aria-expanded="true"] > svg { transform: rotate(180deg); }
+.stageToggle:hover { background: var(--directory-hover); }
+.navStage[data-current="true"] .stageToggle { color: var(--directory-accent); }
+.navStage > div { margin: 2px 0 12px 10px; padding-left: 8px; border-left: 1px solid var(--directory-rule); }
 .navStage .chapter { min-height: 42px; padding: 9px 10px; font-size: 13px; }
 .navStage .chapter > svg { flex-shrink: 0; margin-top: 4px; }
 .mapLink { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--library-muted); font-size: 13px; }
@@ -52,10 +59,30 @@ a.chapter:hover { background: var(--directory-hover); }
 .chapter[aria-current="page"] { background: var(--directory-selected); color: var(--directory-accent); box-shadow: inset 2px 0 var(--directory-accent); }
 .chapter[aria-current="page"] .number { color: inherit; }
 .chapter[aria-disabled="true"] { color: var(--directory-muted); }
-.supplement { display: flex; align-items: center; gap: 8px; margin-top: 24px; padding: 18px 0; border-top: 1px solid var(--directory-rule); font-size: 13px; color: var(--directory-accent); }
+.supplement { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 12px 10px; border: 1px solid var(--directory-rule); border-radius: 6px; font-size: 13px; color: var(--directory-accent); }
+.supplement:hover, .supplement[aria-current="page"] { background: var(--directory-selected); }
+.supplement small { display: block; margin-top: 3px; color: var(--directory-muted); font-size: 11px; font-weight: 400; }
 .supplement svg { flex-shrink: 0; }
 .supplement svg:last-child { margin-left: auto; }
 .supplement[aria-current="page"] { font-weight: 600; }
+.plannedNavigation { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--directory-rule); color: var(--directory-muted); }
+.plannedNavigation summary, .plannedOutline summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; cursor: pointer; list-style: none; }
+.plannedNavigation summary::-webkit-details-marker, .plannedOutline summary::-webkit-details-marker { display: none; }
+.plannedNavigation summary { padding: 8px 10px; font-size: 12px; }
+.plannedNavigation summary > span, .plannedOutline summary > span { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.plannedNavigation summary small { font-variant-numeric: tabular-nums; font-size: 11px; }
+.plannedNavigation summary > svg, .plannedOutline summary > svg { flex: none; transition: transform 160ms ease; }
+.plannedNavigation[open] summary > svg, .plannedOutline[open] summary > svg { transform: rotate(180deg); }
+.plannedChapter { display: flex; gap: 9px; padding: 8px 10px; font-size: 12px; line-height: 1.7; }
+.plannedChapter > span { flex: none; font-size: 11px; font-variant-numeric: tabular-nums; }
+.plannedOutline { margin-top: 26px; padding-top: 8px; border-top: 1px solid var(--library-line); color: var(--library-muted); }
+.plannedOutline summary { font-size: 14px; font-weight: 500; }
+.plannedOutline summary small { font-size: 12px; font-weight: 400; }
+.overview .plannedOutline > p { margin: 4px 0 12px; font-size: 12px; }
+.plannedOutline .outlineRow { min-height: 76px; }
+.plannedOutline .outlineTitle { font-size: 14px; }
+.existingGuide { padding-top: 24px; }
+.overview .existingGuide h2 { margin-bottom: 12px; }
 .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 0 0 18px; margin-bottom: 24px; border-bottom: 1px solid var(--library-line); color: var(--library-muted); }
 .position { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; font-size: 13px; }
 .position > svg { flex-shrink: 0; color: var(--library-gold); }
@@ -111,7 +138,7 @@ a.outlineRow .chapterStatus { color: #498675; }
 :global(.dark) :is(.chapterIcon,.outcomeIcon,.outlineIcon)[data-tone="1"] { background: #20322e; color: #88bfae; }
 :global(.dark) :is(.chapterIcon,.outcomeIcon,.outlineIcon)[data-tone="2"] { background: #25303d; color: #9cb9d6; }
 :global(.dark) a.outlineRow:hover { background: #182132; }
-:is(.navigation,.toolbar,.pagination,.overview) a:focus-visible { outline: 2px solid #b48a46; outline-offset: 3px; border-radius: 4px; }
+:is(.navigation,.toolbar,.pagination,.overview) :is(a,button,summary):focus-visible { outline: 2px solid #b48a46; outline-offset: 3px; border-radius: 4px; }
 @media (max-width: 767px) {
   .overview { padding: 28px 22px; }
   .overview h1 { font-size: 23px; }
@@ -135,4 +162,102 @@ a.outlineRow .chapterStatus { color: #498675; }
   .overview { padding: 32px; }
   .outcomes { grid-template-columns: 1fr; gap: 18px; }
 }
-@media (prefers-reduced-motion: reduce) { .start { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .start, .stageToggle > svg, .plannedNavigation summary > svg, .plannedOutline summary > svg { transition: none; } }
+
+/* Series overviews share one grid so the directory, reading list and suggestions align. */
+.pageLayout { display: grid; grid-template-columns: minmax(0, 1fr) 244px; align-items: start; gap: 28px; padding: 32px 28px 48px; }
+.pageLayout:not(:has(> .recommendations)) { grid-template-columns: minmax(0, 1fr); }
+.mainColumn { min-width: 0; }
+.pageLayout .overview { max-width: none; margin: 0; padding: 0; }
+.pageLayout .intro { padding-bottom: 22px; }
+.pageLayout .productTitle { gap: 12px; }
+.pageLayout .brandMark { width: 48px; height: 48px; flex-basis: 48px; }
+.pageLayout h1 { font-size: 28px; margin-bottom: 5px; }
+.pageLayout .introduction { margin-top: 16px; font-size: 13px; line-height: 1.85; }
+.pageLayout .introActions { gap: 12px 18px; margin-top: 18px; }
+.pathOverview .stageTabs { gap: 6px; padding: 14px 0; }
+.pathOverview .stageTabs a { gap: 7px; padding: 5px 9px; border-radius: 6px; font-size: 12px; min-height: 36px; }
+.pathOverview .stageTabs a:first-child { padding-left: 0; }
+.pathOverview .stageTabs a:hover { background: var(--series-surface, #f8f9fb); }
+.pathOverview .stageTabs svg { color: #a9b0bb; margin-left: 3px; }
+.pathOverview .stageTabs a:last-child svg { display: none; }
+.pathOverview .pathStage { padding-top: 20px; scroll-margin-top: 18px; }
+.pathOverview .stageHeading { align-items: center; gap: 10px; margin-bottom: 12px; }
+.pathOverview .stageHeading > span { display: grid; place-items: center; flex: 0 0 30px; height: 30px; background: var(--series-step, #f8f3e7); border: 1px solid var(--series-step-line, #eee3cc); border-radius: 8px; font-size: 12px; }
+.pathOverview .stageHeading h2 { font-size: 16px; }
+.pathOverview .stageHeading p { margin: 3px 0 0; font-size: 12px; line-height: 1.6; }
+.pathOverview .stageHeading > small { flex: none; margin-left: auto; color: var(--library-muted); font-size: 11px; }
+.pathArticles { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.articleEntry { display: flex; align-items: center; gap: 16px; min-width: 0; padding: 14px; border: 1px solid var(--library-line); border-radius: 10px; background: var(--series-card, #fff); box-shadow: 0 2px 5px rgb(23 32 51 / 2%); transition: border-color 160ms ease, box-shadow 160ms ease; }
+a.articleEntry:hover { border-color: #cbb383; box-shadow: 0 4px 14px rgb(23 32 51 / 5%); }
+a.articleEntry:hover h3 { color: var(--library-gold); }
+.articleEntry[aria-disabled="true"] { opacity: .65; }
+.articleThumbnail { display: grid; place-items: center; flex: 0 0 176px; width: 176px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 6px; background: var(--series-surface, #f8f9fb); color: var(--library-gold); }
+.articleThumbnail img { display: block; width: 100%; height: auto; object-fit: contain; }
+.articleCopy { flex: 1; min-width: 0; }
+.articleMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 11px; line-height: 1.5; color: var(--library-muted); }
+.articleMeta > span { display: inline-flex; align-items: center; gap: 4px; }
+.articleCopy h3 { margin: 0 0 6px; color: var(--library-ink); font-size: 15px; font-weight: 600; line-height: 1.55; overflow-wrap: anywhere; }
+.articleSummary { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--library-muted); font-size: 12px; line-height: 1.7; }
+.articleAction { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; line-height: 18px; }
+.articleFooter { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-top: 8px; color: var(--library-gold); font-size: 11px; font-weight: 500; }
+.pageLayout .outline li:has(.articleEntry) { border-bottom: 0; margin-top: 10px; }
+.pageLayout .bookResource { min-height: 68px; padding: 12px 14px; margin-bottom: 10px; border: 1px solid var(--library-line); border-radius: 8px; font-size: 14px; background: var(--series-surface, #f8f9fb); }
+.recommendations { position: sticky; top: 28px; min-width: 0; padding-left: 22px; border-left: 1px solid var(--library-line); }
+.recommendationSection + .recommendationSection { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--library-line); }
+.recommendationHeading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.recommendationHeading h2 { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; }
+.recommendationHeading svg { color: var(--library-gold); }
+.recommendationHint { color: var(--library-muted); font-size: 12px; line-height: 1.7; margin: 6px 0 16px; }
+.recommendationList { list-style: none; margin: 0; padding: 0; }
+.recommendationList li + li { border-top: 1px solid var(--library-line); }
+.recommendationLink { display: block; padding: 13px 0; }
+.recommendationList li:first-child .recommendationLink { padding-top: 0; }
+.recommendationLink h3 { font-size: 13px; line-height: 1.7; font-weight: 500; color: var(--library-ink); }
+.recommendationLink:hover h3, .relatedSeriesLink:hover strong { color: var(--library-gold); }
+.recommendationLink p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 6px 0; color: var(--library-muted); font-size: 11px; line-height: 1.8; }
+.recommendationMeta { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--library-muted); font-size: 11px; }
+.recommendationMeta svg { color: var(--library-gold); }
+.relatedSeriesList { display: grid; gap: 10px; }
+.relatedSeriesLink { display: flex; align-items: flex-start; gap: 8px; padding: 12px; border: 1px solid var(--library-line); border-radius: 8px; background: var(--series-surface, #f8f9fb); }
+.relatedSeriesLink > img { flex: none; width: 32px; height: 32px; object-fit: contain; }
+.relatedSeriesLink > span { flex: 1; min-width: 0; }
+.relatedSeriesLink strong { display: block; font-size: 12px; line-height: 1.7; font-weight: 500; }
+.relatedSeriesLink small { display: block; color: var(--library-muted); font-size: 11px; line-height: 1.7; margin-top: 4px; }
+.recommendations a:focus-visible { outline: 2px solid var(--library-gold); outline-offset: 3px; border-radius: 6px; }
+.moreSeries { display: inline-flex; align-items: center; gap: 6px; padding-top: 16px; min-height: 44px; color: var(--library-gold); font-size: 12px; }
+:global(.dark) .pageLayout { --series-surface: #182132; --series-card: #131d2c; --series-step: #302b22; --series-step-line: #483d29; }
+:global(.dark) a.articleEntry:hover { border-color: #8c744b; }
+@media (min-width: 768px) and (max-width: 1199px) {
+  .pageLayout { grid-template-columns: minmax(0, 1fr); padding: 28px 24px 40px; gap: 32px; }
+  .recommendations { position: static; padding: 24px 0 0; border-left: 0; border-top: 1px solid var(--library-line); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .recommendations:has(> .recommendationSection:only-child) { grid-template-columns: minmax(0, 1fr); }
+  .recommendationSection + .recommendationSection { margin: 0; padding: 0; border: 0; }
+}
+@media (max-width: 767px) {
+  .pageLayout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 24px 18px 36px; }
+  .pageLayout h1 { font-size: 23px; }
+  .pageLayout .productTitle { gap: 10px; }
+  .pageLayout .brandMark { width: 40px; height: 40px; flex-basis: 40px; }
+  .pageLayout .introActions { gap: 10px 16px; }
+  .pageLayout .introActions > span { flex-basis: 100%; }
+  .pathOverview .stageTabs { gap: 3px; padding: 10px 0; }
+  .pathOverview .stageTabs a { padding: 5px 6px; font-size: 11px; min-height: 40px; }
+  .pathOverview .stageTabs svg { display: none; }
+  .pathOverview .pathStage { scroll-margin-top: 124px; }
+  .pathOverview .stageHeading { align-items: flex-start; }
+  .pathOverview .stageHeading > small { padding-top: 5px; }
+  .pathOverview .stageHeading p { font-size: 11px; }
+  .articleEntry { gap: 10px; padding: 12px; align-items: flex-start; }
+  .articleThumbnail { flex-basis: 96px; width: 96px; margin-top: 3px; }
+  .articleCopy h3 { font-size: 14px; }
+  .articleMeta { font-size: 10px; gap: 4px 8px; }
+  .articleSummary { font-size: 11px; }
+  .recommendations { position: static; padding: 24px 0 0; border-left: 0; border-top: 1px solid var(--library-line); }
+}
+@media (max-width: 359px) {
+  .pageLayout { padding-inline: 14px; }
+  .articleThumbnail { flex-basis: 72px; width: 72px; }
+  .pathOverview .stageHeading > small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .articleEntry { transition: none; } }

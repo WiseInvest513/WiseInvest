@@ -110,12 +110,15 @@ test('SSR and JSON API agree for guests, members, VIP and SVIP without leaking l
     const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid: 'WGa8Mm2t' }) });
     const articleProps = tree.props.children.find(child => child.type === ArticlesContent).props;
     assert.equal(articleProps.initialArticle.content, fullAccess ? journal.content : trial, `SSR ${tier}`);
+    assert.deepEqual(articleProps.initialArticle.guideProfile, journal.guideProfile, `SSR ${tier} keeps the authored guide`);
     assert.equal(articleProps.lockedContent?.previewPercentage, fullAccess ? undefined : 35, `SSR ${tier} trial visibility`);
     assert.ok(articleProps.initialArticles.every(article => !Object.hasOwn(article, 'content')), 'RSC directory data must not include any full text');
+    assert.ok(articleProps.initialArticles.every(article => !Object.hasOwn(article, 'guideProfile')), 'RSC directory data must not include every article guide');
     const response = await api.GET();
     assert.equal(response.headers['Cache-Control'], 'no-store');
     const apiJournal = response.body.find(article => article.id === journal.id);
     assert.equal(apiJournal.content, articleProps.initialArticle.content, `API ${tier}`);
+    assert.deepEqual(apiJournal.guideProfile, journal.guideProfile, `API ${tier} keeps the authored guide`);
     if (!fullAccess) {
       assert.ok(!JSON.stringify(tree).includes(secretEnding), `RSC ${tier} hidden suffix`);
       assert.ok(!JSON.stringify(response.body).includes(secretEnding), `API ${tier} hidden suffix`);
@@ -232,4 +235,32 @@ test('Bitget referral keeps member permissions on canonical and series URLs with
     assert.equal(response.body.find(item => item.id === referral.id).content, expectedContent, `API ${tier}`);
     if (!tier) assert.ok(!JSON.stringify(response.body).includes(sections[1]));
   }
+});
+
+test('Galaxy ETF guide returns its complete article and contact QR to guests in SSR and JSON', async () => {
+  viewerTier = null;
+  const galaxy = articles.find(article => article.id === 'galaxy-etf-guide');
+  assert.ok(galaxy);
+  assert.equal(galaxy.categoryId, 'domestic');
+  assert.equal(getArticleRoute(galaxy), '/articles/domestic/o0RA5e1p');
+  assert.equal(getContentAccessRule(getArticleRoute(galaxy)).access, 'PUBLIC');
+
+  const tree = await page.default({
+    params: Promise.resolve({ categoryId: 'domestic', uid: 'o0RA5e1p' }),
+    searchParams: Promise.resolve({}),
+  });
+  const props = tree.props.children.find(child => child.type === ArticlesContent).props;
+  assert.equal(props.initialArticle.content, galaxy.content, 'Guests must receive the full SSR body');
+  assert.equal(props.lockedContent, undefined, 'Public article must not show a login or VIP overlay');
+  assert.ok(props.initialArticles.every(article => !Object.hasOwn(article, 'content')));
+  assert.match(props.initialArticle.content, /## 六、联系方式/);
+  assert.match(props.initialArticle.content, /银河证券 ETF 免五/);
+  assert.ok(props.initialArticle.content.includes('/images/微信图片520.png'));
+
+  const response = await api.GET();
+  const apiGalaxy = response.body.find(article => article.id === galaxy.id);
+  assert.ok(apiGalaxy);
+  assert.equal(apiGalaxy.content, galaxy.content, 'Guests must receive the same full JSON body');
+  assert.equal(apiGalaxy.content, props.initialArticle.content);
+  assert.equal(response.headers['Cache-Control'], 'no-store');
 });

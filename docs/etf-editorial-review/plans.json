@@ -1,0 +1,118 @@
+{
+  "what-is-etf": {
+    "outline": [
+      "基金份额代表什么",
+      "买卖份额与申购赎回",
+      "交易所、指数和产品",
+      "为什么使用ETF",
+      "收益从哪里来",
+      "产品边界与下一步"
+    ],
+    "guide": [
+      "想弄懂买入 ETF 后实际持有什么的初学者",
+      "分清个人买卖份额与机构申购赎回 | 理解指数、基金和底层资产的关系",
+      "先认识股票与基金即可，无需先开户；本文不涉及下单步骤。",
+      "以普通 ETF 的机制为主；申赎示意采用美国常见结构，不适用于所有市场和特殊产品。"
+    ],
+    "id": "etf-how-it-works",
+    "target": "content/articles/index/etf-learning/what-is-etf.md",
+    "scope": "Existing-article revision; preserve ID, route, access and existing meaningful examples. No finalize overwrite."
+  },
+  "major-us-etfs": {
+    "outline": [
+      "股票、债券与黄金的产品地图",
+      "美国股票的几种范围",
+      "债券和黄金如何不同",
+      "规模、单价和权重",
+      "怎样阅读产品事实表",
+      "建立候选清单"
+    ],
+    "guide": [
+      "认识纳指与标普，想进一步辨认美股 ETF 产品的读者",
+      "区分十只代表产品的底层范围 | 阅读资产规模、费用与历史回报栏目",
+      "可准备一只候选基金的官方事实表，对照文中的阅读顺序。",
+      "产品用于认识资产类型，不构成推荐组合；持仓数量等快照不作为最新资料，费用应核对管理人披露。"
+    ],
+    "id": "etf-major-products",
+    "target": "content/articles/index/etf-learning/major-us-etfs.md",
+    "scope": "Existing-article revision; preserve ID, route, access and existing meaningful examples. No finalize overwrite."
+  },
+  "nasdaq-vs-sp500": {
+    "outline": [
+      "两套指数规则",
+      "数量与集中度",
+      "穿透共同持仓",
+      "同一公司对两套组合的影响",
+      "怎样比较历史表现",
+      "比例与个人资金条件"
+    ],
+    "guide": [
+      "已有或准备研究纳指、标普基金，担心重复持仓的读者",
+      "比较选股与加权规则 | 按账户比例计算重叠持仓 | 区分基金数量与风险分散",
+      "先确认手中产品的跟踪指数；计算真实重叠需使用同日期持仓。",
+      "权重表为虚构算例，不是当前成分；本文解释组合差异，不给出通用配置比例。"
+    ],
+    "id": "etf-nasdaq-vs-sp500",
+    "target": "content/articles/index/etf-learning/nasdaq-vs-sp500.md",
+    "scope": "Existing-article revision; preserve ID, route, access and existing meaningful examples. No finalize overwrite."
+  },
+  "limits-premium-nav": {
+    "outline": [
+      "申购状态和执行限制",
+      "净值、报价与估算",
+      "溢价如何影响持有结果",
+      "跨境时差与申赎",
+      "用工具核对购买条件",
+      "提交前的核验清单"
+    ],
+    "guide": [
+      "在 WiseETF 查额度、溢价，想判断数据含义的读者",
+      "区分申购状态与场内交易 | 计算溢价回落的影响 | 核对报价与净值的时间差",
+      "准备基金代码、份额类别和实际销售渠道，查看数值旁的日期。",
+      "额度和报价会变化；文中金额与溢价计算均为示例，不能作为当前可成交条件。"
+    ],
+    "id": "etf-premium-nav",
+    "target": "content/articles/index/etf-learning/limits-premium-nav.md",
+    "scope": "Existing-article revision; preserve ID, route, access and existing meaningful examples. No finalize overwrite."
+  },
+  "understand-returns": {
+    "outline": [
+      "先对齐收益对象",
+      "分红与总收益",
+      "美元收益和人民币收益",
+      "累计、年化与复利",
+      "现金流与个人账户",
+      "费用、溢价和估值",
+      "对账与下一步"
+    ],
+    "guide": [
+      "指数上涨但个人账户收益不同，想找出原因的读者",
+      "解释分红、汇率与买入时点的差异 | 区分累计收益和复合年化 | 避免转入资金或费用被重复计算",
+      "准备投入、取出、分配和费用记录；只有截图上的百分比不足以核算账户。",
+      "文中数字是计算示例，忽略项在对应段落说明；实际税费及现金流按本人账单处理。"
+    ],
+    "id": "etf-understand-returns",
+    "target": "content/articles/index/etf-learning/understand-returns.md",
+    "scope": "Existing-article revision; preserve ID, route, access and existing meaningful examples. No finalize overwrite."
+  },
+  "historical-drawdowns": {
+    "outline": [
+      "回撤深度与等待时间",
+      "回本所需涨幅",
+      "历史数据口径",
+      "纳指事件记录",
+      "标普事件记录",
+      "把风险换算为金额",
+      "样本边界与个人计划"
+    ],
+    "guide": [
+      "看过长期收益，希望理解深跌与回本等待的投资者",
+      "区分浮亏、最大回撤和水下时间 | 阅读纳指与标普历史事件表 | 把压力情景换算成账户金额",
+      "先理解价格与总收益的区别，写下这笔资金预计何时使用。",
+      "历史表沿用原稿引用的美元总收益记录，未重新下载全量序列复算；不是人民币基金结果或未来损失上限。"
+    ],
+    "id": "etf-historical-drawdowns",
+    "target": "content/articles/index/etf-learning/historical-drawdowns.md",
+    "scope": "Existing-article revision; preserve ID, route, access and existing meaningful examples. No finalize overwrite."
+  }
+}

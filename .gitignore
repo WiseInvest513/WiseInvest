@@ -65,6 +65,8 @@ Thumbs.db
 /lib/generated/prisma/
 
 # Backup / temp files
+# Incomplete AI drafts must never enter the published article tree.
+/.article-drafts/
 *.backup
 *.backup2
 *.bak

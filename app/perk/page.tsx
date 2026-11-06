@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, FileText, Globe2, Wrench, Building2, Blocks, CandlestickChart, ChartNoAxesColumnIncreasing } from "lucide-react";
+import { ArrowRight, ArrowUpRight, FileText, Globe2, Wrench, Building2, Blocks, CandlestickChart, ChartNoAxesColumnIncreasing, Check, ShieldCheck, ChevronDown } from "lucide-react";
 import { ProtectedContentLink } from "@/components/content-access-gate";
 import { siteConfig } from "@/lib/config";
 import { perkSections } from "./data";
@@ -9,6 +9,7 @@ import { featuredPerks, overviewTopics, perkSearchEntries, type OverviewEntry } 
 import { PerkSearch, PerkTopicNav } from "./overview-controls";
 import { PerkArtwork, type PerkArtworkName } from "./perk-artwork";
 import styles from "./overview.module.css";
+import { entryGuides, topicGuides } from "./overview-guides";
 
 export const metadata: Metadata = {
   title: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
@@ -40,6 +41,7 @@ const categoryDetails: Record<string, { artwork: PerkArtworkName; caption: strin
 
 function EntryContent({ entry }: { entry: OverviewEntry }) {
   const Icon = entry.icon ? entryIcons[entry.icon] : null;
+  const guide = entryGuides[entry.id];
   return <>
     {entry.kind === "card" && entry.image && <div className={styles.cardArt}>
       <Image src={entry.image} alt={entry.title + " 卡面示意"} fill sizes="(max-width: 599px) calc(100vw - 40px), (max-width: 1099px) 30vw, 300px" />
@@ -55,7 +57,9 @@ function EntryContent({ entry }: { entry: OverviewEntry }) {
         <b>{mark.name}</b>
       </span>)}
     </div>}
-    {entry.description && <p>{entry.description}</p>}
+    {guide && <span className={styles.entryPurpose}>{guide.purpose}</span>}
+    <p>{guide?.description ?? entry.description}</p>
+    {guide && <span className={styles.entryFocus}><Check size={15} aria-hidden="true" />{guide.focus}</span>}
     <span className={styles.entryAction}>{entry.action}<ArrowRight size={20} aria-hidden="true" /></span>
   </>;
 }
@@ -124,14 +128,21 @@ export default function PerkPage() {
         <PerkTopicNav items={overviewTopics.map((topic) => ({ id: topic.id, label: topic.nav }))} />
 
         <div className={styles.topics}>
-          {overviewTopics.map((topic) => <section key={topic.id} id={topic.id} className={styles.topic} aria-labelledby={topic.id + "-heading"}>
+          {overviewTopics.map((topic, index) => <section key={topic.id} id={topic.id} data-tone={index % 3} className={styles.topic} aria-labelledby={topic.id + "-heading"}>
             <div className={styles.topicIntro}>
               <div className={styles.topicTitle}><PerkArtwork name={categoryDetails[topic.id].artwork} /><h2 id={topic.id + "-heading"}>{topic.title}</h2></div>
-              <p>{topic.description}</p>
+              <p>{topicGuides[topic.id].intro}</p>
+              <span className={styles.selectionCount}>{String(topic.entries.length).padStart(2, "0")} 精选入口</span>
               {topic.allHref && <Link href={topic.allHref} prefetch={false} className={styles.allLink}>{topic.allLabel}<ArrowRight size={21} aria-hidden="true" /></Link>}
             </div>
-            <div className={styles.entries + " " + (topic.entries.length === 2 ? styles.twoEntries : "")}>
+            <div className={styles.topicBody}>
+            <div className={styles.entries}>
               {topic.entries.map((entry) => <EntryCard key={entry.id} entry={entry} />)}
+            </div>
+            <details className={styles.checklist} open={index === 0}>
+              <summary><ShieldCheck size={19} aria-hidden="true" /><span>申请前核对</span><small>资格、费用与使用限制</small><ChevronDown size={18} className={styles.disclosureArrow} aria-hidden="true" /></summary>
+              <dl>{topicGuides[topic.id].checks.map(([title, detail]) => <div key={title}><dt>{title}</dt><dd>{detail}</dd></div>)}</dl>
+            </details>
             </div>
           </section>)}
         </div>

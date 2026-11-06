@@ -72,9 +72,8 @@ export const overviewTopics: OverviewTopic[] = [
     allHref: "/perk/broker", allLabel: "查看全部券商",
     entries: [
       { id: "bit-account-guide", title: "BIT 美股账户", description: "稳定币或银行资金配置美股", href: tutorial("broker", "bit-account-guide"), action: "开户教程", image: "/images/registration/bit.jpeg", highlighted: true },
-      { id: "bbae", title: "BBAE 证券", description: "开户、入金与转仓", href: tutorial("broker", "bbae"), action: "开户教程", icon: "broker" },
+      { id: "bbae", title: "BBAE 证券", description: "开户、入金与转仓", href: tutorial("broker", "bbae"), action: "开户教程", image: "/images/perks/overview/bbae-mark.webp" },
       { id: "schwab", title: "嘉信证券", description: "账户申请指南", href: tutorial("broker", "charles-schwab"), action: "开户教程", image: "/images/capital-flow/schwab.jpeg" },
-      { id: "firstrade", title: "第一证券", description: "开户流程与材料", href: tutorial("broker", "diyi-securities"), action: "开户教程", image: "/images/capital-flow/firstrade.jpeg" },
     ],
   },
   {
@@ -107,7 +106,8 @@ export const overviewTopics: OverviewTopic[] = [
   {
     id: "tools", title: "国际互联与工具", nav: "找出海工具", description: "通信、保号与订阅资源",
     entries: [
-      { id: "global-access", title: "国际互联", description: "eSIM · 海外保号 · 读卡器", href: "/perk/global-access", action: "查看通信资源", icon: "sim", kind: "resource" },
+      { id: "global-access", title: "境外手机卡", description: "eSIM 与海外保号", href: "/perk/global-access#esim", action: "查看通信资源", icon: "sim", kind: "resource" },
+      { id: "esim-reader", title: "eSIM 工具卡", description: "读卡器与配置管理", href: "/perk/global-access#esim-reader", action: "查看工具卡", icon: "document", kind: "resource" },
       { id: "other-resources", title: "其他资源", description: "AI 订阅 · 效率工具", href: "/perk/other-resources", action: "查看工具资源", icon: "tools", kind: "resource" },
     ],
   },

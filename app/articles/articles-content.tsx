@@ -4,8 +4,8 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  BookOpen, Clock, Calendar, X,
-  ArrowRight, Search, Menu, CheckCircle2, ShieldCheck, LockKeyhole,
+  BookOpen, Clock, Calendar,
+  ArrowRight, Menu, CheckCircle2, ShieldCheck, LockKeyhole,
   Bookmark, BookmarkCheck,
   ArrowUpRight, Compass,
 } from "lucide-react";
@@ -13,9 +13,14 @@ import { articles as hardcodedArticles, categories, subcategories, type Article 
 import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
 import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
-import { hasRegistrationCallout } from "@/lib/article-registration";
 import { ArticleExportButton } from "@/components/article-export-button";
 import { ArticleShareButton } from "@/components/article-share-button";
+import { ArticleReadingModeButton } from "@/components/article-reading-mode-button";
+import { ArticleMoreActions } from "@/components/article-more-actions";
+import { useArticleLibraryNavigation } from "@/components/use-article-library-navigation";
+import { getArticleReadingRecommendations } from "@/lib/article-reading-recommendations";
+import mobileReadingStyles from "@/components/article-more-actions.module.css";
+import immersiveStyles from "@/components/article-reading-mode.module.css";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
 import { ArticleVipInvitation } from "@/components/article-vip-invitation";
 import { getArticleVipInvitation } from "@/lib/article-vip-invitation";
@@ -23,16 +28,12 @@ import { ArticleReleaseCountdown, type ArticleLimitedRelease } from "@/component
 import { ArticleDirectory } from "./article-directory";
 import { ArticleLibrary, type ArticleLibraryView } from "./article-library";
 import styles from "./article-library.module.css";
-import { getArticleSeries, getSeriesReadingState, isTopicSeriesArticle } from "@/lib/article-series";
+import readingStyles from "./article-reading.module.css";
+import { getArticleSeries, getSeriesReadingState } from "@/lib/article-series";
+import { articleSeries } from "@/lib/article-library";
 import { LearningPathLinks, SeriesOverview, SeriesPagination } from "./series-reader";
 
 type ArticleItem = ArticleListItem & { content?: string };
-type ArticleGuideProfile = {
-  audience: string[];
-  outcomes: string[];
-  prepare: string;
-  status: string;
-};
 
 interface ArticlesPageProps {
   initialSeriesId?: string;
@@ -80,9 +81,9 @@ function getTopicLinks(article: ArticleItem) {
       { href: "/articles", title: "跨境金融教程", description: "继续阅读港卡、海外银行、券商入金和资金流转路径。" },
     ],
     index: [
-      { href: "/practice/dca-investment", title: "BTC / ETH 定投实盘", description: "参考真实定投节奏、收益曲线和明细记录。" },
-      { href: "/DCA", title: "定投击球区", description: "用估值和回撤区间辅助判断定投力度。" },
-      { href: "/tools/compound-calculator", title: "复利计算器", description: "测算长期定投金额、年化收益和最终资产。" },
+      { href: "https://www.wise-etf.com/today/qdii-limits", title: "WiseETF · 今日额度", description: "按基金代码核对申购额度、开放状态与数据日期。" },
+      { href: "https://www.wise-etf.com/today/etf-premium", title: "WiseETF · 场内溢价", description: "对照报价、参考净值和时点，继续检查实际产品。" },
+      { href: "/perk", title: "开户福利与服务", description: "选定购买路径后，按需了解券商和交易所的现有福利。" },
     ],
   };
 
@@ -91,51 +92,6 @@ function getTopicLinks(article: ArticleItem) {
     { href: "/tools", title: "投资工具箱", description: "使用复利、仓位、回撤、收益率等实用计算工具。" },
     { href: "/perk", title: "福利中心", description: "查看开户、交易所、虚拟卡和出海工具福利。" },
   ];
-}
-
-const articleGuideProfiles: Record<string, ArticleGuideProfile> = {
-  vcard: {
-    audience: ["需要 AI 订阅、海外网站付款或日常小额消费的人", "想比较虚拟 U 卡开卡门槛、费率和支付绑定的人"],
-    outcomes: ["判断这张卡是否适合自己", "找到教程、邀请码、注册链接和替代卡片"],
-    prepare: "先准备邮箱、手机号、常用交易所或钱包账户；涉及 KYC 的卡片再按页面要求准备证件和地址材料。",
-    status: "卡片规则、费率和支付绑定会变化，申请前以 App 或官方页面显示为准。",
-  },
-  crypto: {
-    audience: ["第一次注册 Binance、OKX、Bybit、Bitget 等交易所的人", "需要完成 KYC、C2C 入金、买币和返佣绑定的人"],
-    outcomes: ["完成开户注册和基础安全设置", "理解入金、买币、理财和手续费返佣入口"],
-    prepare: "先准备邮箱、手机号、身份证件和常用收付款方式；大额操作前先小额测试。",
-    status: "交易所活动、返佣和入金通道可能调整，操作前以交易所页面和账户提示为准。",
-  },
-  broker: {
-    audience: ["准备开通港美股券商账户的人", "需要比较盈透、嘉信、港资券商和入金路径的人"],
-    outcomes: ["明确开户材料和账户选择", "找到后续入金、交易和仓位管理工具"],
-    prepare: "先准备身份证件、地址证明、税务信息和可用于入金的银行账户。",
-    status: "券商开户政策和入金路径会变化，提交资料前以券商页面和邮件通知为准。",
-  },
-  bank: {
-    audience: ["需要境外银行、多币种账户或跨境收付款的人", "想规划券商入金、美元账户和资金流转的人"],
-    outcomes: ["判断账户适合的使用场景", "准备开户材料并找到相关教程或对接入口"],
-    prepare: "先准备身份证件、地址证明、手机号、邮箱和资金用途说明；见证开户还要预留线下办理时间。",
-    status: "银行开户门槛、费用和审核要求变化较快，办理前需要再次核对最新材料清单。",
-  },
-  index: {
-    audience: ["准备长期定投指数、BTC、ETH 或 QQQ 的人", "想用真实记录校准仓位和执行节奏的人"],
-    outcomes: ["理解定投逻辑和工具使用方式", "跳转到定投实盘、击球区和复利测算"],
-    prepare: "先明确月现金流、投资周期和可承受回撤，再用工具测算投入节奏。",
-    status: "文章用于学习和记录，不构成买卖建议；市场价格和估值区间会持续变化。",
-  },
-};
-
-const defaultGuideProfile: ArticleGuideProfile = {
-  audience: ["第一次接触这个主题，想快速建立全局理解的人", "已经有具体问题，需要找到教程、工具或入口的人"],
-  outcomes: ["把文章里的关键信息转成可执行步骤", "继续跳转到相关教程、工具或福利入口"],
-  prepare: "先看完摘要和目录，再按自己的场景选择是否继续操作。",
-  status: "内容会持续维护，涉及价格、费率、活动和规则的部分以官方页面为准。",
-};
-
-function getArticleGuideProfile(article: ArticleItem | null) {
-  if (!article) return defaultGuideProfile;
-  return articleGuideProfiles[article.categoryId] ?? defaultGuideProfile;
 }
 
 function getVisibleArticleFaqs(article: ArticleItem | null, initialFaqs?: ArticleFaqItem[]) {
@@ -236,14 +192,15 @@ export function ArticlesContent({
   const pathname = usePathname();
   const router = useRouter();
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(initialArticleId ?? null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [favoriteHrefs, setFavoriteHrefs] = useState<Set<string>>(() => new Set());
   const [favoriteBusy, setFavoriteBusy] = useState(false);
   const [expiredReleaseKey, setExpiredReleaseKey] = useState<string | null>(null);
   const { guardHref, dialog: contentGateDialog } = useContentAccessGate();
   const contentRef = useRef<HTMLDivElement>(null);
-  const detailSearchRef = useRef<HTMLInputElement>(null);
+  const { searchQuery, setSearchQuery, filterTopic, sortOrder, onFiltersChange } = useArticleLibraryNavigation(
+    pathname, contentRef, !initialArticleId && !initialSeriesId,
+  );
   const [allArticles, setAllArticles] = useState<ArticleItem[]>(() => {
     if (!initialArticles) return hardcodedArticles;
     if (!initialArticle) return initialArticles;
@@ -367,15 +324,53 @@ export function ArticlesContent({
     const depth = selectedArticle?.tocDepth;
     return depth ? toc.filter(item => item.level <= depth) : toc;
   }, [selectedArticle?.tocDepth, toc]);
-  const isSearching = Boolean(searchQuery.trim());
+  // Search belongs to the library; an old q parameter must not replace a reader.
+  const isSearching = !selectedArticle && Boolean(searchQuery.trim());
   const activeId = useActiveToc(navigationToc, Boolean(selectedArticle) && !isSearching, contentRef);
-  const relatedArticles = useMemo(() => {
-    if (!selectedArticle) return [];
-
-    return allArticles
-      .filter(a => a.id !== selectedArticle.id && a.categoryId === selectedArticle.categoryId)
-      .slice(0, 4);
-  }, [allArticles, selectedArticle]);
+  const activeChapterId = useMemo(() => {
+    const activeIndex = Math.max(0, navigationToc.findIndex(item => item.id === activeId));
+    for (let index = activeIndex; index >= 0; index--) {
+      if (navigationToc[index]?.level <= 2) return navigationToc[index].id;
+    }
+    return navigationToc[0]?.id;
+  }, [activeId, navigationToc]);
+  const visibleNavigationToc = useMemo(() => {
+    // Older articles without H1/H2 chapters still need a usable navigation list.
+    if (!navigationToc.some(item => item.level <= 2)) return navigationToc;
+    let chapterId: string | undefined;
+    return navigationToc.filter(item => {
+      if (item.level <= 2) {
+        chapterId = item.id;
+        return true;
+      }
+      return chapterId === activeChapterId;
+    });
+  }, [activeChapterId, navigationToc]);
+  const isClippedPreview = Boolean(effectiveLockedContent && !effectiveLockedContent.previewPercentage);
+  const [mobilePreviewTocIds, setMobilePreviewTocIds] = useState<string[]>([]);
+  useEffect(() => {
+    if (!isClippedPreview || !sidebarOpen) return;
+    const body = contentRef.current?.querySelector<HTMLElement>("[data-reading-body]");
+    if (!body) return;
+    const update = () => {
+      const fade = body.querySelector<HTMLElement>("[data-reading-fade]");
+      const readableBottom = body.getBoundingClientRect().bottom - (fade?.getBoundingClientRect().height ?? 0);
+      const ids = visibleNavigationToc.filter(item => {
+        const heading = document.getElementById(item.id);
+        return heading && body.contains(heading) && heading.getBoundingClientRect().bottom <= readableBottom;
+      }).map(item => item.id);
+      setMobilePreviewTocIds(current => current.join(",") === ids.join(",") ? current : ids);
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(body);
+    window.addEventListener("resize", update);
+    return () => { observer.disconnect(); window.removeEventListener("resize", update); };
+  }, [isClippedPreview, sidebarOpen, visibleNavigationToc]);
+  const readingRecommendations = useMemo(() => selectedArticle
+    ? getArticleReadingRecommendations(selectedArticle, allArticles, initialSeriesId, initialMapRouteId)
+    : { introduction: "", articles: [] }, [selectedArticle, allArticles, initialSeriesId, initialMapRouteId]);
+  const relatedArticles = readingRecommendations.articles;
   const vipInvitation = effectiveLockedContent ? null : getArticleVipInvitation(selectedArticle);
   const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation;
   const sidebarRecommendations = useMemo(() => {
@@ -385,13 +380,7 @@ export function ArticlesContent({
     () => selectedArticle ? getTopicLinks(selectedArticle) : [],
     [selectedArticle]
   );
-  const guideProfile = useMemo(
-    () => getArticleGuideProfile(selectedArticle),
-    [selectedArticle]
-  );
-  const shouldShowGuideProfile = selectedArticle?.id !== "VIP"
-    && !isTopicSeriesArticle(selectedArticle?.id)
-    && !hasRegistrationCallout(selectedContent);
+  const guideProfile = selectedArticle?.guideProfile;
   const visibleFaqs = useMemo(
     () => getVisibleArticleFaqs(selectedArticle, selectedArticle?.id === initialArticleId ? initialFaqs : undefined),
     [initialArticleId, initialFaqs, selectedArticle]
@@ -483,18 +472,36 @@ export function ArticlesContent({
     }
   }, [selectedArticleId, selectedContent, initialSeriesId]);
 
+  const linkedSeries = useMemo(() => articleSeries.map(series => {
+    const reading = getSeriesReadingState(series, allArticles);
+    return {
+      kind: "series" as const,
+      id: series.id,
+      title: series.title,
+      summary: series.description,
+      articleCount: reading.publishedCount || (reading.existingHref ? 1 : 0),
+      coverImage: series.cardArtwork ?? series.cover ?? series.artwork,
+    };
+  }), [allArticles]);
   const renderedContent = useMemo(
-    () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout) : null,
-    [selectedArticle?.imageLayout, selectedContent, toc]
+    () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout, allArticles, linkedSeries) : null,
+    [selectedArticle?.imageLayout, selectedContent, toc, allArticles, linkedSeries]
   );
 
   return (
-    <div className={styles.shell}>
+    <div className={cn(styles.shell, immersiveStyles.reader)} data-article-reader>
       {contentGateDialog}
 
-      <div className={styles.frame}>
+      <div className={cn(styles.frame, immersiveStyles.frame, seriesContext && !selectedArticle && !isSearching && styles.seriesFrame)}>
         <ArticleDirectory
           seriesContext={seriesContext}
+          articleToc={selectedArticle && !isSearching ? {
+            title: selectedArticle.title,
+            items: isClippedPreview ? visibleNavigationToc.filter(item => mobilePreviewTocIds.includes(item.id)) : visibleNavigationToc,
+            activeId,
+            activeChapterId,
+            isPreview: Boolean(effectiveLockedContent),
+          } : undefined}
           categoryCounts={categoryCounts}
           activeView={activeCategoryId || initialArticleId ? null : libraryView}
           activeCategoryId={activeCategoryId}
@@ -504,25 +511,21 @@ export function ArticlesContent({
 
         <section
           ref={contentRef}
-          className={styles.content}
+          className={cn(styles.content, immersiveStyles.pane, selectedArticle && !isSearching && readingStyles.pane)}
           aria-label="文章内容"
-          style={selectedArticle && !isSearching ? {
-            backgroundImage: "radial-gradient(circle, rgba(148,163,184,0.25) 1.5px, transparent 1.5px)",
-            backgroundSize: "22px 22px",
-          } : undefined}
         >
-          <div className={cn(styles.mobileBar, activeSeries && styles.seriesMobileBar)}>
+          <div data-reading-chrome className={cn(styles.mobileBar, activeSeries && styles.seriesMobileBar, selectedArticle && !isSearching && mobileReadingStyles.readingBar)}>
             <button
               id="article-directory-trigger"
               type="button"
               onClick={() => setSidebarOpen(true)}
-              aria-label={activeSeries ? activeSeries.kind === "topic" ? "打开系列内容" : "打开系列章节" : "打开文章目录"}
+              aria-label={selectedArticle && !isSearching ? "打开阅读目录" : activeSeries ? activeSeries.kind === "topic" ? "打开系列内容" : "打开系列章节" : "打开文章目录"}
               aria-haspopup="dialog"
               aria-expanded={sidebarOpen}
               aria-controls="article-directory-drawer"
             >
               <Menu className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
-              <span>{activeSeries ? activeSeries.kind === "topic" ? "内容" : "章节" : "目录"}</span>
+              <span>{selectedArticle && !isSearching ? "目录" : activeSeries ? activeSeries.kind === "topic" ? "内容" : "章节" : "目录"}</span>
             </button>
             <span className="min-w-0 flex-1 truncate">
               {selectedArticle && !isSearching
@@ -530,34 +533,6 @@ export function ArticlesContent({
                 : activeSeries?.title ?? activeSubcategory?.name ?? activeCategory?.name ?? (showSeries ? "系列内容" : showAllArticles ? "全部文章" : "文章中心")}
             </span>
           </div>
-
-          {selectedArticle && !activeSeries && (
-            <div className="mx-auto w-full max-w-6xl px-4 pt-6 md:px-8 md:pt-8">
-              <div className={cn(styles.search, "ml-auto max-w-[360px]")} role="search">
-                <Search size={17} strokeWidth={1.5} aria-hidden="true" />
-                <input
-                  ref={detailSearchRef}
-                  type="search"
-                  value={searchQuery}
-                  onChange={event => setSearchQuery(event.target.value)}
-                  aria-label="搜索文章、产品或系列"
-                  placeholder="搜索文章、产品或系列…"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    aria-label="清除搜索"
-                    onClick={() => {
-                      setSearchQuery("");
-                      detailSearchRef.current?.focus({ preventScroll: true });
-                    }}
-                  >
-                    <X size={15} aria-hidden="true" />
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
 
           {isLoadingArticle && !selectedArticle ? (
             /* ── Article skeleton shown while fetch is in-flight ── */
@@ -578,22 +553,22 @@ export function ArticlesContent({
               </div>
             </div>
           ) : selectedArticle && !isSearching ? (
-            <article key={selectedArticleId} className="max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-8">
-              {seriesContext ? <SeriesPagination {...seriesContext} compact /> : <LearningPathLinks articleId={selectedArticle.id} />}
-              <div className="flex items-center justify-between gap-2 mb-5">
-                <Link href={activeSeries ? "/articles?view=series" : `/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+            <article key={selectedArticleId} className={cn("max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-8", immersiveStyles.article)}>
+              <div data-reading-chrome>{seriesContext ? <SeriesPagination {...seriesContext} compact /> : <LearningPathLinks articleId={selectedArticle.id} />}</div>
+              <div className={cn("flex items-center justify-between gap-2 mb-5", immersiveStyles.toolbar, mobileReadingStyles.toolbar)}>
+                <Link data-reading-chrome href={activeSeries ? "/articles?view=series" : `/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
                   <ArrowRight className="h-3.5 w-3.5 rotate-180" />
                   {activeSeries ? "全部系列" : <>{categories.find(c => c.id === selectedArticle.categoryId)?.emoji}{categories.find(c => c.id === selectedArticle.categoryId)?.name}</>}
                 </Link>
-                <div className="flex items-center gap-2">
-                  <ArticleShareButton uid={genUid(selectedArticle.id)} />
+                <div className={cn("flex items-center gap-2", immersiveStyles.actions, mobileReadingStyles.actions)}>
+                  <ArticleReadingModeButton />
                   {!effectiveLockedContent && (
-                    <>
                     <button
                       type="button"
                       onClick={() => void toggleFavorite()}
                       disabled={favoriteBusy}
                       className={cn(
+                        mobileReadingStyles.favorite,
                         "inline-flex h-9 items-center gap-2 rounded-lg border px-3 text-xs font-black transition-colors",
                         favoriteHrefs.has(selectedArticleHref)
                           ? "border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200"
@@ -603,6 +578,10 @@ export function ArticlesContent({
                       {favoriteHrefs.has(selectedArticleHref) ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
                       {favoriteHrefs.has(selectedArticleHref) ? "已收藏" : "收藏"}
                     </button>
+                  )}
+                  <ArticleMoreActions>
+                    <ArticleShareButton uid={genUid(selectedArticle.id)} />
+                    {!effectiveLockedContent && <span>
                     <ArticleExportButton
                       articleId={selectedArticle.id}
                       categoryId={selectedArticle.categoryId}
@@ -615,21 +594,23 @@ export function ArticlesContent({
                       categoryEmoji={categories.find(c => c.id === selectedArticle.categoryId)?.emoji ?? ""}
                       content={selectedContent}
                     />
-                    </>
-                  )}
+                    </span>}
+                  </ArticleMoreActions>
                 </div>
               </div>
-              <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
-                {selectedArticle.title}
-              </h1>
-              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-4 md:mb-5 border-l-2 border-slate-200 dark:border-slate-700 pl-4">
-                {selectedArticle.summary}
-              </p>
-              <div className="flex items-center gap-5 text-xs text-slate-400 pb-5 md:pb-7 border-b border-slate-100 dark:border-slate-800">
-                <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{selectedArticle.date}</span>
-                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />约 {selectedArticle.readTime} 分钟阅读</span>
-                <span className="hidden items-center gap-1.5 md:flex"><ShieldCheck className="w-3.5 h-3.5" />持续维护</span>
-              </div>
+              <header className={readingStyles.header}>
+                <h1 className="text-xl md:text-[28px] font-bold text-slate-900 dark:text-white leading-snug mb-3 md:mb-4 tracking-tight">
+                  {selectedArticle.title}
+                </h1>
+                <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-4 md:mb-5 border-l-2 border-slate-200 dark:border-slate-700 pl-4">
+                  {selectedArticle.summary}
+                </p>
+                <div data-reading-chrome className="flex items-center gap-5 text-xs text-slate-400 pb-5 md:pb-7 border-b border-slate-100 dark:border-slate-800">
+                  <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{selectedArticle.date}</span>
+                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />约 {selectedArticle.readTime} 分钟阅读</span>
+                  <span className="hidden items-center gap-1.5 md:flex"><ShieldCheck className="w-3.5 h-3.5" />持续维护</span>
+                </div>
+              </header>
 
               {activeLimitedRelease && (
                 <ArticleReleaseCountdown
@@ -643,8 +624,8 @@ export function ArticlesContent({
                 />
               )}
 
-              {shouldShowGuideProfile && !activeSeries && (
-                <section className="mt-6 grid gap-3 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:grid-cols-[1fr_1fr_0.9fr]">
+              {guideProfile && (
+                <section data-reading-chrome data-article-guide={selectedArticle.id} aria-label="本文阅读导读" className="mt-6 grid gap-3 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 md:grid-cols-[1fr_1fr_0.9fr]">
                   <div>
                     <div className="mb-2 flex items-center gap-2 text-sm font-black text-slate-900 dark:text-white">
                       <CheckCircle2 className="h-4 w-4 text-amber-500" />
@@ -677,16 +658,16 @@ export function ArticlesContent({
                       {guideProfile.prepare}
                     </p>
                     <p className="mt-2 border-t border-amber-200/70 pt-2 text-[11px] font-semibold leading-5 text-slate-500 dark:border-amber-800/60 dark:text-slate-400">
-                      最后更新：{selectedArticle.date || "持续更新"}。{guideProfile.status}
+                      {guideProfile.status}
                     </p>
                   </div>
                 </section>
               )}
 
-              <div className={cn("mt-6 md:mt-8", effectiveLockedContent && !effectiveLockedContent.previewPercentage && "relative max-h-[720px] overflow-hidden")}>
+              <div data-reading-body className={cn("mt-6 md:mt-8", immersiveStyles.body, readingStyles.body, effectiveLockedContent && !effectiveLockedContent.previewPercentage && "relative max-h-[720px] overflow-hidden")}>
                 {renderedContent}
                 {effectiveLockedContent && !effectiveLockedContent.previewPercentage && (
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-50 via-slate-50/90 to-transparent dark:from-slate-950 dark:via-slate-950/90" />
+                  <div data-reading-fade className={cn("pointer-events-none absolute inset-x-0 bottom-0 h-44", readingStyles.fade)} />
                 )}
               </div>
 
@@ -725,10 +706,10 @@ export function ArticlesContent({
                 </section>
               )}
 
-              {seriesContext && <SeriesPagination {...seriesContext} />}
+              {seriesContext && <div data-reading-chrome><SeriesPagination {...seriesContext} /></div>}
 
               {!effectiveLockedContent && visibleFaqs.length > 0 && (
-                <section className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
+                <section data-reading-chrome className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="h-4 w-4 text-amber-500" />
                     <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -754,7 +735,7 @@ export function ArticlesContent({
               )}
 
               {(relatedArticles.length > 0 || topicLinks.length > 0) && (
-                <section className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
+                <section data-reading-chrome className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">
                   {showRelatedArticles && (
                     <div>
                       <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -764,18 +745,18 @@ export function ArticlesContent({
                         {relatedArticles.map(article => (
                           <ProtectedContentLink
                             key={article.id}
-                            href={getArticleHref(article)}
+                            href={article.href}
                             className="group rounded-2xl border border-slate-200/80 bg-white/90 p-4 transition-all hover:border-amber-300 hover:bg-amber-50/60 dark:border-slate-800 dark:bg-slate-900/90 dark:hover:border-amber-700 dark:hover:bg-amber-900/10"
                           >
                             <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-400">
                               <Clock className="h-3 w-3" />
-                              约 {article.readTime} 分钟阅读
+                              {article.label} · 约 {article.readTime} 分钟阅读
                             </div>
                             <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-slate-800 transition-colors group-hover:text-amber-700 dark:text-slate-100 dark:group-hover:text-amber-300">
                               {article.title}
                             </h3>
                             <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
-                              {article.summary}
+                              {article.reason}
                             </p>
                           </ProtectedContentLink>
                         ))}
@@ -812,22 +793,19 @@ export function ArticlesContent({
 
                 </section>
               )}
-              <ArticleVipInvitation invitation={vipInvitation} />
+              <div data-reading-chrome><ArticleVipInvitation invitation={vipInvitation} /></div>
             </article>
-          ) : seriesContext && !isSearching ? <SeriesOverview {...seriesContext} /> : (
+          ) : seriesContext && !isSearching ? <SeriesOverview {...seriesContext} articles={allArticles} /> : (
             <ArticleLibrary
               articles={allArticles}
               view={libraryView}
               categoryId={activeCategoryId}
               subcategoryId={activeSubcategoryId}
               searchQuery={searchQuery}
-              onSearchChange={value => {
-                setSearchQuery(value);
-                if (!value && selectedArticle) {
-                  detailSearchRef.current?.focus({ preventScroll: true });
-                }
-              }}
-              showSearch={!selectedArticle}
+              filterTopic={filterTopic}
+              sortOrder={sortOrder}
+              onFiltersChange={onFiltersChange}
+              onSearchChange={setSearchQuery}
             />
           )}
         </section>
@@ -838,19 +816,21 @@ export function ArticlesContent({
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">阅读导航</p>
             <p className="mt-1 text-sm font-black text-slate-900 dark:text-slate-100">本页目录</p>
           </div>
-          <nav aria-label="本页目录" className="pb-5">
+          <nav aria-label="本页目录" className={cn("pb-5", readingStyles.toc)}>
             {navigationToc.length > 0 ? (
               <div className="relative">
                 <div className="absolute left-5 top-0 bottom-0 w-px bg-slate-100 dark:bg-slate-800" />
-                {navigationToc.map(item => (
+                {visibleNavigationToc.map(item => (
                   <a
                     key={item.id}
                     href={`#${item.id}`}
+                    data-level={item.level}
+                    aria-current={activeId === item.id ? "location" : undefined}
                     onClick={e => { e.preventDefault(); document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" }); }}
                     className={cn(
                       "relative flex items-start pl-8 pr-4 py-1.5 text-sm leading-snug transition-all duration-150",
                       item.level >= 3 && "pl-12",
-                      activeId === item.id
+                      activeId === item.id || activeChapterId === item.id
                         ? "text-amber-600 dark:text-amber-400 font-semibold"
                         : "text-slate-900 dark:text-slate-100 hover:text-amber-600 dark:hover:text-amber-400"
                     )}
@@ -873,23 +853,23 @@ export function ArticlesContent({
               <div className="rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50 via-white to-amber-50/40 p-4 dark:border-amber-900/60 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900">
                 <div className="flex items-center gap-2 text-amber-700 dark:text-amber-300">
                   <Compass className="h-4 w-4" />
-                  <p className="text-xs font-black">猜你还想学习</p>
+                  <p className="text-xs font-black">接着读什么</p>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">把纳指的配置、定投节奏和长期执行串起来看。</p>
+                <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{readingRecommendations.introduction}</p>
                 <div className="mt-3 space-y-2">
                   {sidebarRecommendations.map((article) => (
                     <ProtectedContentLink
                       key={article.id}
-                      href={getArticleHref(article)}
+                      href={article.href}
                       className="group flex items-start gap-2 rounded-xl border border-white/80 bg-white/80 px-3 py-2.5 transition-colors hover:border-amber-300 hover:bg-white dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-amber-800"
                     >
                       <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      <span className="line-clamp-2 text-xs font-bold leading-5 text-slate-700 dark:text-slate-200">{article.title}</span>
+                      <span className="min-w-0"><small className="block text-[10px] font-medium leading-4 text-amber-700 dark:text-amber-300">{article.label}</small><span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-700 dark:text-slate-200">{article.title}</span><span className="mt-1 block text-[11px] leading-4 text-slate-500 dark:text-slate-400">{article.reason}</span></span>
                     </ProtectedContentLink>
                   ))}
                 </div>
                 <div className="mt-4 border-t border-amber-200/70 pt-3 dark:border-amber-900/50">
-                  <p className="text-[11px] font-black text-amber-700 dark:text-amber-300">继续练习</p>
+                  <p className="text-[11px] font-black text-amber-700 dark:text-amber-300">相关工具与入口</p>
                   <div className="mt-2 space-y-1">
                     {topicLinks.slice(0, 2).map((link) => (
                       <ProtectedContentLink key={link.href} href={link.href} className="group flex items-center justify-between gap-2 py-1 text-xs font-semibold text-slate-600 hover:text-amber-700 dark:text-slate-300 dark:hover:text-amber-300">

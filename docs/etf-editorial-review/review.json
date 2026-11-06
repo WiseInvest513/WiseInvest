@@ -1,0 +1,118 @@
+[
+  {
+    "id": "etf-how-it-works",
+    "file": "content/articles/index/etf-learning/what-is-etf.md",
+    "articleSha256": "cc764708222723320cfb6e736851ccd4978d54085d447ed4f0d7054928fb7bf9",
+    "coverSha256": "8617f9205f60d17a981e0f898186db25146f37db8b5488a1b938fc4c999b6d39",
+    "planSha256": "444232c4957d8ae112d1321712dfb75728f735f2523e3a00dd1ee95f7744ce54",
+    "guide": "导读四字段逐篇独立，收获与当前章节相对应；具体大纲见 plans。",
+    "factsAndEditorial": "逐段核对基金份额、二级市场与 AP 申赎的区别；机制章节提前到第二章。SEC ETF bulletin 用于核对申赎、净值与市场价格。盈利 5→5.5、PE 20→16 的虚构算例仍为 −12%。没有开户或邀请信息。",
+    "visuals": "已查看 12 图成品联系表、桌面正文、390px 手机配图和 320px 横向表格；右上角使用完整原始签名，封面与正文图分离。",
+    "access": "保留 ID、原文件和路由；未修改静态或数据库权限。模拟 MEMBER 本地验证全文，不代表线上权限验收。",
+    "referrals": "六篇原稿无邀请卡，本次未新增或改写邀请关系。",
+    "images": [
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-mechanism-body.webp",
+        "sha256": "22ef7982ab33f4bf8146494d28c64a65e7daa2398205dba9eed2d5742cfeeb65"
+      }
+    ]
+  },
+  {
+    "id": "etf-major-products",
+    "file": "content/articles/index/etf-learning/major-us-etfs.md",
+    "articleSha256": "67e276628313dbdc99467ef63c6d9de4743c15f76c45235100d3fa4d747f2ff1",
+    "coverSha256": "7e683b4d03a6069f254d2156b97f7f255b5c70325e97268f9988b62938b816ae",
+    "planSha256": "983cbf25363e03f0b28eb9624b52954eaf2c6a82a308c27552131be209f4ecf1",
+    "guide": "导读四字段逐篇独立，收获与当前章节相对应；具体大纲见 plans。",
+    "factsAndEditorial": "十只产品按七组底层范围整理；删除跨日期规模快照与重复的第三方表现排名，保留原始来源存档。未把旧 QQQ 费率冒充现行费用。股票、债券与黄金的配图没有比例含义，GLD 仍明确为黄金信托。",
+    "visuals": "已查看 12 图成品联系表、桌面正文、390px 手机配图和 320px 横向表格；右上角使用完整原始签名，封面与正文图分离。",
+    "access": "保留 ID、原文件和路由；未修改静态或数据库权限。模拟 MEMBER 本地验证全文，不代表线上权限验收。",
+    "referrals": "六篇原稿无邀请卡，本次未新增或改写邀请关系。",
+    "images": [
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-products-body.webp",
+        "sha256": "1c4fc1d5305ababfad656ad8e04ec97cb7d8355b4e0eacf4449dc9cc17a94ebb"
+      }
+    ]
+  },
+  {
+    "id": "etf-nasdaq-vs-sp500",
+    "file": "content/articles/index/etf-learning/nasdaq-vs-sp500.md",
+    "articleSha256": "bdccd32dda35c773b7b1214802116dee234d5f3503c588a8672e658edd58d2c3",
+    "coverSha256": "890098d791e2389f58ad55a46be2ffecbe02eb197d851e76191cc10ead3df7d8",
+    "planSha256": "e783d05870161bd5e3769ae840e5b37162c6ce75ce793fe04744a0676302bf4b",
+    "guide": "导读四字段逐篇独立，收获与当前章节相对应；具体大纲见 plans。",
+    "factsAndEditorial": "用 Nasdaq 与 S&P 方法文件核对选股及加权表述；虚构穿透权重仍为 8.4%、6.4%、6.2%，合计 21%。新图 A 是共同持仓，不暗示实际成分、数量或比例。删除重复估值与相关性长段。",
+    "visuals": "已查看 12 图成品联系表、桌面正文、390px 手机配图和 320px 横向表格；右上角使用完整原始签名，封面与正文图分离。",
+    "access": "保留 ID、原文件和路由；未修改静态或数据库权限。模拟 MEMBER 本地验证全文，不代表线上权限验收。",
+    "referrals": "六篇原稿无邀请卡，本次未新增或改写邀请关系。",
+    "images": [
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-overlap-body.webp",
+        "sha256": "70c783afa5356a4001f31b4b75c8bc11c9951685018d0bb6c7a7376dd22cdf0e"
+      }
+    ]
+  },
+  {
+    "id": "etf-premium-nav",
+    "file": "content/articles/index/etf-learning/limits-premium-nav.md",
+    "articleSha256": "c2c4113f4e1e2c5765f8694f63e91a0cddacacbbb86669de109079008b26dd83",
+    "coverSha256": "84c5da3d6fd921e32d29c3bcbf067caa97765a39ca216f4ba8b388df43fcdf65",
+    "planSha256": "5d423758858dc584eec6872b796769d323f82f7bfc2ac6cd9b3288fc2e6bdc21",
+    "guide": "导读四字段逐篇独立，收获与当前章节相对应；具体大纲见 plans。",
+    "factsAndEditorial": "保留申购状态、参考值分类和 1.05→1/1.02 的算例，复核结果 −4.76% 与 −2.86%。删除缓存等实现讨论，保留用户需要的日期、渠道与业务条件。新图解释市价与净值时点，旧 SVG 保留溢价计算用途。",
+    "visuals": "已查看 12 图成品联系表、桌面正文、390px 手机配图和 320px 横向表格；右上角使用完整原始签名，封面与正文图分离。",
+    "access": "保留 ID、原文件和路由；未修改静态或数据库权限。模拟 MEMBER 本地验证全文，不代表线上权限验收。",
+    "referrals": "六篇原稿无邀请卡，本次未新增或改写邀请关系。",
+    "images": [
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-premium-body.webp",
+        "sha256": "6de05d8ff35b413c54963e6857d364cfd34714478c53c28205c3e85743c1208c"
+      },
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/premium-mechanics.svg",
+        "sha256": "52bd6013b83cd8f8463a5b44222f432a836c9033f07e151c906b1cf76900b909"
+      }
+    ]
+  },
+  {
+    "id": "etf-understand-returns",
+    "file": "content/articles/index/etf-learning/understand-returns.md",
+    "articleSha256": "8ffeb88766bbb1a569c4e88157c867d55f793c0284a7df5bb85919dc0237bb6e",
+    "coverSha256": "20a5447e6152a61d68f278c8cb1b70247d4dd8184759425d7163590c4ca5be75",
+    "planSha256": "73fecf98fe04d2903d7c882394e9b433121353dfd03977013066a1817295e857",
+    "guide": "导读四字段逐篇独立，收获与当前章节相对应；具体大纲见 plans。",
+    "factsAndEditorial": "保留分红、汇率、复合年化、现金流与费用的分层解释。复核 1.10×0.95−1=4.5%、十年翻倍约7.18%、加权贡献4%、账户金额300等算例。新图表达影响因素，不把分红画成无条件额外收益；原汇率 SVG 保留。",
+    "visuals": "已查看 12 图成品联系表、桌面正文、390px 手机配图和 320px 横向表格；右上角使用完整原始签名，封面与正文图分离。",
+    "access": "保留 ID、原文件和路由；未修改静态或数据库权限。模拟 MEMBER 本地验证全文，不代表线上权限验收。",
+    "referrals": "六篇原稿无邀请卡，本次未新增或改写邀请关系。",
+    "images": [
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-returns-body.webp",
+        "sha256": "80a707ad1a4fb20f7184ce510556c0b43db8c22401195f1359f17c4ef2b473cb"
+      },
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/return-bridge.svg",
+        "sha256": "f275284896a64d06e3002c284ecd6c59264f972083183cef70f76f01801185ae"
+      }
+    ]
+  },
+  {
+    "id": "etf-historical-drawdowns",
+    "file": "content/articles/index/etf-learning/historical-drawdowns.md",
+    "articleSha256": "a0fd1a48185a9ef80fc98800a36d3ea38d23b2595c7770af4acb915ee080d5b3",
+    "coverSha256": "291e1a164cd25656ff563b5847af5fa6a8e78bdb0dc53d0d9c7a48a1719b841e",
+    "planSha256": "7000ebebfada2306b4e93f0cee160026b43a165150d9b656d4da6f1895074113",
+    "guide": "导读四字段逐篇独立，收获与当前章节相对应；具体大纲见 plans。",
+    "factsAndEditorial": "核对主站蓝皮书公开记录中的纳指四次事件和标普回撤数字；八行历史表保持原口径，未重跑全量行情。恢复涨幅表复核通过；保留局部高点、总收益与样本边界。新图是概念曲线，配文明示并不保证恢复。",
+    "visuals": "已查看 12 图成品联系表、桌面正文、390px 手机配图和 320px 横向表格；右上角使用完整原始签名，封面与正文图分离。",
+    "access": "保留 ID、原文件和路由；未修改静态或数据库权限。模拟 MEMBER 本地验证全文，不代表线上权限验收。",
+    "referrals": "六篇原稿无邀请卡，本次未新增或改写邀请关系。",
+    "images": [
+      {
+        "path": "/Users/balala/Persona/Blog/MyBlog/public/images/articles/etf-learning/etf-drawdown-body.webp",
+        "sha256": "06d897773e15c7ea817532e9f9f2264f445c9c6235c1e4b12cb0fccdaca77e89"
+      }
+    ]
+  }
+]

@@ -71,3 +71,10 @@ export function getSeriesReadingState(series: ArticleSeries, articles: SeriesArt
 }
 
 export type SeriesReadingState = ReturnType<typeof getSeriesReadingState>;
+
+/** Existing comprehensive guides are readable, but are not standalone chapters. */
+export function getSeriesAvailabilityLabel(series: ArticleSeries, reading: Pick<SeriesReadingState, "publishedCount" | "existingHref">) {
+  if (reading.existingHref && reading.publishedCount === 0) return "综合教程已可读 · 独立章节筹备";
+  if (reading.publishedCount > 0) return `${reading.publishedCount} 篇已发布 · ${series.chapters.length} ${series.kind === "topic" ? "篇内容" : "个章节"}`;
+  return series.kind === "topic" ? `内容筹备中 · ${series.chapters.length} 篇规划` : `独立章节筹备中 · ${series.chapters.length} 个规划章节`;
+}

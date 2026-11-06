@@ -1,5 +1,9 @@
 ---
 id: okx-guide
+guideAudience: 还没用过 OKX，想看懂从注册到首次买入 BTC 的读者 | 分不清人民币买 U 与用 USDT 买币两个步骤的入门用户
+guideOutcomes: 按账户认证、C2C 买入 USDT 和现货购买 BTC 串起流程 | 看懂付款确认、交易委托与账户安全各自需要检查的地方
+guidePrepare: 准备本人证件、可接收验证的联系方式及本人付款账户；进入 C2C 前先读订单要求，核对收付款信息，不提前确认已付款。
+guideStatus: 本文是账户和现货买币入门，不涵盖杠杆策略；支付渠道、地区资格和订单规则可能不同，实际付款与成交结果须分别确认。
 title: OKX 欧易注册入金教程：大陆用户 2026 如何开户、KYC、C2C 买币和购买 BTC
 categoryId: crypto
 date: 2026-05-02

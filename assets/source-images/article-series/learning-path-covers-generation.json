@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-11-06",
+  "method": "Built-in image_gen; original Wise signature composited with sharp, preserving the complete source image; WebP derivative for website.",
+  "aspectRatio": "2:1",
+  "signature": "public/images/brand/wise-invest-signature.png",
+  "prompts": {
+    "investment-foundations": "Use case: stylized-concept. Create a polished standalone website series-cover image for the topic \"Investment foundations: understanding stocks, bonds, funds and indices\". Landscape exactly 2:1 aspect ratio. Full-width coherent physical scene, not a small isolated icon. High-end silver-white glass 3D product visualization matching a bright financial education website: thick optical glass, polished silver aluminum, restrained fine champagne-gold trims, bright neutral white architectural studio with vertical translucent glass panels and gentle daylight, realistic refractions and contact shadows. Central subjects large and readable at 400px thumbnail: a beautifully made open educational book in white and silver, three translucent glass securities/certificate sheets standing just behind the book, with only minimal engraved abstract symbols distinguishing a company share, bond coupon, and fund basket; small glass building blocks grouped together convey different asset types. Clear hierarchy, very few objects. No money wallet, no monitors, no rocket, no arrows promising returns, no podiums, no trophy, no invented numeric charts. Subjects within 8% safe edges and mostly central-lower area, occupy ~70% frame width. Keep the top right 20% width by 17% height plain for a brand signature to be added from an original file afterward. No text, letters, watermark or logo. Neutral white not beige, no dark navy background, no gradients, no neon. Output a single finished landscape artwork, not website UI and not a collage.",
+    "nasdaq-investing": "Use case: stylized-concept. Create ONE polished standalone 2:1 landscape series-cover image for a financial education website. High-end silver-white glass 3D physical product visualization: thick optical glass with crisp refractive edges, polished silver aluminum, fine restrained champagne-gold trims, bright neutral-white architectural studio with vertical translucent glass ribs, soft diffused daylight, believable contact shadows. Same visual family as premium glass Bitcoin/Ethereum objects on a white financial website. Full width scene; central subjects occupy about 70% frame width and 75% height, identifiable at 400px thumbnail; three-quarter product photography view, slight elevated camera, coherent perspective and balanced hierarchy, just 2-3 main objects. All subjects inside 8% safe edges. Keep upper right 20% width and 17% height quiet, blank, for original brand signature composited later. Do not add signature, watermark, labels or fake UI. No entire website screenshot, no collage, no dark background, no beige, no plastic toy, no fantasy effects, no excessive golden coins, no flags, no company logos.\nSubject: understanding Nasdaq and index investment methods. A thick elegant closed deep slate-blue index handbook with blank spine, beside an optical glass fund basket holding several slim silver company certificates; behind them a single clear upright glass sheet engraved with a simple undulating market-price line with conspicuous dips and recovery, not a one-way upward arrow, no axes or fake return numbers. Book is the primary object, basket and glass sheet show learning about diversified indices and volatility. No lettering or title, symbolic scene not historical data.",
+    "us-stock-funding": "Use case: stylized-concept. Create ONE polished standalone 2:1 landscape series-cover image for a financial education website. High-end silver-white glass 3D physical product visualization: thick optical glass with crisp refractive edges, polished silver aluminum, fine restrained champagne-gold trims, bright neutral-white architectural studio with vertical translucent glass ribs, soft diffused daylight, believable contact shadows. Same visual family as premium glass Bitcoin/Ethereum objects on a white financial website. Full width scene; central subjects occupy about 70% frame width and 75% height, identifiable at 400px thumbnail; three-quarter product photography view, slight elevated camera, coherent perspective and balanced hierarchy, just 2-3 main objects. All subjects inside 8% safe edges. Keep upper right 20% width and 17% height quiet, blank, for original brand signature composited later. Do not add signature, watermark, labels or fake UI. No entire website screenshot, no collage, no dark background, no beige, no plastic toy, no fantasy effects, no excessive golden coins, no flags, no company logos.\nSubject: preparing a US securities account and funding it. Central open white document folio containing a beautifully made generic identity card and bank-transfer receipt, an upright silver/glass account credential with a restrained embossed dollar symbol \"$\" and small abstract chart symbol. A fine gold transfer path connects the paper payment instruction to the securities account credential. Document preparation and money transfer must read clearly. No bank names, no company logos, no invented personal details, no numbers, no large monitors, no coins. Restrained tactile physical desk arrangement.",
+    "hk-stock-funding": "Use case: stylized-concept. Create ONE polished standalone 2:1 landscape series-cover image for a financial education website. High-end silver-white glass 3D physical product visualization: thick optical glass with crisp refractive edges, polished silver aluminum, fine restrained champagne-gold trims, bright neutral-white architectural studio with vertical translucent glass ribs, soft diffused daylight, believable contact shadows. Same visual family as premium glass Bitcoin/Ethereum objects on a white financial website. Full width scene; central subjects occupy about 70% frame width and 75% height, identifiable at 400px thumbnail; three-quarter product photography view, slight elevated camera, coherent perspective and balanced hierarchy, just 2-3 main objects. All subjects inside 8% safe edges. Keep upper right 20% width and 17% height quiet, blank, for original brand signature composited later. Do not add signature, watermark, labels or fake UI. No entire website screenshot, no collage, no dark background, no beige, no plastic toy, no fantasy effects, no excessive golden coins, no flags, no company logos.\nSubject: Hong Kong banking and stock brokerage account opening and funding. A refined architectural miniature with recognizable Hong Kong harbor skyscraper silhouettes in clear glass and polished silver; in the foreground a large frosted-glass bank/payment card with realistic gold chip and no brand, plus a compact securities account folio. A short fine gold line connects the bank card to the folio to suggest bank-to-broker funding. Main card and folio visibly prominent, skyline subordinate. No other country motifs, no generic Greco-Roman bank temple, no flags, no text.",
+    "crypto-tools": "Use case: stylized-concept. Create ONE polished standalone 2:1 landscape series-cover image for a financial education website. High-end silver-white glass 3D physical product visualization: thick optical glass with crisp refractive edges, polished silver aluminum, fine restrained champagne-gold trims, bright neutral-white architectural studio with vertical translucent glass ribs, soft diffused daylight, believable contact shadows. Same visual family as premium glass Bitcoin/Ethereum objects on a white financial website. Full width scene; central subjects occupy about 70% frame width and 75% height, identifiable at 400px thumbnail; three-quarter product photography view, slight elevated camera, coherent perspective and balanced hierarchy, just 2-3 main objects. All subjects inside 8% safe edges. Keep upper right 20% width and 17% height quiet, blank, for original brand signature composited later. Do not add signature, watermark, labels or fake UI. No entire website screenshot, no collage, no dark background, no beige, no plastic toy, no fantasy effects, no excessive golden coins, no flags, no company logos.\nSubject: cryptocurrency exchanges, independent wallets and payment cards as distinct tools. Three objects together: a compact glass/silver trading terminal with a minimal candlestick motif (no numbers, no textual UI); a tangible brushed silver hardware-wallet device with small clear-glass display; one upright frosted-glass payment card with restrained gold chip leaning slightly beside it. Main wallet and payment card prominent, terminal supporting, natural grounded composition. No duplicated coin medallions, no logos, no arrows promising gains, no banknotes.",
+    "ai-reading": "Use case: stylized-concept. Create ONE polished standalone 2:1 landscape series-cover image for a financial education website. High-end silver-white glass 3D physical product visualization: thick optical glass with crisp refractive edges, polished silver aluminum, fine restrained champagne-gold trims, bright neutral-white architectural studio with vertical translucent glass ribs, soft diffused daylight, believable contact shadows. Same visual family as premium glass Bitcoin/Ethereum objects on a white financial website. Full width scene; central subjects occupy about 70% frame width and 75% height, identifiable at 400px thumbnail; three-quarter product photography view, slight elevated camera, coherent perspective and balanced hierarchy, just 2-3 main objects. All subjects inside 8% safe edges. Keep upper right 20% width and 17% height quiet, blank, for original brand signature composited later. Do not add signature, watermark, labels or fake UI. No entire website screenshot, no collage, no dark background, no beige, no plastic toy, no fantasy effects, no excessive golden coins, no flags, no company logos.\nSubject: AI-assisted reading and translation of foreign-language material. An open white book with two facing pages, left page with two tiny legible typographic glyphs \"A\" and \"a\", right page with a single \"文\" glyph and a few calm horizontal silver lines, representing translation without paragraphs. Beside it a slim upright clear-glass browser document pane with parallel text columns, and a small polished-silver AI processor chip with no writing. The open translated book is the primary subject, documents secondary, chip understated. No robot, no magic wand, no floating neon letters, no laptop as main subject."
+  },
+  "assets": [
+    {
+      "id": "investment-foundations",
+      "generated": "/Users/balala/.codex/generated_images/01a1a7f4-ca0c-7b90-8d47-dd16d0bfcbfe/exec-117c70a0-2dd9-4cfe-b51e-81c82aad20ae.png",
+      "source": "assets/source-images/article-series/investment-foundations-wide-v1.png",
+      "web": "public/images/articles/series/investment-foundations-wide-v1.webp",
+      "dimensions": {
+        "source": [
+          1774,
+          887
+        ],
+        "web": [
+          640,
+          320
+        ]
+      },
+      "webBytes": 16400
+    },
+    {
+      "id": "nasdaq-investing",
+      "generated": "/Users/balala/.codex/generated_images/01a1a7f4-ca0c-7b90-8d47-dd16d0bfcbfe/exec-10023b5b-1c9b-4a69-b662-d1350f788ccc.png",
+      "source": "assets/source-images/article-series/nasdaq-investing-wide-v1.png",
+      "web": "public/images/articles/series/nasdaq-investing-wide-v1.webp",
+      "dimensions": {
+        "source": [
+          1774,
+          887
+        ],
+        "web": [
+          640,
+          320
+        ]
+      },
+      "webBytes": 16104
+    },
+    {
+      "id": "us-stock-funding",
+      "generated": "/Users/balala/.codex/generated_images/01a1a7f4-ca0c-7b90-8d47-dd16d0bfcbfe/exec-099c6a5b-b83f-4407-8276-7c1634b0dca0.png",
+      "source": "assets/source-images/article-series/us-stock-funding-wide-v1.png",
+      "web": "public/images/articles/series/us-stock-funding-wide-v1.webp",
+      "dimensions": {
+        "source": [
+          1774,
+          887
+        ],
+        "web": [
+          640,
+          320
+        ]
+      },
+      "webBytes": 15950
+    },
+    {
+      "id": "hk-stock-funding",
+      "generated": "/Users/balala/.codex/generated_images/01a1a7f4-ca0c-7b90-8d47-dd16d0bfcbfe/exec-9c5f46ef-748e-4337-9c95-2c1295bcbee3.png",
+      "source": "assets/source-images/article-series/hk-stock-funding-wide-v1.png",
+      "web": "public/images/articles/series/hk-stock-funding-wide-v1.webp",
+      "dimensions": {
+        "source": [
+          1774,
+          887
+        ],
+        "web": [
+          640,
+          320
+        ]
+      },
+      "webBytes": 17898
+    },
+    {
+      "id": "crypto-tools",
+      "generated": "/Users/balala/.codex/generated_images/01a1a7f4-ca0c-7b90-8d47-dd16d0bfcbfe/exec-526f195d-2928-4e9e-86d2-9bbc4cec7690.png",
+      "source": "assets/source-images/article-series/crypto-tools-wide-v1.png",
+      "web": "public/images/articles/series/crypto-tools-wide-v1.webp",
+      "dimensions": {
+        "source": [
+          1774,
+          887
+        ],
+        "web": [
+          640,
+          320
+        ]
+      },
+      "webBytes": 14366
+    },
+    {
+      "id": "ai-reading",
+      "generated": "/Users/balala/.codex/generated_images/01a1a7f4-ca0c-7b90-8d47-dd16d0bfcbfe/exec-767792a2-e253-40d2-8bdf-e8c4a300405c.png",
+      "source": "assets/source-images/article-series/ai-reading-wide-v1.png",
+      "web": "public/images/articles/series/ai-reading-wide-v1.webp",
+      "dimensions": {
+        "source": [
+          1774,
+          887
+        ],
+        "web": [
+          640,
+          320
+        ]
+      },
+      "webBytes": 14414
+    }
+  ]
+}

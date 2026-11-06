@@ -31,7 +31,7 @@ export function getArticleByRoute(categoryId: string, uid: string): AnyArticle |
 }
 
 export function toArticleListItem(article: AnyArticle): ArticleListItem {
-  const { content: _content, ...listItem } = article;
+  const { content: _content, guideProfile: _guideProfile, ...listItem } = article;
   return { ...listItem, coverImage: getArticleListCover(article.id) };
 }
 
@@ -43,6 +43,7 @@ export function getArticlePrimaryImage(article: Pick<Article, "content">): strin
 
 export function getArticleSeoKeywords(article: Pick<Article, "title" | "summary" | "categoryId">): string[] {
   const categoryKeywords: Record<string, string[]> = {
+    transfers: ["出入金教程", "跨境汇款", "银行收款", "结汇", "转账费用"],
     vcard: ["虚拟 U 卡", "U 卡教程", "Apple Pay", "支付宝", "微信支付", "AI 订阅"],
     crypto: ["加密交易所", "交易所注册", "C2C 入金", "USDT", "BTC", "KYC"],
     predict: ["预测市场", "Predict.fun", "BTC 5 分钟预测", "市场概率", "结算规则", "交易风险"],

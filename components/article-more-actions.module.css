@@ -1,0 +1,51 @@
+.more,
+.panel { display: contents; }
+.trigger { display: none; }
+.panel > :first-child { order: 1; }
+.panel > :last-child { order: 3; }
+.favorite { order: 2; }
+
+@media (max-width: 767px) {
+  .readingBar { position: sticky; top: 64px; z-index: 20; background: #fff; }
+  .readingBar button { min-height: 44px; }
+  .toolbar { align-items: center !important; gap: 8px !important; }
+  .actions { flex-wrap: nowrap !important; gap: 6px !important; }
+  .actions > button { min-height: 40px; padding-inline: 10px; }
+  .favorite { order: 0; }
+  .more { position: relative; display: block; margin-left: auto; }
+  .trigger {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .trigger:focus-visible { outline: 2px solid #b98c3f; outline-offset: 3px; }
+  .panel { display: none; }
+  .panel[data-open="true"] {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 30;
+    display: grid;
+    min-width: 160px;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid #e5dfd3;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 28px #16203218;
+  }
+  .panel > button,
+  .panel > span > button { width: 100%; min-height: 44px; justify-content: flex-start; }
+  :global(.dark) .readingBar { background: #111827; }
+  :global(.dark) .trigger { border-color: #334155; background: #0f172a; color: #a5b1c2; }
+  :global(.dark) .panel[data-open="true"] { border-color: #494333; background: #111827; }
+}

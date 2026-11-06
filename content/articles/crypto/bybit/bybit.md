@@ -1,5 +1,9 @@
 ---
 id: bybit-guide
+guideAudience: 已接触其他交易所，想了解 Bybit 入金和活动入口的用户 | 对 SpotX、Launchpool 或赚币产品感兴趣，想先分清玩法的人
+guideOutcomes: 完成账户认证与安全准备，理解从币安转入 USDT 的链路 | 区分新用户任务、SpotX 打新活动与赚币产品的使用场景
+guidePrepare: 先确认本人服务资格并准备身份资料，设置双重验证；转账前在 Bybit 取得实时地址，核对两端网络、最低金额和手续费。
+guideStatus: 本文重点介绍账户与活动入口，不是合约交易策略；活动奖励、展示年化及参与条件应单独检查，不能视为无风险收益。
 title: Bybit 注册入金教程：大陆用户 2026 如何开户、KYC、买币和参与 Launchpool
 categoryId: crypto
 date: 2026-05-02

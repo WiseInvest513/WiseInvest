@@ -1,0 +1,247 @@
+{
+  "source": "Robert J. Shiller official US stock market data, Data sheet Date and P columns",
+  "source_page": "https://shillerdata.com/",
+  "source_download": "https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/1449043e-a1ed-4e2e-8e9c-7b9a2a064493/ie_data.xls?ver=1791297298731",
+  "retrieved_on": "2026-11-06",
+  "source_sha256": "98a54927942e842ec07ffe73000998e793953708c345b6b27bb363e9ada8366a",
+  "method": "For each midterm year y=1950,1954,...,2022: 100*(P(y+1,April)/P(y,October)-1), and 100*(P(y+1,October)/P(y,October)-1). P is nominal monthly average of daily closing index levels, not month-end close. Arithmetic mean of 19 observations; excludes dividends, fees, taxes, inflation and intraperiod drawdowns. These are historical monthly comparisons, not verified executable trades.",
+  "calculations": {
+    "six_month_return": {
+      "count": 19,
+      "positive": 19,
+      "mean": 14.573967897527163,
+      "median": 13.650796360470485,
+      "min": 1.491053677932408,
+      "max": 29.278332542349904
+    },
+    "twelve_month_return": {
+      "count": 19,
+      "positive": 19,
+      "mean": 18.239928485178226,
+      "median": 18.02864363942711,
+      "min": 3.0420457843254534,
+      "max": 30.857675574891232
+    }
+  },
+  "rows": [
+    {
+      "year": 1950,
+      "start_month": "1950-10",
+      "six_month_end": "1951-04",
+      "twelve_month_end": "1951-10",
+      "start_price": 19.87,
+      "april_price": 21.92,
+      "october_price": 23.36,
+      "six_month_return": 10.317060895822848,
+      "twelve_month_return": 17.564167086059367
+    },
+    {
+      "year": 1954,
+      "start_month": "1954-10",
+      "six_month_end": "1955-04",
+      "twelve_month_end": "1955-10",
+      "start_price": 32.18,
+      "april_price": 37.76,
+      "october_price": 42.11,
+      "six_month_return": 17.339962709757618,
+      "twelve_month_return": 30.857675574891232
+    },
+    {
+      "year": 1958,
+      "start_month": "1958-10",
+      "six_month_end": "1959-04",
+      "twelve_month_end": "1959-10",
+      "start_price": 50.95,
+      "april_price": 57.1,
+      "october_price": 57.0,
+      "six_month_return": 12.07065750736016,
+      "twelve_month_return": 11.874386653581936
+    },
+    {
+      "year": 1962,
+      "start_month": "1962-10",
+      "six_month_end": "1963-04",
+      "twelve_month_end": "1963-10",
+      "start_price": 56.17,
+      "april_price": 68.76,
+      "october_price": 73.03,
+      "six_month_return": 22.414100053409292,
+      "twelve_month_return": 30.016022787965113
+    },
+    {
+      "year": 1966,
+      "start_month": "1966-10",
+      "six_month_end": "1967-04",
+      "twelve_month_end": "1967-10",
+      "start_price": 77.13,
+      "april_price": 90.96,
+      "october_price": 95.66,
+      "six_month_return": 17.930766238817576,
+      "twelve_month_return": 24.02437443277583
+    },
+    {
+      "year": 1970,
+      "start_month": "1970-10",
+      "six_month_end": "1971-04",
+      "twelve_month_end": "1971-10",
+      "start_price": 84.37,
+      "april_price": 103.0,
+      "october_price": 97.29,
+      "six_month_return": 22.081308521986486,
+      "twelve_month_return": 15.313500059262775
+    },
+    {
+      "year": 1974,
+      "start_month": "1974-10",
+      "six_month_end": "1975-04",
+      "twelve_month_end": "1975-10",
+      "start_price": 69.44,
+      "april_price": 84.72,
+      "october_price": 88.57,
+      "six_month_return": 22.004608294930872,
+      "twelve_month_return": 27.548963133640548
+    },
+    {
+      "year": 1978,
+      "start_month": "1978-10",
+      "six_month_end": "1979-04",
+      "twelve_month_end": "1979-10",
+      "start_price": 100.6,
+      "april_price": 102.1,
+      "october_price": 104.5,
+      "six_month_return": 1.491053677932408,
+      "twelve_month_return": 3.876739562624265
+    },
+    {
+      "year": 1982,
+      "start_month": "1982-10",
+      "six_month_end": "1983-04",
+      "twelve_month_end": "1983-10",
+      "start_price": 132.7,
+      "april_price": 157.7,
+      "october_price": 167.7,
+      "six_month_return": 18.839487565938207,
+      "twelve_month_return": 26.375282592313496
+    },
+    {
+      "year": 1986,
+      "start_month": "1986-10",
+      "six_month_end": "1987-04",
+      "twelve_month_end": "1987-10",
+      "start_price": 237.4,
+      "april_price": 289.3,
+      "october_price": 280.2,
+      "six_month_return": 21.86183656276328,
+      "twelve_month_return": 18.02864363942711
+    },
+    {
+      "year": 1990,
+      "start_month": "1990-10",
+      "six_month_end": "1991-04",
+      "twelve_month_end": "1991-10",
+      "start_price": 307.12,
+      "april_price": 379.68,
+      "october_price": 386.88,
+      "six_month_return": 23.625944256316743,
+      "twelve_month_return": 25.97030476686637
+    },
+    {
+      "year": 1994,
+      "start_month": "1994-10",
+      "six_month_end": "1995-04",
+      "twelve_month_end": "1995-10",
+      "start_price": 463.81,
+      "april_price": 507.91,
+      "october_price": 582.92,
+      "six_month_return": 9.508203790345181,
+      "twelve_month_return": 25.68077445505701
+    },
+    {
+      "year": 1998,
+      "start_month": "1998-10",
+      "six_month_end": "1999-04",
+      "twelve_month_end": "1999-10",
+      "start_price": 1032.47,
+      "april_price": 1334.76,
+      "october_price": 1300.01,
+      "six_month_return": 29.278332542349904,
+      "twelve_month_return": 25.91261731575736
+    },
+    {
+      "year": 2002,
+      "start_month": "2002-10",
+      "six_month_end": "2003-04",
+      "twelve_month_end": "2003-10",
+      "start_price": 854.63,
+      "april_price": 890.03,
+      "october_price": 1038.73,
+      "six_month_return": 4.142143383686503,
+      "twelve_month_return": 21.541485789171922
+    },
+    {
+      "year": 2006,
+      "start_month": "2006-10",
+      "six_month_end": "2007-04",
+      "twelve_month_end": "2007-10",
+      "start_price": 1363.38,
+      "april_price": 1463.64,
+      "october_price": 1539.66,
+      "six_month_return": 7.353782511112095,
+      "twelve_month_return": 12.929630770584865
+    },
+    {
+      "year": 2010,
+      "start_month": "2010-10",
+      "six_month_end": "2011-04",
+      "twelve_month_end": "2011-10",
+      "start_price": 1171.58,
+      "april_price": 1331.51,
+      "october_price": 1207.22,
+      "six_month_return": 13.650796360470485,
+      "twelve_month_return": 3.0420457843254534
+    },
+    {
+      "year": 2014,
+      "start_month": "2014-10",
+      "six_month_end": "2015-04",
+      "twelve_month_end": "2015-10",
+      "start_price": 1937.27,
+      "april_price": 2094.86,
+      "october_price": 2024.81,
+      "six_month_return": 8.134643080210813,
+      "twelve_month_return": 4.5187299653636215
+    },
+    {
+      "year": 2018,
+      "start_month": "2018-10",
+      "six_month_end": "2019-04",
+      "twelve_month_end": "2019-10",
+      "start_price": 2785.46,
+      "april_price": 2903.8,
+      "october_price": 2977.68,
+      "six_month_return": 4.248490375018843,
+      "twelve_month_return": 6.900835050584098
+    },
+    {
+      "year": 2022,
+      "start_month": "2022-10",
+      "six_month_end": "2023-04",
+      "twelve_month_end": "2023-10",
+      "start_price": 3726.050952380952,
+      "april_price": 4121.467368421053,
+      "october_price": 4269.4009090909085,
+      "six_month_return": 10.61221172478679,
+      "twelve_month_return": 14.582461798133895
+    }
+  ],
+  "earlier_counterexamples": [
+    {
+      "year": 1930,
+      "twelve_month_return": -42.80133928571429
+    },
+    {
+      "year": 1938,
+      "twelve_month_return": -1.2251148545176171
+    }
+  ]
+}

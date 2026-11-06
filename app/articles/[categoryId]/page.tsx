@@ -8,6 +8,11 @@ import { ArticlesContent } from "../articles-content";
 export const dynamicParams = false;
 
 const categorySeo: Record<string, { title: string; description: string; keywords: string[] }> = {
+  transfers: {
+    title: "出入金教程：账户转账、银行收款与结汇实操",
+    description: "Wise Invest 出入金教程，首篇整理 SafePal 汇款与建行结汇的历史实操，结合截图核对资金路径、到账凭证、费用和通道限制，后续逐步补充银行与券商出入金。",
+    keywords: ["出入金教程", "跨境汇款", "银行收款", "结汇", "SafePal", "Fiat24"],
+  },
   vcard: {
     title: "虚拟 U 卡教程合集：大陆用户开卡、AI 订阅、Apple Pay 与支付宝绑定",
     description: "Wise Invest 虚拟 U 卡教程合集，整理 MPCard、Bitget Wallet Card、SafePal、BenPay、Bybit Card 等开卡、充值、邀请码和支付绑定流程。",

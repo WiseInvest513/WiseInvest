@@ -1,3 +1,5 @@
+import { articleCategoryIcons } from "./article-icons";
+
 export interface CategoryGuide {
   group: string;
   label: string;
@@ -7,9 +9,15 @@ export interface CategoryGuide {
   outcomes: readonly [readonly [string, string], readonly [string, string], readonly [string, string]];
 }
 
-const icon = (name: string) => `/images/articles/category-icons/${name}-ivory.webp`;
+const icon = (name: keyof typeof articleCategoryIcons) => articleCategoryIcons[name];
 
 export const categoryGuides: Record<string, CategoryGuide> = {
+  transfers: {
+    group: "开户与资金", label: "资金流转", artwork: icon("transfers"),
+    tagline: "从转出到到账，弄清每一步的钱去了哪里。",
+    description: "这里整理账户之间的资金流转实操，首篇从 SafePal 汇款与建行结汇的历史记录开始。结合操作截图核对转出、收款与换汇的不同环节，后续逐步补充银行汇款和券商出入金教程。",
+    outcomes: [["看清资金路径", "区分钱包转账、账户充值、银行收款与结汇，核对通道是否仍可用。"], ["跟图核对步骤", "找到币种、网络、收款账户与付款凭证，避免把提交成功当作已经到账。"], ["算清实际成本", "分别检查网络费、汇率与银行扣费，留下可追溯的操作记录。"]],
+  },
   domestic: {
     group: "投资与市场", label: "入门路径", artwork: icon("domestic"),
     tagline: "先理清账户与资金路径，再开始投资。",
@@ -18,9 +26,9 @@ export const categoryGuides: Record<string, CategoryGuide> = {
   },
   index: {
     group: "投资与市场", label: "指数与基金", artwork: icon("index"),
-    tagline: "看懂指数与基金，让长期投资有据可依。",
-    description: "围绕标普 500、纳斯达克 100 与基金投资，从基础概念走到场内外产品、购买渠道与定投方法，理解费用、波动和持有周期，而不只关注短期涨跌。",
-    outcomes: [["分清投资对象", "理解指数、ETF 与基金的关系，辨别场内外产品的差异。"], ["比较购买渠道", "阅读购买实操与路径对比，了解各类账户和产品的限制。"], ["建立长期视角", "结合定投与问答内容，理解成本、回撤与持续投入的关系。"]],
+    tagline: "从认识指数，到写下并执行自己的投资计划。",
+    description: "围绕标普500与纳斯达克100，把现有文章串成六个学习阶段：认识资产、理解收益与回撤、制定投入计划、比较渠道与产品、完成购买、复核持有。每一阶段都有文章与蓝皮书章节衔接，第一次来可以顺序学习，已有基础也可以按问题查阅。",
+    outcomes: [["先理解，再决定", "分清资产与指数，理解复利假设、回撤和自己的用钱期限。"], ["把选择变成计划", "安排投入节奏，比较费用、溢价和账户条件，再阅读实操。"], ["买完也知道怎么做", "检查份额与扣款，根据现金流和目标变化复核持有计划。"]],
   },
   strategy: {
     group: "投资与市场", label: "研究与决策", artwork: icon("strategy"),

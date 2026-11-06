@@ -104,7 +104,7 @@ test('prediction markets appear immediately after crypto without removing or cha
     { id: 'strategy', name: '投资策略', emoji: '🧭' },
     { id: 'outside', name: '出海必备', emoji: '✈️' },
   ];
-  assert.deepEqual(categories.filter(category => category.id !== 'predict'), originalCategories);
+  assert.deepEqual(categories.filter(category => originalCategories.some(original => original.id === category.id)), originalCategories);
   assert.deepEqual(categories.filter(category => category.id === 'predict'), [
     { id: 'predict', name: '预测市场', emoji: '🔮' },
   ]);

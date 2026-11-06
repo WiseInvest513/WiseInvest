@@ -1,0 +1,159 @@
+{
+  "browser": "Chrome / Playwright; Browser plugin not available",
+  "results": [
+    {
+      "id": "etf-how-it-works",
+      "url": "http://127.0.0.1:3002/articles/index/OOy6MP9A",
+      "title": "ETF 如何运作？从基金份额到申购赎回机制 - Wise Invest",
+      "images": [
+        {
+          "src": "/images/articles/etf-learning/etf-mechanism-body.webp",
+          "width": 1280
+        }
+      ],
+      "links": [
+        "/articles/index/OYI4svII"
+      ]
+    },
+    {
+      "id": "etf-major-products",
+      "url": "http://127.0.0.1:3002/articles/index/ekPFyBVH",
+      "title": "美股主要 ETF 一览 - Wise Invest",
+      "images": [
+        {
+          "src": "/images/articles/etf-learning/etf-products-body.webp",
+          "width": 1280
+        }
+      ],
+      "links": [
+        "/articles/index/E4W4l3nh"
+      ]
+    },
+    {
+      "id": "etf-nasdaq-vs-sp500",
+      "url": "http://127.0.0.1:3002/articles/index/OYI4svII",
+      "title": "纳指与标普有什么区别？ - Wise Invest",
+      "images": [
+        {
+          "src": "/images/articles/etf-learning/etf-overlap-body.webp",
+          "width": 1280
+        }
+      ],
+      "links": [
+        "/articles/index/ekPFyBVH"
+      ]
+    },
+    {
+      "id": "etf-premium-nav",
+      "url": "http://127.0.0.1:3002/articles/index/ammF22zK",
+      "title": "限购、溢价与净值，怎么看？ - Wise Invest",
+      "images": [
+        {
+          "src": "/images/articles/etf-learning/etf-premium-body.webp",
+          "width": 1280
+        },
+        {
+          "src": "/images/articles/etf-learning/premium-mechanics.svg",
+          "width": 960
+        }
+      ],
+      "links": []
+    },
+    {
+      "id": "etf-understand-returns",
+      "url": "http://127.0.0.1:3002/articles/index/E4W4l3nh",
+      "title": "为什么你的收益和指数不一样？ - Wise Invest",
+      "images": [
+        {
+          "src": "/images/articles/etf-learning/etf-returns-body.webp",
+          "width": 1280
+        },
+        {
+          "src": "/images/articles/etf-learning/return-bridge.svg",
+          "width": 960
+        }
+      ],
+      "links": [
+        "/articles/index/Cor9u5oW"
+      ]
+    },
+    {
+      "id": "etf-historical-drawdowns",
+      "url": "http://127.0.0.1:3002/articles/index/Cor9u5oW",
+      "title": "纳指与标普过去跌过多少？ - Wise Invest",
+      "images": [
+        {
+          "src": "/images/articles/etf-learning/etf-drawdown-body.webp",
+          "width": 1280
+        }
+      ],
+      "links": [
+        "/articles/index/eq4k5aIU"
+      ]
+    }
+  ],
+  "mobile": [
+    {
+      "viewportWidth": 390,
+      "tableWidth": 640,
+      "scroll": 200,
+      "client": 356
+    },
+    {
+      "viewportWidth": 320,
+      "tableWidth": 640,
+      "scroll": 200,
+      "client": 286
+    }
+  ],
+  "imageZoom": true,
+  "errors": [
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Loading the script 'https://va.vercel-scripts.com/v1/script.debug.js' violates the following Content Security Policy directive: \"script-src 'self' 'unsafe-inline' 'unsafe-eval'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+  ],
+  "covers": 6,
+  "consoleExplanation": {
+    "unauthorized": "Local dev mock login does not authorize content/activity or account/content-library APIs; article body access verified separately.",
+    "csp": "Existing Vercel analytics debug script blocked by local CSP; not a content/image failure."
+  }
+}

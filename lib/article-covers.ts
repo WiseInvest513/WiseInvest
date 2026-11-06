@@ -3,6 +3,33 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "safepal-bank-remittance": {
+    src: "/images/articles/covers/safepal-bank-remittance.webp",
+    alt: "SafePal 汇款实操：米白银行、深蓝钱包与欧元凭证，2025 年实测记录",
+    topics: ["SafePal", "Fiat24", "出入金", "USDC", "跨境汇款", "结汇"],
+  },
+  "sp500-midterm-strategy": {
+    src: "/images/articles/covers/sp500-midterm-strategy.webp",
+    alt: "标普 500 中期选举后的投资窗口：银白日历与玻璃市场波动带",
+    topics: ["标普500", "中期选举", "投资策略", "ETF", "历史回测"],
+  },
+  "collective-ipo-guide": { src: "/images/articles/covers/collective-ipo-guide.webp", alt: "独立证券账户的配号凭证汇入共同记录台账，示意集合打新", topics: ["A股", "集合打新", "新股申购", "配号", "收益分配"] },
+  "etf-how-it-works": {"src":"/images/articles/covers/etf-how-it-works.webp","alt":"银白玻璃资产篮子与独立基金凭证，示意组合与份额的关系","topics":["ETF","纳斯达克100","标普500","指数基金"]},
+  "etf-major-products": {"src":"/images/articles/covers/etf-major-products.webp","alt":"股票资料册、债券凭证与金条组成的银白产品地图封面","topics":["ETF","纳斯达克100","标普500","指数基金"]},
+  "etf-nasdaq-vs-sp500": {"src":"/images/articles/covers/etf-nasdaq-vs-sp500.webp","alt":"两组玻璃资产篮子中大小不同的积木，示意权重与重叠","topics":["ETF","纳斯达克100","标普500","指数基金"]},
+  "etf-premium-nav": {"src":"/images/articles/covers/etf-premium-nav.webp","alt":"资产篮子与报价凭证放在天平两侧，旁有计时器","topics":["ETF","纳斯达克100","标普500","指数基金"]},
+  "etf-understand-returns": {"src":"/images/articles/covers/etf-understand-returns.webp","alt":"分红凭证、汇率筹码与费用圆环连接同一本账户记录","topics":["ETF","纳斯达克100","标普500","指数基金"]},
+  "etf-historical-drawdowns": {"src":"/images/articles/covers/etf-historical-drawdowns.webp","alt":"银白曲线经历低谷后回到同一高度，旁有时钟，示意回撤与等待","topics":["ETF","纳斯达克100","标普500","指数基金"]},
+  "us-stock-platform-comparison": {
+    src: "/images/articles/covers/us-stock-platform-comparison.webp",
+    alt: "买美股之前先选对路径：基金文件、证券电脑与链上连接的银白玻璃封面",
+    topics: ["美股", "平台对比", "基金", "券商", "数字证券", "链上产品"],
+  },
+  "galaxy-etf-guide": {
+    src: "/images/articles/covers/galaxy-etf-guide.webp",
+    alt: "银河证券 ETF 免五指南：银河标志、玻璃铭牌与佣金计算器的银白封面",
+    topics: ["银河证券", "ETF", "免五", "佣金", "开户"],
+  },
   "bit-account-guide": {
     src: "/images/articles/covers/bit-account-guide.webp",
     alt: "BIT 开户与入金：稳定币钱包、身份资料与证券账户的米白深蓝立体封面",

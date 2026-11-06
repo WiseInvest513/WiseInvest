@@ -25,6 +25,7 @@ function load(relative) {
     if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a' };
     if (name === '@/components/article-card') return { ArticleCard: 'ArticleCard' };
     if (name.startsWith('@/lib/')) return load(`${name.slice(2)}.ts`);
+    if (name.startsWith('./')) return load(path.join(path.dirname(relative), `${name.slice(2)}.ts`));
     throw new Error(`Unexpected dependency: ${name}`);
   };
   new Function('require', 'module', 'exports', code)(requireMock, module, module.exports);
@@ -49,10 +50,10 @@ const text = tree => Array.isArray(tree) ? tree.map(text).join('') : tree && typ
 const render = props => ArticleLibrary({ articles: [], view: 'recommended', searchQuery: '', onSearchChange() {}, ...props });
 const heading = tree => nodes(tree, node => node.type === 'h1')[0];
 
-test('all fourteen categories have distinct introductions, art and three concrete learning outcomes', () => {
+test('all categories have distinct introductions, art and three concrete learning outcomes', () => {
   assert.deepEqual(Object.keys(categoryGuides).sort(), categories.map(c => c.id).sort());
-  assert.equal(new Set(Object.values(categoryGuides).map(g => g.description)).size, 14);
-  assert.equal(new Set(Object.values(categoryGuides).map(g => g.artwork)).size, 14);
+  assert.equal(new Set(Object.values(categoryGuides).map(g => g.description)).size, categories.length);
+  assert.equal(new Set(Object.values(categoryGuides).map(g => g.artwork)).size, categories.length);
   for (const category of categories) {
     const guide = getCategoryGuide(category.id);
     assert.equal(guide.outcomes.length, 3);
@@ -117,6 +118,25 @@ test('search replaces category content and counts remain tied to filtered articl
   assert.equal(nodes(search, n => n.type === 'ArticleCard')[0].props.article.id, 'c');
 });
 
+test('index category exposes the curriculum and orders articles by learning stage without changing search', () => {
+  const { articleSeries } = load('lib/article-library.ts');
+  const { genUid } = load('lib/article-uid.ts');
+  const series = articleSeries.find(item => item.id === 'nasdaq-investing');
+  const articles = series.chapters.map(chapter => ({ id: chapter.articleId, categoryId: 'index', title: chapter.title, summary: '' })).reverse();
+  const tree = render({ categoryId: 'index', articles });
+  const panel = nodes(tree, n => n.props['aria-labelledby'] === 'index-learning-heading')[0];
+  assert.ok(panel);
+  assert.ok(text(panel).includes(`${series.stages.length} 个阶段 · ${series.chapters.length} 篇文章`));
+  assert.equal(nodes(panel, n => n.type === 'li').length, 3);
+  for (const stage of series.stages) assert.ok(nodes(panel, n => n.type === 'a' && n.props.href.endsWith(`#stage-${stage.id}`)).length);
+  const start = nodes(panel, n => n.type === 'a' && text(n).includes('从第一课开始'))[0];
+  assert.equal(start.props.href, `/articles/index/${genUid('indexStock')}?series=nasdaq-investing`);
+  assert.deepEqual(nodes(tree, n => n.type === 'ArticleCard').map(n => n.props.article.id), series.chapters.map(chapter => chapter.articleId));
+  const search = render({ categoryId: 'index', articles, searchQuery: '定投' });
+  assert.equal(nodes(search, n => n.props['aria-labelledby'] === 'index-learning-heading').length, 0);
+  assert.equal(nodes(render({ categoryId: 'bank', articles }), n => n.props['aria-labelledby'] === 'index-learning-heading').length, 0);
+});
+
 test('empty categories clearly describe planned content without offering nonexistent lessons', () => {
   const tree = render({categoryId: 'strategy'});
   assert.ok(text(tree).includes('计划整理的学习方向'));
@@ -158,4 +178,46 @@ test('library heading icons preserve alpha and remain lightweight', async () => 
     assert.ok(fs.statSync(file).size < 20000);
     assert.ok(fs.existsSync(path.join(root, `assets/source-images/article-category-icons/${id}-ivory.png`)));
   }
+});
+
+test('all categories and subcategories inherit compact cards and an illustrated introduction', () => {
+  const scopes = [...categories.map(category => ({ categoryId: category.id })),
+    ...subcategories.map(subcategory => ({ categoryId: subcategory.categoryId, subcategoryId: subcategory.id }))];
+  for (const scope of scopes) {
+    const article = { id: 'example', ...scope, title: 'Example', summary: 'Article' };
+    const tree = render({ ...scope, articles: [article] });
+    const cards = nodes(tree, n => n.type === 'ArticleCard');
+    assert.equal(cards.length, 1, JSON.stringify(scope));
+    assert.equal(cards[0].props.variant, 'compact');
+    const icon = nodes(tree, n => n.props.className === 'introEmoji')[0];
+    assert.equal(text(icon), '📚');
+    assert.equal(icon.props['aria-hidden'], 'true');
+    assert.ok(text(tree).includes(getCategoryGuide(scope.categoryId, scope.subcategoryId).description));
+  }
+});
+
+test('library introductions share the accepted full-width style and search retains compact results', () => {
+  for (const view of ['recommended', 'series', 'all']) {
+    const tree = render({ view });
+    const intro = nodes(tree, n => n.props['data-library-introduction'])[0];
+    assert.equal(nodes(intro, n => n.props.className === 'introEmoji').length, 1);
+    assert.equal(text(nodes(intro, n => n.props.className === 'introEmoji')[0]), '📚');
+  }
+  const articles = categories.map(category => ({ id: category.id, categoryId: category.id, title: 'Example', summary: 'Article' }));
+  for (const props of [{ view: 'all' }, { categoryId: 'bank', searchQuery: 'Example' }, { searchQuery: 'Example', showSearch: false }]) {
+    const tree = render({ ...props, articles });
+    const cards = nodes(tree, n => n.type === 'ArticleCard');
+    assert.equal(cards.length, articles.length);
+    assert.ok(cards.every(n => n.props.variant === 'compact'));
+    if (props.searchQuery) {
+      assert.equal(nodes(tree, n => n.props.className === 'introEmoji').length, 0);
+      assert.equal(text(heading(tree)), '搜索结果');
+    }
+  }
+  const css = fs.readFileSync(path.join(root, 'app/articles/article-library.module.css'), 'utf8');
+  assert.match(css, /grid-template-areas: "identity search" "description description"/);
+  assert.match(css, /\.categoryDescription \{[^}]*width: 100%;[^}]*max-width: none;/);
+  assert.match(css, /\.libraryIdentity \{[^}]*grid-area: identity/);
+  assert.match(css, /grid-template-areas: "identity" "search" "description"/);
+  assert.doesNotMatch(css, /compactPreview/);
 });

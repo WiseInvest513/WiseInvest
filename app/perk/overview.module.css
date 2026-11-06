@@ -220,6 +220,57 @@
   .topicIntro { display: block; }
   .allLink { margin-top: 6px; font-size: 12px; }
 }
+.topic { --topic-accent: #2775cf; --topic-soft: #f1f7ff; padding-block: 40px; }
+.topic[data-tone="1"] { --topic-accent: #148b80; --topic-soft: #effaf7; }
+.topic[data-tone="2"] { --topic-accent: #c66b4f; --topic-soft: #fff6f1; }
+.topicIntro p { margin-top: 12px; line-height: 1.9; }
+.selectionCount { display: block; margin-top: 20px; color: var(--topic-accent); font-size: 12px; font-weight: 650; letter-spacing: 0; }
+.topicBody { min-width: 0; }
+.topic .entry { border-color: var(--line); border-top: 2px solid var(--topic-accent); background: var(--surface); box-shadow: none; min-height: 280px; }
+.topic .entry:hover { border-color: var(--topic-accent); box-shadow: 0 8px 24px #2330430b; }
+.entryPurpose { margin-top: 14px; color: var(--topic-accent); font-size: 12px; line-height: 1.6; font-weight: 600; }
+.entryFocus { display: flex; align-items: flex-start; gap: 6px; margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.entryFocus svg { flex: none; margin-top: 3px; color: var(--topic-accent); }
+.topic .entryAction svg { color: var(--topic-accent); }
+.topic .entryIcon { background: var(--topic-soft); color: var(--topic-accent); border: none; }
+.cardEntry .entryPurpose, .cardEntry p, .cardEntry .entryFocus { margin-left: 18px; margin-right: 18px; }
+.cardEntry .entryAction { margin-top: auto; }
+.cardArt { aspect-ratio: 2.4 / 1; }
+.checklist { margin-top: 16px; background: var(--topic-soft); border-block: 1px solid color-mix(in srgb, var(--topic-accent) 15%, transparent); }
+.checklist summary { display: flex; align-items: center; gap: 10px; padding: 15px 18px; list-style: none; cursor: pointer; font-size: 14px; font-weight: 650; }
+.checklist summary::-webkit-details-marker { display: none; }
+.checklist summary > svg:first-child { color: var(--topic-accent); flex: none; }
+.checklist summary small { color: var(--muted); font-size: 12px; font-weight: 400; }
+.disclosureArrow { margin-left: auto; flex: none; color: var(--muted); transition: transform .2s; }
+.checklist[open] .disclosureArrow { transform: rotate(180deg); }
+.checklist summary:hover { background: color-mix(in srgb, var(--topic-accent) 5%, transparent); }
+.checklist summary:focus-visible { outline: 2px solid var(--topic-accent); outline-offset: 3px; }
+.checklist dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 4px 18px 20px; gap: 18px; }
+.checklist dl > div + div { border-left: 1px solid var(--line); padding-left: 18px; }
+.checklist dt { font-size: 13px; font-weight: 650; line-height: 1.6; }
+.checklist dd { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.85; }
+:global(.dark) .topic { --topic-accent: #85b9ff; --topic-soft: #1e2b3b; }
+:global(.dark) .topic[data-tone="1"] { --topic-accent: #69cfc0; --topic-soft: #1d302e; }
+:global(.dark) .topic[data-tone="2"] { --topic-accent: #efab91; --topic-soft: #342a26; }
+@media (max-width: 1099px) {
+  .topicIntro { display: block; }
+  .topicIntro p { max-width: 55em; margin-top: 6px; }
+  .selectionCount { display: inline-block; margin: 12px 18px 0 0; }
+  .topicIntro .allLink { margin-top: 8px; }
+}
+@media (max-width: 760px) {
+  .topic .entries { grid-template-columns: 1fr; }
+  .topic .entry { min-height: 0; }
+  .topic .cardEntry { display: flex; padding: 0 0 18px; }
+  .topic .cardArt { height: auto; aspect-ratio: 2.4 / 1; border-radius: 0; }
+  .topic .cardArt img { object-fit: cover; }
+  .topic .cardEntry .entryHeading { padding: 14px 18px 0; }
+  .topic .cardEntry .entryAction { margin: auto 18px 0; padding-top: 12px; width: calc(100% - 36px); }
+  .checklist summary { padding: 14px; }
+  .checklist summary small { display: none; }
+  .checklist dl { grid-template-columns: 1fr; padding: 0 14px 18px; gap: 14px; }
+  .checklist dl > div + div { border-left: 0; border-top: 1px solid var(--line); padding: 12px 0 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   .page *, .page *::before, .page *::after { transition: none !important; scroll-behavior: auto !important; }
   .page a:hover, .page a:hover svg, .page a:hover img, .categoryLink:hover .artwork { transform: none; }

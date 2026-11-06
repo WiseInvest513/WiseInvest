@@ -1,3 +1,10 @@
+export type ArticleGuideProfile = {
+  audience: string[];
+  outcomes: string[];
+  prepare: string;
+  status: string;
+};
+
 export interface Article {
   id: string;
   title: string;
@@ -9,6 +16,7 @@ export interface Article {
   content: string;
   imageLayout?: string;
   tocDepth?: 2 | 3 | 4;
+  guideProfile?: ArticleGuideProfile;
 }
 
 export interface Category {
@@ -41,6 +49,7 @@ export const categories: Category[] = [
   { id: "predict",  name: "预测市场", emoji: "🔮" },
   { id: "broker",   name: "券商开户", emoji: "🏛️" },
   { id: "bank",     name: "银行账户", emoji: "💳" },
+  { id: "transfers", name: "出入金教程", emoji: "🔄" },
   { id: "simcard",  name: "手机套餐",  emoji: "📱" },
   { id: "ai",       name: "AI 工具",  emoji: "⚡" },
   { id: "vcard",    name: "虚拟U卡",  emoji: "💰" },

@@ -28,6 +28,12 @@ export const defaultRoadmapAccessRule: ContentAccessRuleConfig = {
 
 export const publicArticleAccessRules: ArticleAccessRuleConfig[] = [
   {
+    articleId: "galaxy-etf-guide",
+    categoryId: "domestic",
+    access: "PUBLIC",
+    reason: "银河证券 ETF 免五公开指南",
+  },
+  {
     articleId: "web-guide",
     categoryId: "web",
     access: "PUBLIC",

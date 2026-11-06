@@ -1,8 +1,20 @@
 import fs from "fs";
 import path from "path";
-import type { Article } from "./articles-data";
+import type { Article, ArticleGuideProfile } from "./articles-data";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content", "articles");
+
+/** Reading-guide copy belongs to one article, never to a category template. */
+export function parseArticleGuideProfile(meta: Record<string, string>): ArticleGuideProfile | undefined {
+  const list = (value = "") => value.split("|").map(item => item.trim()).filter(Boolean);
+  const audience = list(meta.guideAudience);
+  const outcomes = list(meta.guideOutcomes);
+  const prepare = meta.guidePrepare?.trim();
+  const status = meta.guideStatus?.trim();
+  // Hide incomplete guides instead of silently substituting generic filler.
+  if (!audience.length || !outcomes.length || !prepare || !status) return undefined;
+  return { audience, outcomes, prepare, status };
+}
 
 /** Parse frontmatter from a markdown file */
 function parseFrontmatter(raw: string): { meta: Record<string, string>; content: string } {
@@ -78,6 +90,7 @@ export function loadFsArticles(): FsArticle[] {
         content: resolveImagePaths(content, basePath),
         imageLayout: meta.imageLayout,
         tocDepth,
+        guideProfile: parseArticleGuideProfile(meta),
         basePath,
       });
     } catch {

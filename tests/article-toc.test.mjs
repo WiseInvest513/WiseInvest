@@ -42,7 +42,7 @@ function nodes(tree, predicate) {
 
 // Execute the article page and real Markdown renderer together. Unrelated UI
 // children stay opaque; hooks retain state so scrollspy updates can be rendered.
-function createHarness(context, tocDepth) {
+function createHarness(context, tocDepth, articleId = article.id, articleContent = content) {
   const state = [];
   let cursor = 0;
   let effects = [];
@@ -86,7 +86,10 @@ function createHarness(context, tocDepth) {
     if (name === '@/lib/article-registration') return load('lib/article-registration.ts', requireMock);
     if (name === '@/lib/article-renderer') return load('lib/article-renderer.tsx', requireMock);
     if (name === '@/lib/article-series') return { getArticleSeries: () => undefined, isTopicSeriesArticle: () => false };
+    if (name === '@/lib/article-library') return { articleSeries: [] };
     if (name === '@/lib/article-vip-invitation') return { getArticleVipInvitation: () => null };
+    if (name === '@/lib/article-reading-recommendations') return { getArticleReadingRecommendations: () => ({ introduction: '', articles: [] }) };
+    if (name === '@/components/use-article-library-navigation') return { useArticleLibraryNavigation: () => ({ searchQuery: '', setSearchQuery() {}, filterTopic: '', sortOrder: '', onFiltersChange() {} }) };
     if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a', useContentAccessGate: () => ({ guardHref() {}, dialog: null }) };
     if (name.endsWith('.module.css')) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
     if (name.startsWith('@/components/') || ['./article-directory', './article-library', './series-reader'].includes(name)) {
@@ -111,7 +114,7 @@ function createHarness(context, tocDepth) {
     render() {
       cursor = 0;
       effects = [];
-      const selected = { ...article, tocDepth };
+      const selected = { ...article, id: articleId, content: articleContent, tocDepth };
       const tree = ArticlesContent({ initialArticle: selected, initialArticles: [selected], initialArticleId: selected.id });
       nodes(tree, node => node.type === 'section' && node.props['aria-label'] === '文章内容')[0].props.ref.current = readingContainer;
       for (const heading of nodes(tree, node => /^h[1-4]$/.test(node.type) && node.props.id)) {
@@ -193,9 +196,54 @@ test('scrollspy follows fast jumps and backward scrolling using only visible nav
   assert.equal(harness.pendingFrames, 0);
 });
 
-for (const [depth, expected] of [[undefined, [0, 1, 2, 3, 4, 5]], [3, [0, 1, 3, 4, 5]], [4, [0, 1, 2, 3, 4, 5]]]) {
-  test(`tocDepth ${depth ?? 'default'} retains the expected heading levels`, t => {
+for (const [depth, expected] of [[undefined, [0, 1, 2, 3, 5]], [3, [0, 1, 3, 5]], [4, [0, 1, 2, 3, 5]]]) {
+  test(`tocDepth ${depth ?? 'default'} retains allowed subheadings within the active chapter`, t => {
     const harness = createHarness(t, depth);
     assert.deepEqual(tocLinks(harness.render()).map(link => link.props.href), expected.map(index => `#h-${index}`));
   });
 }
+
+test('all articles expand only the active chapter while tracking collapsed subheadings in both directions', t => {
+  const harness = createHarness(t, undefined);
+  const links = () => tocLinks(harness.render());
+  const hrefs = () => links().map(link => link.props.href);
+  assert.deepEqual(hrefs(), ['#h-0', '#h-1', '#h-2', '#h-3', '#h-5']);
+  const cleanups = harness.runEffects();
+
+  // Scroll directly into a subsection that was initially absent from navigation.
+  for (const [id, top] of [['h-0', -1000], ['h-1', -800], ['h-2', -600], ['h-3', -200], ['h-4', 100], ['h-5', 900]]) harness.positions.set(id, top);
+  harness.scroll();
+  harness.flushFrames();
+  assert.deepEqual(hrefs(), ['#h-0', '#h-3', '#h-4', '#h-5']);
+  assert.equal(links().find(link => link.props['aria-current'] === 'location').props.href, '#h-4');
+  links().find(link => link.props.href === '#h-4').props.onClick({ preventDefault() {} });
+  assert.deepEqual(harness.scrolled, ['h-4']);
+  assert.ok(harness.measured.includes('h-4'), 'scrollspy still measures collapsed subheadings');
+
+  harness.positions.set('h-5', 100);
+  harness.scroll();
+  harness.flushFrames();
+  assert.deepEqual(hrefs(), ['#h-0', '#h-3', '#h-5']);
+
+  for (const [id, top] of [['h-0', -200], ['h-1', 100], ['h-2', 300], ['h-3', 500], ['h-4', 700], ['h-5', 900]]) harness.positions.set(id, top);
+  harness.scroll();
+  harness.flushFrames();
+  assert.deepEqual(hrefs(), ['#h-0', '#h-1', '#h-2', '#h-3', '#h-5']);
+  assert.equal(links().find(link => link.props['aria-current'] === 'location').props.href, '#h-1');
+  cleanups.forEach(cleanup => cleanup());
+});
+
+test('legacy articles with only smaller headings retain navigation and stable anchors', t => {
+  const harness = createHarness(t, undefined, 'legacy', '### 准备\n\n#### 材料\n\n### 操作');
+  assert.deepEqual(tocLinks(harness.render()).map(link => link.props.href), ['#h-0', '#h-1', '#h-2']);
+});
+
+test('chapter rules are deduplicated while in-section rules and mobile table regions remain', t => {
+  const markdown = '## 第一章\n\n---\n\n## 第二章\n\n正文\n\n---\n\n补充\n\n| A | B | C |\n| --- | --- | --- |\n| 一 | 二 | 三 |';
+  const tree = createHarness(t, undefined, 'formatting', markdown).render();
+  assert.equal(nodes(tree, node => node.type === 'hr').length, 1);
+  assert.deepEqual(nodes(tree, node => node.type === 'h2' && node.props.id).map(node => node.props.id), ['h-0', 'h-1']);
+  const tableRegion = nodes(tree, node => node.props?.role === 'region' && node.props['aria-label'] === '可横向滑动的对比表');
+  assert.equal(tableRegion.length, 1);
+  assert.equal(tableRegion[0].props.tabIndex, 0);
+});

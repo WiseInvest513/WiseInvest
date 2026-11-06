@@ -20,7 +20,9 @@ function createHarness() {
   let state;
   let effects = [];
   let id = 0;
+  let refCursor = 0;
   const desktopRef = { current: null };
+  const otherRefs = [];
   const module = { exports: {} };
   const requireMock = name => {
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };
@@ -31,15 +33,26 @@ function createHarness() {
       },
       useEffect: callback => effects.push(callback),
       useId: () => `directory-${id++}`,
-      useRef: () => desktopRef,
+      useRef: initial => {
+        const index = refCursor++;
+        if (index === 0) return desktopRef;
+        return otherRefs[index] ??= { current: initial };
+      },
     };
     if (name === 'next/link') return { __esModule: true, default: 'a' };
     if (name === 'next/image') return { __esModule: true, default: 'img' };
     if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a' };
     if (name === '@radix-ui/react-dialog') return Object.fromEntries(['Root', 'Portal', 'Overlay', 'Content', 'Title', 'Close'].map(key => [key, `Dialog.${key}`]));
+    if (name === '@radix-ui/react-tabs') return Object.fromEntries(['Root', 'List', 'Trigger', 'Content'].map(key => [key, `Tabs.${key}`]));
     if (name === 'lucide-react') return new Proxy({}, { get: (_, key) => `Icon.${String(key)}` });
     if (name === '@/lib/articles-data') return { categories };
-    const seriesModules = { '@/lib/article-series': 'lib/article-series.ts', './article-library': 'lib/article-library.ts', './article-uid': 'lib/article-uid.ts' };
+    const seriesModules = {
+      '@/lib/article-icons': 'lib/article-icons.ts',
+      '@/lib/article-series': 'lib/article-series.ts', './article-series': 'lib/article-series.ts',
+      './article-library': 'lib/article-library.ts', './article-uid': 'lib/article-uid.ts',
+      '@/lib/article-covers': 'lib/article-covers.ts', '@/lib/series-recommendations': 'lib/series-recommendations.ts',
+      './series-article-entry': 'app/articles/series-article-entry.tsx', './series-recommendations': 'app/articles/series-recommendations.tsx',
+    };
     if (seriesModules[name]) {
       const dependency = { exports: {} };
       new Function('require', 'module', 'exports', compile(seriesModules[name]))(requireMock, dependency, dependency.exports);
@@ -59,6 +72,7 @@ function createHarness() {
     desktopRef,
     render(props = {}) {
       effects = [];
+      refCursor = 0;
       return module.exports.ArticleDirectory({ categoryCounts: {}, activeView: 'recommended', mobileOpen: false, onMobileClose() {}, ...props });
     },
     runEffects: () => effects.map(effect => effect()).filter(Boolean),
@@ -92,13 +106,38 @@ function mockGlobal(context, name, value) {
   });
 }
 
-test('five topic groups include every one of the fourteen existing categories exactly once', () => {
+test('five topic groups include every category exactly once, with transfers under accounts', () => {
   const { articleTopicGroups } = createHarness();
   assert.deepEqual(articleTopicGroups.map(group => group.name), ['投资与市场', '加密与 Web3', '开户与资金', '工具与出海', 'Wise 指南']);
   const mapped = articleTopicGroups.flatMap(group => group.categoryIds);
-  assert.equal(mapped.length, 14);
-  assert.equal(new Set(mapped).size, 14);
+  assert.equal(mapped.length, categories.length);
+  assert.equal(new Set(mapped).size, categories.length);
+  assert.ok(articleTopicGroups.find(group => group.id === 'accounts').categoryIds.includes('transfers'));
   assert.deepEqual([...mapped].sort(), categories.map(category => category.id).sort());
+});
+
+test('desktop and mobile directories use the existing custom artwork for every category and entry', () => {
+  const tree = createHarness().render({ activeCategoryId: 'domestic', mobileOpen: true });
+  for (const category of categories) {
+    const links = nodes(tree, node => node.type === 'a' && node.props.href === `/articles/${category.id}`);
+    assert.equal(links.length, 2, `${category.id}: desktop and mobile`);
+    for (const link of links) {
+      const icons = nodes(link, node => node.type === 'img');
+      assert.equal(icons.length, 1);
+      assert.equal(icons[0].props.src, `/images/articles/category-icons/${category.id}-ivory.webp`);
+      assert.equal(icons[0].props.alt, '');
+      assert.equal(icons[0].props.width, icons[0].props.height);
+      assert.ok(fs.existsSync(path.join(root, 'public', icons[0].props.src)));
+    }
+  }
+  for (const [href, icon] of [['/articles', 'reading'], ['/articles?view=series', 'series'], ['/articles?view=all', 'all']]) {
+    const link = nodes(desktop(tree), node => node.type === 'a' && node.props.href === href)[0];
+    assert.equal(nodes(link, node => node.type === 'img')[0].props.src, `/images/articles/category-icons/${icon}-ivory.webp`);
+  }
+  for (const button of groupButtons(tree)) {
+    assert.equal(nodes(button, node => node.type === 'img').length, 1);
+    assert.equal(nodes(button, node => node.type === 'Icon.ChevronRight').length, 1);
+  }
 });
 
 test('series context replaces category navigation with persistent chapters on desktop and mobile', () => {
@@ -119,7 +158,10 @@ test('series context replaces category navigation with persistent chapters on de
   const current = nodes(desktopNav, node => node.props?.['aria-current'] === 'page');
   assert.equal(current.length, 1);
   assert.equal(current[0].props.href, '/articles/outside/12345678?series=sample');
-  assert.equal(nodes(desktopNav, node => node.props?.['aria-disabled'] === 'true').length, 1);
+  const planning = nodes(desktopNav, node => node.type === 'details');
+  assert.equal(planning.length, 1);
+  assert.ok(!planning[0].props.open, 'unpublished chapters are collapsed initially');
+  assert.equal(nodes(planning[0], node => node.type === 'a').length, 0, 'unpublished chapters cannot be opened as articles');
   const mobileLink = nodes(first(tree, 'Dialog.Content'), node => node.type === 'a' && node.props.href.includes('?series='))[0];
   mobileLink.props.onClick();
   assert.equal(closes, 1);
@@ -130,7 +172,7 @@ test('navigation preserves the three entry routes and every category URL without
   const links = nodes(desktop(harness.render()), node => node.type === 'a');
   assert.deepEqual(links.slice(0, 3).map(link => link.props.href), ['/articles', '/articles?view=series', '/articles?view=all']);
   assert.deepEqual(links.filter(link => link.props.className === 'categoryLink').map(link => link.props.href).sort(), categories.map(category => `/articles/${category.id}`).sort());
-  assert.equal(links.length, 3 + 14 + 1);
+  assert.equal(links.length, 3 + categories.length + 1);
   assert.equal(links.at(-1).props.href, 'https://www.wise-hold.com/');
   assert.equal(links.at(-1).props.rel, 'noopener noreferrer');
 });
@@ -237,4 +279,42 @@ test('styles retain small icons, keyboard focus, dark mode and reduced motion', 
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /animation: none !important/);
   assert.match(css, /@media \(max-width: 767px\)[\s\S]*min-height: 44px;/);
+});
+
+test('article drawer reuses supplied accessible anchors and keeps category navigation in a separate tab', () => {
+  const tree = createHarness().render({ mobileOpen: true, articleToc: {
+    title: '预览文章', activeId: 'h-3', activeChapterId: 'h-3', isPreview: true,
+    items: [{ id: 'h-0', text: '第一章', level: 2 }, { id: 'h-3', text: '第二章', level: 2 }],
+  } });
+  const content = first(tree, 'Dialog.Content');
+  assert.deepEqual(nodes(content, node => node.type === 'Tabs.Trigger').map(node => node.props.children), ['本篇目录', '文章分类']);
+  const toc = nodes(content, node => node.type === 'nav' && node.props['aria-label'] === '本篇目录')[0];
+  assert.deepEqual(nodes(toc, node => node.type === 'a').map(node => [node.props.href, node.props['aria-current']]), [['#h-0', undefined], ['#h-3', 'location']]);
+  assert.ok(nodes(content, node => node.type === 'p').some(node => node.props.children === '仅显示当前可阅读的章节'));
+});
+
+test('mobile chapter navigation waits for drawer close then focuses the heading without resetting scroll', t => {
+  const calls = [];
+  const heading = {
+    setAttribute: (...args) => calls.push(['attribute', ...args]),
+    focus: options => calls.push(['focus', options]),
+    getBoundingClientRect: () => ({ top: 980 }),
+  };
+  const trigger = { closest: () => ({ getBoundingClientRect: () => ({ bottom: 120 }) }) };
+  mockGlobal(t, 'document', { getElementById: id => id === 'h-3' ? heading : trigger });
+  mockGlobal(t, 'window', { scrollBy: options => calls.push(['scroll', options]), history: { state: {}, replaceState: (_state, _unused, hash) => calls.push(['hash', hash]) } });
+  let frame;
+  mockGlobal(t, 'requestAnimationFrame', callback => { frame = callback; });
+  let closed = 0;
+  const tree = createHarness().render({ mobileOpen: true, onMobileClose: () => closed++, articleToc: { title: '测试', activeId: 'h-0', items: [{ id: 'h-3', text: '第二章', level: 2 }] } });
+  const content = first(tree, 'Dialog.Content');
+  nodes(content, node => node.type === 'a' && node.props.href === '#h-3')[0].props.onClick({ preventDefault() {} });
+  assert.equal(closed, 1);
+  assert.deepEqual(calls, []);
+  let prevented = false;
+  content.props.onCloseAutoFocus({ preventDefault() { prevented = true; } });
+  assert.equal(prevented, true);
+  assert.deepEqual(calls, []);
+  frame();
+  assert.deepEqual(calls, [['attribute', 'tabindex', '-1'], ['focus', { preventScroll: true }], ['scroll', { top: 844, behavior: 'instant' }], ['hash', '#h-3']]);
 });

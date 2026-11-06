@@ -21,6 +21,7 @@ function loadModule(relativePath) {
     if (name === 'fs') return fs;
     if (name === 'path') return path;
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };
+    if (name === 'react') return { useState: initial => [typeof initial === 'function' ? initial() : initial, () => {}], useId: () => 'series-nav-test' };
     if (name === 'next/link') return { __esModule: true, default: 'a' };
     if (name === 'next/image') return { __esModule: true, default: 'img' };
     if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a' };
@@ -152,7 +153,7 @@ test('series search covers titles, descriptions and planned chapter titles', () 
   assert.deepEqual(ids('Google'), ['overseas', 'ai-reading']);
   assert.deepEqual(ids('  BINANCE  '), ['binance']);
   assert.deepEqual(ids('加密货币'), ['crypto-basics']);
-  assert.deepEqual(ids('开户'), ['binance', 'investment-foundations', 'us-stock-funding', 'hk-stock-funding']);
+  assert.deepEqual(ids('开户'), ['binance', 'investment-foundations', 'nasdaq-investing', 'us-stock-funding', 'hk-stock-funding']);
   assert.deepEqual(ids('波动'), ['crypto-basics']);
   assert.deepEqual(ids('钱包'), ['crypto-basics', 'binance', 'crypto-tools']);
   assert.deepEqual(ids('不存在的系列'), []);
@@ -281,13 +282,14 @@ test('topic navigation uses neutral reading copy and omits an empty learning-out
   assert.match(renderedText(SeriesPagination({ ...lastContext, compact: true })), /第 3 \/ 5 篇/);
 });
 
-test('canonical topic articles skip the generic onboarding profile without changing tutorial presentation', () => {
+test('topic classification stays independent from per-article reading guides', () => {
   for (const id of ['binance-referral', 'bitget-referral']) assert.equal(isTopicSeriesArticle(id), true);
   for (const id of ['biance-guide', 'bitget-exchange', 'google-id', 'VIP', 'unknown', undefined, ['bitget-referral']]) {
     assert.equal(isTopicSeriesArticle(id), false);
   }
   const source = fs.readFileSync(path.join(root, 'app/articles/articles-content.tsx'), 'utf8');
-  assert.match(source, /const shouldShowGuideProfile = selectedArticle\?\.id !== "VIP"\s*&& !isTopicSeriesArticle\(selectedArticle\?\.id\)\s*&& !hasRegistrationCallout\(selectedContent\)/);
+  assert.match(source, /const guideProfile = selectedArticle\?\.guideProfile;/);
+  assert.doesNotMatch(source, /shouldShowGuideProfile|defaultGuideProfile/);
 });
 
 test('tutorial series retain their chapter and learning language', () => {
@@ -361,12 +363,12 @@ test('path navigation separates alternative articles from the next stage', () =>
   const pagination = SeriesPagination(context);
   const text = renderedText(pagination);
   assert.match(text, /同阶段其他文章/);
-  assert.match(text, /Wise 注册与账户准备/);
+  assert.match(text, /Wise 注册/);
   assert.match(text, /下一阶段选择券商/);
   assert.doesNotMatch(text, /下一篇/);
   assert.ok(renderedNodes(pagination).some(node => node.props?.href === '/articles/series/us-stock-funding?route=transfer-to-us-broker#stage-brokers'));
   assert.match(renderedText(SeriesNavigation(context)), /返回资金地图/);
-  assert.match(renderedText(SeriesOverview(context)), /4 个阶段 · 7 篇已有文章/);
+  assert.ok(renderedText(SeriesOverview(context)).includes(`${reading.stages.length} 个阶段 · ${reading.publishedCount} 篇已有文章`));
 });
 
 test('Nasdaq starts with the existing book and canonical articles expose their learning paths', () => {
@@ -377,20 +379,43 @@ test('Nasdaq starts with the existing book and canonical articles expose their l
   assert.ok(nodes.some(node => node.props?.href === '/book/nasdaq'));
   assert.match(renderedText(SeriesOverview({ series, reading })), /阅读蓝皮书/);
   const afterBasics = renderedNodes(SeriesPagination({ series, reading: getSeriesReadingState(series, listItems, 'indexStock'), articleId: 'indexStock' }));
-  assert.ok(afterBasics.some(node => node.props?.href === '/articles/series/nasdaq-investing#stage-risk'), 'resource-only stages must not be skipped');
+  assert.ok(afterBasics.some(node => node.props?.href === '/articles/series/nasdaq-investing#stage-compare'), 'the next learning stage remains reachable');
   assert.deepEqual(getArticleLearningPaths('indexStock').map(item => item.id), ['investment-foundations', 'nasdaq-investing']);
   assert.match(renderedText(LearningPathLinks({ articleId: 'indexStock' })), /投资基础起步/);
-  assert.match(renderedText(LearningPathLinks({ articleId: 'indexStock' })), /从认识纳指到了解投资方式/);
+  assert.match(renderedText(LearningPathLinks({ articleId: 'indexStock' })), /纳指与标普：从入门到长期持有/);
   assert.equal(LearningPathLinks({ articleId: 'unknown' }), null);
+});
+
+test('the index curriculum covers all index lessons and the domestic ETF tutorial without duplicate chapters', () => {
+  const series = getArticleSeries('nasdaq-investing');
+  const reading = getSeriesReadingState(series, listItems);
+  const indexIds = articles.filter(article => article.categoryId === 'index').map(article => article.id);
+  const expectedIds = [...indexIds, 'galaxy-etf-guide'];
+  assert.deepEqual(series.chapters.map(chapter => chapter.articleId).sort(), expectedIds.sort());
+  assert.equal(new Set(series.chapters.map(chapter => chapter.articleId)).size, expectedIds.length);
+  assert.deepEqual(reading.stages.map(stage => stage.id), ['understand', 'compare', 'practice']);
+  const practice = reading.stages.find(stage => stage.id === 'practice');
+  assert.deepEqual(practice.chapters.map(chapter => chapter.articleId), ['nasdaq-investment-guide', 'index-practice', 'galaxy-etf-guide', 'index-qa-2']);
+  for (const id of ['idifferentIndex', 'index-guide', 'index-qa-1']) {
+    assert.equal(series.chapters.find(chapter => chapter.articleId === id).stageId, 'compare');
+  }
+  for (const stage of reading.stages) {
+    assert.ok(stage.chapters.some(chapter => chapter.href), `${stage.id} contains a real lesson`);
+    for (const chapter of stage.chapters) {
+      const article = articles.find(article => article.id === chapter.articleId);
+      assert.equal(new URL(chapter.href, 'https://www.wise-invest.org').pathname, getArticleRoute(article));
+    }
+  }
 });
 
 test('map teaching panels show six goals, contextual chapters and real fallback links', () => {
   const goals = renderedNodes(RoadmapLearning({ routeId: 'overview', articles: listItems, relatedArticles: [] }));
   assert.equal(goals.filter(node => node.type === 'a').length, 7);
   const panel = RoadmapLearning({ routeId: 'traditional-us-stocks', articles: listItems, relatedArticles: [] });
-  assert.match(renderedText(panel), /配套教程7 篇文章/);
+  const publishedCount = getSeriesReadingState(getArticleSeries('us-stock-funding'), listItems).publishedCount;
+  assert.ok(renderedText(panel).includes(`配套教程${publishedCount} 篇文章`));
   const links = renderedNodes(panel).filter(node => node.type === 'a');
-  assert.equal(links.length, 8);
+  assert.equal(links.length, publishedCount + 1);
   assert.ok(links.every(node => node.props.href.includes('route=traditional-us-stocks')));
   const partial = RoadmapLearning({ routeId: 'traditional-us-stocks', articles: [], relatedArticles: [] });
   assert.equal(renderedNodes(partial).filter(node => node.type === 'a').length, 1, 'missing articles must not become working-looking links');
