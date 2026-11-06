@@ -95,7 +95,7 @@ OK，其他的我们就不先展开，我们就先给大家来聊一聊这个产
 
 如果大家之前没有注册过币安，可以点击此链接进行币安账户的注册了：
 
-[币安账户注册教程](https://www.wise-invest.org/articles/crypto/GaM38JYk)
+[币安账户注册教程](https://www.wise-invest.org/articles/crypto/GaM38JYk){card}
 
 ---
 

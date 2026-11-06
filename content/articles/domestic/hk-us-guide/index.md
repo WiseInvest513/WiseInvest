@@ -52,7 +52,9 @@ iFAST 是英国银行服务路径，不是香港银行账户；Wise 是支付服
 
 注册时确认填写邀请码 **AGVPK3**，入金达到**等值 10,000 港币**即可解锁免佣。开户材料如有疑问，可以联系我了解流程；审核结果以券商为准。
 
-复星券商可查阅此地址进行学习：[查看复星开户教程](https://www.wise-invest.org/articles/broker/sQSbLRe8)
+复星的开户步骤与注意事项，可以查阅下面的教程：
+
+[查看复星开户教程](https://www.wise-invest.org/articles/broker/sQSbLRe8){card}
 
 下图保留的是复星证券 **4 月历史活动**，其中现金券等奖励是否仍开放，请以账户内最新活动为准：
 
@@ -90,4 +92,7 @@ iFAST 是英国银行服务路径，不是香港银行账户；Wise 是支付服
 
 ## 八、总结：先选路径，再按顺序开户
 
-还在认识投资工具，先读指数与基金基础；已经确认有符合要求的境外账户和资金条件，再进入[港股账户准备系列](/articles/series/hk-stock-funding)或[美股账户准备系列](/articles/series/us-stock-funding)。一条能理解、能维护的路径，比同时开很多账户更实用。
+还在认识投资工具，先读指数与基金基础；已经确认有符合要求的境外账户和资金条件，再按港股或美股账户路径，选择下面的准备教程。一条能理解、能维护的路径，比同时开很多账户更实用。
+
+[港股账户准备系列](/articles/series/hk-stock-funding){card}
+[美股账户准备系列](/articles/series/us-stock-funding){card}

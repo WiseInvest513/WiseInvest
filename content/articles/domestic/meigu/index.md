@@ -54,13 +54,13 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 提前通过银行官方入口确认预约、材料和费用；不要把第三方介绍当作银行保证获批。
 
-[汇丰银行开户教程](https://www.wise-invest.org/articles/bank/WoxUXncV)
+[汇丰银行开户教程](https://www.wise-invest.org/articles/bank/WoxUXncV){card}
 
-[中银香港开户教程](https://www.wise-invest.org/articles/bank/AO9Yfph5)
+[中银香港开户教程](https://www.wise-invest.org/articles/bank/AO9Yfph5){card}
 
 还有一个是**建行亚洲（港澳）**，顾名思义就是咱们的建设银行对应的香港的银行卡，好处就是可以和本地境内的卡进行一个比较好的系统转账。
 
-[建行亚洲开户教程](https://www.wise-invest.org/articles/bank/0uzSFs7d)
+[建行亚洲开户教程](https://www.wise-invest.org/articles/bank/0uzSFs7d){card}
 
 ### 2、虚拟银行卡
 
@@ -70,19 +70,19 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 **1️⃣ 众安、蚂蚁、天星教程**
 
-[众安银行开户教程](https://www.wise-invest.org/articles/bank/2aiiqnjt)
+[众安银行开户教程](https://www.wise-invest.org/articles/bank/2aiiqnjt){card}
 
-[蚂蚁银行开户教程](https://www.wise-invest.org/articles/bank/OwFAe2JD)
+[蚂蚁银行开户教程](https://www.wise-invest.org/articles/bank/OwFAe2JD){card}
 
-[天星银行开户教程](https://www.wise-invest.org/articles/bank/ucHyMf8P)
+[天星银行开户教程](https://www.wise-invest.org/articles/bank/ucHyMf8P){card}
 
 **2️⃣ 汇立开户教程**
 
-[汇立银行开户教程](https://www.wise-invest.org/articles/bank/wMpXaoI5)
+[汇立银行开户教程](https://www.wise-invest.org/articles/bank/wMpXaoI5){card}
 
 **3️⃣ 平安数字银行开户教程**
 
-[平安数字银行开户教程](https://www.wise-invest.org/articles/bank/wgBs7jp3)
+[平安数字银行开户教程](https://www.wise-invest.org/articles/bank/wgBs7jp3){card}
 
 ### 3、数字银行账户
 
@@ -90,17 +90,17 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 **1、Wise 支付账户**
 
-[Wise 注册与账户准备教程](https://www.wise-invest.org/articles/bank/Ysn8tPfj)
+[Wise 注册与账户准备教程](https://www.wise-invest.org/articles/bank/Ysn8tPfj){card}
 
 **2️⃣ Ifast 数字银行账户**
 
-[Ifast 数字银行账户开户教程](https://www.wise-invest.org/articles/bank/AARzryKJ)
+[Ifast 数字银行账户开户教程](https://www.wise-invest.org/articles/bank/AARzryKJ){card}
 
 ### 4、见证开户
 
 其实还有一种方式，如果你在中国大陆，无法前往香港，但是有计划开汇丰、渣打、东亚、星展和恒生等银行，可以采用的方式就是在国内存钱一段时间，再然后进行**见证开户**的方式进行开卡。
 
-[见证开户详细教程](https://www.wise-invest.org/articles/bank/QonLSJp0)
+[见证开户详细教程](https://www.wise-invest.org/articles/bank/QonLSJp0){card}
 
 这种好处就是你可以开其他国家的银行账户，坏处就是需要一定的门槛，大家也都需要有一定的体量，具体如下所示。
 
@@ -128,13 +128,15 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 **1️⃣ 嘉信理财开户教程**
 
-[嘉信理财开户教程](https://www.wise-invest.org/articles/broker/MWyWMwwN)
+[嘉信理财开户教程](https://www.wise-invest.org/articles/broker/MWyWMwwN){card}
 
 **2️⃣ 第一证券开户教程**
 
-[第一证券开户教程](https://www.wise-invest.org/articles/broker/eKIyMXl8)
+[第一证券开户教程](https://www.wise-invest.org/articles/broker/eKIyMXl8){card}
 
-其他券商的最新教程可从 [美股账户准备系列](/articles/series/us-stock-funding)查找，先比较条件和完整成本。
+其他券商的最新教程集中在下面的美股账户准备系列，先比较条件和完整成本：
+
+[美股账户准备系列](/articles/series/us-stock-funding){card}
 
 ### 2、港资券商
 
@@ -144,13 +146,13 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 > [注册 复星证券 账户](https://h5.fotechwealth.com/pages/startAccount.html?channel=030005&aeCode=B2&invitationCode=AGVPK3&langType=zhCn) · 邀请码：**AGVPK3** · 福利：入金等值 10,000 港币，解锁免佣
 
-[复星证券开户教程](https://www.wise-invest.org/articles/broker/sQSbLRe8)
+[复星证券开户教程](https://www.wise-invest.org/articles/broker/sQSbLRe8){card}
 
-[复星证券入金教程](https://www.wise-invest.org/articles/broker/myu8sVmc)
+[复星证券入金教程](https://www.wise-invest.org/articles/broker/myu8sVmc){card}
 
 **2️⃣ 致富证券开户教程**
 
-[致富证券开户教程](https://www.wise-invest.org/articles/broker/GaobLP0X)
+[致富证券开户教程](https://www.wise-invest.org/articles/broker/GaobLP0X){card}
 
 我这里个人比较推荐的是**复星证券**，如下是其和其他证券的一个对比图，大家可以作为参考。
 
@@ -164,7 +166,7 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 目前我只是对众安进行了一个详细的介绍和对比，大家可以查阅此教程详细了解众安银行购买港美股的一些情况和费率对比。
 
-[众安银行购买港美股教程](https://www.wise-invest.org/articles/bank/4EB0zNOS)
+[众安银行购买港美股教程](https://www.wise-invest.org/articles/bank/4EB0zNOS){card}
 
 ### 4、实体银行券商
 
@@ -198,19 +200,19 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 ### 1、币安交易所
 
-[币安交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/GaM38JYk)
+[币安交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/GaM38JYk){card}
 
 ### 2、欧易交易所
 
-[欧易交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/mAPQm7WZ)
+[欧易交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/mAPQm7WZ){card}
 
 ### 3、Bitget 交易所
 
-[Bitget 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/k3RVVcw4)
+[Bitget 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/k3RVVcw4){card}
 
 ### 4、Bybit 交易所
 
-[Bybit 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/e6utod7B)
+[Bybit 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/e6utod7B){card}
 
 ---
 
@@ -222,13 +224,13 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 首先的虚拟 U 卡，可以用来进行 Web2 和 Web3 的资金流转和消费，你可以直接拿这张卡绑定在国内的美团/淘宝中进行消费，可以直接把 Web3 里面的钱直接进行消费，而且费率友好，且在一定的额度之内，消费都是**免手续费**的。
 
-[Bitget 虚拟 U 卡开卡教程](https://www.wise-invest.org/articles/vcard/WK8p1cCV)
+[Bitget 虚拟 U 卡开卡教程](https://www.wise-invest.org/articles/vcard/WK8p1cCV){card}
 
 ### 2、SafePal 虚拟 U 卡
 
 和 Bitget 背后的 U 卡服务商是同一家，如果说 Bitget 更加适合日常的消费，那 **SafePal** 更加适合大家用来进行资金的流转。是否可向具体券商或银行转账、是否支持所需币种及用途，需要按账户协议和收款机构要求逐项核对；不能从拥有卡片推导出所有资金通道均可使用。
 
-[SafePal 虚拟 U 卡开卡教程](https://www.wise-invest.org/articles/vcard/E4lD5AIn)
+[SafePal 虚拟 U 卡开卡教程](https://www.wise-invest.org/articles/vcard/E4lD5AIn){card}
 
 不同地区和卡片计划的证件要求可能不同，准备前先核对各自资格，不按有无护照机械选择。
 
@@ -236,7 +238,7 @@ summary: 按学习目标整理银行、券商、支付卡和手机卡入口，�
 
 Bybit Card 与交易所账户是相关但不同的服务。申请资格、证件和发卡地区需要单独确认；某次订阅成功的个人经验，也不能保证所有商户持续接受这张卡。
 
-[Bybit 虚拟 U 卡开卡教程](https://www.wise-invest.org/articles/vcard/wYKRLDvK)
+[Bybit 虚拟 U 卡开卡教程](https://www.wise-invest.org/articles/vcard/wYKRLDvK){card}
 
 ---
 
@@ -244,11 +246,11 @@ Bybit Card 与交易所账户是相关但不同的服务。申请资格、证件
 
 > **Tips**：目前越来越多的产品正在逐步要求大家使用境外手机卡进行注册，所以境外手机卡也要准备提上日程！
 
-[境外手机卡申请教程](https://www.wise-invest.org/articles/simcard/EAN52fdr)
+[境外手机卡申请教程](https://www.wise-invest.org/articles/simcard/EAN52fdr){card}
 
 另外一款是保号神卡 **giffgaff**，具体教程如下：
 
-[giffgaff 保号神卡申请教程](https://www.wise-invest.org/articles/simcard/isBZdnTm)
+[giffgaff 保号神卡申请教程](https://www.wise-invest.org/articles/simcard/isBZdnTm){card}
 
 手机卡是否适合自己，要看开通资格、验证方式、设备兼容与长期漫游规则。先核对运营商的当前要求，不用旧文章概括某个国籍永远能开或不能开。
 

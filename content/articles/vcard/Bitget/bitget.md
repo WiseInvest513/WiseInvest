@@ -39,7 +39,7 @@ summary: 先分清钱包与支付卡服务，再按图完成备份、充值、�
 
 如果你没有下载过 Bitget App，可以参考这个教程进行下载和注册：
 
-[Bitget 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/k3RVVcw4)
+[Bitget 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/k3RVVcw4){card}
 
 在过去，Bitget 这个产品我们都只能用来购买加密产品。但是现在随着去年 Bitget 第一个喊出要做一个 UEX 交易所，之后也上了很多美股产品。
 

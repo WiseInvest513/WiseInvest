@@ -237,3 +237,44 @@ test('the Nasdaq purchase guide renders all selected article and route reference
   assert.equal((html.match(/<h3\b/g) ?? []).length, 12);
   assert.doesNotMatch(html, /\{card\}/);
 });
+
+test('published article references resolve to cards across the library, with table and same-page anchors kept as text', () => {
+  const { getAllArticles, getArticleRoute, toArticleListItem } = load('lib/articles.ts');
+  const { articleSeries } = load('lib/article-library.ts');
+  const { getSeriesReadingState } = load('lib/article-series.ts');
+  const articles = getAllArticles();
+  const linkedArticles = articles.map(toArticleListItem);
+  const linkedSeries = articleSeries.map(item => {
+    const reading = getSeriesReadingState(item, articles);
+    return {
+      kind: 'series', id: item.id, title: item.title, summary: item.description,
+      articleCount: reading.publishedCount || (reading.existingHref ? 1 : 0),
+      coverImage: item.cardArtwork ?? item.cover ?? item.artwork,
+    };
+  });
+  const targets = new Map([
+    ...linkedArticles.map(item => [getArticleRoute(item), item]),
+    ...linkedSeries.map(item => [`/articles/series/${item.id}`, item]),
+  ]);
+  let checkedCards = 0;
+  for (const source of articles) {
+    const html = render(source.content, linkedArticles, linkedSeries);
+    const tables = [...html.matchAll(/<table\b[^]*?<\/table>/g)].map(match => match[0]).join('');
+    assert.equal(cardCount(tables), 0, `${source.id}: table links must stay compact text`);
+    const body = html.replace(/<table\b[^]*?<\/table>|<pre\b[^]*?<\/pre>/g, '');
+    for (const [, attributes, rawHref] of body.matchAll(/<a\b([^>]*?href="([^"]+)"[^>]*)>/g)) {
+      const url = new URL(rawHref.replace(/&amp;/g, '&'), 'https://www.wise-invest.org');
+      if (url.origin !== 'https://www.wise-invest.org' || !/^\/articles\/[^/]+\/[^/]+$/.test(url.pathname)) continue;
+      if (url.pathname === getArticleRoute(source) && url.hash) continue;
+      const target = targets.get(url.pathname);
+      assert.ok(target, `${source.id}: missing article/series target ${url.pathname}`);
+      assert.match(attributes, /data-article-link-card/, `${source.id}: unconverted reference ${url.href}`);
+      assert.ok(target.title && target.summary, `${source.id}: card metadata is incomplete`);
+      assert.ok(target.coverImage?.startsWith('/images/'), `${source.id}: missing local card cover`);
+      assert.ok(fs.existsSync(path.join(root, 'public', target.coverImage)), `${source.id}: cover file missing`);
+      checkedCards++;
+    }
+    assert.doesNotMatch(body, /\{card\}/, `${source.id}: unparsed card markup`);
+  }
+  assert.ok(checkedCards > 0, 'exercise the real published reference inventory');
+});

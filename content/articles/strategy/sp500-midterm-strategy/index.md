@@ -137,7 +137,7 @@ readTime: 17
 
 如果你的目的只是按本文研究的方式持有证券 ETF，先比较后面的证券账户路径更直接。需要币安账户了解其产品时，再使用下面的邀请入口；卡片里的 20% 是已确认的交易所渠道手续费返佣，不代表 SPYB 一定适用，也不代表投资本金返还 20%。
 
-[币安注册与使用教程](/articles/crypto/GaM38JYk)
+[币安注册与使用教程](/articles/crypto/GaM38JYk){card}
 
 > [注册 币安 账户](https://www.bsmkweb.cc/register?ref=WISEBNB1) · 邀请码：**WISEBNB1** · 福利：永久 20% 交易手续费返佣
 
@@ -147,7 +147,7 @@ readTime: 17
 
 Wise 渠道已确认的核心权益是：填写邀请码 **AGVPK3**，入金等值 **10,000 港币**可解锁免佣。免佣不等于所有交易、平台、换汇和转账成本归零，实际下单前仍要逐项查看费用。
 
-[复星开户教程](/articles/broker/sQSbLRe8)
+[复星开户教程](/articles/broker/sQSbLRe8){card}
 
 > [注册 复星证券 账户](https://h5.fotechwealth.com/pages/startAccount.html?channel=030005&aeCode=B2&invitationCode=AGVPK3&langType=zhCn) · 邀请码：**AGVPK3** · 福利：入金等值 10,000 港币，解锁免佣
 
@@ -157,7 +157,7 @@ BIT 的[美股产品说明](https://www.bit.com/us-stocks)列明股票和 ETF �
 
 完成证券账户申请后，再查询相应标普 ETF 是否向你的账户开放，并核对稳定币转换、资金划转和证券交易费用。平台注册完成不等于证券账户已经获批，也不代表目标基金一定可交易。下方是现有 11 月新人活动卡，抵扣卡与股票现金卡都有领取和使用条件，不能视为开户即到账现金，也不要假设股票卡可以抵扣所有 ETF 交易。
 
-[BIT 开户与入金教程](/articles/broker/YgNQGO57)
+[BIT 开户与入金教程](/articles/broker/YgNQGO57){card}
 
 > [注册 BIT 账户](https://invest.matrixport.com/newRegister/cn?invite_code=WISE666) · 邀请码：**WISE666**
 
@@ -167,7 +167,7 @@ BIT 的[美股产品说明](https://www.bit.com/us-stocks)列明股票和 ETF �
 
 注册时在 BBAE App 对应的邀请栏填写 **stiibsmu3**。Wise 渠道已确认的条件是首次入金 **2,000 美元**后领取 **20 美元现金奖励**。这是一项开户渠道奖励，不能因为奖励不大或条件简单，就省略对账户成本和自身资格的核对。
 
-[BBAE 开户与入金教程](/articles/broker/I0AIBXus)
+[BBAE 开户与入金教程](/articles/broker/I0AIBXus){card}
 
 > 注册 BBAE 账户 · 邀请码：**stiibsmu3** · 福利：首次入金 2,000 美元，领取 20 美元奖励
 

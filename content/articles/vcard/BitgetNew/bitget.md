@@ -27,7 +27,9 @@ ok，那我们就开始吧
 提供字幕（可选）
 如果你过去下载过 Bitget APP 并且注册过，可以直接跳转到 Bitget 中进行无缝链接的转账。
 如果你没有下载过 Bitget APP，可以参考这个教程进行下载和注册
-开户教程&链接：https://www.wise-invest.org/articles/crypto/k3RVVcw4
+Bitget 交易所的开户与使用步骤，可以查看下面的教程：
+
+[Bitget 交易所注册与使用教程](https://www.wise-invest.org/articles/crypto/k3RVVcw4){card}
 在过去，Bitget这个产品我们都只能用来购买加密产品。但是现在随着去年 Bitget 第一个喊出要做一个 UEX 交易所，之后也上了很多美股产品。
 
 所以现在，你不仅可以在 Bitget 中交易加密产品，也可以交易美股产品和一些大宗产品。

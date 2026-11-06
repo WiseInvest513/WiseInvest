@@ -69,7 +69,7 @@ ok，那我们就开始吧……
 
 ![旗下网站产品总览](./8.jpeg)
 
-[查看旗下网站作品文章与详情](https://www.wise-invest.org/articles/web/EYO11DG3)
+[查看旗下网站作品文章与详情](https://www.wise-invest.org/articles/web/EYO11DG3){card}
 
 ### 3、书籍/Skills作品
 聊完了教程和对应的网站之后，我们目前一直都在排期的还有一个**书籍教程**，什么意思呢？
