@@ -96,6 +96,7 @@ test('prediction markets appear immediately after crypto without removing or cha
     { id: 'crypto', name: '加密货币', emoji: '🪙' },
     { id: 'broker', name: '券商开户', emoji: '🏛️' },
     { id: 'bank', name: '银行账户', emoji: '💳' },
+    { id: 'transfers', name: '出入金教程', emoji: '🔄' },
     { id: 'simcard', name: '手机套餐', emoji: '📱' },
     { id: 'ai', name: 'AI 工具', emoji: '⚡' },
     { id: 'vcard', name: '虚拟U卡', emoji: '💰' },
@@ -104,7 +105,7 @@ test('prediction markets appear immediately after crypto without removing or cha
     { id: 'strategy', name: '投资策略', emoji: '🧭' },
     { id: 'outside', name: '出海必备', emoji: '✈️' },
   ];
-  assert.deepEqual(categories.filter(category => originalCategories.some(original => original.id === category.id)), originalCategories);
+  assert.deepEqual(categories.filter(category => category.id !== 'predict'), originalCategories);
   assert.deepEqual(categories.filter(category => category.id === 'predict'), [
     { id: 'predict', name: '预测市场', emoji: '🔮' },
   ]);

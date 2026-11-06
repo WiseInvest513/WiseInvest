@@ -262,6 +262,8 @@ test('every visible category has a route, including empty categories; unknown ca
   // Explicitly exercise an empty category, independent of newly published articles.
   categories.push({ id: 'empty-test-category', name: 'Empty test category', emoji: '' });
   try {
+    assert.ok(categoryPage.generateStaticParams().some(category => category.categoryId === 'empty-test-category'),
+      'empty categories must be included in static routes, not just rendered dynamically');
     const empty = browserProps(await renderCategory('empty-test-category'));
     assert.equal(empty.initialCategoryId, 'empty-test-category');
     assert.equal(empty.initialArticles.filter(article => article.categoryId === 'empty-test-category').length, 0);
