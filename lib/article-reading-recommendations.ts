@@ -122,3 +122,54 @@ export function getArticleReadingRecommendations(
     : Object.hasOwn(introductions, current.categoryId) ? introductions[current.categoryId] : "沿着当前主题，继续了解相关方法与使用场景。";
   return { introduction, articles: result };
 }
+
+export type ReadingNextStep = {
+  completed: string;
+  next: ReadingRecommendation | null;
+  stuck: Pick<ReadingRecommendation, "id" | "title" | "href" | "label" | "reason"> | null;
+  overviewHref?: string;
+  overviewLabel?: string;
+};
+
+/** Fixed end-of-article task chain: what you finished, what to read next and why. */
+export function getArticleReadingNextStep(
+  current: Pick<ArticleListItem, "id" | "categoryId" | "subcategoryId" | "title">,
+  articles: readonly ArticleListItem[],
+  seriesId?: string,
+  routeId?: string,
+): ReadingNextStep {
+  const recommendations = getArticleReadingRecommendations(current, articles, seriesId, routeId);
+  const series = getArticleSeries(seriesId, current.id);
+  const reading = series ? getSeriesReadingState(series, [...articles], current.id, routeId) : undefined;
+
+  let completed = `读完了「${current.title}」`;
+  if (series && reading && reading.currentIndex >= 0) {
+    const unit = series.kind === "topic" ? "篇" : "课";
+    const chapter = reading.chapters[reading.currentIndex];
+    completed = `完成第 ${reading.currentIndex + 1} ${unit}：${chapter.title}`;
+  }
+
+  const next = recommendations.articles[0] ?? null;
+  const stuckCandidate = recommendations.articles[1];
+  const stuck = stuckCandidate
+    ? {
+        id: stuckCandidate.id,
+        title: stuckCandidate.title,
+        href: stuckCandidate.href,
+        label: stuckCandidate.label,
+        reason: stuckCandidate.reason,
+      }
+    : null;
+
+  if (!series || !reading) {
+    return { completed, next, stuck };
+  }
+
+  return {
+    completed,
+    next,
+    stuck,
+    overviewHref: reading.overviewHref,
+    overviewLabel: series.kind === "path" ? "回路线目录" : "回系列概览",
+  };
+}

@@ -18,7 +18,8 @@ import { ArticleShareButton } from "@/components/article-share-button";
 import { ArticleReadingModeButton } from "@/components/article-reading-mode-button";
 import { ArticleMoreActions } from "@/components/article-more-actions";
 import { useArticleLibraryNavigation } from "@/components/use-article-library-navigation";
-import { getArticleReadingRecommendations } from "@/lib/article-reading-recommendations";
+import { getArticleReadingRecommendations, getArticleReadingNextStep } from "@/lib/article-reading-recommendations";
+import { ArticleNextStep } from "./article-next-step";
 import mobileReadingStyles from "@/components/article-more-actions.module.css";
 import immersiveStyles from "@/components/article-reading-mode.module.css";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
@@ -372,6 +373,9 @@ export function ArticlesContent({
   const readingRecommendations = useMemo(() => selectedArticle
     ? getArticleReadingRecommendations(selectedArticle, allArticles, initialSeriesId, initialMapRouteId)
     : { introduction: "", articles: [] }, [selectedArticle, allArticles, initialSeriesId, initialMapRouteId]);
+  const readingNextStep = useMemo(() => selectedArticle
+    ? getArticleReadingNextStep(selectedArticle, allArticles, initialSeriesId, initialMapRouteId)
+    : null, [selectedArticle, allArticles, initialSeriesId, initialMapRouteId]);
   const relatedArticles = readingRecommendations.articles;
   const vipInvitation = effectiveLockedContent ? null : getArticleVipInvitation(selectedArticle);
   const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation;
@@ -715,6 +719,10 @@ export function ArticlesContent({
               )}
 
               {seriesContext && <div data-reading-chrome><SeriesPagination {...seriesContext} /></div>}
+
+              {readingNextStep && !vipInvitation && (
+                <ArticleNextStep step={readingNextStep} mapHref={mapSeriesLink} />
+              )}
 
               {!effectiveLockedContent && visibleFaqs.length > 0 && (
                 <section data-reading-chrome className="mt-12 border-t border-slate-100 pt-8 dark:border-slate-800">

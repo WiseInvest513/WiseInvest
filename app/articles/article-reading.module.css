@@ -241,3 +241,223 @@
     padding-top: 24px;
   }
 }
+
+
+.nextStep {
+  margin-top: 36px;
+  padding: 22px 22px 18px;
+  border: 1px solid #e8ddc6;
+  border-radius: 20px;
+  background: linear-gradient(120deg, #fff 48%, #fcfaf5);
+  box-shadow: 0 4px 18px rgb(82 65 28 / 4%);
+}
+
+.nextStepHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b7791f;
+}
+
+.nextStepHeader h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.nextStepCompleted {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #f8f3e7;
+  color: #334155;
+}
+
+.nextStepCompleted svg {
+  flex: none;
+  margin-top: 2px;
+  color: #b7791f;
+}
+
+.nextStepCompleted small {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #b7791f;
+}
+
+.nextStepCompleted strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #0f172a;
+}
+
+.nextStepPrimary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 16px 16px 16px 18px;
+  border: 1px solid #e8ddc6;
+  border-radius: 16px;
+  background: #fff;
+  color: inherit;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.nextStepPrimary:hover {
+  border-color: #d4a84b;
+  background: #fffaf0;
+}
+
+.nextStepPrimaryCopy {
+  flex: 1;
+  min-width: 0;
+}
+
+.nextStepPrimaryCopy small {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #b7791f;
+}
+
+.nextStepPrimaryCopy strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #0f172a;
+}
+
+.nextStepPrimaryCopy > span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #64748b;
+}
+
+.nextStepPrimary > svg {
+  flex: none;
+  color: #b7791f;
+}
+
+.nextStepStuck {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed #e8ddc6;
+  color: inherit;
+}
+
+.nextStepStuck:hover {
+  background: #fcfaf5;
+}
+
+.nextStepStuck svg {
+  flex: none;
+  margin-top: 3px;
+  color: #b7791f;
+}
+
+.nextStepStuck small {
+  display: block;
+  font-size: 11px;
+  color: #b7791f;
+  font-weight: 700;
+}
+
+.nextStepStuck strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #0f172a;
+}
+
+.nextStepStuck span span {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+.nextStepOverview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  min-height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #b7791f;
+}
+
+.nextStepOverview:hover {
+  color: #92400e;
+}
+
+:global(.dark) .nextStep {
+  border-color: #544733;
+  background: linear-gradient(120deg, #0f172a 48%, #162033);
+  box-shadow: none;
+}
+
+:global(.dark) .nextStepHeader h2,
+:global(.dark) .nextStepCompleted strong,
+:global(.dark) .nextStepPrimaryCopy strong,
+:global(.dark) .nextStepStuck strong {
+  color: #f8fafc;
+}
+
+:global(.dark) .nextStepCompleted {
+  background: #2b2a28;
+  color: #e2e8f0;
+}
+
+:global(.dark) .nextStepPrimary {
+  border-color: #544733;
+  background: #0f172a;
+}
+
+:global(.dark) .nextStepPrimary:hover {
+  border-color: #dbb569;
+  background: #1a2333;
+}
+
+:global(.dark) .nextStepStuck {
+  border-color: #544733;
+}
+
+:global(.dark) .nextStepStuck:hover {
+  background: #162033;
+}
+
+:global(.dark) .nextStepPrimaryCopy > span,
+:global(.dark) .nextStepStuck span span {
+  color: #94a3b8;
+}
+
+@media (max-width: 767px) {
+  .nextStep {
+    margin-top: 28px;
+    padding: 18px 16px 14px;
+    border-radius: 16px;
+  }
+
+  .nextStepPrimary {
+    padding: 14px;
+  }
+}

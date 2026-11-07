@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import { EtfChapter, StocksChapter, CryptoChapter } from "@/components/home/investment-chapters";
 import { GlobalChapter, VipChapter, ExploreWise } from "@/components/home/service-chapters";
+import { PathChooser } from "@/components/home/path-chooser";
 import { HomeAction } from "@/components/home/primitives";
 import styles from "@/components/home/home.module.css";
 
@@ -37,6 +38,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <PathChooser />
       <EtfChapter />
       <StocksChapter />
       <CryptoChapter />

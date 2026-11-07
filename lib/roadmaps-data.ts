@@ -136,14 +136,14 @@ export const roadmaps: Roadmap[] = [
       {
         id: "step-1",
         title: "币安",
-        description: "20% 永久交易&钱包手续费减免",
+        description: "永久 20% 交易手续费返佣",
         articleLink: "https://x.com/WiseInvest513/status/1970757919500120451",
         estimatedTime: "30分钟",
       },
       {
         id: "step-2",
         title: "欧易",
-        description: "20% 永久交易&钱包手续费减免",
+        description: "永久 20% 交易手续费返佣",
         articleLink: "https://x.com/WiseInvest513/status/1953466482576556465",
         estimatedTime: "45分钟",
         prerequisites: ["step-1"],
@@ -159,7 +159,7 @@ export const roadmaps: Roadmap[] = [
       {
         id: "step-4",
         title: "Bybit",
-        description: "20% 手续费减免&注册即享交易优惠",
+        description: "永久 20% 交易手续费返佣",
         articleLink: "https://x.com/WiseInvest513/status/1980641416243212480",
         estimatedTime: "50分钟",
         prerequisites: ["step-3"],

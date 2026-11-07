@@ -9,8 +9,8 @@ const { genUid } = require("../lib/article-uid.ts");
 
 // Exact local registration guides, not every article in these categories.
 const guides = [
-  { id: "biance-guide", categoryId: "crypto", platform: "Binance 币安", kind: "exchange", file: "crypto/biance/biance.md", uid: "GaM38JYk", title: "币安 Binance 注册入金教程" },
-  { id: "okx-guide", categoryId: "crypto", platform: "OKX 欧易", kind: "exchange", file: "crypto/okx/okx.md", uid: "mAPQm7WZ", title: "OKX 欧易注册入金教程" },
+  { id: "biance-guide", categoryId: "crypto", platform: "Binance 币安", kind: "exchange", file: "crypto/biance/biance.md", uid: "GaM38JYk", title: "币安 Binance 注册与使用教程" },
+  { id: "okx-guide", categoryId: "crypto", platform: "OKX 欧易", kind: "exchange", file: "crypto/okx/okx.md", uid: "mAPQm7WZ", title: "OKX 欧易注册与买币教程" },
   { id: "bitget-exchange", categoryId: "crypto", platform: "Bitget", kind: "exchange", file: "crypto/Bitget/bitget.md", uid: "k3RVVcw4", title: "Bitget 交易所使用教程：注册认证、链上入金与赚币产品" },
   { id: "bybit-guide", categoryId: "crypto", platform: "Bybit", kind: "exchange", file: "crypto/bybit/bybit.md", uid: "e6utod7B", title: "Bybit 使用指南：资格核对、注册入金与活动规则" },
   { id: "Gate-vcard", categoryId: "vcard", platform: "Gate", kind: "exchange", file: "vcard/Gate/Gate.md", uid: "GUhygjYV", title: "Gate Card 申请与消费教程" },

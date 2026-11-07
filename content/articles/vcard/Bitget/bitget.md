@@ -11,7 +11,7 @@ readTime: 20
 summary: 先分清钱包与支付卡服务，再按图完成备份、充值、身份认证和真实地址证明提交；说明邀请码填写、卡片审核及使用前检查。
 ---
 
-![Bitget Wallet 大陆用户申请最新教程](/content/articles/vcard/BitgetNew/0.jpeg)
+![Bitget Wallet 大陆用户申请最新教程](/content/articles/vcard/Bitget/wallet-card-0.jpeg)
 
 ## 一、先分清 Bitget Wallet 与钱包里的卡片
 
@@ -25,7 +25,7 @@ summary: 先分清钱包与支付卡服务，再按图完成备份、充值、�
 
 创建完成后，即可进入新钱包。点击右下角的「钱包」按钮，即可进入银行卡开卡界面。
 
-![创建 Bitget Wallet 新钱包](/content/articles/vcard/BitgetNew/1.jpeg)
+![创建 Bitget Wallet 新钱包](/content/articles/vcard/Bitget/wallet-card-1.jpeg)
 
 **2、** 点击「立即申请」，系统会提示我们需要备份钱包，自己选择备份即可。备份方式可以选择本地备份或云端备份，均可。
 
@@ -33,7 +33,7 @@ summary: 先分清钱包与支付卡服务，再按图完成备份、充值、�
 
 点击「继续」，即可看到我们的收款地址。
 
-![备份钱包并进入充值流程](/content/articles/vcard/BitgetNew/2.jpeg)
+![备份钱包并进入充值流程](/content/articles/vcard/Bitget/wallet-card-2.jpeg)
 
 如果你过去下载过 Bitget App 并且注册过，可以直接跳转到 Bitget 中进行无缝链接的转账。
 
@@ -58,41 +58,41 @@ summary: 先分清钱包与支付卡服务，再按图完成备份、充值、�
 
 没有合要求材料时，先询问官方是否接受其他真实证明。不要购买他人的账单，也不要用 AI 修改姓名、地址或日期后提交。
 
-![填写邮箱并进入身份验证](/content/articles/vcard/BitgetNew/3.jpeg)
+![填写邮箱并进入身份验证](/content/articles/vcard/Bitget/wallet-card-3.jpeg)
 
 聊完准备之后，我们就继续开始，输入自己的手机号码，点击下一步即可。
 
 **4、** 上传自己的护照，验证自己的人脸，以及上传自己的地址证明。
 
-![上传护照、人脸验证和地址证明](/content/articles/vcard/BitgetNew/4.jpeg)
+![上传护照、人脸验证和地址证明](/content/articles/vcard/Bitget/wallet-card-4.jpeg)
 
 **5、** 上传完毕之后，系统会提示进行审核。
 
-- **地址证明**：我实测这个地址证明是可以通过的。如果不通过，可能需要寻找其他的地址证明。
+- **地址证明**：审核结果因人而异。如果不通过，向官方确认可接受的其他**本人真实**证明，不要购买或修改材料。
 - **填写信息**：收入与基本信息如实填写，并与已提交材料保持一致。
 - **信息审核**：填写完毕之后，系统会提示已进入信息审核阶段。这个阶段不需要很久，大概 **3-5 分钟**即可审核完毕。
 
-![提交资料并等待审核](/content/articles/vcard/BitgetNew/5.jpeg)
+![提交资料并等待审核](/content/articles/vcard/Bitget/wallet-card-5.jpeg)
 
 **6、** 完成之后，记得顺手勾选一下自己要消费返现的资产。
 
 这部分和之前略有不同：之前消费返现都是直接返现为自己的 USDT，但现在你可以勾选自己想要返现的资产。例如，我这边直接勾选，未来消费时直接返现等值的 BTC 即可。
 
-![选择消费返现资产](/content/articles/vcard/BitgetNew/6.jpeg)
+![选择消费返现资产](/content/articles/vcard/Bitget/wallet-card-6.jpeg)
 
 **7、** 完成所有的注册流程之后，如果大家觉得这个教程对你有帮助，可以点击右上角自己的小人头像，进入「邀请中心」，绑定我的邀请码：**Wise6666**。
 
 注意第一个 **W** 是大写。绑定邀请关系之后，未来我也好给大家发放福利和抽奖。
 
-![进入邀请中心绑定 Wise6666](/content/articles/vcard/BitgetNew/7.jpeg)
+![进入邀请中心绑定 Wise6666](/content/articles/vcard/Bitget/wallet-card-7.jpeg)
 
 ## 三、注意事项：地址材料、钱包与卡片权限
 
-地址证明用于核对实际居住情况，不能将别人的文件改名后使用。下面保留原稿图片用于识别字段，**不是可修改后提交的模板**；实际提交时应使用本人有效原件或机构签发文件。
+地址证明用于核对实际居住情况，必须使用**本人真实住址**对应的银行账单、公用事业账单或平台接受的其他原件／机构签发文件。不能购买他人账单，不能用 AI 或找人改写姓名、地址、日期后再提交，也不要把任何示例图当成可修改模板。
+
+缺少合要求材料时，先向官方客服确认可接受的替代真实证明；审核不通过时同样只换用本人其他真实文件，不要尝试“改图过审”。
 
 钱包助记词和备份信息单独保管，不能为了开卡交给任何代办。充值前核对两侧支持的币种、网络和地址；卡片审核通过后，再确认实际消费费用、返现资产和商户支持范围。
-
-![地址证明参考样式](/content/articles/vcard/BitgetNew/8.webp)
 
 ## 四、总结：真实材料是开卡的前提
 

@@ -186,6 +186,84 @@
 .exploreLinks a:hover { color: var(--home-gold); }
 .courseLinks { display: flex; align-items: center; gap: 3px; }
 
+.pathChooser {
+  padding: 56px 0 18px;
+  border-bottom: 1px solid var(--home-line);
+}
+.pathChooserIntro {
+  max-width: 720px;
+  text-align: center;
+  margin-inline: auto;
+}
+.pathChooserIntro .chapterTitle {
+  margin-top: 14px;
+}
+.pathChooserIntro .description {
+  margin-top: 14px;
+}
+.pathChooserGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 34px;
+}
+.pathCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100%;
+  padding: 24px 22px 22px;
+  border: 1px solid var(--home-line);
+  border-radius: 14px;
+  background: var(--home-surface);
+  box-shadow: 0 10px 28px rgba(40, 45, 50, 0.04);
+}
+.pathCardIcon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  color: var(--home-gold);
+  background: color-mix(in srgb, var(--home-gold) 14%, var(--home-soft));
+}
+.pathCard h3 {
+  font-size: 24px;
+  line-height: 1.45;
+}
+.pathCardLead {
+  margin-top: 10px;
+  color: var(--home-gold);
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+.pathCardDetail {
+  margin: 10px 0 22px;
+  color: var(--home-muted);
+  font-size: 14px;
+  line-height: 1.85;
+  flex: 1;
+}
+.pathCard .primaryAction {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.pathChooserContinue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+  color: var(--home-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.pathChooserContinue svg {
+  color: var(--home-gold);
+}
+
 @media (max-width: 1199px) {
   .home { --home-content-gutter: 56px; }
   .etfHeading { gap: 28px; }
@@ -208,6 +286,9 @@
 }
 @media (max-width: 899px) {
   .home { --home-frame-gutter: 56px; }
+  .pathChooserGrid { grid-template-columns: 1fr; gap: 14px; margin-top: 26px; }
+  .pathCard h3 { font-size: 22px; }
+  .pathChooserContinue { margin-top: 22px; }
   .chapterTitle { font-size: 36px; }
   .heroContent h1 { font-size: 64px; }
   .heroContent h2 { font-size: 44px; }
@@ -247,6 +328,13 @@
 }
 @media (max-width: 599px) {
   .home { --home-frame-gutter: 32px; --home-content-gutter: 8px; }
+  .pathChooser { padding: 40px 0 8px; }
+  .pathChooserIntro .chapterTitle { font-size: 30px; }
+  .pathCard { padding: 20px 18px 18px; }
+  .pathCard h3 { font-size: 21px; }
+  .pathCardLead { font-size: 14px; }
+  .pathCardDetail { font-size: 13px; margin-bottom: 18px; }
+  .pathChooserContinue { justify-content: flex-start; text-align: left; font-size: 12px; }
   .home section[id] { scroll-margin-top: 78px; }
   .hero { height: min(520px, calc(100svh - 210px)); min-height: 410px; }
   .heroContent { width: calc(100% - 32px); padding-top: 44px; }

@@ -22,7 +22,7 @@ function load(relativePath) {
   return module.exports;
 }
 const { getAllArticles, toArticleListItem } = load('lib/articles.ts');
-const { getArticleReadingRecommendations: recommend } = load('lib/article-reading-recommendations.ts');
+const { getArticleReadingRecommendations: recommend, getArticleReadingNextStep: nextStep } = load('lib/article-reading-recommendations.ts');
 const articles = getAllArticles().map(toArticleListItem);
 const byId = id => articles.find(article => article.id === id);
 
@@ -54,4 +54,20 @@ test('all recommendations are bounded, deduplicated and exclude self, missing en
     }
   }
   assert.deepEqual(recommend(byId('bit-account-guide'), []).articles, []);
+});
+
+test('next-step task chain prefers series next and explains why', () => {
+  const step = nextStep(byId('crypto-first-steps'), articles, 'crypto-basics');
+  assert.match(step.completed, /第 1/);
+  assert.equal(step.next.id, 'crypto-buying-platforms');
+  assert.match(step.next.reason, /.+/);
+  assert.ok(step.overviewHref.includes('/articles/series/crypto-basics'));
+  assert.match(step.overviewLabel, /路线|系列/);
+});
+
+test('non-series next-step still returns a completed line and next candidate', () => {
+  const step = nextStep(byId('bit-account-guide'), articles);
+  assert.match(step.completed, /读完了/);
+  assert.equal(step.next.id, 'bit-comparison');
+  assert.equal(step.overviewHref, undefined);
 });

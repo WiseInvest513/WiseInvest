@@ -292,3 +292,106 @@ a.articleEntry:hover h3 { color: var(--library-gold); }
   .stageReturn { display: none; }
   .mainColumn:has(.returnNotice) .pathStage { scroll-margin-top: 230px; }
 }
+
+
+.progressPanel,
+.progressCompact {
+  margin-top: 14px;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--directory-rule, var(--library-line));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--directory-selected, #f8f3e7) 70%, transparent);
+}
+
+.progressCompact {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.progressMeta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.progressLabel {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--directory-muted, var(--library-muted));
+}
+
+.progressPercent {
+  flex: none;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--directory-accent, var(--library-gold));
+}
+
+.progressTrack {
+  margin-top: 8px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--directory-rule, #e8ddc6) 80%, white);
+}
+
+.progressTrack > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d4a84b, #b7791f);
+}
+
+.progressActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 10px;
+}
+
+.progressAction {
+  min-height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--directory-muted, var(--library-muted));
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.progressAction:hover {
+  color: var(--directory-accent, var(--library-gold));
+}
+
+.chapter[data-read="true"]:not([aria-current="page"]) {
+  color: var(--directory-muted);
+}
+
+.chapter[data-read="true"]:not([aria-current="page"]) > span:nth-child(2)::after {
+  content: " · 已读";
+  font-size: 11px;
+  color: var(--directory-accent);
+}
+
+.articleEntry[data-read="true"] .articleAction {
+  color: var(--library-gold);
+}
+
+.intro .progressPanel {
+  margin-top: 18px;
+  background: #fcfaf5;
+  border-color: #e8ddc6;
+}
+
+:global(.dark) .intro .progressPanel,
+:global(.dark) .progressPanel,
+:global(.dark) .progressCompact {
+  background: #1a2333;
+  border-color: #544733;
+}

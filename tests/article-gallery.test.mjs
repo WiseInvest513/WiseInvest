@@ -188,7 +188,7 @@ test('retired body covers stay out of articles while list covers and source imag
 test('instructional first images are retained, including BeeSIM comparison and Bitget process', () => {
   const preserved = [
     ['beesim-guide', '/content/articles/simcard/Beesim/1.jpeg'],
-    ['bitget-vcard', '/content/articles/vcard/BitgetNew/0.jpeg'],
+    ['bitget-vcard', '/content/articles/vcard/Bitget/wallet-card-0.jpeg'],
     ['web-guide', '/content/articles/web/1.jpeg'],
     ['VIP', '/content/articles/VIP/1.jpeg'],
   ];

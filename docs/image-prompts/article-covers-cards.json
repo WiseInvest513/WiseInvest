@@ -23,7 +23,7 @@
   "notes": [
     "Six distinct conceptual illustrations, not official product-card photography.",
     "BIT articles and all Markdown bodies/registry/shared source code untouched.",
-    "BitgetNew/bitget.md is draftId-only; the live article is content/articles/vcard/Bitget/bitget.md with id bitget-vcard.",
+    "BitgetNew draft archived to .article-drafts/bitget-new-archived/ on 2026-11-08; live article is content/articles/vcard/Bitget/bitget.md (id bitget-vcard).",
     "Every raw image is preserved alongside its WebP output."
   ],
   "assets": [

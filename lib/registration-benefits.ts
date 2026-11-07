@@ -32,14 +32,8 @@ export const articleRegistrationBenefits: Record<string, RegistrationBenefits> =
     title: "开户支持",
     items: [{ value: "快速通过", label: "协助完成开户审核", condition: "提交完整资料；审核结果与处理时间由券商决定。" }],
   },
-  "腾达证券": {
-    title: "Wise 开户权益",
-    items: [
-      { value: "免佣", label: "港美股交易", condition: "填写 XDG74RHG，入金等值 HK$10,000。" },
-      { value: "最高 HK$300", label: "股票现金卡", condition: "净入资满 HK$20,000，达标、留存 30 天及 60 天各解锁 HK$100。" },
-    ],
-    note: "平台费另计；使用现金卡后须维持达标资格满 60 天。",
-  },
+  // 2026-07 campaign figures are historical samples in the tutorial; card no longer treats them as current.
+  "腾达证券": exclusiveInvitationBenefits,
   "致富证券": {
     title: "Wise 开户权益",
     items: [
@@ -48,14 +42,8 @@ export const articleRegistrationBenefits: Record<string, RegistrationBenefits> =
     ],
     note: "奖励由 HK$100 美股交易券与 HK$200 英伟达股票组成。",
   },
-  "蚂蚁银行澳门": {
-    title: "邀请入资礼",
-    items: [
-      { value: "2 股", label: "阿里巴巴港股", condition: "入金等值 HK$3,000；维持资产至奖励到账。" },
-      { value: "iPhone 17 Pro", label: "256G 高档入资礼", condition: "入金等值 HK$1,000,000，留存 90 天并完成 90 笔交易。" },
-    ],
-    note: "按对应入资档位领取；股票市值随行情变动。",
-  },
+  // March 2026 deposit-gift tiers are historical samples; card uses exclusive invitation copy.
+  "蚂蚁银行澳门": exclusiveInvitationBenefits,
   // Original article excerpts retained in docs/reviews/article-referral-review.json.
   // Restored at the user's request to display the article's stated figures.
   StableStock: {
@@ -91,10 +79,11 @@ export const articleRegistrationBenefits: Record<string, RegistrationBenefits> =
     title: "卡片消费权益",
     items: [{ value: "积分返还", label: "消费可获积分", condition: "消费后返还对应积分；正文未写明积分比例与兑换规则。" }],
   },
-  // content/articles/vcard/MP/MP.md:174–178,239; the August giveaway has ended.
+  // August lottery ended; keep the tutorial's stated 5U channel reward but require live-page confirmation.
   MPCard: {
     title: "Wise 开卡奖励",
-    items: [{ value: "5U", label: "原文现金奖励", condition: "通过邀请入口并填写 61298139；按开卡页面规则领取。" }],
+    items: [{ value: "5U", label: "原文现金奖励", condition: "填写 61298139；是否仍发放及领取方式以开卡页实时规则为准，非注册即到账。" }],
+    note: "帖下开卡报销 / AI 订阅抽奖已于 2026-08-31 结束，与本项开卡奖励分开。",
   },
   // content/articles/vcard/BenPay/BenPay.md:123–125
   BenPay: {
@@ -131,11 +120,8 @@ export const articleRegistrationBenefits: Record<string, RegistrationBenefits> =
     items: [{ value: "1.5%", label: "StockBack 股票回赠", condition: "ZA Card 选择股票回赠，按合资格消费金额计算；非邀请码专属现金奖。" }],
     note: "外币消费另有 1.95% 手续费。",
   },
-  // content/articles/bank/平安数字银行/pingan.md:171; excludes the expired dual-8% deposit campaign.
-  "平安数字银行": {
-    title: "投资户迎新权益",
-    items: [{ value: "最高 HK$2,000", label: "现金回赠券包", condition: "新开投资户并启动服务；首 60 天交易可获额外返还，非开户即到账现金。" }],
-  },
+  // Dual-8% deposit and undated investment voucher records are historical; card uses exclusive invitation copy.
+  "平安数字银行": exclusiveInvitationBenefits,
   // content/articles/ai/translation/trans.md:130 retains the original offer.
   "沉浸式翻译": {
     title: "渠道购买优惠",
@@ -152,9 +138,10 @@ export const articleRegistrationBenefits: Record<string, RegistrationBenefits> =
 export const registrationBenefitGaps: Record<string, string> = {
   StableStock: "原文列 20% 返现，返还基数、适用交易与领取方式待补充。",
   StockCoin: "原稿 OQTACJ 对应现货与合约 35% 返佣；有效期及适用地区待补充。",
-  "蚂蚁银行澳门": "原稿额外 1 股的任务月份与交易频率和图片不一致；当前卡片只列入资 2 股及高档实物奖励。",
+  "腾达证券": "2026 年 7 月免佣 / 现金卡 / 赴港加赠为历史示例；现行门槛与金额待在腾达活动页核对。",
+  "蚂蚁银行澳门": "2026 年 3 月入资赠股与高档实物、以及 4–6 月交易加赠均为历史示例；现行入资礼待在 App 核对。",
   "众安银行": "当前邀请专属奖励及 StockBack 上限待补充；旧邀请券包已于 2026 年 5 月 27 日结束。",
-  "平安数字银行": "券包各档交易门槛、兑换条件、活动期限及是否需要邀请码待补充。",
+  "平安数字银行": "双 8% 存款迎新已结束；投资户券包门槛、兑换条件与是否仍开放待在 App 核对。",
   "Bitget Wallet": "消费返现比例、上限与适用条件待补充。",
   "Gate Card": "消费积分比例、兑换规则及邀请额外奖励待补充。",
   StarryBlu: "额外 10 SGD 充值奖励的统计币种和奖励形式待补充。",

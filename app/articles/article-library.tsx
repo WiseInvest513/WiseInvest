@@ -96,7 +96,7 @@ export function ArticleLibrary({ articles, view, categoryId, subcategoryId, sear
     query, topic: isSearching || !categoryId ? filterTopic : "", categoryId, subcategoryId,
     sort: sortOrder || (view === "all" && !categoryId && !isSearching ? "newest" : ""), categoryNames,
     defaultOrder: categoryId === "index" ? indexLearningPath?.chapters.flatMap(chapter => chapter.articleId ? [chapter.articleId] : [])
-      : categoryId === "crypto" ? ["biance-guide", "okx-guide"] : undefined,
+      : categoryId === "crypto" ? ["crypto-first-steps", "crypto-buying-platforms", "crypto-c2c-funding", "crypto-spot-futures", "crypto-transfer-basics", "biance-guide", "okx-guide"] : undefined,
   }), [articles, categoryId, subcategoryId, query, isSearching, filterTopic, sortOrder, view]);
   const title = isSearching ? "搜索结果" : category ? subcategory?.name ?? category.name : view === "series" ? "系列内容" : view === "all" ? "全部文章" : "文章中心";
   const description = isHome ? "找到你需要的内容，也可以从一个系列开始。"

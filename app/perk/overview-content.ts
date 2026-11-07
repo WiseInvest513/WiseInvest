@@ -62,9 +62,9 @@ export const overviewTopics: OverviewTopic[] = [
     id: "exchanges", title: "交易所", nav: "注册交易所", description: "合作渠道与手续费福利",
     allHref: "/perk/crypto", allLabel: "查看全部交易所",
     entries: [
-      { id: "binance", title: "Binance 币安", description: "手续费减免", href: "/perk/crypto#product-binance", action: "查看注册福利", image: "/images/perks/overview/binance.svg", highlighted: true },
+      { id: "binance", title: "Binance 币安", description: "永久 20% 交易手续费返佣", href: "/perk/crypto#product-binance", action: "查看注册福利", image: "/images/perks/overview/binance.svg", highlighted: true },
       { id: "bitget", title: "Bitget", description: "新人福利与手续费减免", href: "/perk/crypto#product-bitget", action: "查看注册福利", image: "/images/capital-flow/bitget.jpeg" },
-      { id: "okx", title: "OKX 欧易", description: "交易与钱包手续费减免", href: "/perk/crypto#product-okx", action: "查看注册福利", image: "/images/capital-flow/okx.jpeg" },
+      { id: "okx", title: "OKX 欧易", description: "永久 20% 交易手续费返佣", href: "/perk/crypto#product-okx", action: "查看注册福利", image: "/images/capital-flow/okx.jpeg" },
     ],
   },
   {

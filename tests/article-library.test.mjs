@@ -111,20 +111,15 @@ test('missing source articles are omitted without inventing placeholder entries'
 });
 
 test('series are clearly planned metadata, with no fabricated chapters, articles or routes', () => {
-  assert.deepEqual(articleSeries.filter(series => series.status === 'planned').map(({ id, title, description, cover, status }) => ({ id, title, description, cover, status })), [
-    {
-      id: 'binance', title: '币安从入门到使用', description: '产品介绍 · 开户 · 福利政策 · 常用产品',
-      cover: '/images/articles/series/binance-wise-cover-v3.webp', status: 'planned',
-    },
-  ]);
-  for (const series of articleSeries.filter(series => series.status === 'planned')) {
-    assert.ok(!articles.some(article => article.id === series.id), 'a series plan must not become a published article');
-    assert.ok(!Object.hasOwn(series, 'content'));
-    for (const chapter of series.chapters) {
-      assert.deepEqual(Object.keys(chapter), ['title']);
-      assert.ok(chapter.title.length > 0);
-    }
-  }
+  // Binance keeps an existing comprehensive guide plus unlinked chapter plans; it is updating, not a hollow planned shell.
+  assert.deepEqual(articleSeries.filter(series => series.status === 'planned').map(({ id }) => id), []);
+  const binance = articleSeries.find(series => series.id === 'binance');
+  assert.equal(binance.status, 'updating');
+  assert.equal(binance.existingArticleId, 'biance-guide');
+  assert.ok(binance.chapters.every(chapter => !chapter.articleId));
+  assert.ok(binance.chapters.every(chapter => chapter.summary && /规划中/.test(chapter.summary)));
+  assert.ok(!articles.some(article => article.id === 'binance'), 'a series plan must not become a published article');
+  assert.ok(!Object.hasOwn(binance, 'content'));
   const crypto = articleSeries.find(series => series.id === 'crypto-basics');
   assert.equal(crypto.status, 'updating');
   assert.deepEqual(crypto.chapters.map(chapter => chapter.articleId), [
@@ -238,7 +233,8 @@ test('exchange referral publishes Binance and Bitget while skipping three unlink
   assert.equal(series.chapters.length, 5);
   assert.equal(series.chapters[0].articleId, 'binance-referral');
   assert.equal(series.chapters[2].articleId, 'bitget-referral');
-  assert.deepEqual([1, 3, 4].map(index => Object.keys(series.chapters[index])), Array.from({ length: 3 }, () => ['title']));
+  assert.deepEqual([1, 3, 4].map(index => Object.keys(series.chapters[index]).sort()), Array.from({ length: 3 }, () => ['summary', 'title']));
+  assert.ok([1, 3, 4].every(index => /待补写/.test(series.chapters[index].summary)));
   assert.match(series.introduction, /各平台规则独立核实/);
   const article = articles.find(item => item.id === 'binance-referral');
   assert.ok(article, 'The linked Binance article must actually exist');
@@ -317,7 +313,7 @@ test('learning paths group distinct published articles into valid stages and all
       assert.ok(!Object.hasOwn(chapter, 'content'), 'existing article bodies must not be duplicated');
       if (!chapter.articleId) {
         assert.equal(series.id, 'us-stock-zero-to-one');
-        assert.deepEqual(chapter, { title: '华美银行开户', stageId: 'banks', summary: '待补写：华美银行账户介绍、申请材料与具体开户流程。' });
+        assert.deepEqual(chapter, { title: '华美银行开户', stageId: 'banks', summary: '规划中（不可点开）：华美／East West 开户文尚未发表，仅占位；勿当作已有教程。' });
         continue;
       }
       assert.ok(articles.some(article => article.id === chapter.articleId), `Missing ${chapter.articleId}`);

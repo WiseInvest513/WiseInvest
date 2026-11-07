@@ -114,21 +114,13 @@ test('IBKR promises application support while leaving approval and processing ti
   assert.doesNotMatch(section, /开户即通过|\d+\s*%|现金|福利待补充/);
 });
 
-test('Tengda separates the HK$10,000 commission waiver from the HK$20,000 staged cash-card reward', () => {
+test('Tengda invitation card uses exclusive invitation copy after July 2026 campaign samples expired', () => {
   const html = render({ title: '注册 腾达证券 账户', code: 'XDG74RHG' });
-  const items = benefitItems(html);
-  const waiver = items.find(item => /免佣/.test(item));
-  const reward = items.find(item => /股票现金卡/.test(item));
-  assert.ok(waiver);
-  assert.ok(reward);
-  assert.match(waiver, /港美股交易/);
-  assert.match(waiver, /HK\$10,000/);
-  assert.doesNotMatch(waiver, /HK\$20,000|HK\$300/);
-  assert.match(reward, /最高 HK\$300/);
-  assert.match(reward, /净入资满 HK\$20,000/);
-  assert.match(reward, /达标、留存 30 天及 60 天各解锁 HK\$100/);
-  assert.doesNotMatch(reward, /HK\$10,000/);
-  assert.match(plainText(benefitSection(html)), /平台费另计/);
+  const section = plainText(benefitSection(html));
+  assert.match(section, /独家福利/);
+  assert.match(section, /专属邀请入口/);
+  assert.doesNotMatch(section, /免佣|HK\$300|HK\$10,000|HK\$20,000|福利待补充/);
+  assert.match(html, /data-copy="XDG74RHG"/);
 });
 
 test('Chief retains the US-stock waiver and the voucher-plus-stock composition of its HK$300 reward', () => {
@@ -148,23 +140,13 @@ test('Chief retains the US-stock waiver and the voucher-plus-stock composition o
   assert.doesNotMatch(section, /HK\$300.*现金奖励|开户即送|福利待补充/);
 });
 
-test('Ant Bank keeps the two-share deposit tier separate from the HK$1,000,000 iPhone tier', () => {
+test('Ant Bank Macau invitation card uses exclusive invitation copy after March 2026 gift samples expired', () => {
   const html = render({ title: '注册 蚂蚁银行澳门 账户', code: 'LPQEUGML' });
-  const items = benefitItems(html);
-  const shares = items.find(item => /阿里巴巴港股/.test(item));
-  const phone = items.find(item => /iPhone/.test(item));
-  assert.ok(shares);
-  assert.ok(phone);
-  assert.match(shares, /2 股/);
-  assert.match(shares, /HK\$3,000/);
-  assert.match(shares, /维持资产至奖励到账/);
-  assert.doesNotMatch(shares, /HK\$1,000,000|90 笔/);
-  assert.match(phone, /iPhone 17 Pro/);
-  assert.match(phone, /256G/);
-  assert.match(phone, /HK\$1,000,000/);
-  assert.match(phone, /留存 90 天并完成 90 笔交易/);
-  assert.doesNotMatch(phone, /HK\$3,000/);
-  assert.match(plainText(benefitSection(html)), /股票市值随行情变动/);
+  const section = plainText(benefitSection(html));
+  assert.match(section, /独家福利/);
+  assert.match(section, /专属邀请入口/);
+  assert.doesNotMatch(section, /2 股|阿里巴巴|iPhone|HK\$3,000|HK\$1,000,000|福利待补充/);
+  assert.match(html, /data-copy="LPQEUGML"/);
 });
 
 test('registration callouts support codes, link-only invitations and discount codes without inventing a URL', () => {
