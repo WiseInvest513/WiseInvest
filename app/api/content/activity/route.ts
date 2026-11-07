@@ -36,15 +36,18 @@ export async function POST(request: NextRequest) {
   const session = await auth();
   const userId = session?.user?.id;
 
+  if (!userId && payload.eventType !== "PREVIEW_LOCKED" && payload.eventType !== "LOGIN_PROMPT") {
+    return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
+  }
+
   if (!isDatabaseConfigured()) {
+    if (payload.eventType === "FAVORITE_ADD" || payload.eventType === "FAVORITE_REMOVE") {
+      return NextResponse.json({ ok: false, message: "收藏暂时无法保存，请稍后重试。" }, { status: 503 });
+    }
     return NextResponse.json({ ok: true, preview: true });
   }
 
   const prisma = getPrisma();
-
-  if (!userId && payload.eventType !== "PREVIEW_LOCKED" && payload.eventType !== "LOGIN_PROMPT") {
-    return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
-  }
 
   if (userId && payload.eventType === "VIEW") {
     await Promise.all([

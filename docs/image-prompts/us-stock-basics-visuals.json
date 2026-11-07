@@ -1,0 +1,128 @@
+{
+  "created": "2026-11-07",
+  "generator": "built-in image_gen",
+  "purpose": "Three US-stock foundational article covers and three explanatory body illustrations",
+  "bodyStyleReference": "assets/source-images/us-stock-basics/style-reference.png",
+  "coverStyleReference": "/Users/balala/.codex/skills/wise-silver-glass/assets/studio-reference.webp",
+  "signature": "public/images/brand/wise-invest-signature.png",
+  "body": [
+    {
+      "id": "account-balances",
+      "prompt": "Create ONE landscape 16:9 article-body explanatory illustration, 1536x864 preferred. Use the attached reference ONLY for its tactile ivory/navy/mint-green 3D object style, NOT its large headline, SafePal subject or presenter. Warm cream subtly paper-textured background, navy leather wallet, thick ivory paper certificates, gentle gold edges, matte ceramic surfaces, soft short shadows, restrained physical miniature objects. Topic: a securities account contains both cash and held securities; total account value is not all spendable cash. Composition: a wide low open ivory document case is the meaningful account container. Inside, left a navy/cream wallet with a few neutral banknotes labelled '现金', right a neat stack of ivory securities certificates labelled '持仓'. Above the case one slim navy summary tab labelled '账户总值', connected with fine muted mint lines to BOTH wallet and certificate stack. At right outside the case a small navy clipboard with a magnifier and short label '下单前核对'; no approval tick, no outgoing coins, no promise the whole case can buy stock. Label under case '教学示意'. Keep typography small and planar, not a dominant poster title. No numerical data, no actual platform UI, no company logos, no random arrows, no extra bank building. Leave upper right 20% x 12% clear for later exact brand signature insertion. Do NOT generate any signature, watermark, person or '@Wise' text. Objects occupy center 65% of height with full silhouettes and generous safe margins. Accurate relationship and restrained editorial illustration, not glossy white platinum glass.",
+      "generated": "/Users/balala/.codex/generated_images/01a1b57a-57d6-7771-93e7-f475d3a4e5b1/exec-440c31d2-9f7f-4fd0-871b-a6e77ea09716.png"
+    },
+    {
+      "id": "order-flow",
+      "prompt": "Create ONE 16:9 landscape article-body explanatory illustration. Attached images are STYLE references only: use warm ivory lightly textured background, tactile navy leather/thick cream paper/matte ceramic objects, thin champagne gold trim, soft mint-green connections, natural front-three-quarter view and gentle contact shadows. Match the second account illustration's materials and warm lighting. Not white platinum glass. No real company logo, no actual platform UI, no human, no large headline. Short labels in clean Chinese type, clear and correct. Objects within margins. Leave upper right 20% x 12% blank for later exact signature overlay; generate NO watermark or Wise signature. Small bottom label '教学示意'. Explain PARTIAL FILL of a LIMIT BUY order. One clear composition: at left a single thick ivory order slip labelled '限价买单' and '2 股'. A thin green connector reaches a small central matching gate, then splits into two equally visible branches. TOP RIGHT: exactly one securities certificate in a navy portfolio folder labelled '已成交 1 股'. BOTTOM RIGHT: exactly one order slip in a shallow waiting tray beside a small sand timer, labelled '剩余 1 股待成交'. The waiting branch is incomplete dotted mint, no arrow claiming inevitable future execution, no success checkmark for whole order. Subtle label near the gate '部分成交示例'. Three-dimensional small objects all consistent with the references. No numerical price, no chart, no extra coins. Teach that submitting 2 shares does not guarantee all 2 fill.",
+      "revisionPrompt": "Edit ONLY the central green bank-shaped building in this illustration. Replace that building with a small abstract order-matching device: two overlapping thick ivory paper slips standing in a navy tray with a modest mint-green bidirectional connection mark. It must NOT look like a bank, roof, columns or building. This represents matching orders on a securities market, not a bank transfer. Preserve the original position, size, branch connectors, exact Chinese labels, all other objects, colors, background, shadows and composition. Keep the '部分成交示例' label above it, all 2-share / 1-share Chinese wording unchanged. Do not add more text, company logo or signature; keep upper-right empty for later original brand insertion.",
+      "generated": "/Users/balala/.codex/generated_images/01a1b57a-57d6-7771-93e7-f475d3a4e5b1/exec-c3084e5f-f5b0-48ec-89dc-8e8098f4e0a7.png"
+    },
+    {
+      "id": "money-flow",
+      "prompt": "Create ONE 16:9 landscape article-body explanatory illustration. Attached images are STYLE references only: use warm ivory lightly textured background, tactile navy leather/thick cream paper/matte ceramic objects, thin champagne gold trim, soft mint-green connections, natural front-three-quarter view and gentle contact shadows. Match the second account illustration's materials and warm lighting. Not white platinum glass. No real company logo, no actual platform UI, no human, no large headline. Short labels in clean Chinese type, clear and correct. Objects within margins. Leave upper right 20% x 12% blank for later exact signature overlay; generate NO watermark or Wise signature. Small bottom label '教学示意'. Explain the difference between funding records and withdrawal availability. TWO calm horizontal rows, tangible objects in each; exactly three stages per row. Top row small label '入金': ivory/navy bank building -> an ivory remittance receipt with a small magnifier -> a navy/ivory securities ledger. Short labels under these: '银行汇出', '收款与匹配', '券商入账'. Bottom row small label '出金': an ivory sale confirmation receipt -> a slim navy gate with a clock symbol -> an ivory/navy wallet. Labels under these: '卖出成交', '结算与提取条件', '银行实收'. The central gate on the bottom remains partly closed, and the connector to wallet is dotted to express checking and waiting, not guarantee. Small note below top row '入账后还要核对可交易金额'. Small note below bottom row '可提取不等于银行已到账'. No time duration, no T+1 text, no cash amounts, no currencies, no credit or profit guarantee. Do not connect the two rows with a cycle; these are separate processes.",
+      "generated": "/Users/balala/.codex/generated_images/01a1b57a-57d6-7771-93e7-f475d3a4e5b1/exec-0fbcfce6-b90b-4f73-bea1-8ab7d09edc86.png"
+    }
+  ],
+  "covers": [
+    {
+      "id": "us-stock-account-basics",
+      "prompt": "Use case stylized-concept. Generate ONE landscape 16:9 Wise Invest article LIST COVER. Use attached studio image as STYLE reference for white and silver architectural glass, polished aluminum, tiny champagne-gold trim, physically credible glass edges, soft neutral studio daylight. Adapt subject completely, no rising glass bar chart, no coin stacks, no ivory paper background or plastic toy look. Wide composition, left has readable dark navy Chinese title in TWO short lines, right contains large recognizable coherent subject, uncluttered. Top right reserve empty 20% width x 12% height for exact brand signature which will be overlaid later; no watermark, no person, no Wise text. Full objects and text within 6% safe margins. Keep clear at 640x360. No extra text besides specified title and small subtitle. Title exactly '看懂美股账户', split '看懂' then '美股账户'. Small subtitle '现金 · 持仓 · 购买力'. Subject: on right an elegant open silver-and-glass document case holding one visible silver wallet and transparent security certificate, a small optical magnifier near the case. Clear physical compartment distinction between cash and securities. No numbers, no screen UI, no logos. Glass studio in soft focus only behind objects.",
+      "generated": "/Users/balala/.codex/generated_images/01a1b57a-57d6-7771-93e7-f475d3a4e5b1/exec-c0790e7a-5c73-451c-bbf1-12ffae70ef91.png"
+    },
+    {
+      "id": "us-stock-first-order",
+      "prompt": "Use case stylized-concept. Generate ONE landscape 16:9 Wise Invest article LIST COVER. Use attached studio image as STYLE reference for white and silver architectural glass, polished aluminum, tiny champagne-gold trim, physically credible glass edges, soft neutral studio daylight. Adapt subject completely, no rising glass bar chart, no coin stacks, no ivory paper background or plastic toy look. Wide composition, left has readable dark navy Chinese title in TWO short lines, right contains large recognizable coherent subject, uncluttered. Top right reserve empty 20% width x 12% height for exact brand signature which will be overlaid later; no watermark, no person, no Wise text. Full objects and text within 6% safe margins. Keep clear at 640x360. No extra text besides specified title and small subtitle. Title exactly '第一笔美股订单', split '第一笔' then '美股订单'. Small subtitle '报价 · 下单 · 成交'. Subject: on right a slim silver desktop terminal displaying a simple gold-outlined order slip symbol, beside it two transparent paper-like trade tickets—one in a small completed holder and one waiting beside a glass hourglass. No charts pretending prices, no platform UI, no logos, no numbers. Restrained white-silver product photography.",
+      "generated": "/Users/balala/.codex/generated_images/01a1b57a-57d6-7771-93e7-f475d3a4e5b1/exec-de87dfe5-8141-46ed-bec2-46cb81ab9215.png"
+    },
+    {
+      "id": "us-stock-money-status",
+      "prompt": "Use case stylized-concept. Generate ONE landscape 16:9 Wise Invest article LIST COVER. Use attached studio image as STYLE reference for white and silver architectural glass, polished aluminum, tiny champagne-gold trim, physically credible glass edges, soft neutral studio daylight. Adapt subject completely, no rising glass bar chart, no coin stacks, no ivory paper background or plastic toy look. Wide composition, left has readable dark navy Chinese title in TWO short lines, right contains large recognizable coherent subject, uncluttered. Top right reserve empty 20% width x 12% height for exact brand signature which will be overlaid later; no watermark, no person, no Wise text. Full objects and text within 6% safe margins. Keep clear at 640x360. No extra text besides specified title and small subtitle. Title exactly '看懂资金状态', split '看懂' then '资金状态'. Small subtitle '汇出 · 入账 · 提取'. Subject: on right a clear glass and white stone miniature bank, a silver ledger and a small elegant silver wallet linked by very fine champagne gold routing line with a small clock at the ledger. No instantaneous transfer or guaranteed time claims, no currency amounts. Open airy silver glass studio.",
+      "generated": "/Users/balala/.codex/generated_images/01a1b57a-57d6-7771-93e7-f475d3a4e5b1/exec-7ab377f3-827b-4707-91f5-50b758fe1e5d.png"
+    }
+  ],
+  "postprocessing": "Copy generated originals, overlay exact unmodified original signature at top right at 16% canvas width with preserved aspect and rounded-copy corners, proportionally downsample/pad if necessary, WebP compression. No generated scene repaint or title alteration.",
+  "assets": [
+    {
+      "id": "account-balances",
+      "kind": "body",
+      "path": "public/images/articles/us-stock-basics/account-balances.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 33354,
+      "quality": 76,
+      "source": "assets/source-images/us-stock-basics/account-balances.png",
+      "raw": "assets/source-images/us-stock-basics/account-balances-generated.png",
+      "sha256": "aae25a6bca2f8da60ae95a7eaa0705b307336b5fcd1a1ff97d3bca7d68c22378"
+    },
+    {
+      "id": "order-flow",
+      "kind": "body",
+      "path": "public/images/articles/us-stock-basics/order-flow.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 34740,
+      "quality": 76,
+      "source": "assets/source-images/us-stock-basics/order-flow.png",
+      "raw": "assets/source-images/us-stock-basics/order-flow-generated.png",
+      "sha256": "65a9c1df526f01ba57e5746c5b31a1c5d6bfb53a529db4499a22b17921429f32"
+    },
+    {
+      "id": "money-flow",
+      "kind": "body",
+      "path": "public/images/articles/us-stock-basics/money-flow.webp",
+      "width": 1280,
+      "height": 720,
+      "bytes": 53316,
+      "quality": 76,
+      "source": "assets/source-images/us-stock-basics/money-flow.png",
+      "raw": "assets/source-images/us-stock-basics/money-flow-generated.png",
+      "sha256": "0832e78f3d40c9588bf31d295caebff28fce1c4d4e852044385ff3826077835a"
+    },
+    {
+      "id": "us-stock-account-basics",
+      "kind": "covers",
+      "path": "public/images/articles/covers/us-stock-account-basics.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 20788,
+      "quality": 60,
+      "source": "assets/source-images/article-covers/us-stock-account-basics.png",
+      "raw": "assets/source-images/article-covers/us-stock-account-basics-generated.png",
+      "sha256": "a10614b9dac21ba52a282e33fa55d5f048a05006b76900f079e4e717cb7f47bb"
+    },
+    {
+      "id": "us-stock-first-order",
+      "kind": "covers",
+      "path": "public/images/articles/covers/us-stock-first-order.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 15344,
+      "quality": 60,
+      "source": "assets/source-images/article-covers/us-stock-first-order.png",
+      "raw": "assets/source-images/article-covers/us-stock-first-order-generated.png",
+      "sha256": "460b71365c6904bafbc4fef35617b860a30ded79a84f444fd13b645be31d266d"
+    },
+    {
+      "id": "us-stock-money-status",
+      "kind": "covers",
+      "path": "public/images/articles/covers/us-stock-money-status.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 18460,
+      "quality": 60,
+      "source": "assets/source-images/article-covers/us-stock-money-status.png",
+      "raw": "assets/source-images/article-covers/us-stock-money-status-generated.png",
+      "sha256": "15a444f1fb13e3265b26be243a509197a334b48160e6bdda393729f3877e0117"
+    }
+  ],
+  "signatureSha256": "40a98eda41040c4520e2fd234167aec0bb9d5bdca59efc8c59661005420019e0",
+  "visualReview": {
+    "method": "实际逐张查看 6 张最终 WebP，包含最终签名和压缩结果，不只检查生成原图。",
+    "account-balances": "米白账户容器内现金钱包和持仓凭证分区；账户总值连接两者，下单前核对板独立。文字清楚，无金额或实际平台 UI。",
+    "order-flow": "部分成交图明确 2 股订单、1 股已成交、1 股仍待成交；等待支路用虚线与沙漏，不暗示必然全部成交。原图把撮合画成银行，已用 image_gen 局部修正为票据撮合托盘。",
+    "money-flow": "入金和出金两行，各自对应银行汇出/收款匹配/券商入账，以及卖出成交/结算与提取条件/银行实收。未给固定到账时间。",
+    "covers": "三张均沿用白金银白玻璃风格；标题、副标题、主要物件在640x360可读，未裁断或拉伸。",
+    "signature": "6张右上角均机械叠加原始 @Wise Invest 与人物组合，宽度16%，完整保持比例；只对成图副本加圆角，原始签名 SHA256 未变。",
+    "scope": "仅图片和提示词记录，未改文章正文或共享配置。"
+  }
+}

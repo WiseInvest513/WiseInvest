@@ -10,7 +10,7 @@ export const dynamicParams = false;
 const categorySeo: Record<string, { title: string; description: string; keywords: string[] }> = {
   transfers: {
     title: "出入金教程：账户转账、银行收款与结汇实操",
-    description: "Wise Invest 出入金教程，首篇整理 SafePal 汇款与建行结汇的历史实操，结合截图核对资金路径、到账凭证、费用和通道限制，后续逐步补充银行与券商出入金。",
+    description: "Wise Invest 出入金教程，整理 SafePal 汇款与建行结汇、SafePal 和众安入金盈透的实操，结合截图核对资金路径、付款附言、到账凭证与费用。",
     keywords: ["出入金教程", "跨境汇款", "银行收款", "结汇", "SafePal", "Fiat24"],
   },
   vcard: {

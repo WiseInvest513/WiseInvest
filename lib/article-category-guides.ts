@@ -15,7 +15,7 @@ export const categoryGuides: Record<string, CategoryGuide> = {
   transfers: {
     group: "开户与资金", label: "资金流转", artwork: icon("transfers"),
     tagline: "从转出到到账，弄清每一步的钱去了哪里。",
-    description: "这里整理账户之间的资金流转实操，首篇从 SafePal 汇款与建行结汇的历史记录开始。结合操作截图核对转出、收款与换汇的不同环节，后续逐步补充银行汇款和券商出入金教程。",
+    description: "从 SafePal 汇款与建行结汇，到 SafePal、众安入金盈透，结合真实操作截图梳理账户之间的资金流转。分清汇出账号、收款指令与付款附言，再核对费用和到账记录。",
     outcomes: [["看清资金路径", "区分钱包转账、账户充值、银行收款与结汇，核对通道是否仍可用。"], ["跟图核对步骤", "找到币种、网络、收款账户与付款凭证，避免把提交成功当作已经到账。"], ["算清实际成本", "分别检查网络费、汇率与银行扣费，留下可追溯的操作记录。"]],
   },
   domestic: {

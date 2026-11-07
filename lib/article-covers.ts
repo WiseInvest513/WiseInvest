@@ -3,6 +3,36 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "wise-witness-guide": {
+    src: "/images/articles/covers/wise-witness-guide.webp",
+    alt: "Wise Witness 见证开户：银白玻璃银行与身份核验凭证",
+    topics: ["见证开户", "境外账户", "银行对比", "网点查询", "Wise Witness"],
+  },
+  "us-stock-account-basics": {
+    src: "/images/articles/covers/us-stock-account-basics.webp",
+    alt: "看懂美股账户：现金、证券持仓与账户余额的银白玻璃概念封面",
+    topics: ["美股", "现金账户", "保证金账户", "购买力", "币种"],
+  },
+  "us-stock-first-order": {
+    src: "/images/articles/covers/us-stock-first-order.webp",
+    alt: "第一笔美股订单：报价、委托与成交凭证的银白玻璃概念封面",
+    topics: ["美股", "限价单", "市价单", "交易时段", "订单"],
+  },
+  "us-stock-money-status": {
+    src: "/images/articles/covers/us-stock-money-status.webp",
+    alt: "看懂资金状态：银行汇款、证券账户与资金回程的银白玻璃概念封面",
+    topics: ["美股", "入金", "结算", "出金", "资金状态"],
+  },
+  "safepal-za-ibkr-funding": {
+    src: "/images/articles/covers/safepal-za-ibkr-funding.webp",
+    alt: "SafePal 与众安入金盈透：米白钱包、欧元凭证与青绿银行连接证券账户",
+    topics: ["SafePal", "Fiat24", "众安", "ZA Bank", "盈透", "IBKR", "出入金", "欧元", "美元"],
+  },
+  "us-stock-start": {
+    src: "/images/articles/covers/us-stock-start.webp",
+    alt: "美股从 0 到 1：银行账户、证券交易与资金回程的银白玻璃流程封面",
+    topics: ["美股", "入门", "开户", "入金", "证券账户", "交易所"],
+  },
   "safepal-bank-remittance": {
     src: "/images/articles/covers/safepal-bank-remittance.webp",
     alt: "SafePal 汇款实操：米白银行、深蓝钱包与欧元凭证，2025 年实测记录",
@@ -162,8 +192,8 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
   },
   "us-guide": {
     src: "/images/articles/covers/us-guide.webp",
-    alt: "港美股入门与开户资金路径：玻璃银行、证券文件和连接路线的银白概念封面",
-    topics: ["港美股入门","港卡","券商","Web3","出海准备"],
+    alt: "美股投资账户与资金路径：玻璃银行、证券文件和连接路线的银白概念封面",
+    topics: ["美股投资","银行入金","港美券商","BIT","交易所"],
   },
   "bybit-guide": {
     src: "/images/articles/covers/bybit-guide.webp",

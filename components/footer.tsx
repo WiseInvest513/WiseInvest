@@ -149,14 +149,6 @@ export function Footer() {
                   境外银行开户
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/practice/dca-investment"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  BTC / ETH 定投实盘
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -194,14 +186,6 @@ export function Footer() {
                   className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
                 >
                   VIP 中心
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/point"
-                  className="text-sm text-slate-500 dark:text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors cursor-pointer"
-                >
-                  点位观察
                 </Link>
               </li>
             </ul>

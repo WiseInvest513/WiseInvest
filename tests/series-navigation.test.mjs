@@ -27,7 +27,7 @@ function loadModule(relativePath) {
     if (name === 'react/jsx-runtime') return jsxRuntime;
     if (name === 'next/link') return { __esModule: true, default: Link };
     if (name === 'next/image') return { __esModule: true, default: Image };
-    if (name === '@/components/content-access-gate') return { ProtectedContentLink: props => React.createElement(Link, { ...props, 'data-protected': true }) };
+    if (name === '@/components/content-access-gate') return { ProtectedContentLink: props => React.createElement(Link, { ...props, 'data-protected': true }), LoginRequiredDialog: () => null };
     if (name === 'lucide-react') return new Proxy({}, { get: () => () => React.createElement('svg', { 'aria-hidden': true }) });
     if (name.endsWith('.module.css')) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
     const resolved = name.startsWith('@/') ? path.join(root, name.slice(2)) : path.resolve(path.dirname(filename), name);

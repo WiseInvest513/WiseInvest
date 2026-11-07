@@ -1,0 +1,49 @@
+{
+  "title": [
+    "第一次买美股",
+    "从哪里开始？"
+  ],
+  "subtitle": "开户、入金、买入，一步步讲清",
+  "seriesKicker": "从 0 到 1",
+  "generatedAt": "2026-11-07",
+  "generator": "built-in image_gen",
+  "style": "wise-silver-glass / landscape",
+  "prompt": "Redesign the provided Wise Invest SERIES cover into a compelling reader-first 16:9 tutorial cover, keeping the premium silver-white glass style, soft neutral daylight, deep navy text and restrained champagne-gold structural accents. This is an editorial education cover, not an advertisement.\n\nTEXT MUST BE EXACT, with generous safe margins and very strong readability at thumbnail size:\nSmall series kicker: 从 0 到 1\nMain title, exactly these TWO LARGE LINES:\n第一次买美股\n从哪里开始？\nSubtitle, exactly: 开户、入金、买入，一步步讲清\n\nLayout: text occupies the left roughly 60% of the frame, illustration occupies the right roughly 40%. Main title deep navy, bold modern clean Chinese sans serif, two balanced rows. The question is the key hook. At most a restrained small gold accent or short rule. Subtitle medium-large, one line if legible. Do not put text over the illustration. Do not reuse the old title or old subtitle. No extra text.\n\nNew subject: on the right show a substantial transparent optical-glass bank with polished silver edges, alongside a small sophisticated navy-and-silver account/trading terminal angled toward the viewer, connected by thin glass paths edged in very fine gold. The terminal can display three unlabelled neutral rows and a simple account silhouette, but NO numbers, ticker, chart, rising arrows or fake brand. Do NOT use the old static securities certificate or framed diploma. Keep this as one coherent still-life with realistic contact shadows, precise rounded edges and believable depth. White architectural studio background, uncluttered, few props, not toy plastic. Slight cyan only at glass edges, no blue wash.\n\nIMPORTANT BRAND PREPARATION: remove the old signature from the reference and leave the TOP-RIGHT area plain clean white. Reserve a blank white region approximately x=77% to 98%, y=2% to 15%, with no object or text under it. The original brand signature will be composited from its exact raster file after generation, so do not re-generate any logo, person, watermark or brand text. Keep the top-right field naturally white without a visible empty box.\n\nLandscape 16:9, preferably 1600x900 or 1920x1080. No fake UI buttons, gold coins, profits, promises, exaggerated marketing claims, unrelated logos, decorative frames or extra slogans. Produce only the finished clean cover scene with the specified exact headline, subtitle and small series kicker.",
+  "references": [
+    {
+      "path": "public/images/articles/series/us-stock-zero-to-one.webp",
+      "role": "Previous series cover used only as a style and material reference"
+    }
+  ],
+  "source": {
+    "path": "assets/source-images/article-covers/us-stock-zero-to-one-v2.png",
+    "width": 1672,
+    "height": 941,
+    "bytes": 2458526,
+    "sha256": "8e28b49a092a14773af40138ea5f5b3d0c98d7e8737db71ce3b37b0940915b7c"
+  },
+  "output": {
+    "path": "public/images/articles/series/us-stock-zero-to-one-v2.webp",
+    "width": 960,
+    "height": 540,
+    "bytes": 33920,
+    "quality": 60,
+    "sha256": "fca5cdba0cc4f0c173b385ca3f202d35bfbda4804f350fca919f192fa1d031b3"
+  },
+  "processing": [
+    "Generated a new series-only design with the approved two-line question headline and subtitle. The article list cover remains unchanged.",
+    "Original public/images/brand/wise-invest-signature.png was resized proportionally to 268 × 73 and composited into the reserved upper-right region. Its complete original text and person were preserved without redrawing or cropping.",
+    "Signature backing is a 288 × 93 white panel with radius 15 px, at x 1344 y 36; the original signature is inset 10 px. Original source file remains unchanged.",
+    "Resized with fit: contain and white background to 960 × 540, encoded at WebP quality 60, effort 6. Versioned output name avoids stale image optimization cache."
+  ],
+  "visualReview": [
+    "Inspected final 960 × 540 WebP after compression.",
+    "Correct two-line headline 第一次买美股 / 从哪里开始？; correct subtitle 开户、入金、买入，一步步讲清.",
+    "Glass bank and account terminal replace the former certificate composition; neutral account rows contain no ticker, prices or return claims.",
+    "Complete original signature and person are clear in the upper-right; all title and illustration content retains safe margins."
+  ],
+  "protectedArticleCover": {
+    "path": "public/images/articles/covers/us-stock-start.webp",
+    "unchangedSha256": "99c968950ce59ad34193acb02336a9608b2694e131a539ab989acbbf9114079e"
+  }
+}

@@ -70,14 +70,23 @@ test('all six tutorial referral/VIP notes reflect the new conditions without rew
   }
 });
 
-test('official promotions, card fees, actual transfer examples and regular investments remain unchanged', () => {
+test('recorded promotions, card fees, transfer examples and regular investments stay separate from Wise VIP eligibility', () => {
   assert.match(read('app/card/data.ts'), /教程里提到 100U 入金后解锁高比例优惠/);
   assert.match(read('content/articles/vcard/Gate/Gate.md'), /首笔充值大于 100U 之后，也可以领取到额外的 50U 奖励/);
   assert.match(read('content/articles/vcard/MP/MP.md'), /开卡及制卡费用是 \*\*100 USDT\*\*/);
   assert.match(read('content/articles/vcard/Bybit/bybit.md'), /充值至少 \*\*100U\*\*，方可解锁 \*\*10% 的消费返现\*\*/);
   assert.match(read('content/articles/crypto/Bitget/bitget.md'), /!\[成功充值 100U 到 Bitget\]\(\.\/22.png\)/);
-  assert.match(read('content/articles/crypto/bybit/bybit.md'), /充值入金 100U，并且交易量大于 10U/);
-  assert.match(read('content/articles/crypto/bybit/bybit.md'), /如果你放里面 300U，两天之后可以收获 9U 左右/);
+  const bybit = read('content/articles/crypto/bybit/bybit.md').replace(/\*\*/g, '');
+  const bybitReward = bybit.split('\n').find(line => /20U 等值代币任务/.test(line));
+  assert.ok(bybitReward, 'The historical Bybit reward task remains recorded');
+  assert.match(bybitReward, /入金 100U、交易量超过 10U/);
+  assert.match(bybitReward, /20U 手续费折扣券/);
+  assert.match(bybitReward, /历史例子.*不代表现在仍可领取/);
+  const bybitYield = bybit.split('\n').find(line => /555%.*9\.12U/.test(line));
+  assert.ok(bybitYield, 'The 300U / two-day historical yield example remains explicit');
+  assert.match(bybitYield, /300U.*2 天/);
+  assert.match(bybitYield, /300 × 555% × 2 ÷ 365 ≈ 9\.12U/);
+  assert.match(bybitYield, /限额、限期.*不是投入 300U 就能长期得到同样回报/);
   const okxReward = read('content/articles/crypto/okx/okx.md').split('\n').find(line => /价值 100U (?:的)?新手奖励/.test(line));
   assert.ok(okxReward, 'The historical OKX reward amount remains recorded');
   assert.match(okxReward, /限时活动/);

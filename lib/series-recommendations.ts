@@ -16,6 +16,10 @@ type RecommendationPlan = { articles: readonly string[]; series: readonly string
 // Editorial relationships: a next subject should follow the reader's current goal.
 // IDs resolve against the supplied published list; plans never create placeholder links.
 const plans: Readonly<Record<string, RecommendationPlan>> = {
+  "us-stock-zero-to-one": {
+    articles: ["us-stock-platform-comparison", "nasdaq-investment-guide", "index-guide"],
+    series: ["us-stock-funding", "hk-stock-funding"],
+  },
   "investment-foundations": {
     articles: ["passive-millionaire", "index-qa-1", "index-guide"],
     series: ["nasdaq-investing", "us-stock-funding"],

@@ -1,0 +1,130 @@
+{
+  "mode": "built-in image_gen",
+  "date": "2026-11-07",
+  "prompts": {
+    "bit": "Use case: compositing. Make one crisp 2560x2048 article tutorial collage using the first THREE screenshots as preserved source images; the FOURTH input is the EXACT brand signature to insert unchanged. White background, navy text, pale gold separators, no decorations. Top-left title “BIT：获取 USDT 收款地址”. Insert original signature top-right, text AND person intact, preserve aspect ratio, about16% image width, safe margins and rounded corners. Three equal panels labeled “01 钱包 → 充币”, “02 存入加密货币”, “03 USDT → BSC 网络”. Merge the original screenshots, preserving actual interface text, icons and order exactly; no recreation of UI. Crop phone status bars, unnecessary bottom navigation and excess whitespace if needed. Panel1 keep 充币 and assets; panel2 prioritize the deposit modal with 存入加密货币; panel3 keep USDT selector, full “BNB Smart Chain(BEP20)” network selector, address copy icon.\nCRITICAL: completely cover the third screenshot's entire QR code with an opaque neutral rectangle reading “示例二维码已遮盖”. Completely cover ALL address characters across both address lines with an opaque rectangle reading “请复制本人 BIT 收款地址”, leaving the copy icon visible. Do not reproduce a working QR or any address digits. Small golden outline around 充币, 存入加密货币 and network selector. Footer: “币种选 USDT，网络选 BNB Smart Chain（BEP20）；收款地址从本人账户复制。” All Chinese crisp, real screenshot visual fidelity, no fictional buttons.",
+    "binance": "Use case: compositing. Make a crisp 2048x1792 instructional collage from first TWO original screenshots. Third image is the exact brand signature, insert intact top-right with its text and person, keep original aspect and small size about16% of canvas width, rounded corners and safe margin. White background, navy typography, thin light-gold dividers. Top-left title “币安：发送 USDT 到 BIT”. Two equal panels labeled “04 资产 → 发送” and “05 粘贴地址 → 核对 BSC”. Preserve source screenshot UI typography, icons, buttons, currency symbols and order; no invented UI. Crop phone status bars, bottom navigation and unnecessary blank whitespace, but retain relevant controls: screenshot1 assets overview, 发送, USDT; screenshot2 BSC badge, address entry, 粘贴 and other controls, complete warning box and 下一步. Completely obscure ALL characters of the two-line wallet address in screenshot2 with opaque neutral rectangle “粘贴本人 BIT 收款地址”. No actual blockchain address characters remain. Small golden outlines on 发送 and 粘贴. Footer “币种、网络、地址逐项核对；确认到账数量与手续费后再提交。” Match restrained navy / white / gold article tutorial graphic. Important: use actual screenshots rather than recreated interfaces.",
+    "benefits": "Use case: compositing. Prepare this real BIT 福利中心 screenshot as a clean article illustration. Image1 is an original screenshot to preserve exactly, image2 is the exact brand signature. Place screenshot on a clean white portrait canvas, crop only phone status bar and bottom navigation/blank margins, retain the 福利中心 title, 身份验证→入金→交易证券 progress header and ALL THREE complete deposit benefit cards. Do not redraw, invent, alter or rewrite the financial information. Exact tiers must remain: 证券账户累计入金 ≥ $1,500，并持有30天 / 高达$50的奖励; ≥$3,000，并持有30天 / 高达$50的奖励; ≥$10,000，并持有30天 / 高达$100的奖励. Keep original card positions, screen fonts and spacing. Add a shallow white header outside the screenshot with small title “BIT 入金任务示例” on left and the actual supplied @Wise Invest text-and-person signature on top-right, full original signature, preserve aspect, width about24% on portrait format, rounded corners and safe insets. Footer separate from screenshot: “奖励与门槛按本人任务详情核对”. Subtle navy / pale gold framing consistent with tutorial. Render at high resolution with legible original screenshot text. No simulated UI, no new promises, do not sum tier rewards."
+  },
+  "article": {
+    "path": "content/articles/broker/BIT/bit-account-guide.md",
+    "sha256": "3cee4e9f9c25c08ef557c042f8d87396918c658823897cfc7b8fc14a611fdbeb",
+    "route": "/articles/broker/YgNQGO57#h-26"
+  },
+  "outputs": [
+    {
+      "path": "public/content/articles/broker/BIT/07-usdt-bit-address.webp",
+      "sha256": "fd7dc871981cf4c450d1902228cda122db2d51f953a5042df287da6895070ea6",
+      "bytes": 102426
+    },
+    {
+      "path": "public/content/articles/broker/BIT/08-usdt-binance-send.webp",
+      "sha256": "4f640e094efd0d552a67b0decb0dbbbac09b4ab61537c18acc763c547851885f",
+      "bytes": 103208
+    },
+    {
+      "path": "public/content/articles/broker/BIT/09-deposit-benefits.webp",
+      "sha256": "eff8f9fe28d0450a3c050629d902fcaeaf451f9283a16c7fe033d6f9603a9954",
+      "bytes": 71678
+    }
+  ],
+  "review": {
+    "scope": "仅补充当前旧文的加密货币入金与 App 福利任务说明，保留 ID、日期、开户及银行电汇正文、权限和原 BIT 邀请配置。",
+    "images": "逐图检查了实际输出及页面放大效果。BIT 三步和币安两步各合成一图；QR 和地址完整遮盖，网络和入口文字清楚，右上角签名完整。福利图保留三档 1500/3000/10000、30 天及最高 50/50/100；用户已回复“ok 图不错”。",
+    "benefits": "截图为任务展示依据，不推定奖励可叠加或直接提现；既有 11 月渠道活动邀请卡未改动。",
+    "guides": "逐篇导读、摘要和阅读时长随本次补充更新；币安入口使用现有 ArticleLinkCard，图片使用共享查看器。",
+    "sources": [
+      "用户本次提供的六张 BIT／币安 App 截图",
+      "https://www.bit.com/zh/helpcenter/articles/13972370",
+      "https://www.bit.com/zh/helpcenter/articles/15859756",
+      "https://www.binance.com/en/academy/articles/your-guide-to-binance-deposit-withdrawal"
+    ],
+    "verification": {
+      "articles": "80 篇，article:validate 0 错误 0 提示；article:audit 0 项问题",
+      "tests": "导读、邀请卡、图片、引用卡、预览权限及目录共 58 项测试通过",
+      "browserPath": "Browser plugin not available; local Playwright",
+      "browser": [
+        {
+          "name": "desktop",
+          "headingId": "h-26",
+          "images": [
+            {
+              "stem": "07-usdt-bit-address",
+              "width": 1402,
+              "height": 1122
+            },
+            {
+              "stem": "08-usdt-binance-send",
+              "width": 1340,
+              "height": 1174
+            },
+            {
+              "stem": "09-deposit-benefits",
+              "width": 1024,
+              "height": 1536
+            }
+          ],
+          "overflow": {
+            "body": 1440,
+            "viewport": 1440
+          },
+          "errors": []
+        },
+        {
+          "name": "mobile",
+          "headingId": "h-26",
+          "images": [
+            {
+              "stem": "07-usdt-bit-address",
+              "width": 1402,
+              "height": 1122
+            },
+            {
+              "stem": "08-usdt-binance-send",
+              "width": 1340,
+              "height": 1174
+            },
+            {
+              "stem": "09-deposit-benefits",
+              "width": 1024,
+              "height": 1536
+            }
+          ],
+          "overflow": {
+            "body": 390,
+            "viewport": 390
+          },
+          "errors": []
+        },
+        {
+          "name": "dark",
+          "headingId": "h-26",
+          "images": [
+            {
+              "stem": "07-usdt-bit-address",
+              "width": 1402,
+              "height": 1122
+            },
+            {
+              "stem": "08-usdt-binance-send",
+              "width": 1340,
+              "height": 1174
+            },
+            {
+              "stem": "09-deposit-benefits",
+              "width": 1024,
+              "height": 1536
+            }
+          ],
+          "overflow": {
+            "body": 1440,
+            "viewport": 1440
+          },
+          "errors": []
+        }
+      ],
+      "visuals": "检查桌面教程卡片和表格、手机正文及深色图片放大；三张图片加载、放大、关闭均通过，币安教程可跳转。"
+    },
+    "delivery": "仅保存在本地工作区；没有 git add、commit、push 或部署。"
+  }
+}

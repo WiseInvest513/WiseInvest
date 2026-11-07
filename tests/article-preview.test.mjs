@@ -253,7 +253,7 @@ test('Galaxy ETF guide returns its complete article and contact QR to guests in 
   assert.equal(props.initialArticle.content, galaxy.content, 'Guests must receive the full SSR body');
   assert.equal(props.lockedContent, undefined, 'Public article must not show a login or VIP overlay');
   assert.ok(props.initialArticles.every(article => !Object.hasOwn(article, 'content')));
-  assert.match(props.initialArticle.content, /## 六、联系方式/);
+  assert.match(props.initialArticle.content, /^## [一二三四五六七八九十]+、联系方式/m);
   assert.match(props.initialArticle.content, /银河证券 ETF 免五/);
   assert.ok(props.initialArticle.content.includes('/images/微信图片520.png'));
 

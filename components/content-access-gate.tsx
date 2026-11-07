@@ -89,11 +89,13 @@ function isArticleDetailHref(href: string) {
 export function LoginRequiredDialog({
   open,
   href,
+  heading,
   reason,
   onOpenChange,
 }: {
   open: boolean;
   href: string;
+  heading?: string;
   reason?: string;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -123,7 +125,7 @@ export function LoginRequiredDialog({
             Wise ID
           </p>
           <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 dark:text-white">
-            这部分内容需要登录后查看
+            {heading ?? "这部分内容需要登录后查看"}
           </h2>
           <p className="mt-3 text-sm font-medium leading-7 text-slate-600 dark:text-slate-300">
             {reason ?? "当前页面属于 Wise 会员内容。登录或注册后，可以继续阅读完整文章和学习路线。"}

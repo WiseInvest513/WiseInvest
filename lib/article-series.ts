@@ -53,7 +53,9 @@ export function getSeriesReadingState(series: ArticleSeries, articles: SeriesArt
     ...stage,
     chapters: chapters.filter(chapter => chapter.stageId === stage.id),
   }));
-  const currentStageIndex = stages.findIndex(stage => stage.chapters.some(chapter => chapter.articleId === articleId));
+  const currentStageIndex = currentIndex < 0
+    ? -1
+    : stages.findIndex(stage => stage.id === chapters[currentIndex].stageId);
   const mapRoute = resolveMapRoute(series, routeId);
   return {
     chapters,

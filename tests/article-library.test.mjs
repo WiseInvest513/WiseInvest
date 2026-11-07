@@ -21,10 +21,10 @@ function loadModule(relativePath) {
     if (name === 'fs') return fs;
     if (name === 'path') return path;
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };
-    if (name === 'react') return { useState: initial => [typeof initial === 'function' ? initial() : initial, () => {}], useId: () => 'series-nav-test' };
+    if (name === 'react') return { useState: initial => [typeof initial === 'function' ? initial() : initial, () => {}], useId: () => 'series-nav-test', useEffect() {} };
     if (name === 'next/link') return { __esModule: true, default: 'a' };
     if (name === 'next/image') return { __esModule: true, default: 'img' };
-    if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a' };
+    if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a', LoginRequiredDialog: () => null };
     if (name === 'lucide-react') return new Proxy({}, { get: (_, key) => `Icon.${String(key)}` });
     if (name.endsWith('.module.css')) return { __esModule: true, default: new Proxy({}, { get: (_, key) => key }) };
     const resolved = name.startsWith('@/') ? path.join(root, name.slice(2)) : path.resolve(path.dirname(filename), name);
@@ -153,12 +153,12 @@ test('series search covers titles, descriptions and planned chapter titles', () 
   assert.deepEqual(ids('Google'), ['overseas', 'ai-reading']);
   assert.deepEqual(ids('  BINANCE  '), ['binance']);
   assert.deepEqual(ids('加密货币'), ['crypto-basics']);
-  assert.deepEqual(ids('开户'), ['binance', 'investment-foundations', 'nasdaq-investing', 'us-stock-funding', 'hk-stock-funding']);
+  assert.deepEqual(ids('开户'), ['binance', 'investment-foundations', 'nasdaq-investing', 'us-stock-funding', 'hk-stock-funding', 'us-stock-zero-to-one']);
   assert.deepEqual(ids('波动'), ['crypto-basics']);
   assert.deepEqual(ids('钱包'), ['crypto-basics', 'binance', 'crypto-tools']);
   assert.deepEqual(ids('不存在的系列'), []);
   assert.deepEqual(ids('邀请码'), ['exchange-referral']);
-  assert.deepEqual(ids('OKX'), ['exchange-referral', 'crypto-tools']);
+  assert.deepEqual(ids('OKX'), ['exchange-referral', 'crypto-tools', 'us-stock-zero-to-one']);
   assert.deepEqual(ids('官方办理入口'), ['exchange-referral']);
 });
 
@@ -303,21 +303,79 @@ test('tutorial series retain their chapter and learning language', () => {
   assert.match(renderedText(SeriesPagination({ ...context, compact: true })), /第 1 \/ 4 章/);
 });
 
-test('learning paths only group distinct published articles into valid stages', () => {
+test('learning paths group distinct published articles into valid stages and allow only the named bank placeholder', () => {
   const paths = articleSeries.filter(series => series.kind === 'path');
-  assert.equal(paths.length, 6);
+  assert.equal(paths.length, 7);
   for (const series of paths) {
     assert.equal(series.status, 'updating');
     assert.equal(new Set(series.chapters.map(chapter => chapter.articleId)).size, series.chapters.length);
     assert.equal(new Set(series.stages.map(stage => stage.id)).size, series.stages.length);
     assert.ok(fs.existsSync(path.join(root, 'public', series.artwork)));
     for (const chapter of series.chapters) {
-      assert.ok(articles.some(article => article.id === chapter.articleId), `Missing ${chapter.articleId}`);
       assert.ok(series.stages.some(stage => stage.id === chapter.stageId), `Missing stage ${chapter.stageId}`);
       assert.ok(!Object.hasOwn(chapter, 'content'), 'existing article bodies must not be duplicated');
+      if (!chapter.articleId) {
+        assert.equal(series.id, 'us-stock-zero-to-one');
+        assert.deepEqual(chapter, { title: '华美银行开户', stageId: 'banks', summary: '待补写：华美银行账户介绍、申请材料与具体开户流程。' });
+        continue;
+      }
+      assert.ok(articles.some(article => article.id === chapter.articleId), `Missing ${chapter.articleId}`);
     }
-    assert.equal(getSeriesReadingState(series, listItems).publishedCount, series.chapters.length);
+    assert.equal(getSeriesReadingState(series, listItems).publishedCount, series.chapters.filter(chapter => chapter.articleId).length);
   }
+});
+
+test('the independent US investing curriculum starts with the new introduction and finishes with the existing full guide', () => {
+  const series = getArticleSeries('us-stock-zero-to-one');
+  const reading = getSeriesReadingState(series, listItems);
+  assert.equal(series.title, '美股从 0~1 投资开户教程');
+  assert.deepEqual(reading.stages.map(stage => stage.id), ['start', 'accounts', 'banks', 'brokers', 'exchanges', 'practice']);
+  assert.equal(reading.first.articleId, 'us-stock-start');
+  assert.equal(reading.chapters.at(-1).articleId, 'us-guide');
+  assert.equal(reading.publishedCount, 25);
+  assert.equal(reading.existingHref, undefined, 'the concluding comprehensive guide must not replace the starting lesson');
+  assert.deepEqual(reading.stages.at(-1).chapters.map(chapter => chapter.articleId), ['us-stock-account-basics', 'us-stock-first-order', 'us-stock-money-status', 'ifas-fuxing', 'us-guide']);
+  for (const chapter of reading.chapters.filter(chapter => chapter.href)) {
+    const article = articles.find(item => item.id === chapter.articleId);
+    assert.equal(chapter.href, `${getArticleRoute(article)}?series=us-stock-zero-to-one`);
+  }
+  assert.equal(getArticleLearningPaths('ifast-guide')[0].id, 'us-stock-funding');
+  assert.equal(getArticleLearningPaths('futu-broker')[0].id, 'hk-stock-funding');
+  assert.equal(getMapArticleSeries('traditional-us-stocks').id, 'us-stock-funding');
+  assert.equal(getMapArticleSeries('hk-card-to-hk-broker').id, 'hk-stock-funding');
+});
+
+test('the East West Bank chapter is visible planning, never a fake article link or next-reading destination', () => {
+  const series = getArticleSeries('us-stock-zero-to-one');
+  const reading = getSeriesReadingState(series, listItems, 'tianxing-register');
+  const placeholder = reading.chapters.find(chapter => chapter.title === '华美银行开户');
+  assert.equal(placeholder.articleId, undefined);
+  assert.equal(placeholder.href, undefined);
+  assert.equal(reading.chapters.filter(chapter => !chapter.href).length, 1);
+  assert.equal(reading.next.articleId, 'futu-broker');
+  const overview = renderedNodes(SeriesOverview({ series, reading, articles: listItems }));
+  const planning = overview.find(node => node?.props?.['aria-disabled'] === 'true' && renderedText(node).includes('华美银行开户'));
+  assert.ok(planning, 'the bank placeholder stays visible and explicitly disabled');
+  assert.ok(!renderedNodes(planning).some(node => node?.props?.href));
+  assert.match(renderedText(planning), /筹备|待更新/);
+  assert.ok(!articles.some(article => /华美银行/.test(article.title)), 'the series placeholder must not publish an empty bank article');
+});
+
+test('a series overview opens its first stage instead of matching a planned chapter with no article ID', () => {
+  const series = getArticleSeries('us-stock-zero-to-one');
+  for (const articleId of [undefined, '', 'unknown-article']) {
+    const reading = getSeriesReadingState(series, listItems, articleId);
+    assert.equal(reading.currentIndex, -1);
+    assert.equal(reading.currentStageIndex, -1);
+    const stages = renderedNodes(SeriesNavigation({ series, reading, articleId }))
+      .filter(node => node?.type === 'button' && Object.hasOwn(node.props, 'aria-expanded'));
+    assert.deepEqual(stages.map(node => node.props['aria-expanded']), [true, false, false, false, false, false]);
+  }
+  assert.equal(getSeriesReadingState(series, listItems, 'tianxing-register').currentStageIndex, 2);
+  assert.equal(getSeriesReadingState(series, listItems, 'bit-account-guide').currentStageIndex, 3);
+  const unavailable = getSeriesReadingState(series, listItems.filter(article => article.id !== 'tianxing-register'), 'tianxing-register');
+  assert.equal(unavailable.currentIndex, -1);
+  assert.equal(unavailable.currentStageIndex, -1, 'an unavailable article cannot mark a stage as actively being read');
 });
 
 test('map associations are unique and resolve to real map presets', () => {
@@ -408,9 +466,9 @@ test('the index curriculum covers all index lessons and the domestic ETF tutoria
   }
 });
 
-test('map teaching panels show six goals, contextual chapters and real fallback links', () => {
+test('map teaching panels show seven goals, contextual chapters and real fallback links', () => {
   const goals = renderedNodes(RoadmapLearning({ routeId: 'overview', articles: listItems, relatedArticles: [] }));
-  assert.equal(goals.filter(node => node.type === 'a').length, 7);
+  assert.equal(goals.filter(node => node.type === 'a').length, 8);
   const panel = RoadmapLearning({ routeId: 'traditional-us-stocks', articles: listItems, relatedArticles: [] });
   const publishedCount = getSeriesReadingState(getArticleSeries('us-stock-funding'), listItems).publishedCount;
   assert.ok(renderedText(panel).includes(`配套教程${publishedCount} 篇文章`));

@@ -1,0 +1,52 @@
+{
+  "title": "美股从 0 到 1",
+  "subtitle": "账户 · 入金 · 买入 · 退出",
+  "generatedAt": "2026-11-07",
+  "generator": "built-in image_gen",
+  "style": "wise-silver-glass / landscape",
+  "prompt": "Use case: style-transfer / editorial cover redesign.\nCreate a NEW 16:9 wide editorial cover as a redesigned variation of the first supplied Wise Invest article cover. Keep its elegant white and silver glass material language, deep navy Chinese typography, restrained champagne-gold details, bright neutral soft daylight and physically credible contact shadows. The second supplied image is the ONLY original brand signature, a supporting compositing insert: preserve the complete @Wise Invest lettering and the entire visible person without redrawing, replacing, stretching or cropping either.\n\nExact cover text, and no other new text:\nMain title: 美股从 0 到 1\nSubtitle: 账户 · 入金 · 买入 · 退出\n\nComposition: landscape 16:9, preferably 1600x900 or 1920x1080. Strong, large readable main headline on the left in deep navy, one or two carefully balanced lines. Subtitle below it, dark muted navy, smaller but clearly readable at thumbnail size. Fine short champagne-gold line may separate them. On the right, a substantial transparent glass bank building beside one refined navy-and-silver securities certificate with no brand or numbers, connected by two slim glass paths with very subtle gold edging. Path metaphor communicates accounts, funding and investing, without suggesting guaranteed returns. Arrange as one coherent premium still-life. Keep all title, subtitle and main objects inside generous safety margins. Background bright silver-white architectural studio, airy and uncluttered, sharp enough to retain physical substance, no beige wash. Avoid reproducing the old cover title or subtitle. No new logos, bank brands, invented characters, charts, coins, upward arrows, glowing effects, buttons, or decorative badges.\n\nPlace the full original second image signature in the upper-right corner, proportional width approximately 16% of canvas, with a 3% top/right safety margin. Its aspect ratio and original content must be preserved exactly. Apply corner rounding only to its backdrop, approximately 20% of signature height. Do not make the signature prominent. The scene beneath that location should remain plain and white so the original raster signature can be preserved cleanly. Deliver only the finished new cover.",
+  "references": [
+    {
+      "path": "public/images/articles/covers/us-guide.webp",
+      "role": "Existing Wise Invest cover style reference"
+    },
+    {
+      "path": "public/images/brand/wise-invest-signature.png",
+      "role": "Required original signature, reused as a raster insert"
+    }
+  ],
+  "source": {
+    "path": "assets/source-images/article-covers/us-stock-start.png",
+    "width": 1672,
+    "height": 941
+  },
+  "outputs": [
+    {
+      "path": "public/images/articles/covers/us-stock-start.webp",
+      "width": 640,
+      "height": 360,
+      "bytes": 15010,
+      "quality": 60
+    },
+    {
+      "path": "public/images/articles/series/us-stock-zero-to-one.webp",
+      "width": 960,
+      "height": 540,
+      "bytes": 25896,
+      "quality": 60
+    }
+  ],
+  "processing": [
+    "The generated composition is preserved; its approximate 16:9 source dimensions are 1672 × 941.",
+    "The generated signature rendition was covered with a white rounded backing and the complete original signature raster, resized proportionally to 268 px wide (approximately 16% of canvas width). Original signature content was neither redrawn nor cropped.",
+    "Signature backing: x 1296, y 57, width 316, height 103, corner radius 21. Original raster inserted at x 1320, y 72, width 268, height 73; original file unchanged.",
+    "Web assets are resized with fit: contain and a white background to exact 16:9 dimensions, then encoded to WebP at quality 60, effort 6."
+  ],
+  "visualReview": [
+    "Inspected both final WebP files after compression.",
+    "Main headline reads 美股从0到1; subtitle reads 账户 · 入金 · 买入 · 退出. All characters and punctuation are visible.",
+    "Glass bank, securities certificate and paths remain recognizable at 640 × 360.",
+    "Full original @Wise Invest text and person are visible in the upper-right with safe margins.",
+    "No invented bank or broker logo, financial performance chart, return claim or extra promotional copy."
+  ]
+}

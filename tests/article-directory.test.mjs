@@ -52,6 +52,7 @@ function createHarness() {
       './article-library': 'lib/article-library.ts', './article-uid': 'lib/article-uid.ts',
       '@/lib/article-covers': 'lib/article-covers.ts', '@/lib/series-recommendations': 'lib/series-recommendations.ts',
       './series-article-entry': 'app/articles/series-article-entry.tsx', './series-recommendations': 'app/articles/series-recommendations.tsx',
+      './series-favorite-button': 'app/articles/series-favorite-button.tsx',
     };
     if (seriesModules[name]) {
       const dependency = { exports: {} };

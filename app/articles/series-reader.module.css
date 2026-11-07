@@ -111,6 +111,10 @@ a.chapter:hover { background: var(--directory-hover); }
 .introActions > span { color: var(--library-muted); font-size: 12px; }
 .start { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 16px; border: 1px solid #d9af46; border-radius: 6px; background: #f8d366; color: #352c17; font-size: 13px; font-weight: 500; transition: background 160ms ease; }
 .start:hover { background: #f3c64b; }
+.favoriteButton { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--library-line); border-radius: 6px; background: transparent; color: var(--library-ink); font-size: 13px; font-weight: 500; transition: border-color 160ms ease, color 160ms ease; }
+.favoriteButton:hover, .favoriteButton[aria-pressed="true"] { border-color: var(--library-gold); color: var(--library-gold); }
+.favoriteButton:disabled { opacity: .55; cursor: wait; }
+.introActions > .favoriteError { flex-basis: 100%; color: var(--library-gold); }
 .overview .caution { margin-top: 18px; font-size: 11px; color: var(--library-muted); }
 .caution a { display: inline-flex; align-items: center; gap: 3px; margin-left: 8px; color: var(--library-gold); }
 .learning { padding: 28px 0 30px; border-bottom: 1px solid var(--library-line); }
