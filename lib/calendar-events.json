@@ -1825,11 +1825,107 @@
   },
   {
     "date": "2026-11-09",
+    "time": "盘前",
+    "title": "Constellation Energy（CEG）2026 Q3财报电话会",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "美东11月9日盘前；关注核电利用率、电力合同、数据中心用电需求及资本开支，评估AI电力供给与盈利兑现。"
+  },
+  {
+    "date": "2026-11-09",
+    "time": "盘前",
+    "title": "KKR（KKR）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘前；关注募资、收费相关利润、资产退出及保险业务资本需求，评估另类资管的盈利持续性。"
+  },
+  {
+    "date": "2026-11-09",
+    "time": "盘前",
+    "title": "monday.com（MNDY）2026 Q3财报及电话会",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘前；关注大客户增长、净收入留存率、AI功能付费转化与收入指引，观察企业软件支出和增长质量。"
+  },
+  {
+    "date": "2026-11-09",
+    "time": "盘前",
+    "title": "NRG Energy（NRG）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘前；关注零售电力利润率、发电业务现金流和数据中心供电合同，判断电力需求增长向盈利的转化。"
+  },
+  {
+    "date": "2026-11-09",
     "time": "23:00",
     "title": "美国9月批发贸易销售与库存",
     "category": "经济数据",
     "impact": "medium",
-    "description": "关注库存销售比及批发库存修正，评估企业补库节奏及其对季度增长的影响"
+    "description": "关注批发销售、库存修正及库存销售比，判断企业补库节奏及其对季度增长的贡献。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "00:00",
+    "title": "纽约联储消费者预期调查",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注短中长期通胀预期、就业与家庭财务预期，观察通胀预期是否稳定及消费承压程度。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "02:00",
+    "title": "美国3年期国债拍卖",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注得标收益率、投标倍数及间接投标人占比，观察中短期限美债需求和利率预期的定价。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘前",
+    "title": "D-Wave Quantum（QBTS）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘前；关注商业订单向收入的转化、客户采用和现金消耗，判断量子计算商业化进度及融资压力。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘前",
+    "title": "On Holding（ONON）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘前；关注各地区收入、直营渠道、库存与毛利率，评估高端运动消费需求和品牌扩张效率。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘前",
+    "title": "Sea（SE）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘前；关注Shopee交易额与盈利、金融业务信贷质量及Garena游戏流水，判断增长投入和利润改善的平衡。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘前",
+    "title": "TransDigm（TDG）FY2026 Q4财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘前；关注航空售后市场与原厂业务增速、定价和利润率、现金流与杠杆，判断航空供应链需求质量。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘前",
+    "title": "Wix（WIX）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘前；关注订阅订单、AI建站工具付费转化、利润率和自由现金流，观察中小企业数字化支出。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "17:00",
+    "title": "美联储沃勒谈经济前景（英国央行会议）",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注对通胀、就业与政策限制程度的判断，及调整利率所需条件，评估后续货币政策路径。"
   },
   {
     "date": "2026-11-10",
@@ -1837,7 +1933,143 @@
     "title": "美国10月CPI",
     "category": "经济数据",
     "impact": "high",
-    "description": "关注核心CPI环比、住房与服务通胀，以及能源价格传导对利率预期的影响"
+    "description": "关注核心CPI环比、住房与服务通胀及能源价格传导，评估通胀回落进展与美联储利率路径。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘后",
+    "title": "西方石油（OXY）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘后；关注产量、实现油气价格、自由现金流和降债进展，评估能源价格变化对股东回报能力的影响。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘后",
+    "title": "AST SpaceMobile（ASTS）2026 Q3业绩更新电话会",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘后；关注卫星部署、运营商合作商业化、收入兑现及资金储备，判断直连手机卫星网络的建设与盈利进度。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘后",
+    "title": "Onto Innovation（ONTO）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘后；关注先进封装、HBM相关检测计量需求、订单与毛利率，观察AI芯片扩产向设备供应链的传导。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘后",
+    "title": "Rocket Lab（RKLB）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘后；关注发射执行、航天系统订单、Neutron研发进度与现金消耗，评估商业航天订单兑现和融资需求。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘后",
+    "title": "Sanmina（SANM）FY2026 Q4及全年财报电话会",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘后；关注云与AI基础设施制造需求、订单交付、利润率及下一财年指引，评估电子制造链景气度。"
+  },
+  {
+    "date": "2026-11-10",
+    "time": "盘后",
+    "title": "Take-Two（TTWO）FY2027 Q2财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月9日盘后；关注净预订额、经常性玩家支出、重点游戏发行安排与全年指引，判断内容周期及现金回收节奏。"
+  },
+  {
+    "date": "2026-11-11",
+    "time": "02:00",
+    "title": "美国10年期国债拍卖",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注得标收益率相对发行前交易的偏离、投标倍数与海外需求，评估长端融资成本及股票估值折现率压力。"
+  },
+  {
+    "date": "2026-11-11",
+    "time": "04:30",
+    "title": "美联储鲍曼谈经济前景（CFR）",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注对就业与通胀风险平衡、利率调整节奏的表述，结合最新CPI观察政策判断是否变化。"
+  },
+  {
+    "date": "2026-11-11",
+    "time": "07:30",
+    "title": "美联储鲍曼经济前景线上演讲",
+    "category": "宏观",
+    "impact": "medium",
+    "description": "关注对增长、就业和价格压力的补充判断，以及与稍早演讲相比是否出现新的政策线索。"
+  },
+  {
+    "date": "2026-11-11",
+    "time": "盘后",
+    "title": "CoreWeave（CRWV）2026 Q3财报电话会",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "美东11月10日盘后；关注收入与积压合同兑现、已投运电力容量、资本开支和融资成本，评估AI云扩张的资金效率。"
+  },
+  {
+    "date": "2026-11-11",
+    "time": "盘后",
+    "title": "Firefly Aerospace（FLY）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘后；关注发射与航天项目交付、在手订单、毛利率和现金消耗，判断商业航天扩张的执行能力。"
+  },
+  {
+    "date": "2026-11-11",
+    "time": "盘后",
+    "title": "Rigetti Computing（RGTI）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月10日盘后；关注商业订单、收入兑现、技术里程碑与现金储备，评估量子计算研发投入及持续经营资金需求。"
+  },
+  {
+    "date": "2026-11-12",
+    "time": "盘前",
+    "title": "Brookfield Corporation（BN）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "medium",
+    "description": "美东11月12日盘前；关注可分配收益、资产出售回款、基础设施投资与资本配置，评估资产管理及长期投资的现金回报。"
+  },
+  {
+    "date": "2026-11-12",
+    "time": "盘前",
+    "title": "Nebius（NBIS）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "美东11月12日盘前；关注AI云收入、年化收入运行率、算力投产、合同交付与资本开支，评估新增需求向收入和现金流的转化。"
+  },
+  {
+    "date": "2026-11-12",
+    "time": "21:30",
+    "title": "美国首次申请失业救济人数",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注初请、续请与四周均值，区分单周波动和就业持续降温，判断劳动力市场对消费与利率预期的影响。"
+  },
+  {
+    "date": "2026-11-12",
+    "time": "23:00",
+    "title": "美国10月成屋销售",
+    "category": "经济数据",
+    "impact": "medium",
+    "description": "关注成交量、房价、待售库存与库存月数，评估按揭利率对住房需求和相关消费行业的影响。"
+  },
+  {
+    "date": "2026-11-13",
+    "time": "02:00",
+    "title": "美国30年期国债拍卖",
+    "category": "宏观",
+    "impact": "high",
+    "description": "关注长期资金承接、投标倍数及得标收益率，观察期限溢价与长久期资产估值面临的利率环境。"
   },
   {
     "date": "2026-11-13",
@@ -1845,22 +2077,38 @@
     "title": "美国10月PPI",
     "category": "经济数据",
     "impact": "high",
-    "description": "关注最终需求与核心服务价格变化，观察上游成本向消费者通胀传导的压力"
+    "description": "关注最终需求商品与服务价格、核心分项及可映射至PCE的细项，判断企业成本和通胀传导压力。"
   },
   {
     "date": "2026-11-13",
     "time": "盘后",
-    "title": "应用材料（AMAT）FY2026 Q4及全年财报",
+    "title": "应用材料（AMAT）FY2026 Q4及全年财报电话会",
     "category": "美股财报",
     "impact": "high",
-    "description": "关注晶圆厂设备订单、先进制程与存储需求、地区收入和订单指引，评估半导体资本开支周期"
+    "description": "美东11月12日盘后；关注晶圆厂设备需求、先进制程与存储投资、地区收入和下一季度指引，评估半导体资本开支周期。"
+  },
+  {
+    "date": "2026-11-13",
+    "time": "盘后",
+    "title": "Cerebras Systems（CBRS）2026 Q3财报",
+    "category": "美股财报",
+    "impact": "high",
+    "description": "美东11月12日盘后；关注AI计算需求、客户集中度、订单交付、毛利率和现金流，评估替代算力架构的商业化能力。"
   },
   {
     "date": "2026-11-13",
     "time": "盘后",
     "title": "Cisco（CSCO）FY2027 Q1财报",
     "category": "美股财报",
+    "impact": "high",
+    "description": "美东11月12日盘后；关注网络设备订单、AI基础设施需求、企业IT支出及下一季度指引，判断数据中心与企业网络投资景气度。"
+  },
+  {
+    "date": "2026-11-14",
+    "time": "08:00",
+    "title": "美联储杰斐逊谈生产率与宏观经济",
+    "category": "宏观",
     "impact": "medium",
-    "description": "关注网络设备订单、AI基础设施需求、企业IT支出及下一季度指引，判断企业网络投资景气度"
+    "description": "关注新技术如何影响生产率、潜在增长和通胀，理解AI投资与长期利率判断之间的联系。"
   }
 ]
