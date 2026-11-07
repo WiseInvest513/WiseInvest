@@ -17,7 +17,7 @@
 .stageTabs a { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; color: var(--library-muted); font-size: 12px; }
 .stageTabs a:hover { color: var(--library-gold); }
 .stageTabs span { font-variant-numeric: tabular-nums; color: var(--library-gold); }
-.pathStage { padding-top: 28px; scroll-margin-top: 24px; }
+.pathStage { padding-top: 28px; scroll-margin-top: 96px; }
 .stageHeading { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 8px; }
 .stageHeading > span { font-size: 14px; line-height: 27px; color: var(--library-gold); font-variant-numeric: tabular-nums; }
 .stageHeading p { margin-top: 6px; font-size: 12px; }
@@ -185,7 +185,7 @@ a.outlineRow .chapterStatus { color: #498675; }
 .pathOverview .stageTabs a:hover { background: var(--series-surface, #f8f9fb); }
 .pathOverview .stageTabs svg { color: #a9b0bb; margin-left: 3px; }
 .pathOverview .stageTabs a:last-child svg { display: none; }
-.pathOverview .pathStage { padding-top: 20px; scroll-margin-top: 18px; }
+.pathOverview .pathStage { padding-top: 20px; scroll-margin-top: 96px; }
 .pathOverview .stageHeading { align-items: center; gap: 10px; margin-bottom: 12px; }
 .pathOverview .stageHeading > span { display: grid; place-items: center; flex: 0 0 30px; height: 30px; background: var(--series-step, #f8f3e7); border: 1px solid var(--series-step-line, #eee3cc); border-radius: 8px; font-size: 12px; }
 .pathOverview .stageHeading h2 { font-size: 16px; }
@@ -265,3 +265,30 @@ a.articleEntry:hover h3 { color: var(--library-gold); }
   .pathOverview .stageHeading > small { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .articleEntry { transition: none; } }
+
+/* Shared type labels distinguish a single lesson from a nested series before navigation. */
+.typeBadge { display: inline-flex; align-items: center; flex: 0 0 auto; padding: 2px 6px; border: 1px solid #cce8d8; border-radius: 5px; background: #edf8f1; color: #28704a; font-size: 10px; font-weight: 500; line-height: 1.5; white-space: nowrap; }
+.typeBadge[data-content-type="book"], .typeBadge[data-content-type="tool"], .typeBadge[data-content-type="resource"] { background: var(--series-surface, #f8f9fb); border-color: var(--library-line); color: var(--library-muted); }
+.chapter .typeBadge { flex: 0 0 auto; margin-top: 3px; padding: 1px 4px; font-size: 10px; }
+.articleTitleRow { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.resourceCopy { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.resourceCopy small { display: block; margin-top: 5px; color: var(--library-muted); font-size: 11px; }
+.bookResource > svg { flex-shrink: 0; }
+.bookResource > .typeBadge { flex: 0 0 auto; }
+.returnNotice { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; padding: 12px 16px; border: 1px solid var(--library-line); border-radius: 10px; background: var(--series-surface, #f8f9fb); font-size: 12px; color: var(--library-muted); }
+.returnNotice > span { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 10px; min-width: 0; }
+.returnNotice strong { color: var(--library-ink); font-weight: 500; }
+.returnNotice a { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; min-height: 32px; color: var(--library-gold); }
+.pageLayout .returnNotice { box-shadow: 0 3px 10px rgb(23 32 51 / 5%); }
+.stageTitleRow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+.stageReturn { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; color: var(--library-gold); font-size: 12px; font-weight: 400; }
+.mainColumn:has(.returnNotice) .pathStage { scroll-margin-top: 170px; }
+:global(.dark) .typeBadge { border-color: #325a45; background: #203b2e; color: #a2dfb7; }
+@media (max-width: 767px) {
+  .returnNotice { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .articleTitleRow { flex-wrap: wrap; gap: 2px; margin-bottom: 6px; }
+  .pathOverview .pathStage { scroll-margin-top: 126px; }
+  .pageLayout .returnNotice { position: sticky; top: 110px; z-index: 15; }
+  .stageReturn { display: none; }
+  .mainColumn:has(.returnNotice) .pathStage { scroll-margin-top: 230px; }
+}

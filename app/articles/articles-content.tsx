@@ -29,7 +29,7 @@ import { ArticleDirectory } from "./article-directory";
 import { ArticleLibrary, type ArticleLibraryView } from "./article-library";
 import styles from "./article-library.module.css";
 import readingStyles from "./article-reading.module.css";
-import { getArticleSeries, getSeriesReadingState } from "@/lib/article-series";
+import { getArticleSeries, getSeriesReadingState, resolveSeriesResource, addSeriesReturnContext, type SeriesReturnContext } from "@/lib/article-series";
 import { articleSeries } from "@/lib/article-library";
 import { LearningPathLinks, SeriesOverview, SeriesPagination } from "./series-reader";
 
@@ -38,6 +38,7 @@ type ArticleItem = ArticleListItem & { content?: string };
 interface ArticlesPageProps {
   initialSeriesId?: string;
   initialMapRouteId?: string;
+  initialSeriesContext?: SeriesReturnContext;
   initialArticles?: ArticleItem[];
   initialArticle?: ArticleItem & { content: string };
   initialArticleId?: string;
@@ -178,6 +179,7 @@ function useActiveToc(toc: { id: string }[], enabled: boolean, contentRef: { cur
 export function ArticlesContent({
   initialSeriesId,
   initialMapRouteId,
+  initialSeriesContext,
   initialArticles,
   initialArticle,
   initialArticleId,
@@ -217,11 +219,11 @@ export function ArticlesContent({
     return counts;
   }, [allArticles]);
   const activeSeries = getArticleSeries(initialSeriesId, initialArticleId);
-  const seriesContext = activeSeries ? {
+  const seriesContext = useMemo(() => activeSeries ? {
     series: activeSeries,
-    reading: getSeriesReadingState(activeSeries, allArticles, selectedArticleId ?? undefined, initialMapRouteId),
+    reading: getSeriesReadingState(activeSeries, allArticles, selectedArticleId ?? undefined, initialMapRouteId, initialSeriesContext),
     articleId: selectedArticleId ?? undefined,
-  } : undefined;
+  } : undefined, [activeSeries, allArticles, selectedArticleId, initialMapRouteId, initialSeriesContext]);
 
   // Detect URL article target on first paint — show skeleton instead of empty state
   const [isLoadingArticle, setIsLoadingArticle] = useState(() =>
@@ -483,9 +485,15 @@ export function ArticlesContent({
       coverImage: series.cardArtwork ?? series.cover ?? series.artwork,
     };
   }), [allArticles]);
+  const mapSeriesLink = useCallback((href: string) => {
+    if (!seriesContext) return href;
+    const { series, reading } = seriesContext;
+    const stageId = reading.stages[reading.currentStageIndex]?.id;
+    return addSeriesReturnContext(resolveSeriesResource(href, series, stageId, initialMapRouteId).href, reading.returnTo);
+  }, [seriesContext, initialMapRouteId]);
   const renderedContent = useMemo(
-    () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout, allArticles, linkedSeries) : null,
-    [selectedArticle?.imageLayout, selectedContent, toc, allArticles, linkedSeries]
+    () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout, allArticles, linkedSeries, mapSeriesLink) : null,
+    [selectedArticle?.imageLayout, selectedContent, toc, allArticles, linkedSeries, mapSeriesLink]
   );
 
   return (
@@ -556,9 +564,9 @@ export function ArticlesContent({
             <article key={selectedArticleId} className={cn("max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-8", immersiveStyles.article)}>
               <div data-reading-chrome>{seriesContext ? <SeriesPagination {...seriesContext} compact /> : <LearningPathLinks articleId={selectedArticle.id} />}</div>
               <div className={cn("flex items-center justify-between gap-2 mb-5", immersiveStyles.toolbar, mobileReadingStyles.toolbar)}>
-                <Link data-reading-chrome href={activeSeries ? "/articles?view=series" : `/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
+                <Link data-reading-chrome href={seriesContext ? `${seriesContext.reading.overviewHref}${seriesContext.reading.stages[seriesContext.reading.currentStageIndex] ? `#stage-${seriesContext.reading.stages[seriesContext.reading.currentStageIndex].id}` : ""}` : `/articles/${selectedArticle.categoryId}`} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400">
                   <ArrowRight className="h-3.5 w-3.5 rotate-180" />
-                  {activeSeries ? "全部系列" : <>{categories.find(c => c.id === selectedArticle.categoryId)?.emoji}{categories.find(c => c.id === selectedArticle.categoryId)?.name}</>}
+                  {activeSeries ? "返回本系列" : <>{categories.find(c => c.id === selectedArticle.categoryId)?.emoji}{categories.find(c => c.id === selectedArticle.categoryId)?.name}</>}
                 </Link>
                 <div className={cn("flex items-center gap-2", immersiveStyles.actions, mobileReadingStyles.actions)}>
                   <ArticleReadingModeButton />
@@ -745,7 +753,7 @@ export function ArticlesContent({
                         {relatedArticles.map(article => (
                           <ProtectedContentLink
                             key={article.id}
-                            href={article.href}
+                            href={mapSeriesLink(article.href)}
                             className="group rounded-2xl border border-slate-200/80 bg-white/90 p-4 transition-all hover:border-amber-300 hover:bg-amber-50/60 dark:border-slate-800 dark:bg-slate-900/90 dark:hover:border-amber-700 dark:hover:bg-amber-900/10"
                           >
                             <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-400">
@@ -860,7 +868,7 @@ export function ArticlesContent({
                   {sidebarRecommendations.map((article) => (
                     <ProtectedContentLink
                       key={article.id}
-                      href={article.href}
+                      href={mapSeriesLink(article.href)}
                       className="group flex items-start gap-2 rounded-xl border border-white/80 bg-white/80 px-3 py-2.5 transition-colors hover:border-amber-300 hover:bg-white dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-amber-800"
                     >
                       <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

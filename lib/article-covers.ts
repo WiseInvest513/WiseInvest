@@ -3,6 +3,31 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "crypto-first-steps": {
+    src: "/images/articles/covers/crypto-first-steps.webp",
+    alt: "加密基础：数字资产、账户与钱包的银白玻璃概念封面",
+    topics: ["加密货币", "BTC", "ETH", "USDT", "稳定币", "钱包"],
+  },
+  "crypto-buying-platforms": {
+    src: "/images/articles/covers/crypto-buying-platforms.webp",
+    alt: "第一次买币去哪里：交易所账户与钱包入口的银白玻璃封面",
+    topics: ["加密货币", "交易所", "钱包", "购买渠道", "DEX"],
+  },
+  "crypto-c2c-funding": {
+    src: "/images/articles/covers/crypto-c2c-funding.webp",
+    alt: "C2C 入金：订单、付款与资产释放的银白玻璃封面",
+    topics: ["币安", "C2C", "P2P", "入金", "USDT"],
+  },
+  "crypto-spot-futures": {
+    src: "/images/articles/covers/crypto-spot-futures.webp",
+    alt: "现货与合约：资产持仓和保证金头寸的银白玻璃对比封面",
+    topics: ["现货", "合约", "杠杆", "保证金", "强平", "订单"],
+  },
+  "crypto-transfer-basics": {
+    src: "/images/articles/covers/crypto-transfer-basics.webp",
+    alt: "转账前先核对：链上网络、地址与接收记录的银白玻璃封面",
+    topics: ["链上转账", "钱包", "网络", "Memo", "到账", "保管"],
+  },
   "wise-witness-guide": {
     src: "/images/articles/covers/wise-witness-guide.webp",
     alt: "Wise Witness 见证开户：银白玻璃银行与身份核验凭证",

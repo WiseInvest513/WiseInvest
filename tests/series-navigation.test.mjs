@@ -41,7 +41,7 @@ function loadModule(relativePath) {
 
 const { getAllArticles, toArticleListItem } = loadModule('lib/articles.ts');
 const { getArticleSeries, getSeriesReadingState, getSeriesAvailabilityLabel } = loadModule('lib/article-series.ts');
-const { SeriesNavigation, SeriesOverview } = loadModule('app/articles/series-reader.tsx');
+const { SeriesNavigation, SeriesOverview, SeriesPagination } = loadModule('app/articles/series-reader.tsx');
 const articles = getAllArticles().map(toArticleListItem);
 const render = (Component, props) => renderToStaticMarkup(React.createElement(Component, props));
 
@@ -103,4 +103,51 @@ test('published topic articles stay outside the collapsed planned section; missi
   }
   const binance = getArticleSeries('binance');
   assert.doesNotMatch(getSeriesAvailabilityLabel(binance, getSeriesReadingState(binance, [])), /已可读|已发布/);
+});
+
+test('Nasdaq directory and overview distinguish lessons, nested series, books and query tools before clicking', () => {
+  const series = getArticleSeries('nasdaq-investing');
+  const reading = getSeriesReadingState(series, articles, undefined, undefined, { stage: 'practice' });
+  for (const Component of [SeriesNavigation, SeriesOverview]) {
+    const html = render(Component, { series, reading, articles });
+    assert.equal((html.match(/data-content-type="article"/g) ?? []).length, 15);
+    assert.equal((html.match(/data-content-type="series"/g) ?? []).length, 2);
+    assert.equal((html.match(/data-content-type="book"/g) ?? []).length, 1);
+    assert.equal((html.match(/data-content-type="tool"/g) ?? []).length, 2);
+    assert.match(html, /data-content-type="series">系列教程/);
+    assert.match(html, /data-content-type="article">学习文章/);
+    for (const childId of ['hk-stock-funding', 'us-stock-funding']) {
+      assert.match(html, new RegExp(`href="/articles/series/${childId}\\?stage=brokers&amp;fromSeries=nasdaq-investing&amp;fromStage=practice#stage-brokers"`));
+    }
+  }
+  const overview = render(SeriesOverview, { series, reading, articles });
+  assert.match(overview, /4 篇文章 · 2 个子系列/);
+  const navigation = render(SeriesNavigation, { series, reading, articles });
+  const expanded = [...navigation.matchAll(/<button[^>]*aria-expanded="(true|false)"/g)].map(match => match[1]);
+  assert.deepEqual(expanded, ['false', 'false', 'true']);
+});
+
+test('child series keeps the parent return visible through overview and lesson views without inventing a parent for direct entry', () => {
+  const series = getArticleSeries('us-stock-funding');
+  const context = { fromSeries: 'nasdaq-investing', fromStage: 'practice', stage: 'brokers' };
+  const overviewReading = getSeriesReadingState(series, articles, undefined, undefined, context);
+  const articleReading = getSeriesReadingState(series, articles, 'BBAE', undefined, context);
+  const parentHref = '/articles/series/nasdaq-investing?stage=practice#stage-practice';
+  for (const [Component, reading, articleId] of [
+    [SeriesNavigation, overviewReading, undefined],
+    [SeriesOverview, overviewReading, undefined],
+    [SeriesNavigation, articleReading, 'BBAE'],
+    [SeriesPagination, articleReading, 'BBAE'],
+  ]) {
+    const html = render(Component, { series, reading, articleId, articles, compact: true });
+    assert.ok(html.includes(`href="${parentHref}"`));
+    assert.match(html, /返回原(?:学习)?阶段/);
+    for (const match of html.matchAll(/href="([^\"]*series=us-stock-funding[^\"]*)"/g)) {
+      assert.ok(match[1].includes('fromSeries=nasdaq-investing'));
+      assert.ok(match[1].includes('fromStage=practice'));
+    }
+    const direct = getSeriesReadingState(series, articles, articleId);
+    const directHtml = render(Component, { series, reading: direct, articleId, articles, compact: true });
+    assert.doesNotMatch(directHtml, /返回原(?:学习)?阶段|来自系列/);
+  }
 });

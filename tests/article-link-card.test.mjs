@@ -59,6 +59,22 @@ const render = (content, articles = [article], linkedSeries = [series]) => rende
 const cardCount = html => (html.match(/data-article-link-card/g) ?? []).length;
 const groupCount = html => (html.match(/data-article-link-group/g) ?? []).length;
 
+test('nested-series cards and table links keep the parent stage without changing their presentation', () => {
+  const { getArticleSeries, resolveSeriesResource } = load('lib/article-series.ts');
+  const parent = getArticleSeries('nasdaq-investing');
+  const target = '/articles/series/hk-stock-funding#stage-brokers';
+  const content = `[港资路线](${target}){card}\n\n| 入口 | 说明 |\n| --- | --- |\n| [港资路线](${target}) | [官方资料](https://example.com/source) |`;
+  const metadata = { ...series, id: 'hk-stock-funding' };
+  const mapHref = href => resolveSeriesResource(href, parent, 'practice').href;
+  const html = renderToStaticMarkup(renderMarkdown(content, [], undefined, [], [metadata], mapHref));
+  assert.equal(cardCount(html), 1);
+  assert.equal((html.match(/fromSeries=nasdaq-investing/g) ?? []).length, 2);
+  assert.equal((html.match(/fromStage=practice/g) ?? []).length, 2);
+  assert.match(html, /<td[^>]*><a[^>]+#stage-brokers/);
+  assert.ok(html.includes('href="https://example.com/source"'));
+  assert.doesNotMatch(html.match(/<table[\s\S]*?<\/table>/)?.[0] ?? '', /data-article-link-card/);
+});
+
 test('explicit standalone cards use public article metadata and the protected canonical link', () => {
   const tree = renderMarkdown(cardLine, [], undefined, [article]);
   const card = tree[0];

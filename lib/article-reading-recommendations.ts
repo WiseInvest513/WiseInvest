@@ -23,6 +23,26 @@ const introductions: Record<string, string> = {
 };
 
 const connections: Record<string, { id: string; label: string; reason: string }[]> = {
+  "crypto-first-steps": [
+    { id: "crypto-buying-platforms", label: "下一课 · 购买入口", reason: "认清资产后，比较法币入口、交易所和链上兑换的条件。" },
+    { id: "crypto-transfer-basics", label: "已有资产 · 转账保管", reason: "准备转出时，进一步检查地址、网络、到账与密钥责任。" },
+  ],
+  "crypto-buying-platforms": [
+    { id: "crypto-c2c-funding", label: "下一课 · C2C 入金", reason: "把交易对手、付款订单与收到资产的步骤分开看。" },
+    { id: "biance-guide", label: "配套图解 · 币安", reason: "符合本人服务资格后，再查阅注册与账户操作图。" },
+  ],
+  "crypto-c2c-funding": [
+    { id: "crypto-spot-futures", label: "下一课 · 买卖与成交", reason: "收到资产后，继续认识交易对、现货订单和合约区别。" },
+    { id: "crypto-transfer-basics", label: "准备转出 · 到账核对", reason: "需要链上转出时，核对网络、最低金额、手续费和接收条件。" },
+  ],
+  "crypto-spot-futures": [
+    { id: "crypto-transfer-basics", label: "下一课 · 转账与保管", reason: "持仓之后再理解转出、链上确认和钱包保管。" },
+    { id: "crypto-first-steps", label: "回看基础 · 资产与账户", reason: "把余额、资产数量和控制权限重新对应起来。" },
+  ],
+  "crypto-transfer-basics": [
+    { id: "crypto-buying-platforms", label: "回看入口选择", reason: "按实际资金来源和保管需求重新检查平台与钱包。" },
+    { id: "bitget-exchange", label: "配套图解 · 跨平台转入", reason: "用已有平台图解对照充币、提币和到账记录的位置。" },
+  ],
   "us-stock-account-basics": [
     { id: "us-stock-first-order", label: "下一课 · 第一笔订单", reason: "看懂资金后，继续核对报价、订单条件与成交状态。" },
     { id: "us-stock-money-status", label: "资金问题 · 到账与结算", reason: "区分账户记账、可交易与可提取，查清资金停在哪一步。" },

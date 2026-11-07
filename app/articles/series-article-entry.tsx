@@ -17,7 +17,7 @@ export function SeriesArticleEntry({ chapter, article }: {
       {cover ? <Image src={cover.src} alt="" width={640} height={360} sizes="180px" unoptimized /> : <BookOpen size={28} strokeWidth={1.4} aria-hidden="true" />}
     </span>
     <div className={styles.articleCopy}>
-      <h3>{chapter.title}</h3>
+      <div className={styles.articleTitleRow}><h3>{chapter.title}</h3><span className={styles.typeBadge} data-content-type="article">学习文章</span></div>
       {summary && <span className={styles.articleSummary}>{summary}</span>}
       <span className={styles.articleFooter}>
         <span className={styles.articleMeta}><span>文章 {String(chapter.index + 1).padStart(2, "0")}</span>{article?.readTime ? <span><Clock size={12} aria-hidden="true" />{article.readTime} 分钟阅读</span> : null}</span>

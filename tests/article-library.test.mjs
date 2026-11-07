@@ -113,10 +113,6 @@ test('missing source articles are omitted without inventing placeholder entries'
 test('series are clearly planned metadata, with no fabricated chapters, articles or routes', () => {
   assert.deepEqual(articleSeries.filter(series => series.status === 'planned').map(({ id, title, description, cover, status }) => ({ id, title, description, cover, status })), [
     {
-      id: 'crypto-basics', title: '加密货币基础入门', description: '从基本概念到钱包、交易所与风险认识',
-      cover: '/images/articles/series/crypto-basics-wise-v2.webp', status: 'planned',
-    },
-    {
       id: 'binance', title: '币安从入门到使用', description: '产品介绍 · 开户 · 福利政策 · 常用产品',
       cover: '/images/articles/series/binance-wise-cover-v3.webp', status: 'planned',
     },
@@ -129,7 +125,12 @@ test('series are clearly planned metadata, with no fabricated chapters, articles
       assert.ok(chapter.title.length > 0);
     }
   }
-  assert.equal(articleSeries[0].chapters.length, 4);
+  const crypto = articleSeries.find(series => series.id === 'crypto-basics');
+  assert.equal(crypto.status, 'updating');
+  assert.deepEqual(crypto.chapters.map(chapter => chapter.articleId), [
+    'crypto-first-steps', 'crypto-buying-platforms', 'crypto-c2c-funding', 'crypto-spot-futures', 'crypto-transfer-basics',
+  ]);
+  assert.ok(crypto.chapters.every(chapter => articles.some(article => article.id === chapter.articleId)));
   assert.equal(articleSeries[1].chapters.length, 6);
   assert.ok(!Object.hasOwn(articleSeries[0], 'existingArticleId'));
 });
@@ -305,7 +306,7 @@ test('tutorial series retain their chapter and learning language', () => {
 
 test('learning paths group distinct published articles into valid stages and allow only the named bank placeholder', () => {
   const paths = articleSeries.filter(series => series.kind === 'path');
-  assert.equal(paths.length, 7);
+  assert.equal(paths.length, 8);
   for (const series of paths) {
     assert.equal(series.status, 'updating');
     assert.equal(new Set(series.chapters.map(chapter => chapter.articleId)).size, series.chapters.length);
@@ -466,9 +467,10 @@ test('the index curriculum covers all index lessons and the domestic ETF tutoria
   }
 });
 
-test('map teaching panels show seven goals, contextual chapters and real fallback links', () => {
+test('map teaching panels include the crypto curriculum, contextual chapters and real fallback links', () => {
   const goals = renderedNodes(RoadmapLearning({ routeId: 'overview', articles: listItems, relatedArticles: [] }));
-  assert.equal(goals.filter(node => node.type === 'a').length, 8);
+  assert.equal(goals.filter(node => node.type === 'a').length, 9);
+  assert.ok(goals.some(node => node.type === 'a' && node.props.href.includes('/articles/series/crypto-basics')));
   const panel = RoadmapLearning({ routeId: 'traditional-us-stocks', articles: listItems, relatedArticles: [] });
   const publishedCount = getSeriesReadingState(getArticleSeries('us-stock-funding'), listItems).publishedCount;
   assert.ok(renderedText(panel).includes(`配套教程${publishedCount} 篇文章`));

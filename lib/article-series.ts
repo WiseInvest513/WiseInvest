@@ -3,6 +3,93 @@ import { genUid } from "./article-uid";
 
 export type SeriesArticle = { id: string; categoryId: string };
 
+/** URL context is untrusted; a return target must match a configured parent resource. */
+export type SeriesReturnContext = { fromSeries?: unknown; fromStage?: unknown; stage?: unknown; fromRoute?: unknown };
+export type SeriesReturnTarget = {
+  seriesId: string;
+  title: string;
+  stageId: string;
+  stageTitle: string;
+  href: string;
+  routeId?: string;
+  targetSeriesId: string;
+};
+
+export type SeriesResource = {
+  kind: "series" | "article" | "book" | "tool" | "resource";
+  label: string;
+  href: string;
+  series?: ArticleSeries;
+};
+
+function internalUrl(href: string) {
+  if (!href.startsWith("/") && !/^https?:\/\//i.test(href)) return undefined;
+  if (href.startsWith("//")) return undefined;
+  try {
+    const url = new URL(href, "https://www.wise-invest.org");
+    if (!["wise-invest.org", "www.wise-invest.org", "localhost", "127.0.0.1"].includes(url.hostname)) return undefined;
+    if (url.username || url.password) return undefined;
+    return url;
+  } catch {
+    return undefined;
+  }
+}
+
+function localHref(url: URL) {
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function resourceSeries(href: string) {
+  const url = internalUrl(href);
+  const id = url?.pathname.match(/^\/articles\/series\/([^/]+)\/?$/)?.[1];
+  return id ? getArticleSeries(id) : undefined;
+}
+
+function getReturnTarget(series: ArticleSeries, context?: SeriesReturnContext): SeriesReturnTarget | undefined {
+  const parent = getArticleSeries(context?.fromSeries);
+  if (!parent || parent.id === series.id || typeof context?.fromStage !== "string") return undefined;
+  const stage = parent.stages?.find(item => item.id === context.fromStage);
+  if (!stage?.resources?.some(resource => resourceSeries(resource.href)?.id === series.id)) return undefined;
+  const routeId = resolveMapRoute(parent, context.fromRoute);
+  const url = new URL(getSeriesOverviewHref(parent.id, routeId), "https://www.wise-invest.org");
+  url.searchParams.set("stage", stage.id);
+  url.hash = `stage-${stage.id}`;
+  return { seriesId: parent.id, title: parent.title, stageId: stage.id, stageTitle: stage.title, href: localHref(url), routeId, targetSeriesId: series.id };
+}
+
+/** Retain one validated parent while reading its child series; unrelated links stay untouched. */
+export function addSeriesReturnContext(href: string, returnTo?: SeriesReturnTarget) {
+  if (!returnTo) return href;
+  const url = internalUrl(href);
+  if (!url) return href;
+  const isOverview = resourceSeries(href)?.id === returnTo.targetSeriesId;
+  const isArticle = /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(url.pathname)
+    && url.searchParams.get("series") === returnTo.targetSeriesId;
+  if (!isOverview && !isArticle) return href;
+  url.searchParams.set("fromSeries", returnTo.seriesId);
+  url.searchParams.set("fromStage", returnTo.stageId);
+  if (returnTo.routeId) url.searchParams.set("fromRoute", returnTo.routeId);
+  else url.searchParams.delete("fromRoute");
+  return localHref(url);
+}
+
+/** Classify a configured resource and keep its original query/hash when opening a child series. */
+export function resolveSeriesResource(href: string, parentSeries: ArticleSeries, stageId?: string, routeId?: unknown): SeriesResource {
+  const url = internalUrl(href);
+  const series = resourceSeries(href);
+  if (series && url) {
+    const returnTo = getReturnTarget(series, { fromSeries: parentSeries.id, fromStage: stageId, fromRoute: routeId });
+    const stage = series.stages?.find(item => item.id === url.searchParams.get("stage"))
+      ?? series.stages?.find(item => `#stage-${item.id}` === url.hash);
+    if (stage) url.searchParams.set("stage", stage.id);
+    return { kind: "series", label: "系列教程", href: addSeriesReturnContext(localHref(url), returnTo), series };
+  }
+  if (url && /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}$/.test(url.pathname)) return { kind: "article", label: "学习文章", href };
+  if (url && /^\/book(?:\/|$)/.test(url.pathname)) return { kind: "book", label: "电子书", href };
+  if ((url && /^\/(?:tools|roadmap)(?:\/|$)/.test(url.pathname)) || /^https:\/\/(?:www\.)?wise-etf\.com(?:\/|$)/i.test(href)) return { kind: "tool", label: "查询工具", href };
+  return { kind: "resource", label: "参考资料", href };
+}
+
 export function getArticleSeries(seriesId: unknown, articleId?: string) {
   if (typeof seriesId !== "string") return undefined;
   return articleSeries.find(series => series.id === seriesId && (!articleId
@@ -40,23 +127,27 @@ export function getSeriesArticleHref(seriesId: string, article: SeriesArticle, r
   return `/articles/${article.categoryId}/${genUid(article.id)}?series=${encodeURIComponent(seriesId)}${route ? `&route=${encodeURIComponent(route)}` : ""}`;
 }
 
-export function getSeriesReadingState(series: ArticleSeries, articles: SeriesArticle[], articleId?: string, routeId?: unknown) {
+export function getSeriesReadingState(series: ArticleSeries, articles: SeriesArticle[], articleId?: string, routeId?: unknown, context?: SeriesReturnContext) {
   const byId = new Map(articles.map(article => [article.id, article]));
+  const returnTo = getReturnTarget(series, context);
   const chapters = series.chapters.map((chapter, index) => {
     const article = chapter.articleId ? byId.get(chapter.articleId) : undefined;
-    return { ...chapter, index, href: article ? getSeriesArticleHref(series.id, article, routeId) : undefined };
+    return { ...chapter, index, href: article ? addSeriesReturnContext(getSeriesArticleHref(series.id, article, routeId), returnTo) : undefined };
   });
   const currentIndex = chapters.findIndex(chapter => chapter.articleId === articleId && chapter.href);
   const published = chapters.filter(chapter => chapter.href);
   const existing = series.existingArticleId ? byId.get(series.existingArticleId) : undefined;
   const stages = (series.stages ?? []).map(stage => ({
     ...stage,
+    resources: stage.resources?.map(resource => ({ ...resource, ...resolveSeriesResource(resource.href, series, stage.id, routeId) })),
     chapters: chapters.filter(chapter => chapter.stageId === stage.id),
   }));
   const currentStageIndex = currentIndex < 0
-    ? -1
+    ? !articleId && typeof context?.stage === "string" ? stages.findIndex(stage => stage.id === context.stage) : -1
     : stages.findIndex(stage => stage.id === chapters[currentIndex].stageId);
   const mapRoute = resolveMapRoute(series, routeId);
+  const overviewUrl = new URL(getSeriesOverviewHref(series.id, routeId), "https://www.wise-invest.org");
+  if (typeof context?.stage === "string" && stages.some(stage => stage.id === context.stage)) overviewUrl.searchParams.set("stage", context.stage);
   return {
     chapters,
     currentIndex,
@@ -64,11 +155,12 @@ export function getSeriesReadingState(series: ArticleSeries, articles: SeriesArt
     first: published[0],
     previous: currentIndex < 0 ? undefined : published.filter(chapter => chapter.index < currentIndex).at(-1),
     next: currentIndex < 0 ? undefined : published.find(chapter => chapter.index > currentIndex),
-    existingHref: existing ? getSeriesArticleHref(series.id, existing, routeId) : undefined,
-    overviewHref: getSeriesOverviewHref(series.id, routeId),
+    existingHref: existing ? addSeriesReturnContext(getSeriesArticleHref(series.id, existing, routeId), returnTo) : undefined,
+    overviewHref: addSeriesReturnContext(localHref(overviewUrl), returnTo),
     mapHref: series.kind === "path" ? `/roadmap${mapRoute ? `?route=${encodeURIComponent(mapRoute)}` : ""}` : undefined,
     stages,
     currentStageIndex,
+    returnTo,
   };
 }
 

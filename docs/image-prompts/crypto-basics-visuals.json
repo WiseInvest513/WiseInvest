@@ -1,0 +1,232 @@
+{
+  "date": "2026-11-07",
+  "generator": "built-in image_gen",
+  "signature": "public/images/brand/wise-invest-signature.png",
+  "signatureSha256": "40a98eda41040c4520e2fd234167aec0bb9d5bdca59efc8c59661005420019e0",
+  "postprocessing": "Original signature composited at 16% width with preserved aspect and rounded corners on a copy. Proportional resize/padding and WebP compression; no scene or text repaint by scripts.",
+  "assets": [
+    {
+      "id": "assets-and-accounts",
+      "prompt": "Use case: scientific-educational. Create one 16:9 landscape inline article teaching illustration, 1536x864 or comparable 16:9. Reference image is STYLE ONLY: inherit its tactile warm ivory paper/ceramic, deep navy leather and panels, restrained champagne gold, soft mint green connectors, soft contact shadows. Do not copy old banking subject. Real miniature objects, clear composition, subtle warm cream background. NO giant title, no decorative coins, no chart promising returns, no UI screenshot, no invented brand logo, no portrait. Leave top-right 20% x 15% empty for exact Wise signature to be composited later. Add small Chinese '教学示意' at bottom left. Short Chinese labels only, precise and readable. Two balanced side-by-side scenes showing different control mechanisms. Left: ivory desktop terminal with navy account ledger screen, simple rows and a small generic token icon, short label '交易所账户', subtitle '平台记录余额'. Right: tactile navy wallet beside a large brass signing key, a thin connection to three small linked navy blocks representing public blockchain records, short label '自管钱包', subtitle '自己管理签名权限'. The right wallet is a key tool, NOT a bag full of coin holdings; coins not physically stored inside. Calm layout, approximately equal visual weight, no arrows between the two alternatives. Material and object scale like reference.",
+      "inputStyle": "assets/source-images/us-stock-basics/account-balances.png",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-984b26ff-ca74-458c-8c78-c74f8c045893.png",
+      "originalGeneratedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-b058a14a-0566-45d3-8de0-011fa889fb82.png",
+      "revisionPrompt": "Edit ONLY the cream bank-building symbol on the left account monitor. Replace that small symbol with a simple ivory account ledger icon: a rectangular page with three horizontal lines and one small generic navy circular token. No roof, columns, bank facade, house or government symbol. Preserve every other object, label, background, composition, lighting, texture, exact Chinese text, proportions, blank top-right corner. This represents an exchange account ledger, not a bank.",
+      "sourceOriginal": "assets/source-images/crypto-basics/assets-and-accounts-generated.png",
+      "sourceSigned": "assets/source-images/crypto-basics/assets-and-accounts.png",
+      "webPath": "public/images/articles/crypto-basics/assets-and-accounts.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 45334,
+      "webpQuality": 76,
+      "sha256": "0c613ac74823cb7cc4b550f944c88a738b3bcfa3469dcd317030c6417d59d7a6",
+      "visualReview": "最终1280×720文件已查看。左侧账户账簿记录充入、转出、余额；右侧钱包与签名密钥连接区块链记录。原有银行图形已通过image_gen定向改为账簿，不把交易所画成银行。中文可读。"
+    },
+    {
+      "id": "purchase-routes",
+      "prompt": "Use case: scientific-educational. Create one 16:9 landscape inline article teaching illustration, 1536x864 or comparable 16:9. Reference image is STYLE ONLY: inherit its tactile warm ivory paper/ceramic, deep navy leather and panels, restrained champagne gold, soft mint green connectors, soft contact shadows. Do not copy old banking subject. Real miniature objects, clear composition, subtle warm cream background. NO giant title, no decorative coins, no chart promising returns, no UI screenshot, no invented brand logo, no portrait. Leave top-right 20% x 15% empty for exact Wise signature to be composited later. Add small Chinese '教学示意' at bottom left. Short Chinese labels only, precise and readable. Two horizontal parallel rows, separated by ample whitespace, explaining two starting situations rather than guaranteed conversions. Top row: small ivory payment card + banknote on left labeled '法币资金', short mint connector through a small order slip labeled '支持的买币渠道', ending in an ivory desktop account terminal labeled '交易所账户'. Bottom row: navy self-custody wallet with brass key on left labeled '已有链上资产', mint connector through small navy blockchain nodes labeled '连接钱包', ending in two simple generic geometric token discs with opposed small arrows labeled '链上兑换'. Do not connect fiat directly to the bottom DEX exchange. The bottom wallet does not contain banknotes. No actual logos, no reward amounts.",
+      "inputStyle": "assets/source-images/us-stock-basics/account-balances.png",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-955c6954-d1a0-47a4-920b-2449197ea672.png",
+      "originalGeneratedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-59723413-20a2-4ffe-8983-6855005cd2c0.png",
+      "revisionPrompt": "Edit ONLY the cream bank-building symbol on the upper-right laptop screen. Replace the bank symbol with a clear ivory account ledger icon: a small rectangular page with three rows and a small generic navy circular token. Absolutely no roof, columns, bank facade or house. Preserve every other object, wording, arrangement, colors, arrows and blank top-right corner. This represents an exchange account ledger, not a bank.",
+      "sourceOriginal": "assets/source-images/crypto-basics/purchase-routes-generated.png",
+      "sourceSigned": "assets/source-images/crypto-basics/purchase-routes.png",
+      "webPath": "public/images/articles/crypto-basics/purchase-routes.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 38422,
+      "webpQuality": 76,
+      "sha256": "5105f7d5f8d4bae66c2b4642ca1ff32fab9cddf1f944675155df5115fa0947bd",
+      "visualReview": "最终文件已查看。上排法币资金经支持的渠道进入交易所账户；下排已有链上资产经钱包进行兑换，两排无错误的法币直达DEX连线。交易所屏幕已改为账簿图形。"
+    },
+    {
+      "id": "p2p-flow",
+      "prompt": "Use case: scientific-educational. Create one 16:9 landscape inline article teaching illustration, 1536x864 or comparable 16:9. Reference image is STYLE ONLY: inherit its tactile warm ivory paper/ceramic, deep navy leather and panels, restrained champagne gold, soft mint green connectors, soft contact shadows. Do not copy old banking subject. Real miniature objects, clear composition, subtle warm cream background. NO giant title, no decorative coins, no chart promising returns, no UI screenshot, no invented brand logo, no portrait. Leave top-right 20% x 15% empty for exact Wise signature to be composited later. Add small Chinese '教学示意' at bottom left. Short Chinese labels only, precise and readable. Precise P2P three-party transaction concept. Bottom left ivory payment wallet labeled '买方'; bottom right navy payment wallet labeled '卖方'; center top an ivory open escrow tray containing one generic navy token labeled '平台托管币'. A thin gold arrow across bottom FROM buyer left TO seller right labeled '按订单支付法币'. A separate mint arrow from seller right UP into platform tray labeled '锁定币', another mint arrow FROM tray DOWN LEFT to buyer labeled '确认后放币'. Only these three arrows, directions absolutely clear, do not draw cash flowing into the platform. The escrow is an order mechanism, no bank building, no guaranteed-safe shield. Sparse label '订单内核对' on small paper slip between wallets. No extra headline.",
+      "inputStyle": "assets/source-images/us-stock-basics/account-balances.png",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-5cfef8fa-f46e-4339-b3ec-a45cc6463229.png",
+      "sourceOriginal": "assets/source-images/crypto-basics/p2p-flow-generated.png",
+      "sourceSigned": "assets/source-images/crypto-basics/p2p-flow.png",
+      "webPath": "public/images/articles/crypto-basics/p2p-flow.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 36546,
+      "webpQuality": 76,
+      "sha256": "d607d1cc22389a3bb50c3c54851fc3def5f58512525986425d77597eafd01722",
+      "visualReview": "最终文件已查看。金色箭头买方→卖方支付法币；右侧绿色箭头卖方→平台锁定币；左侧绿色箭头平台→买方确认后放币。三条方向准确，没有将法币支付给平台或保证无风险的暗示。"
+    },
+    {
+      "id": "spot-futures",
+      "prompt": "Use case scientific-educational. One 16:9 inline article teaching illustration, 1536x864 or similar. Reference image STYLE ONLY: tactile warm ivory matte ceramic and thick paper, deep navy leather and panels, small champagne-gold trim, pale mint accents, soft contact shadows on warm cream textured backdrop. No giant title, no actual exchange UI, no portrait, no logos. Top-right 20% x 15% must be EMPTY for exact signature overlay later. Short precise Chinese labels, small bottom-left '教学示意'. Clear meaningful real miniature objects, not glossy white-silver glass or advertising poster. Balanced two-sided comparison with ample breathing room. LEFT composition: a thick ivory purchase receipt beside a single generic navy token held in an open navy case, short main label '现货', subtitle '买入资产'. RIGHT: a small ivory margin tray with one neutral navy chip beside a tall thick cream contract document with subtle gold seal, short main label '合约', subtitle '保证金与头寸'. To right of contract small restrained measuring lever without direction arrows, suggesting sensitivity not price growth. Small note below right '需关注强平与费用'. No numbers, no profits, no fake financial data, no actual coin logos, no bank buildings, no shield implying safety. Main message owning an asset versus having a contract position.",
+      "inputStyle": "assets/source-images/us-stock-basics/account-balances.png",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-0ee13c30-3685-4972-a7ea-2047ec9a1747.png",
+      "sourceOriginal": "assets/source-images/crypto-basics/spot-futures-generated.png",
+      "sourceSigned": "assets/source-images/crypto-basics/spot-futures.png",
+      "webPath": "public/images/articles/crypto-basics/spot-futures.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 44568,
+      "webpQuality": 76,
+      "sha256": "7378339b84be1c2c0a838c0379cdd09fb178f5ef6814ee8ab44443fbecd04afd",
+      "visualReview": "最终文件已查看。现货购买凭证与资产，对比合约文件、保证金托盘与头寸，强平与费用提示清晰。无收益数字、实际行情或保证金比例承诺。"
+    },
+    {
+      "id": "transfer-checks",
+      "prompt": "Use case scientific-educational. One 16:9 inline article teaching illustration, 1536x864 or similar. Reference image STYLE ONLY: tactile warm ivory matte ceramic and thick paper, deep navy leather and panels, small champagne-gold trim, pale mint accents, soft contact shadows on warm cream textured backdrop. No giant title, no actual exchange UI, no portrait, no logos. Top-right 20% x 15% must be EMPTY for exact signature overlay later. Short precise Chinese labels, small bottom-left '教学示意'. Clear meaningful real miniature objects, not glossy white-silver glass or advertising poster. A continuous but conditional transfer process, three evenly spaced object clusters. Left an ivory withdrawal instruction slip on a navy tray, magnifying glass over its short field labels '币种' '网络' '地址', main label underneath '发起转出'. Center three connected deep navy ledger blocks and a small waiting hourglass, main label '链上确认'. Right ivory account ledger terminal with a small clock symbol, main label '平台记账'. Thin mint connector left-to-center and dotted mint connector center-to-right; arrows imply sequence but no completion checkmarks or instant speed. Bottom small sentence '核对交易记录与实际余额'. No real address strings or QR codes, no price, no duration, no bank building, no cash icons.",
+      "inputStyle": "assets/source-images/us-stock-basics/account-balances.png",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-8c589216-0fc6-44e6-97be-ff21f59afc04.png",
+      "sourceOriginal": "assets/source-images/crypto-basics/transfer-checks-generated.png",
+      "sourceSigned": "assets/source-images/crypto-basics/transfer-checks.png",
+      "webPath": "public/images/articles/crypto-basics/transfer-checks.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 47654,
+      "webpQuality": 76,
+      "sha256": "46f2a04e2bd5132b01aa948d8127dc5e8c9a3ae6f495ec9d3937fc551f836251",
+      "visualReview": "最终文件已查看。转出指令含币种、网络、地址，经链上确认再到平台记账；右侧虚线与沙漏时钟保留等待含义，没有即时到账承诺。图中文字与核对语句正确。"
+    },
+    {
+      "id": "crypto-first-steps",
+      "prompt": "Use case stylized-concept. Generate one polished Wise Invest article LIST COVER, landscape 16:9. Reference image is ONLY for MATERIALS/LIGHTING: white/silver architectural glass, polished aluminum, thick optical glass edges and refraction, restrained champagne-gold accents, soft neutral daylight. Do not copy reference bar chart. Full objects and text inside 6% safe margins. At 640x360 thumbnail the dark navy Chinese title is easily readable. Title on left, coherent miniature still life on right, ample calm whitespace. Leave top-right 20% x 15% empty for exact brand signature insertion later; NO generated watermark, person, Wise text or logo. No crypto company logos, no coins pile, no price data, no rising profit chart, no fake screenshot. No ivory/beige body illustration palette: this is pure white-silver glass. Title exactly '加密从0到1', split into two lines '加密' and '从0到1'. Small subtitle '资产 · 账户 · 钱包'. Right still life a silver ledger terminal beside a transparent glass wallet holding one large champagne-gold signing key, and one generic unbranded clear geometric token on ground. These indicate accounts and ownership permissions; restrained sober editorial style.",
+      "inputStyle": "/Users/balala/.codex/skills/wise-silver-glass/assets/studio-reference.webp",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-c6283466-2dfc-4ac6-8dd6-d87d8a254586.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-first-steps-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-first-steps.png",
+      "webPath": "public/images/articles/covers/crypto-first-steps.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        640,
+        360
+      ],
+      "webBytes": 14366,
+      "webpQuality": 60,
+      "sha256": "2229b475401ac6f6329ddb170ea57d2b81a9f8b21b4fab62a5494bd2e8993dc8",
+      "visualReview": "640×360缩略图已查看，中文加密从0到1与副标题完整，银白账簿和钱包签名钥匙可辨。"
+    },
+    {
+      "id": "crypto-buying-platforms",
+      "prompt": "Use case stylized-concept. Generate one polished Wise Invest article LIST COVER, landscape 16:9. Reference image is ONLY for MATERIALS/LIGHTING: white/silver architectural glass, polished aluminum, thick optical glass edges and refraction, restrained champagne-gold accents, soft neutral daylight. Do not copy reference bar chart. Full objects and text inside 6% safe margins. At 640x360 thumbnail the dark navy Chinese title is easily readable. Title on left, coherent miniature still life on right, ample calm whitespace. Leave top-right 20% x 15% empty for exact brand signature insertion later; NO generated watermark, person, Wise text or logo. No crypto company logos, no coins pile, no price data, no rising profit chart, no fake screenshot. No ivory/beige body illustration palette: this is pure white-silver glass. Title exactly '第一次买币' on first line and '去哪里' on second line. Small subtitle '交易所 · 钱包 · 购买入口'. Right still life two silver/clear-glass routes represented by two differently oriented door-like architectural entry frames, one containing a silver account terminal, the other containing a clear glass wallet and a small signing key. No complex arrows or text inside scene. Distinct starting routes, not guaranteed conversion.",
+      "inputStyle": "/Users/balala/.codex/skills/wise-silver-glass/assets/studio-reference.webp",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-6e75fb3a-72ee-4a58-bc0c-6436569aa5cd.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-buying-platforms-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-buying-platforms.png",
+      "webPath": "public/images/articles/covers/crypto-buying-platforms.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        640,
+        360
+      ],
+      "webBytes": 16620,
+      "webpQuality": 60,
+      "sha256": "6f30ad59474d95bc1ce2e5065c468e57d04fcd1d4bb334392a37a7e5530a3da0",
+      "visualReview": "640×360缩略图已查看，第一次买币去哪里标题完整，两种入口与账户、钱包对象可辨，无品牌冒用。"
+    },
+    {
+      "id": "crypto-c2c-funding",
+      "prompt": "Use case stylized-concept. Generate one polished Wise Invest article LIST COVER, landscape 16:9. Reference image is ONLY for MATERIALS/LIGHTING: white/silver architectural glass, polished aluminum, thick optical glass edges and refraction, restrained champagne-gold accents, soft neutral daylight. Do not copy reference bar chart. Full objects and text inside 6% safe margins. At 640x360 thumbnail the dark navy Chinese title is easily readable. Title on left, coherent miniature still life on right, ample calm whitespace. Leave top-right 20% x 15% empty for exact brand signature insertion later; NO generated watermark, person, Wise text or logo. No crypto company logos, no coins pile, no price data, no rising profit chart, no fake screenshot. No ivory/beige body illustration palette: this is pure white-silver glass. Title exactly 'C2C 入金' on first line and '怎么走' on second line. Small subtitle '订单 · 付款 · 收币'. Right still life two minimal silver wallets facing each other with a small glass escrow tray above center, one thin gold connecting curve and a single ivory-white order slip. No currency values, no guarantee shield, no bank building.",
+      "inputStyle": "/Users/balala/.codex/skills/wise-silver-glass/assets/studio-reference.webp",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-860fd1b3-682f-494b-9234-fc51ac32c588.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-c2c-funding-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-c2c-funding.png",
+      "webPath": "public/images/articles/covers/crypto-c2c-funding.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        640,
+        360
+      ],
+      "webBytes": 14344,
+      "webpQuality": 60,
+      "sha256": "2b6de9fb415efc45071e5ee6b04fcd2544896dfaff7ec53099c551b77ad9874f",
+      "visualReview": "640×360缩略图已查看，C2C入金怎么走与订单付款收币副标题完整，双钱包和托管托盘是主题隐喻而非资金流图。"
+    },
+    {
+      "id": "crypto-spot-futures",
+      "prompt": "Use case stylized-concept. Generate one polished Wise Invest article LIST COVER, landscape 16:9. Reference image is ONLY for MATERIALS/LIGHTING: white/silver architectural glass, polished aluminum, thick optical glass edges and refraction, restrained champagne-gold accents, soft neutral daylight. Do not copy reference bar chart. Full objects and text inside 6% safe margins. At 640x360 thumbnail the dark navy Chinese title is easily readable. Title on left, coherent miniature still life on right, ample calm whitespace. Leave top-right 20% x 15% empty for exact brand signature insertion later; NO generated watermark, person, Wise text or logo. No crypto company logos, no coins pile, no price data, no rising profit chart, no fake screenshot. No ivory/beige body illustration palette: this is pure white-silver glass. Title exactly '现货与合约', can split '现货' and '与合约'. Small subtitle '资产 · 保证金 · 头寸'. Right still life a silver-and-glass two-compartment display: left a single generic blank glass token; right a thick translucent contract sheet and a tiny silver margin tray. No numerical data, no arrow upwards, no coins pile, no risk-free symbolism.",
+      "inputStyle": "/Users/balala/.codex/skills/wise-silver-glass/assets/studio-reference.webp",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-8a289c51-e2b4-44bb-a997-0167af8f487a.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-spot-futures-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-spot-futures.png",
+      "webPath": "public/images/articles/covers/crypto-spot-futures.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        640,
+        360
+      ],
+      "webBytes": 12958,
+      "webpQuality": 60,
+      "sha256": "01b623c8db51c7bb9188121c8540067ae40c4c46c65746b263f0598b18448c90",
+      "visualReview": "640×360缩略图已查看，现货与合约及资产保证金头寸副标题完整，两种对象并列可辨，无收益图形。"
+    },
+    {
+      "id": "crypto-transfer-basics",
+      "prompt": "Use case stylized-concept. Generate one polished Wise Invest article LIST COVER, landscape 16:9. Reference image is ONLY for MATERIALS/LIGHTING: white/silver architectural glass, polished aluminum, thick optical glass edges and refraction, restrained champagne-gold accents, soft neutral daylight. Do not copy reference bar chart. Full objects and text inside 6% safe margins. At 640x360 thumbnail the dark navy Chinese title is easily readable. Title on left, coherent miniature still life on right, ample calm whitespace. Leave top-right 20% x 15% empty for exact brand signature insertion later; NO generated watermark, person, Wise text or logo. No crypto company logos, no coins pile, no price data, no rising profit chart, no fake screenshot. No ivory/beige body illustration palette: this is pure white-silver glass. Title exactly '转账前' on first line and '先核对' on second line. Small subtitle '网络 · 地址 · 到账'. Right still life a clear-glass transfer receipt, a silver magnifier examining three short rows, linked to a small glass ledger cube by thin champagne gold connector. A small hourglass sits beside ledger to express confirmation waiting. No real address, no QR, no speed promise.",
+      "inputStyle": "/Users/balala/.codex/skills/wise-silver-glass/assets/studio-reference.webp",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1b5f0-0af4-7122-add6-197ae4785294/exec-7111f76a-658c-4d08-bdac-e2b696545326.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-transfer-basics-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-transfer-basics.png",
+      "webPath": "public/images/articles/covers/crypto-transfer-basics.webp",
+      "sourceDimensions": [
+        1672,
+        941
+      ],
+      "webDimensions": [
+        640,
+        360
+      ],
+      "webBytes": 16568,
+      "webpQuality": 60,
+      "sha256": "59cde4795f20fee17358e088f88d08e841b9d595d6654a7d444f5ecf8cf86504",
+      "visualReview": "640×360缩略图已查看，转账前先核对与网络地址到账副标题完整，凭证、放大镜、账本和沙漏清晰。"
+    }
+  ],
+  "reviewStatus": "reviewed",
+  "reviewedOn": "2026-11-07",
+  "sharedReview": {
+    "signature": "10张最终图均右上角叠加真实完整原始@Wise Invest+人物，16%画布宽，保持比例，仅成图副本圆角；原签名文件未修改。",
+    "styles": "正文暖米白、深蓝、轻金、绿色连接；封面银白玻璃。所有主体完整，教学图未伪造真实平台界面。",
+    "sizes": "5张正文1280×720、约36–48 KB；5张封面640×360、约13–17 KB。全部低于项目上限。",
+    "scope": "只制作素材，未改正文或共享组件；网页实际呈现由主任务检查。",
+    "contactSheet": "/private/tmp/crypto-covers-contact.png"
+  }
+}

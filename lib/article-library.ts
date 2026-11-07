@@ -73,16 +73,25 @@ export interface ArticleSeries {
 export const articleSeries: ArticleSeries[] = [
   {
     id: "crypto-basics",
-    title: "加密货币基础入门",
-    description: "从基本概念到钱包、交易所与风险认识",
-    artwork: "/images/articles/series/crypto-wide-v1.webp",
+    title: "加密货币从 0 到 1：买币、交易与转账入门",
+    description: "五篇基础课，讲清买什么、去哪里买、怎样入金，以及买卖与转账后的核对。",
+    introduction: "第一次打开交易所，先别被满屏入口带着走。从 BTC、ETH 与稳定币开始，依次认识购买渠道、C2C 订单、现货与合约、钱包和链上转账，理解价格波动与保管责任。每篇配有示意图和例子，现有平台注册教程放在对应步骤；可先读懂流程，再按本人资格与需要选择操作。",
+    kind: "path",
+    artwork: "/images/articles/category-icons/crypto-ivory.webp",
+    cardArtwork: "/images/articles/series/crypto-wide-v1.webp",
     cover: "/images/articles/series/crypto-basics-wise-v2.webp",
-    status: "planned",
+    status: "updating",
+    stages: [
+      { id: "start", title: "认识资产与入口", description: "分清币、交易所与钱包，再判断本人能使用哪些购买渠道。" },
+      { id: "trade", title: "入金与买卖", description: "走清 C2C 订单与现货成交，理解合约的保证金、费用和强平。" },
+      { id: "transfer", title: "转账与保管", description: "核对网络、地址和净到账，分清链上确认与平台记账。" },
+    ],
     chapters: [
-      { title: "认识加密货币" },
-      { title: "交易所买卖入门" },
-      { title: "钱包保管与转账" },
-      { title: "波动与安全风险" },
+      { title: "认识币与账户", articleId: "crypto-first-steps", stageId: "start" },
+      { title: "选择购买入口", articleId: "crypto-buying-platforms", stageId: "start" },
+      { title: "C2C 入金流程", articleId: "crypto-c2c-funding", stageId: "trade" },
+      { title: "现货与合约", articleId: "crypto-spot-futures", stageId: "trade" },
+      { title: "转账与安全保管", articleId: "crypto-transfer-basics", stageId: "transfer" },
     ],
   },
   {

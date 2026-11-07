@@ -21,7 +21,7 @@ export function extractToc(content: string) {
 }
 
 // ─── Inline markdown (bold / code / link) ─────────────────
-export function renderInline(text: string, allowLinks = true): React.ReactNode {
+export function renderInline(text: string, allowLinks = true, mapHref?: (href: string) => string): React.ReactNode {
   const parts: React.ReactNode[] = [];
   const regex = /\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|`(.+?)`|(https?:\/\/[^\s<>\]\)"']+[^\s<>,;.)\]"'])/g;
   let lastIdx = 0; let key = 0;
@@ -30,7 +30,7 @@ export function renderInline(text: string, allowLinks = true): React.ReactNode {
     if (match.index > lastIdx) parts.push(<span key={key++}>{text.slice(lastIdx, match.index)}</span>);
     // Link labels can contain formatting or a URL, but never another anchor.
     if (match[1] != null) parts.push(allowLinks
-      ? <a key={key++} href={match[2]} target="_blank" rel="noopener noreferrer" className="[overflow-wrap:anywhere] text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1], false)}</a>
+      ? <a key={key++} href={mapHref ? mapHref(match[2]) : match[2]} target="_blank" rel="noopener noreferrer" className="[overflow-wrap:anywhere] text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{renderInline(match[1], false)}</a>
       : <span key={key++}>{renderInline(match[1], false)}</span>);
     else if (match[3] != null) parts.push(<strong key={key++} className="font-semibold">{match[3]}</strong>);
     else if (match[4] != null) parts.push(<code key={key++} className="[overflow-wrap:anywhere] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-400">{match[4]}</code>);
@@ -40,7 +40,7 @@ export function renderInline(text: string, allowLinks = true): React.ReactNode {
       parts.push(
         <a
           key={key++}
-          href={href}
+          href={mapHref ? mapHref(href) : href}
           target="_blank"
           rel="noopener noreferrer"
           className="[overflow-wrap:anywhere] text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
@@ -56,7 +56,8 @@ export function renderInline(text: string, allowLinks = true): React.ReactNode {
 }
 
 // ─── Markdown Renderer ─────────────────────────────────────
-export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string, linkedArticles: readonly ArticleLinkMetadata[] = [], linkedSeries: readonly ArticleSeriesLinkMetadata[] = []) {
+export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string, linkedArticles: readonly ArticleLinkMetadata[] = [], linkedSeries: readonly ArticleSeriesLinkMetadata[] = [], mapHref?: (href: string) => string) {
+  const renderText = (text: string) => renderInline(text, true, mapHref);
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
   const articlesByPath = new Map<string, ArticleLinkMetadata | ArticleSeriesLinkMetadata>(linkedArticles.map(({ id, categoryId, title, summary, readTime, coverImage }) => [
@@ -130,9 +131,9 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
         } catch { /* Invalid or unavailable targets keep a visible text fallback. */ }
         const article = href ? articlesByPath.get(href.split(/[?#]/)[0]) : undefined;
         if (article && href) {
-          cards.push(<ArticleLinkCard key={k++} article={article} href={href} />);
+          cards.push(<ArticleLinkCard key={k++} article={article} href={mapHref ? mapHref(href) : href} />);
         } else {
-          cards.push(<p key={k++} className="my-4 text-[16px] leading-8 text-slate-700 dark:text-slate-300">{renderInline(`[${label}](${rawHref})`)}</p>);
+          cards.push(<p key={k++} className="my-4 text-[16px] leading-8 text-slate-700 dark:text-slate-300">{renderText(`[${label}](${rawHref})`)}</p>);
         }
         i++;
         let next = i;
@@ -155,7 +156,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       }
       elements.push(
         <blockquote key={k++} className="my-5 pl-5 border-l-4 border-amber-400 bg-amber-50/50 dark:bg-amber-900/10 py-3 pr-4 rounded-r-lg text-slate-600 dark:text-slate-400 italic">
-          {renderInline(trimmed.slice(2))}
+          {renderText(trimmed.slice(2))}
         </blockquote>
       );
       i++; continue;
@@ -259,7 +260,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {rows.map((row, ri) => (
                 <tr key={ri} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                  {row.map((cell, ci) => <td key={ci} className="px-5 py-3 text-slate-700 dark:text-slate-300">{renderInline(cell)}</td>)}
+                  {row.map((cell, ci) => <td key={ci} className="px-5 py-3 text-slate-700 dark:text-slate-300">{renderText(cell)}</td>)}
                 </tr>
               ))}
             </tbody>
@@ -276,7 +277,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       while (i < lines.length && (lines[i].trim().startsWith("- ") || lines[i].trim().startsWith("* "))) { items.push(lines[i].trim().slice(2)); i++; }
       elements.push(
         <ul key={k++} className="my-4 space-y-2 pl-5">
-          {items.map((it, j) => <li key={j} className="text-slate-700 dark:text-slate-300 text-[16px] leading-8 list-disc marker:text-amber-400">{renderInline(it)}</li>)}
+          {items.map((it, j) => <li key={j} className="text-slate-700 dark:text-slate-300 text-[16px] leading-8 list-disc marker:text-amber-400">{renderText(it)}</li>)}
         </ul>
       );
       continue;
@@ -291,7 +292,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
           {items.map((it, j) => (
             <div key={j} className="flex items-start gap-3">
               <span className="shrink-0 w-6 h-6 rounded-full bg-amber-400 text-white text-xs font-bold flex items-center justify-center mt-0.5">{j + 1}</span>
-              <span className="text-slate-700 dark:text-slate-300 text-[16px] leading-8 flex-1">{renderInline(it)}</span>
+              <span className="text-slate-700 dark:text-slate-300 text-[16px] leading-8 flex-1">{renderText(it)}</span>
             </div>
           ))}
         </div>
@@ -302,7 +303,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
     if (!trimmed) { elements.push(<div key={k++} data-markdown-spacer className="h-2" />); i++; continue; }
 
     elements.push(
-      <p key={k++} className="my-3 text-[16px] text-slate-600 dark:text-slate-400 leading-8">{renderInline(trimmed)}</p>
+      <p key={k++} className="my-3 text-[16px] text-slate-600 dark:text-slate-400 leading-8">{renderText(trimmed)}</p>
     );
     i++;
   }

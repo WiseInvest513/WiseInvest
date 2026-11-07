@@ -5,7 +5,7 @@ import { getAllArticles, toArticleListItem } from "@/lib/articles";
 import { getArticleSeries } from "@/lib/article-series";
 import { siteConfig } from "@/lib/config";
 
-type SeriesPageProps = { params: Promise<{ seriesId: string }>; searchParams: Promise<{ route?: string | string[] }> };
+type SeriesPageProps = { params: Promise<{ seriesId: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 export async function generateMetadata({ params }: SeriesPageProps): Promise<Metadata> {
   const { seriesId } = await params;
@@ -23,6 +23,6 @@ export default async function SeriesPage({ params, searchParams }: SeriesPagePro
   const series = getArticleSeries(seriesId);
   if (!series) notFound();
   const articles = getAllArticles().map(toArticleListItem);
-  const query = await searchParams;
-  return <ArticlesContent key={series.id} initialArticles={articles} initialSeriesId={series.id} initialMapRouteId={typeof query?.route === "string" ? query.route : undefined} />;
+  const query = (await searchParams) ?? {};
+  return <ArticlesContent key={`${series.id}:${query.stage ?? ""}:${query.fromSeries ?? ""}:${query.fromStage ?? ""}`} initialArticles={articles} initialSeriesId={series.id} initialSeriesContext={{ fromSeries: query.fromSeries, fromStage: query.fromStage, fromRoute: query.fromRoute, stage: query.stage }} initialMapRouteId={typeof query?.route === "string" ? query.route : undefined} />;
 }
