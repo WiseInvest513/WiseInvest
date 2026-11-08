@@ -118,7 +118,7 @@ export const starterPaths: StarterPath[] = [
 ];
 
 export const quickAnswerItems = [
-  { question: "大陆用户怎么注册币安？", href: "/articles/crypto/GaM38JYk", answer: "从币安教程进入，先完成注册、KYC、安全设置，再小额 C2C 入金测试。", icon: Banknote },
+  { question: "大陆用户怎么注册币安？", href: "/articles/crypto/GaM38JYk", answer: "先核对本地区法规与平台注册页资格，再从币安教程里的唯一邀请卡完成注册、KYC 与安全设置。", icon: Banknote },
   { question: "MPCard 邀请链接在哪里？", href: "/articles/vcard/ou6gFWrn", answer: "MPCard 教程里保留了产品专属邀请链接、邀请码和 MP 产品群入口。", icon: CreditCard },
   { question: "哪张 U 卡适合 AI 订阅？", href: "/card", answer: "进入虚拟 U 卡资料库，用 AI 订阅筛选，再查看每张卡的教程和费率。", icon: CreditCard },
   { question: "我想买美股先看什么？", href: "/perk/broker", answer: "先看券商入口，再根据盈透、嘉信、港资券商的材料和入金路径选择。", icon: Building2 },

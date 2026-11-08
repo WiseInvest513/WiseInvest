@@ -38,16 +38,30 @@ const exchangeBenefits: RegistrationBrand["benefits"] = {
   items: [{ value: "20%", label: "交易手续费返佣", condition: "通过 Wise 邀请渠道注册，确认邀请关系已绑定。" }],
 };
 
-function exchange(name: string, iconSrc: string, tone: RegistrationBrand["tone"]): RegistrationBrand {
-  return { name, iconSrc, tone, benefits: exchangeBenefits };
+function isExchangeTradingBenefits(benefits: RegistrationBrand["benefits"] | undefined) {
+  return benefits?.summaryText === exchangeBenefits.summaryText;
 }
 
-const binance = exchange("Binance 币安", "/images/perks/overview/binance.svg", "yellow");
-const okx = exchange("OKX 欧易", "/images/capital-flow/okx.jpeg", "black");
-const bitget = exchange("Bitget", "/images/capital-flow/bitget.jpeg", "blue");
-const bybit = exchange("Bybit", "/images/capital-flow/bybit.jpeg", "black");
-const gate = exchange("Gate", "/images/registration/gate.jpg", "blue");
-const weex = exchange("WEEX", "/images/perks/weex.png", "yellow");
+function exchange(
+  name: string,
+  iconSrc: string,
+  tone: RegistrationBrand["tone"],
+  detailsHref?: string,
+): RegistrationBrand {
+  return {
+    name,
+    iconSrc,
+    tone,
+    benefits: detailsHref ? { ...exchangeBenefits, detailsHref } : exchangeBenefits,
+  };
+}
+
+const binance = exchange("Binance 币安", "/images/perks/overview/binance.svg", "yellow", "/perk/crypto#product-binance");
+const okx = exchange("OKX 欧易", "/images/capital-flow/okx.jpeg", "black", "/perk/crypto#product-okx");
+const bitget = exchange("Bitget", "/images/capital-flow/bitget.jpeg", "blue", "/perk/crypto#product-bitget");
+const bybit = exchange("Bybit", "/images/capital-flow/bybit.jpeg", "black", "/perk/crypto#product-bybit");
+const gate = exchange("Gate", "/images/registration/gate.jpg", "blue", "/perk/crypto#product-gate");
+const weex = exchange("WEEX", "/images/perks/weex.png", "yellow", "/perk/crypto#product-weex");
 const bbae: RegistrationBrand = {
   name: "BBAE", iconSrc: "/images/registration/bbae.jpg", tone: "blue",
   benefits: {
@@ -111,7 +125,7 @@ export function getRegistrationBrand(href?: string, title?: string): Registratio
   if (title) {
     const match = brandsByTitle.find(([pattern]) => pattern.test(title));
     if (match) {
-      return /Card|Wallet|卡|钱包/i.test(title) && match[1].benefits === exchangeBenefits
+      return /Card|Wallet|卡|钱包/i.test(title) && isExchangeTradingBenefits(match[1].benefits)
         ? { ...match[1], benefits: undefined }
         : withArticleBenefits(match[1]);
     }

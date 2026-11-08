@@ -61,6 +61,36 @@ function getArticleHref(article: Pick<ArticleItem, "id" | "categoryId">) {
 }
 
 function getTopicLinks(article: ArticleItem) {
+  const exchangeRegisterCta: Record<string, { href: string; title: string; description: string }> = {
+    "biance-guide": {
+      href: "/perk/crypto#product-binance",
+      title: "币安注册入口",
+      description: "带邀请码的主注册入口与返佣条件；与文内邀请卡一致。",
+    },
+    "okx-guide": {
+      href: "/perk/crypto#product-okx",
+      title: "欧易注册入口",
+      description: "带邀请码的主注册入口与返佣条件；与文内邀请卡一致。",
+    },
+    "bitget-exchange": {
+      href: "/perk/crypto#product-bitget",
+      title: "Bitget 注册入口",
+      description: "带邀请码的主注册入口与返佣条件；与文内邀请卡一致。",
+    },
+    "bybit-guide": {
+      href: "/perk/crypto#product-bybit",
+      title: "Bybit 注册入口",
+      description: "先确认服务资格，再使用带邀请码的注册入口。",
+    },
+  };
+
+  if (exchangeRegisterCta[article.id]) {
+    return [
+      exchangeRegisterCta[article.id],
+      { href: "/perk/crypto", title: "全部交易所福利", description: "需要对比多家时，再回福利中心总览。" },
+    ];
+  }
+
   const topicMap: Record<string, { href: string; title: string; description: string }[]> = {
     vcard: [
       { href: "/card", title: "虚拟 U 卡资料库", description: "对比 MPCard、Bitget Wallet、SafePal、BenPay 等卡片场景。" },
