@@ -15,7 +15,7 @@ readTime: 12
 
 ## 一、先看钱在哪里，再决定从哪个入口开始
 
-刚认识 BTC、ETH 和 USDT，接下来很容易卡在这里：我到底应该下载哪个 App？币安、欧易、Bitget 都是交易所，旁边怎么还有钱包？钱包里也有一个“购买”，点哪个才对？
+刚认识 BTC、ETH 和 USDT（概念不清可先回看 [币与账户入门](/articles/crypto/UOMdQwU3?series=crypto-basics)），接下来很容易卡在这里：我到底应该下载哪个 App？币安、欧易、Bitget 都是交易所，旁边怎么还有钱包？钱包里也有一个“购买”，点哪个才对？
 
 先别忙着全装一遍。你把自己的情况说完整，选择就会少很多：**我现在持有什么资金，想换成什么，买完准备放在哪里。**
 
@@ -91,7 +91,7 @@ readTime: 12
 
 特别是 **Bybit**：截至本次核对的 **2026 年 11 月 7 日**，其官方限制名单包含中国大陆和香港，因此不能把它作为这两个地区用户的通用开户入口。虚报居住地也不会改变真实资格。[Bybit 服务限制说明](https://www.bybit.com/en/help-center/article/Service-Restricted-Countries)
 
-币安和 OKX 的已有教程主要连接注册、认证、C2C 与基础买币；Bitget 的教程还详细写了从其他交易所或钱包转入，以及如何阅读赚币活动。Bybit 则先讲服务资格，再解释账户使用。按自己当前的问题读一篇即可，页面中的旧截图不代替当前资格和规则。
+币安和 OKX 的已有教程主要连接注册、认证、C2C 与基础买币，见 [币安注册与使用](/articles/crypto/GaM38JYk) 与 [OKX 怎么买币](/articles/crypto/mAPQm7WZ)；Bitget 还详细写了从其他交易所或钱包转入，见 [Bitget 怎么注册入金](/articles/crypto/k3RVVcw4)。Bybit 则先讲服务资格，见 [Bybit 还能注册吗](/articles/crypto/e6utod7B)。按自己当前的问题读一篇即可，页面中的旧截图不代替当前资格和规则。
 
 [币安注册与基础使用](/articles/crypto/GaM38JYk){card}
 [OKX 注册、入金与买币](/articles/crypto/mAPQm7WZ){card}
@@ -120,7 +120,7 @@ readTime: 12
 
 你现在可以给自己留下一张很简单的便条：**资金起点、购买入口、目标资产、保管位置、退出方式。** 五项都能用自己的话说清楚，再进入对应操作文章。
 
-需要理解 C2C 的，继续看入金篇；已经有币、准备转账的，直接进入转账篇。
+需要理解 C2C 的，继续看 [第一次给交易所入金](/articles/crypto/mk7xplfU?series=crypto-basics)；已经有币、准备转账的，直接进入 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
 
 [币安 C2C 入金：订单、付款与到账](/articles/crypto/mk7xplfU?series=crypto-basics){card}
 [加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}

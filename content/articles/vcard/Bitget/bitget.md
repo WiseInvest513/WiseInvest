@@ -15,9 +15,9 @@ summary: Bitget Wallet 和钱包卡怎么区分：备份、充值、身份认证
 
 ## 一、先分清 Bitget Wallet 与钱包里的卡片
 
-**Bitget Wallet**是钱包入口，**Bitget Wallet Card**是其中的支付卡服务，不能和 Bitget 交易所账户混为一谈。钱包创建成功，不等于已经获得开卡资格。
+**Bitget Wallet Card 怎么申请？** 先分清：Bitget Wallet 是钱包入口，Wallet Card 是其中的支付卡，两者都不能和 Bitget **交易所账户**混为一谈。钱包创建成功，不等于已经获得开卡资格。
 
-这篇教程按钱包准备、备份与充值、身份认证、地址证明和审核的顺序展开。适合想了解开卡流程的读者；卡片版本、服务地区及材料要求以本人申请为准，旧截图不代表当前所有地区都开放。
+本文按「备份 → 充值 → 身份认证 → 地址证明 → 审核」展开。真实住址证明是常见卡点；若你更想对比其他卡的材料门槛，可看 [Gate Card 开卡步骤](/articles/vcard/GUhygjYV) 或 [SafePal 认证与充值](/articles/vcard/E4lD5AIn)。
 
 ## 二、Bitget Wallet Card 怎么一步步申请？
 
@@ -39,7 +39,7 @@ summary: Bitget Wallet 和钱包卡怎么区分：备份、充值、身份认证
 
 如果你没有下载过 Bitget App，可以参考这个教程进行下载和注册：
 
-[Bitget 交易所注册&使用教程](https://www.wise-invest.org/articles/crypto/k3RVVcw4){card}
+[Bitget 怎么注册入金](/articles/crypto/k3RVVcw4){card}
 
 在过去，Bitget 这个产品我们都只能用来购买加密产品。但是现在随着去年 Bitget 第一个喊出要做一个 UEX 交易所，之后也上了很多美股产品。
 

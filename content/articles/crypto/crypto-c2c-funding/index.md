@@ -45,7 +45,7 @@ readTime: 12
 
 完成本人资料认证、安全验证后，再检查付款账户。名字、币种、可用额度、付款方式都要与订单要求一致。不要借别人的卡代付，也不要为了通过审核编造身份或付款用途。银行卡或支付机构提示交易不支持时，应停止并按其要求处理。
 
-注册与安全设置可以对照配套教程查看；这篇从已经具备使用资格的账户继续往下讲。
+注册与安全设置可以对照 [币安注册与使用教程](/articles/crypto/GaM38JYk) 查看；这篇从已经具备使用资格的账户继续往下讲。
 
 [币安注册与使用教程](/articles/crypto/GaM38JYk){card}
 
@@ -128,7 +128,7 @@ readTime: 12
 
 三份记录对得起来，这次入金才算在自己心里有了账。以后查成本、处理争议或核对资金来源，也有依据。
 
-接下来想买 BTC，可以继续看现货与合约那一篇，先搞清楚页面上的订单到底买的是什么；准备转到另一个平台或自己的钱包，就先把网络、地址和到账核对看完。
+接下来想买 BTC，可以继续看 [现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics)，先搞清楚页面上的订单到底买的是什么；准备转到另一个平台或自己的钱包，就先把 [网络、地址和到账核对](/articles/crypto/oWHIVCLt?series=crypto-basics) 看完。
 
 [现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics){card}
 [转账与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
