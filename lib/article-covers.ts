@@ -410,6 +410,21 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "GamsGo 订阅站：AI 工具使用指南，工具选择 · 订阅购买 · 使用流程",
     topics: ["GamsGo","AI 工具","订阅使用"],
   },
+  "starryblu-vs-wise": {
+    src: "/images/articles/covers/starryblu-vs-wise.webp",
+    alt: "StarryBlu 和 Wise 怎么选：银白天平与两块支付账户玻璃牌，示意用途对比",
+    topics: ["StarryBlu","Wise","支付账户对比","开户前核对"],
+  },
+  "starryblu-is-ucard": {
+    src: "/images/articles/covers/starryblu-is-ucard.webp",
+    alt: "StarryBlu 算不算 U 卡：MPI 支付账户与稳定币卡分开展示",
+    topics: ["StarryBlu","U卡","MPI","品类澄清"],
+  },
+  "starryblu-passport-kyc": {
+    src: "/images/articles/covers/starryblu-passport-kyc.webp",
+    alt: "StarryBlu 开卡需要护照吗：护照与身份证材料分工示意",
+    topics: ["StarryBlu","护照","KYC","开卡材料"],
+  },
   "domestic-hk-us-guide": {
     src: "/images/articles/covers/domestic-hk-us-guide.webp",
     alt: "港美股投资入门：从开户到资金路径，银行账户 · 券商 · 入金",

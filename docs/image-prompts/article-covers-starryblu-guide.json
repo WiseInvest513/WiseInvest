@@ -1,0 +1,13 @@
+{
+  "method": "cursor GenerateImage + sharp webp",
+  "style": "wise-silver-glass",
+  "createdAt": "2026-11-08",
+  "seriesId": "starryblu-guide",
+  "brandOriginal": "public/images/brand/wise-invest-signature.png",
+  "webExport": {"width": 640, "format": "webp", "quality": 60, "effort": 6, "smartSubsample": true, "maxBytes": 25000},
+  "assets": [
+    {"id": "starryblu-vs-wise", "finalPath": "public/images/articles/covers/starryblu-vs-wise.webp", "originalPath": "assets/source-images/article-covers/starryblu-vs-wise.png", "dimensions": {"width": 640, "height": 360}, "bytes": 10502},
+    {"id": "starryblu-is-ucard", "finalPath": "public/images/articles/covers/starryblu-is-ucard.webp", "originalPath": "assets/source-images/article-covers/starryblu-is-ucard.png", "dimensions": {"width": 640, "height": 360}, "bytes": 9234},
+    {"id": "starryblu-passport-kyc", "finalPath": "public/images/articles/covers/starryblu-passport-kyc.webp", "originalPath": "assets/source-images/article-covers/starryblu-passport-kyc.png", "dimensions": {"width": 640, "height": 360}, "bytes": 10272, "note": "subtitle glyph may show slight顿号 variant in source render; intent is 护照与身份证分工"}
+  ]
+}

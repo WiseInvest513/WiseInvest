@@ -351,6 +351,23 @@ export const articleSeries: ArticleSeries[] = [
       { title: "美股投资全流程", articleId: "us-guide", stageId: "practice" },
     ],
   },
+
+  {
+    id: "starryblu-guide",
+    title: "StarryBlu 专栏：算不算 U 卡、怎么选、开卡材料",
+    description: "先分清 MPI 支付账户与稳定币 U 卡，再和 Wise 等比用途，核对护照／身份证 KYC，最后进入完整开户充值教程。",
+    introduction: "StarryBlu 是新加坡 MPI 多币种支付账户与卡片路径，不是稳定币 U 卡，页面出现 OCBC 也不等于个人华侨银行账户。本专栏三篇澄清品类、对比用途与材料，第四篇回到站内完整开户充值实操；费用、排队与卡片资格以 App／官网当日为准。",
+    kind: "topic",
+    artwork: "/images/articles/covers/StarryBlu-vcard.webp",
+    status: "updating",
+    chapters: [
+      { title: "StarryBlu 算不算 U 卡", articleId: "starryblu-is-ucard", summary: "MPI 法币账户＋卡 vs 稳定币 U 卡；OCBC 托管怎么理解。" },
+      { title: "StarryBlu 和 Wise 怎么选", articleId: "starryblu-vs-wise", summary: "按收付款、卡片、入金券商与材料门槛分流。" },
+      { title: "开卡需要护照吗", articleId: "starryblu-passport-kyc", summary: "护照做身份认证，身份证多作地址证明；以 App 页为准。" },
+      { title: "开户充值与开卡教程", articleId: "StarryBlu-vcard", summary: "完整认证、充值、转出与卡片消费步骤。" },
+    ],
+  },
+
 ];
 
 export function searchArticleSeries(query: string): ArticleSeries[] {
