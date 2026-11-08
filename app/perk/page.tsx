@@ -19,12 +19,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
     description: "整理交易所返佣、美股券商开户、境外银行、虚拟 U 卡和出海工具入口。",
-    url: siteConfig.url("/perk"), siteName: siteConfig.name, type: "website",
+    url: siteConfig.url("/perk"),
+    siteName: siteConfig.name,
+    type: "website",
+    images: [{ url: siteConfig.defaultOgImage, alt: "Wise Invest 福利中心" }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Wise Invest 福利中心：交易所返佣、港美股开户、境外银行与虚拟 U 卡入口",
     description: "整理交易所返佣、美股券商开户、境外银行、虚拟 U 卡和出海工具入口。",
+    images: [siteConfig.defaultOgImage],
   },
 };
 

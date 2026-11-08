@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/lib/config";
 import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 import { EtfChapter, StocksChapter, CryptoChapter } from "@/components/home/investment-chapters";
@@ -10,6 +11,20 @@ import styles from "@/components/home/home.module.css";
 export const metadata: Metadata = {
   title: "Wise Invest - 欢迎来到新的世界",
   description: "从认识投资到管理自己的资产，探索 Wise 的 ETF、美股、加密投资、出海服务与 VIP 学习体系。",
+  openGraph: {
+    title: "Wise Invest - 欢迎来到新的世界",
+    description: "从认识投资到管理自己的资产，探索 Wise 的 ETF、美股、加密投资、出海服务与 VIP 学习体系。",
+    url: siteConfig.baseUrl,
+    siteName: siteConfig.name,
+    type: "website",
+    images: [{ url: siteConfig.defaultOgImage, alt: "Wise Invest" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wise Invest - 欢迎来到新的世界",
+    description: "从认识投资到管理自己的资产，探索 Wise 的 ETF、美股、加密投资、出海服务与 VIP 学习体系。",
+    images: [siteConfig.defaultOgImage],
+  },
 };
 
 const directions = [

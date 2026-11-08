@@ -25,6 +25,12 @@ export const siteConfig = {
   description: "专业的投资内容平台，提供投资工具、深度分析和优质资源",
 
   /**
+   * Default Open Graph / Twitter share image (absolute path under public/).
+   * Prefer a wide raster asset; SVG is unreliable for social crawlers.
+   */
+  defaultOgImage: "/images/home/journey-hero.webp",
+
+  /**
    * 生成完整 URL 的辅助函数
    * @param path - 路径（如 "/tools" 或 "/aboutme"）
    * @returns 完整的 URL（如 "http://localhost:3002/tools"）

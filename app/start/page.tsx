@@ -30,11 +30,13 @@ export const metadata: Metadata = {
     url: siteConfig.url("/start"),
     siteName: siteConfig.name,
     type: "website",
+    images: [{ url: siteConfig.defaultOgImage, alt: "Wise Invest 新手入门" }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Wise Invest 新手入门",
     description: "按问题找到交易所、U 卡、券商、银行、定投和工具入口。",
+    images: [siteConfig.defaultOgImage],
   },
 };
 

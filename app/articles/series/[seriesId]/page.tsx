@@ -11,10 +11,28 @@ export async function generateMetadata({ params }: SeriesPageProps): Promise<Met
   const { seriesId } = await params;
   const series = getArticleSeries(seriesId);
   if (!series) return {};
+  const url = siteConfig.url(`/articles/series/${series.id}`);
+  const imagePath = series.cover || series.cardArtwork || series.artwork || siteConfig.defaultOgImage;
+  const imageUrl = imagePath.startsWith("http") ? imagePath : siteConfig.url(imagePath);
+  const images = [{ url: imageUrl, alt: series.title }];
   return {
     title: `${series.title} - ${siteConfig.name}`,
     description: series.description,
-    alternates: { canonical: siteConfig.url(`/articles/series/${series.id}`) },
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      title: series.title,
+      description: series.description,
+      url,
+      siteName: siteConfig.name,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: series.title,
+      description: series.description,
+      images: [imageUrl],
+    },
   };
 }
 

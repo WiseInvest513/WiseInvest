@@ -66,11 +66,13 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     locale: "zh_CN",
     type: "website",
+    images: [{ url: siteConfig.defaultOgImage, alt: siteConfig.name }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} - 专业的投资内容平台`,
     description: siteConfig.description,
+    images: [siteConfig.defaultOgImage],
   },
 };
 
@@ -85,7 +87,7 @@ export default function RootLayout({
     name: siteConfig.name,
     url: siteConfig.baseUrl,
     logo: siteConfig.url("/wise-invest-icon.svg"),
-    sameAs: ["https://x.com/WiseInvest513", "https://t.me/WiseInvest513Chat"],
+    sameAs: ["https://x.com/WiseInvest513", "https://www.youtube.com/@WiseInvest513", "https://t.me/WiseInvest513Chat"],
   };
 
   const websiteJsonLd = {

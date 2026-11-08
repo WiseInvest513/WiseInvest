@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/config";
 import { tools } from "@/lib/data";
 import { getToolRoute } from "@/lib/tool-routes";
-import { knowledgeBaseMetadata } from "@/lib/anthology/metadata";
+import { articleSeries } from "@/lib/article-library";
 import { roadmaps } from "@/lib/roadmaps-data";
 import { getAllArticles, getArticleRoute } from "@/lib/articles";
 import { categories } from "@/lib/articles-data";
@@ -66,30 +66,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
     }));
 
-  // 文集文章页（有 path 的文章，说明有内容）
-  const anthologyPages: MetadataRoute.Sitemap = [];
-  for (const section of knowledgeBaseMetadata) {
-    for (const author of section.authors) {
-      for (const category of author.categories) {
-        for (const article of category.articles) {
-          if (article.path) {
-            anthologyPages.push({
-              url: `${baseUrl}/anthology?article=${article.id}`,
-              priority: 0.5,
-              changeFrequency: "yearly" as const,
-            });
-          }
-        }
-      }
-    }
-  }
+  // Series overview pages (unique indexable landings)
+  const seriesPages = articleSeries.map((series) => ({
+    url: `${baseUrl}/articles/series/${series.id}`,
+    priority: 0.8,
+    changeFrequency: "weekly" as const,
+  }));
+
+  // Anthology articles are client-selected via ?article= and largely duplicate
+  // content already linked elsewhere; keep only the /anthology landing above.
 
   return [
     ...staticPages,
     ...toolPages,
     ...roadmapPages,
     ...articleCategoryPages,
+    ...seriesPages,
     ...articlePages,
-    ...anthologyPages,
   ];
 }

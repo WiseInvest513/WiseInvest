@@ -117,6 +117,15 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // Prefer permanent apex→www when the request reaches the app.
+        // If Vercel Domains already redirects apex with 307, change apex from
+        // "Redirect" to an attached alias so this 308/301 can take effect.
+        source: "/:path*",
+        has: [{ type: "host", value: "wise-invest.org" }],
+        destination: "https://www.wise-invest.org/:path*",
+        permanent: true,
+      },
+      {
         source: "/vip",
         destination: "https://vip.wise-invest.org/join",
         permanent: true,
