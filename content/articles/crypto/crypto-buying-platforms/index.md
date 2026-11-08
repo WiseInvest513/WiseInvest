@@ -15,7 +15,9 @@ readTime: 14
 
 ## 一、先看钱在哪里，再决定从哪个入口开始
 
-刚认识 BTC、ETH 和 USDT（概念不清可先回看 [币与账户入门](/articles/crypto/UOMdQwU3?series=crypto-basics)），接下来很容易卡在这里：我到底应该下载哪个 App？币安、欧易、Bitget 都是交易所，旁边怎么还有钱包？钱包里也有一个“购买”，点哪个才对？
+刚认识 BTC、ETH 和 USDT（概念不清可先回看币与账户入门），接下来很容易卡在这里：我到底应该下载哪个 App？币安、欧易、Bitget 都是交易所，旁边怎么还有钱包？钱包里也有一个“购买”，点哪个才对？
+
+[币与账户入门](/articles/crypto/UOMdQwU3?series=crypto-basics){card}
 
 先别忙着全装一遍。你把自己的情况说完整，选择就会少很多：**我现在持有什么资金，想换成什么，买完准备放在哪里。**
 
@@ -93,7 +95,10 @@ readTime: 14
 
 比较两家交易所时，用同一笔金额、同一目标资产，分别估算：法币侧实付 → 得到的稳定币数量 → 现货成交后的目标币数量 → 若提币，再扣网络费。站内教程里的返佣口径一致时，可到 [福利中心 · 加密](/perk/crypto) 核对邀请码，但**返佣不能弥补错误网络提币或资格不符**。
 
-KYC 被拒时，先按该平台认证页给出的原因处理（证件、照片、人脸、地区、重复身份等），不要另开一篇「万能过审」教程；币安见 [币安 FAQ](/articles/crypto/GaM38JYk)，欧易见 [OKX FAQ](/articles/crypto/mAPQm7WZ) 与 [官方被拒说明](https://www.okx.com/help/why-did-my-account-verification-fail)。
+KYC 被拒时，先按该平台认证页给出的原因处理（证件、照片、人脸、地区、重复身份等），不要另开一篇「万能过审」教程；币安／欧易 FAQ 见下方卡片，欧易官方说明见 [官方被拒说明](https://www.okx.com/help/why-did-my-account-verification-fail)。
+
+[币安 FAQ／注册教程](/articles/crypto/GaM38JYk){card}
+[OKX FAQ／注册教程](/articles/crypto/mAPQm7WZ){card}
 
 ## 四、大陆用户还能开哪家？先看资格，再点教程
 
@@ -103,10 +108,10 @@ KYC 被拒时，先按该平台认证页给出的原因处理（证件、照片�
 
 | 平台 | 资格核对要点（截至文内标注日） | 接着读哪篇 |
 | --- | --- | --- |
-| Bybit | **2026-11-07** 官方限制名单含中国大陆和香港；不能作为这两个地区的通用开户入口 | [Bybit 还能注册吗](/articles/crypto/e6utod7B) |
-| 币安 | 须同时看当地法规与平台条款／注册页；银发〔2026〕42 号明确境外主体不得向境内非法提供虚拟货币相关服务；禁止名单未列某地 ≠ 当地法律允许 | [币安怎么买币](/articles/crypto/GaM38JYk) |
-| OKX | 按**实际居住地**做身份认证；受限制地区不可用对应服务，不得改选其他国家选项绕过 | [OKX 怎么买币](/articles/crypto/mAPQm7WZ) |
-| Bitget | 以本人账户页与官方说明为准；教程侧重链上转入与现货 | [Bitget 怎么注册入金](/articles/crypto/k3RVVcw4) |
+| Bybit | **2026-11-07** 官方限制名单含中国大陆和香港；不能作为这两个地区的通用开户入口 | 见下方 Bybit 卡片 |
+| 币安 | 须同时看当地法规与平台条款／注册页；银发〔2026〕42 号明确境外主体不得向境内非法提供虚拟货币相关服务；禁止名单未列某地 ≠ 当地法律允许 | 见下方币安卡片 |
+| OKX | 按**实际居住地**做身份认证；受限制地区不可用对应服务，不得改选其他国家选项绕过 | 见下方 OKX 卡片 |
+| Bitget | 以本人账户页与官方说明为准；教程侧重链上转入与现货 | 见下方 Bitget 卡片 |
 
 虚报居住地、借用证件或选其他国家选项，都不会把真实资格改合法；相关风险由本人承担。法规原文见 [银发〔2026〕42 号通知](https://www.csrc.gov.cn/csrc/c100028/c7614318/content.shtml)；Bybit 限制页见 [Service Restricted Countries](https://www.bybit.com/en/help-center/article/Service-Restricted-Countries)。
 
@@ -143,7 +148,7 @@ KYC 被拒时，先按该平台认证页给出的原因处理（证件、照片�
 
 ### 手里只有法币，先怎么办？
 
-先确认本人地区可用的**法币买币／C2C**入口，再选一家资格匹配的交易所走完小额订单；不要同时注册四五个平台。订单核对见 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics)。若只想人民币指数敞口，也可以先评估是否必须买币。
+先确认本人地区可用的**法币买币／C2C**入口，再选一家资格匹配的交易所走完小额订单；不要同时注册四五个平台。订单核对见下方 C2C 卡片。若只想人民币指数敞口，也可以先评估是否必须买币。
 
 ### 已经有 U 了，还要再开交易所吗？
 
@@ -157,7 +162,7 @@ KYC 被拒时，先按该平台认证页给出的原因处理（证件、照片�
 
 不一定。要把 C2C 价差、现货费率、返佣基数和提币网络费放在同一笔金额里比；「永久 20% 返佣」只作用于符合规则的手续费。见上文「交易所之间怎么比手续费」。
 
-需要理解 C2C 的，继续看 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics)；已经有币、准备转账的，直接进入 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+需要理解 C2C，或已经有币、准备转账时，继续看：
 
 [C2C 怎么买 USDT：付款、收币与冻卡注意](/articles/crypto/mk7xplfU?series=crypto-basics){card}
 [加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}

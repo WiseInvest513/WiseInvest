@@ -21,7 +21,10 @@ Bybit 的交易、赚币与活动入口需要分别理解：现货是两种资�
 
 ![Bybit 界面展示](./1.png)
 
-交易所账户与卡产品的资格需要分别确认，不能相互替代。若你符合资格并打算申卡，另见 [Bybit Card 怎么开](/articles/vcard/wYKRLDvK)；还不熟悉币与账户概念时，可先读 [BTC、ETH、USDT 入门](/articles/crypto/UOMdQwU3?series=crypto-basics)。
+交易所账户与卡产品的资格需要分别确认，不能相互替代。若你符合资格并打算申卡，或不熟悉币与账户概念，先看：
+
+[Bybit Card 怎么开](/articles/vcard/wYKRLDvK){card}
+[BTC、ETH、USDT 入门](/articles/crypto/UOMdQwU3?series=crypto-basics){card}
 
 ## 二、注册前准备什么
 
@@ -54,7 +57,10 @@ Bybit 的交易、赚币与活动入口需要分别理解：现货是两种资�
 
 ## 四、链上入金怎样检查结果
 
-原教程演示的是**从另一个交易所链上转入 USDT**，不是 C2C 买币。先在本人 Bybit 账户取得实时充值信息，再到转出账户操作，顺序不能颠倒。网络与地址核对可对照 [第一次转币：网络与到账](/articles/crypto/oWHIVCLt?series=crypto-basics)；若转出端是币安，也可先看 [币安注册与使用](/articles/crypto/GaM38JYk)。
+原教程演示的是**从另一个交易所链上转入 USDT**，不是 C2C 买币。先在本人 Bybit 账户取得实时充值信息，再到转出账户操作，顺序不能颠倒。网络与地址、以及币安转出端对照：
+
+[第一次转币：网络与到账](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
+[币安注册与使用](/articles/crypto/GaM38JYk){card}
 
 1. **在接收端确认资产和网络。** 找到加密货币充值入口，选择准备转入的币种，再核对当前支持的网络、最低充值额和所需确认数。需要 Memo / Tag 的资产必须一并填写。
 2. **取得本人实时地址。** 旧记录用过 USDT 的 BSC 网络，但这不表示所有时候都应选 BSC。应以本次两端同时支持的网络为依据，不向文章图片中的地址转账。

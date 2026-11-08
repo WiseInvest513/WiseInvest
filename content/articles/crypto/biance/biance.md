@@ -168,6 +168,9 @@ summary: 币安从资格核对到注册安全、C2C／链上入金和现货买�
 
 ### C2C 和链上充值有什么区别？
 
-C2C 是法币付给交易对手、平台按规则处理订单；链上充值是你从本人钱包／其他交易所转币入账，要核对网络与地址。细节见 [币安 C2C 入金](/articles/crypto/mk7xplfU?series=crypto-basics) 与 [转账到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+C2C 是法币付给交易对手、平台按规则处理订单；链上充值是你从本人钱包／其他交易所转币入账，要核对网络与地址。细节见：
+
+[币安 C2C 入金](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+[转账到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
 准备注册时，回到上文那一张邀请卡即可；福利总览见 [币安注册入口](/perk/crypto#product-binance)。钱包保管与空投／活动规则知识点较多，后续若单独成篇再展开；现阶段先把账户权限、资金到账和成交明细核对清楚。

@@ -28,7 +28,12 @@ summary: 人在大陆想办虚拟 U 卡，先别问「哪张最好」。按如�
 3. **随用随充**：卡内是否需要长期沉淀大额？更稳妥的习惯是按近期消费小额充值，用完再补，降低单卡敞口。
 4. **绑支付与主场景**：目标是 AI 订阅、支付宝、微信、Apple Pay，还是线下 POS？绑定成功仍要用小额实付验证。
 
-稳定币从哪来、怎么转，可回看 [第一次买币去哪／交易所怎么选](/articles/crypto/gHntO7zV?series=crypto-basics) 与 [转账网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)；买 U 与冻卡注意见 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics) 和 [C2C 冻卡怎么办](/articles/crypto/eGSleJwI?series=crypto-basics)。
+稳定币从哪来、怎么转、买 U 与冻卡注意，可回看下面几篇：
+
+[第一次买币去哪／交易所怎么选](/articles/crypto/gHntO7zV?series=crypto-basics){card}
+[转账网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
+[C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+[C2C 冻卡怎么办](/articles/crypto/eGSleJwI?series=crypto-basics){card}
 
 ## 三、一张表怎么比？大陆资格口径（核对日）
 
@@ -52,39 +57,56 @@ summary: 人在大陆想办虚拟 U 卡，先别问「哪张最好」。按如�
 
 先分清交易所账户和 Gate Card 资格。消费侧作者记录里出现过支付宝等场景；微信、Apple Pay 等是否支持要以你账号实测为准。交易手续费返佣**不等于**卡片返现或积分现金。费用、绑支付与账单核对见专文。
 
-完整步骤：[Gate Card 费用、绑支付与 Apple Pay 怎么核对](/articles/vcard/GUhygjYV)
+完整步骤：
+
+[Gate Card 费用、绑支付与 Apple Pay 怎么核对](/articles/vcard/GUhygjYV){card}
 
 ## 五、Bitget Wallet Card 和交易所账户一样吗？
 
 不一样。Bitget **Wallet** 与 Wallet Card，都不能和 Bitget **交易所**账户混为一谈。常见卡点是**真实地址证明**与审核结果因人而异——缺材料时向官方问替代文件，不要用修改账单等方式硬过。
 
-完整步骤：[Bitget Wallet Card 怎么申请？认证、地址证明与开卡检查](/articles/vcard/WK8p1cCV)
+完整步骤：
+
+[Bitget Wallet Card 怎么申请？认证、地址证明与开卡检查](/articles/vcard/WK8p1cCV){card}
 
 ## 六、Bybit Card 大陆还能不能办？
 
 **以本人 Bybit 账户里实际能申请的卡片版本与官方服务地区为准**，不要用网上「一定能／一定不能」的截图代替。旧教程里的地区名、返现比例和充值门槛不能套到所有账户。若申请页不可用或条款排除你所在地，应停止并换符合条件的路径，而不是改居住地。
 
-完整步骤：[Bybit Card 怎么开？申请、入金和返现怎么领](/articles/vcard/wYKRLDvK)  
-交易所侧资格可对照：[Bybit 还能注册吗？资格与入金核对](/articles/crypto/e6utod7B)
+完整步骤与交易所资格：
+
+[Bybit Card 怎么开？申请、入金和返现怎么领](/articles/vcard/wYKRLDvK){card}
+[Bybit 还能注册吗？资格与入金核对](/articles/crypto/e6utod7B){card}
 
 ## 七、BenPay、SafePal 怎么选入口？
 
 **BenPay**：多卡种；教程里的 Delta 等路径曾以较低认证摩擦覆盖订阅与部分支付，但简化认证不是匿名承诺，也不保证以后不要求补材料。适合「主场景是订阅＋部分日常支付」时优先对照。  
-完整步骤：[BenPay Delta Card 怎么开？充值、开卡与订阅前要检查什么](/articles/vcard/oCyhotvX)
+完整步骤：
+
+[BenPay Delta Card 怎么开？充值、开卡与订阅前要检查什么](/articles/vcard/oCyhotvX){card}
 
 **SafePal**：钱包 → Fiat24 支付账户 → 卡片激活，步骤更多，常涉及网络费与稳定币兑换成可消费余额。适合已经接受钱包备份与链上操作的人。  
-完整步骤：[SafePal U 卡大陆怎么开？认证、充值、绑支付与冷钱包](/articles/vcard/E4lD5AIn)
+完整步骤：
+
+[SafePal U 卡大陆怎么开？认证、充值、绑支付与冷钱包](/articles/vcard/E4lD5AIn){card}
 
 ## 八、MPCard、UU Wallet 还要不要看？
 
 要，如果你的硬需求是**支付绑定组合**或**虚拟／实体卡形态**。
 
 - **MPCard**：按云影／瞬行／无界等卡种区分；教程强调支付宝／微信覆盖，以及是否需要 Apple Pay、实体与 ATM 等。  
-  完整步骤：[MPCard 怎么开？大陆用户绑定 Apple Pay、支付宝与微信](/articles/vcard/ou6gFWrn)
-- **UU Wallet**：常见护照认证；虚拟卡与实体卡、开卡成本返还与消费返现要分开核对。  
-  完整步骤：[UU Wallet 虚拟卡怎么开？申请、消费费用与返现怎么查](/articles/vcard/aQ7pEkbH)
+  完整步骤：
 
-若主线其实是**香港多币种收付款／中转**，那是另一类产品，可另读 [StarryBlu 怎么开户充值](/articles/vcard/uQfN0J0j)，不要和「稳定币消费 U 卡」混成同一张对比表。
+[MPCard 怎么开？大陆用户绑定 Apple Pay、支付宝与微信](/articles/vcard/ou6gFWrn){card}
+
+- **UU Wallet**：常见护照认证；虚拟卡与实体卡、开卡成本返还与消费返现要分开核对。  
+  完整步骤：
+
+[UU Wallet 虚拟卡怎么开？申请、消费费用与返现怎么查](/articles/vcard/aQ7pEkbH){card}
+
+若主线其实是**香港多币种收付款／中转**，那是另一类产品，不要和「稳定币消费 U 卡」混成同一张对比表：
+
+[StarryBlu 怎么开户充值](/articles/vcard/uQfN0J0j){card}
 
 ## 九、先办哪张？决策顺序怎么排
 
@@ -92,7 +114,9 @@ summary: 人在大陆想办虚拟 U 卡，先别问「哪张最好」。按如�
 2. 对照第二节四条与第三节表格，去掉居住地或材料无法如实满足的卡。
 3. 确认充值网络能从现有交易所或钱包**小额测试**打通；习惯**随用随充**，避免单卡堆大额。
 4. 只选 **1 张**进入专文走完申请；用小额消费验证商户与费用。
-5. 需要并列对照邀请与产品字段时，回 [／card](/card)；加密入金不熟时，先补 [C2C 与转账基础](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+5. 需要并列对照邀请与产品字段时，回 [／card](/card)；加密入金不熟时，先补转账基础：
+
+[加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
 不要同时开一堆卡「备用」——每多一张，就多一套 KYC、余额沉淀和风控暴露面。
 

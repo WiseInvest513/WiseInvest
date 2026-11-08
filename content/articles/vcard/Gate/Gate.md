@@ -15,9 +15,15 @@ summary: 办 Gate Card 前先分清交易所账户和卡片资格；开卡后重
 
 **想核对 Gate Card 费用、绑支付宝／微信或 Apple Pay，先分清三件事：Gate 交易所账户、Gate Card 支付卡资格、以及账单里的实际成本。** 能注册交易所，不等于自动拿到开卡权限；能开卡，也不等于所有商户、订阅都能付。
 
-本文按「账户准备 → 开卡 → **费用磨损怎么核 → 绑支付与 Apple Pay → 账单核对**」走完一遍。若还在比较「大陆现在还能办哪张」，先回 [虚拟 U 卡怎么选／大陆还能办哪张](/articles/vcard/ACGrkqnQ?series=crypto-tools)；也可对照 [SafePal 怎么开卡](/articles/vcard/E4lD5AIn) 与 [BenPay Delta Card 怎么开](/articles/vcard/oCyhotvX)。
+本文按「账户准备 → 开卡 → **费用磨损怎么核 → 绑支付与 Apple Pay → 账单核对**」走完一遍。若还在比较「大陆现在还能办哪张」，或想对照其他卡材料门槛，先看下面几篇：
 
-链上充值前，建议先看清 [网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)，避免选错网络。
+[虚拟 U 卡怎么选／大陆还能办哪张](/articles/vcard/ACGrkqnQ?series=crypto-tools){card}
+[SafePal 怎么开卡](/articles/vcard/E4lD5AIn){card}
+[BenPay Delta Card 怎么开](/articles/vcard/oCyhotvX){card}
+
+链上充值前，建议先看清网络、地址与到账检查，避免选错网络：
+
+[网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
 ## 二、Gate 和 Gate Card 有什么区别？
 
@@ -35,7 +41,9 @@ Gate 一直在持续公布 Proof of Reserves，也就是储备金证明。根据
 我们今天主要解决两个最实际的问题：
 第一，如果你过去从来没有注册过 Gate，怎么从零完成注册、身份认证以及账户安全设置；
 第二，注册完成以后，怎么申请 Gate Card，并**核对费用、绑支付与账单**。
-OK，交易所的基本情况我们介绍完了，接下来就不再讲理论了，我们直接进入实际操作，先从 Gate 的注册开户开始。若你更熟悉 Bitget 体系，也可以对照 [Bitget Wallet Card 申请流程](/articles/vcard/WK8p1cCV) 看材料与审核差异。
+OK，交易所的基本情况我们介绍完了，接下来就不再讲理论了，我们直接进入实际操作，先从 Gate 的注册开户开始。若你更熟悉 Bitget 体系，也可以对照材料与审核差异：
+
+[Bitget Wallet Card 申请流程](/articles/vcard/WK8p1cCV){card}
 
 ## 三、开户
 
@@ -139,7 +147,9 @@ OK，我们在聊完了这个交易所注册之后，我们就来聊一聊 gate 
 3. 添加成功后，仍要用**小额实体／线上交易**确认商户受理；Wallet 里有卡 ≠ 每个店都能刷过。
 4. 旧教程或他人截图写「能／不能」只能作参考，**以你账户当日结果为准**。
 
-若主场景强依赖 Apple Pay，而本人 Gate Card 加不进去，应回到 [U 卡对比枢纽](/articles/vcard/ACGrkqnQ?series=crypto-tools) 对照 MPCard 等更强调 Apple Pay 的卡种，而不是伪造资料换卡。
+若主场景强依赖 Apple Pay，而本人 Gate Card 加不进去，应回到对比枢纽对照 MPCard 等更强调 Apple Pay 的卡种，而不是伪造资料换卡：
+
+[大陆现在还能办哪张 U 卡](/articles/vcard/ACGrkqnQ?series=crypto-tools){card}
 
 ## 八、消费后账单怎么核对？
 
@@ -179,4 +189,6 @@ OK，我们在聊完了这个交易所注册之后，我们就来聊一聊 gate 
 
 ## 十、总结：开卡成功后，先验证费用与支付
 
-Gate 账户、Gate Card、消费积分和交易所返佣是不同安排。按本人资格如实申请后，先小额测试：**充值净到账 → 绑支付／Apple Pay 是否可用 → 账单与商户实付是否一致**，再决定是否作为常用支付工具。开卡时按页面提示填写邀请码 **WISEGATE**（以申请页为准）。还在选卡阶段，回 [大陆现在还能办哪张 U 卡](/articles/vcard/ACGrkqnQ?series=crypto-tools)。
+Gate 账户、Gate Card、消费积分和交易所返佣是不同安排。按本人资格如实申请后，先小额测试：**充值净到账 → 绑支付／Apple Pay 是否可用 → 账单与商户实付是否一致**，再决定是否作为常用支付工具。开卡时按页面提示填写邀请码 **WISEGATE**（以申请页为准）。还在选卡阶段，回对比枢纽：
+
+[大陆现在还能办哪张 U 卡](/articles/vcard/ACGrkqnQ?series=crypto-tools){card}

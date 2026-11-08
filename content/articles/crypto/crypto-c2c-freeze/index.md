@@ -19,7 +19,10 @@ readTime: 10
 
 常见情况是：法币从你的银行卡／支付宝等付给 C2C 卖方后，**银行或支付机构**对付款账户做了限制、延缓或要求补充说明；交易所里的订单可能已经完成、币也到了，但法币侧账户不好用了。反过来，交易所风控、提现限制，也不等于银行卡被司法冻结。
 
-本篇只回答「冻卡怎么办」这一主意图：怎么分类型、先找谁、平时怎么降低风险。完整的下单、付款、放币步骤，请回到 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics)；币安注册与安全设置见 [币安怎么买币／注册认证](/articles/crypto/GaM38JYk)。
+本篇只回答「冻卡怎么办」这一主意图：怎么分类型、先找谁、平时怎么降低风险。完整的下单、付款、放币与币安注册，见下面：
+
+[C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+[币安怎么买币／注册认证](/articles/crypto/GaM38JYk){card}
 
 **本文不提供绕过银行风控、伪造材料、付费「解冻」或换卡再转的操作指引。**
 
@@ -56,7 +59,10 @@ readTime: 10
 5. **留证据**：订单号、付款成功回单、聊天记录（订单内）一并保存，以备银行或平台问询。
 6. **选认证商家与平台规则内交易**：完成率、时效只是参考，不构成安全保证；细则以本人适用的平台条款为准。
 
-买入流程与异常订单处理，仍以 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics) 为主干；Bitget 等其他所入口不同，原则相同，可对照 [Bitget 怎么注册入金](/articles/crypto/k3RVVcw4)。
+买入流程与异常订单处理，仍以 C2C 买 U 教程为主干；Bitget 等其他所入口不同，原则相同，可对照：
+
+[C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+[Bitget 怎么注册入金](/articles/crypto/k3RVVcw4){card}
 
 ## 五、已经被限制了，第一步做什么？
 
@@ -88,15 +94,19 @@ readTime: 10
 
 ### 和「虚拟 U 卡」被拒是一回事吗？
 
-不是。虚拟卡开卡被拒是**发卡资格／KYC**问题，见 [大陆现在还能办哪张 U 卡](/articles/vcard/ACGrkqnQ?series=crypto-tools)；本文说的是**法币银行卡／支付账户**在 C2C 后的限制。
+不是。虚拟卡开卡被拒是**发卡资格／KYC**问题；本文说的是**法币银行卡／支付账户**在 C2C 后的限制：
+
+[大陆现在还能办哪张 U 卡](/articles/vcard/ACGrkqnQ?series=crypto-tools){card}
 
 ## 七、读完这篇再回去补哪一步？
 
-若你还没走完买 U：从 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics) 按订单核对付款与放币。  
-若币已到账、下一步要交易或划转：看 [现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics)。  
-若要提到钱包或其他平台：先读 [转账网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+若你还没走完买 U：按订单核对付款与放币。  
+若币已到账、下一步要交易或划转：看现货与合约入门。  
+若要提到钱包或其他平台：先读转账网络、地址与到账检查。
 
 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+[现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics){card}
+[转账网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 [币安注册与使用教程](/articles/crypto/GaM38JYk){card}
 
 > 本文用于帮助理解 C2C 相关银行／支付限制的核对顺序，不构成法律、反洗钱或投资建议。是否构成风控或司法冻结，以银行与有权机关的官方认定为准。请勿使用虚假材料、借名账户或任何宣称「包过／包解冻」的非官方服务。

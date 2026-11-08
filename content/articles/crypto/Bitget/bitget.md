@@ -16,7 +16,10 @@ imageLayout: portrait
 
 **Bitget 怎么注册入金？** 这篇从一个具体场景出发：资产已经在本人钱包或其他交易所，想转入 Bitget，并看懂现货和赚币产品怎么使用。注册、转账与参与活动是三个不同的环节，不能因为账户开好了，就默认所有产品都适合自己。
 
-若你还在选第一次买币入口，可先看 [第一次买币去哪里](/articles/crypto/gHntO7zV?series=crypto-basics)；打算申请钱包卡，另见 [Bitget Wallet Card 怎么申请](/articles/vcard/WK8p1cCV)。
+若你还在选第一次买币入口，或打算申请钱包卡，先看：
+
+[第一次买币去哪里](/articles/crypto/gHntO7zV?series=crypto-basics){card}
+[Bitget Wallet Card 怎么申请](/articles/vcard/WK8p1cCV){card}
 
 先核对本人地区、身份与具体产品的服务要求。Bitget 当前使用条款说明，服务会受地区限制，不能通过 VPN 绕过适用限制；填写其他地区资料也不会改变真实资格。本次核对日期为 **2026 年 11 月 7 日**。[Bitget 使用条款](https://www.bitget.com/support/articles/360014944032/)
 
@@ -62,7 +65,11 @@ imageLayout: portrait
 
 ## 三、从本人交易所或钱包转入
 
-这一章讲的是**链上充值**。币安和欧易只是原图演示的两个转出端（币安流程见 [币安怎么买币](/articles/crypto/GaM38JYk)，OKX 见 [OKX 怎么买币](/articles/crypto/mAPQm7WZ)）；其他本人账户能否转入，取决于双方支持的币种、网络与来源规则，不能写成“只能从这两家转入”。链上核对见 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+这一章讲的是**链上充值**。币安和欧易只是原图演示的两个转出端；其他本人账户能否转入，取决于双方支持的币种、网络与来源规则，不能写成“只能从这两家转入”。转出端与链上核对见：
+
+[币安怎么买币](/articles/crypto/GaM38JYk){card}
+[OKX 怎么买币](/articles/crypto/mAPQm7WZ){card}
+[转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
 ### 法币还想走 C2C／P2P 怎么办？
 

@@ -17,7 +17,9 @@ summary: 想办港卡，先别问「哪家最好」。按能不能远程／见�
 
 常见需求通常只有几类：给港资／美资券商入金、港币收付款与 FPS、访港期间消费，或暂时**不能赴港**仍想有境外账户。银行名不同，背后是**实体银行、虚拟银行、多币种支付账户与见证路径**；能下载 App，不等于能获批；获批也不等于每家券商都接受该银行入金。
 
-本篇只做**怎么选**的对比枢纽：表格帮你缩小范围，完整步骤请进各行专文；产品与邀请入口也可先看站点 [境外银行资料库／perk／bank](/perk/bank)。费用与活动数字一律以**官方说明和本人账户页**为准，下文只用定性口径，不编造精确费率。总路线还可回 [港卡与港股券商开户入金系列](/articles/series/hk-stock-funding#stage-banks) 或新手 [／start](/start)。
+本篇只做**怎么选**的对比枢纽：表格帮你缩小范围，完整步骤请进各行专文；产品与邀请入口也可先看站点 [境外银行资料库／perk／bank](/perk/bank)。费用与活动数字一律以**官方说明和本人账户页**为准，下文只用定性口径，不编造精确费率。总路线还可回港卡与港股券商系列，或新手 [／start](/start)：
+
+[港卡与港股券商开户入金系列](/articles/series/hk-stock-funding){card}
 
 ## 二、选卡前先核对哪四件事？
 
@@ -28,7 +30,11 @@ summary: 想办港卡，先别问「哪家最好」。按能不能远程／见�
 3. **入金出海用途**：主目标是港资券商、美资券商、还是日常港币收付款？目标券商是否接受该银行？
 4. **适合谁**：材料（证件、出入境记录、地址证明、资产留存）与维护成本，自己是否长期扛得住？
 
-暂时不能赴港时，先对照 [境外银行见证开户怎么办理](/articles/bank/QonLSJp0) 与 [Wise Witness 见证开户](/articles/web/eY9HPVD5)；若主线其实是「没有港卡怎么准备美股账户」，可先读 [美股从 0～1](/articles/series/us-stock-zero-to-one#stage-accounts) 里的 Wise／iFAST 分支，再决定要不要补实体或虚拟港卡。
+暂时不能赴港时，先对照见证开户与 Wise Witness；若主线其实是「没有港卡怎么准备美股账户」，可先读美股从 0～1 里的 Wise／iFAST 分支，再决定要不要补实体或虚拟港卡：
+
+[境外银行见证开户怎么办理](/articles/bank/QonLSJp0){card}
+[Wise Witness 见证开户](/articles/web/eY9HPVD5){card}
+[美股从 0～1](/articles/series/us-stock-zero-to-one){card}
 
 ## 三、一张表怎么比？远程、费用、用途与适合谁
 
@@ -54,38 +60,73 @@ summary: 想办港卡，先别问「哪家最好」。按能不能远程／见�
 适合：**已经能安排访港**，想先补一张（或一组）数字银行账户的人。
 
 - **众安**：站内材料与银行卡验证步骤最完整；开户后转账、卡片、投资要分开看。  
-  完整步骤：[众安银行怎么开户](/articles/bank/2aiiqnjt) · 开户后用法：[众安银行怎么用](/articles/bank/4EB0zNOS)
-- **大象（原天星）**：先认清 EleBank／改名，避免下错 App；预填不等于境外远程开完。  
-  完整步骤：[大象银行（原天星）怎么开户](/articles/bank/ucHyMf8P)
-- **蚂蚁（香港）**：与澳门版分开；赴港期间快速补充虚拟港卡时对照。  
-  完整步骤：[蚂蚁银行（香港）怎么开户](/articles/bank/OwFAe2JD)  
-  若行程含澳门，勿与 [蚂蚁银行（澳门）](/articles/bank/oYC1uLNW) 混用规则。
+  完整步骤：
 
-同类还可按需看 [汇立银行怎么开户转账](/articles/bank/wMpXaoI5)、[平安数字银行怎么开户](/articles/bank/wgBs7jp3)。不要默认「开得越多越好」——每多一家，就多一套 KYC、余额与维护。
+[众安银行怎么开户](/articles/bank/2aiiqnjt){card}
+[众安银行怎么用](/articles/bank/4EB0zNOS){card}
+
+- **大象（原天星）**：先认清 EleBank／改名，避免下错 App；预填不等于境外远程开完。  
+  完整步骤：
+
+[大象银行（原天星）怎么开户](/articles/bank/ucHyMf8P){card}
+
+- **蚂蚁（香港）**：与澳门版分开；赴港期间快速补充虚拟港卡时对照。  
+  完整步骤：
+
+[蚂蚁银行（香港）怎么开户](/articles/bank/OwFAe2JD){card}
+
+  若行程含澳门，勿与澳门版混用规则：
+
+[蚂蚁银行（澳门）](/articles/bank/oYC1uLNW){card}
+
+同类还可按需看汇立、平安；不要默认「开得越多越好」——每多一家，就多一套 KYC、余额与维护：
+
+[汇立银行怎么开户转账](/articles/bank/wMpXaoI5){card}
+[平安数字银行怎么开户](/articles/bank/wgBs7jp3){card}
 
 ## 五、汇丰、中银、建行亚洲适合什么情况？
 
 适合：更看重**大型银行／综合账户**，或明确需要实体银行体系做长期跨境资金管理的人。
 
 - **汇丰 HSBC One**：先看用途与**维护成本**，再谈 App 怎么点；访港截图不能当成所有人的唯一路径，远程资格与激活要求分开核。低结存相关收费以官方开户／收费说明与本人费用页为准。  
-  完整步骤：[汇丰香港 HSBC One 怎么开](/articles/bank/WoxUXncV)
+  完整步骤：
+
+[汇丰香港 HSBC One 怎么开](/articles/bank/WoxUXncV){card}
+
 - **中银香港**：与内地中国银行账户不能混用；访港申请、保安编码与手机银行启用按专文核对。  
-  完整步骤：[中银香港怎么开户](/articles/bank/AO9Yfph5)
+  完整步骤：
+
+[中银香港怎么开户](/articles/bank/AO9Yfph5){card}
+
 - **建行亚洲**：拿到账号或能登录，仍要检查收付款是否已启用，避免反复入金被退。  
-  完整步骤：[建行亚洲 e 账户怎么开](/articles/bank/0uzSFs7d)
+  完整步骤：
+
+[建行亚洲 e 账户怎么开](/articles/bank/0uzSFs7d){card}
 
 ## 六、不能赴港时，见证、Wise、iFAST 怎么排？
 
 适合：**短期无法人在港提交申请**，但仍有明确境外收付款或入金需求的人。
 
 1. **见证开户**：核验与递交是协助，**批准权在目标银行**；资产留存、见证费、管理费未获批怎么退，都要书面问清。  
-   完整步骤：[境外银行见证开户怎么办理](/articles/bank/QonLSJp0) · 方案对照：[Wise Witness](/articles/web/eY9HPVD5)
-2. **Wise**：支付与汇款服务，**不要当成香港银行卡**；地区与收款资料权限先查官方。  
-   完整步骤：[Wise 账户怎么注册](/articles/bank/Ysn8tPfj)
-3. **iFAST**：线上银行＋首笔汇款字段核对；开户通过≠任意券商通道已打通。  
-   完整步骤：[iFAST 怎么开户入金](/articles/bank/AARzryKJ)
+   完整步骤与方案对照：
 
-若目标是美股入金组合，可把上述账户放进 [美股账户准备与入金](/articles/series/us-stock-funding) 或 [美股从 0～1](/articles/series/us-stock-zero-to-one) 里对照，而不是同时开一堆「备用行」。
+[境外银行见证开户怎么办理](/articles/bank/QonLSJp0){card}
+[Wise Witness](/articles/web/eY9HPVD5){card}
+
+2. **Wise**：支付与汇款服务，**不要当成香港银行卡**；地区与收款资料权限先查官方。  
+   完整步骤：
+
+[Wise 账户怎么注册](/articles/bank/Ysn8tPfj){card}
+
+3. **iFAST**：线上银行＋首笔汇款字段核对；开户通过≠任意券商通道已打通。  
+   完整步骤：
+
+[iFAST 怎么开户入金](/articles/bank/AARzryKJ){card}
+
+若目标是美股入金组合，可把上述账户放进系列里对照，而不是同时开一堆「备用行」：
+
+[美股账户准备与入金](/articles/series/us-stock-funding){card}
+[美股从 0～1](/articles/series/us-stock-zero-to-one){card}
 
 ## 七、先办哪家？决策顺序怎么排
 
@@ -93,9 +134,13 @@ summary: 想办港卡，先别问「哪家最好」。按能不能远程／见�
 2. 对照第三节表格，去掉开户方式明显不匹配的行。
 3. 估算自己能否满足结存／维护；不确定就打开该行专文的费用 FAQ 与官方链接。
 4. 只选 **1 家**（最多再加一条备用支付账户）进入专文走完申请。
-5. 获批后小额测试收付款，再对接券商；港资券商入金示例见 [众安与 iFAST 入金复星](/articles/broker/myu8sVmc)。
+5. 获批后小额测试收付款，再对接券商；港资券商入金示例：
 
-需要集中看开户入口时回 [／perk／bank](/perk/bank)；还不知道学习顺序时从 [／start](/start) 或 [港卡与港股券商系列](/articles/series/hk-stock-funding) 进入。
+[众安与 iFAST 入金复星](/articles/broker/myu8sVmc){card}
+
+需要集中看开户入口时回 [／perk／bank](/perk/bank)；还不知道学习顺序时从 [／start](/start) 或下面系列进入：
+
+[港卡与港股券商开户入金系列](/articles/series/hk-stock-funding){card}
 
 ## 八、港卡怎么选常见问法 FAQ
 
@@ -117,6 +162,8 @@ summary: 想办港卡，先别问「哪家最好」。按能不能远程／见�
 
 ### 虚拟 U 卡算港卡吗？
 
-不算同一类。虚拟 U 卡多是稳定币消费／订阅路径，对比见 [虚拟 U 卡怎么选](/articles/vcard/ACGrkqnQ)；本篇讲的是香港银行或可替代的跨境账户怎么选。
+不算同一类。虚拟 U 卡多是稳定币消费／订阅路径；本篇讲的是香港银行或可替代的跨境账户怎么选：
+
+[虚拟 U 卡怎么选](/articles/vcard/ACGrkqnQ){card}
 
 > 本文用于帮助理解港卡与相关账户的选择维度，不构成开户、移民、税务或投资建议。开户资格、费用、汇率、转账限额与券商入金规则会变化；提交资料或汇款前，请以对应银行／平台官方说明与本人账户页为准。
