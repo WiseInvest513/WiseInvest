@@ -266,13 +266,14 @@ export const articleSeries: ArticleSeries[] = [
     mapRouteIds: ["crypto-u-card-consume", "hk-card-u-card-consume"],
     stages: [
       { id: "exchanges", title: "了解交易所", description: "按平台选择注册、认证与使用教程。" },
-      { id: "wallets", title: "了解钱包与支付卡", description: "按用途选择，不要求与上阶段的平台一一对应。" },
+      { id: "wallets", title: "了解钱包与支付卡", description: "先用对比枢纽筛选，再按用途进入各卡开卡教程；不要求与上阶段平台一一对应。" },
     ],
     chapters: [
       { title: "币安注册", articleId: "biance-guide", stageId: "exchanges" },
       { title: "OKX 注册", articleId: "okx-guide", stageId: "exchanges" },
       { title: "Bitget 注册", articleId: "bitget-exchange", stageId: "exchanges" },
       { title: "Bybit 注册", articleId: "bybit-guide", stageId: "exchanges" },
+      { title: "虚拟 U 卡怎么选", articleId: "ucard-comparison", stageId: "wallets", summary: "对比枢纽：按资格、充值、费用与绑支付筛选，再进各卡专文。" },
       { title: "Bitget Wallet 开卡", articleId: "bitget-vcard", stageId: "wallets" },
       { title: "SafePal 开卡", articleId: "safepal-vcard", stageId: "wallets" },
       { title: "Gate Card 开卡", articleId: "Gate-vcard", stageId: "wallets" },

@@ -68,7 +68,7 @@
 
 ## 二、最高 ROI 下一步（8–12 条，按优先）
 
-1. **新写 · U 卡对比枢纽**（拟 slug 主题 `ucard-comparison` / 路径建议 `content/articles/vcard/ucard-comparison/`）  
+1. **新写 · U 卡对比枢纽**（拟 slug 主题 `ucard-comparison` / 路径建议 `content/articles/vcard/ucard-comparison/`） ✅ 本地已写 `ucard-comparison`（`/articles/vcard/ACGrkqnQ`），挂入 `crypto-tools` wallets 首章；**尚未 push**。  
    打 B1：资格一张表 → 费用口径 → 绑微信/支付宝/Apple Pay → 链到 Gate/Bybit/BenPay/SafePal/Bitget 专文 + `/card`。
 
 2. **新写 · 港卡怎么选对比**（拟 `hk-bank-comparison`）  

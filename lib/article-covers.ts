@@ -215,6 +215,11 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "BenPay 开卡与订阅教程，卡片申请、账户充值和订阅支付",
     topics: ["BenPay","卡片申请","订阅支付"],
   },
+  "ucard-comparison": {
+    src: "/images/articles/covers/ucard-comparison.webp",
+    alt: "虚拟 U 卡怎么选：三张银白卡片与天平，示意资格费用与绑支付对比",
+    topics: ["虚拟 U 卡","U 卡对比","开卡资格","绑支付","费用"],
+  },
   "us-guide": {
     src: "/images/articles/covers/us-guide.webp",
     alt: "美股投资账户与资金路径：玻璃银行、证券文件和连接路线的银白概念封面",
