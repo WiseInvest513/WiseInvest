@@ -117,6 +117,7 @@ export const articleSeries: ArticleSeries[] = [
     id: "overseas",
     title: "出海教程",
     description: "海外账号、境外手机号，从准备到实际使用。",
+    kind: "tutorial",
     artwork: "/images/articles/series/overseas-wide-v1.webp",
     status: "updating",
     chapters: [
@@ -124,6 +125,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "Apple ID 注册", articleId: "AppleID" },
       { title: "giffgaff 激活与保号", articleId: "giffgaff-guide" },
       { title: "Xesim eSIM 开通", articleId: "xesim-guide" },
+      { title: "BeeSIM 工具卡", articleId: "beesim-guide" },
     ],
   },
   {
@@ -216,6 +218,8 @@ export const articleSeries: ArticleSeries[] = [
       { title: "嘉信开户", articleId: "jiaxin", stageId: "brokers" },
       { title: "第一证券开户", articleId: "diyi", stageId: "brokers" },
       { title: "StarryBlu 转账到盈透", articleId: "StarryBlu-vcard", stageId: "transfers", summary: "综合教程，汇款到盈透见第 3.4 节。" },
+      { title: "SafePal / 众安入金盈透", articleId: "safepal-za-ibkr-funding", stageId: "transfers" },
+      { title: "SafePal 汇款回国内", articleId: "safepal-bank-remittance", stageId: "transfers" },
     ],
   },
   {
@@ -236,6 +240,11 @@ export const articleSeries: ArticleSeries[] = [
       { title: "中银香港开户", articleId: "zhongying-register", stageId: "banks" },
       { title: "众安开户", articleId: "zhongan-register", stageId: "banks" },
       { title: "大象（原天星）开户", articleId: "tianxing-register", stageId: "banks" },
+      { title: "建行亚洲开户", articleId: "jianhang", stageId: "banks" },
+      { title: "汇立银行开户", articleId: "huili", stageId: "banks" },
+      { title: "蚂蚁银行（香港）开户", articleId: "xianggangmayi-register", stageId: "banks" },
+      { title: "蚂蚁银行（澳门）开户", articleId: "aomenmayi-register", stageId: "banks" },
+      { title: "平安数字银行开户", articleId: "pingan", stageId: "banks" },
       { title: "复星开户", articleId: "futu-broker", stageId: "brokers" },
       { title: "致富开户", articleId: "zhifu", stageId: "brokers" },
       { title: "腾达开户", articleId: "tengda-broker", stageId: "brokers" },
@@ -262,6 +271,10 @@ export const articleSeries: ArticleSeries[] = [
       { title: "Bitget Wallet 开卡", articleId: "bitget-vcard", stageId: "wallets" },
       { title: "SafePal 开卡", articleId: "safepal-vcard", stageId: "wallets" },
       { title: "Gate Card 开卡", articleId: "Gate-vcard", stageId: "wallets" },
+      { title: "Bybit Card 开卡", articleId: "bybit-vcard", stageId: "wallets" },
+      { title: "BenPay 开卡", articleId: "Benpay-vcard", stageId: "wallets" },
+      { title: "MP Card 开卡", articleId: "MP-vcard", stageId: "wallets" },
+      { title: "UU Wallet 开卡", articleId: "UUWallet-vcard", stageId: "wallets" },
     ],
   },
   {

@@ -114,3 +114,9 @@ Gate 账户、Gate Card、消费积分和交易所返佣是不同安排。按本
 如果大家觉得今天的内容对你有帮助，可以给我来一个一键三连，大家的支持也是对我最大的鼓励。
 同时，在开卡的过程中记得填写我们的邀请码，以获取Wise的独家奖励和进我们的 VIP 群了。
 那我们就下期再见，大家拜拜
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[交易所与钱包支付工具](/articles/series/crypto-tools){card}
+[Bybit Card 开卡教程](/articles/vcard/wYKRLDvK){card}

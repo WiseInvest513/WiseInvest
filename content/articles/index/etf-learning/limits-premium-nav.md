@@ -1,6 +1,6 @@
 ---
 id: etf-premium-nav
-title: 限购、溢价与净值，怎么看？
+title: QDII 限购和 ETF 溢价怎么看？买得到不等于值得买
 categoryId: index
 date: 2026-11-06
 readTime: 13
@@ -13,9 +13,9 @@ guidePrepare: 准备基金代码、份额类别和实际销售渠道，查看数
 guideStatus: 额度和报价会变化；文中金额与溢价计算均为示例，不能作为当前可成交条件。
 ---
 
-购买前最重要的动态数据，不是越多越好，而是每个数字都知道在说什么。能买到、价格偏贵、净值更新慢，是不同问题，必须分别核验。
+很多人会搜「QDII 限购怎么看」「ETF 溢价高能不能买」。购买前最重要的动态数据，不是越多越好，而是每个数字都知道在说什么：能买到、价格偏贵、净值更新慢，是不同问题，必须分别核验。
 
-## 一、申购状态，先核对份额和渠道
+## 一、限购状态怎么看？先核对份额和渠道
 
 场外QDII基金的申购状态，描述的是某个产品份额在相应渠道能否接受申购，以及有哪些业务限制。开放不代表一定没有金额约束，限额不等于暂停，暂停也不意味着你持有的资产价值归零。基金的投资表现与销售业务状态要分开看；某产品表现不错，但当下仍可能无法接受你的新申购。
 
@@ -123,3 +123,9 @@ guideStatus: 额度和报价会变化；文中金额与溢价计算均为示例�
 
 - [SEC：ETF 净值、交易价格与申赎机制](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-24)
 - [Wise 纳指 / 标普蓝皮书：跨境基金与产品选择](/book/nasdaq)
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}
+[美股 ETF 怎么选？十只产品对照](/articles/index/ekPFyBVH){card}

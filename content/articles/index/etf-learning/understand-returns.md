@@ -1,10 +1,10 @@
 ---
 id: etf-understand-returns
-title: 为什么你的收益和指数不一样？
+title: 为什么 ETF 收益和指数不一样？怎么核对账户回报
 categoryId: index
 date: 2026-11-06
 readTime: 13
-summary: 统一收益对象、时间、分红与币种，理解年化、现金流和人民币账户的实际结果。
+summary: 指数涨了账户却没跟上？统一收益对象、时间、分红与币种，分清年化、现金流和人民币账户的实际结果。
 imageLayout: guide
 tocDepth: 3
 guideAudience: 指数上涨但个人账户收益不同，想找出原因的读者
@@ -15,7 +15,7 @@ guideStatus: 文中数字是计算示例，忽略项在对应段落说明；实�
 
 新闻说指数涨了，账户却没有赚到同样的钱，未必是系统出错。先统一对象、日期、分红和币种，再检查你实际投入的现金流，差异才能被解释。
 
-## 一、同一个百分比，可能在说不同的事
+## 一、为什么收益对不上？同一个百分比可能在说不同的事
 
 ![分红、汇率与费用分别影响账户中的回报记录](/images/articles/etf-learning/etf-returns-body.webp)
 
@@ -124,3 +124,8 @@ WiseETF的持仓估值，是把已披露持仓权重与相关行情、汇率变�
 
 - [SEC：理解投资费用](https://www.investor.gov/introduction-investing/getting-started/understanding-fees)
 - [Wise 纳指 / 标普蓝皮书：收益的不同口径](/book/nasdaq)
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}

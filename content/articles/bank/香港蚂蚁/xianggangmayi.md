@@ -58,3 +58,8 @@ subcategoryId: virtual-bank
 ## 四、总结：准备完整比操作快更重要
 
 这篇教程的主线是下载正确的 App、准备证件与入境记录、完成身份核验并跟进审核。确认账户已经可用后，再按真实用途安排收付款；不必因为别人开了多家银行，就一次申请所有账户。
+
+<!-- seo-next-links -->
+## 相关阅读
+
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}

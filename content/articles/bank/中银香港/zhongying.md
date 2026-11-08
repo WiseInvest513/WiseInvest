@@ -90,3 +90,9 @@ subcategoryId: physical-bank
 ## 四、总结：材料准确，申请结果也要确认
 
 中银香港的开户主线是检查访港申请条件、验证身份与入境记录、如实填写资料、启用手机银行。完成后再检查账户费用和转账权限，后续收付款使用本人账户资料。
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}
+[汇丰香港开户教程](/articles/bank/WoxUXncV){card}

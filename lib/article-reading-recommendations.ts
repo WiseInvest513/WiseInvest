@@ -1,6 +1,6 @@
 import type { ArticleListItem } from "./articles";
 import { articleSeries } from "./article-library";
-import { getArticleSeries, getSeriesArticleHref, getSeriesReadingState } from "./article-series";
+import { getArticleSeries, getPrimaryArticleSeries, getSeriesArticleHref, getSeriesReadingState } from "./article-series";
 import { genUid } from "./article-uid";
 
 export type ReadingRecommendation = Pick<ArticleListItem, "id" | "categoryId" | "title" | "summary" | "readTime"> & {
@@ -91,7 +91,7 @@ export function getArticleReadingRecommendations(
     result.push({ id, title, summary, readTime, categoryId, label, reason,
       href: href ?? `/articles/${categoryId}/${genUid(id)}` });
   };
-  const series = getArticleSeries(seriesId, current.id);
+  const series = getArticleSeries(seriesId, current.id) ?? (seriesId ? undefined : getPrimaryArticleSeries(current.id));
   if (series) {
     const reading = getSeriesReadingState(series, [...articles], current.id, routeId);
     if (reading.next) add(reading.next.articleId,
@@ -139,7 +139,7 @@ export function getArticleReadingNextStep(
   routeId?: string,
 ): ReadingNextStep {
   const recommendations = getArticleReadingRecommendations(current, articles, seriesId, routeId);
-  const series = getArticleSeries(seriesId, current.id);
+  const series = getArticleSeries(seriesId, current.id) ?? (seriesId ? undefined : getPrimaryArticleSeries(current.id));
   const reading = series ? getSeriesReadingState(series, [...articles], current.id, routeId) : undefined;
 
   let completed = `读完了「${current.title}」`;

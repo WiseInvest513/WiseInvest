@@ -1,10 +1,10 @@
 ---
 id: etf-historical-drawdowns
-title: 纳指与标普过去跌过多少？
+title: 纳指和标普历史回撤有多大？跌多少、多久才能回来
 categoryId: index
 date: 2026-11-06
 readTime: 12
-summary: 从互联网泡沫到 2022 年，既看跌幅也看等待时间，把历史压力换算成自己的账户金额。
+summary: 从互联网泡沫到 2022 年，既看跌幅也看等待时间，把历史压力换算成自己的账户金额，避免只盯长期终点。
 imageLayout: guide
 tocDepth: 3
 guideAudience: 看过长期收益，希望理解深跌与回本等待的投资者
@@ -15,7 +15,7 @@ guideStatus: 历史表沿用原稿引用的美元总收益记录，未重新下�
 
 历史收益告诉你终点在哪里，回撤告诉你沿途可能经历什么。真正难以承受的，有时不是单日下跌，而是多年没有回到原来的高点。
 
-## 一、回撤深度与等待时间，要一起看
+## 一、历史回撤有多大？深度与等待时间要一起看
 
 回撤描述资产从此前高点下降了多少。常见计算为“当前价值÷此前最高价值−1”；最大回撤则是统计期间里最深的一次。它不必从年初开始，也不一定对应你的买入价格。某一年年末跌20%，年中从高点跌过40%，两者可以同时成立，不是数据互相矛盾。
 
@@ -125,3 +125,8 @@ guideStatus: 历史表沿用原稿引用的美元总收益记录，未重新下�
 
 - [Wise 纳指 / 标普投资蓝皮书：历史回撤章节](/book/nasdaq)
 - [SEC：杠杆与反向 ETF 的每日目标和长期风险](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/sec)
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}

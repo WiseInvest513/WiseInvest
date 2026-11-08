@@ -1,10 +1,10 @@
 ---
 id: etf-nasdaq-vs-sp500
-title: 纳指与标普有什么区别？
+title: 纳指和标普 500 有什么区别？重叠持仓后该怎么选
 categoryId: index
 date: 2026-11-06
 readTime: 13
-summary: 拆开选股规则、权重、行业与共同持仓，用穿透计算理解两只基金在组合里分别做什么。
+summary: 纳指和标普不是进攻与稳健两个按钮。拆开选股、权重与行业重叠，再用账户比例看清两只基金在组合里分别做什么。
 imageLayout: guide
 tocDepth: 3
 guideAudience: 已有或准备研究纳指、标普基金，担心重复持仓的读者
@@ -15,7 +15,7 @@ guideStatus: 权重表为虚构算例，不是当前成分；本文解释组合�
 
 纳指与标普不是成长和安全的两个按钮。它们是两套选股与加权规则，可能持有许多相同的大公司，却以不同程度承担这些公司的波动。
 
-## 一、先看选股与加权规则
+## 一、纳指和标普有什么区别？先看选股与加权规则
 
 人们讨论纳指与标普时，常常直接比较几年涨幅：涨得快的叫进攻，涨得慢的叫稳健。但收益是规则与市场共同作用后的结果，不是规则本身。只看结果，容易在某一类公司最受欢迎时，把集中风险误认成永远成立的优势；也容易把较广的股票组合理解成没有下跌风险。
 
@@ -127,3 +127,9 @@ A、B、C、D、E 为虚构公司。连接线表示重复持有，物件大小�
 
 - [Nasdaq：Nasdaq-100 编制方法](https://indexes.nasdaq.com/docs/Methodology_NDX.pdf)
 - [S&P：美国指数编制方法](https://www.spglobal.com/spdji/en/documents/methodologies/methodology-sp-us-indices.pdf)
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}
+[美股 ETF 怎么选？十只产品对照](/articles/index/ekPFyBVH){card}

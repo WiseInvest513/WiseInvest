@@ -159,3 +159,9 @@ StockCoin 的多个入口需要各自核对。先确认**本人资格与产品�
 ![portrait: StockCoin 链上美股一键交易注册海报](./13.png)
 
 每次操作都保存产品名称、日期、费用、确认状态与实际到账结果，后续才有依据核对自己的成本与资金去向。
+
+<!-- seo-next-links -->
+## 相关阅读
+
+[买美股前先比较平台](/articles/broker/iy2fdMsF){card}
+[StableStock 使用指南](/articles/onchain/4OUbYina){card}

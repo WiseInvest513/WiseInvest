@@ -166,3 +166,8 @@ Wise 目前介绍的集合打新方案，将相关收益划为三部分：
 
 - [深交所：主板新股申购规则与额度计算](https://investor.szse.cn/institute/rules/t20230601_600765.html)
 - [上交所：新股网上发行问答，含市值范围与缴款流程](https://www.sse.com.cn/ipo/home/qa/inline/c/5463456.shtml)
+
+<!-- seo-next-links -->
+## 相关阅读
+
+[国内用户如何开始投资港美股](/articles/domestic/8y8UjTwP){card}

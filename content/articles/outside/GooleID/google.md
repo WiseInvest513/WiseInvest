@@ -122,3 +122,9 @@ Google 有时会要求手机号验证。若页面要求验证，应完成要求�
 先从官方页面创建账号，按提示完成验证，再绑定恢复邮箱和两步验证。可以对照 [Google 创建账号说明](https://support.google.com/accounts/answer/27441)核对当前步骤。
 
 一个自己掌握密码、恢复方式和设备的账号，比来路不明的现成账号更便于长期维护。接下来只启用需要的服务，逐项确认地区、权限与付费规则。
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[出海教程](/articles/series/overseas){card}
+[Apple 账号注册与地区更改](/articles/outside/W42fm0P2){card}

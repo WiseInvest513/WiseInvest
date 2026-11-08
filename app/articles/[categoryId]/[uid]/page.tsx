@@ -19,7 +19,7 @@ import {
 import { createArticlePreview, getArticlePreviewPercentage } from "@/lib/article-preview";
 import { getResolvedContentAccessRule } from "@/lib/content-access-server";
 import { getArticleRelease, getArticleReleaseAccessRule } from "@/lib/article-release";
-import { getArticleSeries, getSeriesArticleHref, getSeriesReadingState } from "@/lib/article-series";
+import { resolveArticleSeries, getSeriesArticleHref, getSeriesReadingState } from "@/lib/article-series";
 
 // 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
 export const dynamic = "force-dynamic";
@@ -69,7 +69,7 @@ export default async function ArticleUidPage(
   const article = getArticleByRoute(categoryId, uid);
   if (!article) notFound();
   const query = (await searchParams) ?? {};
-  const series = getArticleSeries(query?.series, article.id);
+  const series = resolveArticleSeries(query?.series, article.id);
   const mapRouteId = typeof query?.route === "string" ? query.route : undefined;
 
   const seriesContext = { fromSeries: query.fromSeries, fromStage: query.fromStage, fromRoute: query.fromRoute, stage: query.stage };

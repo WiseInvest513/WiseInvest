@@ -40,7 +40,7 @@ const { articleSeries, getRecommendedArticles, searchArticleSeries } = loadModul
 const { getAllArticles, getArticleRoute, toArticleListItem } = loadModule('lib/articles.ts');
 const articles = getAllArticles();
 const listItems = articles.map(toArticleListItem);
-const { getArticleSeries, getArticleLearningPaths, getMapArticleSeries, getSeriesOverviewHref, getSeriesArticleHref, getSeriesReadingState, isTopicSeriesArticle } = loadModule('lib/article-series.ts');
+const { getArticleSeries, getArticleLearningPaths, getMapArticleSeries, getSeriesOverviewHref, getSeriesArticleHref, getSeriesReadingState, isTopicSeriesArticle, getPrimaryArticleSeries, resolveArticleSeries } = loadModule('lib/article-series.ts');
 const { LearningPathLinks, SeriesNavigation, SeriesOverview, SeriesPagination } = loadModule('app/articles/series-reader.tsx');
 const { RoadmapLearning } = loadModule('components/roadmap-learning.tsx');
 
@@ -177,11 +177,11 @@ test('retained series cover assets remain available', () => {
   }
 });
 
-test('overseas chapters link to four distinct published tutorials', () => {
+test('overseas chapters link to five distinct published tutorials', () => {
   const overseas = articleSeries.find(series => series.id === 'overseas');
   assert.equal(overseas.status, 'updating');
-  assert.equal(overseas.chapters.length, 4);
-  assert.equal(new Set(overseas.chapters.map(chapter => chapter.articleId)).size, 4);
+  assert.equal(overseas.chapters.length, 5);
+  assert.equal(new Set(overseas.chapters.map(chapter => chapter.articleId)).size, 5);
   for (const chapter of overseas.chapters) {
     const article = articles.find(article => article.id === chapter.articleId);
     assert.ok(article, `Missing article: ${chapter.articleId}`);
@@ -202,7 +202,7 @@ test('series chapter links preserve canonical article paths and carry context th
   series.chapters.forEach((chapter, index) => {
     const state = getSeriesReadingState(series, listItems, chapter.articleId);
     assert.equal(state.currentIndex, index);
-    assert.equal(state.publishedCount, 4);
+    assert.equal(state.publishedCount, 5);
     assert.equal(state.previous?.articleId, series.chapters[index - 1]?.articleId);
     assert.equal(state.next?.articleId, series.chapters[index + 1]?.articleId);
     const article = articles.find(item => item.id === chapter.articleId);
@@ -297,7 +297,7 @@ test('tutorial series retain their chapter and learning language', () => {
   assert.match(renderedText(SeriesOverview(context)), /你将在这个系列学到/);
   assert.match(renderedText(SeriesOverview(context)), /学习目录/);
   assert.match(renderedText(SeriesNavigation(context)), /第 1 章/);
-  assert.match(renderedText(SeriesPagination({ ...context, compact: true })), /第 1 \/ 4 章/);
+  assert.match(renderedText(SeriesPagination({ ...context, compact: true })), /第 1 \/ 5 章/);
 });
 
 test('learning paths group distinct published articles into valid stages and allow only the named bank placeholder', () => {
@@ -479,4 +479,15 @@ test('map teaching panels include the crypto curriculum, contextual chapters and
   assert.match(renderedText(fallback), /已有相关文章/);
   assert.equal(renderedNodes(fallback).find(node => node.type === 'a').props.href, '/articles/crypto/GaM38JYk');
   assert.equal(RoadmapLearning({ routeId: 'unknown', articles: listItems, relatedArticles: [] }), null);
+});
+
+test('bare article URLs resolve a focused series without requiring ?series=', () => {
+  assert.equal(getPrimaryArticleSeries('Gate-vcard')?.id, 'crypto-tools');
+  assert.equal(getPrimaryArticleSeries('BBAE')?.id, 'us-stock-funding');
+  assert.equal(getPrimaryArticleSeries('google-id')?.id, 'overseas');
+  assert.equal(getPrimaryArticleSeries('binance-referral')?.id, 'exchange-referral');
+  // Mega curriculum stays opt-in
+  assert.equal(getPrimaryArticleSeries('bit-account-guide'), undefined);
+  assert.equal(resolveArticleSeries('us-stock-zero-to-one', 'BBAE')?.id, 'us-stock-zero-to-one');
+  assert.equal(resolveArticleSeries(undefined, 'BBAE')?.id, 'us-stock-funding');
 });

@@ -1,10 +1,10 @@
 ---
 id: safepal-bank-remittance
-title: SafePal 汇款回国内实操：USDC 充值、建行收款与结汇（2025 年记录）
+title: SafePal 汇款回国内实操：USDC 充值、建行收款与结汇
 categoryId: transfers
 articleType: tutorial
 authoringVersion: 1
-summary: 沿着一笔 40 欧元的建行收款记录，拆解链上提现、Fiat24 充值、银行转账和人民币结汇；结合原始截图核对金额、费用与通道限制，并说明香港收款示例能证明什么。
+summary: 沿着一笔建行收款记录，拆解链上提现、Fiat24 充值、银行转账和人民币结汇；对照截图核对金额、费用与通道限制（历史实操）。
 date: 2026-11-06
 guideAudience: 已经了解 SafePal 与 Fiat24，想分清钱包余额和银行汇款之间关系的人 | 需要对照历史实操，核对 USDC 网络、建行外币到账与结汇凭证的读者
 guideOutcomes: 跟随八张实操图，串起交易所提现、欧元充值、40 欧元汇款和建行结汇 | 区分提交成功与银行到账，按各环节核算费用，并辨别香港示例与真实回单的证据差别
@@ -242,3 +242,9 @@ SafePal 官方费率页列明其与 Fiat24 不收取外部银行转账费用，�
 - **充值规则：**[SafePal IBAN 充值指南](https://safepalsupport.zendesk.com/hc/en-us/articles/22558217213851-How-to-Make-a-Deposit-in-Your-IBAN-Account-with-SafePal-Mobile-Wallet)，用于核对 USDC / Arbitrum 与 Gas；不据此确认内地汇款已经恢复。
 - **费用：**[SafePal Fiat Gateway 与 Mastercard 费率页](https://safepalsupport.zendesk.com/hc/en-us/articles/22647224575643-Fee-Rates-for-the-SafePal-Fiat-Gateway-and-Mastercard)，与充值指南存在标准充值费率冲突，本文已明确列出。
 - **服务状态与适用边界：**[Fiat24 官网](https://www.fiat24.com/)的维护及新申请提示仍需账户内核实；[2026 年相关监管通知](https://www.csrc.gov.cn/csrc/c100028/c7614318/content.shtml)用于说明内地业务限制，不以境外许可代替境内受理资格。
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[美股账户准备与入金](/articles/series/us-stock-funding){card}
+[SafePal / 众安如何入金盈透](/articles/transfers/oO9I9Hu6){card}

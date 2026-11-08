@@ -1,10 +1,10 @@
 ---
 id: etf-major-products
-title: 美股主要 ETF 一览
+title: 美股 ETF 怎么选？SPY、QQQ、VTI 等十只产品有什么区别
 categoryId: index
 date: 2026-11-06
 readTime: 11
-summary: 用十只代表产品认识股票、债券与黄金，再学会查看基准、费用和历史表现，建立自己的候选清单。
+summary: 想搞清美股 ETF 怎么选、同指数不同代码有什么区别？用十只代表产品对照股票、债券与黄金，学会看基准、费用和历史表现。
 imageLayout: guide
 tocDepth: 3
 guideAudience: 认识纳指与标普，想进一步辨认美股 ETF 产品的读者
@@ -13,9 +13,9 @@ guidePrepare: 可准备一只候选基金的官方事实表，对照文中的阅
 guideStatus: 产品用于认识资产类型，不构成推荐组合；持仓数量等快照不作为最新资料，费用应核对管理人披露。
 ---
 
-市场上不只有纳指与标普。先把大型股、小型股、海外股票、债券与黄金放在一张地图上，再看规模和表现，才能知道每只产品在解决什么问题。
+用户常搜「美股 ETF 怎么选」「SPY 和 VOO 有什么区别」。市场上不只有纳指与标普；先把大型股、小型股、海外股票、债券与黄金放在一张地图上，再看规模和表现，才能知道每只产品在解决什么问题。
 
-## 一、先建立一张产品地图
+## 一、美股 ETF 怎么选？先建立一张产品地图
 
 刚开始看美国ETF，代码会比概念来得更快：SPY、VOO、QQQ、VTI看起来像一串缩写，实际对应不同的市场范围。这里选十只代表产品，是为了建立一张学习地图，不按全市场规模排前十，也不暗示这十只都应该同时购买。名单包括重复跟踪同一指数的产品，因为理解“同目标、不同载体”，正是筛选基金的重要起点。
 
@@ -117,3 +117,9 @@ GLD是以黄金为核心资产的交易所交易信托，不能机械地按普�
 - [Invesco：QQQ 与 QQQM](https://www.invesco.com/us/en/solutions/innovation-suite.html)
 - [iShares：AGG 产品资料](https://www.ishares.com/us/products/239458/ishares-core-total-us-bond-market-etf)
 - [State Street：GLD 产品资料](https://www.ssga.com/us/en/individual/etfs/spdr-gold-shares-gld)
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}
+[纳指与标普有什么区别？](/articles/index/OYI4svII){card}

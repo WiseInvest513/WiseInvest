@@ -101,3 +101,9 @@ subcategoryId: virtual-bank
 ## 四、总结：先把基础账户开好，再按需添加服务
 
 众安开户的重点是本人证件、银行卡验证和入境记录准备完整。完成后先核对收款资料与账户权限，再选择自己真正需要的投资或支付功能；邀请码保留在实际注册步骤中，方便填写。
+
+<!-- seo-next-links -->
+## 接下来可以读
+
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}
+[众安与 iFAST 入金复星](/articles/broker/myu8sVmc){card}

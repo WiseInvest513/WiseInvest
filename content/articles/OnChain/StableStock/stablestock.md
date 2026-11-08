@@ -149,3 +149,9 @@ summary: 沿旧图理解注册、链上或钱包入金、港股申购与交易�
 如需交流原教程的操作记录，可以联系 **@ShuYu622**。以下保留原微信群二维码；若失效，可通过站内联系入口获取新的加入方式。
 
 ![扫码加入微信交流群](./6.png)
+
+<!-- seo-next-links -->
+## 相关阅读
+
+[买美股前先比较平台](/articles/broker/iy2fdMsF){card}
+[BiyaPay 使用教程](/articles/onchain/KewUM4Og){card}

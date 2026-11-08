@@ -181,3 +181,9 @@ Wise Witness 把这些内容放到了同一个入口。它是**信息整理与�
 [港资券商开户与入金](/articles/series/hk-stock-funding){card}
 
 见证开户的价值，是让部分不方便出境的朋友多一种申请方式；Wise Witness 的价值，是把选择与准备做得更清楚。最终要选的，不是宣传里功能最多的一张卡，而是能满足自己用途、也能持续维护的账户。
+
+<!-- seo-next-links -->
+## 相关阅读
+
+[境外银行见证开户指南](/articles/bank/QonLSJp0){card}
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}

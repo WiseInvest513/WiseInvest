@@ -269,3 +269,9 @@ ok，准备好之后，咱们就准备开始走整个流程了。
 我们下期再见！
 
 ![操作截图 14](./14.png)
+
+<!-- seo-next-links -->
+## 相关阅读
+
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}
+[汇丰香港开户教程](/articles/bank/WoxUXncV){card}

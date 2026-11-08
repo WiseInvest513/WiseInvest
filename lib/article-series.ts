@@ -108,6 +108,42 @@ export function getArticleLearningPaths(articleId: string) {
   return articleSeries.filter(series => series.kind === "path" && series.chapters.some(chapter => chapter.articleId === articleId));
 }
 
+/** Umbrella curriculum is opt-in via ?series=; bare article URLs prefer focused series. */
+const AUTO_SERIES_EXCLUDES = new Set(["us-stock-zero-to-one"]);
+
+/** Series that list this article as a chapter or existing comprehensive guide. */
+export function getArticleSeriesMemberships(articleId: string) {
+  return articleSeries.filter(series =>
+    series.chapters.some(chapter => chapter.articleId === articleId)
+    || series.existingArticleId === articleId);
+}
+
+/**
+ * Pick one series for bare /articles/{cat}/{uid} so prev/next and hub chrome still appear.
+ * Prefer topic > focused path/tutorial > chapter membership > fewer chapters.
+ */
+export function getPrimaryArticleSeries(articleId: string) {
+  const memberships = getArticleSeriesMemberships(articleId)
+    .filter(series => !AUTO_SERIES_EXCLUDES.has(series.id));
+  if (memberships.length === 0) return undefined;
+  const score = (series: ArticleSeries) => {
+    let value = 0;
+    if (series.kind === "topic") value += 300;
+    else if (series.kind === "tutorial") value += 250;
+    else if (series.kind === "path") value += 200;
+    else value += 150;
+    if (series.chapters.some(chapter => chapter.articleId === articleId)) value += 50;
+    value += Math.max(0, 40 - series.chapters.length);
+    return value;
+  };
+  return [...memberships].sort((a, b) => score(b) - score(a) || a.id.localeCompare(b.id))[0];
+}
+
+/** Explicit ?series= wins; otherwise attach the primary membership series when present. */
+export function resolveArticleSeries(seriesId: unknown, articleId: string) {
+  return getArticleSeries(seriesId, articleId) ?? getPrimaryArticleSeries(articleId);
+}
+
 export function getMapArticleSeries(routeId: string) {
   return articleSeries.find(series => series.mapRouteIds?.includes(routeId));
 }
