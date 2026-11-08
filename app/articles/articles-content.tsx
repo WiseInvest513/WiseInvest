@@ -7,6 +7,7 @@ import {
   BookOpen, Clock, Calendar,
   ArrowRight, Menu, CheckCircle2, ShieldCheck, LockKeyhole,
   Bookmark, BookmarkCheck,
+  ArrowUpRight, Compass,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
 import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
@@ -380,6 +381,9 @@ export function ArticlesContent({
   // One end-of-article story: next-step owns "what to read next"; related grid only when that block is absent.
   const showNextStep = Boolean(readingNextStep && !vipInvitation);
   const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation && !showNextStep;
+  const sidebarRecommendations = useMemo(() => {
+    return relatedArticles.slice(0, 2);
+  }, [relatedArticles]);
   const topicLinks = useMemo(
     () => selectedArticle ? getTopicLinks(selectedArticle) : [],
     [selectedArticle]
@@ -865,6 +869,40 @@ export function ArticlesContent({
               </p>
             )}
           </nav>
+          {(sidebarRecommendations.length > 0 || topicLinks.length > 0) && (
+            <div className="mx-4 mb-7 border-t border-slate-100 pt-5 dark:border-slate-800">
+              <div className="rounded-2xl border border-amber-200/80 bg-gradient-to-br from-amber-50 via-white to-amber-50/40 p-4 dark:border-amber-900/60 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900">
+                <div className="flex items-center gap-2 text-amber-700 dark:text-amber-300">
+                  <Compass className="h-4 w-4" />
+                  <p className="text-xs font-black">接着读什么</p>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{readingRecommendations.introduction}</p>
+                <div className="mt-3 space-y-2">
+                  {sidebarRecommendations.map((article) => (
+                    <ProtectedContentLink
+                      key={article.id}
+                      href={mapSeriesLink(article.href)}
+                      className="group flex items-start gap-2 rounded-xl border border-white/80 bg-white/80 px-3 py-2.5 transition-colors hover:border-amber-300 hover:bg-white dark:border-slate-800 dark:bg-slate-950/40 dark:hover:border-amber-800"
+                    >
+                      <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <span className="min-w-0"><small className="block text-[10px] font-medium leading-4 text-amber-700 dark:text-amber-300">{article.label}</small><span className="mt-1 line-clamp-2 block text-xs font-bold leading-5 text-slate-700 dark:text-slate-200">{article.title}</span><span className="mt-1 block text-[11px] leading-4 text-slate-500 dark:text-slate-400">{article.reason}</span></span>
+                    </ProtectedContentLink>
+                  ))}
+                </div>
+                <div className="mt-4 border-t border-amber-200/70 pt-3 dark:border-amber-900/50">
+                  <p className="text-[11px] font-black text-amber-700 dark:text-amber-300">相关工具与入口</p>
+                  <div className="mt-2 space-y-1">
+                    {topicLinks.slice(0, 2).map((link) => (
+                      <ProtectedContentLink key={link.href} href={link.href} className="group flex items-center justify-between gap-2 py-1 text-xs font-semibold text-slate-600 hover:text-amber-700 dark:text-slate-300 dark:hover:text-amber-300">
+                        <span>{link.title}</span>
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-amber-500 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </ProtectedContentLink>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </aside>}
 
       </div>
