@@ -96,9 +96,3 @@ iFAST 是英国银行服务路径，不是香港银行账户；Wise 是支付服
 
 [港股账户准备系列](/articles/series/hk-stock-funding){card}
 [美股账户准备系列](/articles/series/us-stock-funding){card}
-
-<!-- seo-next-links -->
-## 相关阅读
-
-[如何投资美股全流程](/articles/domestic/carWp7d7){card}
-[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}

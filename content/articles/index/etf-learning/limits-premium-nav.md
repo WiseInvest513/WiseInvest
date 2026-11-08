@@ -123,9 +123,3 @@ guideStatus: 额度和报价会变化；文中金额与溢价计算均为示例�
 
 - [SEC：ETF 净值、交易价格与申赎机制](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-24)
 - [Wise 纳指 / 标普蓝皮书：跨境基金与产品选择](/book/nasdaq)
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}
-[美股 ETF 怎么选？十只产品对照](/articles/index/ekPFyBVH){card}

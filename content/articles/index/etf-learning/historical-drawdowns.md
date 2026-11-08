@@ -125,8 +125,3 @@ guideStatus: 历史表沿用原稿引用的美元总收益记录，未重新下�
 
 - [Wise 纳指 / 标普投资蓝皮书：历史回撤章节](/book/nasdaq)
 - [SEC：杠杆与反向 ETF 的每日目标和长期风险](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/sec)
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}

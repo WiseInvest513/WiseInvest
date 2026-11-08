@@ -254,9 +254,3 @@ OK，到这里，关于 MPCard 的基本介绍、身份认证、充值以及完�
 OK，以上就是本期 MPCard 开户教程的全部内容。如果这期视频对你有所帮助，也欢迎大家点赞、订阅，同时打开小铃铛。
 
 这里是 WiseInvest，我是 Wise，我们下期视频再见。
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[交易所与钱包支付工具](/articles/series/crypto-tools){card}
-[Gate Card 申请与消费教程](/articles/vcard/GUhygjYV){card}

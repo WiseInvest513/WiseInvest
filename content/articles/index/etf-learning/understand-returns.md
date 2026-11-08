@@ -124,8 +124,3 @@ WiseETF的持仓估值，是把已披露持仓权重与相关行情、汇率变�
 
 - [SEC：理解投资费用](https://www.investor.gov/introduction-investing/getting-started/understanding-fees)
 - [Wise 纳指 / 标普蓝皮书：收益的不同口径](/book/nasdaq)
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}

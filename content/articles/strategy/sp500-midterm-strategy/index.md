@@ -172,9 +172,3 @@ BIT 的[美股产品说明](https://www.bit.com/us-stocks)列明股票和 ETF �
 > 注册 BBAE 账户 · 邀请码：**stiibsmu3** · 福利：首次入金 2,000 美元，领取 20 美元奖励
 
 选好适合自己的产品和账户之后，再把真实成交、分红、费用和退出日期记下来。到了复盘的时候，我们要比较的是自己到底执行了什么规则，而不只是看历史上那张“19 次上涨”的表。
-
-<!-- seo-next-links -->
-## 相关阅读
-
-[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}
-[纳指和标普历史回撤有多大](/articles/index/Cor9u5oW){card}

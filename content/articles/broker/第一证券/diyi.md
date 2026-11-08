@@ -141,9 +141,3 @@ W-8BEN 用于符合条件的非美国个人说明身份及申请适用的税收�
 ![盈透 / 嘉信 / 第一证券三家券商对比图](./17.png)
 
 这里是 WiseInvest，励志在指数/美股/加密/中做最懂小白的博主，如果你对这些内容感兴趣，欢迎给我**点个关注**哦。那我们就下期再见了！
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[美股账户准备与入金](/articles/series/us-stock-funding){card}
-[BBAE 开户与入金教程](/articles/broker/I0AIBXus){card}

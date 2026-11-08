@@ -118,9 +118,3 @@ subcategoryId: physical-bank
 ## 五、总结：先确认适用条件，再完成开户与验证
 
 汇丰 One 的操作主线是准备材料、验证身份、如实填写资料、查看审核结果。真正需要花时间的地方是资料准确和账户维护，不是寻找一套“必过答案”。完成开户后，先检查账户状态与费用，再按自己的收付款用途安排下一步。
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}
-[中银香港开户教程](/articles/bank/AO9Yfph5){card}

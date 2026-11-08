@@ -127,9 +127,3 @@ A、B、C、D、E 为虚构公司。连接线表示重复持有，物件大小�
 
 - [Nasdaq：Nasdaq-100 编制方法](https://indexes.nasdaq.com/docs/Methodology_NDX.pdf)
 - [S&P：美国指数编制方法](https://www.spglobal.com/spdji/en/documents/methodologies/methodology-sp-us-indices.pdf)
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[纳指与标普：从入门到长期持有](/articles/series/nasdaq-investing){card}
-[美股 ETF 怎么选？十只产品对照](/articles/index/ekPFyBVH){card}

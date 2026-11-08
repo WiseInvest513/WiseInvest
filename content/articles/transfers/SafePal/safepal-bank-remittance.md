@@ -242,9 +242,3 @@ SafePal 官方费率页列明其与 Fiat24 不收取外部银行转账费用，�
 - **充值规则：**[SafePal IBAN 充值指南](https://safepalsupport.zendesk.com/hc/en-us/articles/22558217213851-How-to-Make-a-Deposit-in-Your-IBAN-Account-with-SafePal-Mobile-Wallet)，用于核对 USDC / Arbitrum 与 Gas；不据此确认内地汇款已经恢复。
 - **费用：**[SafePal Fiat Gateway 与 Mastercard 费率页](https://safepalsupport.zendesk.com/hc/en-us/articles/22647224575643-Fee-Rates-for-the-SafePal-Fiat-Gateway-and-Mastercard)，与充值指南存在标准充值费率冲突，本文已明确列出。
 - **服务状态与适用边界：**[Fiat24 官网](https://www.fiat24.com/)的维护及新申请提示仍需账户内核实；[2026 年相关监管通知](https://www.csrc.gov.cn/csrc/c100028/c7614318/content.shtml)用于说明内地业务限制，不以境外许可代替境内受理资格。
-
-<!-- seo-next-links -->
-## 接下来可以读
-
-[美股账户准备与入金](/articles/series/us-stock-funding){card}
-[SafePal / 众安如何入金盈透](/articles/transfers/oO9I9Hu6){card}
