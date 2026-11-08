@@ -60,7 +60,15 @@ imageLayout: portrait
 
 ## 三、从本人交易所或钱包转入
 
-这一章讲的是**链上充值**。币安和欧易只是原图演示的两个转出端（币安流程见 [币安注册与使用](/articles/crypto/GaM38JYk)，OKX 见 [OKX 怎么买币](/articles/crypto/mAPQm7WZ)）；其他本人账户能否转入，取决于双方支持的币种、网络与来源规则，不能写成“只能从这两家转入”。本篇不把链上充值和 C2C 法币买币混为同一步——C2C 付款核对见 [币安 C2C 入金](/articles/crypto/mk7xplfU?series=crypto-basics)；链上核对见 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+这一章讲的是**链上充值**。币安和欧易只是原图演示的两个转出端（币安流程见 [币安怎么买币](/articles/crypto/GaM38JYk)，OKX 见 [OKX 怎么买币](/articles/crypto/mAPQm7WZ)）；其他本人账户能否转入，取决于双方支持的币种、网络与来源规则，不能写成“只能从这两家转入”。链上核对见 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+
+### 法币还想走 C2C／P2P 怎么办？
+
+若手里主要是法币、希望先买成 USDT 再入 Bitget，**不要在本篇另起一套完整买币长文**。先确认 Bitget 对你所在地区是否开放对应法币／C2C 入口；原则与订单核对（本人同名付款、只认订单内收款信息、异常停在原单）与通用 C2C 课相同：
+
+[C2C 怎么买 USDT：付款、收币与冻卡注意](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+
+入口名称可能写成 C2C、P2P 或快捷买币，以本人 App 为准。地区或产品不可用时，停在官方说明，不靠改居住地绕过。
 
 Bitget 官方充值说明要求在接收端选择币种与网络、取得地址，再从转出端发送；还要核对最低到账、费用和当前地址是否有效。[Bitget App 充值说明](https://www.bitget.com/support/articles/12560603811800)
 

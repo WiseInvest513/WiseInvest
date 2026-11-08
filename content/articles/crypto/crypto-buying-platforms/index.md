@@ -120,7 +120,17 @@ readTime: 12
 
 你现在可以给自己留下一张很简单的便条：**资金起点、购买入口、目标资产、保管位置、退出方式。** 五项都能用自己的话说清楚，再进入对应操作文章。
 
-需要理解 C2C 的，继续看 [第一次给交易所入金](/articles/crypto/mk7xplfU?series=crypto-basics)；已经有币、准备转账的，直接进入 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+## 七、选入口时的两个高频问题
 
-[币安 C2C 入金：订单、付款与到账](/articles/crypto/mk7xplfU?series=crypto-basics){card}
+### 手里只有法币，先怎么办？
+
+先确认本人地区可用的**法币买币／C2C**入口，再选一家资格匹配的交易所走完小额订单；不要同时注册四五个平台。订单核对见 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics)。若只想人民币指数敞口，也可以先评估是否必须买币。
+
+### 已经有 U 了，还要再开交易所吗？
+
+若 USDT／USDC 已在本人钱包或其他所，不一定再开新所——可以直接研究**链上充值到目标所**或钱包内兑换，并算清网络费与到账条件。新开交易所的理由应是：该所对你有明确需要的现货对、出金路径或合规资格，而不是「别人都在用」。
+
+需要理解 C2C 的，继续看 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics)；已经有币、准备转账的，直接进入 [转账网络与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+
+[C2C 怎么买 USDT：付款、收币与冻卡注意](/articles/crypto/mk7xplfU?series=crypto-basics){card}
 [加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
