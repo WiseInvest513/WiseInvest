@@ -220,6 +220,11 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "虚拟 U 卡怎么选：三张银白卡片与天平，示意资格费用与绑支付对比",
     topics: ["虚拟 U 卡","U 卡对比","开卡资格","绑支付","费用"],
   },
+  "hk-bank-comparison": {
+    src: "/images/articles/covers/hk-bank-comparison.webp",
+    alt: "港卡怎么选：银白天平与两叠卡片，示意远程费用与入金用途对比",
+    topics: ["港卡怎么选","香港银行","众安","汇丰","见证开户","月费"],
+  },
   "us-guide": {
     src: "/images/articles/covers/us-guide.webp",
     alt: "美股投资账户与资金路径：玻璃银行、证券文件和连接路线的银白概念封面",

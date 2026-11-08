@@ -233,11 +233,12 @@ export const articleSeries: ArticleSeries[] = [
     cardArtwork: "/images/articles/series/hk-stock-funding-wide-v1.webp",
     mapRouteIds: ["hk-card-to-hk-broker", "domestic-to-hk-card", "traditional-ipo"],
     stages: [
-      { id: "banks", title: "选择香港银行", description: "根据材料与需求选择对应账户。" },
+      { id: "banks", title: "选择香港银行", description: "先用对比枢纽筛选，再按材料与需求进入各行开户教程。" },
       { id: "brokers", title: "准备券商账户", description: "先查阅开户资格与所需材料。" },
       { id: "transfers", title: "查阅入金图文", description: "本阶段已有众安 / iFAST 入金复星教程，不代表其他通道均已覆盖。" },
     ],
     chapters: [
+      { title: "港卡怎么选", articleId: "hk-bank-comparison", stageId: "banks", summary: "对比枢纽：按远程／见证、月费低结存、入金用途筛选，再进各行专文。" },
       { title: "汇丰香港开户", articleId: "huifeng-register", stageId: "banks" },
       { title: "中银香港开户", articleId: "zhongying-register", stageId: "banks" },
       { title: "众安开户", articleId: "zhongan-register", stageId: "banks" },
@@ -313,7 +314,7 @@ export const articleSeries: ArticleSeries[] = [
     stages: [
       { id: "start", title: "先理解投资流程", description: "从资金、账户和产品的关系入门，先看懂传统证券与数字资产两条路线。" },
       { id: "accounts", title: "没有港卡时的准备", description: "比较可选的银行与支付服务；开户资格、可用收付款方式及初始充值来源需分别确认。已有港卡也可按需了解中转用途，不能默认每个账户都能衔接券商。" },
-      { id: "banks", title: "港卡与美国银行", description: "按自己的材料与需求选择银行。华美银行先保留待写章节，教程补齐后再开放阅读。" },
+      { id: "banks", title: "港卡与美国银行", description: "先用港卡对比枢纽筛选，再按材料进入各行教程。华美银行先保留待写章节，教程补齐后再开放阅读。" },
       { id: "brokers", title: "选择证券账户", description: "分别了解港资、美资券商与 BIT 数字证券账户，核对签约实体、开户资格及可交易产品。" },
       { id: "exchanges", title: "了解交易所注册", description: "选择适合自己的交易所教程；C2C 是购买数字资产的方式，不等于证券入金，也不代表取得股票或相关产品的交易资格。" },
       { id: "practice", title: "交易基础与全流程", description: "先读懂账户购买力、订单与资金状态，再结合已有入金图解和完整指南，把买入与退出连起来。" },
@@ -324,6 +325,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "Wise 注册", articleId: "wise-register", stageId: "accounts", summary: "了解支付账户、本人收款资料与可用服务，先核对自己的地区及用途。" },
       { title: "iFAST 开户", articleId: "ifast-guide", stageId: "accounts", summary: "了解银行账户申请与收付款要求；开户不等于所有转账通道均可使用。" },
       { title: "StarryBlu 注册与开卡", articleId: "StarryBlu-vcard", stageId: "accounts", summary: "支付账户、充值转账与卡片消费教程；文中含香港资金通道示例，没有港卡时须另行确认初始充值来源。" },
+      { title: "港卡怎么选", articleId: "hk-bank-comparison", stageId: "banks", summary: "对比枢纽：远程／见证、费用与入金用途；再进汇丰／众安等专文。" },
       { title: "汇丰香港开户", articleId: "huifeng-register", stageId: "banks" },
       { title: "中银香港开户", articleId: "zhongying-register", stageId: "banks" },
       { title: "众安开户", articleId: "zhongan-register", stageId: "banks" },

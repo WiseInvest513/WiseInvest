@@ -329,7 +329,7 @@ test('the independent US investing curriculum starts with the new introduction a
   assert.deepEqual(reading.stages.map(stage => stage.id), ['start', 'accounts', 'banks', 'brokers', 'exchanges', 'practice']);
   assert.equal(reading.first.articleId, 'us-stock-start');
   assert.equal(reading.chapters.at(-1).articleId, 'us-guide');
-  assert.equal(reading.publishedCount, 25);
+  assert.equal(reading.publishedCount, 27);
   assert.equal(reading.existingHref, undefined, 'the concluding comprehensive guide must not replace the starting lesson');
   assert.deepEqual(reading.stages.at(-1).chapters.map(chapter => chapter.articleId), ['us-stock-account-basics', 'us-stock-first-order', 'us-stock-money-status', 'ifas-fuxing', 'us-guide']);
   for (const chapter of reading.chapters.filter(chapter => chapter.href)) {

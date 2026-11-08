@@ -48,7 +48,7 @@ export function getArticleSeoKeywords(article: Pick<Article, "title" | "summary"
     crypto: ["加密交易所", "交易所注册", "C2C 入金", "USDT", "BTC", "KYC"],
     predict: ["预测市场", "Predict.fun", "BTC 5 分钟预测", "市场概率", "结算规则", "交易风险"],
     broker: ["美股券商", "港美股开户", "券商开户", "美股入金", "护照开户"],
-    bank: ["境外银行", "香港银行", "跨境收款", "见证开户", "美元账户"],
+    bank: ["境外银行", "港卡怎么选", "香港银行", "跨境收款", "见证开户", "美元账户"],
     index: ["指数基金", "ETF", "标普500", "纳斯达克100", "定投"],
     simcard: ["海外手机号", "eSIM", "保号", "出海账号"],
     ai: ["AI 工具", "ChatGPT", "海外订阅", "AI 订阅"],

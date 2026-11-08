@@ -45,7 +45,7 @@
 | B2 | Gate Card 怎么开 / 费用 / 绑支付宝 Apple Pay | 怎么做+费用 | `vcard/Gate`；公网索引 title 可能仍旧 | **推送后**换新 title；文内 **补费用 FAQ 表**（开卡/兑换/外汇，标核对日） | 高 | 卡种/地区资格变动快 |
 | B3 | Bybit Card 亚洲卡怎么开 / 返现 | 怎么做+费用 | `vcard/Bybit` | **补 FAQ** 新旧卡、返现门槛；与交易所文互链 | 高 | 活动数字易过期 |
 | B4 | BenPay / SafePal / Bitget 卡还能开吗 | 能否开 | 各有专文 | 对比文 B1 里做「暂停/受限」状态表；单卡文只更新 status | 中高 | 竞品称部分已停，需官方再核 |
-| B5 | 港卡怎么选 / 众安天星汇丰对比 | 对比 | 单行专文齐；**无港卡对比枢纽** | **新写** `bank/hk-card-comparison`（材料、是否须人在港、费用、入金场景） | 高 | — |
+| B5 | 港卡怎么选 / 众安天星汇丰对比 | 对比 | 单行专文齐；**枢纽已本地写** `hk-bank-comparison` | ✅ 已新写 `bank/hk-bank-comparison`（材料、是否须人在港、费用、入金场景）；**尚未 push** | 高 | — |
 | B6 | 众安怎么开户 / 材料 / 被拒 | 怎么做 | `bank/众安` + `众安介绍` | 开户文补 **被拒常见原因 FAQ**；介绍文维持「怎么用」 | 高 | — |
 | B7 | 天星/大象银行怎么开 / 改名 | 怎么做 | `bank/天星` title 已含改名 | **补 FAQ** 出入境记录、资产证明传闻（标不确定） | 中高 | 10 万资产证明为传闻级 |
 | B8 | 汇丰香港怎么开 / 月费 | 怎么做+费用 | `bank/汇丰银行` | **补 FAQ** One 低结存收费（2026 规则） | 中高 | — |
@@ -71,7 +71,7 @@
 1. **新写 · U 卡对比枢纽**（拟 slug 主题 `ucard-comparison` / 路径建议 `content/articles/vcard/ucard-comparison/`） ✅ 本地已写 `ucard-comparison`（`/articles/vcard/ACGrkqnQ`），挂入 `crypto-tools` wallets 首章；**尚未 push**。  
    打 B1：资格一张表 → 费用口径 → 绑微信/支付宝/Apple Pay → 链到 Gate/Bybit/BenPay/SafePal/Bitget 专文 + `/card`。
 
-2. **新写 · 港卡怎么选对比**（拟 `hk-bank-comparison`）  
+2. **新写 · 港卡怎么选对比**（拟 `hk-bank-comparison`） ✅ 本地已写 `hk-bank-comparison`（`/articles/bank/OmOzlPII`），挂入 `hk-stock-funding` banks 首章与 `us-stock-zero-to-one` banks；**尚未 push**。  
    打 B5：众安/大象/汇丰/中银/蚂蚁/建行亚洲；人在港与否、材料、入金美股 vs 出金回内地。
 
 3. **补 FAQ · C2C 冻卡与安全**（优先改 `crypto-c2c-funding`，不够再单开短文）  
