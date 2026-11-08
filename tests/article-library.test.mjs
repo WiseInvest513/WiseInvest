@@ -123,7 +123,7 @@ test('series are clearly planned metadata, with no fabricated chapters, articles
   const crypto = articleSeries.find(series => series.id === 'crypto-basics');
   assert.equal(crypto.status, 'updating');
   assert.deepEqual(crypto.chapters.map(chapter => chapter.articleId), [
-    'crypto-first-steps', 'crypto-buying-platforms', 'crypto-c2c-funding', 'crypto-spot-futures', 'crypto-transfer-basics',
+    'crypto-first-steps', 'crypto-buying-platforms', 'crypto-c2c-funding', 'crypto-c2c-freeze', 'crypto-spot-futures', 'crypto-transfer-basics',
   ]);
   assert.ok(crypto.chapters.every(chapter => articles.some(article => article.id === chapter.articleId)));
   assert.equal(articleSeries[1].chapters.length, 6);

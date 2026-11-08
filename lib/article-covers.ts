@@ -18,6 +18,11 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "C2C 入金：订单、付款与资产释放的银白玻璃封面",
     topics: ["币安", "C2C", "P2P", "入金", "USDT"],
   },
+  "crypto-c2c-freeze": {
+    src: "/images/articles/covers/crypto-c2c-freeze.webp",
+    alt: "C2C 冻卡怎么办：银白银行卡与警示标记，示意银行风控与司法冻结需分开核对",
+    topics: ["C2C","冻卡","USDT","银行风控","司法冻结"],
+  },
   "crypto-spot-futures": {
     src: "/images/articles/covers/crypto-spot-futures.webp",
     alt: "现货与合约：资产持仓和保证金头寸的银白玻璃对比封面",
@@ -217,7 +222,7 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
   },
   "ucard-comparison": {
     src: "/images/articles/covers/ucard-comparison.webp",
-    alt: "虚拟 U 卡怎么选：三张银白卡片与天平，示意资格费用与绑支付对比",
+    alt: "大陆还能办哪张 U 卡：三张银白卡片与天平，示意资格条款与绑支付对比",
     topics: ["虚拟 U 卡","U 卡对比","开卡资格","绑支付","费用"],
   },
   "hk-bank-comparison": {
