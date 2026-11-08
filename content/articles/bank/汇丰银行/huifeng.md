@@ -4,11 +4,11 @@ guideAudience: 准备申请汇丰香港 HSBC One、想先了解维护成本的�
 guideOutcomes: 理清 NFC 读证、入境记录上传到提交申请的步骤 | 分清账户获批、手机银行登录和后续费用检查这几件事
 guidePrepare: 先确认自己的申请方式，并备好可接收短信的手机、出入境记录 PDF 和真实中英文地址；职业、收入与资金来源按本人情况填写。
 guideStatus: 文中截图以访港申请为例，不代表所有客户都走同一路径；远程申请资格、补件要求和账户维护费用需按本人收到的银行说明核对。
-title: 汇丰香港 HSBC One 开户教程：账户介绍、申请步骤与注意事项
+title: 汇丰香港 HSBC One 怎么开？申请步骤与注意事项
 categoryId: bank
 date: 2026-04-10
 readTime: 30
-summary: 先了解汇丰香港 HSBC One 的用途与费用，再按截图准备证件、核验身份、填写资料并检查申请结果；收入、职业和税务信息都应如实申报。
+summary: 汇丰香港 HSBC One 怎么开户：用途与费用先看清，再按证件、身份核验和资料填写检查申请结果；收入职业税务须如实申报。
 subcategoryId: physical-bank
 ---
 

@@ -4,11 +4,11 @@ guideAudience: 想申请 Bitget Wallet Card，却不清楚钱包和卡片区别�
 guideOutcomes: 理清钱包创建、备份、充值与卡片申请之间的先后关系 | 了解真实地址证明的提交、审核和消费返现资产选择步骤
 guidePrepare: 准备本人有效证件、真实住址证明及可用联系方式，单独保管钱包备份；先核对材料要求，缺少证明时询问接受哪些替代文件。
 guideStatus: 钱包创建成功不等于获得卡片资格，审核也无固定通过时限；截图仅说明字段位置，不能用修改账单或虚构地址代替真实材料。
-title: Bitget Wallet Card 申请教程：钱包准备、身份认证与地址证明
+title: Bitget Wallet Card 怎么申请？认证、地址证明与开卡检查
 categoryId: vcard
 date: 2026-08-16
 readTime: 20
-summary: 先分清钱包与支付卡服务，再按图完成备份、充值、身份认证和真实地址证明提交；说明邀请码填写、卡片审核及使用前检查。
+summary: Bitget Wallet 和钱包卡怎么区分：备份、充值、身份认证与真实地址证明怎么提交，开卡审核和使用前要检查什么。
 ---
 
 ![Bitget Wallet 大陆用户申请最新教程](/content/articles/vcard/Bitget/wallet-card-0.jpeg)
@@ -19,7 +19,7 @@ summary: 先分清钱包与支付卡服务，再按图完成备份、充值、�
 
 这篇教程按钱包准备、备份与充值、身份认证、地址证明和审核的顺序展开。适合想了解开卡流程的读者；卡片版本、服务地区及材料要求以本人申请为准，旧截图不代表当前所有地区都开放。
 
-## 二、开户教程
+## 二、Bitget Wallet Card 怎么一步步申请？
 
 **1、** 打开 **Bitget Wallet App**。点击左上角头像，进入钱包界面，点击右上角的「添加钱包」进行创建。
 

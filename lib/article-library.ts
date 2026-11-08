@@ -28,8 +28,8 @@ const recommendations = [
   },
   {
     id: "BBAE",
-    displayTitle: "BBAE 证券开户与使用指南",
-    displaySummary: "账户开通、入金与基础功能，一篇了解。",
+    displayTitle: "BBAE 必贝怎么开户入金？",
+    displaySummary: "平台结构、同名入金与奖励条件怎么核对。",
   },
 ] as const;
 
@@ -192,6 +192,7 @@ export const articleSeries: ArticleSeries[] = [
       {"title": "支付宝买入实操", "articleId": "index-practice", "stageId": "practice"},
       {"title": "银河开户与费率", "articleId": "galaxy-etf-guide", "stageId": "practice", "summary": "准备场内 ETF 账户：了解银河开户渠道、ETF 佣金、免五申请条件与生效核对。"},
       {"title": "买入后的持有检查", "articleId": "index-qa-2", "stageId": "practice"},
+      {"title": "标普中期选举策略", "articleId": "sp500-midterm-strategy", "stageId": "practice", "summary": "按需阅读：历史窗口与执行方法，不是开户必需步骤。"},
     ],
   },
   {
@@ -213,6 +214,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "BIT 与券商对比", articleId: "bit-comparison", stageId: "compare" },
       { title: "iFAST 开户", articleId: "ifast-guide", stageId: "accounts" },
       { title: "Wise 注册", articleId: "wise-register", stageId: "accounts" },
+      { title: "SGB 开户", articleId: "SGB-register", stageId: "accounts", summary: "新加坡海湾银行选项；资格、监管主体与资金用途需单独核对。" },
       { title: "盈透开户", articleId: "IBKR", stageId: "brokers", summary: "开户图文；文内部分入金内容仍为视频链接。" },
       { title: "BBAE 开户", articleId: "BBAE", stageId: "brokers" },
       { title: "嘉信开户", articleId: "jiaxin", stageId: "brokers" },
@@ -239,6 +241,9 @@ export const articleSeries: ArticleSeries[] = [
       { title: "汇丰香港开户", articleId: "huifeng-register", stageId: "banks" },
       { title: "中银香港开户", articleId: "zhongying-register", stageId: "banks" },
       { title: "众安开户", articleId: "zhongan-register", stageId: "banks" },
+      { title: "众安使用总览", articleId: "zhongan-intro", stageId: "banks", summary: "开户后的转账、卡片与投资功能边界。" },
+      { title: "见证开户比较", articleId: "jianzheng", stageId: "banks", summary: "不赴港时的见证办理比较；材料与费用需逐项确认。" },
+      { title: "Wise Witness 见证", articleId: "wise-witness-guide", stageId: "banks", summary: "见证开户方案比较；不代替各银行官方审核。" },
       { title: "大象（原天星）开户", articleId: "tianxing-register", stageId: "banks" },
       { title: "建行亚洲开户", articleId: "jianhang", stageId: "banks" },
       { title: "汇立银行开户", articleId: "huili", stageId: "banks" },
@@ -275,6 +280,8 @@ export const articleSeries: ArticleSeries[] = [
       { title: "BenPay 开卡", articleId: "Benpay-vcard", stageId: "wallets" },
       { title: "MP Card 开卡", articleId: "MP-vcard", stageId: "wallets" },
       { title: "UU Wallet 开卡", articleId: "UUWallet-vcard", stageId: "wallets" },
+      { title: "BiyaPay 使用", articleId: "biyapay", stageId: "wallets", summary: "账户、虚拟卡与股票相关功能；各服务资格分开核对。" },
+      { title: "StableStock 使用", articleId: "stablestock", stageId: "wallets", summary: "稳定币入金与港股申购路径；产品文件与账户归属需自行核实。" },
     ],
   },
   {
@@ -312,6 +319,7 @@ export const articleSeries: ArticleSeries[] = [
     ],
     chapters: [
       { title: "美股投资流程入门", articleId: "us-stock-start", stageId: "start" },
+      { title: "国内用户港美股起步", articleId: "domestic-hk-us-guide", stageId: "start", summary: "账户、资金与学习顺序总览；再按条件进入银行或券商分支。" },
       { title: "Wise 注册", articleId: "wise-register", stageId: "accounts", summary: "了解支付账户、本人收款资料与可用服务，先核对自己的地区及用途。" },
       { title: "iFAST 开户", articleId: "ifast-guide", stageId: "accounts", summary: "了解银行账户申请与收付款要求；开户不等于所有转账通道均可使用。" },
       { title: "StarryBlu 注册与开卡", articleId: "StarryBlu-vcard", stageId: "accounts", summary: "支付账户、充值转账与卡片消费教程；文中含香港资金通道示例，没有港卡时须另行确认初始充值来源。" },

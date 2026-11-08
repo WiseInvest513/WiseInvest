@@ -37,7 +37,7 @@ test('current series next article wins and preserves a validated series route', 
   const result = recommend(byId('indexStock'), articles, 'investment-foundations');
   assert.equal(result.articles[0].id, 'idifferentIndex');
   assert.match(result.articles[0].href, /series=investment-foundations/);
-  assert.equal(result.articles[0].label, '继续本路线');
+  assert.match(result.articles[0].label, /下一课 · /);
   const unrelated = recommend(byId('bit-account-guide'), articles, 'investment-foundations');
   assert.equal(unrelated.articles[0].id, 'bit-comparison');
 });

@@ -94,10 +94,26 @@ export function getArticleReadingRecommendations(
   const series = getArticleSeries(seriesId, current.id) ?? (seriesId ? undefined : getPrimaryArticleSeries(current.id));
   if (series) {
     const reading = getSeriesReadingState(series, [...articles], current.id, routeId);
-    if (reading.next) add(reading.next.articleId,
-      series.kind === "path" ? "继续本路线" : "同系列下一篇",
-      series.kind === "path" ? "沿当前学习路线继续查阅，按自己的需求选择。" : "接着阅读这个系列的下一篇内容。",
-      reading.next.href);
+    if (reading.next) {
+      const unit = series.kind === "topic" ? "下一篇" : series.kind === "path" ? "下一课" : "下一篇";
+      add(
+        reading.next.articleId,
+        `${unit} · ${reading.next.title}`,
+        series.kind === "path"
+          ? `沿「${series.title}」继续：${reading.next.title}。`
+          : `接着阅读「${reading.next.title}」。`,
+        reading.next.href,
+      );
+    }
+    if (reading.previous) {
+      const unit = series.kind === "topic" ? "上一篇" : series.kind === "path" ? "上一课" : "上一篇";
+      add(
+        reading.previous.articleId,
+        `${unit} · ${reading.previous.title}`,
+        `回到「${reading.previous.title}」，核对前置步骤。`,
+        reading.previous.href,
+      );
+    }
   }
   for (const connection of Object.hasOwn(connections, current.id) ? connections[current.id] : []) {
     add(connection.id, connection.label, connection.reason);
