@@ -82,7 +82,9 @@ summary: Bybit Card 大陆还能开吗？先按官方「仅限支持居住国」
 
 [转账网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
-下面用 **Bitget** 举例（注册见 [Bitget 怎么注册入金](/articles/crypto/k3RVVcw4)），说明「同网络、先小额」的核对习惯；网络名称与手续费会变。
+下面用 **Bitget** 举例，说明「同网络、先小额」的核对习惯；网络名称与手续费会变。Bitget 注册见：
+
+[Bitget 怎么注册入金](/articles/crypto/k3RVVcw4){card}
 
 **1️⃣、** 在卡片侧点**充值**，进入充值界面。
 

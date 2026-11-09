@@ -63,13 +63,19 @@ summary: 把银行开户、资金转入、港资与美资券商、BIT 和交易�
 
 已有其他账户的朋友，不必为了跟着教程再开一套。下面保留其他银行的入口，按需查阅即可；**教程存在，不代表当前接受每一种身份申请，也不代表任意券商都接受它汇款**。
 
-| 你正在了解的账户 | 对应教程 |
+| 你正在了解的账户 | 说明 |
 | --- | --- |
-| 建行亚洲 | [建行亚洲开户](/articles/bank/0uzSFs7d) |
-| 香港蚂蚁银行 | [蚂蚁银行开户](/articles/bank/OwFAe2JD) |
-| 大象银行 EleBank（原天星 Airstar，与 Mox 是不同银行） | [大象／原天星开户](/articles/bank/ucHyMf8P) |
-| 汇立银行 | [汇立开户](/articles/bank/wMpXaoI5) |
-| 平安数字银行 | [平安数字银行开户](/articles/bank/wgBs7jp3) |
+| 建行亚洲 | 见下方开户教程 |
+| 香港蚂蚁银行 | 见下方开户教程 |
+| 大象银行 EleBank（原天星 Airstar，与 Mox 是不同银行） | 见下方开户教程 |
+| 汇立银行 | 见下方开户教程 |
+| 平安数字银行 | 见下方开户教程 |
+
+[建行亚洲开户](/articles/bank/0uzSFs7d){card}
+[蚂蚁银行开户](/articles/bank/OwFAe2JD){card}
+[大象／原天星开户](/articles/bank/ucHyMf8P){card}
+[汇立开户](/articles/bank/wMpXaoI5){card}
+[平安数字银行开户](/articles/bank/wgBs7jp3){card}
 
 Wise 与 iFAST 则要单独理解：**Wise 是支付服务，iFAST Global Bank 对应英国银行账户**。收款资料、可用币种、汇款对象和资金保障不同；不要因为都能转账，就统称为“万能中转卡”。先确认券商接受的具体通道，再看自己的账户能否按要求汇出。
 
@@ -101,8 +107,14 @@ Wise 与 iFAST 则要单独理解：**Wise 是支付服务，iFAST Global Bank �
 
 | 工具 | 需要时再读 |
 | --- | --- |
-| 消费与支付卡 | [Bitget Wallet 开卡](/articles/vcard/WK8p1cCV)、[SafePal 开卡](/articles/vcard/E4lD5AIn)、[Bybit Card 开卡](/articles/vcard/wYKRLDvK)；消费卡功能与券商入金资格分别核对 |
-| 境外号码与保号 | [XeSIM 使用](/articles/simcard/EAN52fdr)、[giffgaff 使用](/articles/simcard/isBZdnTm)；先确认平台是否接受、号码能否由本人持续维护 |
+| 消费与支付卡 | 消费卡功能与券商入金资格分别核对；教程见下方 |
+| 境外号码与保号 | 先确认平台是否接受、号码能否由本人持续维护；教程见下方 |
+
+[Bitget Wallet 开卡](/articles/vcard/WK8p1cCV){card}
+[SafePal 开卡](/articles/vcard/E4lD5AIn){card}
+[Bybit Card 开卡](/articles/vcard/wYKRLDvK){card}
+[XeSIM 使用](/articles/simcard/EAN52fdr){card}
+[giffgaff 使用](/articles/simcard/isBZdnTm){card}
 
 ## 三、港资券商：从香港银行到美股账户
 

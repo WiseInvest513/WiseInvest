@@ -17,7 +17,9 @@ readTime: 14
 
 第一次打开交易页面，最容易看见的是价格涨了多少、跌了多少。再往旁边看，才发现还有“现货”“杠杆”“合约”，有的页面甚至多了一个倍数。
 
-如果只记得自己想买 BTC，很容易把这些按钮当成不同版本的购买界面。**买币（现货）和开合约有什么区别？** 下文用保证金、强平与订单结果把它们拆开；若还缺一笔可用的 USDT，先看 [C2C 入金](/articles/crypto/mk7xplfU?series=crypto-basics)。但买完之后，你拿到什么、要不要付持仓成本、价格下跌时会发生什么，差别很大。
+如果只记得自己想买 BTC，很容易把这些按钮当成不同版本的购买界面。**买币（现货）和开合约有什么区别？** 下文用保证金、强平与订单结果把它们拆开；若还缺一笔可用的 USDT，先看 C2C 入金。但买完之后，你拿到什么、要不要付持仓成本、价格下跌时会发生什么，差别很大。
+
+[C2C 入金](/articles/crypto/mk7xplfU?series=crypto-basics){card}
 
 我们先把三种情况摆在一起。
 
@@ -135,7 +137,10 @@ readTime: 14
 
 读到这里，你已经可以判断一个最基础的问题：自己现在点下去，会买到一笔现货，还是建立一笔需要持续管理保证金的仓位。
 
-后面要把币从交易所转到自己的钱包，或者从一个平台转到另一个平台，再接着看 [转账：网络、地址与到账](/articles/crypto/oWHIVCLt?series=crypto-basics)。买卖与转账分开学，页面上那些看起来相似的“确认”就不容易混在一起了。币与账户基础也可回看 [BTC、ETH、USDT 入门](/articles/crypto/UOMdQwU3?series=crypto-basics)。
+后面要把币从交易所转到自己的钱包，或者从一个平台转到另一个平台，买卖与转账应分开学。币与账户基础也可回看入门篇：
+
+[转账：网络、地址与到账](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
+[BTC、ETH、USDT 入门](/articles/crypto/UOMdQwU3?series=crypto-basics){card}
 
 [加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 [回到加密入门系列](/articles/series/crypto-basics){card}

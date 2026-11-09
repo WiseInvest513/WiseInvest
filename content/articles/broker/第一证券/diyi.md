@@ -16,7 +16,12 @@ summary: 第一证券 Firstrade 怎么开户：证件与地址证明、个人资
 
 **第一证券 Firstrade 怎么开户？** 想直接买美股或 ETF，先确认资格、真实资料、本人资金账户与税务文件能否长期维护。
 
-可与 [嘉信 Schwab 开户](/articles/broker/MWyWMwwN)、[盈透 IBKR 开户入金](/articles/broker/2Uh6hvvZ) 对照费用与入金路径；平台选型也可先看 [美股平台怎么选](/articles/broker/iy2fdMsF)，或进入 [美资券商开户系列](/articles/series/us-stock-funding)。
+费用、入金路径与平台选型可对照：
+
+[嘉信 Schwab 开户](/articles/broker/MWyWMwwN){card}
+[盈透 IBKR 开户入金](/articles/broker/2Uh6hvvZ){card}
+[美股平台怎么选](/articles/broker/iy2fdMsF){card}
+[美资券商开户系列](/articles/series/us-stock-funding){card}
 
 本文按“平台介绍—准备材料—申请步骤—注意事项—总结”展开。页面语言、宣传里的开户速度或别人的成功案例，都不能代替你自己的审核结果。
 

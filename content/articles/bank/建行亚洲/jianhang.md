@@ -16,7 +16,11 @@ subcategoryId: physical-bank
 
 **建行亚洲 e 账户怎么开？** 本文讲的是中国建设银行（亚洲），不是工银亚洲，也不是直接给内地建行账户增加一个港币余额。你需要先申请香港账户，再按对应渠道使用跨境服务。
 
-同类港卡可对照 [中银香港开户](/articles/bank/AO9Yfph5) 与 [汇丰香港 HSBC One](/articles/bank/WoxUXncV)；访港数字银行路径见 [众安开户](/articles/bank/2aiiqnjt)。
+同类港卡与访港数字银行路径：
+
+[中银香港开户](/articles/bank/AO9Yfph5){card}
+[汇丰香港 HSBC One](/articles/bank/WoxUXncV){card}
+[众安开户](/articles/bank/2aiiqnjt){card}
 
 这篇教程重点解决两个问题：如何在 App 提交申请，以及为什么已有账户号码仍可能暂时不能入金。此前的相关教程还包括：
 

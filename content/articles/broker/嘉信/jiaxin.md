@@ -17,7 +17,11 @@ summary: 嘉信证券怎么开户：护照与地址证明怎么准备，个人�
 
 **嘉信 Schwab 怎么开户？** 想直接买美股或 ETF，先确认是否符合申请资格，以及能否持续提供真实资料、使用本人资金账户和维护税务文件。
 
-同类美资路径可对照 [盈透 IBKR 怎么开户入金](/articles/broker/2Uh6hvvZ) 与 [第一证券 Firstrade 怎么开户](/articles/broker/eKIyMXl8)；整体账户准备见 [美资券商开户入金系列](/articles/series/us-stock-funding)。
+同类美资路径与整体账户准备：
+
+[盈透 IBKR 怎么开户入金](/articles/broker/2Uh6hvvZ){card}
+[第一证券 Firstrade 怎么开户](/articles/broker/eKIyMXl8){card}
+[美资券商开户入金系列](/articles/series/us-stock-funding){card}
 
 本文按“平台介绍—准备材料—申请步骤—注意事项—总结”展开。页面语言、宣传里的开户速度或别人的成功案例，都不能代替你自己的审核结果。
 

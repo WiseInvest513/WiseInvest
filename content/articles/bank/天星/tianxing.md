@@ -16,7 +16,11 @@ subcategoryId: virtual-bank
 
 **大象银行（原天星）怎么开户？** 旧教程里常写“天星”，下载时又看到“大象”——先把名称认清，才不会拿着一家银行的要求去申请另一家。
 
-同类访港数字银行可对照 [众安银行怎么开户](/articles/bank/2aiiqnjt) 与 [汇立银行怎么开户转账](/articles/bank/wMpXaoI5)；开好后要配美股账户，可看 [美股从 0 到 1](/articles/series/us-stock-zero-to-one)。
+同类访港数字银行与开好后的美股账户路线：
+
+[众安银行怎么开户](/articles/bank/2aiiqnjt){card}
+[汇立银行怎么开户转账](/articles/bank/wMpXaoI5){card}
+[美股从 0 到 1：账户、资金与投资流程](/articles/series/us-stock-zero-to-one){card}
 
 **本文的天星银行原英文名为 Airstar Bank，现在使用 EleBank 品牌，中文名为大象银行。**它在 2026 年 4 月先更名为象象银行，同年 8 月再调整为大象银行，英文 EleBank 沿用。名称变更可核对[银行公告](https://www.elebank.com/zh-cn/PR_20260423.html)及[官方 App 的版本记录](https://apps.apple.com/cn/app/id1488056130)。
 

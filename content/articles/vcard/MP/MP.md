@@ -17,7 +17,12 @@ summary: MPCard 虚拟 U 卡开卡教程：注册、KYC、USDT/USDC 充值，以
 
 最近不少旧卡出现不能开、不能续或支付场景变窄，所以大家会比较更完整的新产品。MP 这套包含 **MP Wallet、MP Pay、MPCard 和稳定币出入金**；本文重点回答：有哪几种卡、分别适合谁，以及注册、KYC、充值和开卡怎么核对。
 
-若你主要做 AI 订阅、认证门槛想更低，可对照 [BenPay Delta Card](/articles/vcard/oCyhotvX)；若更在意交易所一体开卡，可看 [Gate Card](/articles/vcard/GUhygjYV) 或 [Bitget Wallet Card](/articles/vcard/WK8p1cCV)。充值选网络时，建议先读 [转账与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)。
+AI 订阅／低门槛认证、交易所一体开卡，以及充值选网络，可对照：
+
+[BenPay Delta Card](/articles/vcard/oCyhotvX){card}
+[Gate Card](/articles/vcard/GUhygjYV){card}
+[Bitget Wallet Card](/articles/vcard/WK8p1cCV){card}
+[转账与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
 ---
 

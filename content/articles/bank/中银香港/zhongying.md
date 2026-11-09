@@ -16,7 +16,11 @@ subcategoryId: physical-bank
 
 **中银香港怎么开户？** 对准备港币收付款或跨境使用的读者，第一步是区分香港账户与中国银行内地账户：两者不能当成同一个账户直接使用。
 
-常见对照路径：[汇丰香港 HSBC One](/articles/bank/WoxUXncV)、[众安银行开户](/articles/bank/2aiiqnjt)；开好港卡后若要配港资券商，可进入 [港卡与港股券商开户入金系列](/articles/series/hk-stock-funding#stage-brokers)。
+常见对照路径与开好后的港资券商路线：
+
+[汇丰香港 HSBC One](/articles/bank/WoxUXncV){card}
+[众安银行开户](/articles/bank/2aiiqnjt){card}
+[港卡与港股券商开户入金系列](/articles/series/hk-stock-funding){card}
 
 本文以内地居民访港、通过手机银行申请为例，依次讲准备材料、提交资料和启用手机银行。[中银香港官方开户页面](https://www.bochk.com/dam/more/accountopening/en.html)列有申请资格；例如证件有效期、入境记录签发时间都有要求，出发前先检查自己是否符合。
 

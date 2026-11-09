@@ -15,9 +15,14 @@ summary: 大陆用户办 SafePal 虚拟 U 卡：KYC 认证、充值、激活，�
 
 **SafePal U 卡怎么开？** 先分清三层：SafePal 钱包、App 内的 Fiat24 支付账户、以及卡片激活。创建钱包成功，不等于已开支付账户；账户通过，也不等于卡片可用。本篇按认证、充值、开卡与冷钱包领取展开。
 
-配套实操：钱包里有了 USDC 之后，如何汇回国内，见 [SafePal 汇款回国内实操](/articles/transfers/64Tu8Za3)；若你还想把资金转到盈透，可看 [SafePal / 众安入金盈透](/articles/transfers/oO9I9Hu6)。
+配套实操：钱包里有了 USDC 之后如何汇回国内，或把资金转到盈透：
 
-最开始我已经有 Bitget 卡也能覆盖部分需求——对照见 [Bitget Wallet Card 申请](/articles/vcard/WK8p1cCV)——但 SafePal 在钱包+支付账户拆分上更清晰，所以单独写完整流程。
+[SafePal 汇款回国内实操](/articles/transfers/64Tu8Za3){card}
+[SafePal / 众安入金盈透](/articles/transfers/oO9I9Hu6){card}
+
+最开始我已经有 Bitget 卡也能覆盖部分需求，但 SafePal 在钱包+支付账户拆分上更清晰，所以单独写完整流程。Bitget 卡对照：
+
+[Bitget Wallet Card 申请](/articles/vcard/WK8p1cCV){card}
 
 ---
 
@@ -70,7 +75,10 @@ summary: 大陆用户办 SafePal 虚拟 U 卡：KYC 认证、充值、激活，�
 
 ![步骤 8](./8.webp)
 
-**6、** 这里老样子，我还是用我的**币安交易所**进行转账（还没有币安账户可先看 [币安注册与使用](/articles/crypto/GaM38JYk)；核对网络见 [转账与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics)），我们打开币安交易所，点击右下角的**资产** → 选择**转出** → 选择**链上提现** → 选择 **ETH** → 把刚才的地址复制进来 → 选择 **ARB one 网络** → 最后确定转账对应的资产即可。
+**6、** 这里老样子，我还是用我的**币安交易所**进行转账。还没有币安账户、或需要先核对网络时，见下方两篇。我们打开币安交易所，点击右下角的**资产** → 选择**转出** → 选择**链上提现** → 选择 **ETH** → 把刚才的地址复制进来 → 选择 **ARB one 网络** → 最后确定转账对应的资产即可。
+
+[币安注册与使用](/articles/crypto/GaM38JYk){card}
+[转账与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 
 ![步骤 9](./9.webp)
 

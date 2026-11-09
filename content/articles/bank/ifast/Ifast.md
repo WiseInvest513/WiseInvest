@@ -18,11 +18,13 @@ summary: iFAST Global Bank 怎么开户和首次汇款：身份地址核验、�
 
 哈喽，家人们大家好，这里是 **WiseInvest**，欢迎来到我的频道！
 
-之前的复星入金案例使用过众安和 iFAST——完整路径见 [众安与 iFAST 如何入金复星](/articles/broker/myu8sVmc)。这里先完成银行账户与收付款基础检查；计划接入券商的读者，还要再核对券商是否接受这家银行和本次资金。地址证明与收款字段也常被 [Wise 注册](/articles/bank/Ysn8tPfj) 场景拿来对照。
+之前的复星入金案例使用过众安和 iFAST。这里先完成银行账户与收付款基础检查；计划接入券商的读者，还要再核对券商是否接受这家银行和本次资金。地址证明与收款字段也可和 Wise 注册场景对照。
 
 [复星入金：众安与 iFAST 路径](/articles/broker/myu8sVmc){card}
+[Wise 账户怎么注册](/articles/bank/Ysn8tPfj){card}
+[盈透 IBKR 开户入金](/articles/broker/2Uh6hvvZ){card}
 
-**iFAST 怎么开户入金？** iFAST Global Bank 可作为跨境收付款方案之一，但银行开户、券商开户和资金用途是三个需要分别确认的问题。本文先介绍银行，再讲证件、地址证明、申请步骤及汇款信息核对；不会把开户通过等同于任意投资通道都已打通。若目标是盈透，可对照 [盈透 IBKR 开户入金](/articles/broker/2Uh6hvvZ)。
+**iFAST 怎么开户入金？** iFAST Global Bank 可作为跨境收付款方案之一，但银行开户、券商开户和资金用途是三个需要分别确认的问题。本文先介绍银行，再讲证件、地址证明、申请步骤及汇款信息核对；不会把开户通过等同于任意投资通道都已打通。
 
 
 ## 二、iFAST 账户适合什么资金用途？

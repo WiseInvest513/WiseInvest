@@ -17,7 +17,11 @@ summary: StarryBlu 支付账户怎么申请、充值、转出和开卡：收款�
 
 先明确一个区别：支付平台展示的收款资料、资金存放于银行的保护账户，以及你直接在该银行开立的个人存款账户，不是可以直接画等号的三件事。不要只因页面出现 OCBC 名称，就认为拿到了与直接开户完全相同的账户。
 
-若目标是把资金转到美股券商，可对照 [盈透 IBKR 怎么开户入金](/articles/broker/2Uh6hvvZ)；文内汇款到盈透的操作也可与 [SafePal / 众安入金盈透](/articles/transfers/oO9I9Hu6) 对比路径差异。多币种收款需求还可看 [Wise 账户怎么注册](/articles/bank/Ysn8tPfj)。
+若目标是把资金转到美股券商、或需要多币种收款对照，可先打开下面几篇：
+
+[盈透 IBKR 怎么开户入金](/articles/broker/2Uh6hvvZ){card}
+[SafePal / 众安入金盈透](/articles/transfers/oO9I9Hu6){card}
+[Wise 账户怎么注册](/articles/bank/Ysn8tPfj){card}
 
 专栏澄清与对比（不算 U 卡、和 Wise 怎么选、护照 KYC）见：
 

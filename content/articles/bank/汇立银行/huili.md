@@ -16,7 +16,11 @@ subcategoryId: virtual-bank
 
 **汇立银行怎么开户转账？** WeLab Bank 通过 App 提供储蓄、转账等服务。适合准备访港申请、或已开户但还不会转账的读者：先了解产品，再准备材料，最后检查账户状态与实际到账。
 
-同类访港数字银行可对照 [众安银行开户](/articles/bank/2aiiqnjt) 与 [大象银行（原天星）开户](/articles/bank/ucHyMf8P)；总路线见 [港卡与港股券商开户入金](/articles/series/hk-stock-funding)。
+同类访港数字银行与总路线：
+
+[众安银行开户](/articles/bank/2aiiqnjt){card}
+[大象银行（原天星）开户](/articles/bank/ucHyMf8P){card}
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}
 
 在前面我们已经介绍了有香港的实体**汇丰**、**中银**的开通教程，也有介绍**众安**、**蚂蚁**、**天星**等虚拟银行，这些基本上都需要大家前往香港进行办理。也有介绍 **Wise** 支付账户与 **iFAST** 银行等线上申请方案！那也有关于大家可以使用见证开户去开**汇丰**、渣打、恒生、东亚以及星展等银行，这些银行不需要前往香港，你也可以成功办理，具体的教程如下：
 

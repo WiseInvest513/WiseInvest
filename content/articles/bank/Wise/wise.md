@@ -16,7 +16,10 @@ subcategoryId: digital-bank
 
 **Wise 账户怎么注册？** 需要跨币种收付款时可能会用到它。开始前先分清四件事：注册账户、持有某币种余额、取得该币种收款资料，以及申请银行卡——分别对应不同功能。
 
-若目标是给券商入金，可对照 [iFAST 开户与汇款核对](/articles/bank/AARzryKJ)；多币种支付卡路径也可看 [StarryBlu 开户充值](/articles/vcard/uQfN0J0j)。
+若目标是给券商入金，或需要多币种支付卡路径，可先打开下面两篇对照：
+
+[iFAST 开户与汇款核对](/articles/bank/AARzryKJ){card}
+[StarryBlu 开户充值](/articles/vcard/uQfN0J0j){card}
 
 **Wise 是支付与汇款服务，不能把它直接等同于香港银行账户。** 按[Wise 账户条款](https://api.transferwise.com/v1/terms/default)，其账户并非普通银行存款账户。可用功能会随居住地与账户情况不同，[官方地区说明](https://wise.com/help/articles/2813542/where-do-i-need-to-live-to-hold-money-with-wise)也提示新旧账户可能有差异。
 

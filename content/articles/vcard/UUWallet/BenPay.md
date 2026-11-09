@@ -15,7 +15,10 @@ summary: UU Wallet 钱包与支付卡怎么申请：护照认证、虚拟卡或�
 
 **UU Wallet 虚拟卡怎么开？** 常见需求就两类：稳定订阅 AI 产品，以及把 Web3 资金用到 Web2 消费。本文从产品介绍、认证、开卡到消费实测逐步核对；平台的安全宣传不能替代账户条款与资金保管检查。兑换、手续费、商户接受度和账户限制仍需分别验证。
 
-若你还在比较同类卡，可对照 [BenPay Delta Card](/articles/vcard/oCyhotvX) 与 [MPCard 怎么选](/articles/vcard/ou6gFWrn)：认证材料、实体卡/虚拟卡能力和费用结构都不一样。
+若你还在比较同类卡，可对照下面两篇：认证材料、实体卡／虚拟卡能力和费用结构都不一样。
+
+[BenPay Delta Card](/articles/vcard/oCyhotvX){card}
+[MPCard 怎么选](/articles/vcard/ou6gFWrn){card}
 
 ---
 

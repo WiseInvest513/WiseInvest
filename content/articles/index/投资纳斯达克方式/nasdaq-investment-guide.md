@@ -235,12 +235,29 @@ CRS 是否适用、账户资料是否需要申报或交换，要看开户实体�
 
 | 购买方式 | 下一步 |
 | --- | --- |
-| 支付宝场外基金 | 搜索指数名称并核对基金代码、份额和开放状态，查看[支付宝购买教程](/articles/index/mSIqvwVp)。 |
-| 银河等国内券商买场内 ETF | 查看[银河开户与 ETF 费率教程](/articles/domestic/o0RA5e1p)，先处理账户、佣金与申请生效，再核对基金代码、溢价和订单。 |
-| 港资券商买美国上市 ETF | 按条件选择[复星开户](/articles/broker/sQSbLRe8)、[致富开户](/articles/broker/GaobLP0X)或[腾达开户](/articles/broker/4k1kTctf)；配套入金图文集中在[港资券商路线](/articles/series/hk-stock-funding)。 |
-| 美资券商买美国上市 ETF | 查看[盈透开户](/articles/broker/2Uh6hvvZ)、[BBAE 开户与入金](/articles/broker/I0AIBXus)、[嘉信开户](/articles/broker/MWyWMwwN)或[第一证券开户](/articles/broker/eKIyMXl8)；账户与转账教程集中在[美股账户路线](/articles/series/us-stock-funding)。 |
-| BIT 数字证券账户 | 查看[BIT 开户与入金教程](/articles/broker/YgNQGO57)，区分证券账户与代币化产品，再核对本人可用的资金通道。 |
-| 链上或交易平台的代币化产品 | 先确认发行方、资产权利和可用地区，再查看[币安注册与使用](/articles/crypto/GaM38JYk)或[Bitget 注册与使用](/articles/crypto/k3RVVcw4)；教程内提供现有邀请入口。开通交易所账户不代表该产品对你开放，也不等于持有原 ETF 份额。 |
+| 支付宝场外基金 | 搜索指数名称并核对基金代码、份额和开放状态；教程见下方。 |
+| 银河等国内券商买场内 ETF | 先处理账户、佣金与申请生效，再核对基金代码、溢价和订单；教程见下方。 |
+| 港资券商买美国上市 ETF | 按条件选择复星、致富或腾达；配套入金图文见港资券商路线。 |
+| 美资券商买美国上市 ETF | 按条件选择盈透、BBAE、嘉信或第一证券；账户与转账教程见美股账户路线。 |
+| BIT 数字证券账户 | 区分证券账户与代币化产品，再核对本人可用的资金通道；教程见下方。 |
+| 链上或交易平台的代币化产品 | 先确认发行方、资产权利和可用地区。开通交易所账户不代表该产品对你开放，也不等于持有原 ETF 份额；教程见下方。 |
+
+按购买方式打开对应教程：
+
+[支付宝购买教程](/articles/index/mSIqvwVp){card}
+[银河开户与 ETF 费率教程](/articles/domestic/o0RA5e1p){card}
+[复星开户](/articles/broker/sQSbLRe8){card}
+[致富开户](/articles/broker/GaobLP0X){card}
+[腾达开户](/articles/broker/4k1kTctf){card}
+[港资券商路线](/articles/series/hk-stock-funding){card}
+[盈透开户](/articles/broker/2Uh6hvvZ){card}
+[BBAE 开户与入金](/articles/broker/I0AIBXus){card}
+[嘉信开户](/articles/broker/MWyWMwwN){card}
+[第一证券开户](/articles/broker/eKIyMXl8){card}
+[美股账户路线](/articles/series/us-stock-funding){card}
+[BIT 开户与入金教程](/articles/broker/YgNQGO57){card}
+[币安注册与使用](/articles/crypto/GaM38JYk){card}
+[Bitget 注册与使用](/articles/crypto/k3RVVcw4){card}
 
 ## 十一、那我到底应该选哪一个？
 

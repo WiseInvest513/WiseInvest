@@ -16,7 +16,11 @@ summary: BBAE 怎么开户、电汇或转仓入金：先分清 BBAE、Redbridge 
 
 **BBAE 必贝怎么开户入金？** 想直接交易美股和 ETF，除了看 App 是否好用，还要看背后的证券经纪商、清算机构和资金账户。下文先把这几层关系讲清楚，再进入开户与入金。
 
-同类美资路径可对照 [盈透 IBKR 怎么开户入金](/articles/broker/2Uh6hvvZ) 与 [嘉信 Schwab 怎么开户](/articles/broker/MWyWMwwN)；平台总览见 [美股平台怎么选](/articles/broker/iy2fdMsF)。
+同类美资路径与平台总览：
+
+[盈透 IBKR 怎么开户入金](/articles/broker/2Uh6hvvZ){card}
+[嘉信 Schwab 怎么开户](/articles/broker/MWyWMwwN){card}
+[美股平台怎么选](/articles/broker/iy2fdMsF){card}
 
 如果你正在比较美国证券账户，可以按材料要求、可用入金方式和总费用来判断。开户时限、是否补交地址证明与本人资格由审核决定，不能把其他人的办理速度当成保证。
 

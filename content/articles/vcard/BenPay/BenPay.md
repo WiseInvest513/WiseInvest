@@ -17,7 +17,11 @@ summary: BenPay Delta Card 怎么用于 AI 订阅和日常支付：按账户、�
 
 虚拟 U 卡常见两类用途：日常消费（绑支付、汇率与手续费要按订单核对），以及订阅 ChatGPT / Claude 等线上服务。监管收紧后，不少卡要求身份证+护照，门槛明显升高——这也是很多人转而比较 BenPay 的原因。
 
-若你还在看认证更完整的路径，可对照 [Gate Card 怎么开](/articles/vcard/GUhygjYV) 与 [SafePal 大陆开卡](/articles/vcard/E4lD5AIn)；需要支付宝/微信场景时，也可看 [MPCard 怎么选](/articles/vcard/ou6gFWrn)。
+认证更完整的路径，或需要支付宝／微信场景时，可对照：
+
+[Gate Card 怎么开](/articles/vcard/GUhygjYV){card}
+[SafePal 大陆开卡](/articles/vcard/E4lD5AIn){card}
+[MPCard 怎么选](/articles/vcard/ou6gFWrn){card}
 
 原稿记录的 **Delta Card** 流程未要求完整 KYC，但这是当时操作情况，不是所有地区或未来申请的永久规则。减少验证步骤不等于匿名、资金更安全或以后不会补充材料。
 

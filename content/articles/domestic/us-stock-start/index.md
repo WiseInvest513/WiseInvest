@@ -21,15 +21,40 @@ readTime: 10
 
 **按你现在的情况，找到下一步：**
 
-| 你现在有什么 | 下一步先确认什么 | 从这里继续阅读 |
-| --- | --- | --- |
-| **只有境内人民币，还没有境外账户** | 先分清想配置纳指、标普基金，还是直接持有美股；再了解对应账户与资金条件。 | [境内基金等购买渠道](/articles/index/gCSTzdEB)；[账户准备](/articles/series/us-stock-zero-to-one#stage-accounts) |
-| **已经有港卡** | 核对目标券商是否接受这家银行、对应币种与同名汇款，再选择证券账户。 | [港资券商教程](/articles/series/hk-stock-funding#stage-brokers)；[美资券商教程](/articles/series/us-stock-funding#stage-brokers) |
-| **已有其他境外银行账户** | 先查现有银行与目标券商能否衔接，以及费用和回款安排，再判断是否缺少其他账户。 | [美股账户与入金路线](/articles/series/us-stock-funding) |
-| **已经持有 USDT、USDC 等稳定币** | 先区分证券账户、股票代币和合约，再确认本人资格及资金进入方式。 | [BIT 开户与入金](/articles/broker/YgNQGO57)；[产品与账户区别](/articles/broker/AEXjQDo5) |
-| **已经有券商账户，准备入金或下单** | 从本人券商取得收款指引，检查到账币种、可用资金和产品权限，再进入订单流程。 | [美股投资全流程](/articles/domestic/carWp7d7) |
+| 你现在有什么 | 下一步先确认什么 |
+| --- | --- |
+| **只有境内人民币，还没有境外账户** | 先分清想配置纳指、标普基金，还是直接持有美股；再了解对应账户与资金条件。 |
+| **已经有港卡** | 核对目标券商是否接受这家银行、对应币种与同名汇款，再选择证券账户。 |
+| **已有其他境外银行账户** | 先查现有银行与目标券商能否衔接，以及费用和回款安排，再判断是否缺少其他账户。 |
+| **已经持有 USDT、USDC 等稳定币** | 先区分证券账户、股票代币和合约，再确认本人资格及资金进入方式。 |
+| **已经有券商账户，准备入金或下单** | 从本人券商取得收款指引，检查到账币种、可用资金和产品权限，再进入订单流程。 |
 
-如果同时符合几行，就从**还没有完成的那一步**开始。表格帮你选阅读入口，具体能否开户、汇款和交易，需要在对应教程与本人账户中分别确认。
+按你的情况打开对应教程（如果同时符合几行，就从**还没有完成的那一步**开始）：
+
+**只有境内人民币，还没有境外账户**
+
+[境内基金等购买渠道](/articles/index/gCSTzdEB){card}
+[美股从 0～1 · 账户准备](/articles/series/us-stock-zero-to-one#stage-accounts){card}
+
+**已经有港卡**
+
+[港资券商教程](/articles/series/hk-stock-funding#stage-brokers){card}
+[美资券商教程](/articles/series/us-stock-funding#stage-brokers){card}
+
+**已有其他境外银行账户**
+
+[美股账户与入金路线](/articles/series/us-stock-funding){card}
+
+**已经持有 USDT、USDC 等稳定币**
+
+[BIT 开户与入金](/articles/broker/YgNQGO57){card}
+[产品与账户区别](/articles/broker/AEXjQDo5){card}
+
+**已经有券商账户，准备入金或下单**
+
+[美股投资全流程](/articles/domestic/carWp7d7){card}
+
+表格帮你选阅读入口，具体能否开户、汇款和交易，需要在对应教程与本人账户中分别确认。
 
 > 先写下自己已经有什么，再判断还缺什么。系列里的教程是可选入口，不是一份要求全部开通的清单。
 

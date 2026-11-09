@@ -16,7 +16,12 @@ summary: 致富证券怎么开户入金：邀请码、等值一万港币入金�
 
 **致富证券怎么开户？入金奖励怎么领？** 对准备交易港美股的读者，先确认本人能否申请、需要哪些材料和入金方式，再比较交易费用与奖励。下文保留原稿开户截图，资格以本人当前申请审核为准。
 
-同类港资券商可对照 [复星证券怎么开户](/articles/broker/sQSbLRe8) 与 [腾达证券怎么开户入金](/articles/broker/4k1kTctf)；港卡准备见 [众安银行怎么开户](/articles/bank/2aiiqnjt)，总路线见 [港卡与港股券商开户入金](/articles/series/hk-stock-funding)。
+同类港资券商、港卡准备与总路线：
+
+[复星证券怎么开户](/articles/broker/sQSbLRe8){card}
+[腾达证券怎么开户入金](/articles/broker/4k1kTctf){card}
+[众安银行怎么开户](/articles/bank/2aiiqnjt){card}
+[港卡与港股券商开户入金](/articles/series/hk-stock-funding){card}
 
 如果用一张图来表示这个惨状的话，我想下图就是最佳的表示：
 

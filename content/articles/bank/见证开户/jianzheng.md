@@ -16,7 +16,11 @@ subcategoryId: jianzheng
 
 **境外银行见证开户怎么办理？** 如果暂时不能到境外分行，但有明确的境外账户需求，可以先了解见证开户：由指定机构核验资料、协助递交申请，再由目标银行独立审核。它不是存入一笔钱就自动获得多个国家账户的服务。
 
-方案比较也可看 [Wise Witness 见证开户](/articles/web/eY9HPVD5)；若之后仍能安排访港，可对照实体开户如 [众安银行怎么开户](/articles/bank/2aiiqnjt) 或 [汇丰香港怎么开](/articles/bank/WoxUXncV)。
+见证方案与访港实体开户对照：
+
+[Wise Witness 见证开户](/articles/web/eY9HPVD5){card}
+[众安银行怎么开户](/articles/bank/2aiiqnjt){card}
+[汇丰香港怎么开](/articles/bank/WoxUXncV){card}
 
 **那这个就是我们今天视频里面主要讲到的：见证开户**
 

@@ -15,7 +15,12 @@ summary: BiyaPay 账户怎么注册，虚拟卡、股票交易和资金转出怎
 
 **BiyaPay 怎么用？** 一个 App 里可能同时看到加密资产、港美股/期货入口、虚拟 U 卡和资金转出——但它们不是同一套规则。本文按注册、虚拟卡、股票相关功能与资金转出分别核对资格和费用。
 
-虚拟卡场景可对照 [Gate Card](/articles/vcard/GUhygjYV) 或 [BenPay Delta Card](/articles/vcard/oCyhotvX)；稳定币买港股路径也可看 [StableStock 怎么入金买港股](/articles/onchain/4OUbYina) 与 [StockCoin 使用指南](/articles/onchain/YGkvEHeX)。
+虚拟卡场景与稳定币买港股路径对照：
+
+[Gate Card](/articles/vcard/GUhygjYV){card}
+[BenPay Delta Card](/articles/vcard/oCyhotvX){card}
+[StableStock 怎么入金买港股](/articles/onchain/4OUbYina){card}
+[StockCoin 使用指南](/articles/onchain/YGkvEHeX){card}
 
 不同券商的新增开户资格、应用分发和存量账户服务是不同问题，不能把某个开户限制写成所有券商已经停止交易。这里单独介绍 BiyaPay 的操作，不以其他平台“都不能用”作为选择理由。
 
