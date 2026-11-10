@@ -509,10 +509,10 @@ export default function CardPageClient() {
                 WiseInvest Card Library
               </div>
               <h1 className="mt-4 text-3xl font-black tracking-tight text-slate-950 dark:text-white md:text-4xl">
-                虚拟 U 卡资料库
+                虚拟 U 卡（U卡）资料库
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                把虚拟 U 卡独立整理出来，重点看大陆用户能不能申请、是否需要境外地址证明、开卡成本、消费 / 换汇费率，以及 Apple Pay / Google Pay 绑定情况。
+                想办 U卡或虚拟 U 卡，先对照大陆用户能不能申请、是否需要境外地址证明、开卡成本、消费／换汇费率，以及 Apple Pay / Google Pay 绑定情况。具体开卡步骤见各卡教程，本页不做单一卡片的逐步演示。
               </p>
             </div>
 

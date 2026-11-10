@@ -14,9 +14,9 @@ const categorySeo: Record<string, { title: string; description: string; keywords
     keywords: ["出入金教程", "跨境汇款", "银行收款", "结汇", "SafePal", "Fiat24"],
   },
   vcard: {
-    title: "虚拟 U 卡教程合集：大陆用户开卡、AI 订阅、Apple Pay 与支付宝绑定",
-    description: "Wise Invest 虚拟 U 卡教程合集，整理 MPCard、Bitget Wallet Card、SafePal、BenPay、Bybit Card 等开卡、充值、邀请码和支付绑定流程。",
-    keywords: ["虚拟 U 卡", "U 卡教程", "大陆用户虚拟卡", "AI 订阅卡", "Apple Pay", "支付宝", "微信支付"],
+    title: "虚拟 U 卡（U卡）教程合集：大陆开卡、AI 订阅与支付绑定",
+    description: "Wise Invest 虚拟 U 卡（U卡）教程合集，整理 MPCard、Bitget Wallet Card、SafePal、BenPay、Bybit Card 等开卡、充值、邀请码和支付绑定流程。",
+    keywords: ["虚拟 U 卡", "U卡", "U 卡教程", "大陆用户虚拟卡", "AI 订阅卡", "Apple Pay", "支付宝", "微信支付"],
   },
   crypto: {
     title: "加密交易所注册入金教程：Binance、OKX、Bybit、Bitget 大陆用户指南",
