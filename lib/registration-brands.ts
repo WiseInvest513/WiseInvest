@@ -31,7 +31,7 @@ const bit: RegistrationBrand = {
   },
 };
 
-const exchangeBenefits: RegistrationBrand["benefits"] = {
+const exchangeBenefits: RegistrationBenefits = {
   summaryText: "永久 20% 交易手续费返佣",
   title: "Wise 专属返佣",
   period: "永久有效",

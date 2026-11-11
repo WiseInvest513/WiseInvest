@@ -44,7 +44,7 @@ export function CexRewardDialog() {
         <DialogHeader className="sr-only">
           <DialogTitle>交易所福利说明</DialogTitle>
           <DialogDescription>
-            使用邀请码注册任意交易所，完成 1000U 入金、保留 UID 记录并完成 10000U 合约交易后，可加入 VIP 群并领取现金红包奖励。
+            使用邀请码注册币安、Bitget、欧易、Bybit、WEEX 或 Gate，完成 1000U 入金、保留 UID 记录并完成 10000U 合约交易后，可加入 VIP 群并领取现金红包奖励。MEXC 返佣与 BIT 美股账户奖励见各自卡片。
           </DialogDescription>
         </DialogHeader>
 
@@ -61,7 +61,7 @@ export function CexRewardDialog() {
               交易所专属福利说明
             </h3>
             <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-              使用页面里的邀请码注册任意交易所，入金 <span className="font-black text-slate-950 dark:text-white">1000U</span>
+              使用页面里的邀请码注册币安、Bitget、欧易、Bybit、WEEX 或 Gate，入金 <span className="font-black text-slate-950 dark:text-white">1000U</span>
               、保留 UID 记录，并完成 <span className="font-black text-slate-950 dark:text-white">10000U 合约交易</span>后，
               可加入 VIP 群，并且可找 Wise 领取
               <span className="font-black text-amber-600 dark:text-amber-300"> 5U 现金红包奖励</span>。
@@ -94,7 +94,7 @@ export function CexRewardDialog() {
 
           <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-center dark:border-slate-800 dark:bg-slate-900/80">
             <p className="text-[11px] font-semibold leading-5 text-slate-500 dark:text-slate-400">
-              这些交易所适合完成入金、买币、现货交易、理财和活动参与。注册时记得核对邀请码，避免福利漏绑。
+              注册时请核对邀请码，避免福利漏绑。MEXC 的 20% 返佣与 BIT 美股账户的入金奖励见对应卡片，分别按各自条件办理。
             </p>
           </div>
 

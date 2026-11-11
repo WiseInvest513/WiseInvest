@@ -894,7 +894,9 @@ export default async function Perks2SectionPage(
   const Icon = sectionIcons[section.slug] ?? Sparkles;
   const slotCount = section.subcategories.reduce((sum, subcategory) => sum + subcategory.slots, 0);
   const shouldShowCexRewardDialog = section.slug === "crypto";
-  const cexProducts = section.subcategories.find((subcategory) => subcategory.slug === "uex-exchange")?.products ?? [];
+  const cexProducts = (section.subcategories.find((subcategory) => subcategory.slug === "uex-exchange")?.products ?? [])
+    // BIT is a securities account; keep its deposit reward out of the exchange comparison.
+    .filter((product) => product.id !== "bit-account-guide");
 
   return (
     <div className="relative min-h-screen bg-slate-50 dot-grid dot-grid-light dark:bg-slate-950">

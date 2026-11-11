@@ -27,9 +27,9 @@ const cex = crypto.subcategories.find(category => category.slug === 'uex-exchang
 const weex = cex.products.find(product => product.id === 'weex');
 const registrationUrl = 'https://wpewehx.site/zh-CN/register?vipCode=wiseweex';
 
-test('WEEX is first in CEX while all five existing exchanges retain their order', () => {
+test('CEX entries follow the requested order with BIT fifth and WEEX sixth', () => {
   assert.deepEqual(cex.products.map(product => product.id), [
-    'weex', 'binance', 'okx', 'bitget', 'bybit', 'gate',
+    'binance', 'bitget', 'okx', 'bybit', 'bit-account-guide', 'weex', 'gate', 'mexc',
   ]);
   assert.equal(weex.title, 'WEEX');
   const occurrences = perkSections.flatMap(section => section.subcategories
@@ -63,11 +63,11 @@ test('WEEX uses a nonempty local PNG logo', () => {
     Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
 });
 
-test('crypto has 11 products and slots, including six CEX entries', () => {
-  assert.equal(cex.products.length, 6);
-  assert.equal(cex.slots, 6);
-  assert.equal(crypto.subcategories.flatMap(category => category.products ?? []).length, 11);
-  assert.equal(crypto.subcategories.reduce((sum, category) => sum + category.slots, 0), 11);
+test('crypto has 13 products and slots, including eight account entries', () => {
+  assert.equal(cex.products.length, 8);
+  assert.equal(cex.slots, 8);
+  assert.equal(crypto.subcategories.flatMap(category => category.products ?? []).length, 13);
+  assert.equal(crypto.subcategories.reduce((sum, category) => sum + category.slots, 0), 13);
   for (const category of crypto.subcategories) {
     assert.equal(category.slots, category.products.length, `${category.slug} count must match its products`);
   }
