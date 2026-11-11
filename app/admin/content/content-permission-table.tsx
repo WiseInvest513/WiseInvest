@@ -118,7 +118,7 @@ export function ContentPermissionTable({ rows }: { rows: ContentPermissionRow[] 
             </div>
             <h2 className="text-2xl font-black">内容权限配置</h2>
             <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-              未配置的内容会使用系统默认规则；保存后以这里的权限为准。
+              所有文章统一免登录阅读全文；下方可配置学习路线和资金地图的访问权限。
             </p>
           </div>
           <div className="relative w-full md:max-w-sm">
@@ -239,6 +239,7 @@ export function ContentPermissionTable({ rows }: { rows: ContentPermissionRow[] 
           {filtered.map((row) => {
           const rowKey = `${row.contentType}:${row.contentKey}`;
           const isSaving = savingKey === rowKey;
+          const isPublicArticle = row.contentType === "ARTICLE";
           const TypeIcon = typeIcons[row.contentType];
           return (
             <div key={rowKey} className="grid gap-4 p-5 xl:grid-cols-[minmax(0,1fr)_180px_minmax(260px,0.9fr)_auto] xl:items-center">
@@ -259,7 +260,7 @@ export function ContentPermissionTable({ rows }: { rows: ContentPermissionRow[] 
                         : "bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500"
                     )}
                   >
-                    {row.source === "DATABASE" ? "已配置" : "默认"}
+                    {isPublicArticle ? "统一公开" : row.source === "DATABASE" ? "已配置" : "默认"}
                   </span>
                 </div>
                 <p className="mt-3 truncate text-base font-black text-slate-950 dark:text-white">{row.title}</p>
@@ -269,6 +270,7 @@ export function ContentPermissionTable({ rows }: { rows: ContentPermissionRow[] 
 
               <select
                 value={row.access}
+                disabled={isPublicArticle}
                 onChange={(event) => updateLocal(row, { access: event.target.value as ContentAccessLevel })}
                 className="h-11 rounded-xl border border-slate-200 bg-white px-3 text-sm font-black outline-none transition focus:border-amber-300 dark:border-slate-800 dark:bg-slate-950"
               >
@@ -281,6 +283,7 @@ export function ContentPermissionTable({ rows }: { rows: ContentPermissionRow[] 
 
               <textarea
                 value={row.reason}
+                disabled={isPublicArticle}
                 onChange={(event) => updateLocal(row, { reason: event.target.value })}
                 rows={2}
                 className="min-h-20 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold leading-6 outline-none transition focus:border-amber-300 focus:bg-white dark:border-slate-800 dark:bg-slate-950"
@@ -290,11 +293,11 @@ export function ContentPermissionTable({ rows }: { rows: ContentPermissionRow[] 
               <button
                 type="button"
                 onClick={() => void saveRow(row)}
-                disabled={isSaving}
+                disabled={isSaving || isPublicArticle}
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 text-sm font-black text-amber-300 transition hover:bg-amber-400 hover:text-slate-950 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-amber-400 dark:text-slate-950"
               >
                 {isSaving ? <Sparkles className="h-4 w-4 animate-pulse" /> : <Check className="h-4 w-4" />}
-                保存
+                {isPublicArticle ? "公开阅读" : "保存"}
               </button>
             </div>
           );

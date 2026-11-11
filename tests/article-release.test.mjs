@@ -101,7 +101,7 @@ beforeEach(() => {
   afterPermissionLookup = undefined;
 });
 
-test('the release ends precisely at Sunday 24:00 Beijing and only applies to VIP002', () => {
+test('historical release metadata ends precisely at Sunday 24:00 Beijing and only applies to VIP002', () => {
   assert.equal(new Date(deadline).toISOString(), '2026-09-13T16:00:00.000Z');
   assert.deepEqual(getArticleRelease(article), {
     endsAt: '2026-09-14T00:00:00+08:00', previewPercentage: 30,
@@ -143,102 +143,47 @@ test('30% preview does not split code fences or leave a lone heading', () => {
 });
 
 for (const [phase, at] of [['before', deadline - 1], ['exactly at', deadline], ['after', deadline + 1]]) {
-  test(`SSR and API enforce ${phase} deadline for guests, members, VIP, and SVIP`, async () => {
+  test(`former timed article remains public ${phase} its old deadline`, async () => {
     now = at;
     for (const tier of [null, 'MEMBER', 'VIP', 'VIP_PLUS']) {
       viewerTier = tier;
-      const isVip = tier === 'VIP' || tier === 'VIP_PLUS';
-      const fullAccess = at < deadline || isVip;
       const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid }) });
       const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-      assert.equal(props.initialArticle.content, fullAccess ? article.content : preview, `SSR ${tier}`);
-      assert.equal(props.lockedContent?.previewPercentage, fullAccess ? undefined : 30);
-      assert.deepEqual(props.limitedRelease, {
-        endsAt: '2026-09-14T00:00:00+08:00', serverNow: at,
-        canReadAfterExpiry: isVip, previewContent: preview,
-      });
+      assert.equal(props.initialArticle.content, article.content);
+      assert.equal(props.lockedContent, undefined);
+      assert.equal(props.limitedRelease, undefined, 'the browser must not receive an expiry timer or preview payload');
       assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'content')));
       const response = await api.GET();
-      assert.equal(response.headers['Cache-Control'], 'no-store');
-      assert.equal(response.body.find(item => item.id === article.id).content, props.initialArticle.content);
-      if (!fullAccess) {
-        assert.ok(!JSON.stringify(tree).includes(secretEnding), 'SSR/RSC does not serialize locked text');
-        assert.ok(!JSON.stringify(response.body).includes(secretEnding), 'API does not serialize locked text');
-      }
+      assert.equal(response.body.find(item => item.id === article.id).content, article.content);
+      assert.ok(props.initialArticle.content.includes(secretEnding));
+      assert.equal(getContentAccessRule(articlePath).access, 'PUBLIC');
     }
-    assert.equal(page.dynamic, 'force-dynamic');
-    assert.equal(api.dynamic, 'force-dynamic');
   });
 }
 
-test('stored PUBLIC/MEMBER/VIP_PLUS overrides cannot bypass or shorten this release', async () => {
+test('all saved article restrictions are superseded by public reading', async () => {
   databaseConfigured = true;
-  const normalArticlePath = '/articles/broker/ordinary';
+  const normalPath = '/articles/broker/ordinary';
   for (const access of ['PUBLIC', 'MEMBER', 'VIP', 'VIP_PLUS']) {
-    permissions = [
-      { contentType: 'ARTICLE', contentKey: articlePath, access, reason: 'An older saved rule' },
-      { contentType: 'ARTICLE', contentKey: normalArticlePath, access: 'VIP_PLUS', reason: 'Preserve this normal override' },
-    ];
+    permissions = [articlePath, normalPath].map(contentKey => ({ contentType: 'ARTICLE', contentKey, access, reason: 'Old stored policy' }));
     for (const at of [deadline - 1, deadline, deadline + 1]) {
       now = at;
       const fullUrl = 'https://www.wise-invest.org' + articlePath + '?from=share#chapter';
-      const rules = await getResolvedContentAccessRules([articlePath, fullUrl, normalArticlePath]);
-      assert.equal(rules.get(articlePath).access, at < deadline ? 'PUBLIC' : 'VIP');
-      assert.equal(rules.get(fullUrl).access, at < deadline ? 'PUBLIC' : 'VIP');
-      assert.deepEqual(rules.get(normalArticlePath), { access: 'VIP_PLUS', reason: 'Preserve this normal override' });
+      const rules = await getResolvedContentAccessRules([articlePath, fullUrl, normalPath]);
+      for (const rule of rules.values()) assert.equal(rule.access, 'PUBLIC');
     }
   }
 });
 
-test('a database outage cannot reopen the release after expiry', async (t) => {
-  now = deadline;
+test('auth and permission database outages cannot prevent public article reading', async () => {
+  now = deadline + 1;
   databaseConfigured = true;
   databaseFailure = true;
-  t.mock.method(console, 'warn', () => {});
+  afterIdentityLookup = () => { throw new Error('Auth unavailable'); };
   const rules = await getResolvedContentAccessRules([articlePath]);
-  assert.equal(rules.get(articlePath).access, 'VIP');
-});
-
-test('SSR and API never return expired full text despite an old PUBLIC database rule', async () => {
-  now = deadline;
-  databaseConfigured = true;
-  permissions = [{ contentType: 'ARTICLE', contentKey: articlePath, access: 'PUBLIC', reason: 'Old override' }];
-  for (const tier of [null, 'MEMBER']) {
-    viewerTier = tier;
-    const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid }) });
-    const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-    assert.equal(props.initialArticle.content, preview);
-    const response = await api.GET();
-    assert.equal(response.body.find(item => item.id === article.id).content, preview);
-    assert.ok(!JSON.stringify(tree).includes(secretEnding));
-    assert.ok(!JSON.stringify(response.body).includes(secretEnding));
-  }
-});
-
-test('permission lookups crossing midnight use the time after the lookup', async () => {
-  databaseConfigured = true;
-  permissions = [{ contentType: 'ARTICLE', contentKey: articlePath, access: 'PUBLIC', reason: 'Old override' }];
-  afterPermissionLookup = () => { now = deadline; };
-  const rules = await getResolvedContentAccessRules([articlePath]);
-  assert.equal(rules.get(articlePath).access, 'VIP');
-});
-
-test('SSR/API recheck after parallel identity lookup crosses midnight', async () => {
-  afterIdentityLookup = () => { now = deadline; };
+  assert.equal(rules.get(articlePath).access, 'PUBLIC');
   const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid }) });
-  assert.equal(tree.props.children.find(child => child.type === ArticlesContent).props.initialArticle.content, preview);
-  now = deadline - 1;
+  assert.equal(tree.props.children.find(child => child.type === ArticlesContent).props.initialArticle.content, article.content);
   const response = await api.GET();
-  assert.equal(response.body.find(item => item.id === article.id).content, preview);
-});
-
-test('shared rule re-evaluates on every call; existing public intro and VIP001 stay unchanged', () => {
-  for (const at of [deadline - 1, deadline, deadline + 1, deadline - 1]) {
-    now = at;
-    assert.equal(getContentAccessRule(articlePath).access, at < deadline ? 'PUBLIC' : 'VIP');
-    for (const id of ['VIP', 'VIP001']) {
-      const existing = getAllArticles().find(item => item.id === id && item.categoryId === 'VIP');
-      assert.equal(getContentAccessRule(getArticleRoute(existing)).access, id === 'VIP' ? 'PUBLIC' : 'VIP');
-    }
-  }
+  assert.equal(response.body.find(item => item.id === article.id).content, article.content);
 });

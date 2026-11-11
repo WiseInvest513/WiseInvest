@@ -8,10 +8,8 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   const href = request.nextUrl.searchParams.get("href") ?? "/";
   const item = resolveContentItem(href);
-  const [membershipTier, rule] = await Promise.all([
-    getContentViewerTier(),
-    getResolvedContentAccessRule(href),
-  ]);
+  const rule = await getResolvedContentAccessRule(href);
+  const membershipTier = rule.access === "PUBLIC" ? null : await getContentViewerTier();
   const allowed = canReadContentAccess(rule.access, membershipTier);
 
   return NextResponse.json({

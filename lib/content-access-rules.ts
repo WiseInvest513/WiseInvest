@@ -17,8 +17,8 @@ export type RoadmapAccessRuleConfig = ContentAccessRuleConfig & {
 };
 
 export const defaultArticleAccessRule: ContentAccessRuleConfig = {
-  access: "MEMBER",
-  reason: "完整文章需要登录 Wise ID 后阅读",
+  access: "PUBLIC",
+  reason: "所有文章均可免登录阅读全文",
 };
 
 export const defaultRoadmapAccessRule: ContentAccessRuleConfig = {
@@ -47,21 +47,8 @@ export const publicArticleAccessRules: ArticleAccessRuleConfig[] = [
   },
 ];
 
-// VIP 文章默认仅限 VIP 会员阅读；文章本身仍可在目录中展示。
-export const vipArticleAccessRules: ArticleAccessRuleConfig[] = [
-  {
-    articleId: "VIP001",
-    categoryId: "VIP",
-    access: "VIP",
-    reason: "Wise VIP 会员专属内容",
-  },
-  {
-    articleId: "VIP002",
-    categoryId: "VIP",
-    access: "VIP",
-    reason: "Wise VIP 会员专属内容",
-  },
-];
+// 2026-11-12：主网站所有文章（含原 VIP 文章）统一公开阅读。
+export const vipArticleAccessRules: ArticleAccessRuleConfig[] = [];
 
 export const publicRoadmapDetailAccessRules: RoadmapAccessRuleConfig[] = [
   {

@@ -1,13 +1,10 @@
 import {
   defaultArticleAccessRule,
   defaultRoadmapAccessRule,
-  publicArticlePaths,
-  vipArticlePaths,
   publicCapitalFlowRouteIds,
   publicRoadmapDetailIds,
   type ContentAccessLevel,
 } from "@/lib/content-access-rules";
-import { getArticleReleaseAccessRule } from "@/lib/article-release";
 
 export type { ContentAccessLevel } from "@/lib/content-access-rules";
 
@@ -108,15 +105,16 @@ export function resolveContentItem(value: string): ContentItemRef {
   };
 }
 
+/** Article reading is public, regardless of legacy stored permissions or release dates. */
+export function isPublicArticleHref(href: string) {
+  return isWiseInvestHref(href) && /^\/articles\/[^/]+\/[^/]+$/.test(splitPathAndSearch(href).pathname);
+}
+
 export function getContentAccessRule(hrefOrPath: string): ContentAccessRule {
   const { pathname, searchParams } = splitPathAndSearch(hrefOrPath);
 
   if (/^\/articles\/[^/]+\/[^/]+$/.test(pathname)) {
-    const releaseRule = getArticleReleaseAccessRule(pathname);
-    if (releaseRule) return releaseRule;
-    if (publicArticlePaths.has(pathname)) return { access: "PUBLIC", reason: "公开示范文章" };
-    if (vipArticlePaths.has(pathname)) return { access: "VIP", reason: "Wise VIP 会员专属内容" };
-    return defaultArticleAccessRule;
+    return { ...defaultArticleAccessRule };
   }
 
   const roadmapDetail = pathname.match(/^\/roadmap\/([^/]+)$/);

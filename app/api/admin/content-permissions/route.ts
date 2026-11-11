@@ -33,6 +33,9 @@ function parsePayload(body: ContentPermissionPayload) {
   if (!body.access || !validAccess.has(body.access)) {
     throw new Error("权限等级无效");
   }
+  if (body.contentType === "ARTICLE" && body.access !== "PUBLIC") {
+    throw new Error("当前所有文章统一公开阅读，不能设置登录或会员限制");
+  }
   if (!body.reason || typeof body.reason !== "string") {
     throw new Error("请输入登录墙提示原因");
   }

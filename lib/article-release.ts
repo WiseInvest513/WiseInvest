@@ -7,6 +7,8 @@ export type ArticleRelease = {
   previewPercentage: number;
 };
 
+// Historical preview metadata only. Article pages, APIs, and access checks no
+// longer enforce release windows: all published articles are publicly readable.
 // Sunday 24:00 in Beijing, not the deployment server's local timezone.
 const vip002Release: Readonly<ArticleRelease> = Object.freeze({
   endsAt: "2026-09-14T00:00:00+08:00",

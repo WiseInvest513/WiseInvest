@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "内容权限 | Wise Invest",
-  description: "配置 Wise Invest 文章和学习路线的访问权限。",
+  description: "查看公开文章，配置 Wise Invest 学习路线与资金地图的访问权限。",
   robots: {
     index: false,
     follow: false,
@@ -37,7 +37,9 @@ export default async function AdminContentPage() {
   );
 
   const rows = catalog.map((item) => {
-    const permission = permissionMap.get(`${item.contentType}:${item.contentKey}`);
+    const permission = item.contentType === "ARTICLE"
+      ? undefined
+      : permissionMap.get(`${item.contentType}:${item.contentKey}`);
     return {
       contentType: item.contentType,
       contentKey: item.contentKey,

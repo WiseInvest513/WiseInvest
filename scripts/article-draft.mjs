@@ -238,7 +238,7 @@ export function checkDraft({ root = projectRoot, id }) {
   if (!coverSha256) issues.push({ code: 'review-cover-missing', severity: 'error', message: '完成封面配置与文件后才能取得审阅哈希' });
   assertIssues(issues, '新稿严格校验');
   return { stage: 'checked', id, articleFile: file, target, planSha256: receipt.planSha256, articleSha256, coverSha256, staticAccess,
-    accessScope: '仅检查网站代码权限（含文件内限时规则）；未查询线上数据库权限', warnings: issues.filter(issue => issue.severity === 'warning') };
+    accessScope: '仅检查网站代码中的文章公开策略；未查询线上数据库，也未进行线上匿名阅读全文验收', warnings: issues.filter(issue => issue.severity === 'warning') };
 }
 
 export function finalizeDraft({ root = projectRoot, id, reviewFile, review: input }) {

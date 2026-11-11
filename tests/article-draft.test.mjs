@@ -11,7 +11,7 @@ const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const PLAN = {
   id: 'sample-concept', title: '从账户用途理解开户准备', categoryId: 'crypto', type: 'concept',
   summary: '区分身份认证、资金转移与交易操作，按自己的任务准备资料并核对每一步结果。',
-  date: '2026-11-06', access: 'MEMBER', target: 'crypto/sample/article.md',
+  date: '2026-11-06', access: 'PUBLIC', target: 'crypto/sample/article.md',
   guide: {
     audience: ['还不了解账户认证与买币区别的入门读者', '准备了解资金路径但还没有开始操作的人'],
     outcomes: ['区分身份核验、资金入账与下单成交三种结果', '根据账户用途列出材料与资金检查清单'],
@@ -24,7 +24,7 @@ const BODY = `# ${PLAN.title}\r\n\r\n先从使用账户的目的出发，认识�
 function setRules(root, { publicRules = [], vipRules = [] } = {}) {
   fs.writeFileSync(path.join(root, 'lib/content-access-rules.ts'), `
     import { genUid } from './article-uid';
-    export const defaultArticleAccessRule={access:"MEMBER"};
+    export const defaultArticleAccessRule={access:"PUBLIC"};
     export const publicArticleAccessRules=${JSON.stringify(publicRules)};
     export const vipArticleAccessRules=${JSON.stringify(vipRules)};
     export const publicArticlePaths=new Set(publicArticleAccessRules.map(r=>'/articles/'+r.categoryId+'/'+genUid(r.articleId)));
@@ -56,7 +56,7 @@ function fixture(t) {
       facts: '正文是基础概念说明，没有新增产品费用、资格或收益数字。',
       visuals: '测试封面来自本地既有素材，尺寸与文件体积已核对。',
       referrals: '这篇概念文章没有邀请码、注册链接或优惠承诺。',
-      access: '已核对静态规则为 MEMBER，未请求线上权限数据库。',
+      access: '已核对文章统一公开阅读，未请求线上权限数据库。',
     } };
   };
   const finish = input => finalizeDraft({ root, id: plan.id, review: input });
@@ -158,10 +158,11 @@ test('strict checking blocks incomplete bodies and missing assets without insert
 });
 
 test('static access and series association must match current website config', t => {
-  const f = fixture(t); f.plan.access = 'PUBLIC'; f.plan.seriesId = 'new-series';
+  const f = fixture(t); f.plan.access = 'MEMBER'; f.plan.seriesId = 'new-series';
   f.prepare(); f.compose();
   assert.throws(() => f.check(), /static-access-mismatch/);
-  setRules(f.root, { publicRules: [{ articleId: f.plan.id, categoryId: 'crypto', access: 'PUBLIC' }] });
+  f.plan.access = 'PUBLIC';
+  f.prepare(); f.compose();
   assert.throws(() => f.check(), /series-membership-missing/);
   fs.writeFileSync(path.join(f.root, 'lib/article-library.ts'), `export const articleSeries=[{id:"new-series",existingArticleId:"${f.plan.id}",chapters:[]}];`);
   assert.equal(f.check().staticAccess, 'PUBLIC');
@@ -206,11 +207,14 @@ test('re-preparing a changed plan invalidates review even when composed article 
   assert(!fs.existsSync(f.target));
 });
 
-test('permission checks use the real site resolver, not a more permissive interpretation of rule arrays', t => {
+test('permission checks use the public site policy despite historical VIP rule arrays', t => {
   const f = fixture(t); f.plan.access = 'VIP_PLUS';
   setRules(f.root, { vipRules: [{ articleId: f.plan.id, categoryId: 'crypto', access: 'VIP_PLUS' }] });
   f.prepare(); f.compose();
-  assert.throws(() => f.check(), /计划权限 VIP_PLUS 与静态权限 VIP 不一致/);
+  assert.throws(() => f.check(), /计划权限 VIP_PLUS 与静态权限 PUBLIC 不一致/);
+  f.plan.access = 'PUBLIC';
+  f.prepare(); f.compose();
+  assert.equal(f.check().staticAccess, 'PUBLIC');
 });
 
 test('finalization never overwrites an existing target or accepts a duplicate ID', t => {

@@ -51,16 +51,13 @@ test('the Galaxy ETF guide is explicitly public for signed-out readers', () => {
   }
 });
 
-test('the single public exception does not unlock ordinary articles or VIP content', () => {
-  assert.equal(defaultArticleAccessRule.access, 'MEMBER');
-  assert.equal(getContentAccessRule('/articles/domestic/unrelated-article').access, 'MEMBER');
-  for (const rule of vipArticleAccessRules) {
-    assert.equal(rule.access, 'VIP');
-    assert.ok(!publicArticlePaths.has(`/articles/${rule.categoryId}/${genUid(rule.articleId)}`));
+test('ordinary and former VIP articles share the public reading policy', () => {
+  assert.equal(defaultArticleAccessRule.access, 'PUBLIC');
+  assert.equal(getContentAccessRule('/articles/domestic/unrelated-article').access, 'PUBLIC');
+  assert.equal(vipArticleAccessRules.length, 0);
+  for (const id of ['VIP', 'VIP001', 'VIP002']) {
+    assert.equal(getContentAccessRule(`/articles/VIP/${genUid(id)}`).access, 'PUBLIC');
   }
-  assert.equal(getContentAccessRule(`/articles/VIP/${genUid('VIP001')}`).access, 'VIP');
-  assert.equal(getContentAccessRule(`/articles/web/${genUid('web-guide')}`).access, 'PUBLIC');
-  assert.equal(getContentAccessRule(`/articles/VIP/${genUid('VIP')}`).access, 'PUBLIC');
 });
 
 test('both active Galaxy benefit entries link to the public guide and keep contact-first access', () => {

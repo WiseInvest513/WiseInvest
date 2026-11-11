@@ -169,7 +169,7 @@ test('different content requests share plain policy rows, not viewer decisions o
   first.clear();
   const fullUrl = 'https://www.wise-invest.org' + articlePath + '?from=share#section';
   const next = await h.resolver.getResolvedContentAccessRules([fullUrl, publicPath]);
-  assert.equal(next.get(fullUrl).access, 'VIP_PLUS');
+  assert.equal(next.get(fullUrl).access, 'PUBLIC');
   assert.equal(next.get(publicPath).access, 'VIP');
   assert.equal(h.queries.length, 1);
   assert.equal(h.authCalls(), 0, 'shared config does not read or cache identity');
@@ -291,30 +291,41 @@ test('database-free preview defaults and mock saves never populate or invalidate
   assert.equal(h.queries.length, 1);
 });
 
-test('a cache hit crossing the release deadline reevaluates the clock after reading cached configuration', async () => {
+test('public articles ignore legacy overrides and deadlines without querying policies', async () => {
   const h = harness();
-  h.state.now = deadline - 1;
-  h.state.permissions = [permission(h.releasePath, 'PUBLIC')];
-  assert.equal((await h.resolver.getResolvedContentAccessRule(h.releasePath)).access, 'PUBLIC');
-  h.state.afterCacheRead = () => { h.state.now = deadline; };
-  assert.equal((await h.resolver.getResolvedContentAccessRule(h.releasePath)).access, 'VIP');
-  assert.equal(h.queries.length, 1, 'the deadline decision was not cached with the database rule');
+  h.state.permissions = [permission(h.releasePath, 'VIP'), permission(articlePath, 'VIP_PLUS')];
+  for (const at of [deadline - 1, deadline, deadline + 1]) {
+    h.state.now = at;
+    const rules = await h.resolver.getResolvedContentAccessRules([h.releasePath, articlePath]);
+    for (const rule of rules.values()) assert.equal(rule.access, 'PUBLIC');
+  }
+  const first = await h.resolver.getResolvedContentAccessRule(articlePath);
+  first.access = 'VIP';
+  assert.equal((await h.resolver.getResolvedContentAccessRule(articlePath)).access, 'PUBLIC', 'returned maps cannot mutate the public default');
+  assert.equal(h.queries.length, 0);
 });
 
-test('authoritative release rules survive an outage but mixed unknown policies fail closed', async (t) => {
+test('article-only reads survive outages while non-article policy reads still fail closed', async () => {
   const h = harness();
   h.state.readFailure = true;
-  const warnings = [];
-  t.mock.method(console, 'warn', (...args) => warnings.push(args));
-  assert.equal((await h.resolver.getResolvedContentAccessRule(h.releasePath)).access, 'VIP');
-  await assert.rejects(h.resolver.getResolvedContentAccessRules([h.releasePath, publicPath]), /Policy database unavailable/);
-  h.state.now = deadline - 1;
   assert.equal((await h.resolver.getResolvedContentAccessRule(h.releasePath)).access, 'PUBLIC');
+  assert.equal((await h.resolver.getResolvedContentAccessRule(articlePath)).access, 'PUBLIC');
+  assert.equal(h.queries.length, 0);
+  await assert.rejects(h.resolver.getResolvedContentAccessRules([h.releasePath, publicPath]), /Policy database unavailable/);
   assert.equal(h.entries.size, 0);
-  assert.deepEqual(warnings, [
-    ['[content-access] using authoritative release rule after DB failure'],
-    ['[content-access] using authoritative release rule after DB failure'],
-  ]);
+});
+
+test('admin cannot restore article login restrictions while non-article permissions remain editable', async () => {
+  const h = harness();
+  for (const access of ['MEMBER', 'VIP', 'VIP_PLUS']) {
+    const response = await h.update(access, { contentType: 'ARTICLE', contentKey: articlePath });
+    assert.equal(response.status, 400);
+    assert.match(response.body.message, /所有文章统一公开阅读/);
+  }
+  assert.deepEqual(h.events, []);
+  assert.equal((await h.update('PUBLIC', { contentType: 'ARTICLE', contentKey: articlePath })).status, 200);
+  h.state.admin = false;
+  assert.equal((await h.update('PUBLIC', { contentType: 'ARTICLE', contentKey: articlePath })).status, 403);
 });
 
 test('empty content lists never query the database', async () => {

@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getContentViewerTier } from "@/lib/identity/content-viewer";
 import { siteConfig } from "@/lib/config";
 import {
   getAllArticles,
@@ -12,16 +11,9 @@ import {
   toArticleListItem,
 } from "@/lib/articles";
 import { ArticlesContent } from "@/app/articles/articles-content";
-import {
-  buildLoginHref,
-  canReadContentAccess,
-} from "@/lib/content-access";
-import { createArticlePreview, getArticlePreviewPercentage } from "@/lib/article-preview";
-import { getResolvedContentAccessRule } from "@/lib/content-access-server";
-import { getArticleRelease, getArticleReleaseAccessRule } from "@/lib/article-release";
-import { resolveArticleSeries, getSeriesArticleHref, getSeriesReadingState } from "@/lib/article-series";
+import { resolveArticleSeries } from "@/lib/article-series";
 
-// 文章详情需要按登录状态输出全文或公开摘要，不能静态缓存成单一版本。
+// All published articles render in full, including canonical and series entry points.
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
@@ -74,22 +66,6 @@ export default async function ArticleUidPage(
 
   const seriesContext = { fromSeries: query.fromSeries, fromStage: query.fromStage, fromRoute: query.fromRoute, stage: query.stage };
   const allArticles = getAllArticles();
-  const articleRoute = getArticleRoute(article);
-  const seriesReading = series ? getSeriesReadingState(series, allArticles, article.id, mapRouteId, seriesContext) : undefined;
-  const [membershipTier, resolvedAccessRule] = await Promise.all([
-    getContentViewerTier(),
-    getResolvedContentAccessRule(articleRoute),
-  ]);
-  const serverNow = Date.now();
-  const release = getArticleRelease(article);
-  const accessRule = getArticleReleaseAccessRule(articleRoute, serverNow) ?? resolvedAccessRule;
-  const canReadFullArticle = canReadContentAccess(accessRule.access, membershipTier);
-  const visibleArticle = canReadFullArticle
-    ? article
-    : {
-        ...article,
-        content: createArticlePreview(article),
-      };
   const url = siteConfig.url(getArticleRoute(article));
   const image = getArticlePrimaryImage(article);
   const absoluteImage = image
@@ -181,26 +157,11 @@ export default async function ArticleUidPage(
         initialSeriesId={series?.id}
         initialSeriesContext={seriesContext}
         initialMapRouteId={mapRouteId}
-        initialArticle={visibleArticle}
+        initialArticle={article}
         initialArticleId={article.id}
         initialArticles={allArticles.map(toArticleListItem)}
         initialCategoryId={article.categoryId}
         initialFaqs={articleFaqs}
-        limitedRelease={release ? {
-          endsAt: release.endsAt,
-          serverNow,
-          canReadAfterExpiry: canReadContentAccess("VIP", membershipTier),
-          previewContent: createArticlePreview(article),
-        } : undefined}
-        lockedContent={
-          canReadFullArticle
-            ? undefined
-            : {
-                reason: accessRule.reason,
-                loginHref: buildLoginHref(series ? (seriesReading?.chapters.find(chapter => chapter.articleId === article.id)?.href ?? seriesReading?.existingHref ?? getSeriesArticleHref(series.id, article, mapRouteId)) : articleRoute),
-                previewPercentage: getArticlePreviewPercentage(article),
-              }
-        }
       />
     </>
   );

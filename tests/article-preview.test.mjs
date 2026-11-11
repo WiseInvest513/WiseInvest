@@ -8,6 +8,8 @@ import ts from 'typescript';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const modules = new Map();
 let viewerTier = null;
+let identityReads = 0;
+let failIdentity = false;
 const ArticlesContent = () => null;
 const jsx = (type, props) => ({ type, props });
 
@@ -31,9 +33,9 @@ function loadModule(relativePath) {
     if (name === 'next/cache') return { unstable_cache: (callback) => callback };
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };
     if (name === 'next/navigation') return { notFound: () => { throw new Error('not found'); } };
-    if (name === 'next/server') return { NextResponse: { json: (body, init) => ({ body, ...init }) } };
+    if (name === 'next/server') return { NextResponse: { json: (body, init) => ({ body, ...init }), next: () => ({ kind: 'next' }), redirect: (url) => ({ kind: 'redirect', url: String(url) }) } };
     if (name === '@/app/articles/articles-content') return { ArticlesContent };
-    if (name === '@/lib/identity/content-viewer') return { getContentViewerTier: async () => viewerTier };
+    if (name === '@/lib/identity/content-viewer') return { getContentViewerTier: async () => { identityReads++; if (failIdentity) throw new Error('Identity unavailable'); return viewerTier; } };
     if (name === '@/lib/prisma') return {
       isDatabaseConfigured: () => false,
       getPrisma: () => { throw new Error('Tests must never access a database'); },
@@ -56,6 +58,8 @@ const { createContentPreview, canReadContentAccess, getContentAccessRule } = loa
 const { getAllArticles, getArticleRoute } = loadModule('lib/articles.ts');
 const page = loadModule('app/articles/[categoryId]/[uid]/page.tsx');
 const api = loadModule('app/api/articles-fs/route.ts');
+const accessApi = loadModule('app/api/content-access/check/route.ts');
+const { middleware } = loadModule('middleware.ts');
 const articles = getAllArticles();
 const journal = articles.find(article => article.id === 'VIP001');
 const trial = createArticlePreview(journal);
@@ -103,164 +107,80 @@ test('a complete fenced block is preserved, and standalone headings are not left
   assert.equal(createArticlePreview(fixtureAtBoundary(intro + heading, (intro + heading).length)), intro.trimEnd());
 });
 
-test('SSR and JSON API agree for guests, members, VIP and SVIP without leaking locked text', async () => {
+test('every published article renders its complete body to guests in SSR and JSON', async () => {
+  viewerTier = null;
+  failIdentity = true;
+  identityReads = 0;
+  const response = await api.GET();
+  assert.equal(response.headers['Cache-Control'], 'no-store');
+  assert.equal(response.body.length, articles.length);
+  assert.ok(articles.length >= 91);
+  for (const article of articles) {
+    const route = getArticleRoute(article);
+    const tree = await page.default({ params: Promise.resolve({ categoryId: article.categoryId, uid: route.split('/').at(-1) }) });
+    const props = tree.props.children.find(child => child.type === ArticlesContent).props;
+    assert.equal(getContentAccessRule(route).access, 'PUBLIC', article.id);
+    assert.equal(props.initialArticle.content, article.content, article.id);
+    assert.deepEqual(props.initialArticle.guideProfile, article.guideProfile);
+    assert.equal(props.lockedContent, undefined);
+    assert.equal(props.limitedRelease, undefined);
+    assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'content')));
+    assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'guideProfile')));
+    assert.equal(response.body.find(item => item.id === article.id).content, article.content);
+    for (const href of [route, `https://www.wise-invest.org${route}?series=example#h-0`]) {
+      const access = await accessApi.GET({ nextUrl: new URL('http://localhost/api/content-access/check?href=' + encodeURIComponent(href)) });
+      assert.equal(access.body.allowed, true);
+      assert.equal(access.body.access, 'PUBLIC');
+    }
+  }
+  assert.equal(identityReads, 0, 'public reading must not depend on auth/session availability');
+  failIdentity = false;
+});
+
+test('members and VIP readers receive the same full body as guests', async () => {
   for (const tier of [null, 'MEMBER', 'VIP', 'VIP_PLUS']) {
     viewerTier = tier;
-    const fullAccess = tier === 'VIP' || tier === 'VIP_PLUS';
     const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid: 'WGa8Mm2t' }) });
-    const articleProps = tree.props.children.find(child => child.type === ArticlesContent).props;
-    assert.equal(articleProps.initialArticle.content, fullAccess ? journal.content : trial, `SSR ${tier}`);
-    assert.deepEqual(articleProps.initialArticle.guideProfile, journal.guideProfile, `SSR ${tier} keeps the authored guide`);
-    assert.equal(articleProps.lockedContent?.previewPercentage, fullAccess ? undefined : 35, `SSR ${tier} trial visibility`);
-    assert.ok(articleProps.initialArticles.every(article => !Object.hasOwn(article, 'content')), 'RSC directory data must not include any full text');
-    assert.ok(articleProps.initialArticles.every(article => !Object.hasOwn(article, 'guideProfile')), 'RSC directory data must not include every article guide');
-    const response = await api.GET();
-    assert.equal(response.headers['Cache-Control'], 'no-store');
-    const apiJournal = response.body.find(article => article.id === journal.id);
-    assert.equal(apiJournal.content, articleProps.initialArticle.content, `API ${tier}`);
-    assert.deepEqual(apiJournal.guideProfile, journal.guideProfile, `API ${tier} keeps the authored guide`);
-    if (!fullAccess) {
-      assert.ok(!JSON.stringify(tree).includes(secretEnding), `RSC ${tier} hidden suffix`);
-      assert.ok(!JSON.stringify(response.body).includes(secretEnding), `API ${tier} hidden suffix`);
-    }
-    for (const article of articles.filter(item => item.id !== journal.id && !(item.id === 'VIP002' && item.categoryId === 'VIP'))) {
-      const originalRule = getContentAccessRule(getArticleRoute(article));
-      const expected = canReadContentAccess(originalRule.access, tier) ? article.content : createContentPreview(article.content);
-      assert.equal(response.body.find(item => item.id === article.id).content, expected, `${tier}: unchanged ${article.id}`);
-    }
-  }
-});
-
-test('series reading retains canonical permissions and preserves context in the login return URL', async () => {
-  const binance = articles.find(article => article.id === 'biance-guide');
-  for (const tier of [null, 'MEMBER', 'VIP']) {
-    viewerTier = tier;
-    const tree = await page.default({ params: Promise.resolve({ categoryId: 'crypto', uid: 'GaM38JYk' }), searchParams: Promise.resolve({ series: 'binance' }) });
     const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-    const rule = getContentAccessRule(getArticleRoute(binance));
-    const allowed = canReadContentAccess(rule.access, tier);
-    assert.equal(props.initialSeriesId, 'binance');
-    assert.equal(props.initialArticle.content, allowed ? binance.content : createArticlePreview(binance));
-    assert.ok(props.initialArticles.every(article => !Object.hasOwn(article, 'content')));
-    if (props.lockedContent) assert.ok(decodeURIComponent(props.lockedContent.loginHref).includes('/articles/crypto/GaM38JYk?series=binance'));
+    assert.equal(props.initialArticle.content, journal.content);
+    assert.ok(props.initialArticle.content.includes(secretEnding));
+    assert.equal(props.lockedContent, undefined);
   }
 });
 
-test('unrelated series parameters cannot expose a locked article or create a fake learning path', async () => {
+test('series and map-route context survive without a login wall', async () => {
   viewerTier = null;
+  for (const [id, series, route] of [
+    ['biance-guide', 'binance'],
+    ['ifast-guide', 'us-stock-funding', 'traditional-us-stocks'],
+    ['binance-referral', 'exchange-referral'],
+    ['bitget-referral', 'exchange-referral'],
+  ]) {
+    const article = articles.find(item => item.id === id);
+    const uid = getArticleRoute(article).split('/').at(-1);
+    for (const requestedSeries of [undefined, series]) {
+      const tree = await page.default({ params: Promise.resolve({ categoryId: article.categoryId, uid }), searchParams: Promise.resolve({ series: requestedSeries, route }) });
+      const props = tree.props.children.find(child => child.type === ArticlesContent).props;
+      if (requestedSeries) assert.equal(props.initialSeriesId, series);
+      assert.equal(props.initialMapRouteId, route);
+      assert.equal(props.initialArticle.content, article.content);
+      assert.equal(props.lockedContent, undefined);
+      assert.equal(props.limitedRelease, undefined);
+    }
+  }
+});
+
+test('unrelated series parameters do not create a fake learning path', async () => {
   const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid: 'WGa8Mm2t' }), searchParams: Promise.resolve({ series: 'overseas' }) });
   const props = tree.props.children.find(child => child.type === ArticlesContent).props;
   assert.equal(props.initialSeriesId, undefined);
-  assert.equal(props.initialArticle.content, trial);
-  assert.ok(!JSON.stringify(tree).includes(secretEnding));
+  assert.equal(props.initialArticle.content, journal.content);
 });
 
-test('learning paths retain article permissions and the exact map route through login', async () => {
-  const article = articles.find(item => item.id === 'ifast-guide');
-  const uid = getArticleRoute(article).split('/').at(-1);
-  for (const tier of [null, 'MEMBER', 'VIP']) {
-    viewerTier = tier;
-    const tree = await page.default({ params: Promise.resolve({ categoryId: article.categoryId, uid }), searchParams: Promise.resolve({ series: 'us-stock-funding', route: 'traditional-us-stocks' }) });
-    const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-    const allowed = canReadContentAccess(getContentAccessRule(getArticleRoute(article)).access, tier);
-    assert.equal(props.initialSeriesId, 'us-stock-funding');
-    assert.equal(props.initialMapRouteId, 'traditional-us-stocks');
-    assert.equal(props.initialArticle.content, allowed ? article.content : createArticlePreview(article));
-    assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'content')));
-    if (props.lockedContent) assert.ok(decodeURIComponent(props.lockedContent.loginHref).includes('?series=us-stock-funding&route=traditional-us-stocks'));
+test('anonymous account and admin routes remain protected while articles stay public', () => {
+  for (const pathname of ['/articles/crypto/2WaKMVIz', '/articles/VIP/WGa8Mm2t', '/articles/series/exchange-referral', '/account', '/admin/content', '/roadmap/private-route']) {
+    const result = middleware({ url: 'http://localhost' + pathname, nextUrl: new URL('http://localhost' + pathname), cookies: { get: () => undefined } });
+    assert.equal(result.kind, pathname.startsWith('/articles/') ? 'next' : 'redirect');
+    if (result.kind === 'redirect') assert.equal(new URL(result.url).pathname, '/login');
   }
-});
-
-test('Binance referral topic preserves member access and includes all three routes for signed-in readers', async () => {
-  const referral = articles.find(article => article.id === 'binance-referral');
-  for (const tier of [null, 'MEMBER', 'VIP', 'VIP_PLUS']) {
-    viewerTier = tier;
-    const tree = await page.default({
-      params: Promise.resolve({ categoryId: 'crypto', uid: '2WaKMVIz' }),
-      searchParams: Promise.resolve({ series: 'exchange-referral' }),
-    });
-    const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-    assert.equal(props.initialSeriesId, 'exchange-referral');
-    assert.equal(props.initialArticle.content, tier ? referral.content : createArticlePreview(referral));
-    assert.match(props.initialArticle.content, /已经绑定了邀请人/);
-    if (tier) {
-      for (const section of ['## 三、第一种', '## 四、第二种', '## 五、第三种', '## 六、做完之后']) {
-        assert.ok(props.initialArticle.content.includes(section));
-      }
-      assert.equal(props.lockedContent, undefined);
-    } else {
-      assert.ok(decodeURIComponent(props.lockedContent.loginHref).includes('/articles/crypto/2WaKMVIz?series=exchange-referral'));
-    }
-    const response = await api.GET();
-    assert.equal(response.body.find(item => item.id === referral.id).content, props.initialArticle.content);
-  }
-});
-
-test('Bitget referral keeps member permissions on canonical and series URLs with matching SSR/API previews', async () => {
-  const referral = articles.find(article => article.id === 'bitget-referral');
-  assert.ok(referral);
-  const route = getArticleRoute(referral);
-  assert.equal(route, '/articles/crypto/o85j85GH');
-  assert.equal(getContentAccessRule(route).access, 'MEMBER');
-  const preview = createArticlePreview(referral);
-  const sections = [
-    '## 二、注册三天内，先联系 Wise 核对换绑',
-    '## 三、老账户想换绑，先确认注销是否值得',
-  ];
-
-  for (const tier of [null, 'MEMBER', 'VIP', 'VIP_PLUS']) {
-    viewerTier = tier;
-    const expectedContent = tier ? referral.content : preview;
-    for (const series of [undefined, 'exchange-referral']) {
-      const tree = await page.default({
-        params: Promise.resolve({ categoryId: 'crypto', uid: 'o85j85GH' }),
-        searchParams: Promise.resolve({ series }),
-      });
-      const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-      assert.equal(props.initialSeriesId, series);
-      assert.equal(props.initialArticle.content, expectedContent, `SSR ${tier} ${series ?? 'canonical'}`);
-      assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'content')));
-      if (tier) {
-        for (const section of sections) assert.ok(props.initialArticle.content.includes(section));
-        assert.equal(props.lockedContent, undefined);
-      } else {
-        assert.match(props.initialArticle.content, /联系 Wise/);
-        assert.notEqual(props.initialArticle.content, referral.content);
-        assert.ok(!JSON.stringify(tree).includes(sections[1]), 'Anonymous RSC must not leak the later account-closure section');
-        const callbackUrl = new URL(props.lockedContent.loginHref, 'https://www.wise-invest.org').searchParams.get('callbackUrl');
-        assert.equal(callbackUrl, series ? `${route}?series=${series}` : route);
-      }
-    }
-    const response = await api.GET();
-    assert.equal(response.body.find(item => item.id === referral.id).content, expectedContent, `API ${tier}`);
-    if (!tier) assert.ok(!JSON.stringify(response.body).includes(sections[1]));
-  }
-});
-
-test('Galaxy ETF guide returns its complete article and contact QR to guests in SSR and JSON', async () => {
-  viewerTier = null;
-  const galaxy = articles.find(article => article.id === 'galaxy-etf-guide');
-  assert.ok(galaxy);
-  assert.equal(galaxy.categoryId, 'domestic');
-  assert.equal(getArticleRoute(galaxy), '/articles/domestic/o0RA5e1p');
-  assert.equal(getContentAccessRule(getArticleRoute(galaxy)).access, 'PUBLIC');
-
-  const tree = await page.default({
-    params: Promise.resolve({ categoryId: 'domestic', uid: 'o0RA5e1p' }),
-    searchParams: Promise.resolve({}),
-  });
-  const props = tree.props.children.find(child => child.type === ArticlesContent).props;
-  assert.equal(props.initialArticle.content, galaxy.content, 'Guests must receive the full SSR body');
-  assert.equal(props.lockedContent, undefined, 'Public article must not show a login or VIP overlay');
-  assert.ok(props.initialArticles.every(article => !Object.hasOwn(article, 'content')));
-  assert.match(props.initialArticle.content, /^## [一二三四五六七八九十]+、联系方式/m);
-  assert.match(props.initialArticle.content, /银河证券 ETF 免五/);
-  assert.ok(props.initialArticle.content.includes('/images/微信图片520.png'));
-
-  const response = await api.GET();
-  const apiGalaxy = response.body.find(article => article.id === galaxy.id);
-  assert.ok(apiGalaxy);
-  assert.equal(apiGalaxy.content, galaxy.content, 'Guests must receive the same full JSON body');
-  assert.equal(apiGalaxy.content, props.initialArticle.content);
-  assert.equal(response.headers['Cache-Control'], 'no-store');
 });

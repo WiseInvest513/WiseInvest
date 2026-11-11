@@ -128,14 +128,14 @@ export function LoginRequiredDialog({
             {heading ?? "这部分内容需要登录后查看"}
           </h2>
           <p className="mt-3 text-sm font-medium leading-7 text-slate-600 dark:text-slate-300">
-            {reason ?? "当前页面属于 Wise 会员内容。登录或注册后，可以继续阅读完整文章和学习路线。"}
+            {reason ?? "当前功能需要账户权限。登录或注册后，可以继续访问并使用账户功能。"}
           </p>
         </div>
 
         <div className="mt-5 grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
           {[
             { text: "登录后自动回到刚才点击的位置", icon: ArrowRight },
-            { text: "继续阅读完整文章和学习路线", icon: BookOpen },
+            { text: "继续查看需要账户权限的学习路线", icon: BookOpen },
             { text: "后续收藏、记录和 VIP 权益跟随同一账户", icon: BookmarkCheck },
           ].map((item) => {
             const Icon = item.icon;
