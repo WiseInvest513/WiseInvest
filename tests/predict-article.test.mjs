@@ -150,12 +150,13 @@ test('every prediction image resolves to a nonempty static file under public', (
 
 test('all six exchange registration links and invitation codes match the live repository catalogue', () => {
   const cex = getPerks2Section('crypto').subcategories.find(category => category.slug === 'uex-exchange');
-  const links = [...article.content.matchAll(/(?<!!)\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g)]
+  const links = [...article.content.matchAll(/(?<!!)\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)]+)\)/g)]
     .map(([, label, url]) => ({ label, url }));
+  const absoluteHref = href => new URL(href, 'https://www.wise-invest.org').href;
   for (const id of ['binance', 'bybit', 'bitget', 'okx', 'weex', 'gate']) {
     const product = cex.products.find(item => item.id === id);
     assert.ok(product, `Missing exchange in perk catalogue: ${id}`);
-    assert.ok(links.some(link => link.url === product.registerLink),
+    assert.ok(links.some(link => absoluteHref(link.url) === absoluteHref(product.registerLink)),
       `Missing or stale ${id} registration URL in article Markdown`);
     assert.ok(article.content.includes(product.code), `Missing current ${id} invitation code`);
   }

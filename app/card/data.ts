@@ -602,7 +602,7 @@ export const virtualCardProducts: VirtualCardProduct[] = [
     issuer: "Gate",
     issuerUrl: "https://www.gate.com",
     iconUrl: "/images/perks/gate-card.jpg",
-    inviteCode: "WISEGATE",
+    inviteCode: "WISEGGGG",
     registerLink: "/articles/vcard/GUhygjYV",
     tutorialLink: "/articles/vcard/GUhygjYV",
     ratingLabel: "实测开卡",

@@ -1,0 +1,36 @@
+{
+  "updatedAt": "2026-11-12",
+  "mode": "built-in image_gen",
+  "userConfirmed": {
+    "code": "WISEGGGG",
+    "destination": "/articles/vcard/GUhygjYV"
+  },
+  "edits": [
+    {
+      "source": "public/content/articles/vcard/Gate/2.webp",
+      "generated": "assets/source-images/gate-referral/gate-2-wisegggg-generated.png",
+      "output": "public/content/articles/vcard/Gate/2.webp",
+      "prompt": "Text-localization of the existing Gate registration tutorial. Replace the old invitation code in the phone field and large headline with exactly WISEGGGG (W I S E G G G G). Preserve the 16:9 layout, phone UI, background, title and original signature. Align the old VIP banner with the current article: 入金1000U + 合约交易10000U / 达标后申请VIP群，另赠5U. Keep the 20% rebate wording and all other details."
+    },
+    {
+      "source": "public/content/articles/vcard/Gate/9.webp",
+      "generated": "assets/source-images/gate-referral/gate-9-wisegggg-generated.png",
+      "output": "public/content/articles/vcard/Gate/9.webp",
+      "prompt": "Text-localization of the four-phone Gate Card tutorial. Replace only the first phone invitation field code with exactly WISEGGGG (W I S E G G G G), retaining bold red text in the same field. Preserve all four screens, every other label, amounts, fees, dates, buttons, background, title and original signature."
+    }
+  ],
+  "webExport": {
+    "dimensions": [
+      1600,
+      900
+    ],
+    "format": "WebP",
+    "quality": 88,
+    "signature": "The exact original public/images/brand/wise-invest-signature.png is composited as a complete proportional rounded copy at the upper-right; the source signature is unchanged.",
+    "cacheVersion": "?v=wisegggg"
+  },
+  "validation": {
+    "ocr": "Both final web images recognized WISEGGGG and no old code; all 1460 readable existing raster assets scanned for invitation text and QR payloads.",
+    "scope": "Only the two Gate tutorial images required code replacement. Historical original images remain available in Git history."
+  }
+}

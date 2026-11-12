@@ -75,7 +75,7 @@ export const defaultWiseVipPartners = [
     name: "Gate",
     type: "EXCHANGE" as const,
     referralUrl: "https://www.wise-invest.org/articles/vcard/GUhygjYV",
-    referralCode: "WISEGATE",
+    referralCode: "WISEGGGG",
     vipEligible: true,
     vipPlusEligible: true,
     vipPlusVolumeThreshold: "50000",

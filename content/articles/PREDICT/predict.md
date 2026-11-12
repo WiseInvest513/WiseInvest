@@ -86,7 +86,7 @@ Predict 是一个建立在 **BNB Chain** 上的预测市场平台。按照[官�
 | Bitget | `wise5130` | 永久 20% 交易手续费返佣 | [前往 Bitget](https://partner.bitget.cafe/bg/8ax9wf4r) |
 | OKX 欧易 | `WISE6666` | 永久 20% 交易手续费返佣 | [前往 OKX](https://www.vmutkhamuut.com/join/WISE6666) |
 | WEEX | `wiseweex` | 永久 20% 交易手续费返佣 | [前往 WEEX](https://wpewehx.site/zh-CN/register?vipCode=wiseweex) |
-| Gate | `WISEGATE` | 永久 20% 交易手续费返佣 | 见下方注册教程 |
+| Gate | `WISEGGGG` | 永久 20% 交易手续费返佣 | 见下方注册教程 |
 
 注册前核对表中对应邀请码，未自动填入时手动填写。这里的返佣属于交易所邀请渠道，与 Predict 的邀请码 **05JQU**、预测市场收益及各平台新手活动分开。
 

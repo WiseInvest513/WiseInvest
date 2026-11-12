@@ -1521,7 +1521,14 @@
         ],
         "syncedAt": "2026-11-05"
       },
-      "articleUpdatedAt": "2026-11-05"
+      "articleUpdatedAt": "2026-11-05",
+      "invitationConfirmation": {
+        "code": "WISEGGGG",
+        "confirmedAt": "2026-11-12",
+        "source": "用户确认 Gate 全站使用 WISEGGGG；学习及注册入口均指向本站 Gate 教程",
+        "syncedAt": "2026-11-12",
+        "remainingIssues": []
+      }
     },
     {
       "articleId": "Gate-vcard",
@@ -1576,10 +1583,10 @@
       "imageEvidence": [],
       "articleUpdatedAt": "2026-11-05",
       "invitationConfirmation": {
-        "code": "WISEGATE",
-        "confirmedAt": "2026-11-05",
-        "source": "用户确认 Gate Card 统一采用全大写 WISEGATE",
-        "syncedAt": "2026-11-05",
+        "code": "WISEGGGG",
+        "confirmedAt": "2026-11-12",
+        "source": "用户确认 Gate 全站使用 WISEGGGG；学习及注册入口均指向本站 Gate 教程",
+        "syncedAt": "2026-11-12",
         "remainingIssues": []
       }
     },
@@ -2576,7 +2583,14 @@
         ],
         "syncedAt": "2026-11-05"
       },
-      "articleUpdatedAt": "2026-11-05"
+      "articleUpdatedAt": "2026-11-05",
+      "invitationConfirmation": {
+        "code": "WISEGGGG",
+        "confirmedAt": "2026-11-12",
+        "source": "用户确认 Gate 全站使用 WISEGGGG；学习及注册入口均指向本站 Gate 教程",
+        "syncedAt": "2026-11-12",
+        "remainingIssues": []
+      }
     },
     {
       "articleId": "VIP001",
@@ -7522,9 +7536,9 @@
     },
     {
       "productName": "Gate Card",
-      "code": "WISEGATE",
-      "confirmedAt": "2026-11-05",
-      "source": "用户确认 Gate Card 统一采用全大写 WISEGATE",
+      "code": "WISEGGGG",
+      "confirmedAt": "2026-11-12",
+      "source": "用户确认 Gate 全站使用 WISEGGGG；学习及注册入口均指向本站 Gate 教程",
       "recordKeys": [
         "Gate-vcard:Gate Card"
       ]
@@ -8083,7 +8097,7 @@
         "cards": [
           {
             "title": "注册 Gate 交易所 账户",
-            "code": "WISEGATE",
+            "code": "WISEGGGG",
             "codeLabel": "邀请码",
             "benefitText": "永久 20% 交易手续费返佣",
             "line": 42,
@@ -8091,7 +8105,7 @@
           },
           {
             "title": "申请 Gate Card",
-            "code": "WISEGATE",
+            "code": "WISEGGGG",
             "codeLabel": "邀请码",
             "line": 84,
             "section": "四、Card"
@@ -8195,5 +8209,14 @@
     "placement": "registration-step",
     "placementUpdatedAt": "2026-11-05",
     "cardPresentation": "compact"
-  }
+  },
+  "referralUpdates": [
+    {
+      "updatedAt": "2026-11-12",
+      "productName": "Gate / Gate Card",
+      "code": "WISEGGGG",
+      "tutorialHref": "/articles/vcard/GUhygjYV",
+      "scope": "福利卡、教程、卡片资料、合作平台配置及两张正文截图；原始审阅引用保留历史内容，当前采用本次用户确认。"
+    }
+  ]
 }
