@@ -512,7 +512,7 @@ export default function CardPageClient() {
                 虚拟 U 卡（U卡）资料库
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                想办 U卡或虚拟 U 卡，先对照大陆用户能不能申请、是否需要境外地址证明、开卡成本、消费／换汇费率，以及 Apple Pay / Google Pay 绑定情况。具体开卡步骤见各卡教程，本页不做单一卡片的逐步演示。
+                想办 U卡、USDT卡或加密卡，指的都是同一类用加密资产支付的虚拟卡；搜索里写的 U card，通常也是这个意思。先对照大陆用户能不能申请、是否需要境外地址证明、开卡成本、消费／换汇费率，以及 Apple Pay / Google Pay 绑定情况。具体开卡步骤见各卡教程，本页只做对照选卡，不做单一卡片的逐步演示。
               </p>
             </div>
 
