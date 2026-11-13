@@ -10,7 +10,7 @@ import {
   ArrowUpRight, Compass,
 } from "lucide-react";
 import { articles as hardcodedArticles, categories, subcategories, type Article } from "@/lib/articles-data";
-import type { ArticleFaqItem, ArticleListItem } from "@/lib/articles";
+import { extractArticleBodyFaqs, type ArticleFaqItem, type ArticleListItem } from "@/lib/articles";
 import { cn } from "@/lib/utils";
 import { extractToc, renderMarkdown, genUid } from "@/lib/article-renderer";
 import { ArticleExportButton } from "@/components/article-export-button";
@@ -128,6 +128,12 @@ function getTopicLinks(article: ArticleItem) {
 
 function getVisibleArticleFaqs(article: ArticleItem | null, initialFaqs?: ArticleFaqItem[]) {
   if (!article) return [];
+  // In-article FAQ sections already render in the body; don't also print the
+  // site-wide generic footer (e.g. "大陆用户注册交易所前要先看什么？") or
+  // duplicate the same Q&A. FAQPage JSON-LD is built from the body in getArticleFaqs.
+  if (article.content && extractArticleBodyFaqs(article.content).length > 0) {
+    return [];
+  }
   if (initialFaqs?.length && initialFaqs.some((item) => item.question.includes(article.title) || article.categoryId !== "index")) {
     return initialFaqs;
   }

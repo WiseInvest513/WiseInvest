@@ -67,7 +67,70 @@ export function getArticleSeoKeywords(article: Pick<Article, "title" | "summary"
     .slice(0, 16);
 }
 
-export function getArticleFaqs(article: Pick<Article, "title" | "summary" | "categoryId">): ArticleFaqItem[] {
+
+const ARTICLE_FAQ_HEADING = /FAQ|常见问题|高频问题/;
+
+function stripFrontmatter(content: string): string {
+  if (!content.startsWith("---")) return content;
+  const end = content.indexOf("\n---", 3);
+  if (end === -1) return content;
+  return content.slice(end + 4);
+}
+
+function cleanFaqAnswer(raw: string): string {
+  let text = raw.replace(/!\[[^\]]*\]\([^)]+\)/g, "");
+  text = text.replace(/^\s*\[([^\]]+)\]\([^)]+\)\{card\}\s*$/gm, "另见：$1");
+  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+  text = text.replace(/\{card\}/g, "");
+  text = text.replace(/\*\*([^*]+)\*\*/g, "$1");
+  text = text.replace(/^>\s?/gm, "");
+  return text.replace(/\s+/g, " ").trim();
+}
+
+/** Pull Q&A from an article's in-body FAQ section (H2 containing FAQ / 常见问题 / 高频问题, then H3 questions). */
+export function extractArticleBodyFaqs(content: string): ArticleFaqItem[] {
+  const lines = stripFrontmatter(content).split(/\r?\n/);
+  const faqs: ArticleFaqItem[] = [];
+  let inFaq = false;
+  let question: string | null = null;
+  const answer: string[] = [];
+
+  const flush = () => {
+    if (!question) return;
+    const text = cleanFaqAnswer(answer.join("\n"));
+    if (text) faqs.push({ question, answer: text });
+    question = null;
+    answer.length = 0;
+  };
+
+  for (const line of lines) {
+    const h2 = line.match(/^##\s+(.+)/);
+    const h3 = line.match(/^###\s+(.+)/);
+    if (h2) {
+      flush();
+      inFaq = ARTICLE_FAQ_HEADING.test(h2[1]);
+      continue;
+    }
+    if (!inFaq) continue;
+    if (h3) {
+      flush();
+      question = h3[1].trim();
+      continue;
+    }
+    if (question) answer.push(line);
+  }
+  flush();
+  return faqs;
+}
+
+export function getArticleFaqs(
+  article: Pick<Article, "title" | "summary" | "categoryId"> & { content?: string }
+): ArticleFaqItem[] {
+  if (article.content) {
+    const bodyFaqs = extractArticleBodyFaqs(article.content);
+    if (bodyFaqs.length > 0) return bodyFaqs;
+  }
+
   const categoryFaqs: Record<string, ArticleFaqItem[]> = {
     vcard: [
       {
