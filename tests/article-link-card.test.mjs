@@ -215,7 +215,7 @@ test('missing or remote covers retain a readable title and link without requesti
   }
 });
 
-test('the Nasdaq purchase guide renders all selected article and route references as cards while retaining its table links', () => {
+test('the Nasdaq purchase guide renders its authored article and route cards in order while retaining any table links', () => {
   const { getAllArticles, toArticleListItem } = load('lib/articles.ts');
   const { articleSeries } = load('lib/article-library.ts');
   const { getSeriesReadingState } = load('lib/article-series.ts');
@@ -232,22 +232,30 @@ test('the Nasdaq purchase guide renders all selected article and route reference
   });
   const articleLinks = /\[[^\]]+\]\((\/articles\/[^)]+)\)/g;
   const lines = guide.content.split('\n');
-  const cards = lines.filter(line => /^\[[^\]]+\]\(\/articles\/[^)]+\)\{card\}$/.test(line.trim()));
-  assert.equal(cards.length, 21);
+  const cards = lines.flatMap(line => {
+    const match = line.trim().match(/^\[[^\]]+\]\((\/articles\/[^)]+)\)\{card\}$/);
+    return match ? [{ href: match[1], kind: match[1].startsWith('/articles/series/') ? 'series' : 'article' }] : [];
+  });
+  assert.ok(cards.some(card => card.kind === 'article'), 'the guide includes article references');
+  assert.ok(cards.some(card => card.kind === 'series'), 'the guide includes series references');
   const plainBodyLinks = lines.filter(line => !line.trim().startsWith('|') && !line.trim().endsWith('{card}'))
     .flatMap(line => [...line.matchAll(articleLinks)]);
   assert.deepEqual(plainBodyLinks, [], 'all non-table site article and series references opt into cards');
-  const tableLinkCount = lines.filter(line => line.trim().startsWith('|'))
-    .flatMap(line => [...line.matchAll(articleLinks)]).length;
-  assert.equal(tableLinkCount, 14);
+  const tableLinks = lines.filter(line => line.trim().startsWith('|'))
+    .flatMap(line => [...line.matchAll(articleLinks)].map(match => match[1]));
 
   const html = render(guide.content, articles.map(toArticleListItem), linkedSeries);
-  assert.equal(cardCount(html), 21, 'every requested card resolves to an existing article or series');
-  assert.equal((html.match(/data-link-kind="series"/g) ?? []).length, 5);
-  assert.equal((html.match(/data-link-kind="article"/g) ?? []).length, 16);
+  assert.equal(cardCount(html), cards.length, 'every requested card resolves to an existing article or series');
+  const renderedCards = [...html.matchAll(/<a\b[^>]*data-article-link-card[^>]*>/g)].map(([tag]) => ({
+    href: tag.match(/href="([^"]+)"/)?.[1].replace(/&amp;/g, '&'),
+    kind: tag.match(/data-link-kind="([^"]+)"/)?.[1],
+  }));
+  assert.deepEqual(renderedCards, cards, 'each card retains its authored destination, order and content type');
   const tables = [...html.matchAll(/<table\b[^]*?<\/table>/g)].map(match => match[0]).join('');
   assert.equal(cardCount(tables), 0);
-  assert.equal((tables.match(/<a\b[^>]*href="\/articles\//g) ?? []).length, 14);
+  const renderedTableLinks = [...tables.matchAll(/<a\b[^>]*href="(\/articles\/[^\"]+)"/g)]
+    .map(match => match[1].replace(/&amp;/g, '&'));
+  assert.deepEqual(renderedTableLinks, tableLinks);
   assert.equal((html.match(/data-registration=/g) ?? []).length, 1, 'the BIT invitation remains a separate referral card');
   assert.equal((html.match(/<h2\b/g) ?? []).length, 11);
   assert.equal((html.match(/<h3\b/g) ?? []).length, 12);

@@ -108,9 +108,12 @@ test('published topic articles stay outside the collapsed planned section; missi
 test('Nasdaq directory and overview distinguish lessons, nested series, books and query tools before clicking', () => {
   const series = getArticleSeries('nasdaq-investing');
   const reading = getSeriesReadingState(series, articles, undefined, undefined, { stage: 'practice' });
+  const publishedIds = new Set(articles.map(article => article.id));
+  const publishedChapters = series.chapters.filter(chapter => publishedIds.has(chapter.articleId));
+  assert.ok(publishedChapters.length > 0);
   for (const Component of [SeriesNavigation, SeriesOverview]) {
     const html = render(Component, { series, reading, articles });
-    assert.equal((html.match(/data-content-type="article"/g) ?? []).length, 16);
+    assert.equal((html.match(/data-content-type="article"/g) ?? []).length, publishedChapters.length);
     assert.equal((html.match(/data-content-type="series"/g) ?? []).length, 2);
     assert.equal((html.match(/data-content-type="book"/g) ?? []).length, 1);
     assert.equal((html.match(/data-content-type="tool"/g) ?? []).length, 2);
@@ -121,7 +124,8 @@ test('Nasdaq directory and overview distinguish lessons, nested series, books an
     }
   }
   const overview = render(SeriesOverview, { series, reading, articles });
-  assert.match(overview, /5 篇文章 · 2 个子系列/);
+  const practiceCount = publishedChapters.filter(chapter => chapter.stageId === 'practice').length;
+  assert.ok(overview.includes(`${practiceCount} 篇文章 · 2 个子系列`));
   const navigation = render(SeriesNavigation, { series, reading, articles });
   const expanded = [...navigation.matchAll(/<button[^>]*aria-expanded="(true|false)"/g)].map(match => match[1]);
   assert.deepEqual(expanded, ['false', 'false', 'true']);

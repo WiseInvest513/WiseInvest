@@ -1,0 +1,168 @@
+{
+  "checked_at": "2026-11-13",
+  "scope": "QQQ从0到1购买网站教程；官方费用、产品身份及截图核验",
+  "funds": [
+    {
+      "ticker": "QQQ",
+      "annual_expense_ratio": 0.0018,
+      "status": "verified_official",
+      "source": "https://www.invesco.com/us/en/financial-products/etfs/invesco-qqq-trust-series-1.html",
+      "note": "2025年12月结构转换后由0.20%降至0.18%；不是每笔交易费"
+    },
+    {
+      "ticker": "QQQM",
+      "annual_expense_ratio": 0.0015,
+      "status": "verified_official",
+      "source": "https://www.invesco.com/us/en/financial-products/etfs/invesco-nasdaq-100-etf.html"
+    },
+    {
+      "code": "016452",
+      "name": "南方纳斯达克100指数发起(QDII)A",
+      "status": "official_and_screenshots_verified",
+      "screenshot_subscription_rate": 0.0012,
+      "standard_subscription_rate_under_cny_1m": 0.012,
+      "annual_management": 0.005,
+      "annual_custody": 0.0015,
+      "screenshot_daily_limit_cny": 10,
+      "source": "https://www.southernfund.com/main/jjcp/fundproduct/016452.shtml",
+      "example": "1000-1000/1.0012=1.19856元；仅假设可申购且同费率",
+      "caveat": "原图01/02都是A类。渠道折扣和限购仅表示截图状态。不是QQQ联接基金。"
+    }
+  ],
+  "fees": [
+    {
+      "platform": "BBAE",
+      "status": "verified_official",
+      "effective": "2026-07-01",
+      "currency": "USD",
+      "commission": 0,
+      "quantity_at_least_1_formula": "min(max(qty*0.0055,1),value*0.02)",
+      "quantity_below_1_formula": "max(value*0.01,0.01)",
+      "example": "100美元且不足1股，平台费1美元",
+      "source": "https://www.bbae.com/fees/",
+      "caveat": "碎股须主动开通；适用监管费用另计"
+    },
+    {
+      "platform": "Chief 致富",
+      "status": "verified_official",
+      "scope": "直属客户网上交易",
+      "currency": "USD",
+      "commission": 0,
+      "platform_formula": "max(min(qty*0.008,value*0.03),0.99)",
+      "settlement_formula": "max(min(qty*0.003,value*0.03),0.01)",
+      "example": "1股QQQ的平台费+结算费=1美元，非总成本",
+      "source": "https://www.chiefgroup.com.hk/cn/cs/charges"
+    },
+    {
+      "platform": "Longbridge HK",
+      "status": "verified_official",
+      "scope": "香港实体默认固定式费率；符合零佣优惠账户",
+      "currency": "USD",
+      "platform_per_share": 0.005,
+      "platform_min_per_order": 1,
+      "settlement_per_share": 0.003,
+      "fraction_below_1_formula": "min(value*0.0099,0.99)",
+      "source": "https://longbridge.com/hk/en/rate",
+      "caveat": "其他适用费用另计；不同费率方案不能混用；GTC跨日可分日收取"
+    },
+    {
+      "platform": "Binance bStocks spot",
+      "status": "verified_official",
+      "currency": "USDT",
+      "regular_taker": 0.001,
+      "bnb_taker_if_eligible": 0.00075,
+      "maker_promotion": 0,
+      "maker_promotion_end_utc": "2026-11-30T23:59:00Z",
+      "maker_promotion_end_beijing": "2026-12-01 07:59",
+      "example": "1000 USDT*0.1%=1 USDT",
+      "sources": [
+        "https://www.binance.com/en/vip-institutional-services",
+        "https://www.binance.com/en/support/announcement/detail/5a326408b6404d69b474f3fab7acfa66",
+        "https://www.binance.com/en/blog/markets/7938718877635190290"
+      ],
+      "caveat": "限价不一定Maker；标准费率及活动不是永久优惠；未包含价差与资金成本"
+    },
+    {
+      "platform": "Bitget rToken",
+      "status": "verified_official",
+      "currency": "USDT",
+      "scope": "VIP0至3",
+      "maker": 0.0005,
+      "taker_and_stockroute": 0.0005,
+      "bgb_if_eligible": 0.0004,
+      "fee_table_effective": "2026-08-06 19:00 UTC+8",
+      "promotion_extension_announcement": "2026-09-01",
+      "promotion_end": null,
+      "example": "1000 USDT→0.5 USDT；BGB符合条件为0.4 USDT",
+      "sources": [
+        "https://www.bitget.com/support/articles/12560603891318",
+        "https://www.bitget.com/support/articles/12560603893944"
+      ],
+      "caveat": "活动结束日未定，不写永久；StockRoute用Taker费率"
+    },
+    {
+      "platform": "BIT securities",
+      "status": "historical_local_audit_only_current_recheck_blocked",
+      "prior_audit": "2026-11-08",
+      "current_error": "官方费率URL403；curl超时；本轮未见费用原图",
+      "claimed_commission": 0,
+      "claimed_whole_platform_formula": "max(qty*0.005,0.99)",
+      "claimed_fraction_platform_formula": "min(value*0.0099,0.99)",
+      "source": "https://www.bit.com/helpcenter/articles/15897611",
+      "caveat": "不得标为2026-11-13已重新核实，不得套给BIT现货QQQB"
+    },
+    {
+      "platform": "Fosun",
+      "status": "channel_benefit_user_confirmed_fee_schedule_unverified",
+      "channel_code": "AGVPK3",
+      "channel_min_deposit_hkd_equivalent": 10000,
+      "channel_benefit": "对应免佣金",
+      "image_text": "免佣金；平台费及适用代收费另计",
+      "source": "https://www.fosunwealth.hk/zhCn/stock",
+      "caveat": "不填旧稿平台费数字；elebank检索PDF属于象象银行"
+    },
+    {
+      "platform": "Galaxy ETF channel",
+      "status": "user_confirmed_channel_not_official_all_account_rate",
+      "currency": "CNY",
+      "formula": "max(value*0.00005,0.1)",
+      "deposit_cny": 15000,
+      "retention_months": 2,
+      "example": "1000元订单佣金0.1元",
+      "caveat": "申请并确认费率生效；只用于ETF/LOF方案，不套股票"
+    }
+  ],
+  "product_identity": [
+    {
+      "product": "QQQB on Binance",
+      "status": "verified_official",
+      "meaning": "bStocks代币化证券，提供底层经济敞口，并非直接持有ETF份额",
+      "distribution": "按产品规则，净分配通常扣税费后通过乘数反映再投资；不是独立现金分红",
+      "sources": [
+        "https://www.binance.com/en/how-to-buy/invesco-qqq-trust-tokenized-bstocks",
+        "https://www.binance.com/en-AE/support/faq/detail/f0c03cd6509a4085b4cce1636f16be38"
+      ]
+    },
+    {
+      "product": "rQQQ on Bitget",
+      "status": "verified_official",
+      "meaning": "Reality发行rToken；底层ETF经济敞口而非注册股份",
+      "distribution": "合资格净现金分配换USDT单独入账，扣税费后，不承诺免税",
+      "source": "https://www.bitget.com/support/articles/12560603887176",
+      "caveat": "FAQ交易时段24/5与费率公告周末匹配存在不同描述，教程不保证24/7"
+    },
+    {
+      "product": "BIT stablecoin securities funding",
+      "status": "verified_official",
+      "updated": "2026-10-22",
+      "steps": "Stocks > Portfolio > Fund Transfer/Stablecoin Deposit > Transfer > USDT/USDC",
+      "source": "https://www.bit.com/helpcenter/articles/13972370",
+      "caveat": "数字资产余额、证券购买力与QQQB现货不能混淆"
+    }
+  ],
+  "opening_market_claims": {
+    "status": "not_reverified_scope_removed_by_parent",
+    "recommendation": "网站改为长效购买教程，去掉行情、中选结果和抄底判断，不沿用为已核验事实"
+  },
+  "detail_notes": "/private/tmp/qqq-fee-notes.md"
+}

@@ -1,0 +1,280 @@
+[
+  {
+    "order": 1,
+    "caption": "在支付宝搜索纳斯达克 100，先核对完整基金名称、代码与 A/C 份额。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/支付宝检索纳斯达克.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/01-alipay-search.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/01-alipay-search.webp",
+    "width": 1170,
+    "height": 2532,
+    "bytes": 152770,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 2,
+    "caption": "南方纳斯达克 100 指数（QDII）A（016452）详情页：截图当时单日限购 10 元。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/01_支付宝_南方纳指基金详情.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/02-alipay-fund-detail.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/02-alipay-fund-detail.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 188110,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 3,
+    "caption": "支付宝买入页显示金额、付款方式、0.12% 示例申购费和预计确认时间；尚未提交或成交。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/02_支付宝_基金买入页面.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/03-alipay-buy-order.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/03-alipay-buy-order.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 117920,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 4,
+    "caption": "WiseETF 场外基金额度查询页。截图为历史快照，最终以具体销售渠道的申购页为准。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/ETF查询场外限购",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/04-wiseetf-subscription-limits.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/04-wiseetf-subscription-limits.webp",
+    "width": 1920,
+    "height": 958,
+    "bytes": 108554,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 5,
+    "caption": "银河证券中的嘉实纳指 ETF（159501）：核对代码、成交量与买入入口。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/03_银河证券_嘉实纳指ETF行情.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/05-galaxy-jiashi-quote.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/05-galaxy-jiashi-quote.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 177420,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 6,
+    "caption": "银河证券中的易方达纳指 ETF（159696）。不同基金价格不可直接当作贵便宜的依据。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/04_银河证券_易方达纳指ETF行情.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/06-galaxy-efund-quote.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/06-galaxy-efund-quote.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 176474,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 7,
+    "caption": "ETF 限价委托页：填写价格与份数，核对预计金额；个人账户与可用资金已遮盖。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/银河购买纳指.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/07-galaxy-limit-order.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/07-galaxy-limit-order.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 109484,
+    "redacted": true,
+    "redaction": {
+      "reason": "遮盖账户尾号和可用资金",
+      "rectangles": [
+        {
+          "left": 38,
+          "top": 1080,
+          "width": 370,
+          "height": 72
+        },
+        {
+          "left": 680,
+          "top": 1315,
+          "width": 264,
+          "height": 78
+        }
+      ]
+    }
+  },
+  {
+    "order": 8,
+    "caption": "提交前核对产品代码、方向、价格、份数，并阅读溢价风险提示；股东账号已遮盖，画面并非成交回报。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/银河下单纳指.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/08-galaxy-order-confirmation.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/08-galaxy-order-confirmation.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 200808,
+    "redacted": true,
+    "redaction": {
+      "reason": "遮盖完整股东账号",
+      "rectangles": [
+        {
+          "left": 650,
+          "top": 1204,
+          "width": 350,
+          "height": 90
+        }
+      ]
+    }
+  },
+  {
+    "order": 9,
+    "caption": "WiseETF 场内 ETF 对比页。图中部分溢价标有“历史参考”，不能当成当前可成交的实时溢价。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/etf 溢价详情.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/09-wiseetf-premium.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/09-wiseetf-premium.webp",
+    "width": 1920,
+    "height": 958,
+    "bytes": 105750,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 10,
+    "caption": "银河证券渠道费率说明：ETF/LOF 万 0.5、0.1 元起；入金 1.5 万元并留存 2 个月后申请，须核对生效状态。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/银河费率详情.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/10-galaxy-channel-fees.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/10-galaxy-channel-fees.webp",
+    "width": 1920,
+    "height": 958,
+    "bytes": 37290,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 11,
+    "caption": "复星证券 QQQ 行情页：底部仍是“开户”，这张图用于识别标的与入口，并非开户或买入成功证明。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/05_复星证券_QQQ行情与开户入口.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/11-fosun-qqq-quote.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/11-fosun-qqq-quote.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 170256,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 12,
+    "caption": "复星添加同名香港银行账户的示例：选择银行并填写本人账户资料；这一步不代表资金已到账。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/复星入金.jpeg",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/12-fosun-bank-link.jpeg",
+    "webFile": "/images/articles/qqq-buying-walkthrough/12-fosun-bank-link.webp",
+    "width": 1200,
+    "height": 675,
+    "bytes": 100978,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 13,
+    "caption": "长桥证券的 QQQ 行情与买入入口；图中尚未填写委托价格和数量。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/06_长桥证券_QQQ行情与买入入口.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/13-longbridge-qqq-quote.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/13-longbridge-qqq-quote.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 112190,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 14,
+    "caption": "BBAE 的 QQQ 行情与买入入口；截图明确提示行情延迟 15 分钟，不能据此直接确定限价。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/07_BBAE_QQQ行情与买入入口.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/14-bbae-qqq-quote.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/14-bbae-qqq-quote.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 141840,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 15,
+    "caption": "币安 QQQB/USDT 的 bStocks 页面：代币化产品，与证券账户中持有 QQQ ETF 份额分开理解。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/08_币安_QQQB_USDT行情与买入入口.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/15-binance-qqqb.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/15-binance-qqqb.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 161798,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 16,
+    "caption": "Bitget rQQQ/USDT 行情与交易入口：先核对产品说明、流动性和交易方向；顶部 5x 不代表已使用杠杆。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/09_Bitget_rQQQ_USDT行情与交易入口.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/16-bitget-rqqq.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/16-bitget-rqqq.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 122336,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 17,
+    "caption": "容易进错的入口：此图明确写着“现货”和“QQQB/USDT”，不是 BIT 证券账户买入 QQQ 的页面。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/10_BIT_QQQB_USDT现货限价买入.png",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/17-bit-spot-warning.png",
+    "webFile": "/images/articles/qqq-buying-walkthrough/17-bit-spot-warning.webp",
+    "width": 1179,
+    "height": 2556,
+    "bytes": 112072,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 18,
+    "caption": "BIT 历史 App 端证券开户指引：进入美股交易个人认证，按真实情况完成资料与协议。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/13_BIT_证券开户入口.webp",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/18-bit-securities-app.webp",
+    "webFile": "/images/articles/qqq-buying-walkthrough/18-bit-securities-app.webp",
+    "width": 1600,
+    "height": 1915,
+    "bytes": 170776,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 19,
+    "caption": "BIT 历史 Web 端开户指引，展示证券认证流程；网页与当前 App 的入口可能不同。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/bit 开户.webp",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/19-bit-securities-web.webp",
+    "webFile": "/images/articles/qqq-buying-walkthrough/19-bit-securities-web.webp",
+    "width": 1500,
+    "height": 2607,
+    "bytes": 204502,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 20,
+    "caption": "BIT USDT 充币示例：图中使用 BSC/BEP20，二维码与地址已隐藏；实际须从本人账户复制并核对双方网络。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/14_BIT_USDT收款地址.webp",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/20-bit-deposit-network.webp",
+    "webFile": "/images/articles/qqq-buying-walkthrough/20-bit-deposit-network.webp",
+    "width": 1402,
+    "height": 1122,
+    "bytes": 102664,
+    "redacted": false,
+    "redaction": null
+  },
+  {
+    "order": 21,
+    "caption": "币安发送 USDT 示例：核对币种、网络、本人收款地址和费用；转账到账不等于证券账户入账或买入 QQQ。",
+    "originalFile": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/15_币安_向BIT发送USDT.webp",
+    "sourceCopy": "/Users/balala/Persona/Blog/MyBlog/assets/source-images/qqq-buying-walkthrough/screenshots/21-binance-send-to-bit.webp",
+    "webFile": "/images/articles/qqq-buying-walkthrough/21-binance-send-to-bit.webp",
+    "width": 1340,
+    "height": 1174,
+    "bytes": 102890,
+    "redacted": false,
+    "redaction": null
+  }
+]

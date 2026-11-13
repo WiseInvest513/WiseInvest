@@ -1,0 +1,54 @@
+{
+  "checkedAt": "2026-11-13",
+  "visualReview": "已逐张打开网页输出，检查完整文字、数值、表格行列、上下边距和右上角完整原始签名；无文字截断。最后两处文案已面向读者改写，重导出后重新查看 brokers/tokens，两图无截断。",
+  "checks": [
+    "原比例16:9",
+    "品牌原图16%宽，圆角只裁副本外角",
+    "BIT历史日期明确",
+    "RMB对照列明确假设",
+    "没有将返佣提前扣入",
+    "原截图不修改"
+  ],
+  "numericRows": [
+    {
+      "amount": 1000,
+      "comparison": 5,
+      "channel": 0.1
+    },
+    {
+      "amount": 5000,
+      "comparison": 5,
+      "channel": 0.25
+    },
+    {
+      "amount": 10000,
+      "comparison": 5,
+      "channel": 0.5
+    },
+    {
+      "amount": 100000,
+      "comparison": 5,
+      "channel": 5
+    }
+  ],
+  "images": [
+    {
+      "file": "public/images/articles/qqq-buying-walkthrough/fees-rmb.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 111612
+    },
+    {
+      "file": "public/images/articles/qqq-buying-walkthrough/fees-brokers.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 149668
+    },
+    {
+      "file": "public/images/articles/qqq-buying-walkthrough/fees-tokens.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 149992
+    }
+  ]
+}

@@ -3,6 +3,11 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "qqq-buying-walkthrough": {
+    src: "/images/articles/covers/qqq-buying-walkthrough.webp",
+    alt: "纳斯达克怎么买：从人民币到 QQQ，六条购买路径图解",
+    topics: ["纳斯达克", "QQQ", "支付宝", "银河", "券商", "稳定币", "费用"],
+  },
   "crypto-first-steps": {
     src: "/images/articles/covers/crypto-first-steps.webp",
     alt: "加密基础：数字资产、账户与钱包的银白玻璃概念封面",

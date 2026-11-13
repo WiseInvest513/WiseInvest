@@ -1,0 +1,47 @@
+{
+  "planSha256": "40f89e14cee9dade70bf2cf3c1ae62783a34cbf0a900f1c9ccd0f44e0fe1cb21",
+  "articleSha256": "b041cdc303f47c906b985f7ef0e44b8e3f1bfa1d8244d22eef51b60da20f5334",
+  "coverSha256": "634f46094e5e82e8ba4d27131df630b02f7b0b1f92c6701b77b651359131f993",
+  "checks": {
+    "guide": "导读针对已有投资意向但不清楚账户与下单步骤的读者。九章覆盖六条路线、订单状态、最低收费与第一笔核对；未把没有截图的 BIT 证券订单宣传成实测。现有渠道总览保留，本篇在实操阶段作为后续图解。",
+    "facts": "逐段校读并用官方资料核对 Invesco 年费、南方016452、BBAE fees、致富 charges、长桥香港 rate、币安 Maker 活动及普通 Taker、Bitget 两公告。来源及计算保存在 docs/reviews/qqq-buying-walkthrough。修正南方与 BBAE URL、Bitget 公告标签、BIT 10月22日证券资金菜单及现金与融资购买力区别。BIT 交易费仅采用用户制作文件11月8日已核验记录，明确历史属性和本次无法重取费用页面；复星不填未核验平台费。渠道优惠按用户确认，20%返佣不提前套算到代币手续费。未沿用未复核的行情和选举开场。",
+    "visuals": "逐张盘点32张原素材，21张制作为安全候选，正式正文使用18张；银河行情、委托、确认统一为易方达159696，账号及可用资金在副本遮盖，原图不改。BIT QQQB图片明确标记误入口，海外行情页不冒充完成交易。实际查看两张米白3D流程图、白金封面和三张1920x1080本地精确排版费用图；所有新图完整复用右上原始签名，文字和人物未裁切，封面640x360约17KB，未插回正文。手续费图注明币种、最低额、适用条件、历史记录与活动截止。",
+    "referrals": "六个邀请块位于实际注册章节：复星AGVPK3、致富HN7787、BBAE stiibsmu3、币安WISEBNB1、Bitget wise5130、BIT WISE666，与现有来源一致。BBAE仅码未造注册链接；复星与致富写1万港币免佣，BBAE首次2000美元/20美元，交易所20%渠道返佣与产品活动分开。17处本站引用全部独立card，表内未植入卡片；修正第一笔订单到domestic真实分类。复用共享邀请卡及品牌配置，未改动全局权益。",
+    "access": "计划明确PUBLIC，check返回静态公开；加入nasdaq-investing的practice阶段，导航短名为纳指买入图解。未更改旧文章ID或权限。此审阅完成于finalize前，尚不声称线上发布或线上匿名验收；finalize后在本地真实未登录桌面和手机会话核对全文、图片、目录与系列入口。"
+  },
+  "localVerification": {
+    "url": "http://127.0.0.1:3002/articles/index/sobbWYSr?series=nasdaq-investing",
+    "anonymousFullText": true,
+    "bodyImages": 23,
+    "imageResponses": "23/23 HTTP 200",
+    "registrationCards": 6,
+    "copyVerified": "AGVPK3",
+    "seriesEntry": true,
+    "articleSearchAbsent": true,
+    "longImageDialog": true,
+    "fullscreen": true,
+    "viewports": [
+      "1440×1000",
+      "390×844",
+      "320×780"
+    ],
+    "mobileOverflow": false,
+    "darkTableCheckedAfterTransition": true,
+    "articleValidate": "92 articles, 0 errors, 0 warnings",
+    "articleAudit": "92 articles, 0 issues",
+    "relatedTests": "45 passed, 0 failed",
+    "typecheck": "npx tsc --noEmit --incremental false passed",
+    "knownExistingConsole": [
+      "Daily highlight dialog aria-hidden hydration warning reproduced on existing index/mSIqvwVp",
+      "Vercel analytics CSP block reproduced on existing article",
+      "401 for anonymous account/content-library and content/activity; article content itself returned HTTP 200"
+    ],
+    "export": {
+      "bodyImages": 23,
+      "coverImages": 1,
+      "missingLocalImages": 0,
+      "preservesOriginalSpokenScript": true,
+      "archive": "04_网站图文交付_2026-11-13.zip"
+    }
+  }
+}

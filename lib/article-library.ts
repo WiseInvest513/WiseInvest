@@ -190,6 +190,7 @@ export const articleSeries: ArticleSeries[] = [
       {"title": "复利与定投测算", "articleId": "passive-millionaire", "stageId": "compare"},
       {"title": "定投与一次买入", "articleId": "index-qa-1", "stageId": "compare"},
       {"title": "纳指购买渠道", "articleId": "nasdaq-investment-guide", "stageId": "practice", "summary": "支付宝、银河场内 ETF、港资与美资券商、数字证券和链上产品，按已有账户选择对应教程。"},
+      {"title": "纳指买入图解", "articleId": "qqq-buying-walkthrough", "stageId": "practice", "summary": "对照支付宝、银河、港美券商与稳定币入口的真实截图，串起账户、入金、下单和费用核对。"},
       {"title": "支付宝买入实操", "articleId": "index-practice", "stageId": "practice"},
       {"title": "银河开户与费率", "articleId": "galaxy-etf-guide", "stageId": "practice", "summary": "准备场内 ETF 账户：了解银河开户渠道、ETF 佣金、免五申请条件与生效核对。"},
       {"title": "买入后的持有检查", "articleId": "index-qa-2", "stageId": "practice"},

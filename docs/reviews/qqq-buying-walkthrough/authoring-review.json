@@ -1,0 +1,100 @@
+{
+  "planSha256": "40f89e14cee9dade70bf2cf3c1ae62783a34cbf0a900f1c9ccd0f44e0fe1cb21",
+  "articleSha256": "3ada63427817653b4bc73e622f9b14b2a77451f84a98c96ec3d4cb5ec55f205b",
+  "coverSha256": "634f46094e5e82e8ba4d27131df630b02f7b0b1f92c6701b77b651359131f993",
+  "checks": {
+    "guide": "导读现在明确包含下载、注册、填写邀请码和申请渠道权益；恢复逐平台费用例子、优缺点和六类读者选择。保持原文章ID、分类、路由与公开阅读。",
+    "facts": "逐段校读并用官方资料核对 Invesco 年费、南方016452、BBAE fees、致富 charges、长桥香港 rate、币安 Maker 活动及普通 Taker、Bitget 两公告。来源及计算保存在 docs/reviews/qqq-buying-walkthrough。修正南方与 BBAE URL、Bitget 公告标签、BIT 10月22日证券资金菜单及现金与融资购买力区别。BIT 交易费仅采用用户制作文件11月8日已核验记录，明确历史属性和本次无法重取费用页面；复星不填未核验平台费。渠道优惠按用户确认，20%返佣不提前套算到代币手续费。未沿用未复核的行情和选举开场。",
+    "visuals": "原图片目录32个文件去重后28张独立素材全部在正文保留（包括原目录已有教学示意图）；加站内Wise联系二维码1张、新生成流程/费率图5张，共34张正文图。邀请码截图与共享邀请卡同时出现。隐私遮盖仅在先前已制作的截图副本保留，用户原文件不修改；新恢复QR与源图像素一致。币安旧码WISEBNB在图前后明确更正现用WISEBNB1；BBAE旧图2000U/20U解释为美元，不作为USDT入金说明。海外券商图中旧资格、税务与活动文案另加就地说明，不能直接视为当前保证。",
+    "referrals": "复星AGVPK3、致富HN7787、BBAE stiibsmu3、币安WISEBNB1、Bitget wise5130、BIT WISE666共6个共享卡，放在各自实际注册步骤；同时保留App名称、官方下载安装入口、填码位置、优惠门槛和对应原图。银河直接展示Wise联系QR、备注与申请步骤。BBAE未捏造专属注册URL，附官方App下载地址并保留手填码。本站延伸教程继续用card。",
+    "access": "最新稿本地未登录页面HTTP200，可看到完整末章，34/34图片资源200，无正文搜索框，6张邀请卡。邀请码复制AGVPK3正确；390px与320px手机无页面横向溢出；已查看桌面复星注册图、银河二维码及手机致富截图。无页面运行时异常；既存hydration、analytics CSP与匿名账号接口401仍有记录。未推送、未上线。",
+    "sourcePreservation": "网站稿仍是基于原稿的图文整理稿，不冒称逐字还原。完整01_口播稿.txt作为独立原样副本收入新版导出包，源文件SHA不变；原市场点位、选举与短期底部开场尚未复核，不写成网站已确认事实，明确列出待作者审阅，不静默丢弃。原作者介绍、各路径推荐理由与优缺点、费用例子、六类选择和收尾恢复。"
+  },
+  "localVerification": {
+    "url": "http://127.0.0.1:3002/articles/index/sobbWYSr?series=nasdaq-investing",
+    "anonymousFullText": true,
+    "bodyImages": 34,
+    "imageResponses": "34/34 HTTP 200",
+    "registrationCards": 6,
+    "copyVerified": "AGVPK3",
+    "seriesEntry": true,
+    "articleSearchAbsent": true,
+    "longImageDialog": true,
+    "fullscreen": true,
+    "viewports": [
+      "1440×1000",
+      "390×844",
+      "320×844"
+    ],
+    "mobileOverflow": false,
+    "darkTableCheckedAfterTransition": true,
+    "articleValidate": "92 articles, 0 errors, 0 warnings",
+    "articleAudit": "92 articles, 0 issues",
+    "relatedTests": "45 passed, 0 failed",
+    "typecheck": "npx tsc --noEmit --incremental false passed",
+    "knownExistingConsole": [
+      "Daily highlight dialog aria-hidden hydration warning reproduced on existing index/mSIqvwVp",
+      "Vercel analytics CSP block reproduced on existing article",
+      "401 for anonymous account/content-library and content/activity; article content itself returned HTTP 200"
+    ],
+    "export": {
+      "bodyImages": 34,
+      "coverImages": 1,
+      "preservesOriginalSpokenScript": true,
+      "archive": "05_网站图文完整修订_2026-11-13.zip",
+      "verification": "See export script manifest and package report",
+      "missingLocalImages": 0,
+      "fullLinks": 48,
+      "zipFiles": 47,
+      "allRestoredAssetsUsed": true,
+      "qrSourceExact": true,
+      "zipFullIntegrity": true,
+      "articleSha256": "3ada63427817653b4bc73e622f9b14b2a77451f84a98c96ec3d4cb5ec55f205b"
+    },
+    "restorationQaFile": "/private/tmp/qqq-restoration-browser.json"
+  },
+  "revision": "2026-11-13 source restoration after user review",
+  "sourceSpokenScriptSha256": "fff266e519f4a0923cb31883fe7b99d82801f19aabfe6a81792ae63e3c492754",
+  "registrationSourceChecks": [
+    {
+      "purpose": "BBAE官方App下载",
+      "url": "https://www.bbae.com/download/",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "银河官方App下载",
+      "url": "https://www.chinastock.com.cn/newsite/online/downloadCenter.html",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "复星星财富安装说明（境内存量客户适用）",
+      "url": "https://www.fotechwealth.com.cn/update-guide.html",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "致富官方软件与旧新App名称",
+      "url": "https://www.chiefgroup.com.hk/cn/account/download-software",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "致富通旧版、致富证券新版的官方说明",
+      "url": "https://www.chiefgroup.com.hk/",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "币安官方App下载",
+      "url": "https://www.binance.com/en/download",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "Bitget官方App下载",
+      "url": "https://www.bitget.com/download?channelcode=default",
+      "checked": "2026-11-13"
+    },
+    {
+      "purpose": "BIT官方App下载",
+      "url": "https://www.bit.com/download",
+      "checked": "2026-11-13"
+    }
+  ]
+}

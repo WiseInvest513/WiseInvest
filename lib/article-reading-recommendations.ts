@@ -23,6 +23,13 @@ const introductions: Record<string, string> = {
 };
 
 const connections: Record<string, { id: string; label: string; reason: string }[]> = {
+  "qqq-buying-walkthrough": [
+    { id: "us-stock-first-order", label: "下单细节 · 第一笔订单", reason: "继续核对报价、限价、有效期与实际成交记录。" },
+    { id: "index-qa-2", label: "买入以后 · 持有检查", reason: "完成购买后，检查投入节奏、资金安排与回撤应对。" },
+  ],
+  "nasdaq-investment-guide": [
+    { id: "qqq-buying-walkthrough", label: "接着操作 · 纳指买入图解", reason: "选好购买路径后，用真实界面串起开户、入金、下单与费用。" },
+  ],
   "crypto-first-steps": [
     { id: "crypto-buying-platforms", label: "下一课 · 购买入口", reason: "认清资产后，比较法币入口、交易所和链上兑换的条件。" },
     { id: "crypto-transfer-basics", label: "已有资产 · 转账保管", reason: "准备转出时，进一步检查地址、网络、到账与密钥责任。" },

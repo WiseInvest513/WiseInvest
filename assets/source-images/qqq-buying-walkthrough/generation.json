@@ -1,0 +1,93 @@
+{
+  "createdOn": "2026-11-13",
+  "generator": "built-in image_gen",
+  "localPipelineFinding": "Searched project image scripts, Persona/AIViedo, selected local tool directories and active model ports; no existing runnable local diffusion workflow found. Prior crypto-basics images also record built-in image_gen. No paid API fallback or model installation used.",
+  "signature": "public/images/brand/wise-invest-signature.png",
+  "postprocessing": "Local Sharp: preserve original generated PNG; add only tiny symmetric padding to exact 16:9, composite unmodified original signature proportionally at 16% width with rounded copy corners, save signed PNG and proportional WebP. No text, scene, price or data repaint by scripts.",
+  "assets": [
+    {
+      "id": "six-routes",
+      "refs": [
+        "/Users/balala/Persona/Blog/MyBlog/assets/source-images/crypto-basics/purchase-routes.png"
+      ],
+      "prompt": "Create ONE standalone landscape 16:9 educational article illustration in the tactile Wise miniature-object style of the reference. Reference is STYLE ONLY: warm ivory textured backdrop, navy leather and enamel, cream ceramic devices, fine champagne-gold edges, soft mint green connectors, short realistic contact shadows, slight 3/4 front view. Do NOT copy reference text, watermark or logo. Leave top-right 22% width by 14% height COMPLETELY BLANK for exact signature later. No portraits. No huge title. No claims about returns.\nExplain six buying routes grouped into THREE clean horizontal bands, with one small origin object at left, two alternative routes in center, and the actual holding at right. About 10% top margin. Very clear Chinese labels, short labels only, no giant cards. Balanced, readable, not cluttered.\nTOP BAND: Left small RMB note and payment card labeled exactly \"人民币\". A single mint connector to two compact middle labels \"支付宝基金\" and \"国内券商 ETF\", with a small phone and an ivory order ticket. Connect to a thick paper fund certificate at right labeled \"境内基金份额\". These are the two RMB routes.\nMIDDLE BAND: Left small navy wallet with one USD note labeled \"美元 / 港卡\". Two compact middle alternatives labeled \"港资券商\" and \"美资券商\", with modest ivory brokerage account terminals. Connect to one navy-and-ivory ETF certificate at right labeled \"QQQ ETF\". These are the two overseas broker routes.\nBOTTOM BAND: Left a single navy generic token labeled \"稳定币\". TWO separate, visibly independent thin mint branches: upper branch goes through a compact terminal labeled \"交易所现货\" to a navy token labeled \"QQQB / rQQQ 代币\"; lower branch goes through an ivory account document labeled \"BIT 证券账户\" to a small ETF certificate labeled \"兑换划转后买 QQQ\". No connection between the two endpoints. Do not imply token holdings are ETF ownership. Small gray/navy phrase below lower branch \"须符合开户及资金通道条件\". This is the fifth/sixth route distinction.\nBottom-left small mint capsule exactly \"教学示意\". Objects modest scale, aligned and distinct. Generous spacing between three bands, no decorative coins, no rising chart, no invented brand logos or app screens, no date or percentage. All Chinese labels spelled correctly. Colors maintain warm ivory navy mint family; not white silver glass.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1d540-c51b-7f82-b817-f18ea8321640/exec-58d8ac0c-c3aa-4dfd-8a79-9e77e31c42f6.png",
+      "sourceOriginal": "assets/source-images/qqq-buying-walkthrough/six-routes-generated.png",
+      "sourceSigned": "assets/source-images/qqq-buying-walkthrough/six-routes.png",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "sourceDimensions": [
+        1680,
+        945
+      ],
+      "webPath": "public/images/articles/qqq-buying-walkthrough/six-routes.webp",
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 70558,
+      "sha256": "dc4ade1716c5587636301d4e6db22135c8b444da2675e03776d6a723a17cfcbd",
+      "visualReview": "最终 1280×720 已查看：三类起点、六个路径、境内基金份额/证券 ETF/代币权益分开；BIT 证券分支独立且写明条件。所有标签完整，签名未遮挡图意。"
+    },
+    {
+      "id": "bit-securities-flow",
+      "refs": [
+        "/Users/balala/Persona/Blog/MyBlog/assets/source-images/crypto-basics/purchase-routes.png"
+      ],
+      "prompt": "Create ONE standalone landscape 16:9 educational article illustration, following the provided image ONLY for tactile visual style: warm ivory lightly textured background, navy leather/enamel, cream ceramic devices, fine champagne-gold edges, soft mint connectors, real short contact shadows. No copied old content or watermark. Leave upper-right 22% x 14% empty for exact signature composite. No people, no brand logos, no giant title.\nExplain the conceptual funding sequence for an eligible BIT securities account, and clearly distinguish exchange spot tokens from a securities ETF.\nMain scene occupying central 65% of image height: five modest 3D objects in one unambiguous left-to-right sequence, linked by ONLY four short mint arrows. The sequence:\n1 small navy generic token, caption \"USDT\".\n2 navy leather wallet with a short ivory account slip, caption \"BIT 钱包\".\n3 two tidy currency slips with a simple conversion/transfer symbol, caption \"兑换 / 划转\".\n4 ivory brokerage account terminal with navy ledger, caption \"证券可用美元\".\n5 ivory paper ETF holding certificate with restrained gold edge, caption \"QQQ ETF\".\nArrows show funds workflow only; do not put a USDT token straight into the ETF certificate. Make all five labels legible and horizontally spaced, objects around 25% of canvas height. No fake app screenshot, no balances, no fee amounts, no investment-performance arrows.\nBelow main scene a thin navy divider, then a very small separate nonconnected pair: generic token on left caption \"QQQB 现货\", paper ETF certificate on right caption \"证券账户 QQQ\", with a clear large \"≠\" between. This comparison has NO connecting arrow and NO connection to main flow. Under it short Chinese sentence \"现货代币与证券持仓是两回事\". At bottom-right small restrained note \"以本人账户可用通道为准\". Bottom-left small mint tag \"教学示意\". Keep simple, elegant, calm instructional object layout matching reference materials.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1d540-c51b-7f82-b817-f18ea8321640/exec-b6abd034-5725-45d8-bbe0-ce007c059e05.png",
+      "revisionPrompt": "Edit this supplied illustration ONLY in these 3 exact areas, preserving every other label, layout, arrow, material, object scale, background and top-right blank signature space. 1) In the center currency conversion object above label 兑换 / 划转: replace the right paper slip's yuan ¥ symbol with clear English USDT lettering. Keep the left slip's $ symbol. It must show USDT and dollars, NOT RMB conversion. 2) In the LOWER comparison row, replace the Tether logo on the token above QQQB 现货 with the literal English letters QQQB, in cream on the navy coin. This bottom token is QQQB, NOT USDT. Do not change the UPPER LEFT USDT token. 3) On BOTH cream QQQ ETF certificates (top right and small bottom right), remove the gold rising bar chart and laurel wreath; replace them with three short horizontal gold ledger rules. Preserve QQQ ETF/QQQ text and certificate paper shape. No chart, crown or laurels. Keep absolutely all other Chinese wording and arrows unchanged.",
+      "initialGeneratedPath": "/Users/balala/.codex/generated_images/01a1d540-c51b-7f82-b817-f18ea8321640/exec-9a3290fd-6795-49f1-ae89-9f8892b6d967.png",
+      "sourceOriginal": "assets/source-images/qqq-buying-walkthrough/bit-securities-flow-generated.png",
+      "sourceSigned": "assets/source-images/qqq-buying-walkthrough/bit-securities-flow.png",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "sourceDimensions": [
+        1680,
+        945
+      ],
+      "webPath": "public/images/articles/qqq-buying-walkthrough/bit-securities-flow.webp",
+      "webDimensions": [
+        1280,
+        720
+      ],
+      "webBytes": 53192,
+      "sha256": "1659586dac6b424752c293418acba0b29d05dd4e78010e84b7fae0c996e0d295",
+      "visualReview": "最终 1280×720 已查看：USDT→BIT 钱包→兑换/划转→证券可用美元→QQQ ETF。已定向纠正误画人民币和 QQQB 的 USDT 图标，QQQB 现货与证券 QQQ 用不等号单独比较，未伪造真实界面。"
+    },
+    {
+      "id": "cover",
+      "refs": [
+        "/Users/balala/.codex/skills/wise-silver-glass/assets/hero-reference.webp"
+      ],
+      "prompt": "Create ONE polished 16:9 landscape Wise article LIST COVER / future video cover. Style reference ONLY: bright pure white and silver architecture, optical glass with thickness and refraction, polished aluminum, tiny champagne-gold structural accents, soft neutral-white studio lighting, physical shadows. Do not copy reference road network. NOT cream or navy body illustration style. No neon or dark background.\nLayout: large readable dark navy Chinese headline on LEFT, arranged exactly as two lines \"纳斯达克\" and \"怎么买\". Below a fine champagne-gold rule, exact small subtitle \"从人民币到 QQQ · 六条路径图解\". No other text.\nRIGHT: one coherent silver-and-glass miniature still life: a silver payment card in front of an optical-glass ETF holding sheet; behind them a small elegantly angled silver laptop with a minimal navy screen that says only \"QQQ\", no chart data. Two thin gold pathways approach the same still life from left/lower front, a subtle visual of choosing a purchase entrance. No bank logo, fake product brand, invented metrics, return chart, coin pile or trophy.\nLeave TOP-RIGHT 22% width by 15% height entirely clean white for real signature added later; do not generate watermark, Wise text, portrait or logo. Text and full objects stay within 6% safe margins. Calm but immediately legible at 640×360; large headline occupies about left 45%, compact objects right 40%. One image, not web page, not collage. Actual high-quality 3D render, sharp Chinese typography, correct text.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a1d540-c51b-7f82-b817-f18ea8321640/exec-3d8ea28a-1d68-475c-8466-5c752ab10ddf.png",
+      "sourceOriginal": "assets/source-images/qqq-buying-walkthrough/cover-generated.png",
+      "sourceSigned": "assets/source-images/qqq-buying-walkthrough/cover.png",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "sourceDimensions": [
+        1680,
+        945
+      ],
+      "webPath": "public/images/articles/covers/qqq-buying-walkthrough.webp",
+      "webDimensions": [
+        640,
+        360
+      ],
+      "webBytes": 17388,
+      "sha256": "1bc69f87c15dfdc08c39ec6c1280228ef6cc19cd7157cb8c41d29e52ddc94c73",
+      "visualReview": "最终 640×360 已查看：标题与副标题完整清晰，银白玻璃材质符合列表封面，完整真实品牌署名位于右上角，17 KB。"
+    }
+  ],
+  "signatureSha256": "40a98eda41040c4520e2fd234167aec0bb9d5bdca59efc8c59661005420019e0",
+  "reviewedOn": "2026-11-13",
+  "reviewStatus": "reviewed",
+  "exportFolder": "/Users/balala/Persona/AIViedo/视频号/纳指投资系列/视频项目/QQQ购买方式/图片/网站新增配图_2026-11-13"
+}

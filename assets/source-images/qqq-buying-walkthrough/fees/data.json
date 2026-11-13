@@ -1,0 +1,192 @@
+{
+  "date": "2026-11-13",
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "webDimensions": [
+    1600,
+    900
+  ],
+  "brandSource": "public/images/brand/wise-invest-signature.png",
+  "brandWidthPercent": 16,
+  "sources": {
+    "galaxy": {
+      "type": "user_confirmed_channel",
+      "originalImage": "银河费率详情.png",
+      "rate": 0.00005,
+      "minimumCny": 0.1,
+      "conditions": "入金15000元并留存2个月后申请并确认费率生效",
+      "notOfficialDefault": true
+    },
+    "chief": {
+      "url": "https://www.chiefgroup.com.hk/cn/cs/charges",
+      "scope": "直属客户网上交易"
+    },
+    "longbridge": {
+      "url": "https://longbridge.com/hk/en/rate",
+      "scope": "香港实体、符合零佣优惠、默认固定方案"
+    },
+    "bbae": {
+      "url": "https://www.bbae.com/fees/",
+      "effective": "2026-07-01"
+    },
+    "bit": {
+      "url": "https://www.bit.com/helpcenter/articles/15897611",
+      "verified": "2026-11-08",
+      "status": "historical_local_audit_only_current_recheck_blocked"
+    },
+    "fosun": {
+      "url": "https://www.fosunwealth.hk/zhCn/stock",
+      "type": "user_confirmed_channel_benefit",
+      "feeScheduleNotVerified": true
+    },
+    "binance": {
+      "urls": [
+        "https://www.binance.com/en/vip-institutional-services",
+        "https://www.binance.com/en/support/announcement/detail/5a326408b6404d69b474f3fab7acfa66"
+      ],
+      "makerEndsUTC": "2026-11-30T23:59:00Z"
+    },
+    "bitget": {
+      "urls": [
+        "https://www.bitget.com/support/articles/12560603891318",
+        "https://www.bitget.com/support/articles/12560603893944"
+      ],
+      "vip": "0–3",
+      "promotionEnd": null
+    }
+  },
+  "rmbTable": [
+    [
+      "1,000 元",
+      "5.00 元",
+      "0.10 元",
+      "4.90 元"
+    ],
+    [
+      "5,000 元",
+      "5.00 元",
+      "0.25 元",
+      "4.75 元"
+    ],
+    [
+      "10,000 元",
+      "5.00 元",
+      "0.50 元",
+      "4.50 元"
+    ],
+    [
+      "100,000 元",
+      "5.00 元",
+      "5.00 元",
+      "0.00 元"
+    ]
+  ],
+  "brokerRows": [
+    {
+      "name": [
+        "致富",
+        "直属客户网上交易"
+      ],
+      "whole": [
+        "平台 $0.008 / 股，最低 $0.99",
+        "结算 $0.003 / 股，最低 $0.01"
+      ],
+      "fraction": [
+        "本图不列碎股报价"
+      ],
+      "note": [
+        "1 股：上述两项合计 $1",
+        "两项各设成交额 3% 上限",
+        "最低收费优先"
+      ]
+    },
+    {
+      "name": [
+        "长桥香港",
+        "零佣优惠适用账户"
+      ],
+      "whole": [
+        "平台 $0.005 / 股，最低 $1",
+        "结算 $0.003 / 股等另计"
+      ],
+      "fraction": [
+        "平台费：成交额 0.99%",
+        "最高 $0.99"
+      ],
+      "note": [
+        "香港默认固定方案",
+        "不可套其他地区账户"
+      ]
+    },
+    {
+      "name": [
+        "BBAE",
+        "费表自 2026-07-01 生效"
+      ],
+      "whole": [
+        "平台 $0.0055 / 股，最低 $1",
+        "上限：成交额 2%"
+      ],
+      "fraction": [
+        "平台费：成交额 1%",
+        "最低 $0.01"
+      ],
+      "note": [
+        "$100 且不足 1 股：费 $1",
+        "上限低于最低值时取上限"
+      ]
+    },
+    {
+      "name": [
+        "BIT 证券",
+        "11-08 历史核验记录"
+      ],
+      "whole": [
+        "平台 $0.005 / 股",
+        "最低 $0.99"
+      ],
+      "fraction": [
+        "平台费：成交额 0.99%",
+        "最高 $0.99"
+      ],
+      "note": [
+        "本轮未重新核验",
+        "不适用于现货 QQQB"
+      ]
+    }
+  ],
+  "tokenExamples": {
+    "tradeAmountUsdt": 1000,
+    "binance": {
+      "makerPromotionRate": 0,
+      "makerFeeUsdt": 0,
+      "takerBaseRate": 0.001,
+      "takerFeeUsdt": 1,
+      "bnbEligibleRate": 0.00075,
+      "bnbFeeUsdt": 0.75
+    },
+    "bitget": {
+      "vip": "0–3",
+      "makerRate": 0.0005,
+      "takerStockRouteRate": 0.0005,
+      "feeUsdt": 0.5,
+      "bgbEligibleRate": 0.0004,
+      "bgbFeeUsdt": 0.4
+    },
+    "channelRebateDeducted": false
+  },
+  "formulas": {
+    "galaxy": "max(tradeCny * 0.00005, 0.1)",
+    "hypotheticalComparison": "max(tradeCny * 0.00005, 5)",
+    "bbaeAtLeastOneShare": "min(max(shares * 0.0055, 1), tradeUsd * 0.02)",
+    "bbaeBelowOneShare": "max(tradeUsd * 0.01, 0.01)"
+  },
+  "caveats": [
+    "示例只列注明费用，不是全包成本",
+    "没有将20%渠道返佣预先扣除",
+    "BIT证券历史费率不得用于BIT现货QQQB",
+    "原始签名原比例嵌入，圆角仅作用于成图副本"
+  ]
+}
