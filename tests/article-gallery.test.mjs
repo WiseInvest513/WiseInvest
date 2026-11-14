@@ -37,6 +37,7 @@ function loadModule(relativePath) {
 const { getAllArticles, getArticleRoute, toArticleListItem, getArticlePrimaryImage } = loadModule('lib/articles.ts');
 const { categories } = loadModule('lib/articles-data.ts');
 const { articleCovers, preservedArticleCovers, getArticleListCover } = loadModule('lib/article-covers.ts');
+const { articleSeries } = loadModule('lib/article-library.ts');
 const categoryPage = loadModule('app/articles/[categoryId]/page.tsx');
 const indexPage = loadModule('app/articles/page.tsx');
 const articles = getAllArticles();
@@ -74,7 +75,7 @@ test('every dedicated cover is centralized, at most 25 KB, 640x360 and reaches l
     assert.ok(cover.topics.length > 0);
     assert.ok(!uniqueSources.has(cover.src), `Duplicate cover: ${cover.src}`);
     uniqueSources.add(cover.src);
-    assert.equal(cover.src, `/images/articles/covers/${id}.webp`);
+    assert.equal(path.posix.dirname(cover.src), '/images/articles/covers');
     const image = fs.readFileSync(path.join(root, 'public', cover.src));
     assert.equal(image.subarray(0, 4).toString(), 'RIFF');
     assert.equal(image.subarray(8, 12).toString(), 'WEBP');
@@ -116,7 +117,11 @@ test('published articles, cover mappings and public thumbnails have matching ide
   assert.deepEqual(Object.keys(articleCovers).sort(), articles.map(article => article.id).sort());
   const publicFiles = fs.readdirSync(path.join(root, 'public/images/articles/covers'));
   assert.ok(publicFiles.every(file => file.endsWith('.webp')), 'Keep large PNG originals outside public');
-  assert.deepEqual(publicFiles.sort(), Object.keys(articleCovers).map(id => `${id}.webp`).sort());
+  const referencedCovers = new Set([
+    ...Object.values(articleCovers).map(cover => cover.src),
+    ...articleSeries.flatMap(series => [series.artwork, series.cardArtwork, series.cover]),
+  ].filter(src => src?.startsWith('/images/articles/covers/')));
+  assert.deepEqual(publicFiles.sort(), [...referencedCovers].map(src => path.posix.basename(src)).sort());
 });
 
 test('the five reported missing covers are repaired without changing their URLs', () => {
@@ -238,10 +243,13 @@ test('saved prompt set and cover mappings agree on every refreshed asset', () =>
   for (const asset of manifest.assets) assert.equal(articleCovers[asset.id].src, asset.src);
 });
 
-test('category SSR retains all six crypto articles but never serializes article bodies', async () => {
+test('category SSR retains all published crypto articles but never serializes article bodies', async () => {
   const props = browserProps(await renderCategory('crypto'));
   assert.equal(props.initialCategoryId, 'crypto');
-  assert.equal(props.initialArticles.filter(article => article.categoryId === 'crypto').length, 6);
+  assert.deepEqual(
+    props.initialArticles.filter(article => article.categoryId === 'crypto').map(article => article.id).sort(),
+    articles.filter(article => article.categoryId === 'crypto').map(article => article.id).sort(),
+  );
   assert.ok(props.initialArticles.every(article => !Object.hasOwn(article, 'content')));
   assert.ok(props.initialArticles.every(article => !Object.hasOwn(article, 'lockedContent')));
 });

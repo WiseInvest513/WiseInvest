@@ -78,8 +78,8 @@ export const articleSeries: ArticleSeries[] = [
     introduction: "第一次打开交易所，先别被满屏入口带着走。从 BTC、ETH 与稳定币开始，依次认识购买渠道、C2C 订单、现货与合约、钱包和链上转账，理解价格波动与保管责任。每篇配有示意图和例子，现有平台注册教程放在对应步骤；可先读懂流程，再按本人资格与需要选择操作。",
     kind: "path",
     artwork: "/images/articles/category-icons/crypto-ivory.webp",
-    cardArtwork: "/images/articles/series/crypto-wide-v1.webp",
-    cover: "/images/articles/series/crypto-basics-wise-v2.webp",
+    cardArtwork: "/images/articles/covers/series-crypto-basics-title-v2.webp",
+    cover: "/images/articles/covers/series-crypto-basics-title-v2.webp",
     status: "updating",
     stages: [
       { id: "start", title: "认识资产与入口", description: "分清币、交易所与钱包，再判断本人能使用哪些购买渠道。" },
@@ -100,7 +100,8 @@ export const articleSeries: ArticleSeries[] = [
     title: "币安从入门到使用",
     description: "综合开户教程已可读；产品介绍、注册认证、入金买币等分篇仍在规划。",
     introduction: "先阅读现有的币安注册与使用综合教程，了解账户认证、入金买币和钱包区别。下列分篇是后续拆章规划，尚未单独成文，目录中折叠显示，不代表已有六篇可读章节。",
-    artwork: "/images/articles/series/binance-wide-v1.webp",
+    artwork: "/images/articles/series/binance-wise-cover-v3.webp",
+    cardArtwork: "/images/articles/series/binance-wise-cover-v3.webp",
     cover: "/images/articles/series/binance-wise-cover-v3.webp",
     status: "updating",
     existingArticleId: "biance-guide",
@@ -119,7 +120,8 @@ export const articleSeries: ArticleSeries[] = [
     title: "出海教程",
     description: "海外账号、境外手机号，从准备到实际使用。",
     kind: "tutorial",
-    artwork: "/images/articles/series/overseas-wide-v1.webp",
+    artwork: "/images/articles/covers/series-overseas-title-v2.webp",
+    cardArtwork: "/images/articles/covers/series-overseas-title-v2.webp",
     status: "updating",
     chapters: [
       { title: "Google 注册", articleId: "google-id" },
@@ -135,7 +137,8 @@ export const articleSeries: ArticleSeries[] = [
     description: "按平台核对邀请关系与补填条件，找到适合自己账户的处理方式。",
     introduction: "这个系列分别梳理币安、OKX、Bitget、Bybit 和 Gate 的邀请码漏填问题：先检查是否已有邀请关系，再核对账户资格、官方办理入口和生效结果。各平台规则独立核实，不能把一家平台的条件直接套用到另一家。目前可读的是币安与 Bitget 补填专文；OKX、Bybit、Gate 仍待补写专用补填章，不能拿注册教程冒充补填流程。",
     kind: "topic",
-    artwork: "/images/articles/series/crypto-wide-v1.webp",
+    artwork: "/images/articles/covers/series-exchange-referral-title-v2.webp",
+    cardArtwork: "/images/articles/covers/series-exchange-referral-title-v2.webp",
     status: "updating",
     chapters: [
       { title: "币安邀请码补填", articleId: "binance-referral" },
@@ -151,7 +154,7 @@ export const articleSeries: ArticleSeries[] = [
     description: "先认识常见资产，再理解指数与基金。",
     introduction: "从现有的资产基础文章开始，认识股票、债券、基金与指数，再了解场内外基金的区别。网站指南作为补充入口，不要求先开户或交易。",
     kind: "path", status: "updating", artwork: "/images/articles/category-icons/domestic-ivory.webp",
-    cardArtwork: "/images/articles/series/investment-foundations-wide-v1.webp",
+    cardArtwork: "/images/articles/covers/series-investment-foundations-title-v2.webp",
     stages: [
       { id: "basics", title: "认识资产", description: "先把常见的投资名词弄清楚。" },
       { id: "funds", title: "理解基金", description: "了解不同购买方式对应的产品区别。" },
@@ -171,7 +174,7 @@ export const articleSeries: ArticleSeries[] = [
     kind: "path",
     status: "updating",
     artwork: "/images/articles/category-icons/index-ivory.webp",
-    cardArtwork: "/images/articles/series/nasdaq-investing-wide-v1.webp",
+    cardArtwork: "/images/articles/covers/series-nasdaq-investing-title-v2.webp",
     stages: [
       {"id": "understand", "title": "基础：认识 ETF 与指数", "description": "先弄懂资产、ETF 运作和两种指数的区别。", "resources": [{"title": "纳指 / 标普投资蓝皮书", "href": "/book/nasdaq"}]},
       {"id": "compare", "title": "进阶：产品选择与投入计划", "description": "比较场内外基金与常见 ETF，理解收益、回撤、溢价和费用，再确定产品与投入节奏。", "resources": [{"title": "WiseETF · 查溢价", "href": "https://www.wise-etf.com/today/etf-premium"}, {"title": "WiseETF · 查额度", "href": "https://www.wise-etf.com/today/qdii-limits"}]},
@@ -203,7 +206,7 @@ export const articleSeries: ArticleSeries[] = [
     description: "比较账户，再查阅中转账户、券商与汇款教程。",
     introduction: "按自己的账户条件选择阅读，不需要依次开通所有平台。这里汇集已发布的开户与综合使用教程；账户可用不等于任意通道均可转账，操作前需核对适用地区、真实用途、同名要求与平台规则。",
     kind: "path", status: "updating", artwork: "/images/articles/category-icons/broker-ivory.webp",
-    cardArtwork: "/images/articles/series/us-stock-funding-wide-v1.webp",
+    cardArtwork: "/images/articles/covers/series-us-stock-funding-title-v2.webp",
     mapRouteIds: ["transfer-to-us-broker", "traditional-us-stocks"],
     stages: [
       { id: "compare", title: "先比较账户", description: "先理解不同平台与资产权益的区别。" },
@@ -232,7 +235,7 @@ export const articleSeries: ArticleSeries[] = [
     description: "香港银行、券商准备与现有入金图文。",
     introduction: "将香港银行和港股券商教程按阶段集中起来。各平台是按需选择的分支，不要求全部注册；已有账户可以直接查阅入金教程。具体账户资格和资金用途须按当前规则核对。",
     kind: "path", status: "updating", artwork: "/images/articles/category-icons/bank-ivory.webp",
-    cardArtwork: "/images/articles/series/hk-stock-funding-wide-v1.webp",
+    cardArtwork: "/images/articles/covers/series-hk-stock-funding-title-v2.webp",
     mapRouteIds: ["hk-card-to-hk-broker", "domestic-to-hk-card", "traditional-ipo"],
     stages: [
       { id: "banks", title: "选择香港银行", description: "先用对比枢纽筛选，再按材料与需求进入各行开户教程。" },
@@ -265,7 +268,7 @@ export const articleSeries: ArticleSeries[] = [
     description: "按平台查阅交易所、钱包卡与支付教程。",
     introduction: "这里整理现有的平台实操文章，并非完整的加密基础课程。交易所与钱包卡是不同产品，各平台按需选择；注册前先核对服务地区、身份验证、安全与费用要求。",
     kind: "path", status: "updating", artwork: "/images/articles/category-icons/crypto-ivory.webp",
-    cardArtwork: "/images/articles/series/crypto-tools-wide-v1.webp",
+    cardArtwork: "/images/articles/covers/series-crypto-tools-title-v2.webp",
     mapRouteIds: ["crypto-u-card-consume", "hk-card-u-card-consume"],
     stages: [
       { id: "exchanges", title: "了解交易所", description: "按平台选择注册、认证与使用教程。" },
@@ -294,7 +297,7 @@ export const articleSeries: ArticleSeries[] = [
     description: "账号准备、外文阅读与工具订阅。",
     introduction: "从现有的 Google 账号、沉浸式翻译，以及 GamsGo 与 ChatGPT 官方订阅教程入手。当前覆盖账号、翻译与订阅，尚不包含提示词、报告分析或自动化实战课程。",
     kind: "path", status: "updating", artwork: "/images/articles/category-icons/ai-ivory.webp",
-    cardArtwork: "/images/articles/series/ai-reading-wide-v1.webp",
+    cardArtwork: "/images/articles/covers/series-ai-reading-title-v2.webp",
     stages: [
       { id: "account", title: "准备账号", description: "已有可用账号可以跳过。" },
       { id: "reading", title: "阅读外文资料", description: "了解网页、视频与输入框翻译。" },
@@ -314,8 +317,8 @@ export const articleSeries: ArticleSeries[] = [
     description: "先选能用于官方结账的卡并开好，再按 ChatGPT 官方结账填卡号和账单地址；与 GamsGo 等第三方渠道不是同一条路。账单地址的城市、州、邮编必须是同一组；能不能开通以当时官方页面为准。",
     introduction: "这个教程分两步：先对照站内已有开卡教程，说明大陆用户走 ChatGPT 官方结账时可以优先考虑哪些卡；再讲开完卡之后，到 chatgpt.com 填写卡号和账单地址。官方订阅与 GamsGo 等第三方渠道不是同一条购买路径。账单地址的街道、城市、州和邮编必须来自同一组；套餐是否开放、价格如何，都以当天官方页面为准，不保证一定能开通。",
     kind: "tutorial",
-    artwork: "/images/articles/series/ai-reading-wide-v1.webp",
-    cardArtwork: "/images/articles/series/ai-reading-wide-v1.webp",
+    artwork: "/images/articles/covers/series-chatgpt-subscribe-title-v2.webp",
+    cardArtwork: "/images/articles/covers/series-chatgpt-subscribe-title-v2.webp",
     status: "updating",
     chapters: [
       { title: "可以用哪些卡", articleId: "chatgpt-which-card" },
@@ -375,7 +378,8 @@ export const articleSeries: ArticleSeries[] = [
     description: "先分清 MPI 支付账户与稳定币 U 卡，再和 Wise 等比用途，核对护照／身份证 KYC，最后进入完整开户充值教程。",
     introduction: "StarryBlu 是新加坡 MPI 多币种支付账户与卡片路径，不是稳定币 U 卡，页面出现 OCBC 也不等于个人华侨银行账户。本专栏三篇澄清品类、对比用途与材料，第四篇回到站内完整开户充值实操；费用、排队与卡片资格以 App／官网当日为准。",
     kind: "topic",
-    artwork: "/images/articles/covers/StarryBlu-vcard.webp",
+    artwork: "/images/articles/covers/series-starryblu-guide-title-v2.webp",
+    cardArtwork: "/images/articles/covers/series-starryblu-guide-title-v2.webp",
     status: "updating",
     chapters: [
       { title: "StarryBlu 算不算 U 卡", articleId: "starryblu-is-ucard", summary: "MPI 法币账户＋卡 vs 稳定币 U 卡；OCBC 托管怎么理解。" },

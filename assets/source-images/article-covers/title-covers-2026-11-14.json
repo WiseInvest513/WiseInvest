@@ -1,0 +1,493 @@
+{
+  "date": "2026-11-14",
+  "method": "Built-in image_gen, one generated cover per asset; exact existing signature composited mechanically; resized without stretching.",
+  "reference": "public/images/articles/covers/binance-referral.webp",
+  "signature": "public/images/brand/wise-invest-signature.png",
+  "preserved": "Existing clear title covers, original body screenshots, article IDs and text.",
+  "specs": [
+    {
+      "kind": "series",
+      "id": "crypto-basics",
+      "titleLines": [
+        "加密货币",
+        "从 0 到 1"
+      ],
+      "subtitle": "买币 · 交易 · 转账",
+      "subject": "glass Bitcoin coin, Ethereum crystal, silver wallet",
+      "filename": "series-crypto-basics-title-v2",
+      "alt": "加密货币：从 0 到 1；买币、交易、转账，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create one finished Chinese educational series cover, landscape exactly 16:9, 1600x900. Match the supplied cover's large readable title layout and silver-white glass studio aesthetics; it is a style reference only, do NOT copy its Binance logo or text or signature. The new cover is about cryptocurrency basics.\nBaked-in exact Chinese text, large bold navy sans-serif, left aligned on the left 55% with clean near-white background:\nline 1: \"加密货币\"\nline 2: \"从 0 到 1\"\nSmaller readable subtitle below a thin champagne-gold rule: \"买币 · 交易 · 转账\"\nTitle must be the most prominent element, readable when downscaled to 232px wide, not a small caption. Place all text within 7% safe margins. Right 40%: physical thick transparent glass coin with recognizable Bitcoin B and a clear faceted Ethereum-inspired crystal, beside a small silver wallet; realistic polished silver edges, fine champagne gold accents, soft studio daylight and restrained reflections. No price chart, profit arrow or numbers. Keep composition uncluttered with clean spacious typography and a meaningful distinctive subject. Upper-right corner reserved as plain quiet space 20% width x 13% height for an exact brand asset that will be added later; DO NOT generate any watermark, brand signature, avatar, logo label or border. No extra words. Deliver one complete polished cover, not a contact sheet.",
+      "source": "assets/source-images/article-covers/series-crypto-basics-title-v2.png",
+      "output": "public/images/articles/covers/series-crypto-basics-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 14908,
+      "sha256": "6f94fcae46d2dbb5ae1c1893e5d03996e947e611987cd68f42bc5fba1184f285"
+    },
+    {
+      "kind": "series",
+      "id": "overseas",
+      "titleLines": [
+        "海外账号",
+        "与手机号"
+      ],
+      "subtitle": "注册 · 激活 · 保号",
+      "subject": "glass globe, silver smartphone and translucent SIM card with champagne gold contact chip",
+      "filename": "series-overseas-title-v2",
+      "alt": "海外账号：与手机号；注册、激活、保号，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"海外账号\"\n\"与手机号\"\nExact smaller subtitle below a fine champagne-gold rule: \"注册 · 激活 · 保号\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: glass globe, silver smartphone and translucent SIM card with champagne gold contact chip. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-overseas-title-v2.png",
+      "output": "public/images/articles/covers/series-overseas-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 15112,
+      "sha256": "0ab6173ad20f392274112473ef3f8af3adf8b8705ebad7e31afbf4d936375aaa"
+    },
+    {
+      "kind": "series",
+      "id": "exchange-referral",
+      "titleLines": [
+        "交易所邀请码",
+        "忘填后怎么办"
+      ],
+      "subtitle": "邀请关系 · 补填条件 · 办理入口",
+      "subject": "two interlocking polished silver chain links beside a glass invitation ticket and a small magnifying lens, no logos or fake codes",
+      "filename": "series-exchange-referral-title-v2",
+      "alt": "交易所邀请码：忘填后怎么办；邀请关系、补填条件、办理入口，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"交易所邀请码\"\n\"忘填后怎么办\"\nExact smaller subtitle below a fine champagne-gold rule: \"邀请关系 · 补填条件 · 办理入口\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: two interlocking polished silver chain links beside a glass invitation ticket and a small magnifying lens, no logos or fake codes. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-exchange-referral-title-v2.png",
+      "output": "public/images/articles/covers/series-exchange-referral-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 18022,
+      "sha256": "8798b6a62cf4a14d643189f5936711d740cbe410703e20e94b3820b646056b81"
+    },
+    {
+      "kind": "series",
+      "id": "investment-foundations",
+      "titleLines": [
+        "投资基础",
+        "从这里起步"
+      ],
+      "subtitle": "股票 · 债券 · 基金 · 指数",
+      "subject": "an open physical handbook beside three glass-and-silver asset certificates, no fabricated chart, no unreadable text",
+      "filename": "series-investment-foundations-title-v2",
+      "alt": "投资基础：从这里起步；股票、债券、基金、指数，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"投资基础\"\n\"从这里起步\"\nExact smaller subtitle below a fine champagne-gold rule: \"股票 · 债券 · 基金 · 指数\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: an open physical handbook beside three glass-and-silver asset certificates, no fabricated chart, no unreadable text. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-investment-foundations-title-v2.png",
+      "output": "public/images/articles/covers/series-investment-foundations-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 17486,
+      "sha256": "9cbdf791411ed76f941c60153a78620b2047ff19a62dfcf9befb482c6f4ea662"
+    },
+    {
+      "kind": "series",
+      "id": "nasdaq-investing",
+      "titleLines": [
+        "纳指与标普",
+        "从入门到持有"
+      ],
+      "subtitle": "认识指数 · 选择产品 · 买入持有",
+      "subject": "a navy investment handbook, a glass basket holding asset certificates, a small restrained desk calendar, no rising chart",
+      "filename": "series-nasdaq-investing-title-v2",
+      "alt": "纳指与标普：从入门到持有；认识指数、选择产品、买入持有，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"纳指与标普\"\n\"从入门到持有\"\nExact smaller subtitle below a fine champagne-gold rule: \"认识指数 · 选择产品 · 买入持有\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: a navy investment handbook, a glass basket holding asset certificates, a small restrained desk calendar, no rising chart. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-nasdaq-investing-title-v2.png",
+      "output": "public/images/articles/covers/series-nasdaq-investing-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 18168,
+      "sha256": "5f4009a8e1afbd8706c9d837302a2ea3f8bcdd0c700d5b127aba48146daac339"
+    },
+    {
+      "kind": "series",
+      "id": "us-stock-funding",
+      "titleLines": [
+        "美股账户",
+        "开户与入金"
+      ],
+      "subtitle": "账户比较 · 券商选择 · 汇款流程",
+      "subject": "silver bank model linked by one fine gold path to a navy brokerage ledger and a glass payment card",
+      "filename": "series-us-stock-funding-title-v2",
+      "alt": "美股账户：开户与入金；账户比较、券商选择、汇款流程，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"美股账户\"\n\"开户与入金\"\nExact smaller subtitle below a fine champagne-gold rule: \"账户比较 · 券商选择 · 汇款流程\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: silver bank model linked by one fine gold path to a navy brokerage ledger and a glass payment card. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-us-stock-funding-title-v2.png",
+      "output": "public/images/articles/covers/series-us-stock-funding-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16750,
+      "sha256": "2669ebee18ae2c5a43a91e19f635541b84a6856a5b7e79db02b415e500ff890e"
+    },
+    {
+      "kind": "series",
+      "id": "hk-stock-funding",
+      "titleLines": [
+        "港卡与券商",
+        "开户入金指南"
+      ],
+      "subtitle": "香港银行 · 券商开户 · 转账入金",
+      "subject": "silver payment cards and a glass bank model with faint Hong Kong skyline in background",
+      "filename": "series-hk-stock-funding-title-v2",
+      "alt": "港卡与券商：开户入金指南；香港银行、券商开户、转账入金，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"港卡与券商\"\n\"开户入金指南\"\nExact smaller subtitle below a fine champagne-gold rule: \"香港银行 · 券商开户 · 转账入金\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: silver payment cards and a glass bank model with faint Hong Kong skyline in background. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-hk-stock-funding-title-v2.png",
+      "output": "public/images/articles/covers/series-hk-stock-funding-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16612,
+      "sha256": "b258591bbe1b9d74637b2b8f8e5e6ff940de951bc06fa4388c5249475b5e523c"
+    },
+    {
+      "kind": "series",
+      "id": "crypto-tools",
+      "titleLines": [
+        "交易所与钱包",
+        "支付工具指南"
+      ],
+      "subtitle": "平台注册 · 钱包使用 · 支付开卡",
+      "subject": "silver smartphone showing abstract candlesticks with no data, a navy physical wallet and a glass payment card, no brand logos",
+      "filename": "series-crypto-tools-title-v2",
+      "alt": "交易所与钱包：支付工具指南；平台注册、钱包使用、支付开卡，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"交易所与钱包\"\n\"支付工具指南\"\nExact smaller subtitle below a fine champagne-gold rule: \"平台注册 · 钱包使用 · 支付开卡\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: silver smartphone showing abstract candlesticks with no data, a navy physical wallet and a glass payment card, no brand logos. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-crypto-tools-title-v2.png",
+      "output": "public/images/articles/covers/series-crypto-tools-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16004,
+      "sha256": "6f5d3c69ce85c87d2c6396d9ffb71e24a874ef70a3a8bfe5b8520a05b050db00"
+    },
+    {
+      "kind": "series",
+      "id": "ai-reading",
+      "titleLines": [
+        "AI 工具",
+        "与外文阅读"
+      ],
+      "subtitle": "账号准备 · 沉浸翻译 · 工具订阅",
+      "subject": "a glass bilingual open book with just Aa and 文, and silver tablet with overlapping simple translation text lines, no invented logo",
+      "filename": "series-ai-reading-title-v2",
+      "alt": "AI 工具：与外文阅读；账号准备、沉浸翻译、工具订阅，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"AI 工具\"\n\"与外文阅读\"\nExact smaller subtitle below a fine champagne-gold rule: \"账号准备 · 沉浸翻译 · 工具订阅\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: a glass bilingual open book with just Aa and 文, and silver tablet with overlapping simple translation text lines, no invented logo. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-ai-reading-title-v2.png",
+      "output": "public/images/articles/covers/series-ai-reading-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 14760,
+      "sha256": "e7fb31cfb7c77a1a623c295daf207c80fe3c38a116ab67cf1f2a6c552b74ec72"
+    },
+    {
+      "kind": "series",
+      "id": "chatgpt-subscribe",
+      "titleLines": [
+        "ChatGPT 订阅",
+        "选卡与付款"
+      ],
+      "subtitle": "先准备卡 · 再完成官方结账",
+      "subject": "silver laptop showing an abstract checkout with blank fields, one translucent payment card with gold chip, no fake brand logo or real card numbers",
+      "filename": "series-chatgpt-subscribe-title-v2",
+      "alt": "ChatGPT 订阅：选卡与付款；先准备卡、再完成官方结账，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"ChatGPT 订阅\"\n\"选卡与付款\"\nExact smaller subtitle below a fine champagne-gold rule: \"先准备卡 · 再完成官方结账\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: silver laptop showing an abstract checkout with blank fields, one translucent payment card with gold chip, no fake brand logo or real card numbers. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-chatgpt-subscribe-title-v2.png",
+      "output": "public/images/articles/covers/series-chatgpt-subscribe-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 15076,
+      "sha256": "43654d1b52acc9d2eada9bfc7be28796391462c960e1b4614c66d6b062bc47a0"
+    },
+    {
+      "kind": "series",
+      "id": "starryblu-guide",
+      "titleLines": [
+        "StarryBlu 专栏",
+        "选账户与开卡"
+      ],
+      "subtitle": "账户类型 · 用途比较 · 认证材料",
+      "subject": "navy passport, silver wallet and one unbranded translucent payment card, no crypto coins and no fake branded product",
+      "filename": "series-starryblu-guide-title-v2",
+      "alt": "StarryBlu 专栏：选账户与开卡；账户类型、用途比较、认证材料，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese series cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"StarryBlu 专栏\"\n\"选账户与开卡\"\nExact smaller subtitle below a fine champagne-gold rule: \"账户类型 · 用途比较 · 认证材料\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: navy passport, silver wallet and one unbranded translucent payment card, no crypto coins and no fake branded product. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/series-starryblu-guide-title-v2.png",
+      "output": "public/images/articles/covers/series-starryblu-guide-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16380,
+      "sha256": "f4c7321e07b2746b663819cb6b8f19921847397060d84ef4adc3c298dd7a25e9"
+    },
+    {
+      "kind": "article",
+      "id": "crypto-c2c-freeze",
+      "titleLines": [
+        "C2C 买 U",
+        "冻卡怎么办"
+      ],
+      "subtitle": "银行风控 · 司法冻结 · 处理路径",
+      "subject": "silver bank card beside a glass padlock and a document with small amber caution triangle; reassuring clear educational concept, no claim of guaranteed unfreezing",
+      "filename": "crypto-c2c-freeze-title-v2",
+      "alt": "C2C 买 U：冻卡怎么办；银行风控、司法冻结、处理路径，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"C2C 买 U\"\n\"冻卡怎么办\"\nExact smaller subtitle below a fine champagne-gold rule: \"银行风控 · 司法冻结 · 处理路径\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: silver bank card beside a glass padlock and a document with small amber caution triangle; reassuring clear educational concept, no claim of guaranteed unfreezing. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/crypto-c2c-freeze-title-v2.png",
+      "output": "public/images/articles/covers/crypto-c2c-freeze-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 15640,
+      "sha256": "a436330a5d3341cfd1d62cafb42df983d92afbc9cf82424e58296b60f6224094"
+    },
+    {
+      "kind": "article",
+      "id": "collective-ipo-guide",
+      "titleLines": [
+        "A 股集合打新",
+        "参与与收益分配"
+      ],
+      "subtitle": "持仓 · 配号 · 分成",
+      "subject": "several separate glass allocation slips converge into one open navy record ledger; no coins, no profit chart",
+      "filename": "collective-ipo-guide-title-v2",
+      "alt": "A 股集合打新：参与与收益分配；持仓、配号、分成，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"A 股集合打新\"\n\"参与与收益分配\"\nExact smaller subtitle below a fine champagne-gold rule: \"持仓 · 配号 · 分成\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: several separate glass allocation slips converge into one open navy record ledger; no coins, no profit chart. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/collective-ipo-guide-title-v2.png",
+      "output": "public/images/articles/covers/collective-ipo-guide-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 15710,
+      "sha256": "549acb6feed81492ed3750f1ed918ca821f3de8af671f3d3817475a573132aec"
+    },
+    {
+      "kind": "article",
+      "id": "etf-how-it-works",
+      "titleLines": [
+        "ETF",
+        "如何运作"
+      ],
+      "subtitle": "基金份额 · 底层资产 · 申购赎回",
+      "subject": "transparent glass basket holding three silver asset blocks alongside a detachable glass fund certificate, no invented logos",
+      "filename": "etf-how-it-works-title-v2",
+      "alt": "ETF：如何运作；基金份额、底层资产、申购赎回，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"ETF\"\n\"如何运作\"\nExact smaller subtitle below a fine champagne-gold rule: \"基金份额 · 底层资产 · 申购赎回\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: transparent glass basket holding three silver asset blocks alongside a detachable glass fund certificate, no invented logos. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/etf-how-it-works-title-v2.png",
+      "output": "public/images/articles/covers/etf-how-it-works-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 15502,
+      "sha256": "03c854bc731fa2ab5b35b462e08380d91d0bc298e4fc776ad5374041a3a876be"
+    },
+    {
+      "kind": "article",
+      "id": "etf-major-products",
+      "titleLines": [
+        "美股 ETF",
+        "怎么选"
+      ],
+      "subtitle": "SPY · QQQ · VTI 等产品对比",
+      "subject": "three different glass investment folders with stock document, bond certificate and a small champagne-gold bullion bar; no logos or extra labels",
+      "filename": "etf-major-products-title-v2",
+      "alt": "美股 ETF：怎么选；SPY、QQQ、VTI 等产品对比，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"美股 ETF\"\n\"怎么选\"\nExact smaller subtitle below a fine champagne-gold rule: \"SPY · QQQ · VTI 等产品对比\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: three different glass investment folders with stock document, bond certificate and a small champagne-gold bullion bar; no logos or extra labels. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/etf-major-products-title-v2.png",
+      "output": "public/images/articles/covers/etf-major-products-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 14036,
+      "sha256": "51eb066f4fadbf8e7aabe03abb9396c7c0e75906f96078868664046aa953c15e"
+    },
+    {
+      "kind": "article",
+      "id": "etf-nasdaq-vs-sp500",
+      "titleLines": [
+        "纳指与标普",
+        "有什么区别"
+      ],
+      "subtitle": "选股规则 · 权重 · 重叠持仓",
+      "subject": "two equal size glass asset baskets holding clusters of silver blocks with different sizes, one navy block appears in both to suggest overlapping holdings",
+      "filename": "etf-nasdaq-vs-sp500-title-v2",
+      "alt": "纳指与标普：有什么区别；选股规则、权重、重叠持仓，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"纳指与标普\"\n\"有什么区别\"\nExact smaller subtitle below a fine champagne-gold rule: \"选股规则 · 权重 · 重叠持仓\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: two equal size glass asset baskets holding clusters of silver blocks with different sizes, one navy block appears in both to suggest overlapping holdings. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/etf-nasdaq-vs-sp500-title-v2.png",
+      "output": "public/images/articles/covers/etf-nasdaq-vs-sp500-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 17056,
+      "sha256": "d123b4c941ab0459a8e721bd882cf617b5c75646228d3a5c304079f6e50d084d"
+    },
+    {
+      "kind": "article",
+      "id": "etf-premium-nav",
+      "titleLines": [
+        "ETF 溢价",
+        "与 QDII 限购"
+      ],
+      "subtitle": "报价 · 净值 · 申购额度",
+      "subject": "silver balance scale comparing a glass asset basket and a price-tag shaped document, small clock, no data figures",
+      "filename": "etf-premium-nav-title-v2",
+      "alt": "ETF 溢价：与 QDII 限购；报价、净值、申购额度，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"ETF 溢价\"\n\"与 QDII 限购\"\nExact smaller subtitle below a fine champagne-gold rule: \"报价 · 净值 · 申购额度\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: silver balance scale comparing a glass asset basket and a price-tag shaped document, small clock, no data figures. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/etf-premium-nav-title-v2.png",
+      "output": "public/images/articles/covers/etf-premium-nav-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16062,
+      "sha256": "6bb63367900cda17af8ba4ba1abb5d69d38d2133513c5e70225b20e2fc3c908f"
+    },
+    {
+      "kind": "article",
+      "id": "etf-understand-returns",
+      "titleLines": [
+        "ETF 收益",
+        "为什么不一样"
+      ],
+      "subtitle": "分红 · 汇率 · 费用 · 买入时点",
+      "subject": "open navy account ledger with dividend receipt, small calculator and abstract currency tokens, no chart or fabricated return numbers",
+      "filename": "etf-understand-returns-title-v2",
+      "alt": "ETF 收益：为什么不一样；分红、汇率、费用、买入时点，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"ETF 收益\"\n\"为什么不一样\"\nExact smaller subtitle below a fine champagne-gold rule: \"分红 · 汇率 · 费用 · 买入时点\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: open navy account ledger with dividend receipt, small calculator and abstract currency tokens, no chart or fabricated return numbers. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/etf-understand-returns-title-v2.png",
+      "output": "public/images/articles/covers/etf-understand-returns-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 17140,
+      "sha256": "bb5be9f9c19f252ca94de335fa08a17c1cb1bdbbe17320d54d329d9e7559f62e"
+    },
+    {
+      "kind": "article",
+      "id": "etf-historical-drawdowns",
+      "titleLines": [
+        "纳指与标普",
+        "历史回撤有多大"
+      ],
+      "subtitle": "下跌幅度 · 修复时间 · 持有压力",
+      "subject": "physical silver curved ribbon with one distinct valley and clock behind it, curve ends at original height without arrow, no axes or false numerical chart",
+      "filename": "etf-historical-drawdowns-title-v2",
+      "alt": "纳指与标普：历史回撤有多大；下跌幅度、修复时间、持有压力，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"纳指与标普\"\n\"历史回撤有多大\"\nExact smaller subtitle below a fine champagne-gold rule: \"下跌幅度 · 修复时间 · 持有压力\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: physical silver curved ribbon with one distinct valley and clock behind it, curve ends at original height without arrow, no axes or false numerical chart. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/etf-historical-drawdowns-title-v2.png",
+      "output": "public/images/articles/covers/etf-historical-drawdowns-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16358,
+      "sha256": "2b1b9078c367d3f9847a6806bac746631ef5886c104981c9d395118ac9ab356f"
+    },
+    {
+      "kind": "article",
+      "id": "ucard-comparison",
+      "titleLines": [
+        "大陆用户",
+        "U 卡怎么选"
+      ],
+      "subtitle": "开卡资格 · 费用 · 绑支付",
+      "subject": "three unbranded physical silver and glass payment cards with gold chips, a small checklist and magnifying lens, no invented bank brand",
+      "filename": "ucard-comparison-title-v2",
+      "alt": "大陆用户：U 卡怎么选；开卡资格、费用、绑支付，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"大陆用户\"\n\"U 卡怎么选\"\nExact smaller subtitle below a fine champagne-gold rule: \"开卡资格 · 费用 · 绑支付\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: three unbranded physical silver and glass payment cards with gold chips, a small checklist and magnifying lens, no invented bank brand. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/ucard-comparison-title-v2.png",
+      "output": "public/images/articles/covers/ucard-comparison-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 15244,
+      "sha256": "0ead56639dbd53f8bff19b5013513c2685adbb78bd74b52b186410dd94121cc8"
+    },
+    {
+      "kind": "article",
+      "id": "hk-bank-comparison",
+      "titleLines": [
+        "香港银行卡",
+        "怎么选"
+      ],
+      "subtitle": "远程与见证 · 费用 · 入金用途",
+      "subject": "two silver payment cards beside a glass bank building and a small magnifying lens with subtle Hong Kong skyline, no logos",
+      "filename": "hk-bank-comparison-title-v2",
+      "alt": "香港银行卡：怎么选；远程与见证、费用、入金用途，银白玻璃主题封面",
+      "prompt": "Use case: stylized-concept. Create ONE finished Chinese article cover, exactly 16:9 landscape, 1600x900. Image 1 is a STYLE AND TYPOGRAPHY REFERENCE ONLY: keep its silver-white glass studio, large bold navy title and clear typographic hierarchy. Replace its cryptocurrency objects and ALL its text with this new topic.\nExact large title on left 55%, two lines:\n\"香港银行卡\"\n\"怎么选\"\nExact smaller subtitle below a fine champagne-gold rule: \"远程与见证 · 费用 · 入金用途\"\nTypography: extra-bold clean modern Chinese sans-serif, perfectly spelled, very large title readable at a 232px thumbnail; title most prominent, 6% safe margins, sufficient space between two lines. No text over busy objects. Right 40% subject: two silver payment cards beside a glass bank building and a small magnifying lens with subtle Hong Kong skyline, no logos. Realistic physical 3D product render, thick clear glass, polished silver and restrained champagne-gold details, softly lit white architecture with quiet near-white behind text. Match reference camera family and neutral daylight. Adapt object composition to topic, uncluttered and distinctive. NO unwanted Bitcoin logo, Ethereum, or wallet unless specifically requested in subject. No invented factual data or benefit claims. Top-right 20% width x13% height must be quiet blank background reserved for exact signature composited later. Do NOT generate watermark, signature, avatar, logo label or extra text. No flat placeholders, web UI card frame, poster border, collage or contact sheet. One complete image.",
+      "source": "assets/source-images/article-covers/hk-bank-comparison-title-v2.png",
+      "output": "public/images/articles/covers/hk-bank-comparison-title-v2.webp",
+      "originalDimensions": [
+        1672,
+        941
+      ],
+      "bytes": 16510,
+      "sha256": "fb6c4cf3abff972ef81c17ff462e22684db60287dc184fce7fe448be1e22bc77"
+    }
+  ],
+  "export": {
+    "width": 640,
+    "height": 360,
+    "format": "webp",
+    "quality": 60,
+    "fit": "contain",
+    "signatureWidthRatio": 0.16,
+    "signatureMarginRatio": 0.025,
+    "signatureCornerRadiusHeightRatio": 0.2
+  },
+  "signatureSha256": "40a98eda41040c4520e2fd234167aec0bb9d5bdca59efc8c59661005420019e0",
+  "review": {
+    "date": "2026-11-14",
+    "scope": "94 article covers and 13 rendered series covers visually audited. 10 article covers and 11 series covers regenerated; Binance listing now reuses its existing titled cover. 19 unreferenced old web assets removed; original archived sources retained.",
+    "visual": "Reviewed all 21 final branded covers at thumbnail size. Chinese headings match their individual content; the exact signature is complete at top right. OCR matches 18 headings exactly; manually confirmed O/0 and I/l ambiguity in crypto-basics, ai-reading and etf-premium-nav.",
+    "validation": "21 gallery/filter tests pass; article:audit checks 94 with zero issues; article:validate checks 94 with zero errors or warnings; production build succeeds.",
+    "browser": "Playwright Chrome, signed out, local production build, desktop 1512x982 and mobile 390x844. Series -> crypto basics -> C2C freeze article resolves correctly; all 13 series image URLs are unique and loaded; article covers load; no horizontal overflow or page exceptions. Existing local account-prefetch CSP and unavailable Vercel analytics requests are unrelated to these assets."
+  },
+  "reusedSeries": {
+    "id": "binance",
+    "src": "/images/articles/series/binance-wise-cover-v3.webp"
+  },
+  "retiredWebAssets": [
+    "/images/articles/series/crypto-wide-v1.webp",
+    "/images/articles/series/overseas-wide-v1.webp",
+    "/images/articles/series/investment-foundations-wide-v1.webp",
+    "/images/articles/series/nasdaq-investing-wide-v1.webp",
+    "/images/articles/series/us-stock-funding-wide-v1.webp",
+    "/images/articles/series/hk-stock-funding-wide-v1.webp",
+    "/images/articles/series/crypto-tools-wide-v1.webp",
+    "/images/articles/series/ai-reading-wide-v1.webp",
+    "/images/articles/covers/crypto-c2c-freeze.webp",
+    "/images/articles/covers/collective-ipo-guide.webp",
+    "/images/articles/covers/etf-how-it-works.webp",
+    "/images/articles/covers/etf-major-products.webp",
+    "/images/articles/covers/etf-nasdaq-vs-sp500.webp",
+    "/images/articles/covers/etf-premium-nav.webp",
+    "/images/articles/covers/etf-understand-returns.webp",
+    "/images/articles/covers/etf-historical-drawdowns.webp",
+    "/images/articles/covers/ucard-comparison.webp",
+    "/images/articles/covers/hk-bank-comparison.webp",
+    "/images/articles/series/binance-wide-v1.webp"
+  ]
+}
