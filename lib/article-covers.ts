@@ -430,6 +430,16 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "StarryBlu 开卡需要护照吗：护照与身份证材料分工示意",
     topics: ["StarryBlu","护照","KYC","开卡材料"],
   },
+  "chatgpt-which-card": {
+    src: "/images/articles/covers/chatgpt-which-card.webp",
+    alt: "ChatGPT 订阅可以用哪些卡：先对照开卡教程再去官方结账",
+    topics: ["ChatGPT","官方订阅","虚拟卡","选卡"],
+  },
+  "chatgpt-how-to-subscribe": {
+    src: "/images/articles/covers/chatgpt-how-to-subscribe.webp",
+    alt: "开完卡怎么订阅 ChatGPT：官方结账与账单地址怎么填",
+    topics: ["ChatGPT","官方订阅","账单地址","付款"],
+  },
   "domestic-hk-us-guide": {
     src: "/images/articles/covers/domestic-hk-us-guide.webp",
     alt: "港美股投资入门：从开户到资金路径，银行账户 · 券商 · 入金",
