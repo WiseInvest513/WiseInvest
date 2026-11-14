@@ -63,14 +63,34 @@ test('the three dated routes retain the verified thresholds and application-vers
   assert.match(article.content, /2026 年 11 月 5 日/);
 });
 
-test('article explains the process without external links or invented URLs and screenshots', () => {
-  assert.doesNotMatch(article.content, /https?:\/\/|(?:www\.)?binance\.com/i);
+test('each Binance recovery route includes the correct actionable entry point', () => {
+  const guide = fs.readFileSync(path.join(root, 'app/guide/exchange-referral/page.tsx'), 'utf8');
+  const selfBindUrl = 'https://www.binance.com/zh-CN/activity/referral/bind-ref';
+  const recallUrl = 'https://www.binance.com/join?ref=WISEBNB1';
+  const section = number => article.content.split(`## ${number}、`)[1].split('\n## ')[0];
+  for (const url of [selfBindUrl, recallUrl]) {
+    assert.ok(guide.includes(`href: "${url}"`));
+    assert.ok(section('二').includes(`](${url})`));
+  }
+  assert.ok(section('三').includes(`](${selfBindUrl})`));
+  assert.match(section('三'), /填写 Wise 的邀请码 \*\*WISEBNB1\*\*/);
+  assert.ok(section('五').includes(`](${recallUrl})`));
+  assert.match(section('五'), /已有账户／登录/);
+  assert.match(section('五'), /Bind Now/);
+  assert.match(section('四'), /联系 Wise 获取当前专用链接/);
+  assert.match(section('四'), /\[联系 Wise（打开微信二维码）\]\(\/images\/微信图片520\.png\)/);
+  assert.ok(fs.existsSync(path.join(root, 'public/images/微信图片520.png')));
+  assert.ok(!section('四').includes(selfBindUrl));
+  assert.ok(!section('四').includes(recallUrl));
+  assert.match(article.content, /\[交易所邀请码补绑入口汇总\]\(\/guide\/exchange-referral\)/);
+});
+
+test('article preserves the inviter walkthrough, disclosure and series navigation', () => {
   assert.match(article.content, /\[交易所邀请码补填指南\]\(\/articles\/series\/exchange-referral\)/);
   assert.match(article.content, /向官方客服说明“注册时漏填邀请码，需要自助补绑”/);
-  assert.match(article.content, /联系 Wise 获取当前专用链接/);
-  assert.match(article.content, /联系 Wise 说明需要“老用户召回”/);
   assert.match(article.content, /可能获得平台佣金/);
-  assert.doesNotMatch(article.content, /!\[[^\]]*\]\(|TODO|待补截图|bsmkweb/);
+  assert.match(article.content, /!\[[^\]]+\]\(\/content\/articles\/crypto\/binance-referral\/check-inviter-guide\.jpg\)/);
+  assert.doesNotMatch(article.content, /TODO|待补截图|bsmkweb/);
   const series = getArticleSeries('exchange-referral', article.id);
   const reading = getSeriesReadingState(series, articles, article.id);
   assert.equal(reading.publishedCount, 2);
