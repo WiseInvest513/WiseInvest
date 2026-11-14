@@ -741,7 +741,7 @@ export const perkSections: Perks2Section[] = [
             highlightValue: "新人礼",
             code: "ckxq",
             registerLink: "https://www.usmart.com/",
-            tutorialLink: null,
+            tutorialLink: "/articles/broker/oWZtTL7V",
             recommendation: 4.4,
             recommendationText: "低成本链路",
             badge: "港资券商",

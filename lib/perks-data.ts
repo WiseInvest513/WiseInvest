@@ -196,7 +196,7 @@ export const perks: Perk[] = [
     code: "ckxq",
     link: "https://www.usmart.com/",
     iconUrl: "https://hk.usmartglobal.com/zh-hk",
-    tutorialLink: null,
+    tutorialLink: "/articles/broker/oWZtTL7V",
     color: "#FF6B35",
   },
   {

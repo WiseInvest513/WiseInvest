@@ -440,6 +440,11 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "开完卡怎么订阅 ChatGPT：官方结账与账单地址怎么填",
     topics: ["ChatGPT","官方订阅","账单地址","付款"],
   },
+  "usmart-sg": {
+    src: "/images/articles/covers/usmart-sg.webp",
+    alt: "盈立证券新加坡身份证开户：区分香港版，按官方 App 如实填写资料",
+    topics: ["盈立新加坡","uSMART SG","身份证开户","港美股"],
+  },
   "domestic-hk-us-guide": {
     src: "/images/articles/covers/domestic-hk-us-guide.webp",
     alt: "港美股投资入门：从开户到资金路径，银行账户 · 券商 · 入金",

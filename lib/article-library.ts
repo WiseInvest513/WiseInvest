@@ -259,6 +259,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "复星开户", articleId: "futu-broker", stageId: "brokers" },
       { title: "致富开户", articleId: "zhifu", stageId: "brokers" },
       { title: "腾达开户", articleId: "tengda-broker", stageId: "brokers" },
+      { title: "盈立新加坡开户", articleId: "usmart-sg", stageId: "brokers", summary: "盈立新加坡可用中国身份证线上申请；不要下载成香港版 App。" },
       { title: "复星入金", articleId: "ifas-fuxing", stageId: "transfers" },
     ],
   },

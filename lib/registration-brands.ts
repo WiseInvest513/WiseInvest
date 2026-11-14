@@ -89,6 +89,7 @@ const brandsByTitle: [RegExp, RegistrationBrand][] = [
   [/BBAE|必贝/i, bbae], [/复星/, fosun], [/\bBIT\b/i, bit],
   [/腾达/, { name: "腾达证券", iconSrc: "/images/capital-flow/tengda.jpeg", tone: "yellow" }],
   [/致富/, { name: "致富证券", iconSrc: "/images/capital-flow/chief.jpeg", tone: "blue" }],
+  [/盈立|uSMART/i, { name: "盈立证券新加坡", iconSrc: "/images/registration/usmart-sg.png", tone: "orange" }],
   [/盈透|IBKR/i, { name: "盈透证券", iconSrc: "/images/capital-flow/ibkr.jpeg", tone: "red" }],
   [/SafePal/i, { name: "SafePal", iconSrc: "/images/capital-flow/safepal.jpeg", tone: "purple" }],
   [/BiyaPay/i, { name: "BiyaPay", iconSrc: "/images/capital-flow/biyapay.jpeg", tone: "black" }],
