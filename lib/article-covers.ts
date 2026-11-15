@@ -3,6 +3,11 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "hk-sg-broker-comparison": {
+    src: "/images/articles/covers/hk-sg-broker-comparison-logos.webp",
+    alt: "四家券商怎么选：复星、致富、盈立新加坡 SG 与腾达的品牌图标，背景、费用与入出金对比",
+    topics: ["券商对比", "复星", "致富", "盈立", "腾达", "港股", "美股", "费用"],
+  },
   "qqq-buying-walkthrough": {
     src: "/images/articles/covers/qqq-buying-walkthrough.webp",
     alt: "纳斯达克怎么买：从人民币到 QQQ，六条购买路径图解",

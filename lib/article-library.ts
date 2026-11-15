@@ -256,6 +256,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "蚂蚁银行（香港）开户", articleId: "xianggangmayi-register", stageId: "banks" },
       { title: "蚂蚁银行（澳门）开户", articleId: "aomenmayi-register", stageId: "banks" },
       { title: "平安数字银行开户", articleId: "pingan", stageId: "banks" },
+      { title: "四家券商比较", articleId: "hk-sg-broker-comparison", stageId: "brokers", summary: "复星、致富、盈立新加坡与腾达的背景、费率及资金路径比较。" },
       { title: "复星开户", articleId: "futu-broker", stageId: "brokers" },
       { title: "致富开户", articleId: "zhifu", stageId: "brokers" },
       { title: "腾达开户", articleId: "tengda-broker", stageId: "brokers" },
