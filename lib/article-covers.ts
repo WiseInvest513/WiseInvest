@@ -450,6 +450,16 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "盈立证券新加坡身份证开户：区分香港版，按官方 App 如实填写资料",
     topics: ["盈立新加坡","uSMART SG","身份证开户","港美股"],
   },
+  "tokenized-us-stocks": {
+    src: "/images/articles/covers/tokenized-us-stocks.webp",
+    alt: "代币化美股是什么：和券商买到的真股票有何区别，银白玻璃主题封面",
+    topics: ["代币化美股","bStocks","OKX","链上美股","股东权利"],
+  },
+  "claude-how-to-subscribe": {
+    src: "/images/articles/covers/claude-how-to-subscribe.webp",
+    alt: "怎么订阅 Claude：用哪些卡付、账单地址怎么填",
+    topics: ["Claude","官方订阅","信用卡","账单地址"],
+  },
   "domestic-hk-us-guide": {
     src: "/images/articles/covers/domestic-hk-us-guide.webp",
     alt: "港美股投资入门：从开户到资金路径，银行账户 · 券商 · 入金",

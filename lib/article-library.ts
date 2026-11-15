@@ -311,13 +311,14 @@ export const articleSeries: ArticleSeries[] = [
       { title: "GamsGo 订阅", articleId: "gamsgo-guide", stageId: "subscription" },
       { title: "官方订阅选卡", articleId: "chatgpt-which-card", stageId: "subscription" },
       { title: "官方怎么付款", articleId: "chatgpt-how-to-subscribe", stageId: "subscription" },
+      { title: "怎么订阅 Claude", articleId: "claude-how-to-subscribe", stageId: "subscription" },
     ],
   },
   {
     id: "chatgpt-subscribe",
     title: "ChatGPT 怎么订阅：用哪些卡、怎么付款",
-    description: "先选能用于官方结账的卡并开好，再按 ChatGPT 官方结账填卡号和账单地址；与 GamsGo 等第三方渠道不是同一条路。账单地址的城市、州、邮编必须是同一组；能不能开通以当时官方页面为准。",
-    introduction: "这个教程分两步：先对照站内已有开卡教程，说明大陆用户走 ChatGPT 官方结账时可以优先考虑哪些卡；再讲开完卡之后，到 chatgpt.com 填写卡号和账单地址。官方订阅与 GamsGo 等第三方渠道不是同一条购买路径。账单地址的街道、城市、州和邮编必须来自同一组；套餐是否开放、价格如何，都以当天官方页面为准，不保证一定能开通。",
+    description: "先选能用于官方结账的卡并开好，再按 ChatGPT 官方结账填卡号和账单地址；另有一篇说明怎么订阅 Claude、付款和账单地址与 ChatGPT 有何不同。与 GamsGo 等第三方渠道不是同一条路。能不能开通以当时官方页面为准。",
+    introduction: "这个教程先对照站内已有开卡教程，说明大陆用户走 ChatGPT 官方结账时可以优先考虑哪些卡；再讲开完卡之后，到 chatgpt.com 填写卡号和账单地址。后面一篇单独写怎么订阅 Claude：官方价格、网页端付款方式和账单地址如何填写，以及和 ChatGPT 付款有何不同。官方订阅与 GamsGo 等第三方渠道不是同一条购买路径。账单地址应写成互相匹配的一组字段；套餐是否开放、价格如何，都以当天官方页面为准，不保证一定能开通。",
     kind: "tutorial",
     artwork: "/images/articles/covers/series-chatgpt-subscribe-title-v2.webp",
     cardArtwork: "/images/articles/covers/series-chatgpt-subscribe-title-v2.webp",
@@ -325,6 +326,7 @@ export const articleSeries: ArticleSeries[] = [
     chapters: [
       { title: "可以用哪些卡", articleId: "chatgpt-which-card" },
       { title: "官方怎么订阅", articleId: "chatgpt-how-to-subscribe" },
+      { title: "怎么订阅 Claude", articleId: "claude-how-to-subscribe" },
     ],
   },
   {
