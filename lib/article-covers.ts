@@ -436,12 +436,12 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     topics: ["StarryBlu","护照","KYC","开卡材料"],
   },
   "chatgpt-which-card": {
-    src: "/images/articles/covers/chatgpt-which-card.webp",
-    alt: "ChatGPT 订阅可以用哪些卡：先对照开卡教程再去官方结账",
+    src: "/images/articles/covers/chatgpt-which-card-glass-v2.webp",
+    alt: "AI 订阅先选哪张卡：Bybit、Gate 与 MP，银白玻璃主题封面",
     topics: ["ChatGPT","官方订阅","虚拟卡","选卡"],
   },
   "chatgpt-how-to-subscribe": {
-    src: "/images/articles/covers/chatgpt-how-to-subscribe.webp",
+    src: "/images/articles/covers/chatgpt-how-to-subscribe-glass-v2.webp",
     alt: "开完卡怎么订阅 ChatGPT：官方结账与账单地址怎么填",
     topics: ["ChatGPT","官方订阅","账单地址","付款"],
   },
@@ -456,7 +456,7 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     topics: ["代币化美股","bStocks","OKX","链上美股","股东权利"],
   },
   "claude-how-to-subscribe": {
-    src: "/images/articles/covers/claude-how-to-subscribe.webp",
+    src: "/images/articles/covers/claude-how-to-subscribe-glass-v2.webp",
     alt: "怎么订阅 Claude：用哪些卡付、账单地址怎么填",
     topics: ["Claude","官方订阅","信用卡","账单地址"],
   },

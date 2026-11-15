@@ -1,0 +1,34 @@
+{
+  "method": "Built-in image_gen__imagegen",
+  "prompts": [
+    {
+      "key": "chatgpt-which-card-glass-v2",
+      "prompt": "Create a FINAL editorial article cover for Wise Invest, exact 16:9 landscape, ideally 1536x864. Reference image 1 is STYLE ONLY: match its silver-white architectural glass studio, translucent thick optical glass, polished silver, small champagne-gold accents, soft daylight, natural reflections and contact shadows. This must be a realistic 3D still life, never flat vector artwork or a website wireframe. Follow its bold dark navy Chinese typography and product editorial composition, with copy on left 56% and large tangible subject on right 40%. All text inside 6% margin, very readable at final 640x360 and 232x131 thumbnail, no overlap between title and objects. Text is a short two-line headline plus one subtitle, not the full article title. Keep top-right area x=80%-97%, y=4%-16% clean white and EMPTY; the exact supplied Wise signature (reference 2) will be mechanically placed there later. Do not redraw, invent, or place another signature or watermark yourself. Do not copy Bitget logo or referral wording from reference 1. No fake financial numbers, rates, success receipts, credit card numbers or institutional endorsements. Title exact on two lines: “AI 订阅” then “先选哪张卡？” Subtitle: “Bybit · Gate · MP”. Subject: three distinct standing compact brand tiles with thick clear glass edges, carefully arranged at different depths on a reflective silver-white desk, one thin generic unbranded payment card in front. On the three tiles, use the supplied real BYBIT, Gate and MP logos from reference images 3,4,5 as flat printed artwork preserving their exact colors and geometry. The 3D objects and lighting create depth, not distortion of the logos. All three marks must remain separately recognizable. No extra platform logos. Palette matches the reference, with navy and blue/green brand colors limited to their logos.",
+      "refs": [
+        "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/bitget-referral.webp",
+        "/Users/balala/Persona/Blog/MyBlog/public/images/brand/wise-invest-signature.png",
+        "/Users/balala/Persona/图标/企业图标/bybit.jpeg",
+        "/Users/balala/Persona/图标/企业图标/gate.jpg",
+        "/Users/balala/Persona/图标/企业图标/mp.png"
+      ]
+    },
+    {
+      "key": "chatgpt-how-to-subscribe-glass-v2",
+      "prompt": "Create a FINAL editorial article cover for Wise Invest, exact 16:9 landscape, ideally 1536x864. Reference image 1 is STYLE ONLY: match its silver-white architectural glass studio, translucent thick optical glass, polished silver, small champagne-gold accents, soft daylight, natural reflections and contact shadows. This must be a realistic 3D still life, never flat vector artwork or a website wireframe. Follow its bold dark navy Chinese typography and product editorial composition, with copy on left 56% and large tangible subject on right 40%. All text inside 6% margin, very readable at final 640x360 and 232x131 thumbnail, no overlap between title and objects. Text is a short two-line headline plus one subtitle, not the full article title. Keep top-right area x=80%-97%, y=4%-16% clean white and EMPTY; the exact supplied Wise signature (reference 2) will be mechanically placed there later. Do not redraw, invent, or place another signature or watermark yourself. Do not copy Bitget logo or referral wording from reference 1. No fake financial numbers, rates, success receipts, credit card numbers or institutional endorsements. Title exact on two lines: “ChatGPT 订阅” then “开卡后怎么付？” Subtitle: “选套餐 · 填资料 · 付款”. Subject: a refined silver laptop on the right showing the genuine black ChatGPT icon from reference 3 centered on a clean white screen, paired with one small standing translucent payment card and an elegant silver pen. Screen icon is flat, undistorted, black and white exactly as supplied. Laptop and card are physical 3D editorial props, not a screenshot or a fake ChatGPT checkout page. The card has only a small chip and no made-up logo, numbers or form fields. Clear depth and glass/silver reflections matching reference 1. Logo should not collide with any copy; title must occupy the left half clearly.",
+      "refs": [
+        "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/bitget-referral.webp",
+        "/Users/balala/Persona/Blog/MyBlog/public/images/brand/wise-invest-signature.png",
+        "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/brand-references/chatgpt-icon-white.png"
+      ]
+    },
+    {
+      "key": "claude-how-to-subscribe-glass-v2",
+      "prompt": "Create a FINAL editorial article cover for Wise Invest, exact 16:9 landscape, ideally 1536x864. Reference image 1 is STYLE ONLY: match its silver-white architectural glass studio, translucent thick optical glass, polished silver, small champagne-gold accents, soft daylight, natural reflections and contact shadows. This must be a realistic 3D still life, never flat vector artwork or a website wireframe. Follow its bold dark navy Chinese typography and product editorial composition, with copy on left 56% and large tangible subject on right 40%. All text inside 6% margin, very readable at final 640x360 and 232x131 thumbnail, no overlap between title and objects. Text is a short two-line headline plus one subtitle, not the full article title. Keep top-right area x=80%-97%, y=4%-16% clean white and EMPTY; the exact supplied Wise signature (reference 2) will be mechanically placed there later. Do not redraw, invent, or place another signature or watermark yourself. Do not copy Bitget logo or referral wording from reference 1. No fake financial numbers, rates, success receipts, credit card numbers or institutional endorsements. Title exact on two lines: “Claude 订阅” then “选卡到付款”. Subtitle: “选套餐 · 填地址 · 开通”. Subject: a warm terracotta-orange Claude brand tile on the right using the precise authentic orange asterisk symbol from reference 3 on an ivory-white face with thick clear glass edge; next to it a small silver laptop partially open and an unbranded transparent payment card. The Claude asterisk must be a flat faithful printed graphic in its original orange color, not redrawn into a flower or generic sun and not embossed into a new logo. Silver glass studio and daylight as reference 1, subtle orange only on the logo. Use a distinct arrangement from a ChatGPT cover while keeping the same series look. No wide UI panel, fake forms, repeated cards, or overlapping headline.",
+      "refs": [
+        "/Users/balala/Persona/Blog/MyBlog/public/images/articles/covers/bitget-referral.webp",
+        "/Users/balala/Persona/Blog/MyBlog/public/images/brand/wise-invest-signature.png",
+        "/Users/balala/Persona/Blog/MyBlog/assets/source-images/article-covers/brand-references/claude-icon.png"
+      ]
+    }
+  ]
+}

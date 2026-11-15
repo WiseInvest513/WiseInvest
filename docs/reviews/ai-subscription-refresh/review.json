@@ -1,0 +1,90 @@
+{
+  "reviewedAt": "2026-11-16",
+  "mode": "existing-article revision; original IDs/routes/dates/public access retained",
+  "planSha256": "c41625acfe26a33353b1e37e330a2bddf6b7a4898785a07336d5ffe8c2e18d8a",
+  "articles": [
+    {
+      "id": "chatgpt-which-card",
+      "articlePath": "content/articles/ai/chatgpt-which-card/chatgpt-which-card.md",
+      "articleSha256": "a6493426af5cc1acd3124c0e5427f23fafa65f25edd09ab79b5334dbd6857560",
+      "coverPath": "public/images/articles/covers/chatgpt-which-card-glass-v2.webp",
+      "coverSha256": "ac2c2373ceb09c5ce6cff4fa995e369a21dea6886947ceb205d998f321b57892",
+      "semanticReview": "选卡篇将用户确认的 Bybit、Gate、MP 实付反馈与新开卡资格分开；主表先分已有卡与新用户，保留所有单卡教程入口。BenPay 当前地区详情和 MP 新卡种规则有来源，未用搜索摘要替代详情，未补造具体卡种或逐产品交易记录。",
+      "coverReview": "已查看原图、640×360 WebP 和真实页面：银白玻璃立体风格，左侧短标题准确清楚，右侧品牌主体分离；原始 Wise 签名完整合成在右上角。不是官网付款截图或正式卡片产品照。"
+    },
+    {
+      "id": "chatgpt-how-to-subscribe",
+      "articlePath": "content/articles/ai/chatgpt-how-to-subscribe/chatgpt-how-to-subscribe.md",
+      "articleSha256": "96efb2c9f4c0eb837efd55d2f9a93c78369dd17c691107a2babf73dfce6a2195",
+      "coverPath": "public/images/articles/covers/chatgpt-how-to-subscribe-glass-v2.webp",
+      "coverSha256": "6329f305aa8a682d6a71dda0c99eab7942cad2d8f111218b284642573e2332af",
+      "semanticReview": "产品、Plus、API 区别与 Upgrade Plan / Get Plus 路径均对应官方说明。付款字段逐项说明来源，真实账单资料优先；生成器只解释格式，没有提供伪造账单身份。正文原非明确 Plus 结账图引用被替换，原图文件保留。成功后简短收尾，无支付实测承诺。",
+      "coverReview": "已查看原图、640×360 WebP 和真实页面：银白玻璃立体风格，左侧短标题准确清楚，右侧品牌主体分离；原始 Wise 签名完整合成在右上角。不是官网付款截图或正式卡片产品照。"
+    },
+    {
+      "id": "claude-how-to-subscribe",
+      "articlePath": "content/articles/ai/claude-how-to-subscribe/claude-how-to-subscribe.md",
+      "articleSha256": "37c72376599a02ad1c838396fb1e7aa4d7f4cbc98b1361df5e26fa33f54c4438",
+      "coverPath": "public/images/articles/covers/claude-how-to-subscribe-glass-v2.webp",
+      "coverSha256": "47d6d6780f6dd0c9324d2d92668e0541d13747c6bb352d505e9dbd55bd76e0e0",
+      "semanticReview": "补足产品用途、套餐/月年付、卡片条件、Settings / Billing / Upgrade plan / Get Pro plan 六步路径。定价页核验 Pro、Max、Ultra 数字，说明 Pro 年付为一次 200 美元；无逐卡种 Claude 实测承诺。两张示意图与正文一致，付款成功后不要求提供收据截图。",
+      "coverReview": "已查看原图、640×360 WebP 和真实页面：银白玻璃立体风格，左侧短标题准确清楚，右侧品牌主体分离；原始 Wise 签名完整合成在右上角。不是官网付款截图或正式卡片产品照。"
+    }
+  ],
+  "assets": [
+    {
+      "path": "public/images/articles/ai-subscription/address-generator-reference.webp",
+      "bytes": 22786,
+      "sha256": "fb8a0d42675ade85ddd6560c33dd9c78fdc49b583462a2196d4711cd60c93819"
+    },
+    {
+      "path": "public/images/articles/ai-subscription/billing-fields.webp",
+      "bytes": 53340,
+      "sha256": "fe846edb9455b42c25bb95b2669cb1e2aae947e5754eab0355280cf81b3b4bab"
+    },
+    {
+      "path": "public/images/articles/ai-subscription/subscribe-route.webp",
+      "bytes": 49130,
+      "sha256": "8b0c332a0a5cc4fad29120d48ba95d497a10d68b8b6bdafe186e0debfc75ef67"
+    },
+    {
+      "path": "public/images/articles/covers/series-ai-subscribe-v3.webp",
+      "bytes": 16664,
+      "sha256": "6de369c92021b7281877dc58aa513838b214c8b9a08c8dcf8a4b41fbf1b6421a"
+    },
+    {
+      "path": "public/images/articles/covers/chatgpt-which-card-glass-v2.webp",
+      "bytes": 16836,
+      "sha256": "ac2c2373ceb09c5ce6cff4fa995e369a21dea6886947ceb205d998f321b57892"
+    },
+    {
+      "path": "public/images/articles/covers/chatgpt-how-to-subscribe-glass-v2.webp",
+      "bytes": 17344,
+      "sha256": "6329f305aa8a682d6a71dda0c99eab7942cad2d8f111218b284642573e2332af"
+    },
+    {
+      "path": "public/images/articles/covers/claude-how-to-subscribe-glass-v2.webp",
+      "bytes": 15390,
+      "sha256": "47d6d6780f6dd0c9324d2d92668e0541d13747c6bb352d505e9dbd55bd76e0e0"
+    }
+  ],
+  "checks": {
+    "guide": "三篇导读逐篇对应：选卡/预算；Plus 升级与字段；Claude 套餐/周期/付款。不再把资料库标签当商户保证。",
+    "facts": "用户实付反馈与官方规则区分。依据链接在正文邻近段落。MP 不同教程关于 App 是否提供账单地址存在矛盾，正文明确按本人资料和卡方确认处理。BenPay 当前详情页包含 China，费用页有内部差异，未推算精确费用。",
+    "visuals": "已实际查看两张 1200×675 正文示意图、1280×639 生成器旧截图压缩版、640×360 新系列封面及网页展示。新生成图片明确标为流程/字段示意；图片内复用唯一签名原图，人物和文字完整、约 16% 宽度、右上角圆角。新封面 16664 字节。未伪造登录界面或付款成功记录。",
+    "referrals": "三篇无直接注册优惠码卡；所有 22 条本站文章/系列引用均使用 {card}，沿用目标文章的既有邀请信息与独立封面。GamsGo 原邀请链接和正文未修改。",
+    "access": "本地真实未登录浏览三篇全文、插图和末尾引用，无登录截断；原路由保留。系列已有 4 篇可读。未将本地预览当线上发布。",
+    "ui": "Browser plugin not available，使用已安装 Playwright + Chrome。桌面 1440×1000、手机 390×844 与 320×720 验证正文、目录与图片；手机文档宽度等于视口。系列点击进入 ChatGPT 保留 series 参数；Claude 图片放大细节与关闭可用；手机阅读目录六章完整；深色截图已检查。",
+    "console": "无页面运行异常。CSP 阻止 Vercel 调试统计脚本；未登录 /api/account/content-library、/api/content/activity 返回 401，为账户功能请求，正文公开阅读不受影响。",
+    "sourceScreenshots": "尝试真实访问美国地址生成器并点击随机地址，当前自动化会话未返回字段值，因此保留并标明旧界面截图，没有伪造新的站点记录。原 billing-address-form.png 与 meiguodizhi-generator.png 均保留。",
+    "coverRefresh": "三张文章封面已换用内置 image_gen 独立生成的银白玻璃视觉；原始 PNG 保存在 assets/source-images/article-covers，质量 60 WebP 为 16836 / 17344 / 15390 字节。Playwright 实际访问系列目录：1440px 桌面缩略图 176×99，390px 手机 96×54，三图均加载且无横向溢出、无页面异常。未改共享布局。"
+  },
+  "validation": {
+    "articleValidate": "98 articles, 0 errors, 0 warnings",
+    "articleAudit": "98 articles, 0 flagged",
+    "typecheck": "npx tsc --noEmit --incremental false passed",
+    "targetedTests": "57 tests: 49 pass, 8 fail. All 8 are article-toc test harness Unexpected dependency: @/lib/articles. Reproduced same 8 failures from untouched HEAD in a temporary baseline directory. No shared renderer/components modified.",
+    "diffCheck": "passed"
+  },
+  "remaining": "没有执行真实扣款；用户未提供逐产品/逐卡种交易明细，未将经验扩写为成功保证。用户已授权提交并部署；本审阅记录在发布前完成，线上结果由部署状态及发布后的页面核验确认。"
+}

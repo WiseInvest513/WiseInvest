@@ -1,0 +1,17 @@
+{
+  "method": "Built-in image_gen; original signature composited from the exact source asset; mechanical WebP compression",
+  "prompts": [
+    {
+      "key": "ai-subscribe-route",
+      "prompt": "Create a Chinese educational infographic for an existing Wise Invest article, landscape 16:9. It must teach the exact click path, NOT simulate real application screenshots. Elegant white and silver glass accents, restrained champagne gold connectors, dark navy large Chinese sans-serif text, abundant space, crisp high contrast, mobile readable. Top left title: “AI 订阅：从哪里进入？” Small subtitle: “流程示意 · 非官网截图”. Two horizontal lanes each with four numbered stations. Lane 1 heading “ChatGPT”, stations in order “① 登录 chatgpt.com” → “② 头像 / Upgrade Plan” → “③ Get Plus / 获取 Plus” → “④ 填卡并确认付款”. Lane 2 heading “Claude”, stations in order “① 登录 claude.ai” → “② Settings → Billing” → “③ Upgrade plan → Get Pro plan” → “④ 选周期、填卡、Subscribe”. Bottom one restrained note: “付款前：核对套餐、周期、金额与账单地址”. This is an editorial diagram with simple small silver browser and card objects, not an app clone, no fabricated prices or payment success evidence. Every requested Chinese and English label must be exact. Input image is the mandatory original Wise signature. Place it intact at top-right, width about 16% canvas, preserving complete person and all lettering, rounded white plaque corners, 3% safe margins. Do not invent or redraw signature. Leave title away from signature."
+    },
+    {
+      "key": "ai-billing-fields",
+      "prompt": "Create a Chinese instructional infographic for a Wise Invest AI subscription tutorial. Landscape 16:9, elegant clean white background, very subtle silver glass corner objects and champagne-gold rules, dark navy extremely legible Chinese sans-serif labels. Title at top-left: “账单地址：每一项从哪里找？” Subtitle: “字段示意 · 非真实账单 · 不可直接照抄”. Main central area two columns clearly headed “结账页字段” and “填写依据”, seven spacious aligned rows joined by fine arrows. Exact rows: “Name on card” → “本人持卡人姓名”; “Country / Region” → “这张卡登记的账单国家”; “Address line 1” → “账单记录中的门牌号、街道”; “Address line 2” → “公寓或单元号，没有可留空”; “City” → “同一地址的城市”; “State / Province” → “同一地址的州或省”; “ZIP / Postal code” → “同一地址的邮编”. At bottom, clear note inside a very pale gold rounded strip: “从发卡 App / 银行资料核对整组地址；生成器只演示格式”. No realistic card number, address, CVV, personal records or confirmation checkmarks. This is a teaching diagram, not a screenshot. Input image is exact required original Wise signature. Place intact in top-right at 16% canvas width, preserve full person and lettering, rounded corners and 3% margins. Do not redraw or replace signature."
+    },
+    {
+      "key": "ai-series-cover",
+      "prompt": "Create a refined Wise Invest article series cover, landscape 16:9, white/silver glass studio, polished silver laptop with a simple conversation sheet and slim payment card on the right, restrained fine champagne-gold edges, no fake brand logos. Strong dark navy bold Chinese headline on the left, exactly: “AI 工具订阅指南”. Under it large readable text “ChatGPT · Claude”. Small subtitle “选卡 · 选套餐 · 填资料 · 付款”. Text must remain easily legible at 640 x 360. Preserve 16:9 frame and 5% margins. Upper right exact original Wise signature from input, width 16% image, complete lettering and person unchanged, with rounded white corners. Do not simulate any real app screen, invoice, checkout success or bank card details. Reference image 2 is only for the white silver glass lighting and material, not its Gate Card product."
+    }
+  ]
+}

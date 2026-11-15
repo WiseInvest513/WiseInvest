@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-16",
+  "method": "Built-in image_gen; exact original Wise signature composited into reserved top-right space; WebP quality 60",
+  "scope": [
+    "chatgpt-which-card",
+    "chatgpt-how-to-subscribe",
+    "claude-how-to-subscribe"
+  ],
+  "brandSources": {
+    "chatgpt": "https://chatgpt.com/cdn/assets/favicon.6a33781f61.svg",
+    "claude": "https://claude.com/icon.png",
+    "bybit": "User-provided /Users/balala/Persona/图标/企业图标/bybit.jpeg",
+    "gate": "User-provided /Users/balala/Persona/图标/企业图标/gate.jpg",
+    "mp": "User-provided /Users/balala/Persona/图标/企业图标/mp.png"
+  }
+}

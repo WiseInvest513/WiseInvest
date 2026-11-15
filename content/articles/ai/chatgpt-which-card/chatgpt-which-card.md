@@ -1,139 +1,119 @@
 ---
 id: chatgpt-which-card
-guideAudience: 想走 ChatGPT 官方结账，但还不清楚大陆能先开哪张卡的人 | 已看过单卡教程，需要按 AI 订阅场景把现有开卡文对上的人
-guideOutcomes: 分清官方订阅和 GamsGo 等第三方渠道不是同一条路 | 按站内现有教程筛出可优先考虑的卡，并知道资格与扣款都要以当天页面为准
-guidePrepare: 先确定是走官方结账还是第三方渠道；准备如实填写的居住地和证件，不必先同时申请多张卡。
-guideStatus: 本篇对照 /card 与现有开卡教程做选卡，不替代各卡专文；不保证某张卡一定能被 OpenAI 扣过。资格和商户受理会变，以官方／账户页和当天结账结果为准。不教改地址绕过开卡限制。
+guideAudience: 准备为 ChatGPT 或 Claude 选择付款卡的大陆读者 | 已有 Bybit Card、Gate Card 或 MPCard，想直接找到订阅步骤的人
+guideOutcomes: 按已有卡、新开卡和材料受限三种情况选择付款路径 | 区分 Wise 实付反馈、卡方产品说明与新用户申请资格，并算清开卡和订阅分别需要的余额
+guidePrepare: 先确认本人实际居住地、现有卡种和资金来源；没有卡时先查申请条件，再决定是否充值。
+guideStatus: 2026-11-16 更新。Wise 确认近期使用 Bybit、Gate 和 MP 的卡成功订阅过 AI 产品，但未记录每张卡分别对应的产品、卡种和交易日期；新开卡资格与单笔付款仍需分别核对。
 title: ChatGPT 订阅可以用哪些卡？大陆怎么选、怎么开
 categoryId: ai
 date: 2026-11-14
-readTime: 10
-summary: 想走 ChatGPT 官方结账，先开一张能走 Visa 或 Mastercard 外币支付的卡。对照站内现有教程说明大陆可优先考虑哪些卡，并和 GamsGo 等第三方渠道分开；能不能扣过，以当天结账页为准。
+readTime: 11
+summary: 已有 Bybit、Gate 或 MP 的卡，可以先准备卡片资料进入订阅；还没卡则先比较申请条件、充值路径与费用。结合 Wise 的近期实付反馈，讲清 ChatGPT、Claude 选卡的具体顺序。
 ---
 
-## 一、ChatGPT 订阅可以用哪些卡？先分清两条路
+## 一、想订阅 AI，先确定买什么、用哪个账户
 
-想走 ChatGPT 官方结账，先开一张能走 Visa 或 Mastercard 外币支付的卡，再去官网填卡号和账单地址。不同卡门槛和稳定性不一样，能不能扣过以当天页面为准；这和 GamsGo 等第三方渠道不是同一条路。
+如果你已经有一张正常使用的 Bybit Card、Gate Card 或 MPCard，不必为了订阅 AI 再办一张新卡。准备好卡号、有效期、安全码和账单资料，就可以进入对应产品的官方升级流程。还没有卡的读者，再往下比较申请条件和资金准备。
 
-官方路径是用你自己的 ChatGPT 账户，在 [chatgpt.com](https://chatgpt.com/) 升级套餐，付款、续费和售后都落在官方账户上。GamsGo 是第三方购买入口，页面上也可能写着 ChatGPT，但交付形式可能是共享账号、代为开通或其他安排，账户归属、可用额度、售后和数据控制权，都不一定等于官方 Plus。两条路不要混着比价，也不能把第三方渠道理解成官方在国内的开通入口。
+**Wise 近期实付记录：2026 年 11 月 16 日补充，最近使用 Bybit、Gate 和 MP 的卡成功订阅过 AI 产品。** 这是实际使用反馈；由于没有逐笔区分卡种和订阅产品，这里不把它扩展为“每种卡都分别验证过 ChatGPT 和 Claude”，也不代表所有新用户都能申请到相同卡种。
 
-本篇只回答「大陆用户若要走官方结账，可以先看哪些卡、教程在哪」。开完卡以后怎么到官方页面付款、账单地址怎么填，放在下一篇。站内各卡的完整开卡步骤已经写过，这里只做对照，不把专文重写一遍。
+先分清你想买的是什么：
 
-## 二、选卡时先核对哪几件事？
+| 你要完成的事 | 应进入的产品 | 付款前关注什么 |
+| --- | --- | --- |
+| 用 ChatGPT 对话、写作、分析文件或使用更多工具 | 本人的 ChatGPT 账户，进入官方升级页 | 套餐名称、月费、可用功能；Plus 与 API 另行计费 |
+| 用 Claude 阅读资料、写作、处理代码或项目 | 本人的 Claude 账户，进入 Billing | Free、Pro 等套餐的用量与计费周期；年付是一次付款 |
+| 比较第三方提供的订阅方案 | GamsGo 等渠道的具体商品页 | 是自有账号、共享账号还是代订；交付和售后由谁负责 |
 
-先不要问「哪张卡一定能订上 ChatGPT」。更有用的是先核对这几件事：
+ChatGPT 和 Claude 的具体套餐放在各自付款篇介绍。本篇解决选卡：**手头的卡能不能先用；没有卡时，该先了解哪张。**
 
-1. **能不能按真实情况申请。** 居住地、证件和材料能否如实填写？不能如实填就先停，不要改地址去绕过开卡限制。
-2. **站内有没有完整开卡教程。** 没有专文、仍待补教程的卡，先不要当成可以马上用来订阅的选项。
-3. **资料库对 AI 订阅怎么标。** [虚拟 U 卡资料库 /card](/card) 可以按「AI 订阅」筛选，里面的「可用」「友好」「观察」「待测」是站内整理的口径，不是 OpenAI 保证受理。
-4. **先开一张能用的，再去结账验证。** 开卡成功、绑定成功，都不等于 ChatGPT 当天一定能扣过。
+## 二、大陆用户需要分清三个条件
 
-若还在比较「大陆现在还能办哪张 U 卡」，先回对比枢纽，按如实居住地和用途缩小范围，再进入单卡教程：
+第一是你能否申请这张卡，第二是你是否符合 AI 产品的服务条件，第三才是这笔付款能否被受理。它们分别由发卡方、AI 服务商和支付环节决定。
 
-[大陆现在还能办哪张 U 卡？资格、条款与随用随充怎么核](/articles/vcard/ACGrkqnQ){card}
+2026 年 11 月 16 日核对时，[ChatGPT 支持地区](https://help.openai.com/en/articles/7947663-chatgpt-supported-countries)与 [Anthropic 支持地区政策](https://www.anthropic.com/legal/supported-regions)均未列中国大陆。OpenAI 还要求支付卡由支持地区的银行发行。因此，**“大陆读者能够申请一张境外支付卡”，不能直接写成“人在大陆就获得官方订阅资格”。** 在支持地区生活的中国籍用户，应按真实居住、身份和卡片条件判断；不能仅凭卡面有 Visa / Mastercard 标识作结论。[OpenAI 付款条件说明](https://help.openai.com/en/articles/7232916-why-was-my-credit-card-declined)
 
-## 三、可以优先考虑哪些卡？
+接下来按你目前的情况看：
 
-下面几张是站内已有开卡教程，并且在 /card 里对 AI 订阅给出了可用、友好或可作为备选的口径。完整注册、认证、充值和绑支付步骤请进专文。费用、活动和开卡资格会变，一律以官方说明和本人账户页为准；商户能不能扣过，以你当天在 ChatGPT 结账的结果为准。
+| 当前情况 | 现在做什么 |
+| --- | --- |
+| 已有可用的 Bybit、Gate 或 MP 卡，且符合产品服务条件 | 先用现有卡，检查余额和账单资料后进入付款篇 |
+| 还没有卡，但已有稳定币、能够完成实名 | 先看 MPCard 的卡种与申请入口，再核实际开卡要求 |
+| 已有 Bybit / Gate 交易所账户，但没有卡 | 打开卡片申请页核资格；交易所认证通过不代表已获得卡片 |
+| 只有大陆银行发行的 Visa / Mastercard | 先查发行地区与商户条件；不能只按卡组织标识判断能否用于 ChatGPT |
+| 申请页要求你没有的居住资格或地址证明 | 先解决材料与资格；地址生成器不能充当证明文件 |
 
-| 卡 | /card 对 AI 订阅的口径 | 选它之前先看什么 | 教程 |
-| --- | --- | --- | --- |
-| MPCard | AI 订阅可用 | 教程主线就把 ChatGPT 等订阅当典型场景 | [MPCard 开卡教程](/articles/vcard/ou6gFWrn) |
-| BenPay Delta Card | AI 订阅友好 | 开卡门槛相对低；专文已有官方订阅的短提示 | [BenPay 开卡教程](/articles/vcard/oCyhotvX) |
-| Bybit Card | AI 订阅强 | 先核大陆／本人居住国能不能申请，不能改地址硬开 | [Bybit Card 开卡教程](/articles/vcard/wYKRLDvK) |
-| Bitget Wallet Card | 可作为 ChatGPT、Claude 备选 | 这是钱包卡，不是交易所账户；常见要求含护照和地址证明 | [Bitget Wallet Card 开卡教程](/articles/vcard/WK8p1cCV) |
-| Gate Card | 教程已接入 | 开卡和绑支付教程已有；订 ChatGPT 仍要在结账页验证 | [Gate卡怎么申请？费用、绑支付与 Apple Pay 怎么核对](/articles/vcard/GUhygjYV) |
+## 三、三张有近期实付反馈的卡，分别怎么用
 
-### MPCard
+### MPCard：已有稳定币、想从虚拟卡开始
 
-/card 将 MPCard（资料库里也称 MP Chat Card）标为「AI 订阅可用」，教程主线覆盖 ChatGPT、Claude 等订阅场景，也适合作为日常线上消费的备选。云影卡、瞬行卡等卡种用途不同，开卡、充值和绑支付以专文为准。
+MPCard 把稳定币余额连接到银行卡消费网络。它需要先充值，再把资金放到卡片可消费的余额里；钱包里有 USDT，不代表卡已经有可用额度。
 
-[MPCard 怎么开？大陆用户绑定 Apple Pay、支付宝与微信](/articles/vcard/ou6gFWrn){card}
+如果主要用途是网站订阅，可以先了解**云影卡 Cloud Card**。当前 MP 官方将它列为 Visa 虚拟卡，采用美元结算，并把 ChatGPT、Claude 等 AI 订阅列入使用场景。官方说明默认开卡费为 **10 USDT**、无月费和年费，消费另有费用。应把开卡费与之后的订阅余额分别准备。[云影卡官方介绍](https://help.mp.net/zh-CN/articles/16392613)
 
-### BenPay Delta Card
+具体顺序是：**注册 MPChat → 按实际身份完成 KYC → 充值到支付余额 → 申请云影卡 → 将消费资金划入卡片 → 查看卡号。** 如本人申请页不接受当前地区或证件，先向卡方确认。
 
-BenPay Delta Card 的开卡流程相对轻量，/card 标为「AI 订阅友好」，常见用途就是 AI 订阅和小额消费。专文里已经写过：打开 chatgpt.com，升级会员后填写卡号、有效期和 CVV。那是官方订阅的短提示；账单地址怎么填、城市和州为什么必须同一组，见本系列下一篇。开卡、充值和认证要求仍以当前开卡页和专文为准，不要把「流程轻量」理解成一定免验证，也不要默认订阅必成功。
+还要更新一个旧印象：当前官方写明**瞬行卡已下线，云影卡支持 Apple Pay**。仅为网页订阅时直接填写卡号即可，不必先绑定 Apple Pay；不要照旧教程再找瞬行卡。站内专文保留了详细操作截图，卡种和费用以本次链接的官方说明为准。
 
-[BenPay Delta Card 怎么开？充值、开卡与订阅前要检查什么](/articles/vcard/oCyhotvX){card}
+[MPCard 开卡、充值与卡片使用教程](/articles/vcard/ou6gFWrn){card}
 
-### Bybit Card
+### Bybit Card：已有卡的读者，先检查可消费余额
 
-/card 将 Bybit Card 标为「AI 订阅强」，用于部分 AI 订阅时，资料库认为稳定性较好。但**卡片资格和 Bybit 交易所账户不是一回事**：能注册、能完成 KYC，不等于能开卡。官方说明是卡片仅在支持的居住国／地区提供。对如实填写居住地为中国大陆的用户，要以本人 App 的卡片申请页和官方帮助为准；若页面提示不支持或只让登记排队，应视为当前不可直接办，改看对比枢纽。
+Bybit Card 是 Bybit 体系内的支付卡。对于已经开好卡的人，先进入卡片页面查看完整卡号、有效期、安全码，以及卡片实际使用的资金账户和可用额度，再去 AI 官网付款。不要仅根据交易账户里有资产，就认为卡片能够扣到这些资金。
 
-**不要用改居住地、生成地址或借地址去绕过 Bybit 的地区规则。** 旧教程截图里的地区版本，不能当成大陆通用通道。若居住国已在官方支持列表且申请页可用，再按专文走开卡和充值。
+Wise 最近有使用 Bybit 的卡成功订阅 AI 的反馈，所以**已有可用卡的人可以先沿用**。还没卡的读者，则要先检查卡片申请资格。
 
-[Bybit Card 大陆还能开吗？资格、申请与返现怎么核对](/articles/vcard/wYKRLDvK){card}
+Bybit 官方申请流程包含居住国和身份核验；若居住国尚未支持，可能只登记开通意向。不同地区卡项目的材料、费用和资金账户也有区别。不能把别人持有的地区版本，直接当成大陆新用户的通用申请路径。[Bybit 官方开卡流程](https://www.bybit.com/en/help-center/article/How-to-Apply-for-Bybit-Card)
 
-### Bitget Wallet Card
+[Bybit Card 资格与申请教程](/articles/vcard/wYKRLDvK){card}
 
-/card 写明 Bitget Wallet Card 可作为 ChatGPT、Claude、Vercel 等订阅的备选。注意它是 **Bitget Wallet 的卡**，不要和 Bitget 交易所账户混为一谈。资料库和教程都提到，大陆用户常见路径需要护照和境外地址等证明，按专文准备真实材料；缺材料时向官方确认，不要用修改地址的方式硬过。开卡成功后，同样要在 ChatGPT 结账页验证能否扣款。
+### Gate Card：已有 Gate 卡的读者，确认卡片状态后付款
 
-[Bitget Wallet Card 怎么申请？认证、地址证明与开卡检查](/articles/vcard/WK8p1cCV){card}
+Gate 交易所账户和 Gate Card 是两个层次：先有账户，再申请和使用卡片。Wise 最近也使用 Gate 的卡成功订阅过 AI 产品；已有卡且状态正常时，可以先检查卡号和余额，按付款篇填写。
 
-### Gate Card
+如果尚未开卡，进入 Gate 的卡片服务，查看本人可申请的产品、身份材料及费用。这里没有核实到适用于所有大陆新用户、所有 Gate 卡项目的统一资格承诺，因此按本人卡片申请页处理。充值时也要确认资金进入了这张卡能实际消费的账户。
 
-Gate Card 的开卡、费用和绑支付教程已经在站内，/card 标为「教程已接入」。它更常被提到的场景是交易所账户内衔接日常消费，例如绑定支付宝等；用来订 ChatGPT 时，不要提前写成「一定能过」，以结账页当天结果为准。先完成 Gate 账户和卡片资格，再查看卡号去订阅。
+[Gate Card 开卡、费用与使用教程](/articles/vcard/GUhygjYV){card}
 
-[Gate卡怎么申请？费用、绑支付与 Apple Pay 怎么核对](/articles/vcard/GUhygjYV){card}
+## 四、哪些卡要多看一步，哪些不适合直接照旧文申请
 
-## 四、还有哪些备选，哪些先不要当成主力？
+**BenPay Delta Card 不能继续作为大陆新用户的默认低门槛选项。** 当前 BenPay 地区限制详情页把 China 列在 Delta 不支持名单里，与旧教程和部分搜索摘要不同。它的卡片介绍仍列有 AI 订阅用途，但“产品支持这个商户场景”和“你可以新开这张卡”是两件事。已有卡的使用情况也不能证明新申请资格。[BenPay 地区限制](https://support.benpay.com/eng/docs/Does-BenPay-Card-have-country-and-regional-restrictions-Does-it-require-KYC)
 
-除了上面几张，站内还有一些卡可以了解，但不宜当作订 ChatGPT 的第一选择。
+BenPay 当前费用页不同位置的消费费说明也有差异。本篇不据此拼出一个确定的总费率；有资格申请的读者，应先看申请页的实际收费。站内教程可以用来了解账户和充值过程。[BenPay 卡种与费用说明](https://support.benpay.com/eng/docs/What-types-of-cards-are-available-for-application-Is-there-a-quantity-limit)
 
-**SafePal** 在 /card 标为 AI 订阅可用，也可用于部分网站产品和订阅；它更突出的场景其实是资金流转，以及向盈透、嘉信等账户汇款。可以尝试，完整开卡见专文。
+[BenPay Delta Card 账户与开卡教程](/articles/vcard/oCyhotvX){card}
 
-[SafePal开卡怎么走？大陆认证、充值、绑支付与冷钱包](/articles/vcard/E4lD5AIn){card}
+**Bitget Wallet Card 要先看地区版本与材料要求。** 这是 Bitget Wallet 的卡，不是 Bitget 交易所账户。当前 APAC 帮助页面向指定国家或地区的公民／居民，并对居民资格、证件及地址材料作要求；名单未列中国大陆。不能简化成“有中国护照，再找一个境外地址就能办”。[Bitget Wallet APAC 申请说明](https://web3.bitget.com/helpCenter/425)
 
-**BiyaPay** 在 /card 标为「AI 订阅可尝试」，优势更在国内外资金流通，对手里还没有加密资产的人更友好；订阅场景不是它的主线，细节仍以专文和账户页为准。
+[Bitget Wallet Card 身份认证与地址证明教程](/articles/vcard/WK8p1cCV){card}
 
-[BiyaPay 怎么用？注册、虚拟卡、股票交易与资金转出](/articles/onchain/KewUM4Og){card}
+SafePal、BiyaPay、UU Wallet、StarryBlu 等产品，仍可按各自的消费或资金用途了解。但本次没有补充这些卡的逐产品订阅实付记录，不和上述三张卡放在同一实测层级。已有这些卡的人可以先查商户支持；没有卡的人不必为了尝试 AI 订阅同时申请一圈。
 
-**UU Wallet** 和 **StarryBlu** 在 /card 里对 AI 订阅仍是观察或待实测：前者更偏转账和 U 卡基础能力，后者更偏跨境收付款、国内消费和资金中转。可以按自己的其他用途去了解，但先不要把它们当成订阅 ChatGPT 的主力卡。
+[SafePal 开卡与使用](/articles/vcard/E4lD5AIn){card}
+[BiyaPay 虚拟卡与资金使用](/articles/onchain/KewUM4Og){card}
+[UU Wallet 虚拟卡](/articles/vcard/aQ7pEkbH){card}
+[StarryBlu 开户与消费](/articles/vcard/uQfN0J0j){card}
 
-[UU Wallet 虚拟卡怎么开？申请、消费费用与返现怎么查](/articles/vcard/aQ7pEkbH){card}
+## 五、开卡费、充值和月费，要分开准备
 
-[StarryBlu 怎么开户充值？转账、开卡与消费要注意什么](/articles/vcard/uQfN0J0j){card}
+假设你准备订一个标价每月 20 美元的套餐，至少要分开看三笔钱：
 
-**MEXC Card** 和 **Plasma One** 在资料库里仍是待补教程、地区受限或继续观察，大陆用户也不是公开支持的主线。本篇不把它们写成可以马上用来订 ChatGPT 的选项。
+1. **开卡成本。** 已经有卡可以跳过；新开卡的费用通常不会变成消费余额。
+2. **卡片可用余额。** 覆盖结账页总额，包括可能出现的税费，再为卡方的消费、换汇或验证费用留余量。
+3. **资金到账成本。** 从钱包或交易所充值时，核对币种、网络、最低到账额与充值费用。平台总资产和卡片可消费金额分别检查。
 
-## 五、开好卡之后，怎么去官方订阅？
+例如 MP 云影卡默认开卡费为 10 USDT；如果开卡后还要订阅，就需要另外准备消费资金，不能认为充了 20 USDT 就一定足够支付开卡加一个月会员。实际应充多少，以申请页与结账页两边的金额计算，而不是照抄一个固定数。
 
-卡已经开好，并且能在发卡 App 里看到卡号、有效期和 CVV 之后，再到 ChatGPT 官方页面升级套餐、填写付款信息和账单地址。街道、城市、州和邮编必须是同一组；城市和州对不上，是常见拒付原因。具体步骤见下一篇。
+[大陆用户 U 卡申请条件与费用对比](/articles/vcard/ACGrkqnQ){card}
 
-[开完卡怎么订阅 ChatGPT？账单地址怎么填](/articles/ai/AvKolCFm){card}
+## 六、卡准备好以后，进入对应产品付款
 
-如果你并不走官方结账，而是想比较第三方渠道的交付方式、账号权限和隐私边界，则看 GamsGo 专文。那不是官方 Plus，也不能假定一定能开通，或可以绕过官方的地区和账户限制。
+准备完成的标准很具体：**卡已启用，能查看卡号、有效期和安全码，知道账单资料从哪里查，卡片可用余额足够。** 满足后即可进入产品教程，不需要先绑定支付宝、微信或 Apple Pay。
 
-[GamsGo 订阅购买指南：套餐区别、交付检查与使用注意事项](/articles/ai/AYoe5wH7){card}
+[ChatGPT 官网升级、填卡与账单地址](/articles/ai/AvKolCFm){card}
+[Claude 套餐、选卡与官方付款步骤](/articles/ai/YsTIeg2d){card}
 
-本系列的阅读顺序是：先选卡并开好，再去官方付款。系列概览也可以从这里进入：
+如果要比较第三方购买方式，再单独阅读 GamsGo。它涉及另一套商品交付、账号和售后关系，购买前先看自己得到的是什么。
 
-[ChatGPT 怎么订阅：用哪些卡、怎么付款](/articles/series/chatgpt-subscribe){card}
-
-## 六、ChatGPT 订阅选卡常见问法 FAQ
-
-### ChatGPT 订阅可以用哪些卡？
-
-没有一张卡能被写成「一定能订上」。更稳妥的做法是：先选站内已有教程、且 [/card](/card) 对 AI 订阅给出可用或友好口径的卡，例如 MPCard、BenPay Delta Card，以及在资格允许时的 Bybit Card、Bitget Wallet Card、Gate Card。开好后再到官方结账页验证。完整对比也可先看下面这篇枢纽。
-
-[大陆现在还能办哪张 U 卡？资格、条款与随用随充怎么核](/articles/vcard/ACGrkqnQ){card}
-
-### Bybit Card 大陆还能开吗？
-
-不能用一句「还能」或「不能」代替本人申请页。Bybit Card 只在官方支持的居住国／地区提供，卡片资格和交易所 KYC 是两回事。如实填写居住地为中国大陆时，若申请页不可用或只让排队，应停止并改看其他卡。不要改居住地或伪造地址去绕过限制，细节见专文。
-
-[Bybit Card 大陆还能开吗？资格、申请与返现怎么核对](/articles/vcard/wYKRLDvK){card}
-
-### 和 GamsGo 有什么区别？
-
-官方订阅是用你自己的 ChatGPT 账户，在官网付款，权限和续费都在官方账户上。GamsGo 是第三方购买入口，交付可能是共享账号或其他安排，不等于官方 Plus。本篇和下一篇走官方结账；第三方渠道的核对方式见下面这篇。
-
-[GamsGo 订阅购买指南：套餐区别、交付检查与使用注意事项](/articles/ai/AYoe5wH7){card}
-
-### 是不是开完卡就一定能扣过？
-
-不是。开卡成功只说明发卡方给了你卡号，不代表 OpenAI 或其他商户当天一定受理。拒付可能来自卡内余额、账单地址不一致、商户风控、地区限制或账户审核。以结账页的实际结果为准，下一篇会写付款和地址怎么填。
-
-### 先办哪张比较合适？
-
-先排除你无法如实满足材料或居住地要求的卡，再看 /card 的 AI 订阅口径和是否已有教程。没有唯一答案：若更看开卡是否轻量，很多人会先了解 BenPay Delta Card；若教程已把 ChatGPT 当作主场景，可优先看 MPCard；Bybit Card 则必须先核资格。不必同时申请很多张，开好一张就先去官方页面做一次小额或当次结账验证。
+[GamsGo 第三方订阅购买指南](/articles/ai/AYoe5wH7){card}
+[AI 工具订阅指南](/articles/series/chatgpt-subscribe){card}
