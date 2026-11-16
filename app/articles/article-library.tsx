@@ -20,7 +20,7 @@ export type ArticleLibraryView = "recommended" | "series" | "all";
 
 const learningIcons = [SlidersHorizontal, CheckCircle2, RefreshCw];
 const indexLearningPath = articleSeries.find(series => series.id === "nasdaq-investing");
-const featuredPathIds = ["investment-foundations", "nasdaq-investing", "us-stock-funding"];
+const featuredPathIds = ["crypto-basics", "us-stock-zero-to-one", "nasdaq-investing"];
 const categoryNames = Object.fromEntries(categories.map(category => [category.id, category.name]));
 const libraryIntroductions = {
   recommended: "这里汇集投资基础、加密资产、境外开户与出海工具的入门知识和实操教程。帮你理解产品之间的区别，理清准备材料、开通流程与使用风险，把零散的信息变成更清楚的判断。",
