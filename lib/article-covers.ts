@@ -465,6 +465,11 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "港美股投资入门：从开户到资金路径，银行账户 · 券商 · 入金",
     topics: ["港美股","银行账户","资金路径"],
   },
+  "anthropic-ipo": {
+    src: "/images/articles/covers/anthropic-ipo.webp",
+    alt: "Anthropic（ANT）IPO：估值判断、上市走势与 Bitget IPO Prime 怎么参与",
+    topics: ["Anthropic", "IPO", "ANT", "Claude", "Bitget", "估值"],
+  },
 };
 
 // Preserve the BIT tutorials' original instructional-image fallbacks.

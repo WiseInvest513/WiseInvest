@@ -21,7 +21,7 @@ export function shouldFoldArticleImage(width: number, height: number, renderedWi
     && renderedWidth * height / width > limit + 32;
 }
 
-export function ArticleImage({ src, alt, guide = false }: { src: string; alt: string; guide?: boolean }) {
+export function ArticleImage({ src, alt, guide = false, unfold = false }: { src: string; alt: string; guide?: boolean; unfold?: boolean }) {
   // Generated at build/dev startup: reserve the real aspect ratio before lazy
   // images load, without reading public assets in serverless request handlers.
   const [size, setSize] = useState(() => {
@@ -41,7 +41,7 @@ export function ArticleImage({ src, alt, guide = false }: { src: string; alt: st
   const previewId = useId();
   const titleId = useId();
   const ready = size.src === src && size.width > 0;
-  const long = ready && shouldFoldArticleImage(size.width, size.height, layout.width || 896, layout.limit, guide, alt);
+  const long = !unfold && ready && shouldFoldArticleImage(size.width, size.height, layout.width || 896, layout.limit, guide, alt);
   const scrollable = long || (ready && size.height / size.width >= 1.25);
   const label = alt || "文章配图";
 
@@ -102,8 +102,8 @@ export function ArticleImage({ src, alt, guide = false }: { src: string; alt: st
         <button type="button" onClick={openViewer}>{long ? "查看完整长图" : "放大查看"} <span aria-hidden="true">↗</span></button>
       </div>
     </div> : null}
-    <div ref={previewRef} id={previewId} className={styles.preview} data-folded={!expanded && (!ready || long)} data-pending={!ready}
-      style={ready ? { aspectRatio: `${size.width} / ${size.height}` } : { aspectRatio: guide ? undefined : "16 / 9", height: guide ? "var(--preview-limit)" : undefined }}>
+    <div ref={previewRef} id={previewId} className={styles.preview} data-folded={!unfold && !expanded && (!ready || long)} data-pending={!ready}
+      style={ready ? { aspectRatio: `${size.width} / ${size.height}` } : unfold ? undefined : { aspectRatio: guide ? undefined : "16 / 9", height: guide ? "var(--preview-limit)" : undefined }}>
       <button type="button" onClick={openViewer} aria-label={`放大查看：${label}`} className={styles.imageButton}>
         <img ref={imageRef} src={src} alt={alt} width={ready ? size.width : undefined} height={ready ? size.height : undefined} loading="lazy" decoding="async" className={styles.image}
           onLoad={event => { const image = event.currentTarget; setSize({ src, width: image.naturalWidth, height: image.naturalHeight }); }}

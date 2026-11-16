@@ -57,6 +57,7 @@ export function renderInline(text: string, allowLinks = true, mapHref?: (href: s
 
 // ─── Markdown Renderer ─────────────────────────────────────
 export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string, linkedArticles: readonly ArticleLinkMetadata[] = [], linkedSeries: readonly ArticleSeriesLinkMetadata[] = [], mapHref?: (href: string) => string) {
+  const unfoldImages = imageLayout === "expanded" || imageLayout === "full";
   const renderText = (text: string) => renderInline(text, true, mapHref);
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
@@ -204,7 +205,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
             {allImgMatches.map(([, alt, src], idx) => (
               <figure key={idx} className="m-0 min-w-0 shrink-0 basis-[85%] snap-start sm:flex-1">
                 <div className="rounded-2xl bg-slate-100 dark:bg-slate-800 p-2">
-                  <ArticleImage key={src} src={src} alt={alt.replace(/^portrait:\s*/, "")} />
+                  <ArticleImage key={src} src={src} alt={alt.replace(/^portrait:\s*/, "")} unfold={unfoldImages} />
                 </div>
                 {alt && <figcaption className="mt-1 text-center text-xs text-slate-400 dark:text-slate-500">{alt.replace(/^portrait:\s*/, "")}</figcaption>}
               </figure>
@@ -224,7 +225,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       // Explicit width keeps grid sizing independent of the folded image height.
       if (imageLayout === "guide") {
         elements.push(<figure key={k++} className="my-7 mx-auto w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-          <ArticleImage key={src} src={src} alt={caption} guide />
+          <ArticleImage key={src} src={src} alt={caption} guide unfold={unfoldImages} />
           {caption && <figcaption className="border-t border-slate-100 px-4 py-3 text-center text-xs leading-5 text-slate-500 dark:border-slate-800 dark:text-slate-400">{caption}</figcaption>}
         </figure>);
         i++; continue;
@@ -232,7 +233,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
       elements.push(
         <figure key={k++} className={isPortrait ? "my-6 mx-auto w-fit" : "my-6 w-full max-w-4xl mx-auto"}>
           <div className={isPortrait ? "rounded-2xl bg-slate-100 dark:bg-slate-800 p-2 w-[260px]" : "rounded-2xl bg-slate-100 dark:bg-slate-800 p-3"}>
-            <ArticleImage key={src} src={src} alt={caption} />
+            <ArticleImage key={src} src={src} alt={caption} unfold={unfoldImages} />
           </div>
           {caption && <figcaption className={`mt-1.5 text-center text-xs text-slate-400 dark:text-slate-500${isPortrait ? " w-[260px]" : ""}`}>{caption}</figcaption>}
         </figure>
