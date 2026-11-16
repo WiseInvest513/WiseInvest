@@ -216,6 +216,7 @@ export const articleSeries: ArticleSeries[] = [
     ],
     chapters: [
       { title: "平台与资金路径对比", articleId: "us-stock-platform-comparison", stageId: "compare" },
+      { title: "美资券商对比", articleId: "bbae-schwab-ibkr-comparison", stageId: "compare", summary: "BBAE、嘉信与盈透：背景、申请资格、交易费与资金往返，按同一订单比较。" },
       { title: "BIT 与券商对比", articleId: "bit-comparison", stageId: "compare" },
       { title: "iFAST 开户", articleId: "ifast-guide", stageId: "accounts" },
       { title: "Wise 注册", articleId: "wise-register", stageId: "accounts" },
@@ -357,6 +358,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "众安开户", articleId: "zhongan-register", stageId: "banks" },
       { title: "大象（原天星）开户", articleId: "tianxing-register", stageId: "banks" },
       { title: "华美银行开户", stageId: "banks", summary: "规划中（不可点开）：华美／East West 开户文尚未发表，仅占位；勿当作已有教程。" },
+      { title: "美资券商对比", articleId: "bbae-schwab-ibkr-comparison", stageId: "brokers", summary: "先比较 BBAE、嘉信与盈透的账户条件和费用，再选择下面的开户教程。" },
       { title: "复星开户", articleId: "futu-broker", stageId: "brokers" },
       { title: "致富开户", articleId: "zhifu", stageId: "brokers" },
       { title: "腾达开户", articleId: "tengda-broker", stageId: "brokers" },

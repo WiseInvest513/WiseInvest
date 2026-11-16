@@ -1,0 +1,44 @@
+{
+  "planSha256": "5d81d29ed9d616ca40cbb7ce5dac0eb0b363b809fb4b8ac84e1a477cd22e6fc0",
+  "articleSha256": "4d62ef813b17e01ab6fe6b79584b377d8bc2c2a06fd8a81f4d141dd4071b8ec1",
+  "coverSha256": "b8084764cd72ae4151856468ff0b50f04a9652ad2672e80ca2d4995d5de613ac",
+  "checks": {
+    "guide": "已逐段核对成稿：第一二节解释实体和真实申请资格，第三四节比较产品、整股/碎股/期权，第五六节核对资金往返和现金，第七节按使用场景筛选，第八节五张完整站内引用卡。导读不承诺开户成功或已在三家实测，适合已有美元或准备比较账户的读者。",
+    "facts": "按 facts-and-scope.md 的一手资料核对至2026-11-17：Redbridge 2026-07 CRS、BBAE 2026-07 平台费及各费用子页；嘉信国际账户当前零最低入金、2026-04收费指南、当前碎股说明；IBKR Pro佣金与资格、期权首档/最低1美元、FX0.20基点=0.002%、正式 other-fees 页当前每月两次免费出金、现金10k免息及100k NAV条件。两个5000美元整股订单和换汇算例重算无误。IBKR碎股FAQ与费率脚注口径差异未作统一价格排名；大陆申请资格未编造当前全面开放结论，旧成功截图不作现行审核依据。SIPC范围用其官网而非平台营销担保。正文逐项标出原始来源，观点不写成亲自交易经验。",
+    "visuals": "已实际查看生成大图和最终640x360 WebP：三家分别为真实BBAE蓝色图标、Schwab蓝白字标、IBKR红黑标，标签正确；标题缩图可读。使用原始wise-invest-signature.png机械等比缩放，20%高度圆角，完整人物与字样置于右上角安全区，未重绘原图。成品19336字节，约18.9KiB；PNG原稿保存assets/source-images/article-covers。正文没有重复标题封面，比较数据使用原生表格。 实际查看三张压缩成品：图中文字正确，三品牌可识别；署名由原始文件等比合成，完整人物和文字位于右上角，未遮挡节点、数字或标题。 独立封面不变；三图放在第1、4、5节；使用现有ArticleImage与图片尺寸索引，不新增共享组件。",
+    "referrals": "本篇比较未新增邀请码、外部注册链接或福利承诺，故不放注册福利卡。BBAE、嘉信、IBKR原教程统一用ArticleLinkCard，另有四券商比较和美股账户系列入口，ID和genUid逐一核对；外部一手材料保持文字链接。上一篇末尾新增本篇卡片，不改旧福利。",
+    "access": "check返回PUBLIC且无警告；计划与正式目标broker/us-broker一致。lib/article-library.ts的us-stock-funding比较阶段和us-stock-zero-to-one券商阶段新增美资券商对比短标题。静态公共政策已核对；未声称已部署或核验线上数据库。finalize后另做未登录本地浏览器验证。",
+    "browser": "已实际查看1440px桌面正文关系图、390px手机费用图查看器及压缩原图；自动验证桌面、手机浅色与深色3种视图的三图加载、未折叠、打开关闭，以及手机费用图放大细节，页面无横向溢出。复用现有图片组件；未登录可读。",
+    "validation": "新稿52项生成/导读/引用卡/邀请卡/系列检查通过；补图后29项图片/预览/引用卡检查通过；文章验证100篇0错误、列表审阅0问题；费用使用Decimal复算。",
+    "previewLimitations": "本地全站欢迎弹窗引起的aria-hidden hydration开发提示在旧文章同样可复现；本次未修改该共享组件。匿名正文、图片加载与查看器操作通过。"
+  },
+  "images": [
+    {
+      "name": "account-relationships",
+      "src": "/images/articles/illustrations/bbae-schwab-ibkr-comparison/account-relationships.webp",
+      "width": 1120,
+      "height": 630,
+      "bytes": 44102,
+      "quality": 62,
+      "sha256": "c7dc653cafe916798e662c875e730c0b5e49dfee07f22b81a4af40cf3aa4dd19"
+    },
+    {
+      "name": "fee-comparison",
+      "src": "/images/articles/illustrations/bbae-schwab-ibkr-comparison/fee-comparison.webp",
+      "width": 1120,
+      "height": 840,
+      "bytes": 25212,
+      "quality": 76,
+      "sha256": "be011aa64803e43b06515fb8c4200b1d5fd8d991700a0eaf55e34d74da4d0195"
+    },
+    {
+      "name": "funding-round-trip",
+      "src": "/images/articles/illustrations/bbae-schwab-ibkr-comparison/funding-round-trip.webp",
+      "width": 1120,
+      "height": 630,
+      "bytes": 35018,
+      "quality": 62,
+      "sha256": "f80eed5552dafda831fd97e7adf6a21fcf981a4420aa8c55404bc3d211ad384e"
+    }
+  ]
+}

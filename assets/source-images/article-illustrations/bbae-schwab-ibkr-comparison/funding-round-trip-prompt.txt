@@ -1,0 +1,15 @@
+Use case: infographic-diagram, educational article illustration.
+Create a landscape 16:9 1600x900 Wise Invest supporting illustration showing money's full round trip through a brokerage account. Use the supplied image only as a MATERIAL AND LIGHT reference: optical clear glass, silver-white tangible objects, subtle champagne-gold trims, soft daylight, navy short labels. Do not copy its ascending bars or investment return arrow. Bright clean mostly white background, no decorative coins, no humans, no simulated official app screenshot.
+Design a coherent FOUR-NODE clockwise loop in a wide rectangle. Small top-left header “资金往返，要看完整一圈”. Keep the top-right 18% width by 12% height empty for the exact Wise signature to be added later. No generated watermark or avatar.
+TOP LEFT NODE: one small realistic silver-white bank building and bank statement, label exactly “本人银行”.
+TOP RIGHT NODE: a clear thick glass wallet holding a simple dollar-denominated slip, label exactly “券商现金”.
+BOTTOM RIGHT NODE: a restrained stock holding folio / securities certificate with no prices or returns, label exactly “证券持仓”.
+BOTTOM LEFT NODE: a clear clock beside a statement with a subtle check mark, label exactly “结算与可提取”.
+Thin clear directional connectors, with modest champagne-gold arrowheads:
+top left bank -> top right brokerage cash, exact label “入金 · 换汇按需”.
+top right cash -> bottom right holdings, exact label “买入”.
+bottom right holdings -> bottom left settlement, exact label “卖出 · 等待结算”.
+bottom left settlement -> top left bank, exact label “满足提款条件后出金”.
+No shortcut arrow from holdings straight to bank. The clock and the phrase about withdrawal conditions are important: selling is not immediate withdrawal.
+Use compact legible flat dark navy Chinese lettering around objects, all labels clear without overlapping arrows. Keep nodes and arrows well inside margins, nothing near reserved signature. Bottom footnote, small but readable: “流程示意：到账、可交易与可提取可能不同步”.
+Do not add bank names, broker logos, guaranteed approval, time promises, rates, dollar amounts or fake information. Calm, refined 3D editorial illustration with a useful actual process, not a glossy marketing poster.

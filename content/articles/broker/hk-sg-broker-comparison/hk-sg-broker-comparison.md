@@ -227,4 +227,6 @@ GigaMoney 官网披露的香港持牌主体为腾达证券有限公司，中央�
 [复星入金：众安与 iFAST 路径](/articles/broker/myu8sVmc){card}
 [香港银行与券商准备路线](/articles/series/hk-stock-funding#stage-brokers){card}
 
-下一篇再比较 BBAE、盈透 IBKR 和嘉信理财，继续沿用“签约主体—实际费用—资金往返—使用需求”的方法，避免把不同地区、不同账户套餐的宣传价格混在一起。
+BBAE、嘉信理财与盈透 IBKR 的对比也已整理好，继续比较签约主体、实际费用和资金往返，并单独说明碎股、换汇与闲置现金。
+
+[BBAE、嘉信理财与 IBKR 对比](/articles/broker/MSUuI0Ln){card}

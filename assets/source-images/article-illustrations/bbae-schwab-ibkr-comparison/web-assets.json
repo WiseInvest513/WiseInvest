@@ -1,0 +1,26 @@
+[
+  {
+    "name": "account-relationships",
+    "src": "/images/articles/illustrations/bbae-schwab-ibkr-comparison/account-relationships.webp",
+    "width": 1120,
+    "height": 630,
+    "bytes": 44102,
+    "quality": 62
+  },
+  {
+    "name": "fee-comparison",
+    "src": "/images/articles/illustrations/bbae-schwab-ibkr-comparison/fee-comparison.webp",
+    "width": 1120,
+    "height": 840,
+    "bytes": 25212,
+    "quality": 76
+  },
+  {
+    "name": "funding-round-trip",
+    "src": "/images/articles/illustrations/bbae-schwab-ibkr-comparison/funding-round-trip.webp",
+    "width": 1120,
+    "height": 630,
+    "bytes": 35018,
+    "quality": 62
+  }
+]

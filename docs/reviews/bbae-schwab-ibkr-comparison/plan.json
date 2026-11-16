@@ -1,0 +1,35 @@
+{
+  "id": "bbae-schwab-ibkr-comparison",
+  "title": "BBAE、嘉信理财和 IBKR 怎么选？背景、费用与入出金对比",
+  "categoryId": "broker",
+  "subcategoryId": "us-broker",
+  "type": "comparison",
+  "summary": "比较 BBAE、嘉信国际账户与 IBKR Pro 的签约主体、开户条件、产品和资金路径；用相同整股订单算费用，单独说明碎股、换汇、出金与闲置现金的差别。",
+  "date": "2026-11-17",
+  "access": "PUBLIC",
+  "target": "broker/bbae-schwab-ibkr-comparison/bbae-schwab-ibkr-comparison.md",
+  "readTime": 18,
+  "guide": {
+    "audience": [
+      "准备在 BBAE、嘉信和盈透中选择美股账户，想看清背景与日常成本的读者",
+      "已有美元或境外银行账户，想比较长期持有、碎股买入和多市场交易的人"
+    ],
+    "outcomes": [
+      "分清 BBAE 平台、美国券商主体与 IBKR 不同地区实体，核对本人申请资格",
+      "用同样的整股订单比较平台费和佣金，避免把碎股、期权与免佣混算",
+      "把换汇、汇款、转仓和闲置现金放进选账户的账单，再进入三家开户教程"
+    ],
+    "prepare": "列出真实居住地与税务身份、可用的本人银行、资金币种、计划购买的证券和单笔金额；不需要先开户或转入资金。",
+    "status": "公开资料核对至 2026 年 11 月 17 日。采用 BBAE MyMarket、Schwab One International 与 IBKR Pro 的公开费率；算例不含所有第三方代收费用，开户资格仍需通过本人的真实申请资料核验。"
+  },
+  "outline": [
+    "三家的背景与账户主体",
+    "开户资格与资金门槛",
+    "可买产品、操作工具与定期买入",
+    "用相同订单计算交易费",
+    "换汇、入出金与转仓成本",
+    "闲置现金和账户维护",
+    "按自己的使用方式筛选",
+    "选择之后进入对应教程"
+  ]
+}
