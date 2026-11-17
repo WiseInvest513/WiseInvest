@@ -100,6 +100,7 @@ function loadUsersPage({
       AdminShell: ({ children }) => createElement("main", null, children),
     },
     "@/app/admin/vip/copy-button": { CopyButton: () => null },
+    "@/lib/auth/acquisition-source": loadModule("lib/auth/acquisition-source.ts"),
     "@/lib/auth/admin-roles": loadModule("lib/auth/admin-roles.ts"),
     "@/lib/auth/provider-display": loadModule("lib/auth/provider-display.ts"),
     "@/lib/identity/current-user": {
@@ -276,3 +277,33 @@ test("preview statistics count all fixture users with the same boundaries, not o
   assert.doesNotMatch(html, /other-\d@example.com/);
   assert.deepEqual(calls.map(({ method }) => method), ["authorize", "previewSession"]);
 });
+
+test("admin user rows show acquisition source and can filter first-touch channels", async () => {
+  const { render, calls } = loadUsersPage({
+    users: [
+      makeUser({ acquisitionSource: "wx" }),
+      makeUser({ id: "user-2", email: "other@example.com", acquisitionSource: null }),
+    ],
+  });
+  const html = await render({ source: "wx", q: "  target@example.com  " });
+  const [list] = getReads(calls, "findMany");
+  assert.equal(list.args.select.acquisitionSource, true);
+  assert.equal(list.args.where.acquisitionSource, "wx");
+  assert.equal(list.args.where.membershipTier, undefined);
+  assert.match(html, /微信（wx）/);
+  assert.match(html, /href="\/admin\/users\?q=target%40example\.com&amp;source=rednode"/);
+  assert.match(html, /全部来源/);
+});
+
+test("unattributed users can be filtered without changing global registration counts", async () => {
+  const { render, calls } = loadUsersPage();
+  const html = await render({ source: "none", tier: "VIP" });
+  const [list] = getReads(calls, "findMany");
+  assert.deepEqual(list.args.where, { membershipTier: "VIP", acquisitionSource: null });
+  assert.deepEqual(getReads(calls, "count").map(({ args }) => args), [
+    { where: { createdAt: { gte: EXPECTED_WINDOWS.monthStart, lte: EXPECTED_WINDOWS.now } } },
+    { where: { createdAt: { gte: EXPECTED_WINDOWS.yesterdayStart, lt: EXPECTED_WINDOWS.todayStart } } },
+  ]);
+  assert.match(html, /未记录/);
+});
+

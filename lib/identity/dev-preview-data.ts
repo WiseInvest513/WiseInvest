@@ -193,6 +193,7 @@ export function getDevPreviewUserDetail(id: string) {
     wechatCity: isMember ? null : "深圳",
     membershipTier: user.membershipTier,
     role: user.role,
+    acquisitionSource: null,
     createdAt: user.createdAt,
     accounts: user.accounts,
     partnerAccounts:

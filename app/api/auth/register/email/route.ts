@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { validatePasswordStrength } from "@/lib/auth/password";
 import { normalizeEmail, verifyEmailOtp } from "@/lib/email/otp";
+import { getAcquisitionSourceFromCookieHeader } from "@/lib/auth/acquisition-source";
 import { registerEmailPasswordUser } from "@/lib/identity/users";
 import { isDatabaseConfigured } from "@/lib/prisma";
 
@@ -30,7 +31,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, message: "验证码不正确或已过期。" }, { status: 400 });
     }
 
-    await registerEmailPasswordUser(email, password);
+    await registerEmailPasswordUser(email, password, {
+      acquisitionSource: getAcquisitionSourceFromCookieHeader(request.headers.get("cookie")),
+    });
     return NextResponse.json({ ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "注册失败，请稍后再试。";

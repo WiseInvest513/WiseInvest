@@ -5,6 +5,7 @@ import { AdminShell } from "@/app/admin/admin-shell";
 import { CopyButton } from "@/app/admin/vip/copy-button";
 import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
+import { ACQUISITION_SOURCES, formatAcquisitionSource, parseAcquisitionSource } from "@/lib/auth/acquisition-source";
 import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { devPreviewUsers } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
@@ -27,6 +28,7 @@ type AdminUsersPageProps = {
   searchParams: Promise<{
     q?: string;
     tier?: string;
+    source?: string;
   }>;
 };
 
@@ -57,6 +59,7 @@ type AdminUserRow = {
   wechatCity: string | null;
   membershipTier: keyof typeof membershipTierLabels;
   role: string;
+  acquisitionSource?: string | null;
   createdAt: Date;
   accounts: { provider: string }[];
   _count: {
@@ -71,12 +74,27 @@ type TierCountRow = {
   };
 };
 
-function getTierFilterHref(tier: TierFilterKey, query: string) {
+const sourceFilters = [
+  { key: "ALL", label: "全部来源" },
+  ...ACQUISITION_SOURCES.map((item) => ({ key: item.code, label: item.label })),
+  { key: "none", label: "未记录" },
+] as const;
+
+type SourceFilterKey = (typeof sourceFilters)[number]["key"];
+
+function getUsersFilterHref(query: string, tier: TierFilterKey, source: SourceFilterKey) {
   const params = new URLSearchParams();
   if (query) params.set("q", query);
   if (tier !== "ALL") params.set("tier", tier);
+  if (source !== "ALL") params.set("source", source);
   const suffix = params.toString();
   return suffix ? `/admin/users?${suffix}` : "/admin/users";
+}
+
+function parseSourceFilter(source: string | undefined): SourceFilterKey {
+  if (!source || source === "ALL") return "ALL";
+  if (source === "none") return "none";
+  return parseAcquisitionSource(source) ?? "ALL";
 }
 
 function getTierBadgeClass(tier: string) {
@@ -88,9 +106,10 @@ function getTierBadgeClass(tier: string) {
 export default async function AdminUsersPage({ searchParams }: AdminUsersPageProps) {
   const adminUser = await requireAdminStaffUser();
   const isAssistant = isAdminAssistantRole(adminUser.role);
-  const { q, tier } = await searchParams;
+  const { q, tier, source } = await searchParams;
   const query = q?.trim() ?? "";
   const selectedTier = !isAssistant && tierFilters.some((filter) => filter.key === tier) ? (tier as TierFilterKey) : "ALL";
+  const selectedSource = !isAssistant ? parseSourceFilter(source) : "ALL";
   const tierList = tierFilters.filter((filter) => filter.key !== "ALL").map((filter) => filter.key);
   const shouldSearchUsers = !isAssistant || query.length > 0;
 
@@ -123,6 +142,11 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
           where: {
             ...(searchFields ? { OR: searchFields } : {}),
             ...(selectedTier !== "ALL" ? { membershipTier: selectedTier } : {}),
+            ...(selectedSource === "none"
+              ? { acquisitionSource: null }
+              : selectedSource !== "ALL"
+                ? { acquisitionSource: selectedSource }
+                : {}),
           },
           select: {
             id: true,
@@ -133,6 +157,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
             wechatCity: true,
             membershipTier: true,
             role: true,
+            acquisitionSource: true,
             createdAt: true,
             accounts: {
               select: {
@@ -179,7 +204,12 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
           : [user.email, user.name, user.wiseUserId, user.wechatId, user.wechatCity]
         ).some((value) => value?.toLowerCase().includes(normalizedQuery));
       const matchTier = selectedTier === "ALL" || user.membershipTier === selectedTier;
-      return matchQuery && matchTier;
+      const userSource = (user as AdminUserRow).acquisitionSource;
+      const matchSource =
+        selectedSource === "ALL"
+        || (selectedSource === "none" && !userSource)
+        || userSource === selectedSource;
+      return matchQuery && matchTier && matchSource;
     });
   }
 
@@ -199,8 +229,8 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
 
   const getProviders = (accounts: { provider: string }[] = []) => getLoginProviderLabels(accounts);
   const gridClass = isAssistant
-    ? "grid-cols-[1.45fr_1.25fr_1fr_0.75fr_0.45fr]"
-    : "grid-cols-[1.3fr_1.2fr_1fr_0.85fr_1fr_0.7fr_0.35fr_0.35fr]";
+    ? "grid-cols-[1.45fr_1.25fr_1fr_0.75fr_0.9fr_0.45fr]"
+    : "grid-cols-[1.2fr_1.1fr_0.95fr_0.8fr_0.85fr_0.85fr_0.7fr_0.35fr_0.35fr]";
 
   return (
     <AdminShell role={adminUser.role}>
@@ -243,6 +273,8 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
                 className="h-12 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-amber-400 dark:border-slate-700 dark:bg-slate-950"
               />
             </label>
+            {selectedTier !== "ALL" ? <input type="hidden" name="tier" value={selectedTier} /> : null}
+            {selectedSource !== "ALL" ? <input type="hidden" name="source" value={selectedSource} /> : null}
             <button className="h-12 rounded-xl bg-slate-950 px-5 text-sm font-black text-amber-300 dark:bg-white dark:text-slate-950">
               搜索
             </button>
@@ -254,7 +286,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
               return (
                 <Link
                   key={filter.key}
-                  href={getTierFilterHref(filter.key, query)}
+                  href={getUsersFilterHref(query, filter.key, selectedSource)}
                   className={`inline-flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-black transition ${
                     active
                       ? "border-slate-950 bg-slate-950 text-amber-300 dark:border-white dark:bg-white dark:text-slate-950"
@@ -267,16 +299,35 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
               );
             })}
           </div>}
+          {!isAssistant && <div className="mt-3 flex flex-wrap gap-2">
+            {sourceFilters.map((filter) => {
+              const active = filter.key === selectedSource;
+              return (
+                <Link
+                  key={filter.key}
+                  href={getUsersFilterHref(query, selectedTier, filter.key)}
+                  className={`inline-flex h-10 items-center rounded-xl border px-3 text-sm font-black transition ${
+                    active
+                      ? "border-slate-950 bg-slate-950 text-amber-300 dark:border-white dark:bg-white dark:text-slate-950"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-amber-300 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300"
+                  }`}
+                >
+                  {filter.label}
+                </Link>
+              );
+            })}
+          </div>}
         </section>
 
         <section className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className={isAssistant ? "min-w-[920px]" : "min-w-[1180px]"}>
+          <div className={isAssistant ? "min-w-[1040px]" : "min-w-[1320px]"}>
           <div className={`grid ${gridClass} gap-4 border-b border-slate-200 px-5 py-3 text-xs font-black uppercase text-slate-400 dark:border-slate-800`}>
             <span>用户名 / 微信</span>
             <span>邮箱</span>
             <span>Wise ID</span>
             <span>会员</span>
             {!isAssistant && <span>注册时间<span className="mt-1 block text-[10px] font-normal">北京时间</span></span>}
+            <span>来源</span>
             {!isAssistant && <span>登录方式</span>}
             {!isAssistant && <span>绑定</span>}
             <span>操作</span>
@@ -311,6 +362,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
                 <span className="block whitespace-nowrap">{registeredAt.date}</span>
                 <span className="mt-1 block whitespace-nowrap text-slate-400 dark:text-slate-500">{registeredAt.time}</span>
               </time>}
+              <p className="text-xs font-bold text-slate-500 dark:text-slate-400">{formatAcquisitionSource(user.acquisitionSource)}</p>
               {!isAssistant && <div className="flex flex-wrap gap-1.5">
                 {providers.length > 0 ? (
                   providers.map((provider) => (

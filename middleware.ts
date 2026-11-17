@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { applyFirstTouchAcquisitionCookie } from "@/lib/auth/acquisition-source";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewCookieValue } from "@/lib/identity/dev-preview";
 import { requiresLoginForContent } from "@/lib/content-access";
 
@@ -8,7 +9,7 @@ function hasAuthSessionCookie(request: NextRequest) {
   return authCookieNames.some((name) => Boolean(request.cookies.get(name)?.value));
 }
 
-export function middleware(request: NextRequest) {
+function getAuthResponse(request: NextRequest) {
   const protectedByAuth = request.nextUrl.pathname.startsWith("/account")
     || request.nextUrl.pathname.startsWith("/admin")
     || requiresLoginForContent(`${request.nextUrl.pathname}${request.nextUrl.search}`);
@@ -24,6 +25,14 @@ export function middleware(request: NextRequest) {
   return NextResponse.redirect(loginUrl);
 }
 
+export function middleware(request: NextRequest) {
+  const response = getAuthResponse(request);
+  applyFirstTouchAcquisitionCookie(request, response);
+  return response;
+}
+
 export const config = {
-  matcher: ["/account/:path*", "/admin/:path*", "/roadmap", "/roadmap/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|map|txt|xml|woff2?)$).*)",
+  ],
 };

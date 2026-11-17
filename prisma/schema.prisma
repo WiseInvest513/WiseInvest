@@ -101,19 +101,20 @@ enum VipExchangeRecordSource {
 }
 
 model User {
-  id             String         @id @default(cuid())
-  wiseUserId     String         @unique @map("wise_user_id")
-  name           String?
-  email          String?        @unique
-  emailVerified  DateTime?      @map("email_verified")
-  image          String?
-  wechatId       String?        @map("wechat_id")
-  wechatCity     String?        @map("wechat_city")
-  passwordHash   String?        @map("password_hash") @db.Text
-  membershipTier MembershipTier @default(MEMBER) @map("membership_tier")
-  role           UserRole       @default(USER)
-  createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime       @updatedAt @map("updated_at")
+  id                 String         @id @default(cuid())
+  wiseUserId         String         @unique @map("wise_user_id")
+  name               String?
+  email              String?        @unique
+  emailVerified      DateTime?      @map("email_verified")
+  image              String?
+  wechatId           String?        @map("wechat_id")
+  wechatCity         String?        @map("wechat_city")
+  passwordHash       String?        @map("password_hash") @db.Text
+  membershipTier     MembershipTier @default(MEMBER) @map("membership_tier")
+  role               UserRole       @default(USER)
+  acquisitionSource  String?        @map("acquisition_source")
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
 
   accounts              Account[]
   sessions              Session[]
@@ -131,6 +132,7 @@ model User {
   contentItems          UserContentItem[]
   vipExchangeRecords    VipExchangeRecord[]
 
+  @@index([acquisitionSource])
   @@map("users")
 }
 

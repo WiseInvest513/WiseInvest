@@ -5,6 +5,7 @@ import { MembershipForm } from "@/app/admin/users/[id]/membership-form";
 import { CopyButton } from "@/app/admin/vip/copy-button";
 import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
+import { formatAcquisitionSource } from "@/lib/auth/acquisition-source";
 import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { getDevPreviewUserDetail } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
@@ -47,6 +48,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
             wechatCity: true,
             membershipTier: true,
             role: true,
+            acquisitionSource: true,
             createdAt: true,
             accounts: {
               select: {
@@ -109,6 +111,9 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
           <h1 className="font-heading text-3xl font-black md:text-4xl">{user.name ?? user.email ?? "用户详情"}</h1>
           <p className="mt-2 break-all text-sm text-slate-500 dark:text-slate-400">{user.email ?? "未绑定邮箱"}</p>
           <p className="mt-1 break-all font-mono text-sm text-slate-400">{user.wiseUserId}</p>
+          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+            注册来源：<span className="font-black text-slate-950 dark:text-white">{formatAcquisitionSource(user.acquisitionSource)}</span>
+          </p>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
