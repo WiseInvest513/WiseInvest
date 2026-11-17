@@ -1,0 +1,75 @@
+{
+  "mode": "existing-article-revision",
+  "reviewedAt": "2026-11-17",
+  "id": "ucard-comparison",
+  "route": "/articles/vcard/ACGrkqnQ",
+  "planSha256": "f5eaf324669cfb2e1ca31391623d67c843b2c80bfbb47a0037c6af1b5ca044a2",
+  "articleSha256": "3fa7fa51a151a546cad3dfe6926309965ba8c7e755cfd21e8e3075f100cb0c7c",
+  "coverSha256": "0379bf12ae287fc01da26531144baf7f69b36aebc61943bcbc5da935c38e5f2c",
+  "files": {
+    "content/articles/vcard/ucard-comparison/ucard-comparison.md": "3fa7fa51a151a546cad3dfe6926309965ba8c7e755cfd21e8e3075f100cb0c7c",
+    "content/articles/vcard/MP/MP.md": "97545cee04da62a9b33232b5f67697a0ac9e5341c17fdbc00c0bb5f8a1467164",
+    "app/card/data.ts": "ac1a243c9ea8a99bf7ba7e09cadd164edf04be7621d68f0ec7552809389ca145",
+    "lib/article-covers.ts": "f37b281abd7968f36ae6fea078f1ab12a0c6f26cac8695dd489929782a4931a5",
+    "lib/article-library.ts": "e014577eebc3946559676760986639b75f5c314b0863c07f28671e7fd7d3e0d9",
+    "lib/article-image-metadata.json": "16e05643dd47df5010899e764a173d2ee5700f7a5b02cc293a342964c5d1837a"
+  },
+  "checks": {
+    "guide": "逐项对照八节正文：读者是看过单卡教程、需要比较费用与支付用途的人；产出包括开卡/余额/保证金区分、20/200美元和人民币算例、返现条件与支付工具支持。准备项与状态逐篇配置，公开阅读、ID和原始发布日期保留；核验日期独立写2026-11-17。",
+    "facts": "已按facts-and-scope.md及正文一手来源核对各卡种，不用品牌级单一费率覆盖地区/旧新卡。不从Bitget持有费为0推断统一发行免费；UU未公开卡费不进入排名。Bybit加密付款奖励条件、Gate双重奖励上限、MP退役与Apple Pay更新、SafePal非USD口径、Delta月费与支付工具附加费均单列。个人成功付款仅沿用用户明示记录，未虚构具体卡片版本或本轮实刷。",
+    "costModel": "Decimal重算20/200美元模型与Delta月费示例，成本图从数值脚本生成；明示假设、费用排除项及四舍五入差异。不扣尚未获得的返现，不叠加已结束或不同版本的活动。CNY外卡费模型保留减免例外，不提供伪造实时汇率。",
+    "visuals": "已实际查看640x360封面、两张正文图及1440桌面/390手机渲染。封面有主题文字和Bitget Wallet、Bybit、Gate标识；所有新图机械合成唯一原始wise-invest-signature.png，等比、完整人物文字、右上角安全边距、圆角。封面18216字节，三图合计95178字节；public只保留WebP，原稿及提示词留assets。正文不重复封面。",
+    "referrals": "不新增注册福利卡、不更改任何邀请码。七款卡的详细步骤和既有渠道条件留原教程并以ArticleLinkCard接入；所有新增站内正文文章链接都有{card}，外部官方来源为文字。Gate原教程路由保留，未恢复已知不可用的外链注册入口。MP现有邀请卡与历史截图未改。",
+    "consistency": "同步/card六款卡费用/支付字段；UU完整费率未知，未强行更新日期或承诺免费。保留汇总表的KYC/开卡/充值字段匹配；简表标出Delta月费、Gate卡种区别。MP教程同步现行卡种与Apple Pay说明。系列短标题与真实文章主题一致，未调整共享阅读组件。",
+    "access": "新Chrome匿名上下文可读完整第八节，所有配图与教程入口可见；桌面1440、手机390浅色/深色均通过。未声称线上已部署或已验证线上数据库。",
+    "browser": "Browser plugin not available，使用已有Playwright与本机Chrome。页面200且标题匹配，正文非空；图片加载、打开/关闭、手机放大细节、目录开关均通过。宽表格在容器内滚动，无整页横向溢出。实际点击MP引用卡到达教程并看到新说明；文章列表显示640x360新封面；/card对比表与MP费率弹窗可操作。无pageerror或阻断性框架错误页。",
+    "consoleLimitations": "本地仍有既存欢迎弹窗aria-hidden hydration开发提示、Vercel分析脚本CSP拦截及匿名会话401；此前旧文章同样可复现。本轮未改共享弹窗或登录逻辑，不宣称控制台零警告。",
+    "validation": "article:images 812图/0跳过；article:validate 100篇/0错误/0警告；article:audit 100篇/0问题；导读、邀请卡、图片、站内引用及公开预览共48测试通过；tsc --noEmit --incremental false通过；git diff --check通过。"
+  },
+  "images": [
+    {
+      "name": "payment-cost-flow",
+      "path": "public/images/articles/illustrations/ucard-comparison/payment-cost-flow.webp",
+      "width": 1120,
+      "height": 630,
+      "quality": 62,
+      "bytes": 48596,
+      "sha256": "96ba805105e66b4fd833d3149ad05ad9592eb7149bc7c1fc8a032936d3f5fab4"
+    },
+    {
+      "name": "usd-cost-model",
+      "path": "public/images/articles/illustrations/ucard-comparison/usd-cost-model.webp",
+      "width": 1120,
+      "height": 784,
+      "quality": 76,
+      "bytes": 28366,
+      "sha256": "ff55f0f05da385f16bfca5779a24254b4b7ebe78830b315a665d7ea850671e28"
+    },
+    {
+      "name": "ucard-comparison-fees",
+      "path": "public/images/articles/covers/ucard-comparison-fees.webp",
+      "width": 640,
+      "height": 360,
+      "quality": 60,
+      "bytes": 18216,
+      "sha256": "0379bf12ae287fc01da26531144baf7f69b36aebc61943bcbc5da935c38e5f2c"
+    }
+  ],
+  "preview": {
+    "url": "http://127.0.0.1:3015/articles/vcard/ACGrkqnQ",
+    "viewports": [
+      "1440x1000 light",
+      "390x844 light",
+      "390x844 dark"
+    ],
+    "evidence": [
+      "/tmp/wise-ucard-qa.json",
+      "/tmp/wise-ucard-final-check.json",
+      "/tmp/wise-card-data-qa.json",
+      "/tmp/wise-ucard-1440-light-flow.png",
+      "/tmp/wise-ucard-390-dark-cost.png",
+      "/tmp/wise-ucard-list-cover.png"
+    ]
+  },
+  "publication": "仅完成本地内容与预览，未commit、push或部署。"
+}

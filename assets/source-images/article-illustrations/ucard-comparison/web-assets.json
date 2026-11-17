@@ -1,0 +1,26 @@
+[
+  {
+    "name": "payment-cost-flow",
+    "path": "public/images/articles/illustrations/ucard-comparison/payment-cost-flow.webp",
+    "width": 1120,
+    "height": 630,
+    "quality": 62,
+    "bytes": 48596
+  },
+  {
+    "name": "usd-cost-model",
+    "path": "public/images/articles/illustrations/ucard-comparison/usd-cost-model.webp",
+    "width": 1120,
+    "height": 784,
+    "quality": 76,
+    "bytes": 28366
+  },
+  {
+    "name": "ucard-comparison-fees",
+    "path": "public/images/articles/covers/ucard-comparison-fees.webp",
+    "width": 640,
+    "height": 360,
+    "quality": 60,
+    "bytes": 18216
+  }
+]

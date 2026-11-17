@@ -236,9 +236,9 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     topics: ["BenPay","卡片申请","订阅支付"],
   },
   "ucard-comparison": {
-    src: "/images/articles/covers/ucard-comparison-title-v2.webp",
-    alt: "大陆用户：U 卡怎么选；开卡资格、费用、绑支付，银白玻璃主题封面",
-    topics: ["虚拟 U 卡","U 卡对比","开卡资格","绑支付","费用"],
+    src: "/images/articles/covers/ucard-comparison-fees.webp",
+    alt: "虚拟 U 卡费用与返现对比，Bitget Wallet、Bybit 与 Gate 品牌标识",
+    topics: ["虚拟 U 卡","U 卡对比","开卡费","消费成本","返现","支付绑定"],
   },
   "hk-bank-comparison": {
     src: "/images/articles/covers/hk-bank-comparison-title-v2.webp",

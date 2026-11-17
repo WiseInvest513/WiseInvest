@@ -282,7 +282,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "OKX 注册", articleId: "okx-guide", stageId: "exchanges" },
       { title: "Bitget 注册", articleId: "bitget-exchange", stageId: "exchanges" },
       { title: "Bybit 注册", articleId: "bybit-guide", stageId: "exchanges" },
-      { title: "大陆还能办哪张 U 卡", articleId: "ucard-comparison", stageId: "wallets", summary: "对比枢纽：按如实居住地、条款地区、随用随充与绑支付筛选，再进各卡专文。" },
+      { title: "U 卡费用与返现对比", articleId: "ucard-comparison", stageId: "wallets", summary: "比较七款 U 卡的开卡费、充值消费成本、奖励条件和支付绑定，附相同订单算例。" },
       { title: "Bitget Wallet 开卡", articleId: "bitget-vcard", stageId: "wallets" },
       { title: "SafePal 开卡", articleId: "safepal-vcard", stageId: "wallets" },
       { title: "Gate Card 费用与绑支付", articleId: "Gate-vcard", stageId: "wallets", summary: "开卡后核对费用磨损、支付宝／微信与 Apple Pay、账单对照。" },
