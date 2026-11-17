@@ -5,7 +5,7 @@ import { AdminShell } from "@/app/admin/admin-shell";
 import { CopyButton } from "@/app/admin/vip/copy-button";
 import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
-import { ACQUISITION_SOURCES, formatAcquisitionSource, parseAcquisitionSource } from "@/lib/auth/acquisition-source";
+import { ACQUISITION_SITES, ACQUISITION_SOURCES, formatAcquisitionAttribution, parseAcquisitionSite, parseAcquisitionSource } from "@/lib/auth/acquisition-source";
 import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { devPreviewUsers } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
@@ -60,6 +60,8 @@ type AdminUserRow = {
   membershipTier: keyof typeof membershipTierLabels;
   role: string;
   acquisitionSource?: string | null;
+  acquisitionSite?: string | null;
+  acquisitionContent?: string | null;
   createdAt: Date;
   accounts: { provider: string }[];
   _count: {
@@ -77,6 +79,7 @@ type TierCountRow = {
 const sourceFilters = [
   { key: "ALL", label: "全部来源" },
   ...ACQUISITION_SOURCES.map((item) => ({ key: item.code, label: item.label })),
+  ...ACQUISITION_SITES.map((item) => ({ key: item.code, label: item.label })),
   { key: "none", label: "未记录" },
 ] as const;
 
@@ -94,7 +97,28 @@ function getUsersFilterHref(query: string, tier: TierFilterKey, source: SourceFi
 function parseSourceFilter(source: string | undefined): SourceFilterKey {
   if (!source || source === "ALL") return "ALL";
   if (source === "none") return "none";
-  return parseAcquisitionSource(source) ?? "ALL";
+  return parseAcquisitionSource(source) ?? parseAcquisitionSite(source) ?? "ALL";
+}
+
+function getAcquisitionFilterWhere(source: SourceFilterKey) {
+  if (source === "none") {
+    return { acquisitionSource: null, acquisitionSite: null };
+  }
+  if (source === "ALL") return {};
+  if (parseAcquisitionSource(source)) return { acquisitionSource: source };
+  if (parseAcquisitionSite(source)) return { acquisitionSite: source };
+  return {};
+}
+
+function userMatchesSourceFilter(
+  user: Pick<AdminUserRow, "acquisitionSource" | "acquisitionSite">,
+  source: SourceFilterKey,
+) {
+  if (source === "ALL") return true;
+  if (source === "none") return !user.acquisitionSource && !user.acquisitionSite;
+  if (parseAcquisitionSource(source)) return user.acquisitionSource === source;
+  if (parseAcquisitionSite(source)) return user.acquisitionSite === source;
+  return true;
 }
 
 function getTierBadgeClass(tier: string) {
@@ -142,11 +166,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
           where: {
             ...(searchFields ? { OR: searchFields } : {}),
             ...(selectedTier !== "ALL" ? { membershipTier: selectedTier } : {}),
-            ...(selectedSource === "none"
-              ? { acquisitionSource: null }
-              : selectedSource !== "ALL"
-                ? { acquisitionSource: selectedSource }
-                : {}),
+            ...getAcquisitionFilterWhere(selectedSource),
           },
           select: {
             id: true,
@@ -158,6 +178,8 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
             membershipTier: true,
             role: true,
             acquisitionSource: true,
+            acquisitionSite: true,
+            acquisitionContent: true,
             createdAt: true,
             accounts: {
               select: {
@@ -204,11 +226,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
           : [user.email, user.name, user.wiseUserId, user.wechatId, user.wechatCity]
         ).some((value) => value?.toLowerCase().includes(normalizedQuery));
       const matchTier = selectedTier === "ALL" || user.membershipTier === selectedTier;
-      const userSource = (user as AdminUserRow).acquisitionSource;
-      const matchSource =
-        selectedSource === "ALL"
-        || (selectedSource === "none" && !userSource)
-        || userSource === selectedSource;
+      const matchSource = userMatchesSourceFilter(user as AdminUserRow, selectedSource);
       return matchQuery && matchTier && matchSource;
     });
   }
@@ -362,7 +380,7 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
                 <span className="block whitespace-nowrap">{registeredAt.date}</span>
                 <span className="mt-1 block whitespace-nowrap text-slate-400 dark:text-slate-500">{registeredAt.time}</span>
               </time>}
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400">{formatAcquisitionSource(user.acquisitionSource)}</p>
+              <p className="text-xs font-bold text-slate-500 dark:text-slate-400">{formatAcquisitionAttribution(user)}</p>
               {!isAssistant && <div className="flex flex-wrap gap-1.5">
                 {providers.length > 0 ? (
                   providers.map((provider) => (

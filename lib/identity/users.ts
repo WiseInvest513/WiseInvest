@@ -1,6 +1,6 @@
 import { getPrisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth/password";
-import { acquisitionSourceCreateData } from "@/lib/auth/acquisition-source";
+import { acquisitionAttributionCreateData, type AcquisitionAttributionInput } from "@/lib/auth/acquisition-source";
 import { generateWiseUserId, isInitialAdminEmail } from "@/lib/identity/user-id";
 
 export async function markAccountLogin(userId: string, provider: string, providerAccountId: string, type = "credentials") {
@@ -26,7 +26,7 @@ export async function markAccountLogin(userId: string, provider: string, provide
   });
 }
 
-export async function findOrCreateEmailUser(email: string, options?: { acquisitionSource?: string | null }) {
+export async function findOrCreateEmailUser(email: string, options?: AcquisitionAttributionInput) {
   const prisma = getPrisma();
   const normalizedEmail = email.trim().toLowerCase();
   const existingUser = await prisma.user.findUnique({
@@ -51,7 +51,7 @@ export async function findOrCreateEmailUser(email: string, options?: { acquisiti
       emailVerified: new Date(),
       wiseUserId: generateWiseUserId(),
       role: isInitialAdminEmail(normalizedEmail) ? "ADMIN" : "USER",
-      ...acquisitionSourceCreateData(options?.acquisitionSource),
+      ...acquisitionAttributionCreateData(options),
     },
   });
 
@@ -93,7 +93,7 @@ export async function findPasswordUser(email: string) {
   });
 }
 
-export async function registerEmailPasswordUser(email: string, password: string, options?: { acquisitionSource?: string | null }) {
+export async function registerEmailPasswordUser(email: string, password: string, options?: AcquisitionAttributionInput) {
   const prisma = getPrisma();
   const normalizedEmail = email.trim().toLowerCase();
   const passwordHash = await hashPassword(password);
@@ -121,7 +121,7 @@ export async function registerEmailPasswordUser(email: string, password: string,
           passwordHash,
           wiseUserId: generateWiseUserId(),
           role: isInitialAdminEmail(normalizedEmail) ? "ADMIN" : "USER",
-          ...acquisitionSourceCreateData(options?.acquisitionSource),
+          ...acquisitionAttributionCreateData(options),
         },
       });
 

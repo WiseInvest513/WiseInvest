@@ -2,12 +2,12 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { Adapter, AdapterUser } from "next-auth/adapters";
 import type { PrismaClient } from "@prisma/client";
 import { cookies } from "next/headers";
-import { acquisitionSourceCreateData, getAcquisitionSourceFromCookieStore } from "@/lib/auth/acquisition-source";
+import { acquisitionAttributionCreateData, getAcquisitionAttributionFromCookieStore } from "@/lib/auth/acquisition-source";
 import { generateWiseUserId, isInitialAdminEmail } from "@/lib/identity/user-id";
 
-async function readRequestAcquisitionSource() {
+async function readRequestAcquisitionAttribution() {
   try {
-    return getAcquisitionSourceFromCookieStore(await cookies());
+    return getAcquisitionAttributionFromCookieStore(await cookies());
   } catch {
     return null;
   }
@@ -27,7 +27,7 @@ export function WisePrismaAdapter(prisma: PrismaClient): Adapter {
           name: user.name,
           wiseUserId: generateWiseUserId(),
           role: isInitialAdminEmail(user.email) ? "ADMIN" : "USER",
-          ...acquisitionSourceCreateData(await readRequestAcquisitionSource()),
+          ...acquisitionAttributionCreateData(await readRequestAcquisitionAttribution()),
         },
       });
 

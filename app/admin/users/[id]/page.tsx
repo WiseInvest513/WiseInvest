@@ -5,7 +5,7 @@ import { MembershipForm } from "@/app/admin/users/[id]/membership-form";
 import { CopyButton } from "@/app/admin/vip/copy-button";
 import { isAdminAssistantRole } from "@/lib/auth/admin-roles";
 import { getLoginProviderLabels } from "@/lib/auth/provider-display";
-import { formatAcquisitionSource } from "@/lib/auth/acquisition-source";
+import { formatAcquisitionAttribution } from "@/lib/auth/acquisition-source";
 import { requireAdminStaffUser } from "@/lib/identity/current-user";
 import { getDevPreviewUserDetail } from "@/lib/identity/dev-preview-data";
 import { isDevPreviewAdminSession } from "@/lib/identity/dev-preview-server";
@@ -49,6 +49,8 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
             membershipTier: true,
             role: true,
             acquisitionSource: true,
+            acquisitionSite: true,
+            acquisitionContent: true,
             createdAt: true,
             accounts: {
               select: {
@@ -112,7 +114,7 @@ export default async function AdminUserDetailPage({ params }: AdminUserDetailPag
           <p className="mt-2 break-all text-sm text-slate-500 dark:text-slate-400">{user.email ?? "未绑定邮箱"}</p>
           <p className="mt-1 break-all font-mono text-sm text-slate-400">{user.wiseUserId}</p>
           <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-            注册来源：<span className="font-black text-slate-950 dark:text-white">{formatAcquisitionSource(user.acquisitionSource)}</span>
+            注册来源：<span className="font-black text-slate-950 dark:text-white">{formatAcquisitionAttribution(user)}</span>
           </p>
         </section>
 

@@ -113,6 +113,8 @@ model User {
   membershipTier     MembershipTier @default(MEMBER) @map("membership_tier")
   role               UserRole       @default(USER)
   acquisitionSource  String?        @map("acquisition_source")
+  acquisitionSite    String?        @map("acquisition_site")
+  acquisitionContent String?        @map("acquisition_content")
   createdAt          DateTime       @default(now()) @map("created_at")
   updatedAt          DateTime       @updatedAt @map("updated_at")
 
@@ -133,6 +135,7 @@ model User {
   vipExchangeRecords    VipExchangeRecord[]
 
   @@index([acquisitionSource])
+  @@index([acquisitionSite])
   @@map("users")
 }
 

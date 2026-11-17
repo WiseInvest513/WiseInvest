@@ -194,6 +194,8 @@ export function getDevPreviewUserDetail(id: string) {
     membershipTier: user.membershipTier,
     role: user.role,
     acquisitionSource: null,
+    acquisitionSite: null,
+    acquisitionContent: null,
     createdAt: user.createdAt,
     accounts: user.accounts,
     partnerAccounts:
