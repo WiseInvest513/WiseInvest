@@ -1,0 +1,27 @@
+{
+  "articleId": "beesim-guide",
+  "reviewDate": "2026-11-21",
+  "scope": "更新第五部分官网购卡流程、结算优惠卡、配图与对应福利页入口。",
+  "sha256": {
+    "content/articles/simcard/Beesim/beesim.mdx": "cbd4cd410280f4ab7784511d71f64c0ed2fa0fe154a75ecf1645c59d920bfd03",
+    "public/images/articles/covers/beesim-guide.webp": "164f0e43d498253f785278155799f942f14bca9c999c092cf4e93d0f2ef92293",
+    "public/images/articles/beesim-guide/official-store.webp": "80c77f6328237c8a17b9fae85c2631c53131c274e86eb1980b698fa911b6495f",
+    "public/images/articles/beesim-guide/checkout-discount.webp": "7e42966e510bce9db0d29eb4c0ae0d3851f05f7f2dc7d3caf961471892dc0772",
+    "public/images/registration/beesim.jpg": "32d6a74d252dd744246f0947df0a64b9fe5e2e083a4cd033e514cd4f6b2238c2"
+  },
+  "evidence": [
+    "用户指定官网购买地址 https://shop.beeesim.com/buy-card 与活动码 7ARAN2JJ。",
+    "用户产品截图显示 BeeSIM Pro 页面售价 USD 19.90；结算截图显示活动码已应用、优惠 USD 3.00、运费免费、合计 USD 16.90，以及支付宝支付按钮。金额只对应工具卡示例，不与顶部 eSIM 套餐促销混用。",
+    "官网购买页可访问；品牌图标取自 https://shop.beeesim.com/images/favicon@48x48.jpg。没有声称亲自下单、重新验证优惠码或完成付款。"
+  ],
+  "content": "替换原淘宝检索码、过期 20 元券和旧购买截图引用；保留旧图片文件、原文章 ID、标题、发布日期、封面和标题锚点，补充导读中的购卡收获与状态。",
+  "visuals": "两张用户截图保留原始画面，在上方留白加入完整原始 Wise 标识，使用 WebP 压缩，合计 63,202 bytes；原图保存在 assets/source-images/beesim-guide。优惠卡沿用共享三栏布局和真实 BeeSIM 图标。",
+  "validation": [
+    "article:validate 与 article:audit：101 篇，0 错误/问题。",
+    "article-registration、article-guide-profile、article-image、weex-perk 共 30 项测试通过；TypeScript noEmit 检查通过。",
+    "Browser plugin not available；使用现有 Playwright 与 Chrome。未登录访问文章，桌面 1440px、手机 390px/320px、深色显示正常；两张新图加载、7ARAN2JJ 复制、购买链接目标均通过。",
+    "福利页 /perk/global-access#product-beesim-reader：减免金额、邀请码复制、官网购买目标、320px 无横向溢出通过。外部页面请求被测试拦截以验证目标，无订单与付款。",
+    "页面运行异常为空；控制台存在原有 Vercel 分析脚本 CSP 拦截与未登录接口 401，未修改相关功能。",
+    "补充修复非宽版福利卡的窄屏复制按钮：手机使用图标并保留读屏文字，桌面保留文字。320px 下 BeeSIM 的 7ARAN2JJ 与 XeSIM 的 WISE666 在复制后均完整显示；再次 TypeScript 检查及 16 项福利页相关测试通过。"
+  ]
+}

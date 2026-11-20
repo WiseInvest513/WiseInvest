@@ -224,7 +224,7 @@ function ProductCard({
         >
           <span className="truncate whitespace-nowrap">{product.code ?? "无需填写"}</span>
         </div>
-        {product.code && <CopyCodeButton code={product.code} />}
+        {product.code && <CopyCodeButton code={product.code} compact={!wide} />}
       </div>
     </div>
   );

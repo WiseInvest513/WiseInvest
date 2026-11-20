@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export function CopyCodeButton({ code }: { code: string }) {
+export function CopyCodeButton({ code, compact = false }: { code: string; compact?: boolean }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -37,12 +37,12 @@ export function CopyCodeButton({ code }: { code: string }) {
       {copied ? (
         <>
           <Check className="h-3.5 w-3.5 text-amber-500" />
-          已复制
+          <span className={compact ? "sr-only sm:not-sr-only" : undefined}>已复制</span>
         </>
       ) : (
         <>
           <Copy className="h-3.5 w-3.5" />
-          复制
+          <span className={compact ? "sr-only sm:not-sr-only" : undefined}>复制</span>
         </>
       )}
     </button>

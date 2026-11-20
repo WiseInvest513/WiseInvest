@@ -19,6 +19,13 @@ export const exclusiveInvitationBenefits: RegistrationBenefits = {
 // Extracted from the current tutorials. Keep the reward's basis and conditions;
 // a purchase discount, fee refund or voucher is not a trading commission rebate.
 export const articleRegistrationBenefits: Record<string, RegistrationBenefits> = {
+  // User-provided BeeSIM Pro checkout screenshot, 2026-11-21.
+  BeeSIM: {
+    title: "官网购卡优惠",
+    summaryText: "活动码减 3 美元，示例到手价 16.90 美元",
+    items: [{ value: "$3", label: "订单直接减免", condition: "购买 BeeSIM Pro，在结算页活动码栏填写 7ARAN2JJ 并点击应用。" }],
+    note: "单张结算示例：19.90 美元减至 16.90 美元，运费免费；付款前核对最终金额。",
+  },
   // Author-provided Kraken channel terms, 2026-11-20; higher tiers require contact and activation.
   "Kraken 海妖": {
     title: "Wise 专属返佣与奖励",

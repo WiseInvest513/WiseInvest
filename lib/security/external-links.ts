@@ -22,6 +22,7 @@ const ALLOWED_HOST_SUFFIXES = [
   "github.io",
   "gamsgo.com",
   "xesim.cc",
+  "shop.beeesim.com",
   "xuedingtoken.com",
   "shop.xuedingtoken.com",
   "acceboy.com",
