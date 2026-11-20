@@ -282,6 +282,7 @@ export const articleSeries: ArticleSeries[] = [
       { title: "OKX 注册", articleId: "okx-guide", stageId: "exchanges" },
       { title: "Bitget 注册", articleId: "bitget-exchange", stageId: "exchanges" },
       { title: "Bybit 注册", articleId: "bybit-guide", stageId: "exchanges" },
+      { title: "Kraken 海妖注册", articleId: "kraken-guide", stageId: "exchanges", summary: "25 组实操图讲解注册认证、加密入金、银行出金与交易返佣。" },
       { title: "U 卡费用与返现对比", articleId: "ucard-comparison", stageId: "wallets", summary: "比较七款 U 卡的开卡费、充值消费成本、奖励条件和支付绑定，附相同订单算例。" },
       { title: "Bitget Wallet 开卡", articleId: "bitget-vcard", stageId: "wallets" },
       { title: "SafePal 开卡", articleId: "safepal-vcard", stageId: "wallets" },

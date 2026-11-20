@@ -19,6 +19,18 @@ export const exclusiveInvitationBenefits: RegistrationBenefits = {
 // Extracted from the current tutorials. Keep the reward's basis and conditions;
 // a purchase discount, fee refund or voucher is not a trading commission rebate.
 export const articleRegistrationBenefits: Record<string, RegistrationBenefits> = {
+  // Author-provided Kraken channel terms, 2026-11-20; higher tiers require contact and activation.
+  "Kraken 海妖": {
+    title: "Wise 专属返佣与奖励",
+    summaryText: "默认 20% 返佣，联系 Wise 升级至 40%",
+    items: [
+      { value: "20%", label: "默认交易返佣", condition: "注册时填写 htsqfhfq，绑定 Wise 邀请关系。" },
+      { value: "40%", label: "联系升级返佣", condition: "注册后将 UID 私信 Wise，完成标记并开通升级。" },
+      { value: "10 USDC", label: "邀请现金奖励", condition: "填写邀请码注册，充值 100 USDC 并完成 100 USDC 交易。" },
+      { value: "50%", label: "推广合作比例", condition: "联系 Wise 开通推广合作，可分配 20% 或 30% 给受邀用户。" },
+    ],
+    note: "40% 升级与 50% 推广合作均需联系开通，不是注册后自动叠加。",
+  },
   // Updated from the user's explicit channel confirmation on 2026-11-05.
   Predict: {
     title: "交易手续费减免",

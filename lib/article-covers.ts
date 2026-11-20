@@ -3,6 +3,11 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "kraken-guide": {
+    src: "/images/articles/covers/kraken-guide.webp",
+    alt: "Kraken 海妖交易所：从注册到交易，开户认证、加密入金、法币出金、理财与 IPO 教程",
+    topics: ["Kraken", "海妖", "交易所", "USDC", "入金", "出金", "iFAST", "众安", "返佣"],
+  },
   "bbae-schwab-ibkr-comparison": {
     src: "/images/articles/covers/bbae-schwab-ibkr-comparison.webp",
     alt: "美资券商怎么选：BBAE、嘉信理财与 IBKR 盈透的品牌图标，背景、费用与入出金对比",

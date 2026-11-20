@@ -219,7 +219,7 @@ function ProductCard({
       <div className="flex min-w-0 items-center gap-2">
         <div
           className={`flex min-h-8 min-w-0 flex-1 items-center overflow-hidden rounded-lg border border-dashed border-slate-300/90 bg-white px-2.5 font-mono font-black text-slate-950 dark:border-slate-700 dark:bg-slate-950 dark:text-white ${
-            isLongCode ? "text-xs tracking-[0.03em]" : "text-[13px] tracking-[0.08em] sm:text-sm"
+            isLongCode ? "text-xs tracking-[0.03em]" : "text-xs tracking-[0.03em] sm:text-sm sm:tracking-[0.08em]"
           }`}
         >
           <span className="truncate whitespace-nowrap">{product.code ?? "无需填写"}</span>

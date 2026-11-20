@@ -44,7 +44,7 @@ export function CexRewardDialog() {
         <DialogHeader className="sr-only">
           <DialogTitle>交易所福利说明</DialogTitle>
           <DialogDescription>
-            使用邀请码注册币安、Bitget、欧易、Bybit、WEEX 或 Gate，完成 1000U 入金、保留 UID 记录并完成 10000U 合约交易后，可加入 VIP 群并领取现金红包奖励。MEXC 返佣与 BIT 美股账户奖励见各自卡片。
+            使用邀请码注册币安、Bitget、欧易、Bybit、WEEX 或 Gate，完成 1000U 入金、保留 UID 记录并完成 10000U 合约交易后，可加入 VIP 群并领取现金红包奖励。Kraken 海妖、MEXC 返佣与 BIT 美股账户奖励见各自卡片和教程。
           </DialogDescription>
         </DialogHeader>
 
@@ -94,7 +94,7 @@ export function CexRewardDialog() {
 
           <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-center dark:border-slate-800 dark:bg-slate-900/80">
             <p className="text-[11px] font-semibold leading-5 text-slate-500 dark:text-slate-400">
-              注册时请核对邀请码，避免福利漏绑。MEXC 的 20% 返佣与 BIT 美股账户的入金奖励见对应卡片，分别按各自条件办理。
+              注册时请核对邀请码，避免福利漏绑。Kraken 海妖的返佣与 10 USDC 任务奖励、MEXC 的 20% 返佣及 BIT 美股账户入金奖励见对应卡片和教程，分别按各自条件办理。
             </p>
           </div>
 

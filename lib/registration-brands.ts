@@ -82,6 +82,7 @@ const fosun: RegistrationBrand = {
 // Product titles take priority over domains. A card or wallet can share the
 // exchange's domain and code without sharing its trading rebate.
 const brandsByTitle: [RegExp, RegistrationBrand][] = [
+  [/Kraken|海妖/i, { name: "Kraken 海妖", iconSrc: "/images/registration/kraken.webp", tone: "purple" }],
   [/Bitget.*(?:Wallet|Card|钱包|卡)/i, { name: "Bitget Wallet", iconSrc: "/images/capital-flow/bitget-wallet.jpeg", tone: "blue" }],
   [/Bybit.*(?:Card|卡)/i, { name: "Bybit Card", iconSrc: "/images/capital-flow/bybit.jpeg", tone: "black" }],
   [/Gate.*(?:Card|卡)/i, { name: "Gate Card", iconSrc: "/images/registration/gate.jpg", tone: "blue" }],

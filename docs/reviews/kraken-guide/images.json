@@ -1,0 +1,227 @@
+[
+  {
+    "number": 1,
+    "source": "1.png",
+    "path": "/images/articles/kraken-guide/01.webp",
+    "width": 1920,
+    "height": 1080,
+    "originalBytes": 593592,
+    "webBytes": 66202
+  },
+  {
+    "number": 2,
+    "source": "2.jpg",
+    "path": "/images/articles/kraken-guide/02.webp",
+    "width": 2240,
+    "height": 1744,
+    "originalBytes": 406679,
+    "webBytes": 75690
+  },
+  {
+    "number": 3,
+    "source": "3.jpg",
+    "path": "/images/articles/kraken-guide/03.webp",
+    "width": 2240,
+    "height": 1342,
+    "originalBytes": 939908,
+    "webBytes": 204416
+  },
+  {
+    "number": 4,
+    "source": "4.png",
+    "path": "/images/articles/kraken-guide/04.webp",
+    "width": 2240,
+    "height": 1120,
+    "originalBytes": 1737706,
+    "webBytes": 78568
+  },
+  {
+    "number": 5,
+    "source": "5.jpg",
+    "path": "/images/articles/kraken-guide/05.webp",
+    "width": 2240,
+    "height": 1342,
+    "originalBytes": 332877,
+    "webBytes": 62792
+  },
+  {
+    "number": 6,
+    "source": "6.jpg",
+    "path": "/images/articles/kraken-guide/06.webp",
+    "width": 2240,
+    "height": 1346,
+    "originalBytes": 422384,
+    "webBytes": 80304
+  },
+  {
+    "number": 7,
+    "source": "7.jpg",
+    "path": "/images/articles/kraken-guide/07.webp",
+    "width": 2240,
+    "height": 944,
+    "originalBytes": 309384,
+    "webBytes": 57210
+  },
+  {
+    "number": 8,
+    "source": "8.jpg",
+    "path": "/images/articles/kraken-guide/08.webp",
+    "width": 2240,
+    "height": 830,
+    "originalBytes": 314765,
+    "webBytes": 64420
+  },
+  {
+    "number": 9,
+    "source": "9.jpg",
+    "path": "/images/articles/kraken-guide/09.webp",
+    "width": 2240,
+    "height": 1105,
+    "originalBytes": 440003,
+    "webBytes": 94998
+  },
+  {
+    "number": 10,
+    "source": "10.jpg",
+    "path": "/images/articles/kraken-guide/10.webp",
+    "width": 2240,
+    "height": 1105,
+    "originalBytes": 433298,
+    "webBytes": 88540
+  },
+  {
+    "number": 11,
+    "source": "11.jpg",
+    "path": "/images/articles/kraken-guide/11.webp",
+    "width": 1600,
+    "height": 1821,
+    "originalBytes": 613546,
+    "webBytes": 115924
+  },
+  {
+    "number": 12,
+    "source": "12.jpg",
+    "path": "/images/articles/kraken-guide/12.webp",
+    "width": 2240,
+    "height": 944,
+    "originalBytes": 346102,
+    "webBytes": 69150
+  },
+  {
+    "number": 13,
+    "source": "13.png",
+    "path": "/images/articles/kraken-guide/13.webp",
+    "width": 2240,
+    "height": 1260,
+    "originalBytes": 1747705,
+    "webBytes": 71598
+  },
+  {
+    "number": 14,
+    "source": "14.jpg",
+    "path": "/images/articles/kraken-guide/14.webp",
+    "width": 2240,
+    "height": 953,
+    "originalBytes": 387456,
+    "webBytes": 83464
+  },
+  {
+    "number": 15,
+    "source": "15.jpg",
+    "path": "/images/articles/kraken-guide/15.webp",
+    "width": 2240,
+    "height": 953,
+    "originalBytes": 376678,
+    "webBytes": 75878
+  },
+  {
+    "number": 16,
+    "source": "16.jpg",
+    "path": "/images/articles/kraken-guide/16.webp",
+    "width": 2240,
+    "height": 1748,
+    "originalBytes": 472686,
+    "webBytes": 86432
+  },
+  {
+    "number": 17,
+    "source": "17.jpg",
+    "path": "/images/articles/kraken-guide/17.webp",
+    "width": 2240,
+    "height": 1105,
+    "originalBytes": 543639,
+    "webBytes": 110680
+  },
+  {
+    "number": 18,
+    "source": "18.jpg",
+    "path": "/images/articles/kraken-guide/18.webp",
+    "width": 2240,
+    "height": 1105,
+    "originalBytes": 552992,
+    "webBytes": 120460
+  },
+  {
+    "number": 19,
+    "source": "19.jpg",
+    "path": "/images/articles/kraken-guide/19.webp",
+    "width": 2240,
+    "height": 1346,
+    "originalBytes": 627565,
+    "webBytes": 130878
+  },
+  {
+    "number": 20,
+    "source": "20.jpg",
+    "path": "/images/articles/kraken-guide/20.webp",
+    "width": 2240,
+    "height": 953,
+    "originalBytes": 435626,
+    "webBytes": 91756
+  },
+  {
+    "number": 21,
+    "source": "21.jpg",
+    "path": "/images/articles/kraken-guide/21.webp",
+    "width": 2240,
+    "height": 1346,
+    "originalBytes": 740009,
+    "webBytes": 156082
+  },
+  {
+    "number": 22,
+    "source": "22.jpg",
+    "path": "/images/articles/kraken-guide/22.webp",
+    "width": 2240,
+    "height": 1346,
+    "originalBytes": 728415,
+    "webBytes": 152952
+  },
+  {
+    "number": 23,
+    "source": "23.png",
+    "path": "/images/articles/kraken-guide/23.webp",
+    "width": 2240,
+    "height": 1359,
+    "originalBytes": 341614,
+    "webBytes": 42910
+  },
+  {
+    "number": 24,
+    "source": "24.png",
+    "path": "/images/articles/kraken-guide/24.webp",
+    "width": 2240,
+    "height": 1120,
+    "originalBytes": 1192924,
+    "webBytes": 85744
+  },
+  {
+    "number": 25,
+    "source": "25.png",
+    "path": "/images/articles/kraken-guide/25.webp",
+    "width": 2240,
+    "height": 1260,
+    "originalBytes": 2081439,
+    "webBytes": 86860
+  }
+]

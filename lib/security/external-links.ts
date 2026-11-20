@@ -64,6 +64,7 @@ const ALLOWED_HOST_SUFFIXES = [
   "icbcasia.com",
   "ifastgb.com",
   "mexc.com",
+  "proinvite.kraken.com",
   "mpchat.com",
   "mp.net",
   "safepal.com",
