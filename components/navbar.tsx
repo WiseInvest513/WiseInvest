@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { shouldShowAutomaticPopup } from "@/lib/popup-cooldown";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
@@ -103,9 +102,8 @@ export function Navbar() {
     void readNavSession().catch(() => {});
   }, [pathname, isPointAdmin]);
 
-  useEffect(() => {
-    if (!/^\/(admin|account|auth|login|register|oauth|checkout|api)(\/|$)/.test(window.location.pathname) && shouldShowAutomaticPopup()) setRecommendationOpen(true);
-  }, []);
+  // Automatic display is owned by the shared limited-time campaign.
+
 
   // Point management has its own full-page navigation; the sticky public bar
   // must not cover the editor or intercept clicks on its controls.
@@ -177,11 +175,12 @@ export function Navbar() {
           <div className="flex-1 xl:hidden" />
           <a
             href="https://vip.wise-invest.org/join"
+            aria-label="加入 VIP"
             target="_blank"
             rel="noopener noreferrer"
             className="mr-1 inline-flex h-8 shrink-0 items-center gap-1.5 rounded-lg bg-amber-50 px-2 text-xs font-semibold text-amber-700 transition-colors hover:bg-amber-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500 dark:bg-amber-900/20 dark:text-amber-300 sm:px-3 xl:mr-2"
           >
-            <Crown className="h-4 w-4" aria-hidden="true" />加入 VIP
+            <Crown className="h-4 w-4" aria-hidden="true" /><span className="hidden sm:inline">加入 VIP</span>
           </a>
           <button
             className="xl:hidden p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors mr-1"
@@ -199,6 +198,7 @@ export function Navbar() {
           <div className="hidden xl:block w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1 shrink-0" />
 
           {/* Right actions */}
+          <button type="button" data-wise-kraken="">限时福利</button>
           <div className="flex items-center gap-0.5 shrink-0">
             <button onClick={() => setSearchOpen(true)} className="hidden items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 xl:inline-flex" title="搜索全站">
               <Search className="h-4 w-4 text-amber-600 dark:text-amber-400" />

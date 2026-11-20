@@ -19,6 +19,9 @@ import { suppressAutomaticRecommendation } from "@/lib/recommendation-visibility
 
 import { recordPopupShown, shouldShowAutomaticPopup } from "@/lib/popup-cooldown";
 
+// The shared limited-time campaign currently owns automatic display.
+const AUTOMATIC_RECOMMENDATIONS_ENABLED = false;
+
 interface DailyRecommendationProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -40,7 +43,7 @@ export function DailyRecommendation({ open: controlledOpen, onOpenChange: contro
 
   useEffect(() => {
     // 如果是受控模式（手动触发），不自动显示
-    if (controlledOpen !== undefined || suppressAutomatic) {
+    if (controlledOpen !== undefined || suppressAutomatic || !AUTOMATIC_RECOMMENDATIONS_ENABLED) {
       return;
     }
 
