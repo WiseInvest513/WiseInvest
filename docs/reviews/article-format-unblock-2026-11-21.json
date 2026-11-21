@@ -1,0 +1,17 @@
+{
+  "scope": "推送 BeeSIM 更新前修复已提交文章的构建格式阻塞，仅章节编号与列表封面编码。",
+  "articleId": "ai-bubble-45-days",
+  "articleSha256": "0be1f3aae5afd74db4957a4b2a79610a8e93b9759261fa16a15dc5f29e94830d",
+  "coverSha256": "9e349e78cf8777195acebb4ebb86d9217a004da576dc7626eae3bb8c879cfc99",
+  "changes": [
+    "10 个 H2 增加一至十连续编号，除编号外全文逐字与 HEAD 相同，标题层级和数量不变。",
+    "封面保持 640×360 和原画面，WebP 重编码，26220 bytes 压缩至 15196 bytes；原始素材与正文图片保留。"
+  ],
+  "review": "目视对照压缩前后，图中文字、标注与原作者署名保留。此为格式修复，不是该文章事实或来源的重新审阅。",
+  "validation": [
+    "article:validate：102 篇，0 错误。",
+    "article:audit：102 篇，0 问题。",
+    "标题数量与层级不变，按序生成的 h-N 锚点保持。"
+  ],
+  "existingTestLimitation": "article-toc.test.mjs 8 项在加载阶段因缺少 @/lib/articles 测试替身而失败；该测试及其加载的应用组件均未在本次修改，不是正文断言失败。"
+}
