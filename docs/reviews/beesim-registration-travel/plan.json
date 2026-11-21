@@ -1,0 +1,41 @@
+{
+  "id": "beesim-guide",
+  "mode": "existing-article-update",
+  "target": "content/articles/simcard/Beesim/beesim.mdx",
+  "access": "PUBLIC",
+  "guide": {
+    "audience": [
+      "准备出国旅行，想按目的地购买短期上网套餐的人",
+      "手机没有原生 eSIM，希望用 BeeSIM 工具卡搭配旅行套餐的人"
+    ],
+    "outcomes": [
+      "区分 BeeSIM 实体工具卡与旅行 eSIM 套餐，判断自己需要购买哪一种",
+      "注册时绑定 7ARAN2JJ，享 eSIM 流量套餐 10% 减免并核对工具卡优惠",
+      "按覆盖地区、流量和有效期选套餐，再按设备类型安装并检查上网"
+    ],
+    "prepare": "准备邮箱、手机型号和系统版本、出行目的地与天数；使用工具卡前确认设备及所购套餐支持写入。",
+    "status": "作者已确认推荐渠道的 eSIM 流量套餐统一减免 10%；工具卡优惠单独列示。流量套餐是否带号码、何时开始计时及安装规则需看所选套餐说明。"
+  },
+  "outline": [
+    "一、BeeSIM 解决什么问题：工具卡与旅行上网套餐的区别和配合",
+    "二、传统 SIM 卡和 eSIM：保留原有概念与配图",
+    "三、购买前检查设备和套餐：原生 eSIM 与工具卡的选择",
+    "四、实操使用：保留已有小程序蓝牙写卡步骤，补充固件、手动配置入口",
+    "五、如何购买：注册绑定推荐码、选择硬件或套餐、混合订单折扣、保留单卡减 3 美元的活动码示例与付款说明",
+    "六、旅行 eSIM 怎么选、怎么用：目的地、流量/限速、有效期、交付安装与出行上网检查",
+    "七、总结：从账号绑定到购买与安装的一条完整路径"
+  ],
+  "preserve": [
+    "文章 ID、路由、发布日期、封面、公开阅读、现有图片文件",
+    "原有标题数量及已有 H3 顺序，维持 h-8 购买章节锚点"
+  ],
+  "sources": [
+    "用户三张新截图和注册推荐码权益说明",
+    "https://shop.beeesim.com/register",
+    "https://shop.beeesim.com/buy-card",
+    "https://shop.beeesim.com/buy-esim",
+    "https://shop.beeesim.com/help",
+    "https://www.beeesim.com/guide",
+    "用户后续明确确认：eSIM 流量套餐均为 10% 减免，不把该比例套用于工具卡。"
+  ]
+}

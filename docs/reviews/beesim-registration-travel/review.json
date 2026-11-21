@@ -1,0 +1,34 @@
+{
+  "articleId": "beesim-guide",
+  "reviewDate": "2026-11-21",
+  "planSha256": "f311ee09ee0ddcfd425edd9d7a6a8b99d63f64a1c6fc154ff0a34aa3aa6343c7",
+  "articleSha256": "ec56892c780c71309ee32561a4a1bcf4aacc927ca6ec65b755c31ff0ba27a42c",
+  "coverSha256": "164f0e43d498253f785278155799f942f14bca9c999c092cf4e93d0f2ef92293",
+  "checks": {
+    "guide": "新导读对应正文：第一至四部分区分实体工具卡和旅行套餐并讲蓝牙安装，第五部分提供注册推荐码和两种结算示例，第六部分补充目的地、流量、有效期及两类设备安装方式。保留原文章 ID、路由、日期和独立文字封面；购买锚点仍为 h-8。",
+    "facts": "按用户最新确认，注册绑定 7ARAN2JJ 后，后续购买 eSIM 流量套餐统一减免 10%。不把 10% 套用于工具卡，也不把工具卡减 3 美元套用于每份 eSIM。混合订单截图显示 3 张工具卡和 2 份套餐，63.38-9.36=54.02；单卡活动码截图保留 19.90-3=16.90。不反推混合订单统一折扣率，不承诺活动叠加。通过只读浏览器核对官方 register、buy-esim、help 页面，以及 www.beeesim.com/guide：注册表有推荐码、套餐页有国家/多区域/流量/天数、帮助提供扫码与手动配置、设备分类及固件更新。未实际注册、下单、付款，不虚构固定有效期起算规则、短信能力或所有套餐无条件兼容。",
+    "visuals": "查看三张新增压缩 WebP：注册表、混合订单推荐优惠、旅行套餐目录。保留真实画面与用户箭头，上边留白使用完整原始 Wise 标识，文字与人物清楚。三张合计 103134 bytes，原图存放 assets/source-images/beesim-guide。旧操作图、商品页与单卡结算图均保留。",
+    "referrals": "同一文章只保留一张 BeeSIM 共享注册邀请卡，链接为 https://shop.beeesim.com/register，邀请码 7ARAN2JJ，显示 eSIM 10% 减免和单卡 3 美元示例。官网买卡与买 eSIM 使用真实外部文字链接；没有新增站内引用。福利页同步注册入口与 10% 流量优惠，不改其他品牌。",
+    "access": "保持公开策略；本地未登录浏览器可读完整正文。没有变更账号权限或执行部署。"
+  },
+  "validation": {
+    "article": "BeeSIM 单篇校验 0 错误、0 提示；102 篇列表审计 0 问题。",
+    "tests": "36 项邀请卡、导读、图片、福利页测试通过；用户补充 10% 后再次单篇校验与 14 项邀请卡测试通过。TypeScript noEmit 检查通过。",
+    "browser": "Browser plugin not available，使用现有 Playwright/Chrome。桌面 1440px、手机 390/320px、深色已看；注册卡仅一张、邀请码复制准确、链接指向 register，旅行套餐链接指向 buy-esim，五张新旧网页截图均 200 加载，新截图可点击放大，福利页 10% 与注册入口正确，无整页横向溢出，无 pageerror。",
+    "console": "原有 Vercel 分析脚本 CSP 拦截和未登录接口 401，未改变相关功能。",
+    "repositoryGate": "提交前复查：全站 article:validate 102 篇 0 错误、0 提示；article:audit 0 问题。已提交 AI 市场文章的 10 个章节编号与封面体积问题单独修正，审阅见 docs/reviews/article-format-unblock-2026-11-21.json。",
+    "additionalTestLimitation": "额外目录测试 8 项因既有测试替身缺少 @/lib/articles 在加载阶段失败；本次未修改目录组件或测试。BeeSIM 本地浏览器目录及 h-8 购买入口已通过验证。"
+  },
+  "sourceUrls": [
+    "https://shop.beeesim.com/register",
+    "https://shop.beeesim.com/buy-esim",
+    "https://shop.beeesim.com/help",
+    "https://www.beeesim.com/guide"
+  ],
+  "assetSha256": {
+    "public/images/articles/beesim-guide/register-referral.webp": "6a32d6f82b299fbc21f3c8eec79fea013660f9d7717991eb567f2ff77a61deb9",
+    "public/images/articles/beesim-guide/referral-order.webp": "ea987859be78d8bc321ddc409ebe33ae2ffef9e23b849d9372057b9cbcad877f",
+    "public/images/articles/beesim-guide/travel-esim-catalog.webp": "93ceec8d7bcb5f5a095e57ccdef80ab6a0a1914de31875cd8ff9b2523e8cd37e"
+  },
+  "publication": "提交前已由用户授权推送 GitHub；实际提交与部署状态见 Git 历史和平台记录。"
+}
