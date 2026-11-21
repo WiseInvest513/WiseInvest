@@ -480,6 +480,11 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "Anthropic（ANT）IPO：估值判断、上市走势与 Bitget IPO Prime 怎么参与",
     topics: ["Anthropic", "IPO", "ANT", "Claude", "Bitget", "估值"],
   },
+  "ai-bubble-45-days": {
+    src: "/images/articles/covers/ai-bubble-45-days.webp",
+    alt: "AI泡沫破了吗？45天蒸发6万亿美元的复盘与思考",
+    topics: ["AI", "泡沫", "标普500", "科技股", "估值"],
+  },
 };
 
 // Preserve the BIT tutorials' original instructional-image fallbacks.
