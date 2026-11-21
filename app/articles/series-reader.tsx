@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useId, useState } from "react";
-import { ArrowLeft, ArrowRight, ArrowUpRight, ArrowLeftRight, BookOpen, ChevronDown, Coins, Gift, Globe2, LayoutGrid, Layers, Mail, Map as MapIcon, ShieldCheck, ShieldAlert, Smartphone, UserRound, Wallet, ChartNoAxesCombined, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, ArrowLeftRight, BookOpen, ChevronDown, Coins, Gift, Globe2, LayoutGrid, Layers, Map as MapIcon, ShieldCheck, ShieldAlert, Wallet, ChartNoAxesCombined, type LucideIcon } from "lucide-react";
 import type { ArticleListItem } from "@/lib/articles";
 import { SeriesArticleEntry } from "./series-article-entry";
+import { OverseasReadinessMap } from "./overseas-readiness-map";
 import { SeriesRecommendations } from "./series-recommendations";
 import { SeriesFavoriteButton } from "./series-favorite-button";
 import { SeriesProgressPanel, useReadableSeriesProgress } from "./series-progress";
@@ -65,23 +66,15 @@ const presentations: Record<string, SeriesPresentation> = {
   },
   overseas: {
     icon: Globe2,
-    introduction: "把海外账号与通信工具的准备串成一条学习路径。从 Google、Apple ID 到境外手机号与 eSIM，逐步了解申请、使用和后续维护。",
-    outcomes: [
-      { icon: UserRound, title: "准备常用账号", description: "了解 Google 与不同地区 Apple ID 的注册。" },
-      { icon: Smartphone, title: "选择通信工具", description: "认识实体 SIM 卡、eSIM 与开通流程。" },
-      { icon: ShieldCheck, title: "做好后续维护", description: "关注账号安全、保号和日常使用限制。" },
-    ],
-    chapters: [
-      { icon: Mail, summary: "准备注册资料，了解账号创建与验证。" },
-      { icon: UserRound, summary: "梳理不同地区 Apple ID 的申请和使用。" },
-      { icon: Smartphone, summary: "了解 giffgaff 激活、使用与保号。" },
-      { icon: Globe2, summary: "了解 Xesim 申请、开通与设备准备。" },
-    ],
+    introduction: "",
+    outcomes: [],
+    chapters: [],
   },
 };
 
 function getPresentation(series: ArticleSeries): SeriesPresentation {
-  return presentations[series.id] ?? { icon: BookOpen, introduction: series.introduction ?? series.description, outcomes: [], chapters: [] };
+  const presentation = presentations[series.id] ?? { icon: BookOpen, introduction: series.description, outcomes: [], chapters: [] };
+  return { ...presentation, introduction: series.introduction ?? presentation.introduction };
 }
 
 function SeriesMark({ series, small = false }: { series: ArticleSeries; small?: boolean }) {
@@ -141,7 +134,7 @@ function PathNavigation({ series, reading, articleId, onNavigate }: SeriesReader
     <nav aria-label="学习路线目录" className={styles.navigation}>
       <Link href={reading.returnTo?.href ?? "/articles?view=series"} className={styles.back} onClick={onNavigate}><ArrowLeft size={15} aria-hidden="true" />{reading.returnTo ? "返回原学习阶段" : "全部系列"}</Link>
       <div className={styles.heading}><SeriesMark series={series} small /><h2>{series.title}</h2><p>{reading.stages.length} 个阶段 · {reading.publishedCount} 篇文章</p><SeriesProgressPanel snapshot={progress.snapshot} ready={progress.ready} disabled={progress.disabled} onClear={progress.clear} onToggleDisabled={progress.toggleDisabled} /></div>
-      <Link href={reading.overviewHref} className={styles.overviewLink} aria-current={!articleId ? "page" : undefined} onClick={onNavigate}><LayoutGrid size={16} aria-hidden="true" />路线目录</Link>
+      <Link href={reading.overviewHref} className={styles.overviewLink} aria-current={!articleId ? "page" : undefined} onClick={onNavigate}><LayoutGrid size={16} aria-hidden="true" />{series.kind === "path" ? "路线目录" : "系列概览"}</Link>
       {reading.mapHref && <ProtectedContentLink href={reading.mapHref} prefetch={false} className={styles.overviewLink}><MapIcon size={16} aria-hidden="true" />返回资金地图</ProtectedContentLink>}
       {reading.stages.map((stage, index) => {
         const expanded = expandedStage === stage.id;
@@ -150,7 +143,8 @@ function PathNavigation({ series, reading, articleId, onNavigate }: SeriesReader
           <h3><button id={`${panelId}-toggle`} type="button" className={styles.stageToggle} aria-expanded={expanded} aria-controls={panelId} onClick={() => setExpandedStage(expanded ? undefined : stage.id)}><span>{String(index + 1).padStart(2, "0")}</span><span>{stage.title}</span><ChevronDown size={15} aria-hidden="true" /></button></h3>
           <div id={panelId} hidden={!expanded} aria-labelledby={`${panelId}-toggle`}>
             {stage.resources?.map(resource => <SeriesResource key={resource.href} resource={resource} compact onNavigate={onNavigate} />)}
-            <ul className={styles.chapterList}>{stage.chapters.map(chapter => <li key={chapter.articleId ?? chapter.title}>{chapter.href ? <Link href={chapter.href} className={styles.chapter} data-read={progress.isRead(chapter.articleId) || undefined} aria-current={chapter.articleId === articleId ? "page" : undefined} onClick={onNavigate}><BookOpen size={15} aria-hidden="true" /><span>{chapter.title}</span><SeriesTypeBadge /></Link> : <span className={styles.chapter} aria-disabled="true">{chapter.title}<small>待更新</small></span>}</li>)}</ul>
+            <ul className={styles.chapterList}>{stage.chapters.filter(chapter => chapter.href).map(chapter => <li key={chapter.articleId}><Link href={chapter.href!} className={styles.chapter} data-read={progress.isRead(chapter.articleId) || undefined} aria-current={chapter.articleId === articleId ? "page" : undefined} onClick={onNavigate}><BookOpen size={15} aria-hidden="true" /><span>{chapter.title}</span><SeriesTypeBadge /></Link></li>)}</ul>
+            {stage.chapters.some(chapter => !chapter.href) && <details className={styles.plannedNavigation}><summary><span>后续章节<small>筹备中</small></span><ChevronDown size={15} aria-hidden="true" /></summary><ul className={styles.chapterList}>{stage.chapters.filter(chapter => !chapter.href).map(chapter => <li key={chapter.title}><span className={styles.chapter} aria-disabled="true">{chapter.title}<small>待更新</small></span></li>)}</ul></details>}
           </div>
         </section>;
       })}
@@ -164,13 +158,12 @@ function stageResourceSummary(resources: NonNullable<SeriesReadingState["stages"
 }
 
 function PathOverview({ series, reading, articles = [] }: SeriesReaderContext) {
-  const byId = new globalThis.Map(articles.map(article => [article.id, article]));
   const progress = useReadableSeriesProgress(series, reading, undefined, false);
   return (
     <div className={`${styles.overview} ${styles.pathOverview}`}>
       <header className={styles.intro}>
         <div className={styles.productTitle}><SeriesMark series={series} /><div><h1>{series.title}</h1><p>{series.description}</p></div></div>
-        <p className={styles.introduction}>{series.introduction}</p>
+        <p className={styles.introduction}><span aria-hidden="true">📚</span><span>{series.introduction}</span></p>
         <SeriesProgressPanel snapshot={progress.snapshot} ready={progress.ready} disabled={progress.disabled} onClear={progress.clear} onToggleDisabled={progress.toggleDisabled} />
         <div className={styles.introActions}>
           {reading.stages[0]?.resources?.length && reading.first?.href ? <Link href={reading.first.href} className={styles.start}><BookOpen size={17} aria-hidden="true" />从第一课开始<ArrowRight size={15} aria-hidden="true" /></Link> : null}
@@ -180,15 +173,26 @@ function PathOverview({ series, reading, articles = [] }: SeriesReaderContext) {
           <span>{reading.stages.length} 个阶段 · {reading.publishedCount} 篇已有文章</span>
         </div>
       </header>
+      <SeriesStageOutline series={series} reading={reading} articles={articles} isRead={progress.isRead} />
+    </div>
+  );
+}
+
+function SeriesStageOutline({ series, reading, articles = [], isRead }: SeriesReaderContext & { isRead: (articleId?: string) => boolean }) {
+  const byId = new globalThis.Map(articles.map(article => [article.id, article]));
+  return <div className={styles.pathOverview}>
       <nav className={styles.stageTabs} aria-label="学习阶段">{reading.stages.map((stage, index) => <a key={stage.id} href={`#stage-${stage.id}`}><span>{String(index + 1).padStart(2, "0")}</span>{stage.title}<ArrowRight size={13} aria-hidden="true" /></a>)}</nav>
       {reading.stages.map((stage, index) => <section key={stage.id} id={`stage-${stage.id}`} className={styles.pathStage} aria-labelledby={`heading-${stage.id}`}>
         {series.id === "nasdaq-investing" && (stage.id === "compare" ? <span id="stage-risk" /> : stage.id === "practice" ? <><span id="stage-plan" /><span id="stage-hold" /></> : null)}
         <div className={styles.stageHeading}><span>{String(index + 1).padStart(2, "0")}</span><div><div className={styles.stageTitleRow}><h2 id={`heading-${stage.id}`}>{stage.title}</h2>{reading.returnTo && <Link className={styles.stageReturn} href={reading.returnTo.href}><ArrowLeft size={13} aria-hidden="true" />返回原阶段</Link>}</div><p>{stage.description}</p></div><small>{stage.chapters.filter(chapter => chapter.href).length} 篇文章{stage.resources?.length ? ` · ${stageResourceSummary(stage.resources)}` : ""}</small></div>
         {stage.resources?.map(resource => <SeriesResource key={resource.href} resource={resource} />)}
-        <ul className={styles.pathArticles}>{stage.chapters.map(chapter => <SeriesArticleEntry key={chapter.articleId ?? chapter.title} chapter={chapter} article={chapter.articleId ? byId.get(chapter.articleId) : undefined} read={progress.isRead(chapter.articleId)} />)}</ul>
+        <ul className={styles.pathArticles}>{stage.chapters.filter(chapter => chapter.href).map(chapter => <SeriesArticleEntry key={chapter.articleId} chapter={chapter} article={chapter.articleId ? byId.get(chapter.articleId) : undefined} read={isRead(chapter.articleId)} />)}</ul>
+        {stage.chapters.some(chapter => !chapter.href) && <details className={styles.plannedOutline}>
+          <summary><span>后续章节规划<small>{stage.chapters.filter(chapter => !chapter.href).length} 章筹备中</small></span><ChevronDown size={17} aria-hidden="true" /></summary>
+          <ul className={styles.pathArticles}>{stage.chapters.filter(chapter => !chapter.href).map(chapter => <SeriesArticleEntry key={chapter.title} chapter={chapter} />)}</ul>
+        </details>}
       </section>)}
-    </div>
-  );
+  </div>;
 }
 
 function PathPagination({ series, reading, articleId, compact }: SeriesReaderContext & { compact?: boolean }) {
@@ -207,7 +211,7 @@ function PathPagination({ series, reading, articleId, compact }: SeriesReaderCon
 }
 
 export function SeriesNavigation({ series, reading, articleId, onNavigate }: SeriesReaderContext & { onNavigate?: () => void }) {
-  if (series.kind === "path") return <PathNavigation key={`${series.id}:${articleId ?? "overview"}`} series={series} reading={reading} articleId={articleId} onNavigate={onNavigate} />;
+  if (reading.stages.length) return <PathNavigation key={`${series.id}:${articleId ?? "overview"}`} series={series} reading={reading} articleId={articleId} onNavigate={onNavigate} />;
   return <StandardSeriesNavigation series={series} reading={reading} articleId={articleId} onNavigate={onNavigate} />;
 }
 
@@ -257,13 +261,15 @@ export function SeriesPagination({ series, reading, articleId, compact = false }
 function StandardSeriesPagination({ series, reading, articleId, compact = false }: SeriesReaderContext & { compact?: boolean }) {
   const { previous, next, currentIndex } = reading;
   const isTopic = series.kind === "topic";
+  const published = reading.chapters.filter(chapter => chapter.href);
+  const position = reading.stages.length ? `第 ${published.findIndex(chapter => chapter.articleId === articleId) + 1} / ${published.length} 篇` : `第 ${currentIndex + 1} / ${series.chapters.length} ${isTopic ? "篇" : "章"}`;
   const progress = useReadableSeriesProgress(series, reading, articleId);
   return (
     <>{compact && <SeriesReturnNotice reading={reading} />}{compact && <SeriesProgressPanel snapshot={progress.snapshot} ready={progress.ready} disabled={progress.disabled} compact />}
     <nav aria-label={compact ? isTopic ? "文章切换" : "章节切换" : isTopic ? "继续阅读" : "继续学习"} className={compact ? styles.toolbar : styles.pagination}>
       {compact ? (
         <>
-          <div className={styles.position}><BookOpen size={16} aria-hidden="true" /><Link href={reading.overviewHref}>{series.title}</Link><small>{currentIndex >= 0 ? `第 ${currentIndex + 1} / ${series.chapters.length} ${isTopic ? "篇" : "章"}` : isTopic ? "相关文章" : "综合教程"}</small></div>
+          <div className={styles.position}><BookOpen size={16} aria-hidden="true" /><Link href={reading.overviewHref}>{series.title}</Link><small>{currentIndex >= 0 ? position : isTopic ? "相关文章" : "综合教程"}</small></div>
           <div className={styles.arrows}>
             {previous?.href ? <Link href={previous.href} aria-label={`上一篇：${previous.title}`} title={`上一篇：${previous.title}`}><ArrowLeft size={18} /></Link> : <button disabled aria-label="没有上一篇"><ArrowLeft size={18} /></button>}
             {next?.href ? <Link href={next.href} aria-label={`下一篇：${next.title}`} title={`下一篇：${next.title}`}><ArrowRight size={18} /></Link> : <button disabled aria-label="没有下一篇"><ArrowRight size={18} /></button>}
@@ -298,7 +304,7 @@ function StandardOverview({ series, reading, articles = [] }: SeriesReaderContex
     <div className={styles.overview}>
       <header className={styles.intro}>
         <div className={styles.productTitle}><SeriesMark series={series} /><div><h1>{series.title}</h1><p>{series.description}</p></div></div>
-        <p className={styles.introduction}>{presentation.introduction}</p>
+        <p className={styles.introduction}><span aria-hidden="true">📚</span><span>{presentation.introduction}</span></p>
         <SeriesProgressPanel snapshot={progress.snapshot} ready={progress.ready} disabled={progress.disabled} onClear={progress.clear} onToggleDisabled={progress.toggleDisabled} />
         <div className={styles.introActions}>
           {startHref && <Link href={startHref} className={styles.start}><BookOpen size={17} aria-hidden="true" />{reading.existingHref ? "阅读综合教程" : isTopic ? "开始阅读" : "开始学习"}<ArrowRight size={17} aria-hidden="true" /></Link>}
@@ -311,7 +317,7 @@ function StandardOverview({ series, reading, articles = [] }: SeriesReaderContex
         <h2 id="existing-guide-heading">综合教程已可读</h2>
         <Link href={reading.existingHref} className={styles.bookResource}><BookOpen size={24} aria-hidden="true" /><span><small>从现有教程开始</small>{series.existingArticleTitle ?? `${series.title} · 综合教程`}</span><ArrowRight size={18} aria-hidden="true" /></Link>
       </section>}
-      {presentation.outcomes.length > 0 ? (
+      {series.id === "overseas" ? <OverseasReadinessMap reading={reading} /> : presentation.outcomes.length > 0 ? (
         <section className={styles.learning} aria-labelledby="series-learning-heading">
           <h2 id="series-learning-heading">{isTopic ? "这个系列关注什么" : "你将在这个系列学到"}</h2>
           <div className={styles.outcomes}>{presentation.outcomes.map(({ icon: Icon, title, description }, index) => <div key={title} className={styles.outcome}><span className={styles.outcomeIcon} data-tone={index}><Icon size={21} strokeWidth={1.6} aria-hidden="true" /></span><h3>{title}</h3><p>{description}</p></div>)}</div>
@@ -319,11 +325,11 @@ function StandardOverview({ series, reading, articles = [] }: SeriesReaderContex
       ) : null}
       {published.length > 0 && <section aria-labelledby="series-outline-heading">
         <div className={styles.outlineHeader}><h2 id="series-outline-heading">{isTopic ? "内容目录" : "学习目录"}<small>（{published.length}）</small></h2><span>{isTopic ? "按自己的需要选择阅读" : "按章节循序学习"}</span></div>
-        <ol className={styles.outline}>
+        {reading.stages.length ? <SeriesStageOutline series={series} reading={reading} articles={articles} isRead={progress.isRead} /> : <ol className={styles.outline}>
           {published.map(chapter => <SeriesArticleEntry key={chapter.articleId ?? chapter.title} chapter={chapter} article={chapter.articleId ? byId.get(chapter.articleId) : undefined} read={progress.isRead(chapter.articleId)} />)}
-        </ol>
+        </ol>}
       </section>}
-      {planned.length > 0 && <details className={styles.plannedOutline}>
+      {planned.length > 0 && !reading.stages.length && <details className={styles.plannedOutline}>
         <summary><span>{isTopic ? "后续内容规划" : "独立章节规划"}<small>{planned.length} {isTopic ? "篇" : "章"}筹备中</small></span><ChevronDown size={17} aria-hidden="true" /></summary>
         <p>{reading.existingHref ? "可先阅读上方综合教程。以下为待发布的独立章节，发布后会在目录中开放。" : "以下内容正在整理，发布后会在目录中开放。"}</p>
         <ol className={styles.outline}>

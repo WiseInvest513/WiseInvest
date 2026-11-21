@@ -1,0 +1,12 @@
+{
+  "planSha256": "009a05cf05f4421aae0be8cc76fd684ab4f2561f765f970514cc36bda0a03fc4",
+  "articleSha256": "c79b8993293199c486b8f51fc1537c15cd2dbb8d3f8f72888cde31531a376f1d",
+  "coverSha256": "87f50c4dc77a9ef86af87dd0d1ee9a8c216efb960211f5c2f509888739f4ab5b",
+  "checks": {
+    "guide": "第一、三章区分号码、流量、载体，第二章讲设备与账号地区，第四至六章给出工具与购买入口，第七章给出选择方法，均兑现独立导读；没有复用账号总览文案。",
+    "facts": "2026-11-21 读取 Apple 123879/118669、XeSIM 官方 userguide、BeeSIM 官方 guide 及 Wise SIM giffgaff 商品页。未复制过时售价和永久免月租保证；国行设备激活境外 eSIM 的所在地限制明确说明。BeeSIM 流量九折来自用户最新明确确认，不推断工具卡也九折。",
+    "visuals": "已看实际 640×360 封面，手机号与 eSIM／怎么选及收短信、旅行流量、工具卡可读；右上角原始签名人物和文字完整，WebP 17372 字节，未重复放入正文。原始生成文件已保留。",
+    "referrals": "注册 BeeSIM 使用 https://shop.beeesim.com/register 和 7ARAN2JJ，福利明确 eSIM 流量 10% 减免，工具卡优惠另算，位于购买章；复用原有品牌映射与三栏卡。giffgaff 外链为 https://www.wise-sim.org/shop/giffgaff，未添加未给出的邀请参数。站内 XeSIM/BeeSIM/giffgaff/总览/阶段引用全为 card。",
+    "access": "静态 check 确认为 PUBLIC，加入 overseas 的 mobile 阶段第一篇，后续现有教程保持路由和 ID；未宣称已上线或完成线上数据库验收。"
+  }
+}

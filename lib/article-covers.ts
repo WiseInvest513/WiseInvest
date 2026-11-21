@@ -3,6 +3,16 @@ export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
+  "overseas-start": {
+    src: "/images/articles/covers/overseas-start.webp",
+    alt: "出海准备，从这里开始：账号、下载、手机号与上网",
+    topics: ["出海", "Google", "Gmail", "Apple ID", "应用下载", "Telegram", "手机号"],
+  },
+  "overseas-mobile-basics": {
+    src: "/images/articles/covers/overseas-mobile-basics.webp",
+    alt: "手机号与 eSIM 怎么选：收短信、旅行流量与工具卡",
+    topics: ["手机号", "SIM", "eSIM", "XeSIM", "BeeSIM", "giffgaff", "旅行流量"],
+  },
   "kraken-guide": {
     src: "/images/articles/covers/kraken-guide.webp",
     alt: "Kraken 海妖交易所：从注册到交易，开户认证、加密入金、法币出金、理财与 IPO 教程",

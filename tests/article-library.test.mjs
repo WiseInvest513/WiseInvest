@@ -21,7 +21,7 @@ function loadModule(relativePath) {
     if (name === 'fs') return fs;
     if (name === 'path') return path;
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };
-    if (name === 'react') return { useState: initial => [typeof initial === 'function' ? initial() : initial, () => {}], useId: () => 'series-nav-test', useEffect() {} };
+    if (name === 'react') return { useState: initial => [typeof initial === 'function' ? initial() : initial, () => {}], useRef: value => ({ current: value }), useMemo: factory => factory(), useCallback: callback => callback, useId: () => 'series-nav-test', useEffect() {} };
     if (name === 'next/link') return { __esModule: true, default: 'a' };
     if (name === 'next/image') return { __esModule: true, default: 'img' };
     if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a', LoginRequiredDialog: () => null };
@@ -177,12 +177,19 @@ test('retained series cover assets remain available', () => {
   }
 });
 
-test('overseas chapters link to five distinct published tutorials', () => {
+test('overseas starts with orientation and groups seven distinct articles plus a Telegram plan', () => {
   const overseas = articleSeries.find(series => series.id === 'overseas');
   assert.equal(overseas.status, 'updating');
-  assert.equal(overseas.chapters.length, 5);
-  assert.equal(new Set(overseas.chapters.map(chapter => chapter.articleId)).size, 5);
-  for (const chapter of overseas.chapters) {
+  assert.equal(overseas.kind, 'tutorial');
+  assert.deepEqual(overseas.stages.map(stage => stage.id), ['start', 'accounts', 'mobile']);
+  assert.deepEqual(overseas.chapters.map(chapter => chapter.articleId), ['overseas-start', 'google-id', 'AppleID', undefined, 'overseas-mobile-basics', 'giffgaff-guide', 'xesim-guide', 'beesim-guide']);
+  const published = overseas.chapters.filter(chapter => chapter.articleId);
+  assert.equal(new Set(published.map(chapter => chapter.articleId)).size, 7);
+  const planned = overseas.chapters.filter(chapter => !chapter.articleId);
+  assert.equal(planned.length, 1);
+  assert.equal(planned[0].title, 'Telegram 注册');
+  assert.equal(planned[0].stageId, 'accounts');
+  for (const chapter of published) {
     const article = articles.find(article => article.id === chapter.articleId);
     assert.ok(article, `Missing article: ${chapter.articleId}`);
     assert.match(getArticleRoute(article), /^\/articles\/(outside|simcard)\/[a-zA-Z0-9]{8}$/);
@@ -199,12 +206,14 @@ test('series context accepts only known series and articles belonging to them', 
 
 test('series chapter links preserve canonical article paths and carry context through previous/next', () => {
   const series = getArticleSeries('overseas');
-  series.chapters.forEach((chapter, index) => {
+  const published = series.chapters.filter(chapter => chapter.articleId);
+  published.forEach((chapter, position) => {
+    const index = series.chapters.indexOf(chapter);
     const state = getSeriesReadingState(series, listItems, chapter.articleId);
     assert.equal(state.currentIndex, index);
-    assert.equal(state.publishedCount, 5);
-    assert.equal(state.previous?.articleId, series.chapters[index - 1]?.articleId);
-    assert.equal(state.next?.articleId, series.chapters[index + 1]?.articleId);
+    assert.equal(state.publishedCount, 7);
+    assert.equal(state.previous?.articleId, published[position - 1]?.articleId);
+    assert.equal(state.next?.articleId, published[position + 1]?.articleId);
     const article = articles.find(item => item.id === chapter.articleId);
     assert.equal(state.chapters[index].href, `${getArticleRoute(article)}?series=overseas`);
     assert.equal(getSeriesArticleHref(series.id, article), state.chapters[index].href);
@@ -215,8 +224,9 @@ test('unpublished or missing chapters have no href and are skipped by reading na
   const series = getArticleSeries('overseas');
   const partial = listItems.filter(article => article.id !== 'AppleID');
   const state = getSeriesReadingState(series, partial, 'google-id');
-  assert.equal(state.chapters[1].href, undefined);
-  assert.equal(state.next.articleId, 'giffgaff-guide');
+  assert.equal(state.chapters.find(chapter => chapter.articleId === 'AppleID').href, undefined);
+  assert.equal(state.chapters.find(chapter => chapter.title === 'Telegram 注册').href, undefined);
+  assert.equal(state.next.articleId, 'overseas-mobile-basics');
   assert.equal(getSeriesReadingState(series, [], 'google-id').currentIndex, -1);
   assert.equal(getSeriesReadingState(series, []).first, undefined);
   const binance = getSeriesReadingState(getArticleSeries('binance'), listItems);
@@ -289,15 +299,50 @@ test('topic classification stays independent from per-article reading guides', (
   assert.doesNotMatch(source, /shouldShowGuideProfile|defaultGuideProfile/);
 });
 
-test('tutorial series retain their chapter and learning language', () => {
+test('staged tutorial overview and navigation explain the phases and fold the Telegram plan', () => {
   const series = getArticleSeries('overseas');
   const reading = getSeriesReadingState(series, listItems, 'google-id');
-  const context = { series, reading, articleId: 'google-id' };
+  const context = { series, reading, articles: listItems, articleId: 'google-id' };
   assert.match(renderedText(SeriesOverview(context)), /开始学习/);
-  assert.match(renderedText(SeriesOverview(context)), /你将在这个系列学到/);
+  assert.match(renderedText(SeriesOverview(context)), /从你的需求出发/);
+  assert.doesNotMatch(renderedText(SeriesOverview(context)), /你将在这个系列学到/);
   assert.match(renderedText(SeriesOverview(context)), /学习目录/);
-  assert.match(renderedText(SeriesNavigation(context)), /第 1 章/);
-  assert.match(renderedText(SeriesPagination({ ...context, compact: true })), /第 1 \/ 5 章/);
+  const overview = renderedNodes(SeriesOverview(context));
+  assert.deepEqual(overview.filter(node => node?.type === 'section' && node.props.id?.startsWith('stage-')).map(node => node.props.id), ['stage-start', 'stage-accounts', 'stage-mobile']);
+  const plan = overview.find(node => node?.type === 'details' && renderedText(node).includes('Telegram 注册'));
+  assert.ok(plan && !plan.props.open);
+  assert.ok(!renderedNodes(plan).some(node => node?.type === 'a'));
+  const navigation = renderedNodes(SeriesNavigation(context));
+  const toggles = navigation.filter(node => node?.type === 'button' && node.props['aria-controls']);
+  assert.deepEqual(toggles.map(node => node.props['aria-expanded']), [false, true, false]);
+  assert.match(renderedText(SeriesPagination({ ...context, compact: true })), /第 2 \/ 7 篇/);
+  const appleReading = getSeriesReadingState(series, listItems, 'AppleID');
+  assert.equal(appleReading.next.articleId, 'overseas-mobile-basics');
+  const introNavigation = renderedNodes(SeriesNavigation({ series, reading: getSeriesReadingState(series, listItems) }));
+  assert.deepEqual(introNavigation.filter(node => node?.type === 'button' && node.props['aria-controls']).map(node => node.props['aria-expanded']), [true, false, false]);
+  assert.equal(reading.mapHref, undefined);
+});
+
+test('overseas readiness map links real preparation articles and preserves conditional verification wording', () => {
+  const series = getArticleSeries('overseas');
+  const reading = getSeriesReadingState(series, listItems);
+  const nodes = renderedNodes(SeriesOverview({ series, reading, articles: listItems }));
+  const map = nodes.find(node => node?.props?.['data-overseas-readiness']);
+  assert.ok(map);
+  const mapNodes = renderedNodes(map);
+  const needs = mapNodes.filter(node => node?.type === 'button' && 'aria-pressed' in node.props);
+  assert.equal(needs.length, 3);
+  assert.deepEqual(needs.map(node => node.props['aria-pressed']), [true, false, false]);
+  assert.match(renderedText(map), /号码、漫游和平台规则均支持时/);
+  assert.match(renderedText(map), /需要英国号码时的可选方案/);
+  for (const link of mapNodes.filter(node => node?.type === 'a')) {
+    assert.ok(reading.chapters.some(chapter => chapter.href === link.props.href), `unmapped preparation link: ${link.props.href}`);
+  }
+  const empty = renderedNodes(SeriesOverview({ series, reading: getSeriesReadingState(series, []), articles: [] }));
+  const emptyMap = empty.find(node => node?.props?.['data-overseas-readiness']);
+  assert.equal(renderedNodes(emptyMap).filter(node => node?.type === 'a').length, 0);
+  const other = getArticleSeries('exchange-referral');
+  assert.ok(!renderedNodes(SeriesOverview({ series: other, reading: getSeriesReadingState(other, listItems), articles: listItems })).some(node => node?.props?.['data-overseas-readiness']));
 });
 
 test('learning paths group distinct published articles into valid stages and allow only the named bank placeholder', () => {

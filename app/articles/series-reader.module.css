@@ -106,7 +106,9 @@ a.chapter:hover { background: var(--directory-hover); }
 .productTitle > div { min-width: 0; }
 .overview h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.4; font-weight: 600; letter-spacing: 0; }
 .overview p { color: var(--library-muted); font-size: 14px; line-height: 1.85; }
-.introduction { margin-top: 22px; max-width: 62em; }
+.introduction { display: flex; align-items: flex-start; gap: 12px; margin-top: 22px; padding: 16px 18px; border: 1px solid var(--series-step-line, #eee3cc); border-radius: 12px; background: var(--series-step, #f8f3e7); }
+.introduction > span:first-child { flex: none; }
+.introduction > span:last-child { min-width: 0; }
 .introActions { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 23px; }
 .introActions > span { color: var(--library-muted); font-size: 12px; }
 .start { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 16px; border: 1px solid #d9af46; border-radius: 6px; background: #f8d366; color: #352c17; font-size: 13px; font-weight: 500; transition: background 160ms ease; }

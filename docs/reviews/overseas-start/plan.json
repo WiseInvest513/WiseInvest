@@ -1,0 +1,33 @@
+{
+  "id": "overseas-start",
+  "title": "出海准备从哪里开始：账号、应用下载与手机号",
+  "categoryId": "outside",
+  "type": "overview",
+  "summary": "先分清 Google 邮箱、Apple 账号、应用商店和手机号码各自做什么，再按自己的用途选择注册、保号或旅行上网教程。",
+  "date": "2026-11-21",
+  "access": "PUBLIC",
+  "target": "outside/overseas-start/overseas-start.md",
+  "seriesId": "overseas",
+  "readTime": 8,
+  "guide": {
+    "audience": [
+      "第一次使用海外应用，不知道先准备邮箱、Apple ID 还是手机卡的人",
+      "已有部分账号，想按实际用途补齐准备的人"
+    ],
+    "outcomes": [
+      "分清 Google 账号与 Gmail、Apple 账号与应用商店的关系",
+      "知道下载应用、接收验证码和旅行上网分别需要什么",
+      "按总览、账号注册、手机号与上网的顺序找到现有教程"
+    ],
+    "prepare": "拿出自己常用的邮箱、可长期使用的手机号和手机型号即可；先盘点已有条件，不必先购买手机卡。",
+    "status": "这篇是出海系列的起点；Google、Apple ID 和通信工具已有教程，Telegram 注册章节仍在筹备。服务开放范围与设备兼容性需分别确认。"
+  },
+  "outline": [
+    "先明确自己要做什么",
+    "Google 账号和 Gmail：常用的账号与邮箱",
+    "Apple 账号：从哪里下载应用",
+    "Telegram：按需要准备的沟通账号",
+    "手机号与上网：两种不同的需求",
+    "按这个顺序继续学习"
+  ]
+}

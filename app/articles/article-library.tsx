@@ -59,7 +59,7 @@ function SeriesTile({ series, availability, priority }: { series: ArticleSeries;
         <span className={styles.seriesDescription}>{series.description}</span>
       </span>
       <span className={styles.seriesFooter}>
-        <span className={styles.seriesMeta}>{series.kind === "path" ? `${series.stages?.length ?? 0} 个阶段` : `${series.chapters.length} ${series.kind === "topic" ? "篇内容" : "个章节"}`}{readableCount > 0 ? ` · ${readableCount} 篇可读` : " · 整理中"}</span>
+        <span className={styles.seriesMeta}>{series.stages?.length ? `${series.stages.length} 个阶段` : `${series.chapters.length} ${series.kind === "topic" ? "篇内容" : "个章节"}`}{readableCount > 0 ? ` · ${readableCount} 篇可读` : " · 整理中"}</span>
         <span className={styles.seriesAction}>{existingOnly ? "查看教程" : readableCount ? "开始阅读" : "查看规划"}<ArrowUpRight aria-hidden="true" size={17} strokeWidth={1.5} /></span>
       </span>
     </Link>

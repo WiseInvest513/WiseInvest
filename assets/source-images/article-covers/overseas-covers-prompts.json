@@ -1,0 +1,13 @@
+{
+  "method": "Built-in image_gen; each raw output saved as <id>-generated.png. Web version: 640×360 contain, WebP quality 60, exact signature at top right (106 px wide, 20% corner radius).",
+  "prompts": [
+    [
+      "overseas-start",
+      "Create a finished Chinese editorial ARTICLE COVER, landscape exactly 16:9 (1536x864 or 2048x1152). Wise silver-white glass visual style: clear thick optical glass, polished silver aluminum, restrained champagne-gold edges, bright neutral white architectural studio, soft daylight, believable contact shadows. Left 53%: very large legible dark navy bold Chinese text EXACTLY two lines \"出海准备\" and \"从这里开始\", under it a thin champagne-gold line and small subtitle \"账号 · 下载 · 手机号 · 上网\". Right: elegant silver phone with a generic account silhouette on screen, a glass envelope with small @ symbol, and a subtle transparent globe. Coherent compact sculptural arrangement, restrained objects, no provider logos, no charts, no empty UI boxes. Spacious enough to read at a 640x360 thumbnail. Keep all lettering fully in-frame with 6% margins. Reserve the TOP RIGHT region (last 20% width, first 13% height) as clear white, completely empty, for a real signature to be composited later. Do not invent a signature, watermark, avatar or additional text. This is a standalone image, not a webpage."
+    ],
+    [
+      "overseas-mobile-basics",
+      "Create a finished Chinese editorial ARTICLE COVER, landscape exactly 16:9 (1536x864 or 2048x1152). Wise silver-white glass visual style: clear thick optical glass, polished silver aluminum, restrained champagne-gold edges, bright neutral white architectural studio, soft daylight, believable contact shadows. Left 56%: large bold dark navy Chinese title EXACTLY two lines \"手机号与 eSIM\" and \"怎么选？\", thin champagne-gold line below, and small subtitle \"收短信 · 旅行流量 · 工具卡\". Right: one recognizable silver physical nano SIM standing beside a glass smartphone whose screen bears a simple SIM-outline symbol, with a delicate glass travel globe behind. No branded cards, no provider logos, no invented technical specs, no chart or UI dashboard. Calm clean background. Sharp readable text at 640x360 thumbnail. Keep all text and objects inside safe margins. Reserve the TOP RIGHT region (last 20% width, first 13% height) as clear white, completely empty, for a real signature to be composited later. No signature, watermark, avatar or other text. Standalone image, not webpage."
+    ]
+  ]
+}

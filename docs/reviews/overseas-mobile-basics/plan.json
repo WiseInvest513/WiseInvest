@@ -1,0 +1,34 @@
+{
+  "id": "overseas-mobile-basics",
+  "title": "境外手机号与 eSIM 怎么选：实体卡、工具卡与旅行流量",
+  "categoryId": "simcard",
+  "type": "concept",
+  "summary": "把手机号码、SIM 载体和流量套餐分开理解，判断何时需要 giffgaff、XeSIM 或 BeeSIM，以及购买前应核对哪些条件。",
+  "date": "2026-11-21",
+  "access": "PUBLIC",
+  "target": "simcard/overseas-mobile-basics/overseas-mobile-basics.md",
+  "seriesId": "overseas",
+  "readTime": 9,
+  "guide": {
+    "audience": [
+      "想准备境外手机号，却分不清实体 SIM、eSIM 和工具卡的人",
+      "计划出境旅行，想选择流量套餐或利用现有手机安装 eSIM 的人"
+    ],
+    "outcomes": [
+      "区分长期收短信的号码与不一定附带号码的旅行流量",
+      "按手机型号、销售地区和运营商要求判断 eSIM 使用条件",
+      "找到 giffgaff 购卡、XeSIM 工具卡和 BeeSIM 流量购买入口"
+    ],
+    "prepare": "先确认手机具体型号、销售地区、是否有 SIM 卡槽，以及使用目的地和停留天数；需要收验证码时，另外核对号码与短信能力。",
+    "status": "本文介绍选择方法与现有教程入口，不保证某张卡能通过所有平台验证；BeeSIM 流量优惠按已确认的 10% 减免说明，设备和套餐限制分别核对。"
+  },
+  "outline": [
+    "先确定要号码，还是要流量",
+    "国区 Apple 账号与国行手机不是一回事",
+    "实体 SIM、eSIM 与工具卡分别是什么",
+    "XeSIM 与 BeeSIM：让兼容设备承载 eSIM",
+    "在 BeeSIM 购买旅行流量，怎样搭配使用",
+    "giffgaff：需要英国手机号时从这里开始",
+    "下单前把这几项查清楚"
+  ]
+}

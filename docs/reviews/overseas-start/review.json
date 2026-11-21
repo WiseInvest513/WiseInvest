@@ -1,0 +1,12 @@
+{
+  "planSha256": "531c686393221a3078128df8b3c3b67c875caa37e7b8151493b4a1bdce05ebac",
+  "articleSha256": "bea0d9f3ad9e4776c9b6bb76ad2ec006615a0fb3e722b3a939d482e231930399",
+  "coverSha256": "f2e33a4c7d285ae9aabf3ee07505e658600f092f5918f6ad0c00094bc78aa608",
+  "checks": {
+    "guide": "导读的账号关系在第二、三章说明，下载、验证码与旅行上网分别由第一、三、五章表述，末章给出三个阶段的阅读顺序；读者不需先购卡。",
+    "facts": "依据 Google 27441（可用已有邮箱创建账号）、Apple 118283（地区变更条件）、Telegram FAQ（账号和手机号）、Apple 123879（机型与地区支持）核对。没有把境外手机号列成 Google 注册的必需条件，也没有将下载资格当作服务资格。Telegram 仅介绍与占位。",
+    "visuals": "已看 640×360 成图：标题为出海准备／从这里开始，手机、信封、地球对应主题；右上角完整复用原始 @Wise Invest 与人物签名，未裁切或变形，圆角处理，WebP 18974 字节。原图保存在 assets/source-images/article-covers/overseas-start-generated.png。封面不进正文。",
+    "referrals": "本篇无新邀请卡，仅链接真实站内 Google、Apple 教程及新手机号入门和系列。站内链接均独立 card 行，保留 series 参数；新的手机号文章与本篇同批发布。",
+    "access": "check 返回 PUBLIC；overseas 保持 tutorial 并分为 start/accounts/mobile 三阶段，本篇为 start 第一篇；未修改旧文 ID 或权限，线上匿名验收尚未执行。"
+  }
+}
