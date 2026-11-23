@@ -200,7 +200,9 @@ KYC 被拒时，先按该平台认证页给出的原因处理（证件、照片�
 
 [第一次转币：网络、地址怎么选，怎样确认真正到账？](/articles/crypto/oWHIVCLt){card}
 
-需要理解 C2C，或已经有币、准备转账时，继续看：
+沿主线先完成账户安全与恢复准备，再学习入金。已经有币、准备转账时，也可以直接查相应章节：
+
+[入金前的账户安全与恢复](/articles/crypto/kYI0KszR?series=crypto-basics){card}
 
 [C2C 怎么买 USDT：付款、收币与冻卡注意](/articles/crypto/mk7xplfU?series=crypto-basics){card}
 [加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}

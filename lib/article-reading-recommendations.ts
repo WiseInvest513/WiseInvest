@@ -35,20 +35,42 @@ const connections: Record<string, { id: string; label: string; reason: string }[
     { id: "crypto-transfer-basics", label: "已有资产 · 转账保管", reason: "准备转出时，进一步检查地址、网络、到账与密钥责任。" },
   ],
   "crypto-buying-platforms": [
-    { id: "crypto-c2c-funding", label: "下一课 · C2C 入金", reason: "把交易对手、付款订单与收到资产的步骤分开看。" },
+    { id: "crypto-account-security", label: "下一课 · 账户安全", reason: "在入金之前，先准备登录保护、备用验证与换机恢复。" },
     { id: "biance-guide", label: "配套图解 · 币安", reason: "符合本人服务资格后，再查阅注册与账户操作图。" },
   ],
   "crypto-c2c-funding": [
-    { id: "crypto-spot-futures", label: "下一课 · 买卖与成交", reason: "收到资产后，继续认识交易对、现货订单和合约区别。" },
+    { id: "crypto-first-spot-trade", label: "下一课 · 现货买卖", reason: "用连续的假设账户走完买入、部分成交、撤单与卖出。" },
+    { id: "crypto-c2c-freeze", label: "遇到限制 · 冻卡核对", reason: "区分银行或支付账户限制与交易所订单问题，找到对应处理入口。" },
     { id: "crypto-transfer-basics", label: "准备转出 · 到账核对", reason: "需要链上转出时，核对网络、最低金额、手续费和接收条件。" },
   ],
   "crypto-spot-futures": [
-    { id: "crypto-transfer-basics", label: "下一课 · 转账与保管", reason: "持仓之后再理解转出、链上确认和钱包保管。" },
+    { id: "crypto-first-spot-trade", label: "回到主线 · 现货实操", reason: "分清产品之后，用普通现货订单核对实际成交和余额。" },
     { id: "crypto-first-steps", label: "回看基础 · 资产与账户", reason: "把余额、资产数量和控制权限重新对应起来。" },
   ],
   "crypto-transfer-basics": [
+    { id: "crypto-wallet-first-use", label: "下一课 · 钱包使用", reason: "准备接收到账的同时，理解备份、恢复与后续转出的 Gas。" },
     { id: "crypto-buying-platforms", label: "回看入口选择", reason: "按实际资金来源和保管需求重新检查平台与钱包。" },
     { id: "bitget-exchange", label: "配套图解 · 跨平台转入", reason: "用已有平台图解对照充币、提币和到账记录的位置。" },
+  ],
+  "crypto-account-security": [
+    { id: "crypto-c2c-funding", label: "下一课 · 入金核对", reason: "做好账户与恢复准备后，再学习付款、收币和可用余额。" },
+  ],
+  "crypto-first-spot-trade": [
+    { id: "crypto-cost-and-profit", label: "下一课 · 算清盈亏", reason: "把成交记录里的数量、价格和费用转换成可复算的成本。" },
+    { id: "crypto-spot-futures", label: "按需专题 · 产品区别", reason: "遇到保证金或杠杆字段时，先确认是否进入了另一类产品。" },
+  ],
+  "crypto-cost-and-profit": [
+    { id: "crypto-selling-and-cashout", label: "下一课 · 卖币回款", reason: "将 USDT 账面收益与最终法币收款接起来核对。" },
+  ],
+  "crypto-selling-and-cashout": [
+    { id: "crypto-transfer-basics", label: "下一课 · 链上转账", reason: "需要移动资产时，学习网络、地址和发送到接收的三段记录。" },
+    { id: "crypto-c2c-freeze", label: "遇到限制 · 账户排查", reason: "法币账户异常时，分清银行限制与平台订单争议。" },
+  ],
+  "crypto-wallet-first-use": [
+    { id: "crypto-wallet-permissions", label: "下一课 · 钱包权限", reason: "收发币之后，再分清连接网站、授权与签名各自改变什么。" },
+  ],
+  "crypto-wallet-permissions": [
+    { id: "crypto-wallet-first-use", label: "回看 · 钱包恢复", reason: "重新检查哪些凭证能控制账户，以及备份覆盖哪些地址。" },
   ],
   "us-stock-account-basics": [
     { id: "us-stock-first-order", label: "下一课 · 第一笔订单", reason: "看懂资金后，继续核对报价、订单条件与成交状态。" },

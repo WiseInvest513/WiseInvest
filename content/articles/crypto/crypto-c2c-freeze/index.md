@@ -101,11 +101,11 @@ readTime: 10
 ## 七、读完这篇再回去补哪一步？
 
 若你还没走完买 U：按订单核对付款与放币。  
-若币已到账、下一步要交易或划转：看现货与合约入门。  
+若币已到账、下一步要交易或划转：回到主线的现货买卖课。
 若要提到钱包或其他平台：先读转账网络、地址与到账检查。
 
 [C2C 怎么买 USDT](/articles/crypto/mk7xplfU?series=crypto-basics){card}
-[现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics){card}
+[第一笔现货买卖](/articles/crypto/ma48m64c?series=crypto-basics){card}
 [转账网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 [币安注册与使用教程](/articles/crypto/GaM38JYk){card}
 

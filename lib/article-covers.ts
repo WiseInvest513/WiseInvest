@@ -33,6 +33,36 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "纳斯达克怎么买：从人民币到 QQQ，六条购买路径图解",
     topics: ["纳斯达克", "QQQ", "支付宝", "银河", "券商", "稳定币", "费用"],
   },
+  "crypto-account-security": {
+    src: "/images/articles/covers/crypto-account-security.webp",
+    alt: "账户安全与恢复，Wise 银白玻璃主题封面",
+    topics: ["加密货币","账户安全","恢复"],
+  },
+  "crypto-first-spot-trade": {
+    src: "/images/articles/covers/crypto-first-spot-trade.webp",
+    alt: "第一笔现货买卖，Wise 银白玻璃主题封面",
+    topics: ["加密货币","第一笔现货买卖"],
+  },
+  "crypto-cost-and-profit": {
+    src: "/images/articles/covers/crypto-cost-and-profit.webp",
+    alt: "成本与盈亏核算，Wise 银白玻璃主题封面",
+    topics: ["加密货币","成本","盈亏核算"],
+  },
+  "crypto-selling-and-cashout": {
+    src: "/images/articles/covers/crypto-selling-and-cashout.webp",
+    alt: "卖币与法币出金，Wise 银白玻璃主题封面",
+    topics: ["加密货币","卖币","法币出金"],
+  },
+  "crypto-wallet-first-use": {
+    src: "/images/articles/covers/crypto-wallet-first-use.webp",
+    alt: "钱包创建与收发，Wise 银白玻璃主题封面",
+    topics: ["加密货币","钱包创建","收发","钱包"],
+  },
+  "crypto-wallet-permissions": {
+    src: "/images/articles/covers/crypto-wallet-permissions.webp",
+    alt: "钱包授权与防骗，Wise 银白玻璃主题封面",
+    topics: ["加密货币","钱包授权","防骗","钱包"],
+  },
   "crypto-first-steps": {
     src: "/images/articles/covers/crypto-first-steps.webp",
     alt: "加密基础：数字资产、账户与钱包的银白玻璃概念封面",

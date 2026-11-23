@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-23",
+  "mode": "built-in image_gen",
+  "branding": "Final copies composite the complete original wise-invest-signature.png at 16% width with 20%-height corner radius; original signature unchanged.",
+  "images": [
+    {
+      "id": "crypto-account-security",
+      "title": "账户安全",
+      "subtitle": "验证 · 恢复",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Use image 1 only for white silver glass material/lighting reference, not its chart or layout. Image 2 is the ORIGINAL Wise Invest signature; composite this exact complete image into the upper RIGHT corner (text AND person intact), 16% canvas width, original aspect ratio, safety margins, rounded corners 20% of signature height. Never redraw the signature. Pure white studio background, physically credible silver aluminum and thick optical glass, restrained champagne-gold details, high clarity, generous breathing room. Theme objects on right lower area: a silver shield with keyhole, a phone and a separate small recovery key. On left render large perfectly readable dark navy Chinese headline EXACTLY \"账户安全\", below smaller \"验证 · 恢复\". At bottom left very small \"加密货币从 0 到 1\". No other text, no price chart or promise of profits. Large headline must be readable at 232px wide. Keep all subject/letters inside 7% safe margins. Full original composition 16:9; never stretch. Use case stylized-concept.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-8adc13da-ecd0-41e7-8b96-ee07573ddc48.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-account-security-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-account-security.png",
+      "webPath": "public/images/articles/covers/crypto-account-security.webp"
+    },
+    {
+      "id": "crypto-first-spot-trade",
+      "title": "第一笔现货",
+      "subtitle": "买入 · 撤单 · 卖出",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Use image 1 only for white silver glass material/lighting reference, not its chart or layout. Image 2 is the ORIGINAL Wise Invest signature; composite this exact complete image into the upper RIGHT corner (text AND person intact), 16% canvas width, original aspect ratio, safety margins, rounded corners 20% of signature height. Never redraw the signature. Pure white studio background, physically credible silver aluminum and thick optical glass, restrained champagne-gold details, high clarity, generous breathing room. Theme objects on right lower area: two translucent order slips, a single small BTC token, two quiet opposing thin arrows. On left render large perfectly readable dark navy Chinese headline EXACTLY \"第一笔现货\", below smaller \"买入 · 撤单 · 卖出\". At bottom left very small \"加密货币从 0 到 1\". No other text, no price chart or promise of profits. Large headline must be readable at 232px wide. Keep all subject/letters inside 7% safe margins. Full original composition 16:9; never stretch. Use case stylized-concept.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-935f12f3-e492-405b-9a35-1abd85ff2433.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-first-spot-trade-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-first-spot-trade.png",
+      "webPath": "public/images/articles/covers/crypto-first-spot-trade.webp"
+    },
+    {
+      "id": "crypto-cost-and-profit",
+      "title": "成本与盈亏",
+      "subtitle": "均价 · 费用 · 回款",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Use image 1 only for white silver glass material/lighting reference, not its chart or layout. Image 2 is the ORIGINAL Wise Invest signature; composite this exact complete image into the upper RIGHT corner (text AND person intact), 16% canvas width, original aspect ratio, safety margins, rounded corners 20% of signature height. Never redraw the signature. Pure white studio background, physically credible silver aluminum and thick optical glass, restrained champagne-gold details, high clarity, generous breathing room. Theme objects on right lower area: a clean silver calculator beside a paper transaction ledger, a fine gold horizontal measuring bar. On left render large perfectly readable dark navy Chinese headline EXACTLY \"成本与盈亏\", below smaller \"均价 · 费用 · 回款\". At bottom left very small \"加密货币从 0 到 1\". No other text, no price chart or promise of profits. Large headline must be readable at 232px wide. Keep all subject/letters inside 7% safe margins. Full original composition 16:9; never stretch. Use case stylized-concept.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-3d0c1b7e-e87e-4d62-a503-fd4c7bc264d5.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-cost-and-profit-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-cost-and-profit.png",
+      "webPath": "public/images/articles/covers/crypto-cost-and-profit.webp"
+    },
+    {
+      "id": "crypto-selling-and-cashout",
+      "title": "卖币与出金",
+      "subtitle": "卖出 · 提现 · 到账",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Use image 1 only for white silver glass material/lighting reference, not its chart or layout. Image 2 is the ORIGINAL Wise Invest signature; composite this exact complete image into the upper RIGHT corner (text AND person intact), 16% canvas width, original aspect ratio, safety margins, rounded corners 20% of signature height. Never redraw the signature. Pure white studio background, physically credible silver aluminum and thick optical glass, restrained champagne-gold details, high clarity, generous breathing room. Theme objects on right lower area: a digital token beside a bank building connected by two restrained clear glass steps. On left render large perfectly readable dark navy Chinese headline EXACTLY \"卖币与出金\", below smaller \"卖出 · 提现 · 到账\". At bottom left very small \"加密货币从 0 到 1\". No other text, no price chart or promise of profits. Large headline must be readable at 232px wide. Keep all subject/letters inside 7% safe margins. Full original composition 16:9; never stretch. Use case stylized-concept.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-85d62a20-67e4-4430-93a3-26246d674b47.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-selling-and-cashout-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-selling-and-cashout.png",
+      "webPath": "public/images/articles/covers/crypto-selling-and-cashout.webp"
+    },
+    {
+      "id": "crypto-wallet-first-use",
+      "title": "钱包第一课",
+      "subtitle": "创建 · 备份 · 收发",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Use image 1 only for white silver glass material/lighting reference, not its chart or layout. Image 2 is the ORIGINAL Wise Invest signature; composite this exact complete image into the upper RIGHT corner (text AND person intact), 16% canvas width, original aspect ratio, safety margins, rounded corners 20% of signature height. Never redraw the signature. Pure white studio background, physically credible silver aluminum and thick optical glass, restrained champagne-gold details, high clarity, generous breathing room. Theme objects on right lower area: a tangible frosted glass wallet and separate folded blank backup paper with small metal key. On left render large perfectly readable dark navy Chinese headline EXACTLY \"钱包第一课\", below smaller \"创建 · 备份 · 收发\". At bottom left very small \"加密货币从 0 到 1\". No other text, no price chart or promise of profits. Large headline must be readable at 232px wide. Keep all subject/letters inside 7% safe margins. Full original composition 16:9; never stretch. Use case stylized-concept.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-84b84441-68e5-4fc7-8dbd-7f41c6d2e81e.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-wallet-first-use-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-wallet-first-use.png",
+      "webPath": "public/images/articles/covers/crypto-wallet-first-use.webp"
+    },
+    {
+      "id": "crypto-wallet-permissions",
+      "title": "钱包授权",
+      "subtitle": "连接 · 签名 · 撤销",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Use image 1 only for white silver glass material/lighting reference, not its chart or layout. Image 2 is the ORIGINAL Wise Invest signature; composite this exact complete image into the upper RIGHT corner (text AND person intact), 16% canvas width, original aspect ratio, safety margins, rounded corners 20% of signature height. Never redraw the signature. Pure white studio background, physically credible silver aluminum and thick optical glass, restrained champagne-gold details, high clarity, generous breathing room. Theme objects on right lower area: a frosted glass permission slip beside a restrained lock and one controlled connection. On left render large perfectly readable dark navy Chinese headline EXACTLY \"钱包授权\", below smaller \"连接 · 签名 · 撤销\". At bottom left very small \"加密货币从 0 到 1\". No other text, no price chart or promise of profits. Large headline must be readable at 232px wide. Keep all subject/letters inside 7% safe margins. Full original composition 16:9; never stretch. Use case stylized-concept.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-9f5a501c-17e8-4cee-8521-5545416b5cd9.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-wallet-permissions-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-wallet-permissions.png",
+      "webPath": "public/images/articles/covers/crypto-wallet-permissions.webp"
+    }
+  ]
+}

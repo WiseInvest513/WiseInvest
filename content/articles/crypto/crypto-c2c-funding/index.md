@@ -45,9 +45,9 @@ readTime: 12
 
 完成本人资料认证、安全验证后，再检查付款账户。名字、币种、可用额度、付款方式都要与订单要求一致。不要借别人的卡代付，也不要为了通过审核编造身份或付款用途。银行卡或支付机构提示交易不支持时，应停止并按其要求处理。
 
-注册与安全设置可先对照币安教程；这篇从已经具备使用资格的账户继续往下讲。
+注册可对照币安教程；准备充值之前，先完成登录保护与恢复准备。这篇从已经具备使用资格的账户继续往下讲。
 
-[币安注册与使用教程](/articles/crypto/GaM38JYk){card}
+[账户安全与恢复](/articles/crypto/kYI0KszR?series=crypto-basics){card}
 
 [币安注册与使用教程](/articles/crypto/GaM38JYk){card}
 
@@ -166,9 +166,9 @@ readTime: 12
 
 ### USDT 怎么买？
 
-对许多读者来说，就是走完 C2C：完成认证后，按下单、本人付款、再点已付款、等待放币的顺序核对；币到账后如需现货，还要再划转到交易账户。买 BTC 或 ETH，先读现货与合约的区别；要转到钱包，先读转币核对。
+对许多读者来说，就是走完 C2C：完成认证后，按下单、本人付款、再点已付款、等待放币的顺序核对；币到账后如需现货，还要再划转到交易账户。买 BTC 或 ETH，接着用现货实操课走完下单与成交；要转到钱包，先读转币核对。
 
-[买币和开合约有什么区别？现货、杠杆与强平入门](/articles/crypto/gQbW1WDG){card}
+[第一笔现货买卖：买入、撤单与卖出](/articles/crypto/ma48m64c?series=crypto-basics){card}
 [第一次转币：网络、地址怎么选，怎样确认真正到账？](/articles/crypto/oWHIVCLt){card}
 
 ### 可以用支付宝买吗？币安 c2c 人民币怎么付？
@@ -195,10 +195,7 @@ readTime: 12
 
 三份记录对得起来，这次入金才算在自己心里有了账。以后查成本、处理争议或核对资金来源，也有依据。
 
-接下来想买 BTC，或准备转到另一个平台／自己的钱包，先打开：
+接下来沿主线，用同一笔假设交易核对买入、撤单与卖出；已经有币且准备转账，可以直接查转账篇。
 
-[现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics){card}
+[第一笔现货买卖](/articles/crypto/ma48m64c?series=crypto-basics){card}
 [网络、地址和到账核对](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
-
-[现货与合约入门](/articles/crypto/gQbW1WDG?series=crypto-basics){card}
-[转账与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}

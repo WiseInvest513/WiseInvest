@@ -128,7 +128,10 @@ App 里好几个功能都像是在“转钱”，实际发生的事却不同。
 
 收到币之后，也别急着连接各种网站。授权代币、签署消息、发送交易各有含义，先看清钱包弹窗要求做什么。自托管给了自己更多控制，也把备份、设备和签名检查交到了自己手里。[以太坊钱包介绍](https://ethereum.org/en/wallets/)
 
-走到这里，这套入门流程才连起来：知道买的是什么，知道钱怎么进，知道订单买了什么，再知道币怎样出去、怎样核对落点。今后换一个平台，界面可能变，核对这些信息的习惯可以一直用。
+到这里，你已经能把发送记录、链上确认和接收记录对应起来。若接收端是自己的钱包，下一课继续完成创建、备份和恢复的准备，再学习 Gas 与收发币；随后单独认识网站连接、授权和签名。
+
+[第一次使用自管钱包](/articles/crypto/EglOot9G?series=crypto-basics){card}
+[钱包授权与常见骗局](/articles/crypto/gayJJIqO?series=crypto-basics){card}
 
 [返回加密货币从 0 到 1 系列](/articles/series/crypto-basics){card}
 [Bitget 跨平台转入与使用教程](/articles/crypto/k3RVVcw4){card}
