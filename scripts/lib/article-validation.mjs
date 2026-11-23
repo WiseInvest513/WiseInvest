@@ -91,6 +91,7 @@ export function loadValidationConfig(root) {
   }
   return {
     covers: load('lib/article-covers.ts').articleCovers,
+    coverOmissions: load('lib/article-covers.ts').articleCoverOmissions ?? {},
     categories: load('lib/articles-data.ts').categories,
     subcategories: load('lib/articles-data.ts').subcategories,
     parseRegistrationCallout: load('lib/article-registration.ts').parseRegistrationCallout,
@@ -162,8 +163,11 @@ export function validateArticle({ raw, file, root, peers = [], strict = false, c
   if (meta.categoryId && !config.categories?.some(category => category.id === meta.categoryId)) issues.push(issue('metadata.category', `未知文章分类 ${meta.categoryId}。`, 'categoryId'));
   if (meta.subcategoryId && !config.subcategories?.some(category => category.id === meta.subcategoryId && category.categoryId === meta.categoryId)) issues.push(issue('metadata.subcategory', `二级分类 ${meta.subcategoryId} 不属于当前文章分类。`, 'subcategoryId'));
   const cover = config.covers?.[meta.id];
-  if (!cover?.src) issues.push(issue('cover.required', '缺少独立列表封面配置，不得回退到正文第一张图。'));
-  else {
+  const omissionReason = config.coverOmissions && Object.hasOwn(config.coverOmissions, meta.id) ? config.coverOmissions[meta.id] : undefined;
+  const omitCover = typeof omissionReason === 'string' && omissionReason.trim().length > 0;
+  if (omitCover && cover) issues.push(issue('cover.conflict', '已明确不展示封面的文章不能同时配置封面。'));
+  if (!cover?.src && !omitCover) issues.push(issue('cover.required', '缺少独立列表封面配置，不得回退到正文第一张图。'));
+  else if (cover?.src) {
     const coverPath = localAsset(root, cover.src);
     if (!coverPath || !fs.existsSync(coverPath) || !fs.statSync(coverPath).isFile()) issues.push(issue('cover.missing', `列表封面不存在或路径无效：${cover.src}`));
     else {

@@ -2,6 +2,13 @@
 export const ARTICLE_COVER_WIDTH = 640;
 export const ARTICLE_COVER_HEIGHT = 360;
 
+// Explicit user choices, not missing assets. Do not fall back to body screenshots.
+export const articleCoverOmissions: Record<string, string> = {
+  "ai-bubble-45-days": "2026-11-23 用户要求删除阻塞日历发布的文章封面。",
+  "anthropic-how-to-buy": "2026-11-23 用户要求无封面发布，不为解除日历构建阻塞新增封面。",
+  "spacex-how-to-buy": "2026-11-23 用户要求无封面发布，不为解除日历构建阻塞新增封面。",
+};
+
 export const articleCovers: Record<string, { src: string; alt: string; topics: string[] }> = {
   "overseas-start": {
     src: "/images/articles/covers/overseas-start.webp",
@@ -520,11 +527,6 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "Anthropic（ANT）IPO：估值判断、上市走势与 Bitget IPO Prime 怎么参与",
     topics: ["Anthropic", "IPO", "ANT", "Claude", "Bitget", "估值"],
   },
-  "ai-bubble-45-days": {
-    src: "/images/articles/covers/ai-bubble-45-days.webp",
-    alt: "AI泡沫破了吗？45天蒸发6万亿美元的复盘与思考",
-    topics: ["AI", "泡沫", "标普500", "科技股", "估值"],
-  },
 };
 
 // Preserve the BIT tutorials' original instructional-image fallbacks.
@@ -535,6 +537,7 @@ export const preservedArticleCovers: Record<string, string> = {
 };
 
 export function getArticleListCover(id: string): string | undefined {
+  if (Object.hasOwn(articleCoverOmissions, id)) return undefined;
   if (Object.hasOwn(articleCovers, id)) return articleCovers[id].src;
   return Object.hasOwn(preservedArticleCovers, id) ? preservedArticleCovers[id] : undefined;
 }

@@ -107,13 +107,24 @@ test('new articles require continuous numbered chapters and no empty placeholder
   assert.deepEqual(validate(markdown(meta, body + '\n```markdown\n# 示例标题\n## 任意序号\nTODO\n```\n')), []);
 });
 
-test('missing cover is always blocking, and oversize covers are strict errors or legacy warnings', t => {
+test('unconfigured missing cover blocks, and oversize covers are strict errors or legacy warnings', t => {
   const { validate, config, root, cover } = fixture(t);
   assert(codes(validate(undefined, { config: { ...config, covers: {} } })).includes('cover.required'));
   assert(codes(validate(undefined, { config: { ...config, covers: { [meta.id]: { src: '/missing.webp', alt: '描述' } } } })).includes('cover.missing'));
   fs.appendFileSync(path.join(root, 'public', cover), Buffer.alloc(26 * 1024));
   assert.equal(validate().find(item => item.code === 'cover.bytes')?.severity, 'error');
   assert.equal(validate(undefined, { strict: false }).find(item => item.code === 'cover.bytes')?.severity, 'warning');
+});
+
+test('an explicit cover omission permits text-only publication but keeps other gates', t => {
+  const { validate, config } = fixture(t);
+  const omitted = { ...config, covers: {}, coverOmissions: { [meta.id]: 'User requested no cover.' } };
+  assert.deepEqual(validate(undefined, { config: omitted }), []);
+  assert(codes(validate(undefined, { config: { ...omitted, coverOmissions: { [meta.id]: ' ' } } })).includes('cover.required'));
+  assert(codes(validate(undefined, { config: { ...omitted, coverOmissions: { other: 'No cover.' } } })).includes('cover.required'));
+  assert(codes(validate(undefined, { config: { ...omitted, covers: config.covers } })).includes('cover.conflict'));
+  assert(codes(validate(markdown({ ...meta, guidePrepare: '' }), { config: omitted })).includes('guide.required'));
+  assert(codes(validate(markdown(meta, '## 未编号\n\n正文内容。'), { config: omitted })).includes('body.headingSequence'));
 });
 
 test('cover validation reads real image dimensions and format, not just the extension', t => {

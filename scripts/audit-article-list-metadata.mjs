@@ -26,7 +26,7 @@ function load(relativePath) {
 process.chdir(root);
 const { loadFsArticles } = load("lib/articles-fs.ts");
 const { articles: fallbackArticles } = load("lib/articles-data.ts");
-const { articleCovers } = load("lib/article-covers.ts");
+const { articleCovers, articleCoverOmissions } = load("lib/article-covers.ts");
 const fsArticles = loadFsArticles();
 const fsIds = new Set(fsArticles.map(article => article.id));
 const articles = [...fallbackArticles.filter(article => !fsIds.has(article.id)), ...fsArticles];
@@ -34,8 +34,10 @@ const normalize = value => (value ?? "").normalize("NFKC").replace(/[\s\p{P}\p{S
 const findings = articles.flatMap(article => {
   const issues = [];
   const cover = articleCovers[article.id];
-  if (!cover) issues.push("缺少独立列表封面");
-  else if (!fs.existsSync(path.join(root, "public", cover.src.replace(/^\//, "")))) issues.push("已配置的封面文件不存在");
+  const omitted = Object.hasOwn(articleCoverOmissions, article.id) && !!articleCoverOmissions[article.id].trim();
+  if (omitted && cover) issues.push("无封面配置与封面映射冲突");
+  if (!cover && !omitted) issues.push("缺少独立列表封面");
+  else if (cover && !fs.existsSync(path.join(root, "public", cover.src.replace(/^\//, "")))) issues.push("已配置的封面文件不存在");
   if (!normalize(article.summary)) issues.push("摘要为空");
   else if (normalize(article.summary) === normalize(article.title)) issues.push("摘要与标题重复");
   return issues.length ? [{ id: article.id, title: article.title, issues }] : [];

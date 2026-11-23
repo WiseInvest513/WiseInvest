@@ -36,7 +36,7 @@ function loadModule(relativePath) {
 
 const { getAllArticles, getArticleRoute, toArticleListItem, getArticlePrimaryImage } = loadModule('lib/articles.ts');
 const { categories } = loadModule('lib/articles-data.ts');
-const { articleCovers, preservedArticleCovers, getArticleListCover } = loadModule('lib/article-covers.ts');
+const { articleCovers, articleCoverOmissions, preservedArticleCovers, getArticleListCover } = loadModule('lib/article-covers.ts');
 const { articleSeries } = loadModule('lib/article-library.ts');
 const categoryPage = loadModule('app/articles/[categoryId]/page.tsx');
 const indexPage = loadModule('app/articles/page.tsx');
@@ -114,7 +114,7 @@ test('published articles, cover mappings and public thumbnails have matching ide
   for (const article of articles) {
     assert.equal(getArticleListCover(article.id), articleCovers[article.id]?.src, `Missing list cover: ${article.id}`);
   }
-  assert.deepEqual(Object.keys(articleCovers).sort(), articles.map(article => article.id).sort());
+  assert.deepEqual([...Object.keys(articleCovers), ...Object.keys(articleCoverOmissions)].sort(), articles.map(article => article.id).sort());
   const publicFiles = fs.readdirSync(path.join(root, 'public/images/articles/covers'));
   assert.ok(publicFiles.every(file => file.endsWith('.webp')), 'Keep large PNG originals outside public');
   const referencedCovers = new Set([
@@ -122,6 +122,19 @@ test('published articles, cover mappings and public thumbnails have matching ide
     ...articleSeries.flatMap(series => [series.artwork, series.cardArtwork, series.cover]),
   ].filter(src => src?.startsWith('/images/articles/covers/')));
   assert.deepEqual(publicFiles.sort(), [...referencedCovers].map(src => path.posix.basename(src)).sort());
+});
+
+test('explicitly coverless articles keep text metadata without using body images as covers', () => {
+  for (const [id, reason] of Object.entries(articleCoverOmissions)) {
+    const article = articles.find(item => item.id === id);
+    assert.ok(article, `Unknown cover omission: ${id}`);
+    assert.ok(reason.trim());
+    assert.equal(articleCovers[id], undefined);
+    const item = toArticleListItem({ ...article, content: '![正文截图](/content/articles/screenshot.png)' });
+    assert.equal(item.coverImage, undefined);
+    assert.equal(item.title, article.title);
+    assert.equal(item.summary, article.summary);
+  }
 });
 
 test('the five reported missing covers are repaired without changing their URLs', () => {
