@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-23",
+  "generator": "native image_gen",
+  "images": [
+    {
+      "id": "bank-account-preparation",
+      "prompt": "Create a standalone landscape 16:9 Chinese editorial article cover for Wise Invest. White and silver-white dominate; thick optical glass, polished aluminum, restrained champagne gold details, soft studio light, tangible premium 3D objects with readable contact shadows. Minimal clean white background. Large dark-navy Chinese headline on the left, exactly: “开户前先核对”. Under it one smaller but legible line exactly “主体 · 材料 · 启用”. Bottom left small line “银行账户与资金入门”. Right/lower half: A compact silver bank facade paired with an elegant frosted-glass document folder and one small physical key. Credible editorial objects, no real bank logo, no ID numbers. Keep top-right rectangle (rightmost 34%, top 22%) completely pure white and empty for the supplied original brand signature to be composited later. Do not invent any signature or watermark. Generous margins. All title glyphs must be correct, complete and readable at thumbnail size. No UI screenshot, no charts, no gradients, no background text, no neon.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-e23734c7-1098-49c5-805a-5c483b6903b9.png",
+      "sourceOriginal": "assets/source-images/article-covers/bank-account-preparation-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/bank-account-preparation.png",
+      "webPath": "public/images/articles/covers/bank-account-preparation.webp"
+    },
+    {
+      "id": "bank-fx-transfer-cost",
+      "prompt": "Create a standalone landscape 16:9 Chinese editorial article cover for Wise Invest. White and silver-white dominate; thick optical glass, polished aluminum, restrained champagne gold details, soft studio light, tangible premium 3D objects with readable contact shadows. Minimal clean white background. Large dark-navy Chinese headline on the left, exactly: “换汇汇款算总账”. Under it one smaller but legible line exactly “汇率 · 扣费 · 净到账”. Bottom left small line “银行账户与资金入门”. Right/lower half: A silver desk calculator, two clear glass currency tokens marked HK$ and US$, and a simple paper receipt with no tiny text. A coherent still life explaining currency conversion costs, no rising arrows. Keep top-right rectangle (rightmost 34%, top 22%) completely pure white and empty for the supplied original brand signature to be composited later. Do not invent any signature or watermark. Generous margins. All title glyphs must be correct, complete and readable at thumbnail size. No UI screenshot, no charts, no gradients, no background text, no neon.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-6914248c-1b98-4155-aead-8daca3085e2e.png",
+      "sourceOriginal": "assets/source-images/article-covers/bank-fx-transfer-cost-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/bank-fx-transfer-cost.png",
+      "webPath": "public/images/articles/covers/bank-fx-transfer-cost.webp"
+    },
+    {
+      "id": "bank-broker-funding-details",
+      "prompt": "Create a standalone landscape 16:9 Chinese editorial article cover for Wise Invest. White and silver-white dominate; thick optical glass, polished aluminum, restrained champagne gold details, soft studio light, tangible premium 3D objects with readable contact shadows. Minimal clean white background. Large dark-navy Chinese headline on the left, exactly: “第一次券商入金”. Under it one smaller but legible line exactly “同名 · 收款资料 · 附言”. Bottom left small line “银行账户与资金入门”. Right/lower half: A silver bank building connected by one restrained champagne-gold path to a glass portfolio document holder, plus a small receipt in the foreground. No crypto symbols, no invented bank branding, no real account details. Keep top-right rectangle (rightmost 34%, top 22%) completely pure white and empty for the supplied original brand signature to be composited later. Do not invent any signature or watermark. Generous margins. All title glyphs must be correct, complete and readable at thumbnail size. No UI screenshot, no charts, no gradients, no background text, no neon.",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-28bb4832-8f98-4572-9dab-7cee7edac0c7.png",
+      "sourceOriginal": "assets/source-images/article-covers/bank-broker-funding-details-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/bank-broker-funding-details.png",
+      "webPath": "public/images/articles/covers/bank-broker-funding-details.webp"
+    }
+  ]
+}

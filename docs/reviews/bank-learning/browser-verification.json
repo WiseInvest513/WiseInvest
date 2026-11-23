@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-23",
+  "baseUrl": "http://127.0.0.1:3002",
+  "browser": "Fresh anonymous Chrome context via Playwright",
+  "viewports": [
+    "1600x1000",
+    "390x844",
+    "320x740"
+  ],
+  "pass": true,
+  "pages": [
+    {
+      "id": "bank-account-preparation",
+      "title": "开户前先核对什么？银行主体、申请材料与账户启用",
+      "status": 200,
+      "headings": 7,
+      "cards": 4,
+      "images": 4,
+      "completeAnonymous": true
+    },
+    {
+      "id": "bank-fx-transfer-cost",
+      "title": "零手续费就便宜吗？换汇、汇款与到账总成本怎么算",
+      "status": 200,
+      "headings": 7,
+      "cards": 3,
+      "images": 3,
+      "completeAnonymous": true
+    },
+    {
+      "id": "bank-broker-funding-details",
+      "title": "第一次给券商入金：同名、收款资料与汇款附言怎么核对",
+      "status": 200,
+      "headings": 7,
+      "cards": 6,
+      "images": 6,
+      "completeAnonymous": true
+    }
+  ],
+  "interactions": [
+    "Hong Kong overview opens new preparation stage and first lesson",
+    "Preparation -> costs -> funding details via actual cards",
+    "Funding lesson links to existing broker deposit walkthrough",
+    "US funding route reuses lessons and preserves series on next lesson and reload",
+    "Standalone article is anonymously readable without series query",
+    "Fullscreen enters and exits",
+    "Mobile TOC reaches fee calculation and table stays in viewport",
+    "Mobile series drawer switches from preparation to funding; context retained after reload",
+    "Dark mode and 320px table support contained horizontal scrolling"
+  ],
+  "tableScroll": {
+    "before": 0,
+    "after": 160,
+    "width": 286,
+    "content": 640
+  },
+  "pageErrors": [],
+  "relevantConsoleErrors": [],
+  "expectedAnonymous401": 48,
+  "existingAnalyticsCspMessages": 11
+}

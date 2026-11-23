@@ -23,6 +23,21 @@ const introductions: Record<string, string> = {
 };
 
 const connections: Record<string, { id: string; label: string; reason: string }[]> = {
+  "bank-account-preparation": [
+    { id: "bank-fx-transfer-cost", label: "下一课 · 算清汇款成本", reason: "把账户费用继续拆成汇率、汇出费和途中扣费，用同一笔预算比较。" },
+    { id: "hk-bank-comparison", label: "选择账户 · 香港银行", reason: "明确用途和材料后，再比较具体银行的开户方式与服务。" },
+  ],
+  "bank-fx-transfer-cost": [
+    { id: "bank-broker-funding-details", label: "准备入金 · 资料核对", reason: "算清成本后，继续匹配币种、通道、收款主体与附言。" },
+  ],
+  "bank-broker-funding-details": [
+    { id: "ifas-fuxing", label: "配套图解 · 复星入金", reason: "符合账户条件时，对照众安或 iFAST 入金复星的实际步骤。" },
+    { id: "us-stock-money-status", label: "查到账 · 资金状态", reason: "区分银行汇出、券商入账、交易可用与可提取，保留对应记录。" },
+  ],
+  "hk-bank-comparison": [
+    { id: "bank-account-preparation", label: "开户准备 · 主体与材料", reason: "选定银行前，核对签约主体、真实申请材料与账户启用条件。" },
+    { id: "bank-fx-transfer-cost", label: "费用比较 · 整笔成本", reason: "不只比较月费，把换汇、汇款与净到账放在同一预算下计算。" },
+  ],
   "qqq-buying-walkthrough": [
     { id: "us-stock-first-order", label: "下单细节 · 第一笔订单", reason: "继续核对报价、限价、有效期与实际成交记录。" },
     { id: "index-qa-2", label: "买入以后 · 持有检查", reason: "完成购买后，检查投入节奏、资金安排与回撤应对。" },

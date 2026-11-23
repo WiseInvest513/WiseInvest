@@ -317,6 +317,21 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "香港银行卡：怎么选；远程与见证、费用、入金用途，银白玻璃主题封面",
     topics: ["港卡怎么选","香港银行","众安","汇丰","见证开户","月费"],
   },
+  "bank-account-preparation": {
+    src: "/images/articles/covers/bank-account-preparation.webp",
+    alt: "开户前先核对：银行主体、申请材料与账户启用",
+    topics: ["银行开户", "支付账户", "开户材料", "账户启用"],
+  },
+  "bank-fx-transfer-cost": {
+    src: "/images/articles/covers/bank-fx-transfer-cost.webp",
+    alt: "换汇汇款算总账：汇率、扣费与净到账",
+    topics: ["换汇", "汇款费用", "中转费", "净到账"],
+  },
+  "bank-broker-funding-details": {
+    src: "/images/articles/covers/bank-broker-funding-details.webp",
+    alt: "第一次券商入金：同名、收款资料与附言核对",
+    topics: ["券商入金", "同名账户", "收款资料", "汇款附言"],
+  },
   "us-guide": {
     src: "/images/articles/covers/us-guide.webp",
     alt: "美股投资账户与资金路径：玻璃银行、证券文件和连接路线的银白概念封面",
