@@ -59,7 +59,7 @@ test('all recommendations are bounded, deduplicated and exclude self, missing en
 test('next-step task chain prefers series next and explains why', () => {
   const step = nextStep(byId('crypto-first-steps'), articles, 'crypto-basics');
   assert.match(step.completed, /第 1/);
-  assert.equal(step.next.id, 'crypto-buying-platforms');
+  assert.equal(step.next.id, 'crypto-market-basics');
   assert.match(step.next.reason, /.+/);
   assert.ok(step.overviewHref.includes('/articles/series/crypto-basics'));
   assert.match(step.overviewLabel, /路线|系列/);

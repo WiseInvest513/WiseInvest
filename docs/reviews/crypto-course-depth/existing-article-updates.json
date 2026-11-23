@@ -1,0 +1,125 @@
+{
+  "reviewedAt": "2026-11-23",
+  "scope": "七篇既有文章的局部修正，未重写整篇、变更路由或访问权限。",
+  "entries": [
+    {
+      "id": "crypto-first-steps",
+      "path": "content/articles/crypto/crypto-first-steps/index.md",
+      "previousArticleSha256": "7a355af6261d7a059c39591f1838ad535a700b12c135aa8d2eb1deeca14d383b",
+      "articleSha256": "b25ac0a8529e1b09136cd7cb760c94ae4fcb573c086a2c91c9204fe7a26ff838",
+      "coverSha256": "2229b475401ac6f6329ddb170ea57d2b81a9f8b21b4fab62a5494bd2e8993dc8",
+      "review": "ETH购买路径不再要求先走C2C；将价格与稳定币两课接入主线，原购买入口与转账卡片保持可用。未改ID、日期、权限或邀请配置。",
+      "anonymousQa": {
+        "id": "crypto-first-steps",
+        "title": "BTC、ETH、USDT 分别是什么？第一次接触加密货币先看这篇",
+        "status": 200,
+        "headings": 8,
+        "cards": 15,
+        "images": 16,
+        "completeAnonymous": true
+      }
+    },
+    {
+      "id": "crypto-buying-platforms",
+      "path": "content/articles/crypto/crypto-buying-platforms/index.md",
+      "previousArticleSha256": "eee84f18d96f9fc3fb21631e3b402268b26e448d997b57a609fd40587d5befd0",
+      "articleSha256": "708f9fbfa6d30360e6d9f74e711fb3d244b58a7cc54cd9f65962b5a05d8ef976",
+      "coverSha256": "6f30ad59474d95bc1ce2e5065c468e57d04fcd1d4bb334392a37a7e5530a3da0",
+      "review": "开篇、四步顺序和法币FAQ与原入口表一致，按资格区分银行转账、卡支付、P2P及已有余额，不再把法币统一导向C2C。原有资格核对日期及福利信息保持原文。",
+      "anonymousQa": {
+        "id": "crypto-buying-platforms",
+        "title": "第一次买币去哪？大陆资格、手续费对比与交易所入口怎么选",
+        "status": 200,
+        "headings": 7,
+        "cards": 18,
+        "images": 19,
+        "completeAnonymous": true
+      }
+    },
+    {
+      "id": "crypto-transfer-basics",
+      "path": "content/articles/crypto/crypto-transfer-basics/index.md",
+      "previousArticleSha256": "27bfe6797749540f215c57d9692cd9bb60e87503adaf917d0ef1ff541b292cc1",
+      "articleSha256": "fa8e533d194bcc13d701b8ce75ad57a28e393b5b83e0024d2cb5297fc3d16c40",
+      "coverSha256": "59cde4795f20fee17358e088f88d08e841b9d595d6654a7d444f5ecf8cf86504",
+      "review": "法币起点导向购买入口；移除上一篇C2C的失效顺序表述；接入区块浏览器查账后再到钱包，保留发送/链上/接收三段逻辑。",
+      "anonymousQa": {
+        "id": "crypto-transfer-basics",
+        "title": "第一次转币：网络、地址怎么选，怎样确认真正到账？",
+        "status": 200,
+        "headings": 7,
+        "cards": 8,
+        "images": 9,
+        "completeAnonymous": true
+      }
+    },
+    {
+      "id": "crypto-wallet-first-use",
+      "path": "content/articles/crypto/crypto-wallet-first-use/index.md",
+      "previousArticleSha256": "6013512e4d56a6ca8966f7743a5093d869c57bbec0b126ab174947cc77fedde1",
+      "articleSha256": "6ebb9e624c8b56838fc728077b36b7dd44753169287e09b909587b434e160397",
+      "coverSha256": "5b47374a0050b8cfb391531c35a3e3f2ae2a5d0a5b72e7c420293d0f84262357",
+      "review": "补充Bitcoin原生BTC与Ethereum示例的网络和收款账户边界，未断言某钱包品牌不支持Bitcoin，也未新增产品版本或操作按钮承诺。",
+      "anonymousQa": {
+        "id": "crypto-wallet-first-use",
+        "title": "第一次使用自管钱包：创建、备份、恢复与收发币",
+        "status": 200,
+        "headings": 8,
+        "cards": 2,
+        "images": 2,
+        "completeAnonymous": true
+      }
+    },
+    {
+      "id": "crypto-wallet-permissions",
+      "path": "content/articles/crypto/crypto-wallet-permissions/index.md",
+      "previousArticleSha256": "0c55fd48fbc0f5925677bdcc9ea030639a6332750ec4fc8498cd8f857e2baccf",
+      "articleSha256": "0c589e1a8587b475b8f0fa6fe7dc12d2ba4970442398f7ac7b8f954bf770b5c7",
+      "coverSha256": "a9ae05111b7480da9af7a8d59b5c0f11ac2af3b0c96d4158059c2f6417936107",
+      "review": "课程末尾接入综合练习与错题回看，原权限、撤销、签名与骗局内容保持。",
+      "anonymousQa": {
+        "id": "crypto-wallet-permissions",
+        "title": "连接钱包以后发生了什么？授权、签名与常见骗局",
+        "status": 200,
+        "headings": 7,
+        "cards": 3,
+        "images": 3,
+        "completeAnonymous": true
+      }
+    },
+    {
+      "id": "crypto-spot-futures",
+      "path": "content/articles/crypto/crypto-spot-futures/index.md",
+      "previousArticleSha256": "6e8bc06cf5b76d7c3ac02d159832980c9b48495a6a6b9bd8d38dea65ef1e5cff",
+      "articleSha256": "76b48aa909e6bb91036d6d3f6b395c13fbf1e26bb46ed7bd8689a09c9eee2e31",
+      "coverSha256": "01b623c8db51c7bb9188121c8540067ae40c4c46c65746b263f0598b18448c90",
+      "review": "开篇说明学习不必入金，并去掉结尾重复的转账卡片；保留现货/合约机制和既有平台入口。",
+      "anonymousQa": {
+        "id": "crypto-spot-futures",
+        "title": "买币和开合约有什么区别？现货、杠杆与强平入门",
+        "status": 200,
+        "headings": 8,
+        "cards": 9,
+        "images": 10,
+        "completeAnonymous": true
+      }
+    },
+    {
+      "id": "crypto-c2c-freeze",
+      "path": "content/articles/crypto/crypto-c2c-freeze/index.md",
+      "previousArticleSha256": "7a76b6e3fb57910e8d93ada06921685843552b8be6811517b41eca58cb85d39c",
+      "articleSha256": "b19c324d97401fd51a395e650b2205dec76864881a5864b513b5fecef6b09589",
+      "coverSha256": "a436330a5d3341cfd1d62cafb42df983d92afbc9cf82424e58296b60f6224094",
+      "review": "删除通过金额/频率降低冻卡概率的无依据表述和小额不冻的轶事；改为核对资料与资格，不推导安全金额。2026-11-23核对币安P2P规则中的非CN适用范围和实名付款要求，以及工信部发布的反电信网络诈骗法第18/32条。同步更新摘要、读者导读与限定的核对说明，不替具体个案定性。",
+      "anonymousQa": {
+        "id": "crypto-c2c-freeze",
+        "title": "C2C 买 U 冻卡怎么办？银行风控与司法冻结怎么分",
+        "status": 200,
+        "headings": 7,
+        "cards": 9,
+        "images": 9,
+        "completeAnonymous": true
+      }
+    }
+  ]
+}

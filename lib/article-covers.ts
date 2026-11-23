@@ -40,6 +40,26 @@ export const articleCovers: Record<string, { src: string; alt: string; topics: s
     alt: "纳斯达克怎么买：从人民币到 QQQ，六条购买路径图解",
     topics: ["纳斯达克", "QQQ", "支付宝", "银河", "券商", "稳定币", "费用"],
   },
+  "crypto-market-basics": {
+    src: "/images/articles/covers/crypto-market-basics.webp",
+    alt: "价格、市值与流动性，Wise 银白玻璃主题封面",
+    topics: ["加密货币","价格、市值与流动性"],
+  },
+  "crypto-stablecoin-basics": {
+    src: "/images/articles/covers/crypto-stablecoin-basics.webp",
+    alt: "稳定币与美元区别，Wise 银白玻璃主题封面",
+    topics: ["加密货币","稳定币与美元区别","USDT","USDC","稳定币"],
+  },
+  "crypto-explorer-reading": {
+    src: "/images/articles/covers/crypto-explorer-reading.webp",
+    alt: "链上交易查账，Wise 银白玻璃主题封面",
+    topics: ["加密货币","链上交易查账"],
+  },
+  "crypto-practice-check": {
+    src: "/images/articles/covers/crypto-practice-check.webp",
+    alt: "综合练习与复盘，Wise 银白玻璃主题封面",
+    topics: ["加密货币","综合练习与复盘"],
+  },
   "crypto-account-security": {
     src: "/images/articles/covers/crypto-account-security.webp",
     alt: "账户安全与恢复，Wise 银白玻璃主题封面",

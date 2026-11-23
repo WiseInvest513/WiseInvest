@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-23",
+  "mode": "built-in image_gen",
+  "branding": "The complete original wise-invest-signature.png is composited at 16% width, with rounded corners and safe margins, onto the reserved white header; the original file is unchanged.",
+  "images": [
+    {
+      "id": "crypto-market-basics",
+      "title": "看懂币价",
+      "subtitle": "市值 · 供给 · 深度",
+      "object": "a precision silver balance comparing one larger plain glass token with a measured stack of smaller glass tokens, no currency logos or price chart",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Input image 1 is only a style reference for white silver glass materials and soft lighting; do not copy its chart, growth arrow or composition. Input image 2 is the ORIGINAL Wise Invest signature: place this complete original image in the upper RIGHT corner with text AND person intact, preserve aspect ratio, 16% of canvas width, 3.5% right and 4.5% top safety margins, rounded corners 20% signature height; do not invent or redraw it. Pure white studio background, thick optical glass, silver aluminum, tiny champagne-gold accents, physically credible 3D materials, no glow. Leave the upper-right header area plain white for the signature. All subjects safely below 23% canvas height. Large dark navy Chinese headline on left, easily readable at 232px thumbnail width. Keep subject and text inside 7% safe margins; plenty of breathing room. No extra words, no profit claims, no upward chart, no website UI. Right-hand subject: a precision silver balance comparing one larger plain glass token with a measured stack of smaller glass tokens, no currency logos or price chart. Render exact left headline \"看懂币价\", below smaller exact \"市值 · 供给 · 深度\", bottom left small exact \"加密货币从 0 到 1\".",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-f234decd-87bd-47ff-bed2-7b66f721bda9.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-market-basics-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-market-basics.png",
+      "webPath": "public/images/articles/covers/crypto-market-basics.webp"
+    },
+    {
+      "id": "crypto-stablecoin-basics",
+      "title": "稳定币是什么",
+      "subtitle": "美元 · 赎回 · 网络",
+      "object": "a plain translucent dollar-symbol token beside a silver bank receipt and two distinct clear glass network blocks, no official product logos, no piles of gold",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Input image 1 is only a style reference for white silver glass materials and soft lighting; do not copy its chart, growth arrow or composition. Input image 2 is the ORIGINAL Wise Invest signature: place this complete original image in the upper RIGHT corner with text AND person intact, preserve aspect ratio, 16% of canvas width, 3.5% right and 4.5% top safety margins, rounded corners 20% signature height; do not invent or redraw it. Pure white studio background, thick optical glass, silver aluminum, tiny champagne-gold accents, physically credible 3D materials, no glow. Leave the upper-right header area plain white for the signature. All subjects safely below 23% canvas height. Large dark navy Chinese headline on left, easily readable at 232px thumbnail width. Keep subject and text inside 7% safe margins; plenty of breathing room. No extra words, no profit claims, no upward chart, no website UI. Right-hand subject: a plain translucent dollar-symbol token beside a silver bank receipt and two distinct clear glass network blocks, no official product logos, no piles of gold. Render exact left headline \"稳定币是什么\", below smaller exact \"美元 · 赎回 · 网络\", bottom left small exact \"加密货币从 0 到 1\".",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-08e23c53-a4b3-410c-a58a-576561a99c8e.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-stablecoin-basics-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-stablecoin-basics.png",
+      "webPath": "public/images/articles/covers/crypto-stablecoin-basics.webp"
+    },
+    {
+      "id": "crypto-explorer-reading",
+      "title": "链上转账查账",
+      "subtitle": "状态 · 地址 · 到账",
+      "object": "a large silver-rimmed magnifying glass inspecting one translucent transaction receipt, joined to two clearly separated glass blocks, no fake dashboard or tiny text",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Input image 1 is only a style reference for white silver glass materials and soft lighting; do not copy its chart, growth arrow or composition. Input image 2 is the ORIGINAL Wise Invest signature: place this complete original image in the upper RIGHT corner with text AND person intact, preserve aspect ratio, 16% of canvas width, 3.5% right and 4.5% top safety margins, rounded corners 20% signature height; do not invent or redraw it. Pure white studio background, thick optical glass, silver aluminum, tiny champagne-gold accents, physically credible 3D materials, no glow. Leave the upper-right header area plain white for the signature. All subjects safely below 23% canvas height. Large dark navy Chinese headline on left, easily readable at 232px thumbnail width. Keep subject and text inside 7% safe margins; plenty of breathing room. No extra words, no profit claims, no upward chart, no website UI. Right-hand subject: a large silver-rimmed magnifying glass inspecting one translucent transaction receipt, joined to two clearly separated glass blocks, no fake dashboard or tiny text. Render exact left headline \"链上转账查账\", below smaller exact \"状态 · 地址 · 到账\", bottom left small exact \"加密货币从 0 到 1\".",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-7cfbdec7-5dee-45dd-8489-a6a68d51dbb7.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-explorer-reading-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-explorer-reading.png",
+      "webPath": "public/images/articles/covers/crypto-explorer-reading.webp"
+    },
+    {
+      "id": "crypto-practice-check",
+      "title": "加密入门实战",
+      "subtitle": "算账 · 核对 · 判断",
+      "object": "a silver calculator with blank keys beside a simple glass checklist with three gold checks and a single silver pencil, no invented screen numbers",
+      "prompt": "Create one standalone 16:9 landscape Chinese educational article cover. Input image 1 is only a style reference for white silver glass materials and soft lighting; do not copy its chart, growth arrow or composition. Input image 2 is the ORIGINAL Wise Invest signature: place this complete original image in the upper RIGHT corner with text AND person intact, preserve aspect ratio, 16% of canvas width, 3.5% right and 4.5% top safety margins, rounded corners 20% signature height; do not invent or redraw it. Pure white studio background, thick optical glass, silver aluminum, tiny champagne-gold accents, physically credible 3D materials, no glow. Leave the upper-right header area plain white for the signature. All subjects safely below 23% canvas height. Large dark navy Chinese headline on left, easily readable at 232px thumbnail width. Keep subject and text inside 7% safe margins; plenty of breathing room. No extra words, no profit claims, no upward chart, no website UI. Right-hand subject: a silver calculator with blank keys beside a simple glass checklist with three gold checks and a single silver pencil, no invented screen numbers. Render exact left headline \"加密入门实战\", below smaller exact \"算账 · 核对 · 判断\", bottom left small exact \"加密货币从 0 到 1\".",
+      "generatedPath": "/Users/balala/.codex/generated_images/01a2084d-935c-7892-a467-b99ba9ab17e3/exec-ae70cedb-a640-47d2-a504-ef1472d11a09.png",
+      "sourceOriginal": "assets/source-images/article-covers/crypto-practice-check-generated.png",
+      "sourceSigned": "assets/source-images/article-covers/crypto-practice-check.png",
+      "webPath": "public/images/articles/covers/crypto-practice-check.webp"
+    }
+  ]
+}

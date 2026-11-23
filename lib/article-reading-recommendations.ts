@@ -31,7 +31,7 @@ const connections: Record<string, { id: string; label: string; reason: string }[
     { id: "qqq-buying-walkthrough", label: "接着操作 · 纳指买入图解", reason: "选好购买路径后，用真实界面串起开户、入金、下单与费用。" },
   ],
   "crypto-first-steps": [
-    { id: "crypto-buying-platforms", label: "下一课 · 购买入口", reason: "认清资产后，比较法币入口、交易所和链上兑换的条件。" },
+    { id: "crypto-market-basics", label: "下一课 · 读懂价格", reason: "把单枚价格、流通市值与实际可成交数量分开理解。" },
     { id: "crypto-transfer-basics", label: "已有资产 · 转账保管", reason: "准备转出时，进一步检查地址、网络、到账与密钥责任。" },
   ],
   "crypto-buying-platforms": [
@@ -48,9 +48,22 @@ const connections: Record<string, { id: string; label: string; reason: string }[
     { id: "crypto-first-steps", label: "回看基础 · 资产与账户", reason: "把余额、资产数量和控制权限重新对应起来。" },
   ],
   "crypto-transfer-basics": [
-    { id: "crypto-wallet-first-use", label: "下一课 · 钱包使用", reason: "准备接收到账的同时，理解备份、恢复与后续转出的 Gas。" },
+    { id: "crypto-explorer-reading", label: "下一课 · 链上查账", reason: "从交易哈希查状态、接收方、代币与费用，再核对平台记账。" },
     { id: "crypto-buying-platforms", label: "回看入口选择", reason: "按实际资金来源和保管需求重新检查平台与钱包。" },
     { id: "bitget-exchange", label: "配套图解 · 跨平台转入", reason: "用已有平台图解对照充币、提币和到账记录的位置。" },
+  ],
+  "crypto-market-basics": [
+    { id: "crypto-stablecoin-basics", label: "下一课 · 稳定币", reason: "继续区分稳定币的锚定目标、市场价格与赎回条件。" },
+  ],
+  "crypto-stablecoin-basics": [
+    { id: "crypto-buying-platforms", label: "下一课 · 购买入口", reason: "认清要取得的资产，再按资金和资格选择入口。" },
+  ],
+  "crypto-explorer-reading": [
+    { id: "crypto-wallet-first-use", label: "下一课 · 钱包使用", reason: "理解链上记录之后，学习钱包备份、恢复和收发币。" },
+  ],
+  "crypto-practice-check": [
+    { id: "crypto-cost-and-profit", label: "回看 · 盈亏计算", reason: "可用余额与利润混淆时，回到成交金额和费用逐笔核对。" },
+    { id: "crypto-wallet-permissions", label: "回看 · 权限判断", reason: "再区分连接、授权和签名改变了哪些权限。" },
   ],
   "crypto-account-security": [
     { id: "crypto-c2c-funding", label: "下一课 · 入金核对", reason: "做好账户与恢复准备后，再学习付款、收币和可用余额。" },
@@ -70,6 +83,7 @@ const connections: Record<string, { id: string; label: string; reason: string }[
     { id: "crypto-wallet-permissions", label: "下一课 · 钱包权限", reason: "收发币之后，再分清连接网站、授权与签名各自改变什么。" },
   ],
   "crypto-wallet-permissions": [
+    { id: "crypto-practice-check", label: "下一课 · 综合练习", reason: "用新的算账和权限场景检查能否独立核对结果。" },
     { id: "crypto-wallet-first-use", label: "回看 · 钱包恢复", reason: "重新检查哪些凭证能控制账户，以及备份覆盖哪些地址。" },
   ],
   "us-stock-account-basics": [

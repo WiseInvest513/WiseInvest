@@ -17,7 +17,7 @@ readTime: 14
 
 第一次打开交易页面，最容易看见的是价格涨了多少、跌了多少。再往旁边看，才发现还有“现货”“杠杆”“合约”，有的页面甚至多了一个倍数。
 
-如果只记得自己想买 BTC，很容易把这些按钮当成不同版本的购买界面。**买币（现货）和开合约有什么区别？** 现货是用自己的钱买入并持有资产；合约是以保证金建立价格仓位，有杠杆、资金费和强平，仓位里的「BTC」通常不能当现货提到钱包。想「怎么玩加密货币」，先把现货买币走通，不要一进 App 就开合约。下文用保证金、强平与订单结果把机制拆开；若还缺一笔可用的 USDT，先看 C2C 入金。
+如果只记得自己想买 BTC，很容易把这些按钮当成不同版本的购买界面。**买币（现货）和开合约有什么区别？** 现货是用自己的钱买入并持有资产；合约是以保证金建立价格仓位，有杠杆、资金费和强平，仓位里的「BTC」通常不能当现货提到钱包。想「怎么玩加密货币」，先把现货买币走通，不要一进 App 就开合约。下文用保证金、强平与订单结果把机制拆开；若还不清楚资金怎样进入，先读购买入口；学习本篇不需要先入金。
 
 [C2C 入金](/articles/crypto/mk7xplfU?series=crypto-basics){card}
 [第一次买币去哪？大陆资格、手续费对比与交易所入口怎么选](/articles/crypto/gHntO7zV){card}
@@ -180,5 +180,4 @@ readTime: 14
 [转账：网络、地址与到账](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 [BTC、ETH、USDT 入门](/articles/crypto/UOMdQwU3?series=crypto-basics){card}
 
-[加密转账：网络、地址与到账检查](/articles/crypto/oWHIVCLt?series=crypto-basics){card}
 [回到加密入门系列](/articles/series/crypto-basics){card}
