@@ -26,6 +26,8 @@ const { ArticleImage, shouldFoldArticleImage: fold } = imageModule;
 const renderer = load('lib/article-renderer.tsx', {
   '@/components/article-image': imageModule,
   '@/components/article-registration-card': { ArticleRegistrationCard: () => null },
+  '@/components/article-vip-invitation': { ArticleVipInvitation: () => null },
+  '@/components/article-vip-reference-prompt': { ArticleVipReferencePrompt: () => null },
   '@/components/article-link-card': { ArticleLinkCard: () => null },
   '@/lib/article-registration': { parseRegistrationCallout: () => null },
   '@/lib/article-uid': { genUid: value => value },

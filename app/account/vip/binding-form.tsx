@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useMemo, useState, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { AlertTriangle, BookOpen, CheckCircle2, KeyRound, Loader2, Plus, RotateCcw, Send, ShieldCheck } from "lucide-react";
+import { AlertTriangle, BookOpen, CheckCircle2, Loader2, Plus, Send, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +13,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { PlatformPicker } from "./platform-picker";
+import { getBindingNoteError, OTHER_BINDING_SLUG } from "@/lib/vip/binding-platforms";
 import { cn } from "@/lib/utils";
 import { partnerTypeLabels } from "@/lib/vip/status";
 import { getExchangeUidRule, getPartnerIdentifierError, normalizePartnerIdentifier } from "@/lib/vip/partner-identifier";
@@ -31,106 +33,72 @@ type BindingFormProps = {
   partners: PartnerOption[];
   triggerLabel?: string;
   triggerClassName?: string;
+  initialOpen?: boolean;
+  initialPartnerSlug?: string;
 };
 
-type BindingOption = PartnerOption & {
-  value: string;
-  submitSlug: string;
-  optionLabel: string;
-  helperText: string;
-};
-
-function buildBindingOptions(partners: PartnerOption[]): BindingOption[] {
-  const brokeragePartner = partners.find((partner) => partner.type === "BROKERAGE");
-  const brokerageOption: BindingOption[] = brokeragePartner
-    ? [
-        {
-          ...brokeragePartner,
-          value: "brokerage-account",
-          submitSlug: brokeragePartner.slug,
-          name: "券商账户",
-          referralCode: null,
-          optionLabel: "券商账户 · 统一填写券商 ID",
-          helperText: "券商统一提交账户 ID 或开户链接识别信息，补充说明里写清银河、复星、致富、腾达、BBAE 等具体渠道。",
-          identifierLabel: "券商 ID / 账户标识",
-          identifierPlaceholder: "填写券商账户 ID、开户链接识别信息或开户链接手机号后四位",
-        },
-      ]
-    : [];
-
-  const exchangeOptions = partners
-    .filter((partner) => partner.type === "EXCHANGE")
-    .map((partner) => ({
-      ...partner,
-      value: partner.slug,
-      submitSlug: partner.slug,
-      optionLabel: `${partner.name} · 交易所`,
-      helperText: "交易所账户需绑定 Wise 邀请关系、入金 1000U 并完成 10000U 合约交易。请选择具体平台，填写该交易所后台显示的 UID 后提交核验。",
-    }));
-
-  return [...brokerageOption, ...exchangeOptions];
-}
-
-export function BindingForm({ partners, triggerLabel = "绑定新的合作账户", triggerClassName }: BindingFormProps) {
+export function BindingForm({ partners, triggerLabel = "绑定新的合作账户", triggerClassName, initialOpen = false, initialPartnerSlug = "" }: BindingFormProps) {
   const router = useRouter();
   const identifierHintId = useId();
-  const bindingOptions = useMemo(() => buildBindingOptions(partners), [partners]);
-  const brokerageOptions = bindingOptions.filter((partner) => partner.type === "BROKERAGE");
-  const exchangeOptions = bindingOptions.filter((partner) => partner.type === "EXCHANGE");
-  const [open, setOpen] = useState(false);
-  const [partnerSlug, setPartnerSlug] = useState(bindingOptions[0]?.value ?? "");
+  const noteHintId = useId();
+  const [platformPickerOpen, setPlatformPickerOpen] = useState(false);
+  const [open, setOpen] = useState(initialOpen);
+  const [partnerSlug, setPartnerSlug] = useState(() => partners.some(partner => partner.slug === initialPartnerSlug) ? initialPartnerSlug : "");
   const [externalIdentifier, setExternalIdentifier] = useState("");
+  const [platformName, setPlatformName] = useState("");
   const [userNote, setUserNote] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [resubmitted, setResubmitted] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const currentPartnerSlug = partnerSlug || bindingOptions[0]?.value || "";
-
-  const selectedPartner = useMemo(
-    () => bindingOptions.find((partner) => partner.value === currentPartnerSlug) ?? bindingOptions[0],
-    [bindingOptions, currentPartnerSlug]
-  );
-  const submitSlug = selectedPartner?.submitSlug ?? "";
+  const selectedPartner = partners.find((partner) => partner.slug === partnerSlug);
+  const submitSlug = selectedPartner?.slug ?? "";
+  const isOther = submitSlug === OTHER_BINDING_SLUG;
   const uidRule = getExchangeUidRule(submitSlug);
   const identifierError = getPartnerIdentifierError(submitSlug, externalIdentifier);
   const showIdentifierError = externalIdentifier.length > 0 && Boolean(identifierError);
-  const ready = Boolean(submitSlug && !identifierError && userNote.trim());
+  const ready = Boolean(submitSlug && !identifierError && !getBindingNoteError(submitSlug, userNote, platformName));
 
   const submit = () => {
-    if (!selectedPartner || !ready) return;
+    if (!selectedPartner || !ready || isPending) return;
 
     setMessage("");
     startTransition(async () => {
-      const response = await fetch("/api/account/partner-accounts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          partnerSlug: selectedPartner.submitSlug,
-          externalIdentifier: normalizePartnerIdentifier(selectedPartner.submitSlug, externalIdentifier),
-          userNote: userNote.trim(),
-        }),
-      });
-      const result = (await response.json()) as { ok: boolean; message?: string; resubmitted?: boolean };
+      try {
+        const response = await fetch("/api/account/partner-accounts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            partnerSlug: selectedPartner.slug,
+            externalIdentifier: normalizePartnerIdentifier(selectedPartner.slug, externalIdentifier),
+            userNote: userNote.trim(),
+            platformName: isOther ? platformName.trim() : undefined,
+          }),
+        });
+        const result = (await response.json()) as { ok: boolean; message?: string; resubmitted?: boolean };
 
-      if (!response.ok || !result.ok) {
-        setMessage(result.message ?? "提交失败，请稍后再试。");
-        return;
+        if (!response.ok || !result.ok) {
+          setMessage(result.message ?? "提交失败，请稍后再试。");
+          return;
+        }
+
+        setExternalIdentifier("");
+        setUserNote("");
+        setPlatformName("");
+        setResubmitted(Boolean(result.resubmitted));
+        setSubmitted(true);
+        setMessage("");
+        router.refresh();
+      } catch {
+        setMessage("提交失败，请检查网络后重试，已填写的资料会保留。");
       }
-
-      setExternalIdentifier("");
-      setUserNote("");
-      setResubmitted(Boolean(result.resubmitted));
-      setSubmitted(true);
-      setMessage("");
-      router.refresh();
     });
   };
 
-  if (bindingOptions.length === 0) {
+  if (partners.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-5 text-sm leading-7 text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
-        当前还没有可提交核验的券商账户或交易所。配置数据库后运行 `npm run vip:seed` 初始化默认合作方。
+        暂时没有开放核验的平台，请稍后再试或联系 Wise。
       </div>
     );
   }
@@ -140,6 +108,7 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
       open={open}
       onOpenChange={(nextOpen) => {
         setOpen(nextOpen);
+        if (!nextOpen) setPlatformPickerOpen(false);
         if (nextOpen) {
           setSubmitted(false);
           setResubmitted(false);
@@ -159,9 +128,9 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
           {triggerLabel}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[88vh] max-w-2xl overflow-y-auto rounded-2xl border-slate-200 bg-white p-0 dark:border-slate-800 dark:bg-slate-950">
-        <div className="border-b border-slate-200 px-6 py-5 dark:border-slate-800">
-          <DialogHeader>
+      <DialogContent onEscapeKeyDown={(event) => { if (platformPickerOpen) event.preventDefault(); }} className="flex max-h-[90dvh] w-[calc(100%-1.5rem)] max-w-2xl flex-col gap-0 overflow-hidden rounded-2xl border-slate-200 bg-white p-0 dark:border-slate-800 dark:bg-slate-950">
+        <div className="shrink-0 border-b border-slate-200 px-5 py-5 pr-12 dark:border-slate-800 sm:px-6">
+          <DialogHeader className="text-left">
             <DialogTitle className="flex items-center gap-2 text-xl font-black text-slate-950 dark:text-white">
               <ShieldCheck className="h-5 w-5 text-amber-500" />
               绑定合作账户
@@ -172,17 +141,8 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
           </DialogHeader>
         </div>
 
-        <div className="px-6 pt-5">
-          <div className="flex gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-100">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
-            <p>
-              交易所填写的 UID <strong>必须绑定在 Wise 邀请码下</strong>。请勿随意填写与 Wise 无关的 ID，否则封号处理。
-            </p>
-          </div>
-        </div>
-
         {submitted ? (
-          <div className="px-6 py-8">
+          <div className="overflow-y-auto px-6 py-8">
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-900 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-100">
               <CheckCircle2 className="mb-4 h-7 w-7" />
               <h3 className="text-xl font-black">{resubmitted ? "已重新提交审核" : "已提交审核"}</h3>
@@ -201,34 +161,17 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
             </Button>
           </div>
         ) : (
-        <div className="space-y-4 px-6 py-5">
-          <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">
-            选择账户类型 / 平台
-            <select
-              value={currentPartnerSlug}
-              onChange={(event) => setPartnerSlug(event.target.value)}
-              className="mt-2 h-12 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition focus:border-amber-400 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-            >
-              {brokerageOptions.length > 0 && (
-                <optgroup label="券商">
-                  {brokerageOptions.map((partner) => (
-                    <option key={partner.value} value={partner.value}>
-                      {partner.optionLabel}
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-              {exchangeOptions.length > 0 && (
-                <optgroup label="交易所">
-                  {exchangeOptions.map((partner) => (
-                    <option key={partner.value} value={partner.value}>
-                      {partner.optionLabel}
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-            </select>
-          </label>
+        <div className="min-h-0 space-y-5 overflow-y-auto overscroll-contain px-5 py-5 sm:px-6">
+          <PlatformPicker onExpandedChange={setPlatformPickerOpen} options={partners} value={partnerSlug} disabled={isPending} onChange={(slug) => {
+            setPartnerSlug(slug);
+            setExternalIdentifier("");
+            setMessage("");
+          }} />
+
+          {isOther && <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">
+            平台 / 产品名称 <span className="font-medium text-amber-700 dark:text-amber-300">（必填）</span>
+            <Input required maxLength={60} disabled={isPending} value={platformName} onChange={(event) => setPlatformName(event.target.value)} placeholder="填写完整名称，便于人工核验" className="mt-2 h-12 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-900" />
+          </label>}
 
           {selectedPartner && (
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
@@ -236,7 +179,7 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
                 <div>
                   <p className="font-black text-slate-950 dark:text-white">{selectedPartner.name}</p>
                   <p className="mt-1 text-xs font-bold text-slate-500 dark:text-slate-400">
-                    {selectedPartner.type === "BROKERAGE" ? "券商账户统一核验" : partnerTypeLabels[selectedPartner.type]}
+                    {selectedPartner.type === "BROKERAGE" ? "券商账户核验" : partnerTypeLabels[selectedPartner.type]}
                   </p>
                 </div>
                 {(selectedPartner.referralCode || selectedPartner.tutorialHref) && (
@@ -264,14 +207,26 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
                   </div>
                 )}
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{selectedPartner.helperText}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">{isOther
+                ? "请写明平台名称、注册 / 开户时间和使用的渠道。我们会人工核实是否符合合作条件，提交不代表已获得 VIP。"
+                : selectedPartner.type === "BROKERAGE"
+                  ? "请填写这家券商的账户 ID 或开户链接识别信息，并在补充说明中写明开户时间与 Wise 开户渠道。"
+                  : "交易所账户需绑定 Wise 邀请关系、入金 1000U 并完成 10000U 合约交易。填写该平台后台显示的 UID 后提交核验。"}</p>
             </div>
           )}
+
+          {selectedPartner?.type === "EXCHANGE" && <div className="flex gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-3 text-xs leading-5 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-100">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+            <p>交易所填写的 UID <strong>必须绑定在 Wise 邀请码下</strong>。请勿随意填写与 Wise 无关的 ID，否则封号处理。</p>
+          </div>}
 
           <div>
             <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">
               {selectedPartner?.identifierLabel ?? "账户标识"}
               <Input
+                required
+                disabled={isPending}
+                maxLength={80}
                 type="text"
                 inputMode={uidRule ? "numeric" : "text"}
                 pattern={uidRule ? `[0-9]{${uidRule.digits}}` : undefined}
@@ -301,55 +256,32 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
             补充说明 <span className="text-amber-700 dark:text-amber-300">（必填：注册时间）</span>
             <textarea
               required
-              aria-describedby="binding-note-help"
+              disabled={isPending}
+              maxLength={2000}
+              aria-describedby={noteHintId}
               value={userNote}
               onChange={(event) => setUserNote(event.target.value)}
-              placeholder={selectedPartner?.type === "BROKERAGE"
+              placeholder={isOther
+                ? "请说明注册 / 开户时间、使用的邀请或合作渠道，以及需要核验的情况。"
+                : selectedPartner?.type === "BROKERAGE"
                 ? "请填写开户时间、券商名称和开户渠道。例如：2026 年 9 月开户，通过 Wise 渠道。"
                 : "请填写账户注册时间和使用的 Wise 邀请码。例如：2026 年 9 月注册，通过 Wise 邀请码注册。"}
               rows={3}
               className="mt-2 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-amber-400 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
             />
-            <span id="binding-note-help" className="mt-1 block text-xs font-medium leading-5 text-amber-800 dark:text-amber-200">
+            <span id={noteHintId} className="mt-1 block text-xs font-medium leading-5 text-amber-800 dark:text-amber-200">
               请务必填写账户注册 / 开户时间，作为审核依据；未填写补充说明无法提交。
             </span>
           </label>
 
-          <div className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900 dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-100">
-            <div className="flex gap-2">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-              <p>
-                券商账户统一填写券商 ID；交易所账户需要选择具体平台并提交对应 UID。提交后 Wise 会核验账户归属及合作关系。
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                { title: "填写账户资料", text: "UID / 账户标识 + 注册时间", icon: KeyRound },
-                { title: "人工核验后生效", text: "绑定本身不会自动升级 VIP", icon: ShieldCheck },
-                { title: "可补充重提", text: "被驳回或待补充后可重新提交", icon: RotateCcw },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.title} className="rounded-xl bg-white px-3 py-3 dark:bg-slate-950">
-                    <Icon className="mb-2 h-4 w-4 text-amber-600 dark:text-amber-300" />
-                    <p className="font-black text-slate-800 dark:text-slate-100">{item.title}</p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">{item.text}</p>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="mt-3 border-t border-slate-200 pt-3 text-xs font-semibold leading-6 text-slate-500 dark:border-slate-800 dark:text-slate-400">
-              Wise 不会要求你提供密码、钱包私钥、Seed Phrase、API Secret、2FA Code 或交易密码。
-            </p>
-          </div>
+          <p className="border-t border-slate-100 pt-4 text-xs leading-5 text-slate-500 dark:border-slate-800 dark:text-slate-400">
+            资料提交后人工审核；需要补充或被驳回时，可修改后重新提交。请勿提供密码、私钥、助记词或验证码。
+          </p>
         </div>
         )}
 
         {!submitted && (
-        <div className="flex flex-col-reverse gap-3 border-t border-slate-200 px-6 py-5 dark:border-slate-800 sm:flex-row sm:justify-end">
+        <div className="flex shrink-0 items-center justify-end gap-3 border-t border-slate-200 bg-white px-5 py-4 dark:border-slate-800 dark:bg-slate-950 sm:px-6">
           <Button
             type="button"
             variant="outline"
@@ -370,7 +302,7 @@ export function BindingForm({ partners, triggerLabel = "绑定新的合作账户
         </div>
         )}
 
-        {message && <p className="px-6 pb-5 text-sm text-slate-600 dark:text-slate-300">{message}</p>}
+        {message && <p role="alert" className="shrink-0 px-6 pb-4 text-sm text-rose-600 dark:text-rose-400">{message}</p>}
       </DialogContent>
     </Dialog>
   );

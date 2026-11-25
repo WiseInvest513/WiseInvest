@@ -302,3 +302,110 @@ test('published article references resolve to cards across the library, with tab
   }
   assert.ok(checkedCards > 0, 'exercise the real published reference inventory');
 });
+
+test('Bitget VIP invitation follows the first matching reference group, once per article', () => {
+  const { getArticleVipReferences } = load('lib/article-vip-invitation.ts');
+  const bitget = { ...article, id: 'bitget-exchange', categoryId: 'crypto', title: 'Bitget 注册' };
+  const destination = '/articles/crypto/k3RVVcw4?series=crypto-zero-to-one#h-2';
+  const bitgetLine = `[Bitget 注册](${destination}){card}`;
+  const content = `${cardLine}\n${bitgetLine}\n\n正文继续。\n\n${bitgetLine}`;
+  const references = getArticleVipReferences(content, [article, bitget]);
+  assert.equal(references[0].href, destination);
+  const html = renderToStaticMarkup(renderMarkdown(content, [], undefined, [article, bitget], [], value => value, { references }));
+  assert.equal((html.match(/data-vip-reference-prompt/g) ?? []).length, 1);
+  assert.equal(cardCount(html), 3);
+  assert.ok(html.indexOf('data-vip-reference-prompt') > html.indexOf('Bitget 注册'));
+  assert.ok(html.indexOf('data-vip-reference-prompt') < html.indexOf('正文继续'));
+  assert.match(html.replace(/<[^>]*>/g, ''), /通过 Bitget， 申请 Wise VIP/);
+  assert.match(html, /href="https:\/\/vip\.wise-invest\.org\/join"/);
+  assert.doesNotMatch(html, /aria-haspopup|aria-expanded|<button/);
+  assert.doesNotMatch(html, /data-vip-reference-panel|data-article-vip-invitation/);
+});
+
+test('Bitget contextual invitation only resolves a real, readable standalone registration reference', () => {
+  const { getArticleVipReferences } = load('lib/article-vip-invitation.ts');
+  const metadata = [{id: 'bitget-exchange', categoryId: 'crypto'}];
+  const line = '[教程](/articles/crypto/k3RVVcw4){card}';
+  for (const content of [
+    '聊一下 Bitget', `正文 ${line}`, `> ${line}`, `| ${line} |`,
+    `\`\`\`md\n${line}\n\`\`\``, '[教程](/articles/crypto/k3RVVcw4)',
+    '[教程](https://evil.example/articles/crypto/k3RVVcw4){card}',
+    '[教程](https://user@www.wise-invest.org/articles/crypto/k3RVVcw4){card}',
+  ]) assert.deepEqual(getArticleVipReferences(content, metadata), [], content);
+  assert.deepEqual(getArticleVipReferences(line, []), []);
+  assert.deepEqual(getArticleVipReferences(line, [{id: 'bitget-vcard', categoryId: 'vcard'}]), []);
+  assert.equal(getArticleVipReferences(line.replace('](', '](https://www.wise-invest.org'), metadata).length, 1);
+  assert.deepEqual(getArticleVipReferences(createContentPreview(`## 前言\n${"前言".repeat(150)}\n\n${line}`, 50), metadata), []);
+});
+
+test('Galaxy ETF tutorial and its references use brokerage copy and the Galaxy application', () => {
+  const { getArticleVipInvitation, getArticleVipReferences, getArticleVipApplyHref } = load('lib/article-vip-invitation.ts');
+  const metadata = {...article, id: 'galaxy-etf-guide', categoryId: 'domestic'};
+  const own = getArticleVipInvitation(metadata);
+  assert.deepEqual(own, { platform: '银河证券', kind: 'broker' });
+  assert.equal(getArticleVipApplyHref(own), '/account/vip?apply=1&partner=galaxy-securities');
+  const href = '/articles/domestic/o0RA5e1p?series=nasdaq-investing';
+  const md = `[银河开户](${href}){card}`;
+  const references = getArticleVipReferences(md, [metadata]);
+  const html = renderToStaticMarkup(renderMarkdown(md, [], undefined, [metadata], [], undefined, { references }));
+  assert.match(html.replace(/<[^>]*>/g, ''), /通过 银河证券， 申请 Wise VIP/);
+  assert.match(html, /href="https:\/\/vip\.wise-invest\.org\/join"/);
+  assert.doesNotMatch(html, /账户 UID|合约交易/);
+  assert.equal((html.match(/data-vip-reference-prompt/g) ?? []).length, 1);
+});
+
+test('explicit VIP marker stays inside the tutorial, appears once, and never leaks when unavailable', () => {
+  const { getArticleVipInvitation, vipTutorialPaths } = load('lib/article-vip-invitation.ts');
+  const marker = '<!-- wise-vip-invitation -->';
+  const content = `## 注册\n\n注册已完成。\n\n${marker}\n\n## 入金\n\n${marker}`;
+  const invitation = getArticleVipInvitation({id:'bitget-exchange', categoryId:'crypto'});
+  const html = renderToStaticMarkup(renderMarkdown(content, extractToc(content), undefined, [], [], undefined, { invitation }));
+  assert.equal((html.match(/data-article-vip-invitation/g) ?? []).length, 1);
+  assert.ok(html.indexOf('注册已完成') < html.indexOf('data-article-vip-invitation'));
+  assert.ok(html.indexOf('data-article-vip-invitation') < html.indexOf('id="h-1"'));
+  assert.doesNotMatch(renderToStaticMarkup(renderMarkdown(content, extractToc(content))), /wise-vip-invitation|申请 Wise VIP/);
+  const files = fs.readdirSync(path.join(root,'content/articles'), {recursive:true}).filter(file => /\.md$/.test(file));
+  for (const tutorial of vipTutorialPaths) {
+    const raw = files.map(file => fs.readFileSync(path.join(root,'content/articles',file),'utf8')).find(text => text.match(/^id:\s*(.*)/m)?.[1] === tutorial.id);
+    assert.ok(raw, tutorial.id);
+    assert.equal(raw.split(marker).length - 1, 1, tutorial.id);
+    assert.ok(raw.indexOf(marker) > raw.indexOf('## 二、'), tutorial.id);
+    assert.ok(raw.indexOf(marker) < raw.lastIndexOf('## '), tutorial.id);
+    assert.equal(tutorial.path, `/articles/${tutorial.categoryId}/${genUid(tutorial.id)}`);
+  }
+});
+
+test('a multi-platform reference group has one light prompt and later duplicate tutorials do not repeat it', () => {
+  const { getArticleVipReferences } = load('lib/article-vip-invitation.ts');
+  const metadata = [
+    {...article, id:'biance-guide', categoryId:'crypto'},
+    {...article, id:'bitget-exchange', categoryId:'crypto'},
+  ];
+  const links = metadata.map(a => `[教程](/articles/${a.categoryId}/${genUid(a.id)}){card}`).join('\n');
+  const content = `${links}\n\n继续正文。\n\n${links}`;
+  const references = getArticleVipReferences(content, metadata);
+  assert.equal(references.length, 2);
+  const html = renderToStaticMarkup(renderMarkdown(content, [], undefined, metadata, [], undefined, {references}));
+  assert.equal((html.match(/data-vip-reference-prompt/g) ?? []).length, 1);
+  assert.match(html.replace(/<[^>]*>/g, ''), /通过这些合作平台， 申请 Wise VIP/);
+  assert.doesNotMatch(html, /data-article-vip-invitation|data-vip-reference-panel/);
+});
+
+test('all approved direct product guides have one authored body placement, including binding and funding guides', () => {
+  const { getArticleVipInvitation } = load('lib/article-vip-invitation.ts');
+  const directory = path.join(root,'content/articles');
+  let count = 0;
+  for (const file of fs.readdirSync(directory,{recursive:true}).filter(f => /\.md$/.test(f))) {
+    const raw = fs.readFileSync(path.join(directory,file),'utf8');
+    const id = raw.match(/^id:\s*(.*)/m)?.[1], categoryId = raw.match(/^categoryId:\s*(.*)/m)?.[1];
+    const invitation = getArticleVipInvitation({id,categoryId});
+    if (!invitation) continue;
+    const body = raw.replace(/^---\n[\s\S]*?\n---\n/,'');
+    assert.equal(body.split('<!-- wise-vip-invitation -->').length-1,1,id);
+    const html = renderToStaticMarkup(renderMarkdown(body,extractToc(body),undefined,[],[],undefined,{invitation}));
+    assert.equal((html.match(/data-article-vip-invitation/g)??[]).length,1,id);
+    assert.ok(html.includes(invitation.platform),id);
+    count++;
+  }
+  assert.equal(count,13);
+});

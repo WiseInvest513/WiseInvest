@@ -11,7 +11,6 @@ const oldTrade = /(?<!\d)300\s*U\s*杠杆交易/i;
 const surfaces = [
   'app/vip/page.tsx',
   'app/vip/landing-content.ts',
-  'components/article-vip-invitation.tsx',
   'app/perk/[section]/register-reward-button.tsx',
   'lib/perks-data.ts',
   'lib/identity/dev-preview-data.ts',
@@ -99,12 +98,13 @@ test('recorded promotions, card fees, transfer examples and regular investments 
 test('broker requirements, USD300 SVIP payment, UID validation and pending manual review remain unchanged', () => {
   assert.match(read('app/vip/landing-content.ts'), /支付 300 美元开通 SVIP，长期有效/);
   assert.match(read('content/articles/VIP/web.md'), /付费 300U 的方式/);
-  assert.match(read('components/article-vip-invitation.tsx'), /券商账户需通过 Wise 合作渠道开户，完成入金并激活账户/);
+  // Article invitations now lead with benefits; actual eligibility remains on the VIP page and application.
+  assert.match(read('components/article-vip-invitation.tsx'), /核验邀请关系与申请资格/);
   assert.match(read('app/vip/page.tsx'), /绑定 Wise 邀请关系/);
   assert.match(read('app/vip/page.tsx'), /入金 1000U、完成 10000U 合约交易/);
   assert.match(read('lib/vip/partners.ts'), /vipPlusVolumeThreshold: "50000"/);
   const api = read('app/api/account/partner-accounts/route.ts');
   assert.match(api, /getPartnerIdentifierError\(partnerSlug, rawIdentifier\)/);
-  assert.match(api, /if \(!userNote\)/);
+  assert.match(api, /getBindingNoteError\(partnerSlug, rawNote, platformName\)/);
   assert.match(api, /status: "PENDING"/);
 });

@@ -127,6 +127,8 @@ summary: 已有邀请关系不能更换。没有邀请人的币安账户，分�
 
 需要 Wise 协助核验合作关系时，可以提供本人 UID、采用的方式、操作时间和必要的提示截图。截图只保留核验所需内容，遮住邮箱、手机号、资产余额等无关信息；不要提供密码、验证码、API Secret、私钥或助记词。
 
+<!-- wise-vip-invitation -->
+
 **先确认有没有邀请人，再确认自己符合哪种条件，最后看是否真正生效。** 这三件事弄清楚，才算把“忘记填邀请码”处理完，而不是多点了几次链接。
 
 本文最初核验于 **2026 年 11 月 5 日**，于 **2026 年 11 月 15 日**补充办理入口与操作步骤。可对照币安官方的[自助补绑与邀请关系规则](https://www.binance.com/en/support/faq/detail/6233094e540b4ea4ac50387d1518911b)、[Rebind 申请规则](https://www.binance.com/en/support/faq/detail/185520b0cb3d43d2a1ab0d12ba223d35)及[Recall 召回规则](https://www.binance.com/en/support/faq/detail/a502d59af1f74566a983a6a011aec371)。平台条件可能调整，操作前以本人账户显示的规则和客服答复为准。

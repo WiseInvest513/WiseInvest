@@ -21,6 +21,7 @@ import { ProtectedContentLink, useContentAccessGate } from "@/components/content
 import { getLockedContentHint } from "@/lib/content-access";
 import { getMapArticleSeries, getSeriesReadingState, type SeriesArticle } from "@/lib/article-series";
 import { RoadmapLearning } from "@/components/roadmap-learning";
+import { VipDiscoveryCard } from "@/components/vip-discovery-card";
 
 type NodeKind =
   | "domestic-bank"
@@ -1172,17 +1173,24 @@ export default function CapitalFlowMap({ mode = "full", articles = noArticles }:
           visualOnly ? "h-full grid-cols-1 p-0" : "gap-3 px-3 py-3 xl:h-full xl:grid-cols-[286px_minmax(0,1fr)]"
         )}
       >
-        <section aria-label="资金路径地图" className={cn("min-w-0 rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5", visualOnly ? "min-h-0 overflow-hidden" : "order-2 h-[560px] overflow-auto xl:h-auto xl:min-h-0 xl:overflow-hidden")}>
-          <div className={cn("relative overflow-hidden bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] [background-size:22px_22px]", visualOnly ? "h-full w-full" : "h-[760px] w-[1000px] xl:h-full xl:w-full")}>
-            {!visualOnly ? (
+        <section aria-label="资金路径地图" className={cn("relative flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5", visualOnly ? "min-h-0" : "order-2 h-[660px] xl:h-auto xl:min-h-0")}>
+          {!visualOnly ? (
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-slate-200/75 bg-white/70 px-5 py-3 dark:border-slate-700/70 dark:bg-slate-900/70" data-map-toolbar>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-100">资金路径地图</h2>
               <Link
                 href="/book/nasdaq"
-                className="absolute right-4 top-4 z-30 inline-flex items-center gap-1.5 rounded-full border border-amber-200/80 bg-white/78 px-3 py-1.5 text-xs font-black text-amber-700 shadow-sm backdrop-blur-md transition-all hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-800/60 dark:bg-slate-950/72 dark:text-amber-300 dark:hover:border-amber-700 dark:hover:bg-amber-900/20"
+                className="mt-1 inline-flex items-center gap-1.5 text-xs text-amber-700 transition-colors hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-200"
               >
                 <BookOpen className="h-3.5 w-3.5" />
                 纳指投资策略
               </Link>
-            ) : null}
+              </div>
+              <VipDiscoveryCard compact />
+            </div>
+          ) : null}
+          <div className="min-h-0 flex-1 overflow-auto xl:overflow-hidden" data-map-viewport>
+          <div className={cn("relative overflow-hidden bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.28)_1px,transparent_0)] [background-size:22px_22px]", visualOnly ? "h-full w-full" : "h-[760px] w-[1000px] xl:h-full xl:w-full")}>
             <div
               className={cn(
                 "absolute transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)]",
@@ -1190,7 +1198,7 @@ export default function CapitalFlowMap({ mode = "full", articles = noArticles }:
                   ? "left-1/2 top-1/2 aspect-square max-h-[calc(100%-24px)] max-w-[calc(100%-24px)] -translate-x-1/2 -translate-y-1/2"
                   : "inset-0 h-full w-full"
               )}
-              style={overview ? { width: visualOnly ? "min(100%, 520px)" : "min(100%, calc(100vh - 112px))" } : undefined}
+              style={overview ? { height: visualOnly ? "min(100%, 520px)" : "calc(100% - 24px)" } : undefined}
             >
             <svg
               className="absolute inset-0 z-[3] h-full w-full"
@@ -1236,6 +1244,7 @@ export default function CapitalFlowMap({ mode = "full", articles = noArticles }:
               );
             })}
             </div>
+          </div>
           </div>
         </section>
 

@@ -1,4 +1,5 @@
 import { getPrisma, isDatabaseConfigured } from "@/lib/prisma";
+import { additionalBindingPartners, getAdditionalBindingPartner } from "@/lib/vip/binding-platforms";
 import { partnerTypeLabels } from "@/lib/vip/status";
 
 type PartnerLike = {
@@ -26,6 +27,7 @@ const identifierConfigByType = {
 } as const;
 
 export const defaultWiseVipPartners = [
+  ...additionalBindingPartners.map((partner) => getAdditionalBindingPartner(partner.slug)!),
   {
     slug: "binance",
     name: "Binance 币安",
@@ -113,13 +115,16 @@ export async function getEnabledVipPartners() {
     }));
   }
 
-  return getPrisma().partner.findMany({
+  const partners = await getPrisma().partner.findMany({
     where: {
-      enabled: true,
-      vipEligible: true,
+      OR: [
+        { enabled: true, vipEligible: true },
+        { slug: { in: additionalBindingPartners.map((partner) => partner.slug) } },
+      ],
     },
     select: {
       id: true,
+      enabled: true,
       slug: true,
       name: true,
       type: true,
@@ -132,6 +137,13 @@ export async function getEnabledVipPartners() {
     },
     orderBy: [{ type: "asc" }, { name: "asc" }],
   });
+  const existingSlugs = new Set(partners.map((partner) => partner.slug));
+  return [
+    ...partners.filter((partner) => partner.enabled && partner.vipEligible),
+    ...additionalBindingPartners
+      .filter((partner) => !existingSlugs.has(partner.slug))
+      .map((partner) => ({ id: partner.slug, ...getAdditionalBindingPartner(partner.slug)! })),
+  ];
 }
 
 export function getPartnerDisplayConfig(partner: PartnerLike) {

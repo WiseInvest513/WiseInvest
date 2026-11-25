@@ -111,6 +111,8 @@ a.chapter:hover { background: var(--directory-hover); }
 .introduction > span:last-child { min-width: 0; }
 .introActions { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 23px; }
 .introActions > span { color: var(--library-muted); font-size: 12px; }
+.introVip { margin-left: auto; }
+@media (max-width: 767px) { .introActions > .introVip { width: 100%; } }
 .start { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 16px; border: 1px solid #d9af46; border-radius: 6px; background: #f8d366; color: #352c17; font-size: 13px; font-weight: 500; transition: background 160ms ease; }
 .start:hover { background: #f3c64b; }
 .favoriteButton { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--library-line); border-radius: 6px; background: transparent; color: var(--library-ink); font-size: 13px; font-weight: 500; transition: border-color 160ms ease, color 160ms ease; }

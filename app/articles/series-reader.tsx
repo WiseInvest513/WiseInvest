@@ -13,6 +13,7 @@ import { SeriesProgressPanel, useReadableSeriesProgress } from "./series-progres
 import type { ArticleSeries } from "@/lib/article-library";
 import { getArticleLearningPaths, getSeriesAvailabilityLabel, getSeriesOverviewHref, type SeriesReadingState } from "@/lib/article-series";
 import { ProtectedContentLink } from "@/components/content-access-gate";
+import { VipDiscoveryCard } from "@/components/vip-discovery-card";
 import styles from "./series-reader.module.css";
 
 export interface SeriesReaderContext {
@@ -183,6 +184,7 @@ function PathOverview({ series, reading, articles = [] }: SeriesReaderContext) {
           {reading.mapHref && <ProtectedContentLink href={reading.mapHref} prefetch={false} className={styles.mapLink}><MapIcon size={17} aria-hidden="true" />资金地图</ProtectedContentLink>}
           <SeriesFavoriteButton key={series.id} seriesId={series.id} title={series.title} summary={series.description} />
           <span>{reading.stages.length} 个阶段 · {reading.publishedCount} 篇已有文章</span>
+          <VipDiscoveryCard compact className={styles.introVip} />
         </div>
       </header>
       <SeriesStageOutline series={series} reading={reading} articles={articles} isRead={progress.isRead} />
@@ -322,6 +324,7 @@ function StandardOverview({ series, reading, articles = [] }: SeriesReaderContex
           {startHref && <Link href={startHref} className={styles.start}><BookOpen size={17} aria-hidden="true" />{reading.existingHref ? "阅读综合教程" : isTopic ? "开始阅读" : "开始学习"}<ArrowRight size={17} aria-hidden="true" /></Link>}
           <SeriesFavoriteButton key={series.id} seriesId={series.id} title={series.title} summary={series.description} />
           <span>{getSeriesAvailabilityLabel(series, reading)}</span>
+          <VipDiscoveryCard compact className={styles.introVip} />
         </div>
         {series.id === "binance" && <p className={styles.caution}>功能开放与使用资格因地区而异，操作前请核对平台规则。<a href="https://www.binance.com/en/academy/articles/binance-beginner-s-guide" target="_blank" rel="noopener noreferrer">官方介绍<ArrowUpRight size={12} aria-hidden="true" /></a></p>}
       </header>

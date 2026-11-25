@@ -7,6 +7,22 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 const defaultWiseVipPartners = [
+  ...[
+    { slug: "fosun-securities", name: "复星证券", type: "BROKERAGE" },
+    { slug: "chief-securities", name: "致富证券", type: "BROKERAGE" },
+    { slug: "tengda-securities", name: "腾达证券", type: "BROKERAGE" },
+    { slug: "bbae", name: "BBAE 证券", type: "BROKERAGE" },
+    { slug: "bit", name: "BIT 交易所", type: "EXCHANGE" },
+    { slug: "other", name: "其他平台", type: "OTHER" },
+  ].map((partner) => ({
+    ...partner,
+    referralUrl: null,
+    referralCode: null,
+    vipEligible: true,
+    vipPlusEligible: false,
+    vipPlusVolumeThreshold: null,
+    verificationMode: "MANUAL",
+  })),
   {
     slug: "binance",
     name: "Binance 币安",

@@ -52,14 +52,12 @@ test("unrelated banks, brokers, wallet cards, unpublished partners and VIP artic
     ["broker", "IBKR"],
     ["broker", "jiaxin"],
     ["broker", "diyi"],
-    ["broker", "ifas-fuxing"],
     ["vcard", "bitget-vcard"],
     ["vcard", "bitget-vcard-new"],
     ["vcard", "bybit-vcard"],
     ["broker", "galaxy-securities"],
     ["broker", "china-galaxy"],
     ["broker", "bbae"],
-    ["broker", "BBAE"],
     ["VIP", "VIP"],
     ["VIP", "VIP001"],
   ];
@@ -84,6 +82,11 @@ test("futu-broker identifies Fosun, not Futu or an unrelated brokerage", () => {
     platform: "复星证券",
     kind: "broker",
   });
+});
+
+test("confirmed BBAE and Galaxy tutorials have brokerage invitations", () => {
+  assert.deepEqual(getArticleVipInvitation({ id: "BBAE", categoryId: "broker" }), {platform: "BBAE 证券", kind: "broker"});
+  assert.deepEqual(getArticleVipInvitation({ id: "galaxy-etf-guide", categoryId: "domestic" }), {platform: "银河证券", kind: "broker"});
 });
 
 test("null, undefined and empty identifiers have no invitation", () => {

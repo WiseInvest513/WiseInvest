@@ -26,6 +26,14 @@
 .pageDescription { margin: 9px 0 0; font-size: 16px; line-height: 1.75; color: var(--library-muted); }
 .categoryHeader { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 300px); grid-template-areas: "identity search" "description description"; align-items: center; gap: 20px 32px; margin-bottom: 22px; }
 .categoryIntro { display: contents; }
+.libraryIntroduction { grid-area: description; min-width: 0; }
+.libraryIntroduction[data-with-vip] { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 18px; }
+.libraryIntroduction > .categoryDescription { grid-area: auto; min-width: 0; }
+.libraryIntroduction[data-with-vip] > .categoryDescription { align-items: center; }
+.libraryIntroduction > .introductionVip { width: 100%; }
+@media (min-width: 1100px) {
+  .libraryIntroduction[data-with-vip] { grid-template-columns: minmax(0, 1fr) 360px; }
+}
 .categoryIdentity { grid-area: identity; display: flex; align-items: center; gap: 18px; min-width: 0; }
 .categoryIdentity > div { min-width: 0; }
 .categoryIcon { flex: none; width: 112px; height: 112px; object-fit: contain; }
@@ -38,6 +46,17 @@
 :global(.dark) .categoryDescription { border-color: #4a4030; background: #26241f; color: #d7d3c9; }
 .categoryHeader .search { grid-area: search; width: 100%; min-width: 0; margin-top: 0; }
 .categoryLearning { padding: 18px 22px; border: 1px solid #e9e7e1; border-radius: 12px; background: #fcfcfb; }
+.categoryLearningLayout { display: grid; gap: 18px; align-items: stretch; }
+.categoryLearningLayout > .categoryLearning { min-width: 0; }
+.categoryVip { justify-self: end; align-self: stretch; }
+.vipRow { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+.sectionHeadingActions { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: 0 1 360px; min-width: 0; }
+@media (min-width: 1280px) {
+  .categoryLearningLayout { grid-template-columns: minmax(0, 1fr) 320px; }
+  .categoryLearningLayout .categoryOutcomes { gap: 15px; }
+  .categoryLearningLayout .categoryOutcomes li { gap: 8px; }
+  .categoryLearningLayout .categoryOutcomes li + li { padding-left: 15px; }
+}
 .categoryLearning > h2 { margin: 0 0 14px; font-size: 13px; font-weight: 600; line-height: 1.6; color: var(--library-ink); }
 .categoryOutcomes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin: 0; padding: 0; list-style: none; }
 .categoryOutcomes li { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
@@ -191,6 +210,8 @@
   .pageDescription { font-size: 12px; max-width: 29em; }
   .search { height: 42px; }
   .sectionHeading { gap: 12px; margin-bottom: 15px; }
+  .seriesSection > .sectionHeading { align-items: stretch; flex-direction: column; }
+  .sectionHeadingActions { flex-basis: auto; width: 100%; }
   .sectionHeading h2 { font-size: 19px; }
   .sectionHeading p { font-size: 12px; }
   .quietLink { font-size: 11px; gap: 4px; }

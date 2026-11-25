@@ -1,45 +1,38 @@
-import { ArrowRight, Crown } from "lucide-react";
-import type { ArticleVipInvitation as Invitation } from "@/lib/article-vip-invitation";
+"use client";
+
+import { useId } from "react";
+import { ArrowRight, ArrowUpRight, Crown, MessagesSquare, ChartNoAxesCombined, PanelsTopLeft } from "lucide-react";
+import { getArticleVipApplyHref, type ArticleVipInvitation as Invitation } from "@/lib/article-vip-invitation";
+import styles from "./article-vip-invitation.module.css";
+
+const benefits = [
+  { icon: MessagesSquare, title: "社群交流", detail: "美股与加密，持续讨论与复盘" },
+  { icon: ChartNoAxesCombined, title: "市场投研", detail: "关注重点公司、事件与市场机会" },
+  { icon: PanelsTopLeft, title: "专属工具", detail: "用研究与点位工具辅助判断" },
+];
 
 export function ArticleVipInvitation({ invitation }: { invitation?: Invitation | null }) {
-  const isExchange = invitation?.kind === "exchange";
-
+  const titleId = useId();
   return (
-    <section
-      id="article-vip-invitation"
-      aria-labelledby="article-vip-invitation-title"
-      className="mt-8 rounded-2xl border border-amber-200 bg-white p-5 sm:p-7 dark:border-amber-900/70 dark:bg-slate-900"
-    >
-      <p className="flex items-center gap-2 text-xs font-semibold tracking-wide text-amber-700 dark:text-amber-400">
-        <Crown aria-hidden="true" className="h-4 w-4" />
-        下一站 · Wise VIP
-      </p>
-      <h2 id="article-vip-invitation-title" className="mt-3 text-xl font-bold leading-relaxed text-slate-900 dark:text-white">
-        加入 Wise VIP
-      </h2>
-      <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
-        教程之后，还有社群交流、市场投研与专属工具。查看如何加入 Wise VIP，让投资多一份支持。
-      </p>
-      {invitation && (
-        <p className="mt-3 text-sm leading-7 text-slate-500 dark:text-slate-400">
-          已经完成 {invitation.platform} {isExchange ? "注册" : "开户"}？
-          {isExchange
-            ? "交易所账户需绑定 Wise 邀请关系、入金 1000U 并完成 10000U 合约交易。"
-            : "券商账户需通过 Wise 合作渠道开户，完成入金并激活账户。"}
-          满足条件后提交账户资料，通过核验即可加入 VIP。
-        </p>
-      )}
-      <div className="mt-5 border-t border-amber-100 pt-5 dark:border-amber-900/50">
-        <a
-          href="https://vip.wise-invest.org/join"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-amber-400 px-5 py-3 text-sm font-bold text-slate-950 transition-colors hover:bg-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 sm:w-auto dark:focus-visible:ring-offset-slate-900"
-        >
-          加入 VIP
-          <ArrowRight aria-hidden="true" className="h-4 w-4" />
-        </a>
+    <aside id="article-vip-invitation" aria-labelledby={titleId} className={styles.card} data-article-vip-invitation>
+      <div className={styles.copy}>
+        <h3 id={titleId} className={styles.title}>
+          <Crown size={26} strokeWidth={1.5} aria-hidden="true" />
+          <span>{invitation ? `${invitation.kind === "exchange" ? `已注册 ${invitation.platform}` : `已在${invitation.platform}开户`}？申请 Wise VIP` : "加入 Wise VIP，一起交流与研究"}</span>
+        </h3>
+        <p className={styles.intro}>加入之后，从阅读教程到一起讨论，让研究多一份支持。</p>
+        <ul className={styles.benefits} aria-label="VIP 权益">
+          {benefits.map(({ icon: Icon, title, detail }) => <li key={title}>
+            <Icon size={16} strokeWidth={1.5} aria-hidden="true" />
+            <span><strong>{title}</strong><span>{detail}</span></span>
+          </li>)}
+        </ul>
+        <p className={styles.note}>{invitation?.kind === "broker" ? "提交证券账户资料，核验开户渠道与申请资格，通过后开通。" : invitation ? "提交账户 UID，核验邀请关系与申请资格，通过后开通。" : "提交合作账户资料，核验邀请关系与申请资格，通过后开通。"}</p>
       </div>
-    </section>
+      <div className={styles.actions}>
+        <a href={getArticleVipApplyHref(invitation)} className={styles.primary}>成为 VIP<ArrowRight size={18} aria-hidden="true" /></a>
+        <a href="/vip" target="_blank" rel="noopener noreferrer" className={styles.secondary}>了解 VIP 权益<ArrowUpRight size={15} aria-hidden="true" /></a>
+      </div>
+    </aside>
   );
 }

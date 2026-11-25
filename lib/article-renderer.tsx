@@ -2,6 +2,9 @@
 import React from "react";
 import { ArticleImage } from "@/components/article-image";
 import { ArticleRegistrationCard } from "@/components/article-registration-card";
+import { ArticleVipInvitation } from "@/components/article-vip-invitation";
+import { ArticleVipReferencePrompt } from "@/components/article-vip-reference-prompt";
+import type { ArticleVipReference, ArticleVipInvitation as VipInvitation } from "@/lib/article-vip-invitation";
 import { ArticleLinkCard, ArticleLinkCardGroup, type ArticleLinkMetadata, type ArticleSeriesLinkMetadata } from "@/components/article-link-card";
 import { parseRegistrationCallout } from "@/lib/article-registration";
 import { genUid } from "@/lib/article-uid";
@@ -56,7 +59,8 @@ export function renderInline(text: string, allowLinks = true, mapHref?: (href: s
 }
 
 // ─── Markdown Renderer ─────────────────────────────────────
-export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string, linkedArticles: readonly ArticleLinkMetadata[] = [], linkedSeries: readonly ArticleSeriesLinkMetadata[] = [], mapHref?: (href: string) => string) {
+export function renderMarkdown(content: string, toc: { id: string; text: string; level: number }[], imageLayout?: string, linkedArticles: readonly ArticleLinkMetadata[] = [], linkedSeries: readonly ArticleSeriesLinkMetadata[] = [], mapHref?: (href: string) => string, vip?: { references?: readonly ArticleVipReference[]; invitation?: VipInvitation | null }) {
+  const vipReferences = new Map(vip?.references?.map(reference => [reference.href, reference]));
   const unfoldImages = imageLayout === "expanded" || imageLayout === "full";
   const renderText = (text: string) => renderInline(text, true, mapHref);
   const lines = content.split("\n");
@@ -70,10 +74,22 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
   }
   const cardPattern = /^\[([^\]]+)\]\(([^)]+)\)\{card\}$/;
   let tocIdx = 0; let i = 0; let k = 0;
+  let vipShown = false;
+  const shownReferencePlatforms = new Set<string>();
 
   while (i < lines.length) {
     const line = lines[i];
     const trimmed = line.trim();
+
+    // Editorial placement after the relevant registration/opening steps.
+    // This is optional reading chrome, never an automatic modal or a TOC item.
+    if (trimmed === "<!-- wise-vip-invitation -->") {
+      if (vip?.invitation && !vipShown) {
+        elements.push(<div key={k++} data-reading-chrome><ArticleVipInvitation invitation={vip.invitation} /></div>);
+        vipShown = true;
+      }
+      i++; continue;
+    }
 
     // heading
     const hm = trimmed.match(/^(#{1,4})\s+(.+)/);
@@ -120,6 +136,7 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
     const articleLink = trimmed.match(cardPattern);
     if (articleLink) {
       const cards: React.ReactNode[] = [];
+      const groupVipReferences: ArticleVipReference[] = [];
       let match: RegExpMatchArray | null = articleLink;
       while (match) {
         const [, label, rawHref] = match;
@@ -133,6 +150,11 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
         const article = href ? articlesByPath.get(href.split(/[?#]/)[0]) : undefined;
         if (article && href) {
           cards.push(<ArticleLinkCard key={k++} article={article} href={mapHref ? mapHref(href) : href} />);
+          const reference = vipReferences.get(href);
+          if (reference && !shownReferencePlatforms.has(reference.invitation.platform)) {
+            groupVipReferences.push({ ...reference, href: mapHref ? mapHref(href) : href });
+            shownReferencePlatforms.add(reference.invitation.platform);
+          }
         } else {
           cards.push(<p key={k++} className="my-4 text-[16px] leading-8 text-slate-700 dark:text-slate-300">{renderText(`[${label}](${rawHref})`)}</p>);
         }
@@ -143,6 +165,9 @@ export function renderMarkdown(content: string, toc: { id: string; text: string;
         if (match) i = next;
       }
       elements.push(cards.length > 1 ? <ArticleLinkCardGroup key={k++}>{cards}</ArticleLinkCardGroup> : cards[0]);
+      if (groupVipReferences.length) {
+        elements.push(<div key={k++} id={shownReferencePlatforms.size === groupVipReferences.length ? "article-vip-reference" : undefined} className="scroll-mt-40" data-reading-chrome><ArticleVipReferencePrompt references={groupVipReferences} /></div>);
+      }
       continue;
     }
 

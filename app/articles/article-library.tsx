@@ -14,6 +14,7 @@ import { articleSeries, getRecommendedArticles, searchArticleSeries, type Articl
 import { filterArticleLibrary, getSeriesAvailability, type ArticleLibraryFilters, type ArticleLibrarySort } from "@/lib/article-library-filters";
 import { ProtectedContentLink } from "@/components/content-access-gate";
 import { ArticleCard } from "@/components/article-card";
+import { VipDiscoveryCard } from "@/components/vip-discovery-card";
 import styles from "./article-library.module.css";
 
 export type ArticleLibraryView = "recommended" | "series" | "all";
@@ -104,6 +105,7 @@ export function ArticleLibrary({ articles, view, categoryId, subcategoryId, sear
     : view === "series" && !category ? "教程与专题集中阅读，按自己的问题选择内容。"
     : `${results.length} 篇文章，按自己的需要选择阅读。`;
   const showSeries = isHome || (view === "series" && !category) || (isSearching && series.length > 0);
+  const showIntroductionVip = view === "all" && !categoryId && !isSearching;
   const showArticles = isHome || isSearching || view !== "series" || Boolean(category);
   const showFilters = showArticles && !isHome;
   const showTopicFilter = showFilters && (isSearching || !categoryId);
@@ -141,10 +143,13 @@ export function ArticleLibrary({ articles, view, categoryId, subcategoryId, sear
               <p className={styles.pageDescription} aria-live="polite">{description}</p>
             </div>
           </div>
-          {headingArtwork && <p className={styles.categoryDescription} data-library-introduction>
-            <span className={styles.introEmoji} aria-hidden="true">📚</span>
-            <span>{libraryIntroductions[view]}</span>
-          </p>}
+          {headingArtwork && <div className={styles.libraryIntroduction} data-with-vip={showIntroductionVip || undefined}>
+            <p className={styles.categoryDescription} data-library-introduction>
+              <span className={styles.introEmoji} aria-hidden="true">📚</span>
+              <span>{libraryIntroductions[view]}</span>
+            </p>
+            {showIntroductionVip && <VipDiscoveryCard className={styles.introductionVip} />}
+          </div>}
         </div>}
         {showSearch && <div className={styles.search} role="search">
           <Search size={17} strokeWidth={1.5} aria-hidden="true" />
@@ -153,7 +158,7 @@ export function ArticleLibrary({ articles, view, categoryId, subcategoryId, sear
         </div>}
       </header>
 
-      {guide && <section className={styles.categoryLearning} aria-labelledby="category-learning-heading">
+      {guide && <div className={styles.categoryLearningLayout}><section className={styles.categoryLearning} aria-labelledby="category-learning-heading">
         <h2 id="category-learning-heading">{results.length > 0 ? "在这里，你可以学会" : "计划整理的学习方向"}</h2>
         <ul className={styles.categoryOutcomes}>
           {guide.outcomes.map(([heading, detail], index) => {
@@ -161,7 +166,9 @@ export function ArticleLibrary({ articles, view, categoryId, subcategoryId, sear
             return <li key={heading}><Icon size={19} strokeWidth={1.6} aria-hidden="true" /><div><h3>{heading}</h3><p>{detail}</p></div></li>;
           })}
         </ul>
-      </section>}
+      </section><VipDiscoveryCard context={categoryId === "broker" ? "broker" : "learning"} variant="panel" className={styles.categoryVip} /></div>}
+
+      {!guide && !showSeries && !isSearching && !showIntroductionVip && <div className={styles.vipRow}><VipDiscoveryCard /></div>}
 
       {indexReading && indexLearningPath && indexReading.publishedCount > 0 && (
         <section className={styles.indexLearning} aria-labelledby="index-learning-heading">
@@ -222,7 +229,10 @@ export function ArticleLibrary({ articles, view, categoryId, subcategoryId, sear
               <h2 id="article-series-heading" className={styles.illustratedHeading}><Image src={libraryArtwork.series} alt="" width={36} height={36} className={styles.sectionIcon} />{isHome ? "精选学习路线" : isSearching ? "相关系列" : "可读系列"}</h2>
               {!isSearching && <p>{isHome ? "从投资基础、指数投资或美股账户准备开始。" : "已发布的教程与专题，可以直接开始阅读。"}</p>}
             </div>
-            {isHome && <Link href="/articles?view=series" className={styles.quietLink}>全部系列 <ArrowRight size={16} strokeWidth={1.4} aria-hidden="true" /></Link>}
+            <div className={styles.sectionHeadingActions}>
+              {!isSearching && <VipDiscoveryCard />}
+              {isHome && <Link href="/articles?view=series" className={styles.quietLink}>全部系列 <ArrowRight size={16} strokeWidth={1.4} aria-hidden="true" /></Link>}
+            </div>
           </div>
           <div className={styles.seriesGrid}>
             {(isHome ? featuredSeries : readableSeries).map((item, index) => <SeriesTile key={item.id} series={item} priority={index === 0} availability={getSeriesAvailability(item, availableIds)} />)}

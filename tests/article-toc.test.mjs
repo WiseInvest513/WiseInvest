@@ -87,7 +87,7 @@ function createHarness(context, tocDepth, articleId = article.id, articleContent
     if (name === '@/lib/article-renderer') return load('lib/article-renderer.tsx', requireMock);
     if (name === '@/lib/article-series') return { getArticleSeries: () => undefined, isTopicSeriesArticle: () => false };
     if (name === '@/lib/article-library') return { articleSeries: [] };
-    if (name === '@/lib/article-vip-invitation') return { getArticleVipInvitation: () => null };
+    if (name === '@/lib/article-vip-invitation') return { getArticleVipInvitation: () => null, getArticleVipReferences: () => [] };
     if (name === '@/lib/article-reading-recommendations') return { getArticleReadingRecommendations: () => ({ introduction: '', articles: [] }) };
     if (name === '@/components/use-article-library-navigation') return { useArticleLibraryNavigation: () => ({ searchQuery: '', setSearchQuery() {}, filterTopic: '', sortOrder: '', onFiltersChange() {} }) };
     if (name === '@/components/content-access-gate') return { ProtectedContentLink: 'a', useContentAccessGate: () => ({ guardHref() {}, dialog: null }) };

@@ -25,8 +25,8 @@ import { ArticleNextStep } from "./article-next-step";
 import mobileReadingStyles from "@/components/article-more-actions.module.css";
 import immersiveStyles from "@/components/article-reading-mode.module.css";
 import { ProtectedContentLink, useContentAccessGate } from "@/components/content-access-gate";
-import { ArticleVipInvitation } from "@/components/article-vip-invitation";
-import { getArticleVipInvitation } from "@/lib/article-vip-invitation";
+import { ArticleVipFooter } from "@/components/article-vip-footer";
+import { getArticleVipInvitation, getArticleVipReferences } from "@/lib/article-vip-invitation";
 import { ArticleReleaseCountdown, type ArticleLimitedRelease } from "@/components/article-release-countdown";
 import { ArticleDirectory } from "./article-directory";
 import { ArticleLibrary, type ArticleLibraryView } from "./article-library";
@@ -429,6 +429,9 @@ export function ArticlesContent({
     : null, [selectedArticle, allArticles, initialSeriesId, initialMapRouteId]);
   const relatedArticles = readingRecommendations.articles;
   const vipInvitation = effectiveLockedContent ? null : getArticleVipInvitation(selectedArticle);
+  const vipReferences = useMemo(() => effectiveLockedContent || vipInvitation
+    ? [] : getArticleVipReferences(selectedContent ?? "", allArticles),
+  [effectiveLockedContent, vipInvitation, selectedContent, allArticles]);
   // One end-of-article story: next-step owns "what to read next"; related grid only when that block is absent.
   const showNextStep = Boolean(readingNextStep && !vipInvitation);
   const showRelatedArticles = relatedArticles.length > 0 && !vipInvitation && !showNextStep;
@@ -550,8 +553,8 @@ export function ArticlesContent({
     return addSeriesReturnContext(resolveSeriesResource(href, series, stageId, initialMapRouteId).href, reading.returnTo);
   }, [seriesContext, initialMapRouteId]);
   const renderedContent = useMemo(
-    () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout, allArticles, linkedSeries, mapSeriesLink) : null,
-    [selectedArticle?.imageLayout, selectedContent, toc, allArticles, linkedSeries, mapSeriesLink]
+    () => selectedContent ? renderMarkdown(selectedContent, toc, selectedArticle?.imageLayout, allArticles, linkedSeries, mapSeriesLink, { references: vipReferences, invitation: vipInvitation }) : null,
+    [selectedArticle?.imageLayout, selectedContent, toc, allArticles, linkedSeries, mapSeriesLink, vipReferences, vipInvitation]
   );
 
   return (
@@ -866,7 +869,7 @@ export function ArticlesContent({
 
                 </section>
               )}
-              <div data-reading-chrome><ArticleVipInvitation invitation={vipInvitation} /></div>
+              <div data-reading-chrome><ArticleVipFooter /></div>
             </article>
           ) : seriesContext && !isSearching ? <SeriesOverview {...seriesContext} articles={allArticles} /> : (
             <ArticleLibrary

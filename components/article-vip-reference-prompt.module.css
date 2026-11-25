@@ -1,0 +1,33 @@
+.root { width: 100%; margin: 0 0 26px; container-type: inline-size; }
+.trigger { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; align-items: center; gap: 20px; width: 100%; min-height: 126px; padding: 24px 26px; border: 1px solid #d9c59c; border-radius: 16px; background: linear-gradient(110deg, #fffdfa 0%, #faf6eb 100%); box-shadow: 0 4px 14px #74603c06; color: #253148; text-decoration: none; text-align: left; transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
+.emblem { display: grid; place-items: center; width: 52px; height: 56px; border: 1px solid #e9d6ac; border-radius: 14px; color: #a97929; background: linear-gradient(145deg, #fffefa, #f4e8ca); box-shadow: inset 0 1px 0 #fff, 0 3px 8px #b6924f0d; }
+.copy { display: grid; gap: 8px; min-width: 0; }
+.triggerTitle { font-size: 18px; font-weight: 650; line-height: 1.55; }
+.triggerTitle > span { display: inline-block; }
+.summary { color: #6e7889; font-size: 14px; line-height: 1.85; }
+.cta { display: flex; align-items: center; gap: 9px; padding: 12px 0 12px 22px; border-left: 1px solid #e5d7ba; color: #936b2b; font-size: 14px; font-weight: 550; white-space: nowrap; }
+.cta svg { transition: transform 220ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .trigger:hover { transform: translateY(-3px); border-color: #b58b46; box-shadow: 0 14px 30px #80622c1a, 0 3px 8px #80622c08; }
+  .trigger:hover .cta svg { transform: translate(2px, -2px); }
+}
+:global(.dark) .trigger { color: #e4e9f1; background: linear-gradient(110deg, #252d3b, #2d2c27); border-color: #76613e; }
+:global(.dark) .emblem { color: #e4bf7f; background: linear-gradient(145deg, #49402d, #302c24); border-color: #79623d; box-shadow: inset 0 1px 0 #ffffff12; }
+:global(.dark) .summary { color: #b4bfce; }
+:global(.dark) .cta { color: #dfbe81; border-color: #66573c; }
+@container (max-width: 720px) {
+  .trigger { grid-template-columns: 46px minmax(0, 1fr); gap: 14px 18px; padding: 22px; }
+  .emblem { width: 46px; height: 50px; }
+  .cta { grid-column: 2; border: 0; padding: 0; }
+}
+@container (max-width: 420px) {
+  .trigger { grid-template-columns: 36px minmax(0, 1fr); gap: 10px 12px; padding: 18px 16px; }
+  .emblem { width: 36px; height: 40px; border-radius: 10px; align-self: start; }
+  .emblem svg { width: 23px; }
+  .triggerTitle { font-size: 17px; }
+  .summary { font-size: 13px; line-height: 1.8; }
+  .cta { font-size: 13px; }
+}
+
+.trigger:focus-visible { outline: 2px solid #b58b46; outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .trigger, .cta svg { transition: none; } .trigger:hover, .trigger:hover .cta svg { transform: none; } }

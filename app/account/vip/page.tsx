@@ -19,6 +19,7 @@ import {
   Sparkles,
   XCircle,
 } from "lucide-react";
+import { additionalBindingPartners, OTHER_BINDING_SLUG } from "@/lib/vip/binding-platforms";
 import { BindingForm } from "@/app/account/vip/binding-form";
 import { VipPagePrompts } from "@/app/account/vip/vip-page-prompts";
 import { CommunityDialogButton } from "@/components/community-dialog-button";
@@ -144,8 +145,8 @@ function partnerFormProps(partners: EnabledPartner[]) {
     identifierPlaceholder: partner.identifierPlaceholder,
     tutorialHref: partner.type === "EXCHANGE"
       ? perks.find((perk) => perk.category === "Crypto" && perk.id === partner.slug)
-          ?.tutorialLink?.replace(/^https:\/\/www\.wise-invest\.org(?=\/)/, "") ?? null
-      : null,
+          ?.tutorialLink?.replace(/^https:\/\/www\.wise-invest\.org(?=\/)/, "") ?? additionalBindingPartners.find((item) => item.slug === partner.slug)?.tutorialHref ?? null
+      : additionalBindingPartners.find((item) => item.slug === partner.slug)?.tutorialHref ?? null,
   }));
 }
 
@@ -156,7 +157,12 @@ function getStatusTone(status: string) {
   return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200";
 }
 
-export default async function AccountVipPage() {
+export default async function AccountVipPage({ searchParams }: { searchParams: Promise<{ apply?: string; partner?: string }> }) {
+  const params = await searchParams;
+  const applicationProps = {
+    initialOpen: params.apply === "1",
+    initialPartnerSlug: typeof params.partner === "string" ? params.partner : "",
+  };
   const [user, partners] = await Promise.all([requireWiseUser(), getEnabledVipPartners()]);
   const enabledPartners = partners.map((partner) => ({
     ...partner,
@@ -170,7 +176,7 @@ export default async function AccountVipPage() {
   const latestRejectedAccount = latestAccount?.status === "REJECTED" ? latestAccount : null;
   const latestNeedsReviewAccount = latestAccount?.status === "NEEDS_REVIEW" ? latestAccount : null;
   const activeEntitlements = user.entitlements.filter((entitlement) => !entitlement.expiresAt || entitlement.expiresAt > new Date());
-  const verificationPartners = enabledPartners.filter((partner) => partner.type !== "OTHER");
+  const verificationPartners = enabledPartners.filter((partner) => partner.type !== "OTHER" || partner.slug === OTHER_BINDING_SLUG);
   const vipPlusPartners = verificationPartners.filter((partner) => partner.vipPlusEligible);
   const hasVipPlusCandidate = user.partnerAccounts.some((account) =>
     vipPlusPartners.some((partner) => partner.slug === account.partner.slug && account.status === "VERIFIED")
@@ -231,7 +237,7 @@ export default async function AccountVipPage() {
                     VIP 内容中心
                   </Link>
                 </Button>
-                <BindingForm partners={partnerFormProps(verificationPartners)} />
+                <BindingForm partners={partnerFormProps(verificationPartners)} {...applicationProps} />
               </div>
             )}
             {currentTier === "MEMBER" && (
@@ -260,7 +266,7 @@ export default async function AccountVipPage() {
                     ))}
                   </div>
                   <div className="mt-3">
-                    <BindingForm partners={partnerFormProps(verificationPartners)} />
+                    <BindingForm partners={partnerFormProps(verificationPartners)} {...applicationProps} />
                   </div>
                 </div>
               </div>

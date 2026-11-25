@@ -1,3 +1,4 @@
+import { formatBindingNote, getAdditionalBindingPartner, getBindingNoteError } from "@/lib/vip/binding-platforms";
 import { NextResponse, type NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { WISE_DEV_PREVIEW_COOKIE, isDevPreviewCookieValue } from "@/lib/identity/dev-preview";
@@ -24,12 +25,13 @@ export async function POST(request: NextRequest) {
     partnerSlug?: string;
     externalIdentifier?: string;
     userNote?: string;
+    platformName?: string;
   };
 
   const partnerSlug = typeof body.partnerSlug === "string" ? body.partnerSlug.trim() : "";
   const rawIdentifier = typeof body.externalIdentifier === "string" ? body.externalIdentifier : "";
   const externalIdentifier = normalizePartnerIdentifier(partnerSlug, rawIdentifier);
-  const userNote = typeof body.userNote === "string" ? body.userNote.trim() : "";
+  const rawNote = typeof body.userNote === "string" ? body.userNote.trim() : "";
 
   if (!partnerSlug || !externalIdentifier) {
     return NextResponse.json(
@@ -46,12 +48,16 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!userNote) {
+  const platformName = typeof body.platformName === "string" ? body.platformName.trim() : "";
+  const noteError = getBindingNoteError(partnerSlug, rawNote, platformName);
+  if (noteError) {
     return NextResponse.json(
-      { ok: false, message: "请填写补充说明，并注明账户注册 / 开户时间后再提交。" },
+      { ok: false, message: noteError },
       { status: 400 }
     );
   }
+
+  const userNote = formatBindingNote(partnerSlug, rawNote, platformName);
 
   if (isDevPreview && !isDatabaseConfigured()) {
     return NextResponse.json({
@@ -65,6 +71,15 @@ export async function POST(request: NextRequest) {
   }
 
   const prisma = getPrisma();
+  const additionalPartner = getAdditionalBindingPartner(partnerSlug);
+  // Never overwrite a disabled or otherwise edited partner during submission.
+  if (additionalPartner) {
+    await prisma.partner.upsert({
+      where: { slug: partnerSlug },
+      update: {},
+      create: additionalPartner,
+    });
+  }
   const partner = await prisma.partner.findUnique({
     where: { slug: partnerSlug },
     select: {

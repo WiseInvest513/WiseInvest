@@ -39,6 +39,8 @@ import { CexRewardDialog, RegisterRewardButton } from "./register-reward-button"
 import { WechatContactButton } from "./wechat-contact-button";
 import { ProtectedContentLink } from "@/components/content-access-gate";
 import { isWiseInvestHref } from "@/lib/content-access";
+import { VipDiscoveryCard } from "@/components/vip-discovery-card";
+import styles from "./section-intro.module.css";
 
 export const dynamicParams = false;
 
@@ -916,8 +918,8 @@ export default async function Perks2SectionPage(
         </div>
 
         <section className="mb-5 overflow-hidden rounded-[24px] border border-slate-200/90 bg-white/95 shadow-[0_18px_54px_rgba(15,23,42,0.07)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/95 dark:ring-white/5">
-          <div className="grid lg:grid-cols-[330px_1fr]">
-            <div className="border-b border-slate-200/80 bg-gradient-to-br from-amber-50/95 via-white to-white p-5 dark:border-slate-800 dark:from-amber-900/14 dark:via-slate-900 dark:to-slate-900 lg:border-b-0 lg:border-r">
+          <div className={styles.layout}>
+            <div className={styles.introduction}>
               <div className="mb-5 flex items-start justify-between gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-950 text-amber-300 shadow-sm dark:bg-amber-400 dark:text-slate-950">
                   <Icon className="h-6 w-6" />
@@ -935,56 +937,41 @@ export default async function Perks2SectionPage(
               <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
                 {section.summary}
               </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {section.subcategories.map((subcategory) => (
-                  <a
-                    key={subcategory.slug}
-                    href={`#${subcategory.slug}`}
-                    className="rounded-full border border-amber-200 bg-white/90 px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm transition-colors hover:border-amber-300 hover:text-amber-700 dark:border-amber-800/50 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:text-amber-300"
-                  >
-                    {subcategory.title}
-                  </a>
-                ))}
-              </div>
+              <p className={styles.categoryCount}>{section.subcategories.length} 个方向<span>·</span>{slotCount} 个产品入口</p>
             </div>
 
-            <div className="p-5">
-              <div className="mb-4 flex items-center justify-between gap-3">
+            <div className={styles.directions}>
+              <div className={styles.directionsHeader}>
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-amber-600 dark:text-amber-400">
-                    产品矩阵
+                    选择适合你的方向
                   </p>
                   <h2 className="mt-1 text-xl font-black text-slate-950 dark:text-white">
                     {section.title}产品入口
                   </h2>
                 </div>
-                <div className="hidden items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 md:flex">
-                  <Banknote className="h-3.5 w-3.5 text-amber-500" />
-                  {section.subcategories.length} 个方向
-                </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              <div className={styles.directionList} data-columns={section.subcategories.length > 3 ? "two" : "one"}>
                 {section.subcategories.map((subcategory) => (
                   <a
                     key={subcategory.slug}
                     href={`#${subcategory.slug}`}
-                    className="group rounded-2xl border border-slate-200/90 bg-slate-50/90 p-3 shadow-inner shadow-white/70 transition-all hover:border-amber-300 hover:bg-amber-50/80 dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-none dark:hover:border-amber-700 dark:hover:bg-amber-900/15"
+                    className={styles.direction}
                   >
-                    <div className="mb-3 flex items-center justify-between">
-                      <span className="rounded-md bg-slate-950 px-2 py-1 font-mono text-[11px] font-black text-amber-300 dark:bg-amber-400 dark:text-slate-950">
+                      <span className={styles.directionNumber}>
                         {String(subcategory.slots).padStart(2, "0")}
                       </span>
-                      <ArrowRight className="h-3.5 w-3.5 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-amber-500" />
-                    </div>
-                    <h3 className="text-sm font-black text-slate-950 dark:text-white">{subcategory.title}</h3>
-                    <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
-                      {subcategory.description}
-                    </p>
+                      <div className={styles.directionCopy}>
+                        <h3>{subcategory.title}</h3>
+                        <span>{subcategory.description}</span>
+                      </div>
+                      <ArrowRight size={16} aria-hidden="true" />
                   </a>
                 ))}
               </div>
             </div>
+            <VipDiscoveryCard context={section.slug === "broker" ? "broker" : "products"} variant="rail" className={styles.vip} />
           </div>
         </section>
 
