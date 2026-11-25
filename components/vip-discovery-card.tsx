@@ -4,12 +4,13 @@ import styles from "./vip-discovery-card.module.css";
 type VipDiscoveryCardProps = {
   context?: "learning" | "products" | "broker";
   compact?: boolean;
-  variant?: "inline" | "panel" | "rail";
+  variant?: "inline" | "panel" | "rail" | "orb";
   className?: string;
 };
 
 export function VipDiscoveryCard({ context = "learning", compact = false, variant = "inline", className }: VipDiscoveryCardProps) {
-  const expanded = variant !== "inline";
+  const expanded = variant === "panel" || variant === "rail";
+  const isOrb = variant === "orb";
   const title = context === "broker"
     ? "通过券商开户，申请成为 VIP"
     : context === "products"
@@ -29,10 +30,10 @@ export function VipDiscoveryCard({ context = "learning", compact = false, varian
       <span className={styles.heading}>
         <span className={styles.icon}><Crown size={20} strokeWidth={1.6} aria-hidden="true" /></span>
         <span className={styles.copy}>
-          <strong className={styles.title}>{variant === "rail" && context !== "learning" ? <>{context === "broker" ? "通过券商开户" : "注册使用产品"}<br />申请成为 VIP</> : title}</strong>
-          {!expanded && <span className={styles.description}>{compact ? "学习群聊 · 定期分享 · 专属工具" : "学习群聊、定期分享与会员专属工具"}</span>}
+          <strong className={styles.title}>{isOrb ? "加入 VIP" : variant === "rail" && context !== "learning" ? <>{context === "broker" ? "通过券商开户" : "注册使用产品"}<br />申请成为 VIP</> : title}</strong>
+          {!expanded && <span className={styles.description}>{isOrb ? <>学习群聊 · 定期分享<br />专属内容与工具</> : compact ? "学习群聊 · 定期分享 · 专属工具" : "学习群聊、定期分享与会员专属工具"}</span>}
         </span>
-        {!expanded && <ArrowUpRight className={styles.arrow} size={17} strokeWidth={1.6} aria-hidden="true" />}
+        {!expanded && (isOrb ? <span className={styles.orbAction}>了解权益<ArrowUpRight className={styles.arrow} size={12} strokeWidth={1.6} aria-hidden="true" /></span> : <ArrowUpRight className={styles.arrow} size={17} strokeWidth={1.6} aria-hidden="true" />)}
       </span>
       {expanded && <>
         <span className={styles.benefits}>

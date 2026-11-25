@@ -1,12 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Banknote,
-  BookOpen,
   ChevronDown,
   CreditCard,
   Landmark,
@@ -1175,18 +1173,8 @@ export default function CapitalFlowMap({ mode = "full", articles = noArticles }:
       >
         <section aria-label="资金路径地图" className={cn("relative flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-slate-200/90 bg-white/86 shadow-[0_24px_72px_rgba(15,23,42,0.09)] ring-1 ring-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/86 dark:ring-white/5", visualOnly ? "min-h-0" : "order-2 h-[660px] xl:h-auto xl:min-h-0")}>
           {!visualOnly ? (
-            <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-b border-slate-200/75 bg-white/70 px-5 py-3 dark:border-slate-700/70 dark:bg-slate-900/70" data-map-toolbar>
-              <div className="min-w-0 flex-1">
-                <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-100">资金路径地图</h2>
-              <Link
-                href="/book/nasdaq"
-                className="mt-1 inline-flex items-center gap-1.5 text-xs text-amber-700 transition-colors hover:text-amber-900 dark:text-amber-300 dark:hover:text-amber-200"
-              >
-                <BookOpen className="h-3.5 w-3.5" />
-                纳指投资策略
-              </Link>
-              </div>
-              <VipDiscoveryCard compact />
+            <div className="pointer-events-none absolute left-3 top-3 z-30 flex max-w-[calc(100%-24px)] flex-col items-end xl:left-auto xl:right-4 xl:top-4" data-map-overlay>
+              <VipDiscoveryCard variant="orb" className="pointer-events-auto" />
             </div>
           ) : null}
           <div className="min-h-0 flex-1 overflow-auto xl:overflow-hidden" data-map-viewport>
