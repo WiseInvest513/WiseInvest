@@ -112,6 +112,7 @@
   window.addEventListener("wise-community:request", open);
   window.addEventListener("wise-community:close", close);
   window.addEventListener("popstate", close);
+  window.addEventListener("wise-reading:opening", close);
   window.dispatchEvent(new Event("wise-community:ready"));
   // Original promotional windows remain on main/IPO; ETF coordinates its disclaimer first.
   function start() {
@@ -173,7 +174,7 @@
   function eligible() {let last=window.__wisePopupShownAt||0;for(const type of ['localStorage','sessionStorage']){try{const n=Number(window[type].getItem(key));if(Number.isFinite(n)&&n>0&&n<=Date.now())last=Math.max(last,n);}catch{}}return Date.now()-last>=interval;}
   function restore(){if(previousOverflow===undefined)return;document.documentElement.style.overflow=previousOverflow;previousOverflow=undefined;previousFocus?.focus({preventScroll:true});}
   function close(){if(dialog.open){dialog.close();restore();}}
-  function open(){if(blocked())return false;if(dialog.open)return true;window.WiseCommunityPopup?.close();previousFocus=document.activeElement;previousOverflow=document.documentElement.style.overflow;document.documentElement.style.overflow='hidden';dialog.showModal();record();root.querySelector('h2').focus({preventScroll:true});return true;}
+  function open(){if(blocked())return false;if(dialog.open)return true;window.dispatchEvent(new Event('wise-campaign:opening'));window.WiseCommunityPopup?.close();previousFocus=document.activeElement;previousOverflow=document.documentElement.style.overflow;document.documentElement.style.overflow='hidden';dialog.showModal();record();root.querySelector('h2').focus({preventScroll:true});return true;}
   root.querySelector('.close').addEventListener('click',close);
   dialog.addEventListener('close',()=>{restore();window.dispatchEvent(new Event('wise-campaign:closed'));});
   dialog.addEventListener('click',e=>{if(e.target!==dialog)return;const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)close();});
@@ -181,8 +182,11 @@
   document.addEventListener('click',e=>{if(e.target instanceof Element&&e.target.closest('[data-wise-kraken]'))open();});
   window.addEventListener('wise-community:opening',close);
   window.addEventListener('popstate',close);
+  window.addEventListener('wise-reading:opening',close);
   function openAutomatic(){
     if(blocked()||document.visibilityState==='hidden'||!eligible())return false;
+    // Article readers have their own 5/15-article registration flow. Manual campaign entry stays available.
+    if(site==='main' && /^\/articles\/[^/]+\/[a-zA-Z0-9]{8}\/?$/.test(location.pathname))return false;
     if(site==='etf'){try{if(!localStorage.getItem('etf-disclaimer'))return false;}catch{return false;}}
     if(document.querySelector('dialog[open], [role="dialog"][data-state="open"]'))return false;
     return open();

@@ -10,7 +10,7 @@ export function getArticlePreviewPercentage(article: Pick<PreviewArticle, "id" |
 }
 
 /** Keep a prefix of complete Markdown blocks, never an unfinished paragraph or code fence. */
-function takeMarkdownPrefix(content: string, maxChars: number) {
+export function takeMarkdownPrefix(content: string, maxChars: number) {
   let offset = 0;
   let blockStart = 0;
   let previewEnd = 0;
@@ -42,6 +42,10 @@ function takeMarkdownPrefix(content: string, maxChars: number) {
   }
 
   return content.slice(0, previewEnd).trimEnd();
+}
+
+export function createMeteredArticlePreview(content: string) {
+  return takeMarkdownPrefix(content, Math.min(1200, Math.floor(content.length * 0.3)));
 }
 
 export function createArticlePreview(article: PreviewArticle) {

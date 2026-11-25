@@ -20,6 +20,7 @@ function loadModule(relativePath) {
     compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
   }).outputText;
   const requireMock = (name) => {
+    if (name === "@/lib/article-reading-meter-server") return { requiresReadingRegistration: async () => false };
     if (name === 'fs') return fs;
     if (name === 'path') return path;
     if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx, Fragment: 'fragment' };

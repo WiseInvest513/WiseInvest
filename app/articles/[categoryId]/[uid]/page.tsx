@@ -12,8 +12,10 @@ import {
 } from "@/lib/articles";
 import { ArticlesContent } from "@/app/articles/articles-content";
 import { resolveArticleSeries } from "@/lib/article-series";
+import { requiresReadingRegistration } from "@/lib/article-reading-meter-server";
+import { createMeteredArticlePreview } from "@/lib/article-preview";
 
-// All published articles render in full, including canonical and series entry points.
+// Anonymous browsers get a metered trial; signed-in readers get the full article.
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
@@ -61,6 +63,12 @@ export default async function ArticleUidPage(
   const article = getArticleByRoute(categoryId, uid);
   if (!article) notFound();
   const query = (await searchParams) ?? {};
+  const readingLocked = await requiresReadingRegistration();
+  const callbackQuery = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (typeof value === "string") callbackQuery.set(key, value);
+  }
+  const callbackUrl = getArticleRoute(article) + (callbackQuery.size ? `?${callbackQuery}` : "");
   const series = resolveArticleSeries(query?.series, article.id);
   const mapRouteId = typeof query?.route === "string" ? query.route : undefined;
 
@@ -74,7 +82,7 @@ export default async function ArticleUidPage(
       : siteConfig.url(image)
     : undefined;
   const keywords = getArticleSeoKeywords(article);
-  const articleFaqs = getArticleFaqs(article);
+  const articleFaqs = readingLocked ? [] : getArticleFaqs(article);
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -157,7 +165,12 @@ export default async function ArticleUidPage(
         initialSeriesId={series?.id}
         initialSeriesContext={seriesContext}
         initialMapRouteId={mapRouteId}
-        initialArticle={article}
+        initialArticle={readingLocked ? { ...article, content: createMeteredArticlePreview(article.content) } : article}
+        lockedContent={readingLocked ? {
+          reason: "最近 30 天已阅读 15 篇文章，免费注册 Wise ID 后可继续阅读全文",
+          loginHref: `/register?callbackUrl=${encodeURIComponent(callbackUrl)}`,
+          readingTrial: true,
+        } : undefined}
         initialArticleId={article.id}
         initialArticles={allArticles.map(toArticleListItem)}
         initialCategoryId={article.categoryId}

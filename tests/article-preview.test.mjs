@@ -28,6 +28,7 @@ function loadModule(relativePath) {
     },
   }).outputText;
   const requireMock = (name) => {
+    if (name === "@/lib/article-reading-meter-server") return { requiresReadingRegistration: async () => false };
     if (name === 'fs') return fs;
     if (name === 'path') return path;
     if (name === 'next/cache') return { unstable_cache: (callback) => callback };
@@ -107,7 +108,7 @@ test('a complete fenced block is preserved, and standalone headings are not left
   assert.equal(createArticlePreview(fixtureAtBoundary(intro + heading, (intro + heading).length)), intro.trimEnd());
 });
 
-test('every published article renders its complete body to guests in SSR and JSON', async () => {
+test('unmetered guests receive complete SSR articles while the list API contains metadata only', async () => {
   viewerTier = null;
   failIdentity = true;
   identityReads = 0;
@@ -126,7 +127,7 @@ test('every published article renders its complete body to guests in SSR and JSO
     assert.equal(props.limitedRelease, undefined);
     assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'content')));
     assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'guideProfile')));
-    assert.equal(response.body.find(item => item.id === article.id).content, article.content);
+    assert.ok(!Object.hasOwn(response.body.find(item => item.id === article.id), 'content'), 'list API must not disclose article bodies');
     for (const href of [route, `https://www.wise-invest.org${route}?series=example#h-0`]) {
       const access = await accessApi.GET({ nextUrl: new URL('http://localhost/api/content-access/check?href=' + encodeURIComponent(href)) });
       assert.equal(access.body.allowed, true);

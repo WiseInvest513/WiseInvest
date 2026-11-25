@@ -18,7 +18,7 @@ export type RoadmapAccessRuleConfig = ContentAccessRuleConfig & {
 
 export const defaultArticleAccessRule: ContentAccessRuleConfig = {
   access: "PUBLIC",
-  reason: "所有文章均可免登录阅读全文",
+  reason: "文章向普通账户开放；访客适用阅读体验篇数",
 };
 
 export const defaultRoadmapAccessRule: ContentAccessRuleConfig = {

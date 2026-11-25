@@ -40,10 +40,10 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
           </div>
           <div className="space-y-4">
             <h1 className="font-heading text-4xl font-black leading-tight text-slate-950 dark:text-white md:text-5xl">
-              创建 Wise ID，把内容、记录和 VIP 权益放到同一个账户。
+              免费创建 Wise ID，继续阅读、收藏与学习。
             </h1>
             <p className="max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300 md:text-lg">
-              注册后默认成为普通用户，可以继续阅读完整内容、提交合作账户核验，并在未来 Wise 产品中复用同一身份。
+              一次注册，持续阅读网站完整文章，不再受访客阅读篇数限制；收藏感兴趣的内容，在账户中找回阅读记录。VIP 与合作奖励另按各自条件开通。
             </p>
           </div>
 
@@ -61,7 +61,7 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
             <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm dark:border-white/10 dark:bg-slate-950/50">
               <LockKeyhole className="mb-3 h-5 w-5 text-blue-500" />
               <p className="font-black text-slate-950 dark:text-white">安全账户</p>
-              <p className="mt-2 leading-6">密码哈希保存，不存明文。</p>
+              <p className="mt-2 leading-6">使用 Google、GitHub 或邮箱登录。</p>
             </div>
           </div>
 

@@ -1,0 +1,28 @@
+.overlay { position:fixed; inset:0; z-index:180; background:rgb(15 23 42 / 48%); backdrop-filter:blur(5px); }
+.card { position:fixed; z-index:181; top:50%; left:50%; transform:translate(-50%,-50%); width:min(480px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); overflow:auto; padding:32px; border:1px solid #e7d7b4; border-radius:24px; background:linear-gradient(145deg,#fffbf2,#fff 45%); color:#172033; box-shadow:0 28px 90px #0f172a38; outline:none; }
+.close { position:absolute; top:16px; right:16px; display:grid; place-items:center; width:32px; height:32px; border-radius:10px; color:#64748b; background:#f1f3f6; }
+.icon { display:grid; place-items:center; width:54px; height:54px; margin-bottom:20px; border:1px solid #e8d4a1; border-radius:16px; background:#fff6dc; color:#a16c1f; }
+.eyebrow { font-size:12px; font-weight:600; color:#987039; margin:0 0 8px; }
+.title { font-size:26px; font-weight:750; line-height:1.45; margin:0; letter-spacing:-.5px; }
+.title span { color:#aa741e; }
+.description { font-size:14px; line-height:1.85; color:#64748b; margin:12px 0 22px; }
+.benefits { display:grid; gap:16px; border-top:1px solid #ede5d5; border-bottom:1px solid #ede5d5; padding:20px 0; margin-bottom:24px; }
+.benefits>div { display:flex; gap:12px; align-items:center; }
+.benefits svg { color:#a97b30; flex-shrink:0; }
+.benefits strong { display:block; font-size:14px; font-weight:600; }
+.benefits small { display:block; margin-top:3px; font-size:12px; color:#64748b; }
+.primary { display:flex; align-items:center; justify-content:center; gap:10px; min-height:48px; border-radius:12px; background:#172033; color:#ffe4a2; font-size:15px; font-weight:700; }
+.primary:hover { background:#27344b; }
+.actions { display:flex; justify-content:space-between; gap:12px; margin-top:16px; font-size:13px; }
+.actions a { color:#987039; font-weight:600; }
+.actions button { color:#64748b; }
+.note { margin:18px 0 0; font-size:11px; line-height:1.6; color:#6b7280; }
+.card a:focus-visible,.card button:focus-visible { outline:2px solid #b78b40; outline-offset:4px; }
+:global(.dark) .card { background:linear-gradient(145deg,#252b35,#111b2e 60%); border-color:#655332; color:#f1f5f9; }
+:global(.dark) .description,:global(.dark) .benefits small,:global(.dark) .note,:global(.dark) .actions button { color:#a9b6c9; }
+:global(.dark) .close { background:#293346; color:#cbd5e1; }
+:global(.dark) .icon { background:#302b22; border-color:#776035; color:#efd08a; }
+:global(.dark) .eyebrow,:global(.dark) .title span,:global(.dark) .actions a,:global(.dark) .benefits svg { color:#e8c67f; }
+:global(.dark) .benefits { border-color:#414047; }
+:global(.dark) .primary { background:#eac77f; color:#172033; }
+@media(max-width:480px) { .card{padding:24px}.title{font-size:23px}.icon{margin-bottom:16px}.description{margin-bottom:16px}.benefits{padding:16px 0;gap:13px;margin-bottom:20px} }

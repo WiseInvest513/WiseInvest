@@ -100,7 +100,7 @@ export function RegisterForm({ callbackUrl, databaseConfigured, googleEnabled, g
       });
 
       if (loginResult?.error) {
-        router.push("/login");
+        router.push(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
         router.refresh();
         return;
       }

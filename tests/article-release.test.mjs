@@ -37,6 +37,7 @@ function loadModule(relativePath) {
     },
   }).outputText;
   const requireMock = (name) => {
+    if (name === "@/lib/article-reading-meter-server") return { requiresReadingRegistration: async () => false };
     if (name === 'fs') return fs;
     if (name === 'path') return path;
     if (name === 'next/cache') return { unstable_cache: (callback) => callback };
@@ -154,7 +155,7 @@ for (const [phase, at] of [['before', deadline - 1], ['exactly at', deadline], [
       assert.equal(props.limitedRelease, undefined, 'the browser must not receive an expiry timer or preview payload');
       assert.ok(props.initialArticles.every(item => !Object.hasOwn(item, 'content')));
       const response = await api.GET();
-      assert.equal(response.body.find(item => item.id === article.id).content, article.content);
+      assert.ok(!Object.hasOwn(response.body.find(item => item.id === article.id), 'content'), 'list API must not disclose article bodies');
       assert.ok(props.initialArticle.content.includes(secretEnding));
       assert.equal(getContentAccessRule(articlePath).access, 'PUBLIC');
     }
@@ -185,5 +186,5 @@ test('auth and permission database outages cannot prevent public article reading
   const tree = await page.default({ params: Promise.resolve({ categoryId: 'VIP', uid }) });
   assert.equal(tree.props.children.find(child => child.type === ArticlesContent).props.initialArticle.content, article.content);
   const response = await api.GET();
-  assert.equal(response.body.find(item => item.id === article.id).content, article.content);
+  assert.ok(!Object.hasOwn(response.body.find(item => item.id === article.id), 'content'), 'list API must not disclose article bodies');
 });

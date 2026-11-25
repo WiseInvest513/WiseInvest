@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { loadFsArticles } from "@/lib/articles-fs";
+import { getAllArticles, toArticleListItem } from "@/lib/articles";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  // Published articles are public for every reader; no identity or policy DB lookup.
-  return NextResponse.json(loadFsArticles(), {
+  // Search/list consumers need metadata, never a downloadable copy of every body.
+  return NextResponse.json(getAllArticles().map(toArticleListItem), {
     headers: { "Cache-Control": "no-store" },
   });
 }

@@ -105,7 +105,7 @@ export function resolveContentItem(value: string): ContentItemRef {
   };
 }
 
-/** Article reading is public, regardless of legacy stored permissions or release dates. */
+/** Base article policy ignores legacy VIP rules; server entry points apply the browser reading trial. */
 export function isPublicArticleHref(href: string) {
   return isWiseInvestHref(href) && /^\/articles\/[^/]+\/[^/]+$/.test(splitPathAndSearch(href).pathname);
 }
